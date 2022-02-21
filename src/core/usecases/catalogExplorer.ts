@@ -1,12 +1,13 @@
 import type { ThunkAction } from "../setup";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { Catalog } from "../ports/OnyxiaApiClient";
+import type { Software } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ThunksExtraArgument, RootState } from "../setup";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
+import { exclude } from "tsafe/exclude";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -19,12 +20,9 @@ namespace CatalogExplorerState {
     export type Ready = {
         stateDescription: "ready";
         "~internal": {
-            apiRequestResult: Catalog[];
+            softwares: Software[];
         };
-        selectedCatalogId: string;
-        doShowOnlyHighlighted: boolean;
         search: string;
-        highlightedPackages: string[];
     };
 }
 
@@ -46,36 +44,16 @@ export const { name, reducer, actions } = createSlice({
             {
                 payload,
             }: PayloadAction<{
-                selectedCatalogId: string;
-                highlightedPackages: string[];
-                apiRequestResult: Catalog[];
+                softwares: Software[];
             }>,
         ) => {
-            const { selectedCatalogId, highlightedPackages, apiRequestResult } = payload;
+            const { softwares } = payload;
 
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
-                selectedCatalogId,
-                "~internal": { apiRequestResult },
-                highlightedPackages,
-                "doShowOnlyHighlighted":
-                    getAreConditionMetForOnlyShowingHighlightedPackaged({
-                        "highlightedPackagesLength": highlightedPackages.length,
-                        apiRequestResult,
-                        selectedCatalogId,
-                    }),
+                "~internal": { softwares },
                 "search": "",
             });
-        },
-        "changeSelectedCatalogue": (
-            state,
-            { payload }: PayloadAction<{ selectedCatalogId: string }>,
-        ) => {
-            const { selectedCatalogId } = payload;
-
-            assert(state.stateDescription === "ready");
-
-            payload.selectedCatalogId = selectedCatalogId;
         },
         "setSearch": (state, { payload }: PayloadAction<{ search: string }>) => {
             const { search } = payload;
@@ -83,70 +61,21 @@ export const { name, reducer, actions } = createSlice({
             assert(state.stateDescription === "ready");
 
             state.search = search;
-
-            if (
-                search === "" &&
-                getAreConditionMetForOnlyShowingHighlightedPackaged({
-                    "highlightedPackagesLength": state.highlightedPackages.length,
-                    "apiRequestResult": state["~internal"].apiRequestResult,
-                    "selectedCatalogId": state.selectedCatalogId,
-                })
-            ) {
-                state.doShowOnlyHighlighted = true;
-            }
-        },
-        "setDoShowOnlyHighlightedToFalse": state => {
-            assert(state.stateDescription === "ready");
-
-            state.doShowOnlyHighlighted = false;
         },
     },
 });
 
 export const thunks = {
     "fetchCatalogs":
-        (
-            params:
-                | {
-                      isCatalogIdInUrl: true;
-                      catalogId: string;
-                  }
-                | {
-                      isCatalogIdInUrl: false;
-                      onAutoSelectCatalogId: (params: {
-                          selectedCatalogId: string;
-                      }) => void;
-                  },
-        ): ThunkAction =>
+        (): ThunkAction =>
         async (...args) => {
-            const [
-                dispatch,
-                ,
-                {
-                    onyxiaApiClient,
-                    createStoreParams: { highlightedPackages },
-                },
-            ] = args;
+            const [dispatch, , { sillApiClient }] = args;
 
             dispatch(actions.catalogsFetching());
 
-            const apiRequestResult = await onyxiaApiClient.getCatalogs();
+            const softwares = await sillApiClient.query("getSoftware");
 
-            const selectedCatalogId = params.isCatalogIdInUrl
-                ? params.catalogId
-                : apiRequestResult[0].id;
-
-            dispatch(
-                actions.catalogsFetched({
-                    highlightedPackages,
-                    apiRequestResult,
-                    selectedCatalogId,
-                }),
-            );
-
-            if (!params.isCatalogIdInUrl) {
-                params.onAutoSelectCatalogId({ selectedCatalogId });
-            }
+            dispatch(actions.catalogsFetched({ softwares }));
         },
     "setSearch":
         (params: { search: string }): ThunkAction =>
@@ -164,20 +93,6 @@ export const thunks = {
 
             dispatch(actions.setSearch({ search }));
         },
-    "revealAllPackages": (): ThunkAction<void> => async dispatch =>
-        dispatch(actions.setDoShowOnlyHighlightedToFalse()),
-    "changeSelectedCatalogId":
-        (params: { catalogId: string }): ThunkAction<void> =>
-        (...args) => {
-            const { catalogId } = params;
-            const [dispatch, getState] = args;
-
-            if (getState().catalogExplorer.stateDescription !== "ready") {
-                return;
-            }
-
-            dispatch(actions.changeSelectedCatalogue({ "selectedCatalogId": catalogId }));
-        },
 };
 
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
@@ -188,108 +103,42 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 });
 
 export const selectors = (() => {
-    function getPackageWeightFactory(params: { highlightedPackages: string[] }) {
-        const { highlightedPackages } = params;
+    const getSoftwareWeight = memoize(
+        (software: Software): number => JSON.stringify(software).length,
+    );
 
-        function getPackageWeight(packageName: string) {
-            for (let i = 0; i < highlightedPackages.length; i++) {
-                if (packageName.toLowerCase().includes(highlightedPackages[i])) {
-                    return highlightedPackages.length - i;
-                }
-            }
-
-            return 0;
-        }
-
-        return { getPackageWeight };
-    }
-
-    const filteredPackages = (rootState: RootState) => {
+    const filteredSoftwares = (rootState: RootState) => {
         const state = rootState.catalogExplorer;
 
         if (state.stateDescription !== "ready") {
             return undefined;
         }
 
-        const { highlightedPackages, selectedCatalogId, doShowOnlyHighlighted, search } =
-            state;
+        const {
+            search,
+            "~internal": { softwares },
+        } = state;
 
-        const apiRequestResultResultForCatalog = state["~internal"].apiRequestResult.find(
-            ({ id }) => id === selectedCatalogId,
-        )!.catalog.packages;
-
-        const { getPackageWeight } = getPackageWeightFactory({ highlightedPackages });
-
-        const packages = apiRequestResultResultForCatalog
-            .map(o => ({
-                "packageDescription": o.description,
-                "packageHomeUrl": o.home,
-                "packageName": o.name,
-                "packageIconUrl": o.icon,
-            }))
-            .sort(
-                (a, b) =>
-                    getPackageWeight(b.packageName) - getPackageWeight(a.packageName),
-            )
-            .slice(
-                0,
-                doShowOnlyHighlighted && search === ""
-                    ? highlightedPackages.length
-                    : undefined,
-            )
-            .filter(({ packageName, packageDescription }) =>
-                [packageName, packageDescription]
-                    .map(str => str.toLowerCase().includes(search.toLowerCase()))
-                    .includes(true),
+        return softwares
+            .sort((a, b) => getSoftwareWeight(a) - getSoftwareWeight(b))
+            .filter(
+                ({ name, function: fn, license, comptoirDuLibreSoftware, wikidata }) =>
+                    [
+                        name,
+                        fn,
+                        license,
+                        comptoirDuLibreSoftware?.name,
+                        wikidata?.descriptionFr,
+                        wikidata?.descriptionFr,
+                        wikidata?.sourceUrl,
+                        wikidata?.websiteUrl,
+                    ]
+                        .map(e => (!!e ? e : undefined))
+                        .filter(exclude(undefined))
+                        .map(str => str.toLowerCase().includes(search.toLowerCase()))
+                        .indexOf(true) >= 0,
             );
-
-        return {
-            packages,
-            "notShownCount":
-                search !== ""
-                    ? 0
-                    : apiRequestResultResultForCatalog.length - packages.length,
-        };
     };
 
-    const locationUrl = (rootState: RootState): string | undefined => {
-        const state = rootState.catalogExplorer;
-
-        if (state.stateDescription !== "ready") {
-            return undefined;
-        }
-
-        const { selectedCatalogId } = state;
-
-        const apiRequestResultResultForCatalog = state["~internal"].apiRequestResult.find(
-            ({ id }) => id === selectedCatalogId,
-        )!;
-
-        return apiRequestResultResultForCatalog.location;
-    };
-
-    const availableCatalogsId = (rootState: RootState): string[] | undefined => {
-        const state = rootState.catalogExplorer;
-
-        if (state.stateDescription !== "ready") {
-            return undefined;
-        }
-
-        return state["~internal"].apiRequestResult.map(({ id }) => id);
-    };
-
-    return { filteredPackages, locationUrl, availableCatalogsId };
+    return { filteredSoftwares };
 })();
-
-function getAreConditionMetForOnlyShowingHighlightedPackaged(params: {
-    highlightedPackagesLength: number;
-    apiRequestResult: Catalog[];
-    selectedCatalogId: string;
-}) {
-    const { highlightedPackagesLength, apiRequestResult, selectedCatalogId } = params;
-
-    const totalPackageCount = apiRequestResult.find(({ id }) => id === selectedCatalogId)!
-        .catalog.packages.length;
-
-    return highlightedPackagesLength !== 0 && totalPackageCount > 5;
-}
