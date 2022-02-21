@@ -9,7 +9,7 @@ import { objectKeys } from "tsafe/objectKeys";
 import type { User } from "../ports/UserApiClient";
 
 export async function createPhonyOidcClient(params: {
-    isUserLoggedIn: boolean;
+    isUserInitiallyLoggedIn: boolean;
     user: User;
 }): Promise<OidcClient> {
     const isUserLoggedIn = (() => {
@@ -18,7 +18,9 @@ export async function createPhonyOidcClient(params: {
             "name": urlParamName,
         });
 
-        return result.wasPresent ? result.value === "true" : params.isUserLoggedIn;
+        return result.wasPresent
+            ? result.value === "true"
+            : params.isUserInitiallyLoggedIn;
     })();
 
     if (!isUserLoggedIn) {

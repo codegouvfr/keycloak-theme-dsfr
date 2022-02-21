@@ -5,6 +5,9 @@ import type { Equals } from "tsafe";
 import { arrDiff } from "evt/tools/reducers/diff";
 import * as commentJson from "comment-json";
 import { getEnv } from "./env";
+import type { KcLanguageTag } from "keycloakify";
+import { kcLanguageTags } from "keycloakify/lib/i18n/KcLanguageTag";
+import { id } from "tsafe/id";
 
 export type Configuration = {
     /**
@@ -23,8 +26,9 @@ export type Configuration = {
             familyName: string;
             firstName: string;
             username: string;
-            groups: string;
-            local: string;
+            groups: string[];
+            /** example: 'en' 'fr' ... */
+            local: KcLanguageTag;
         };
     };
 };
@@ -195,20 +199,35 @@ export const getConfiguration = memoize(
                     [symToStr({ email }), email],
                     [symToStr({ familyName }), familyName],
                     [symToStr({ firstName }), firstName],
-                    [symToStr({ groups }), groups],
-                    [symToStr({ local }), local],
                     [symToStr({ username }), username],
                 ] as const) {
                     assert(propertyValue !== undefined, m_1(`${propertyName} missing`));
                     assert(
                         typeof propertyValue === "string",
-                        m_1(`${propertyName} is supposed to be a non empty string`),
+                        m_1(`${propertyName} is supposed to be a string`),
                     );
                     assert(
                         propertyValue !== "",
                         m_1(`${propertyName} is supposed to be a non empty string`),
                     );
                 }
+
+                assert(groups !== undefined, m_1(`${symToStr({ groups })} missing`));
+                assert(
+                    groups instanceof Array &&
+                        groups.find(group => typeof group !== "string") === undefined,
+                    m_1(`${symToStr({ local })} is supposed to be a non empty string`),
+                );
+
+                assert(local !== undefined, m_1(`${symToStr({ local })} missing`));
+                assert(
+                    id<readonly string[]>(kcLanguageTags).indexOf(local) >= 0,
+                    m_1(
+                        `${symToStr({ local })} must be one of: ${kcLanguageTags.join(
+                            ", ",
+                        )}`,
+                    ),
+                );
             }
         }
 

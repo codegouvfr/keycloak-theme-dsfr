@@ -11,7 +11,7 @@ export REACT_APP_CONFIGURATION=$(cat << EOF
 			"familyName": "Garrone",
 			"firstName": "Joseph",
 			"username": "garronej",
-			"groups": '["user"]',
+			"groups": [],
 			"local": "fr"
 		}
 	}

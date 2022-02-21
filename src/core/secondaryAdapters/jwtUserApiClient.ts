@@ -1,6 +1,11 @@
 import type { UserApiClient, User } from "../ports/UserApiClient";
 import { createDecodeJwtNoVerify } from "sill-api/tools/decodeJwt/adapter/noVerify";
 import { symToStr } from "tsafe/symToStr";
+import { assert } from "tsafe/assert";
+import { id } from "tsafe/id";
+import { kcLanguageTags } from "keycloakify/lib/i18n/KcLanguageTag";
+import { typeGuard } from "tsafe/typeGuard";
+import type { KcLanguageTag } from "keycloakify";
 
 export function createJwtUserApiClient(params: {
     jwtClaims: Record<keyof User, string>;
@@ -12,15 +17,63 @@ export function createJwtUserApiClient(params: {
 
     return {
         "getUser": async () => {
-            const { groups, local, ...rest } = await decodeJwt({
+            const {
+                groups: groupsStr,
+                local,
+                email,
+                familyName,
+                firstName,
+                username,
+            } = await decodeJwt({
                 "jwtToken": await getOidcAccessToken(),
             });
 
-            return {
-                ...rest,
-                [symToStr({ groups })]: JSON.parse(groups) as string[],
-                [symToStr({ local })]: local as User["local"],
-            };
+            const m = (reason: string) =>
+                `The JWT token do not have the expected format: ${reason}`;
+
+            let groups: string[] | undefined = undefined;
+
+            assert(groupsStr !== undefined, m(`${symToStr({ groups })} missing`));
+
+            try {
+                groups = JSON.parse(groupsStr);
+            } catch {
+                assert(false, `${symToStr({ groups })} is not supposed to be a string`);
+            }
+
+            assert(
+                groups instanceof Array &&
+                    groups.find(group => typeof group !== "string") === undefined,
+                m(`${symToStr({ groups })} is supposed to be an array of string`),
+            );
+
+            assert(local !== undefined, m(`${symToStr({ local })} missing`));
+            assert(
+                typeGuard<KcLanguageTag>(
+                    local,
+                    id<readonly string[]>(kcLanguageTags).indexOf(local) >= 0,
+                ),
+                m(`${symToStr({ local })} must be one of: ${kcLanguageTags.join(", ")}`),
+            );
+
+            for (const [propertyName, propertyValue] of [
+                [symToStr({ email }), email],
+                [symToStr({ familyName }), familyName],
+                [symToStr({ firstName }), firstName],
+                [symToStr({ username }), username],
+            ] as const) {
+                assert(propertyValue !== undefined, m(`${propertyName} missing`));
+                assert(
+                    typeof propertyValue === "string",
+                    m(`${propertyName} is supposed to be a string`),
+                );
+                assert(
+                    propertyValue !== "",
+                    m(`${propertyName} is supposed to be a non empty string`),
+                );
+            }
+
+            return { groups, local, email, familyName, firstName, username };
         },
     };
 }

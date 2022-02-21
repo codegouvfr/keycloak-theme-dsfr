@@ -5,21 +5,21 @@ import * as catalogExplorerUseCase from "./usecases/catalogExplorer";
 import * as userAuthenticationUseCase from "./usecases/userAuthentication";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
-import {
-    createPhonyOidcClient,
-    phonyJwtClaims,
-} from "./secondaryAdapters/phonyOidcClient";
+import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
 import { createSillApiClient } from "./secondaryAdapters/sillApiClient";
 import type { UserApiClient } from "./ports/UserApiClient";
 import type { ReturnType } from "tsafe/ReturnType";
 import { Deferred } from "evt/tools/Deferred";
 import { createObjectThatThrowsIfAccessed } from "./tools/createObjectThatThrowsIfAccessed";
 import type { OidcClient } from "./ports/OidcClient";
+import type { SillApiClient } from "./ports/SillApiClient";
 import type { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import { usecasesToReducer } from "redux-clean-architecture";
 import { createMiddlewareEvtActionFactory } from "redux-clean-architecture/middlewareEvtAction";
 import type { getConfiguration } from "../configuration";
+import type { Param0 } from "tsafe";
+import type { KcLanguageTag } from "keycloakify";
 
 export type CreateStoreParams = ReturnType<typeof getConfiguration>;
 
@@ -41,8 +41,8 @@ assert<
                     familyName: string;
                     firstName: string;
                     username: string;
-                    groups: string;
-                    local: string;
+                    groups: string[];
+                    local: KcLanguageTag;
                 };
             };
         }
@@ -55,6 +55,7 @@ const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases)
 
 export type ThunksExtraArgument = {
     createStoreParams: CreateStoreParams;
+    sillApiClient: SillApiClient;
     userApiClient: UserApiClient;
     oidcClient: OidcClient;
     evtAction: ReturnType<typeof createMiddlewareEvtAction>["evtAction"];
@@ -74,83 +75,52 @@ export async function createStore(params: CreateStoreParams) {
 
     const { apiUrl, mockAuthentication } = params;
 
-    createSillApiClient({});
+    assert(apiUrl !== null, "TODO: We don't have a mock implementation of the API yet");
+
+    const refGetOidcAccessToken: Param0<
+        typeof createSillApiClient
+    >["refGetOidcAccessToken"] = {
+        "current": undefined,
+    };
+
+    const sillApiClient = await createSillApiClient({
+        "url": apiUrl,
+        refGetOidcAccessToken,
+    });
+
+    const { keycloakParams, jwtClaims } = await sillApiClient.query("getOidcParams");
 
     const oidcClient = await (() => {
-        switch (oidcClientConfig.implementation) {
-            case "PHONY":
-                return createPhonyOidcClient({
-                    "isUserLoggedIn": oidcClientConfig.isUserLoggedIn,
-                    "user": (() => {
-                        const { userApiClientConfig } = params;
+        if (keycloakParams === undefined) {
+            assert(
+                mockAuthentication !== undefined,
+                "The server doesn't have authentication enable, a mocked user should be provided",
+            );
 
-                        assert(
-                            userApiClientConfig.implementation === "MOCK",
-                            [
-                                "if oidcClientConfig.implementation is 'PHONY' then",
-                                "userApiClientConfig.implementation should be 'MOCK'",
-                            ].join(" "),
-                        );
+            const { user, isUserInitiallyLoggedIn } = mockAuthentication;
 
-                        return userApiClientConfig.user;
-                    })(),
-                });
-            case "KEYCLOAK":
-                return createKeycloakOidcClient(oidcClientConfig);
+            return createPhonyOidcClient({
+                isUserInitiallyLoggedIn,
+                user,
+            });
+        } else {
+            assert(
+                mockAuthentication === undefined,
+                "The server have a real authentication mechanism enable, it wont allow us to mock a specific user",
+            );
+
+            return createKeycloakOidcClient(keycloakParams);
         }
     })();
 
-    dOidcClient.resolve(oidcClient);
-
-    let getCurrentlySelectedDeployRegionId: (() => string) | undefined = undefined;
-    let getCurrentlySelectedProjectId: (() => string) | undefined = undefined;
-
-    const onyxiaApiClient = (() => {
-        const { onyxiaApiClientConfig } = params;
-        switch (onyxiaApiClientConfig.implementation) {
-            case "MOCK":
-                return createMockOnyxiaApiClient(onyxiaApiClientConfig);
-            case "OFFICIAL":
-                return createOfficialOnyxiaApiClient({
-                    "url": onyxiaApiClientConfig.url,
-                    "getCurrentlySelectedDeployRegionId": () =>
-                        getCurrentlySelectedDeployRegionId?.(),
-                    "getOidcAccessToken": !oidcClient.isUserLoggedIn
-                        ? undefined
-                        : oidcClient.getAccessToken,
-                    "getCurrentlySelectedProjectId": () =>
-                        getCurrentlySelectedProjectId?.(),
-                });
-        }
-    })();
-
-    const secretsManagerClient = oidcClient.isUserLoggedIn
-        ? await (async () => {
-              const { secretsManagerClientConfig } = params;
-              switch (secretsManagerClientConfig.implementation) {
-                  case "LOCAL STORAGE":
-                      return createLocalStorageSecretManagerClient(
-                          secretsManagerClientConfig,
-                      );
-                  case "VAULT":
-                      return createVaultSecretsManagerClient(secretsManagerClientConfig);
-              }
-          })()
-        : createObjectThatThrowsIfAccessed<SecretsManagerClient>();
+    if (oidcClient.isUserLoggedIn) {
+        refGetOidcAccessToken.current = () => oidcClient.getAccessToken();
+    }
 
     const userApiClient = oidcClient.isUserLoggedIn
         ? createJwtUserApiClient({
-              "oidcClaims": (() => {
-                  const { userApiClientConfig } = params;
-
-                  switch (userApiClientConfig.implementation) {
-                      case "JWT":
-                          return userApiClientConfig.oidcClaims;
-                      case "MOCK":
-                          return phonyJwtClaims;
-                  }
-              })(),
-              "getOidcAccessToken": oidcClient.getAccessToken,
+              jwtClaims,
+              "getOidcAccessToken": () => oidcClient.getAccessToken(),
           })
         : createObjectThatThrowsIfAccessed<UserApiClient>();
 
@@ -158,13 +128,9 @@ export async function createStore(params: CreateStoreParams) {
 
     const extraArgument: ThunksExtraArgument = {
         "createStoreParams": params,
-        oidcClient,
-        onyxiaApiClient,
-        secretsManagerClient,
         userApiClient,
-        "s3Client": createObjectThatThrowsIfAccessed<S3Client>({
-            "debugMessage": "s3 client is not yet initialized",
-        }),
+        oidcClient,
+        sillApiClient,
         evtAction,
     };
 
@@ -179,53 +145,7 @@ export async function createStore(params: CreateStoreParams) {
             ] as const,
     });
 
-    dStoreInstance.resolve(store);
-
-    if (oidcClient.isUserLoggedIn) {
-        store.dispatch(secretExplorerUseCase.privateThunks.initialize());
-    }
-
     await store.dispatch(userAuthenticationUseCase.privateThunks.initialize());
-    if (oidcClient.isUserLoggedIn) {
-        await store.dispatch(userConfigsUseCase.privateThunks.initialize());
-    }
-
-    if (oidcClient.isUserLoggedIn) {
-        store.dispatch(restorablePackageConfigsUseCase.privateThunks.initialize());
-    }
-
-    await store.dispatch(deploymentRegionUseCase.privateThunks.initialize());
-    getCurrentlySelectedDeployRegionId = () =>
-        store.getState().deploymentRegion.selectedDeploymentRegionId;
-
-    if (oidcClient.isUserLoggedIn) {
-        const { s3: regionS3 } =
-            deploymentRegionUseCase.selectors.selectedDeploymentRegion(store.getState());
-
-        extraArgument.s3Client = await (async () => {
-            if (regionS3 === undefined) {
-                return createDummyS3Client();
-            }
-
-            return createS3Client(
-                getCreateS3ClientParams({
-                    regionS3,
-                    "fallbackKeycloakParams":
-                        oidcClientConfig.implementation === "KEYCLOAK"
-                            ? oidcClientConfig
-                            : undefined,
-                }),
-            );
-        })();
-    }
-
-    if (oidcClient.isUserLoggedIn) {
-        await store.dispatch(projectSelectionUseCase.privateThunks.initialize());
-        getCurrentlySelectedProjectId = () =>
-            store.getState().projectSelection.selectedProjectId;
-    }
-
-    store.dispatch(runningServiceUseCase.privateThunks.initialize());
 
     return store;
 }
