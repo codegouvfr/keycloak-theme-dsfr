@@ -142,7 +142,8 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged -v"
+            "pre-commit": "lint-staged -v",
+            "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
         }
     },
     "lint-staged": {
