@@ -1,16 +1,16 @@
 import type { SillApiClient } from "../ports/SillApiClient";
 import { createTRPCClient } from "@trpc/client";
-import type { UnpackTrpcRouter } from "core/tools/UnpackTrpcRouter";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
+import type { TrpcRouter } from "sill-api";
 
-export async function createSillApiClient(params: {
+export function createTrpcSillApiClient(params: {
     url: string;
     refGetOidcAccessToken: { current: (() => Promise<string>) | undefined };
-}): Promise<SillApiClient> {
+}): SillApiClient {
     const { refGetOidcAccessToken, url } = params;
 
-    return createTRPCClient<UnpackTrpcRouter<SillApiClient>>({
+    const trpcClient = createTRPCClient<TrpcRouter>({
         "links": [loggerLink(), httpBatchLink({ url })],
         "headers": async () => ({
             ...(refGetOidcAccessToken.current === undefined
@@ -20,4 +20,9 @@ export async function createSillApiClient(params: {
                   }),
         }),
     });
+
+    return {
+        "getOidcParams": () => trpcClient.query("getOidcParams"),
+        "getSoftware": () => trpcClient.query("getSoftware"),
+    };
 }

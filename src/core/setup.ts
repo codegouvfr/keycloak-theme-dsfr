@@ -6,7 +6,8 @@ import * as userAuthenticationUseCase from "./usecases/userAuthentication";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
 import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
-import { createSillApiClient } from "./secondaryAdapters/sillApiClient";
+import { createTrpcSillApiClient } from "./secondaryAdapters/trpcSillApiClient";
+import { createServerlessSillApiClient } from "./secondaryAdapters/serverlessSillApiClient";
 import type { UserApiClient } from "./ports/UserApiClient";
 import type { ReturnType } from "tsafe/ReturnType";
 import { Deferred } from "evt/tools/Deferred";
@@ -20,6 +21,7 @@ import { createMiddlewareEvtActionFactory } from "redux-clean-architecture/middl
 import type { getConfiguration } from "../configuration";
 import type { Param0 } from "tsafe";
 import type { KcLanguageTag } from "keycloakify";
+import { id } from "tsafe/id";
 
 export type CreateStoreParams = ReturnType<typeof getConfiguration>;
 
@@ -33,7 +35,7 @@ assert<
     Equals<
         CreateStoreParams,
         {
-            apiUrl: string | null;
+            apiUrl: string;
             mockAuthentication?: {
                 isUserInitiallyLoggedIn: boolean;
                 user: {
@@ -75,45 +77,38 @@ export async function createStore(params: CreateStoreParams) {
 
     const { apiUrl, mockAuthentication } = params;
 
-    assert(apiUrl !== null, "TODO: We don't have a mock implementation of the API yet");
+    let refGetOidcAccessToken:
+        | Param0<typeof createTrpcSillApiClient>["refGetOidcAccessToken"]
+        | undefined = undefined;
 
-    const refGetOidcAccessToken: Param0<
-        typeof createSillApiClient
-    >["refGetOidcAccessToken"] = {
-        "current": undefined,
-    };
+    const sillApiClient = apiUrl.endsWith(".json")
+        ? createServerlessSillApiClient({ "jsonUrl": apiUrl })
+        : createTrpcSillApiClient({
+              "url": apiUrl,
+              "refGetOidcAccessToken": (refGetOidcAccessToken = {
+                  "current": undefined,
+              }),
+          });
 
-    const sillApiClient = await createSillApiClient({
-        "url": apiUrl,
-        refGetOidcAccessToken,
-    });
+    const { keycloakParams, jwtClaims } = await sillApiClient.getOidcParams();
 
-    const { keycloakParams, jwtClaims } = await sillApiClient.query("getOidcParams");
+    const oidcClient = await (keycloakParams === undefined
+        ? createPhonyOidcClient(
+              (assert(
+                  mockAuthentication !== undefined,
+                  "The server doesn't have authentication enable, a mocked user should be provided",
+              ),
+              mockAuthentication),
+          )
+        : createKeycloakOidcClient(
+              (assert(
+                  mockAuthentication === undefined,
+                  "The server have a real authentication mechanism enable, it wont allow us to mock a specific user",
+              ),
+              keycloakParams),
+          ));
 
-    const oidcClient = await (() => {
-        if (keycloakParams === undefined) {
-            assert(
-                mockAuthentication !== undefined,
-                "The server doesn't have authentication enable, a mocked user should be provided",
-            );
-
-            const { user, isUserInitiallyLoggedIn } = mockAuthentication;
-
-            return createPhonyOidcClient({
-                isUserInitiallyLoggedIn,
-                user,
-            });
-        } else {
-            assert(
-                mockAuthentication === undefined,
-                "The server have a real authentication mechanism enable, it wont allow us to mock a specific user",
-            );
-
-            return createKeycloakOidcClient(keycloakParams);
-        }
-    })();
-
-    if (oidcClient.isUserLoggedIn) {
+    if (oidcClient.isUserLoggedIn && refGetOidcAccessToken !== undefined) {
         refGetOidcAccessToken.current = () => oidcClient.getAccessToken();
     }
 
@@ -126,20 +121,20 @@ export async function createStore(params: CreateStoreParams) {
 
     const { evtAction, middlewareEvtAction } = createMiddlewareEvtAction();
 
-    const extraArgument: ThunksExtraArgument = {
-        "createStoreParams": params,
-        userApiClient,
-        oidcClient,
-        sillApiClient,
-        evtAction,
-    };
-
     const store = configureStore({
         "reducer": usecasesToReducer(usecases),
         "middleware": getDefaultMiddleware =>
             [
                 ...getDefaultMiddleware({
-                    "thunk": { extraArgument },
+                    "thunk": {
+                        "extraArgument": id<ThunksExtraArgument>({
+                            "createStoreParams": params,
+                            userApiClient,
+                            oidcClient,
+                            sillApiClient,
+                            evtAction,
+                        }),
+                    },
                 }),
                 middlewareEvtAction,
             ] as const,

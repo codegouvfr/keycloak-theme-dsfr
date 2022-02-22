@@ -13,8 +13,10 @@ export type Configuration = {
     /**
      * Null mean that we use a mock of the API
      * Default is `${location.origin}/api`
+     * You can also pass an url to a json file like: https://code.gouv.fr/data/sill2.json
+     * to enable à mock implementation.
      * */
-    apiUrl?: string | null;
+    apiUrl?: string;
     /**
      * Mock authentication is only allowed (and required) if
      * the API have Keycloak disabled.
@@ -35,7 +37,7 @@ export type Configuration = {
 
 export const getConfiguration = memoize(
     (): Omit<Configuration, "apiUrl"> & {
-        apiUrl: string | null;
+        apiUrl: string;
     } => {
         const { CONFIGURATION } = getEnv();
 
@@ -87,15 +89,10 @@ export const getConfiguration = memoize(
             );
         }
 
-        let resolvedApiUrl: string | null;
+        let resolvedApiUrl: string;
 
         scope: {
             const { apiUrl } = configuration;
-
-            if (apiUrl === null) {
-                resolvedApiUrl = null;
-                break scope;
-            }
 
             if (apiUrl === undefined) {
                 resolvedApiUrl = `${window.location.origin}/api`;

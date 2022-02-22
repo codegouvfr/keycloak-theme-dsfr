@@ -73,7 +73,7 @@ export const thunks = {
 
             dispatch(actions.catalogsFetching());
 
-            const softwares = await sillApiClient.query("getSoftware");
+            const softwares = await sillApiClient.getSoftware();
 
             dispatch(actions.catalogsFetched({ softwares }));
         },
