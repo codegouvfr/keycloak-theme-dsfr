@@ -1,4 +1,3 @@
-import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
@@ -7,33 +6,21 @@ import { useLng } from "ui/i18n/useLng";
 import { getTosMarkdownUrl } from "ui/components/KcApp/getTosMarkdownUrl";
 import { makeStyles } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
-import { useSelector, useThunks } from "ui/coreApi";
+import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import { MySecrets } from "ui/components/pages/MySecrets";
 import { useRoute, routes } from "ui/routes";
 import { Home } from "ui/components/pages/Home";
-import { assert } from "tsafe/assert";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 import { useDomRect, useSplashScreen } from "onyxia-ui";
 import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
-import { MyServices } from "ui/components/pages/MyServices";
 import { typeGuard } from "tsafe/typeGuard";
 import type { SupportedLanguage, fallbackLanguage } from "ui/i18n/translations";
 import { id } from "tsafe/id";
-import { useIsDarkModeEnabled } from "onyxia-ui";
-import { MyFilesMySecrets } from "ui/components/pages/MyFilesMySecrets";
-//Legacy
-import { MyBuckets } from "js/components/mes-fichiers/MyBuckets";
-import { NavigationFile } from "js/components/mes-fichiers/navigation/NavigationFile";
-import {
-    CloudShell,
-    useIsCloudShellVisible,
-} from "js/components/cloud-shell/cloud-shell";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { Item } from "onyxia-ui/LeftBar";
-import { getExtraLeftBarItemsFromEnv, getIsHomePageDisabled } from "ui/env";
+import { getExtraLeftBarItemsFromEnv } from "ui/env";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -45,8 +32,6 @@ export const App = memo((props: Props) => {
     const { className } = props;
 
     const { t } = useTranslation({ App });
-
-    useSyncDarkModeWithValueInProfile();
 
     useApplyLanguageSelectedAtLogin();
 
@@ -63,19 +48,6 @@ export const App = memo((props: Props) => {
         }, [rootWidth === 0]);
     }
 
-    const isWaiting = useSelector(state => state.app.waiting);
-
-    {
-        const { hideSplashScreen, showSplashScreen } = useSplashScreen();
-
-        useEffectOnValueChange(() => {
-            if (isWaiting) {
-                showSplashScreen({ "enableTransparency": true });
-            } else {
-                hideSplashScreen();
-            }
-        }, [isWaiting]);
-    }
     const { classes, cx } = useStyles();
 
     const logoContainerWidth = Math.max(
@@ -87,14 +59,9 @@ export const App = memo((props: Props) => {
 
     const onHeaderLogoClick = useConstCallback(() => routes.home().push());
 
-    const { userAuthenticationThunks, secretExplorerThunks, explorersThunks } =
-        useThunks();
+    const { userAuthenticationThunks } = useThunks();
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
-
-    const isDevModeEnabled = useSelector(state =>
-        isUserLoggedIn ? state.userConfigs.isDevModeEnabled.value : false,
-    );
 
     const onHeaderAuthClick = useConstCallback(() =>
         isUserLoggedIn
@@ -108,22 +75,16 @@ export const App = memo((props: Props) => {
         return { tosUrl };
     })();
 
-    const projectsSlice = useProjectsSlice();
-
     const { lng } = useLng();
 
     const leftBarItems = useMemo(
         () =>
             ({
-                ...(getIsHomePageDisabled()
-                    ? {}
-                    : {
-                          "home": {
-                              "iconId": "home",
-                              "label": t("home"),
-                              "link": routes.home().link,
-                          } as const,
-                      }),
+                "home": {
+                    "iconId": "home",
+                    "label": t("home"),
+                    "link": routes.home().link,
+                } as const,
                 "account": {
                     "iconId": "account",
                     "label": t("account"),
@@ -135,33 +96,6 @@ export const App = memo((props: Props) => {
                     "label": t("catalog"),
                     "link": routes.catalogExplorer().link,
                 },
-                "myServices": {
-                    "iconId": "services",
-                    "label": t("myServices"),
-                    "link": routes.myServices().link,
-                    "hasDividerBelow": true,
-                },
-                ...(!secretExplorerThunks.getIsEnabled()
-                    ? {}
-                    : {
-                          "mySecrets": {
-                              "iconId": "secrets",
-                              "label": t("mySecrets"),
-                              "link": routes.mySecrets().link,
-                          } as const,
-                      }),
-                ...(!explorersThunks.getIsEnabled({ "explorerType": "s3" })
-                    ? {}
-                    : {
-                          "myFiles": {
-                              "iconId": "files",
-                              "label": t("myFiles"),
-                              "link": routes.myBuckets().link,
-                              //TODO: This usage of getEnv should be removed as soon as we have the new explorer
-                              //we should get the info "is file enabled" from the core.
-                              "hasDividerBelow": true,
-                          } as const,
-                      }),
                 ...(() => {
                     const extraLeftBarItems = getExtraLeftBarItemsFromEnv();
 
@@ -186,36 +120,8 @@ export const App = memo((props: Props) => {
                               ]),
                           );
                 })(),
-                ...(() => {
-                    if (!isDevModeEnabled) {
-                        return {} as never;
-                    }
-
-                    return {
-                        "mySecretsDev": {
-                            "iconId": "secrets",
-                            "label": t("mySecrets") + " dev",
-                            "link": routes.mySecretsDev().link,
-                            "availability": explorersThunks.getIsEnabled({
-                                "explorerType": "secrets",
-                            })
-                                ? "available"
-                                : "greyed",
-                        },
-                        "myFilesDev": {
-                            "iconId": "files",
-                            "label": t("myFiles") + " dev",
-                            "link": routes.myFilesDev().link,
-                            "availability": explorersThunks.getIsEnabled({
-                                "explorerType": "s3",
-                            })
-                                ? "available"
-                                : "greyed",
-                        },
-                    } as const;
-                })(),
             } as const),
-        [t, lng, isDevModeEnabled],
+        [t, lng],
     );
 
     return (
@@ -232,9 +138,7 @@ export const App = memo((props: Props) => {
                     <Header
                         {...common}
                         isUserLoggedIn={true}
-                        useIsCloudShellVisible={useIsCloudShellVisible}
                         onLogoutClick={onHeaderAuthClick}
-                        {...projectsSlice!}
                     />
                 ) : (
                     <Header
@@ -258,16 +162,6 @@ export const App = memo((props: Props) => {
                                 return "account";
                             case "catalogExplorer":
                                 return "catalog";
-                            case "catalogLauncher":
-                                return "catalog";
-                            case "myServices":
-                                return "myServices";
-                            case "mySecrets":
-                                return "mySecrets";
-                            case "myBuckets":
-                                return "myFiles";
-                            case "myFiles":
-                                return "myFiles";
                         }
                     })()}
                 />
@@ -280,25 +174,15 @@ export const App = memo((props: Props) => {
                 className={classes.footer}
                 //NOTE: Defined in ./config-overrides.js
                 packageJsonVersion={process.env.VERSION!}
-                contributeUrl={"https://github.com/InseeFrLab/onyxia-web"}
+                contributeUrl={"https://github.com/etalab/sill"}
                 tosUrl={tosUrl}
             />
-            {isUserLoggedIn && <CloudShell />}
         </div>
     );
 });
 
 export declare namespace App {
-    export type I18nScheme = Record<
-        | "reduce"
-        | "home"
-        | "account"
-        | "catalog"
-        | "myServices"
-        | "mySecrets"
-        | "myFiles",
-        undefined
-    >;
+    export type I18nScheme = Record<"reduce" | "home" | "account" | "catalog", undefined>;
 }
 
 const useStyles = makeStyles({ "name": { App } })(theme => {
@@ -350,49 +234,6 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
 
-    const legacyRoute = useMemo(() => {
-        const Page = [MyBuckets, NavigationFile].find(({ routeGroup }) =>
-            routeGroup.has(route),
-        );
-
-        if (Page === undefined) {
-            return undefined;
-        }
-
-        if (Page.getDoRequireUserLoggedIn && !isUserLoggedIn) {
-            userAuthenticationThunks.login();
-            return null;
-        }
-
-        switch (Page) {
-            case NavigationFile:
-                assert(Page.routeGroup.has(route));
-                return (
-                    <div
-                        style={{
-                            "height": "100%",
-                            "overflow": "auto",
-                        }}
-                    >
-                        <Page route={route} />
-                    </div>
-                );
-            case MyBuckets:
-                return (
-                    <div
-                        style={{
-                            "height": "100%",
-                            "overflow": "auto",
-                        }}
-                    >
-                        <Page />
-                    </div>
-                );
-        }
-
-        assert(false, "Not all cases have been dealt with in the above switch");
-    }, [route]);
-
     /*
     Here is one of the few places in the codebase where we tolerate code duplication.
     We sacrifice dryness for the sake of type safety and flexibility.
@@ -424,19 +265,6 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     }
 
     {
-        const Page = MySecrets;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login();
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
         const Page = Account;
 
         if (Page.routeGroup.has(route)) {
@@ -447,36 +275,6 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
             return <Page route={route} />;
         }
-    }
-
-    {
-        const Page = MyServices;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login();
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = MyFilesMySecrets;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login();
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    if (legacyRoute !== undefined) {
-        return legacyRoute;
     }
 
     return <FourOhFour />;
@@ -517,91 +315,4 @@ function useApplyLanguageSelectedAtLogin() {
 
         setLng(local);
     }, []);
-}
-
-/**
- * This hook to two things:
- * - It sets whether or not the dark mode is enabled based on
- * the value stored in user configs.
- * - Each time the dark mode it changed it changes the value in
- * user configs.
- */
-function useSyncDarkModeWithValueInProfile() {
-    const { userAuthenticationThunks, userConfigsThunks } = useThunks();
-
-    const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
-
-    const { isDarkModeEnabled, setIsDarkModeEnabled } = useIsDarkModeEnabled();
-
-    const userConfigsIsDarkModeEnabled = useSelector(state =>
-        !isUserLoggedIn ? undefined : state.userConfigs.isDarkModeEnabled.value,
-    );
-
-    useEffect(() => {
-        if (userConfigsIsDarkModeEnabled === undefined) {
-            return;
-        }
-
-        setIsDarkModeEnabled(userConfigsIsDarkModeEnabled);
-    }, []);
-
-    useEffectOnValueChange(() => {
-        if (!isUserLoggedIn) {
-            return;
-        }
-
-        userConfigsThunks.changeValue({
-            "key": "isDarkModeEnabled",
-            "value": isDarkModeEnabled,
-        });
-    }, [isDarkModeEnabled]);
-}
-
-function useProjectsSlice() {
-    const { projectSelectionThunks, userAuthenticationThunks } = useThunks();
-    const projectsState = useSelector(state =>
-        !userAuthenticationThunks.getIsUserLoggedIn()
-            ? undefined
-            : state.projectSelection,
-    );
-
-    const route = useRoute();
-
-    const onSelectedProjectChange = useConstCallback(
-        async (props: { projectId: string }) => {
-            const { projectId } = props;
-
-            //TODO: Eventually we shouldn't have to reload any pages
-            //when project is changed.
-            const reload = (() => {
-                switch (route.name) {
-                    case "home":
-                    case "account":
-                    case "myServices":
-                    case "myFilesDev":
-                    case "mySecretsDev":
-                        return undefined;
-                    case "mySecrets":
-                        return () => (window.location.href = routes.mySecrets().href);
-                    default:
-                        return () => window.location.reload();
-                }
-            })();
-
-            await projectSelectionThunks.changeProject({
-                projectId,
-                "doPreventDispatch": reload !== undefined,
-            });
-
-            reload?.();
-        },
-    );
-
-    if (projectsState === undefined) {
-        return null;
-    }
-
-    const { projects, selectedProjectId } = projectsState;
-
-    return { projects, selectedProjectId, onSelectedProjectChange };
 }

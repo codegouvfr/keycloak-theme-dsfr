@@ -1,15 +1,9 @@
 import { memo } from "react";
-import { /*IconButton, */ Button, ButtonBarButton } from "ui/theme";
+import { Button, ButtonBarButton } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
-import { useConstCallback } from "powerhooks/useConstCallback";
 import { makeStyles, Text } from "ui/theme";
-import type { useIsCloudShellVisible } from "js/components/cloud-shell/cloud-shell";
 import { ReactComponent as OnyxiaLogoSvg } from "ui/assets/svg/OnyxiaLogo.svg";
 import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOverToKc";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { getHeaderLinksFromEnv } from "ui/env";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import { useLng } from "ui/i18n/useLng";
@@ -38,9 +32,8 @@ export declare namespace Props {
     export type UserLoggedIn = Common & {
         useCase: "core app";
         isUserLoggedIn: true;
-        useIsCloudShellVisible: typeof useIsCloudShellVisible;
         onLogoutClick: () => void;
-    } & Omit<ProjectSelectProps, "className">;
+    };
 }
 
 export const Header = memo((props: Props) => {
@@ -85,9 +78,6 @@ export const Header = memo((props: Props) => {
                     </Text>
                 )}
             </div>
-            {props.useCase === "core app" && props.isUserLoggedIn && (
-                <ProjectSelect {...props} className={classes.projectSelect} />
-            )}
             <div className={classes.rightEndActionsContainer}>
                 {props.useCase === "core app" && (
                     <>
@@ -115,13 +105,6 @@ export const Header = memo((props: Props) => {
                                 </ButtonBarButton>
                             ));
                         })()}
-
-                        {/*TODO: Debug CloudShell
-                        props.isUserLoggedIn && (
-                            <ToggleCloudShell
-                                useIsCloudShellVisible={props.useIsCloudShellVisible}
-                            />
-                        )*/}
                         <Button
                             onClick={
                                 props.isUserLoggedIn
@@ -191,81 +174,3 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
         },
     }),
 );
-
-/*
-const { ToggleCloudShell } = (() => {
-    type Props = {
-        useIsCloudShellVisible: typeof useIsCloudShellVisible;
-    };
-
-    const ToggleCloudShell = memo((props: Props) => {
-        const { useIsCloudShellVisible } = props;
-
-        const { toggleCloudShellVisibility } = (function useClosure() {
-            const { setIsCloudShellVisible } = useIsCloudShellVisible();
-
-            return {
-                "toggleCloudShellVisibility": useConstCallback(() =>
-                    setIsCloudShellVisible(value => !value),
-                ),
-            };
-        })();
-
-        return (
-            <IconButton
-                iconId="bash"
-                size="medium"
-                onClick={toggleCloudShellVisibility}
-            />
-        );
-    });
-
-    return { ToggleCloudShell };
-})();
-*/
-
-const labelId = "project-select-id";
-
-type ProjectSelectProps = {
-    className?: string;
-    onSelectedProjectChange: (params: { projectId: string }) => void;
-    selectedProjectId: string;
-    projects: {
-        id: string;
-        name: string;
-    }[];
-};
-
-const ProjectSelect = memo((props: ProjectSelectProps) => {
-    const { className, projects, onSelectedProjectChange, selectedProjectId } = props;
-
-    const { t } = useTranslation({ Header });
-
-    const onChange = useConstCallback(async (event: SelectChangeEvent<string>) => {
-        onSelectedProjectChange({
-            "projectId": event.target.value,
-        });
-    });
-
-    if (projects.length === 1) {
-        return null;
-    }
-
-    return (
-        <FormControl className={className}>
-            <InputLabel id={labelId}>{t("project")}</InputLabel>
-            <Select
-                labelId={labelId}
-                value={selectedProjectId}
-                label="Project"
-                onChange={onChange}
-            >
-                {projects.map(({ id, name }) => (
-                    <MenuItem key={id} value={id}>
-                        {name}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
-    );
-});
