@@ -7,7 +7,7 @@ const thermOfServicesUrlParamName = "THERMS_OF_SERVICES";
 export const thermOfServicesPassedByClient = (() => {
     const serializedValue = readSerializedValue({ "name": thermOfServicesUrlParamName });
 
-    if (serializedValue === undefined) {
+    if (serializedValue === "") {
         return undefined;
     }
 
