@@ -1,6 +1,6 @@
 import { CatalogCards, Props } from "ui/components/pages/Catalog/CatalogCards";
 import { sectionName } from "./sectionName";
-import { getStoryFactory } from "stories/getStory";
+import { getStoryFactory, logCallbacks } from "stories/getStory";
 import { css } from "tss-react/@emotion/css";
 import { id } from "tsafe/id";
 
@@ -14,7 +14,7 @@ export default meta;
 
 const className = css({ "height": 700 });
 
-const softwares = new Array(20).fill(0).map((...[, i]) =>
+const softwares = new Array(20).fill(0).map((...[, _i]) =>
     id<Props["softwares"][number]>({
         "id": 2,
         "name": "Acceleo",
@@ -95,4 +95,5 @@ export const VueDefault = getStory({
     softwares,
     "scrollableDivRef": { "current": null },
     "search": "",
+    ...logCallbacks(["onSearchChange"]),
 });
