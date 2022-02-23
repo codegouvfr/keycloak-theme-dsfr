@@ -119,7 +119,7 @@ export const selectors = (() => {
             "~internal": { softwares },
         } = state;
 
-        return softwares
+        return [...softwares]
             .sort((a, b) => getSoftwareWeight(a) - getSoftwareWeight(b))
             .filter(
                 ({ name, function: fn, license, comptoirDuLibreSoftware, wikidata }) =>
