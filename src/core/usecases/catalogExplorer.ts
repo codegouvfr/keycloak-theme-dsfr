@@ -120,7 +120,7 @@ export const selectors = (() => {
         } = state;
 
         return [...softwares]
-            .sort((a, b) => getSoftwareWeight(a) - getSoftwareWeight(b))
+            .sort((a, b) => getSoftwareWeight(b) - getSoftwareWeight(a))
             .filter(
                 ({ name, function: fn, license, comptoirDuLibreSoftware, wikidata }) =>
                     [
