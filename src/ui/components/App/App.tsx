@@ -3,7 +3,6 @@ import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
 import { useLng } from "ui/i18n/useLng";
-import { getTosMarkdownUrl } from "ui/components/KcApp/getTosMarkdownUrl";
 import { makeStyles } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { useThunks } from "ui/coreApi";
@@ -21,6 +20,8 @@ import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { Item } from "onyxia-ui/LeftBar";
 import { getExtraLeftBarItemsFromEnv } from "ui/env";
+import type { KcLanguageTag } from "keycloakify";
+import { useConst } from "powerhooks/useConst";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -69,10 +70,25 @@ export const App = memo((props: Props) => {
             : userAuthenticationThunks.login(),
     );
 
-    const { tosUrl } = (function useClosure() {
+    const tosUrl = (function useClosure() {
         const { lng } = useLng();
-        const tosUrl = getTosMarkdownUrl(lng);
-        return { tosUrl };
+        const termsOfServices = useConst(() =>
+            userAuthenticationThunks.getTermsOfServices(),
+        );
+
+        return useMemo(() => {
+            if (termsOfServices === undefined) {
+                return undefined;
+            }
+
+            const { resolveLocalizedString } =
+                createResolveLocalizedString<KcLanguageTag>({
+                    "currentLanguage": lng,
+                    "fallbackLanguage": id<typeof fallbackLanguage>("en"),
+                });
+
+            return resolveLocalizedString(termsOfServices);
+        }, [lng]);
     })();
 
     const { lng } = useLng();

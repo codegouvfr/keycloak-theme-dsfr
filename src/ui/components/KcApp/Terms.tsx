@@ -4,8 +4,12 @@ import type { KcProps } from "keycloakify";
 import { useKcMessage, useKcLanguageTag, kcMessages } from "keycloakify";
 import { Button } from "ui/theme";
 import { makeStyles } from "ui/theme";
-import { getTosMarkdownUrl } from "./getTosMarkdownUrl";
 import type { KcContext } from "./kcContext";
+import { thermOfServicesPassedByClient } from "ui/termsOfServices";
+import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
+import type { KcLanguageTag } from "keycloakify";
+import { id } from "tsafe/id";
+import type { fallbackLanguage } from "ui/i18n/translations";
 
 type KcContext_Terms = Extract<KcContext, { pageId: "terms.ftl" }>;
 
@@ -22,7 +26,21 @@ export const Terms = memo(
                 return;
             }
 
-            const url = getTosMarkdownUrl(kcLanguageTag);
+            const url = (() => {
+                const termsOfServices = thermOfServicesPassedByClient;
+
+                if (termsOfServices === undefined) {
+                    return undefined;
+                }
+
+                const { resolveLocalizedString } =
+                    createResolveLocalizedString<KcLanguageTag>({
+                        "currentLanguage": kcLanguageTag,
+                        "fallbackLanguage": id<typeof fallbackLanguage>("en"),
+                    });
+
+                return resolveLocalizedString(termsOfServices);
+            })();
 
             (url === undefined
                 ? Promise.resolve(

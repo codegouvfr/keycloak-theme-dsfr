@@ -8,14 +8,11 @@ import { useThunks } from "ui/coreApi";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { ReactComponent as IconCommunitySvg } from "ui/assets/svg/IconCommunity.svg";
 import { ReactComponent as IconServiceSvg } from "ui/assets/svg/IconService.svg";
-import { ReactComponent as IconStorageSvg } from "ui/assets/svg/IconStorage.svg";
 import { Card as OnyxiaUiCard } from "onyxia-ui/Card";
 import type { Link } from "type-route";
 import onyxiaNeumorphismDarkModeUrl from "ui/assets/svg/OnyxiaNeumorphismDarkMode.svg";
 import onyxiaNeumorphismLightModeUrl from "ui/assets/svg/OnyxiaNeumorphismLightMode.svg";
 import homeIllustrationImgUrl from "ui/assets/img/homeIllustration.png";
-import { getIsHomePageDisabled } from "ui/env";
-import { useConst } from "powerhooks/useConst";
 
 Home.routeGroup = createGroup([routes.home]);
 
@@ -28,12 +25,6 @@ type Props = {
 export function Home(props: Props) {
     const { className } = props;
 
-    useConst(() => {
-        if (getIsHomePageDisabled()) {
-            routes.catalogExplorer().replace();
-        }
-    });
-
     const { classes, cx } = useStyles();
 
     const { userAuthenticationThunks } = useThunks();
@@ -42,7 +33,6 @@ export function Home(props: Props) {
 
     const { t } = useTranslation({ Home });
 
-    const myBucketsLink = useMemo(() => routes.myBuckets().link, []);
     const catalogExplorerLink = useMemo(() => routes.catalogExplorer().link, []);
 
     return (
@@ -86,13 +76,6 @@ export function Home(props: Props) {
                     link={
                         "https://tchap.gouv.fr/#/room/#SSPCloudXDpAw6v:agent.finances.tchap.gouv.fr"
                     }
-                />
-                <Card
-                    Icon={IconStorageSvg}
-                    title={t("cardTitle3")}
-                    text={t("cardText3")}
-                    buttonText={t("cardButton3")}
-                    link={myBucketsLink}
                 />
             </div>
         </div>

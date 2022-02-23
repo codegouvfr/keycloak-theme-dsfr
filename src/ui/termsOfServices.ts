@@ -4,7 +4,7 @@ import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 
 const thermOfServicesUrlParamName = "THERMS_OF_SERVICES";
 
-export function readThermOfServicesPassedByClient() {
+export const thermOfServicesPassedByClient = (() => {
     const serializedValue = readSerializedValue({ "name": thermOfServicesUrlParamName });
 
     if (serializedValue === undefined) {
@@ -12,7 +12,7 @@ export function readThermOfServicesPassedByClient() {
     }
 
     return JSON.parse(serializedValue) as string | Partial<Record<KcLanguageTag, string>>;
-}
+})();
 
 export function injectTosInSearchParams(params: {
     url: string;
