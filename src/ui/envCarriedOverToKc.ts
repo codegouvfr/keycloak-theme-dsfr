@@ -10,22 +10,11 @@
  * to cleanup the url query parameter.
  */
 
-import "minimal-polyfills/Object.fromEntries";
 import { getEnv } from "env";
-import { kcContext } from "ui/components/KcApp/kcContext";
-import {
-    retrieveParamFromUrl,
-    addParamToUrl,
-    updateSearchBarUrl,
-} from "powerhooks/tools/urlSearchParams";
 import { assert } from "tsafe/assert";
-import { isStorybook } from "ui/tools/isStorybook";
-import { capitalize } from "tsafe/capitalize";
 import { typeGuard } from "tsafe/typeGuard";
 import { id } from "tsafe/id";
-import type { KcLanguageTag } from "keycloakify";
-import { kcLanguageTags } from "keycloakify";
-import { objectKeys } from "tsafe/objectKeys";
+import { getTransferableEnv } from "ui/tools/getTransferableEnv";
 
 const paletteIds = ["onyxia", "france", "ultraviolet"] as const;
 
@@ -72,62 +61,6 @@ const { HEADER_USECASE_DESCRIPTION, injectHEADER_USECASE_DESCRIPTIONInSearchPara
 
 export { HEADER_USECASE_DESCRIPTION };
 
-const { THERMS_OF_SERVICES, injectTHERMS_OF_SERVICESInSearchParams } = getTransferableEnv(
-    {
-        "name": "THERMS_OF_SERVICES" as const,
-        "getSerializedValueFromEnv": () => getEnv().TERMS_OF_SERVICES,
-        "validateAndParseOrGetDefault": (
-            valueStr,
-        ): Partial<Record<KcLanguageTag, string>> | string | undefined => {
-            if (valueStr === "") {
-                return undefined;
-            }
-
-            {
-                const match = valueStr.match(/^ *{/);
-
-                if (match === null) {
-                    return valueStr;
-                }
-            }
-
-            let tosUrlByLng: Partial<Record<KcLanguageTag, string>>;
-
-            try {
-                tosUrlByLng = JSON.parse(valueStr);
-            } catch {
-                throw new Error("Terms of services malformed");
-            }
-
-            {
-                const languages = objectKeys(tosUrlByLng);
-
-                languages.forEach(lng =>
-                    assert(
-                        id<readonly string[]>(kcLanguageTags).includes(lng),
-                        `${lng} is not a supported languages, supported languages are: ${kcLanguageTags}`,
-                    ),
-                );
-
-                languages.forEach(lng =>
-                    assert(
-                        typeof tosUrlByLng[lng] === "string",
-                        `therms of service malformed (${lng})`,
-                    ),
-                );
-            }
-
-            if (Object.keys(tosUrlByLng).length === 0) {
-                return undefined;
-            }
-
-            return tosUrlByLng;
-        },
-    },
-);
-
-export { THERMS_OF_SERVICES };
-
 export function injectTransferableEnvsInSearchParams(url: string): string {
     let newUrl = url;
 
@@ -135,74 +68,9 @@ export function injectTransferableEnvsInSearchParams(url: string): string {
         injectTHEME_IDInSearchParams,
         injectHEADER_ORGANIZATIONInSearchParams,
         injectHEADER_USECASE_DESCRIPTIONInSearchParams,
-        injectTHERMS_OF_SERVICESInSearchParams,
     ]) {
         newUrl = inject(newUrl);
     }
 
     return newUrl;
-}
-
-function getTransferableEnv<T, Name extends string>(params: {
-    name: Name;
-    getSerializedValueFromEnv: () => string;
-    validateAndParseOrGetDefault: (serializedValue: string) => T;
-}): Record<Name, T> &
-    Record<`inject${Capitalize<Name>}InSearchParams`, (url: string) => string> {
-    const { name, getSerializedValueFromEnv, validateAndParseOrGetDefault } = params;
-
-    const isKeycloak = process.env.NODE_ENV === "production" && kcContext !== undefined;
-
-    const serializedValue = (() => {
-        scope: {
-            const result = retrieveParamFromUrl({
-                "url": window.location.href,
-                name,
-            });
-
-            if (!result.wasPresent) {
-                break scope;
-            }
-
-            const { newUrl, value: serializedValue } = result;
-
-            updateSearchBarUrl(newUrl);
-
-            if (isKeycloak) {
-                localStorage.setItem(name, serializedValue);
-            }
-
-            return serializedValue;
-        }
-
-        scope: {
-            if (isKeycloak || isStorybook) {
-                break scope;
-            }
-
-            return getSerializedValueFromEnv();
-        }
-
-        scope: {
-            if (!isKeycloak) {
-                break scope;
-            }
-
-            const serializedValue = localStorage.getItem(name);
-
-            if (serializedValue === null) {
-                break scope;
-            }
-
-            return serializedValue;
-        }
-
-        return "";
-    })();
-
-    return {
-        [name]: validateAndParseOrGetDefault(serializedValue),
-        [`inject${capitalize(name)}InSearchParams`]: (url: string) =>
-            addParamToUrl({ url, name, "value": serializedValue }).newUrl,
-    } as any;
 }

@@ -23,7 +23,8 @@ import type { Param0 } from "tsafe";
 import type { KcLanguageTag } from "keycloakify";
 import { id } from "tsafe/id";
 
-export type CreateStoreParams = ReturnType<typeof getConfiguration>;
+export type CreateStoreParams = ReturnType<typeof getConfiguration> &
+    Pick<Param0<typeof createKeycloakOidcClient>, "transformUrlBeforeRedirectToLogin">;
 
 // All these assert<Equals<...>> are just here to help visualize what the type
 // actually is. It's hard to tell just by looking at the definition
@@ -47,6 +48,13 @@ assert<
                     local: KcLanguageTag;
                 };
             };
+            transformUrlBeforeRedirectToLogin: (params: {
+                url: string;
+                termsOfServices:
+                    | string
+                    | Partial<Record<KcLanguageTag, string>>
+                    | undefined;
+            }) => string;
         }
     >
 >();
@@ -75,7 +83,7 @@ export async function createStore(params: CreateStoreParams) {
 
     createStore.isFirstInvocation = false;
 
-    const { apiUrl, mockAuthentication } = params;
+    const { apiUrl, mockAuthentication, transformUrlBeforeRedirectToLogin } = params;
 
     let refGetOidcAccessToken:
         | Param0<typeof createTrpcSillApiClient>["refGetOidcAccessToken"]
@@ -105,9 +113,11 @@ export async function createStore(params: CreateStoreParams) {
                   mockAuthentication === undefined,
                   "The server have a real authentication mechanism enable, it wont allow us to mock a specific user",
               ),
-              keycloakParams),
+              {
+                  ...keycloakParams,
+                  transformUrlBeforeRedirectToLogin,
+              }),
           ));
-
     if (oidcClient.isUserLoggedIn && refGetOidcAccessToken !== undefined) {
         refGetOidcAccessToken.current = () => oidcClient.getAccessToken();
     }
