@@ -54,21 +54,6 @@ export const getExtraLeftBarItemsFromEnv = () =>
     getAdminProvidedLinksFromEnv("EXTRA_LEFTBAR_ITEMS");
 export const getHeaderLinksFromEnv = () => getAdminProvidedLinksFromEnv("HEADER_LINKS");
 
-export const getIsHomePageDisabled = memoize((): boolean => {
-    const { DISABLE_HOME_PAGE } = getEnv();
-
-    const possibleValues = ["true", "false"];
-
-    assert(
-        possibleValues.indexOf(DISABLE_HOME_PAGE) >= 0,
-        `${symToStr({ DISABLE_HOME_PAGE })} should either be ${possibleValues.join(
-            " or ",
-        )}`,
-    );
-
-    return DISABLE_HOME_PAGE === "true";
-});
-
 export const getDoHideOnyxia = memoize((): boolean => {
     const { HEADER_HIDE_ONYXIA } = getEnv();
 
