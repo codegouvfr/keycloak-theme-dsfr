@@ -199,7 +199,7 @@ export function getThemeProviderProps(params: {
                       "targetBrowserFontSizeFactor": 1,
                   };
               },
-        "splashScreen": { "Logo": OnyxiaLogoSvg },
+        "splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
     };
 }
 
