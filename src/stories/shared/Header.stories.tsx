@@ -41,21 +41,6 @@ export const VueUserLoggedIn = getStory({
     ...propCoreAppCommon,
     "isUserLoggedIn": true,
     ...logCallbacks(["onLogoutClick", "onSelectedProjectChange"]),
-    "projects": [
-        {
-            "id": "project1",
-            "name": "Project 1",
-        },
-        {
-            "id": "project2",
-            "name": "Project 2",
-        },
-        {
-            "id": "project3",
-            "name": "Project 3",
-        },
-    ],
-    "selectedProjectId": "project2",
 });
 
 export const VueUserNotLoggedIn = getStory({

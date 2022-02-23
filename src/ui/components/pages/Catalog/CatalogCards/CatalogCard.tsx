@@ -4,66 +4,65 @@ import { RoundLogo } from "ui/components/shared/RoundLogo";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
+import { Software } from "sill-api";
 
 export type Props = {
     className?: string;
-    packageIconUrl?: string;
-    packageName: string;
-    packageDescription: string;
-    onRequestLaunch(): void;
-    packageHomeUrl: string | undefined;
+    software: Software;
 };
 
-export const CatalogExplorerCard = memo((props: Props) => {
-    const {
-        className,
-        packageIconUrl,
-        packageName,
-        packageDescription,
-        packageHomeUrl,
-        onRequestLaunch,
-    } = props;
+export const CatalogCard = memo((props: Props) => {
+    const { className, software } = props;
 
     const { classes, cx } = useStyles();
 
-    const { t } = useTranslation({ CatalogExplorerCard });
+    const { t } = useTranslation({ CatalogCard });
 
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
-                {packageIconUrl !== undefined && (
-                    <RoundLogo url={packageIconUrl} size="large" />
-                )}
+                {(() => {
+                    const { logoUrl } = software.wikidata ?? {};
+
+                    return (
+                        logoUrl !== undefined && <RoundLogo url={logoUrl} size="large" />
+                    );
+                })()}
                 <Text className={classes.title} typo="object heading">
-                    {capitalize(packageName)}
+                    {capitalize(software.name)}
                 </Text>
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Text typo="body 1" className={classes.bodyTypo}>
-                        {packageDescription}
+                        {software.function}
                     </Text>
                 </div>
                 <div className={classes.buttonsWrapper}>
-                    {packageHomeUrl !== undefined && (
-                        <Button
-                            className={classes.learnMoreButton}
-                            href={packageHomeUrl}
-                            variant="ternary"
-                        >
-                            {t("learn more")}
-                        </Button>
-                    )}
-                    <Button variant="secondary" onClick={onRequestLaunch}>
-                        {t("launch")}
-                    </Button>
+                    {(() => {
+                        const url =
+                            software.wikidata?.sourceUrl ??
+                            software.wikidata?.documentationUrl;
+
+                        return (
+                            url !== undefined && (
+                                <Button
+                                    className={classes.learnMoreButton}
+                                    href={url}
+                                    variant="ternary"
+                                >
+                                    {t("learn more")}
+                                </Button>
+                            )
+                        );
+                    })()}
                 </div>
             </div>
         </div>
     );
 });
 
-export declare namespace CatalogExplorerCard {
+export declare namespace CatalogCard {
     export type I18nScheme = {
         "learn more": undefined;
         launch: undefined;
@@ -71,7 +70,7 @@ export declare namespace CatalogExplorerCard {
 }
 
 const useStyles = makeStyles<void, "learnMoreButton">({
-    "name": { CatalogExplorerCard },
+    "name": { CatalogCard },
 })((theme, _params, classes) => ({
     "root": {
         "borderRadius": 8,

@@ -1,13 +1,6 @@
 import { symToStr } from "tsafe/symToStr";
 import { Reflect } from "tsafe/Reflect";
 import { id } from "tsafe/id";
-import { ExplorerButtonBar } from "ui/components/pages/MyFilesMySecrets/Explorer/ExplorerButtonBar";
-import { Explorer } from "ui/components/pages/MyFilesMySecrets/Explorer";
-import { ExplorerItems } from "ui/components/pages/MyFilesMySecrets/Explorer/ExplorerItems";
-import { ExplorerItem } from "ui/components/pages/MyFilesMySecrets/Explorer/ExplorerItems/ExplorerItem";
-import { MySecrets } from "ui/components/pages/MySecrets";
-import { MySecretsEditor } from "ui/components/pages/MySecrets/MySecretsEditor";
-import { MySecretsEditorRow } from "ui/components/pages/MySecrets/MySecretsEditor/MySecretsEditorRow";
 import { Header } from "ui/components/shared/Header";
 import { App } from "ui/components/App/App";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
@@ -20,23 +13,11 @@ import { AccountInfoTab } from "ui/components/pages/Account/tabs/AccountInfoTab"
 import { AccountIntegrationsTab } from "ui/components/pages/Account/tabs/AccountIntegrationsTab";
 import { AccountStorageTab } from "ui/components/pages/Account/tabs/AccountStorageTab";
 import { AccountUserInterfaceTab } from "ui/components/pages/Account/tabs/AccountUserInterfaceTab";
-import { CatalogLauncher } from "ui/components/pages/Catalog/CatalogLauncher/CatalogLauncher";
-import { CatalogExplorerCards } from "ui/components/pages/Catalog/CatalogExplorer/CatalogExplorerCards";
-import { CatalogExplorerCard } from "ui/components/pages/Catalog/CatalogExplorer/CatalogExplorerCards/CatalogExplorerCard";
+import { CatalogCards } from "ui/components/pages/Catalog/CatalogCards/CatalogCards";
+import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Footer } from "ui/components/App/Footer";
-import { CatalogLauncherMainCard } from "ui/components/pages/Catalog/CatalogLauncher/CatalogLauncherMainCard";
-import { CatalogLauncherConfigurationCard } from "ui/components/pages/Catalog/CatalogLauncher/CatalogLauncherConfigurationCard";
-import { MyServices } from "ui/components/pages/MyServices";
-import { MyServicesButtonBar } from "ui/components/pages/MyServices/MyServicesButtonBar";
-import { MyServicesCard } from "ui/components/pages/MyServices/MyServicesCards/MyServicesCard";
-import { MyServicesRunningTime } from "ui/components/pages/MyServices/MyServicesCards/MyServicesCard/MyServicesRunningTime";
-import { MyServicesSavedConfigOptions } from "ui/components/pages/MyServices/MyServicesSavedConfigs/MyServicesSavedConfig/MyServicesSavedConfigOptions";
-import { MyServicesSavedConfig } from "ui/components/pages/MyServices/MyServicesSavedConfigs/MyServicesSavedConfig";
-import { MyServicesSavedConfigs } from "ui/components/pages/MyServices/MyServicesSavedConfigs";
-import { MyServicesCards } from "ui/components/pages/MyServices/MyServicesCards";
 import { LoginDivider } from "ui/components/KcApp/Login/LoginDivider";
-import { MyFilesMySecrets } from "ui/components/pages/MyFilesMySecrets/MyFilesMySecrets";
 import { Login } from "ui/components/KcApp/Login";
 import type { KcLanguageTag } from "keycloakify";
 import { assert } from "tsafe/assert";
@@ -51,14 +32,6 @@ type ToTranslations<S extends Scheme> = {
 
 // prettier-ignore
 const reflectedI18nSchemes = {
-    [symToStr({ MySecrets })]: Reflect<MySecrets.I18nScheme>(),
-    [symToStr({ ExplorerButtonBar })]: Reflect<ExplorerButtonBar.I18nScheme>(),
-    [symToStr({ Explorer })]: Reflect<Explorer.I18nScheme>(),
-    [symToStr({ ExplorerItem })]: Reflect<ExplorerItem.I18nScheme>(),
-    [symToStr({ ExplorerItems })]: Reflect<ExplorerItems.I18nScheme>(),
-    [symToStr({ MySecretsEditor })]: Reflect<MySecretsEditor.I18nScheme>(),
-    [symToStr({ MySecretsEditorRow })]: Reflect<MySecretsEditorRow.I18nScheme>(),
-    [symToStr({ MyFilesMySecrets })]: Reflect<MyFilesMySecrets.I18nScheme>(),
     [symToStr({ Header })]: Reflect<Header.I18nScheme>(),
     [symToStr({ App })]: Reflect<App.I18nScheme>(),
     [symToStr({ PortraitModeUnsupported })]: Reflect<PortraitModeUnsupported.I18nScheme>(),
@@ -71,21 +44,10 @@ const reflectedI18nSchemes = {
     [symToStr({ AccountIntegrationsTab })]: Reflect<AccountIntegrationsTab.I18nScheme>(),
     [symToStr({ AccountStorageTab })]: Reflect<AccountStorageTab.I18nScheme>(),
     [symToStr({ AccountUserInterfaceTab })]: Reflect<AccountUserInterfaceTab.I18nScheme>(),
-    [symToStr({ CatalogExplorerCard })]: Reflect<CatalogExplorerCard.I18nScheme>(),
-    [symToStr({ CatalogLauncher })]: Reflect<CatalogLauncher.I18nScheme>(),
-    [symToStr({ CatalogExplorerCards })]: Reflect<CatalogExplorerCards.I18nScheme>(),
+    [symToStr({ CatalogCard })]: Reflect<CatalogCard.I18nScheme>(),
+    [symToStr({ CatalogCards })]: Reflect<CatalogCards.I18nScheme>(),
     [symToStr({ Catalog })]: Reflect<Catalog.I18nScheme>(),
     [symToStr({ Footer })]: Reflect<Footer.I18nScheme>(),
-    [symToStr({ CatalogLauncherMainCard })]: Reflect<CatalogLauncherMainCard.I18nScheme>(),
-    [symToStr({ CatalogLauncherConfigurationCard })]: Reflect<CatalogLauncherConfigurationCard.I18nScheme>(),
-    [symToStr({ MyServices })]: Reflect<MyServices.I18nScheme>(),
-    [symToStr({ MyServicesButtonBar })]: Reflect<MyServicesButtonBar.I18nScheme>(),
-    [symToStr({ MyServicesCard })]: Reflect<MyServicesCard.I18nScheme>(),
-    [symToStr({ MyServicesRunningTime })]: Reflect<MyServicesRunningTime.I18nScheme>(),
-    [symToStr({ MyServicesSavedConfigOptions })]: Reflect<MyServicesSavedConfigOptions.I18nScheme>(),
-    [symToStr({ MyServicesSavedConfig })]: Reflect<MyServicesSavedConfig.I18nScheme>(),
-    [symToStr({ MyServicesSavedConfigs })]: Reflect<MyServicesSavedConfigs.I18nScheme>(),
-    [symToStr({ MyServicesCards })]: Reflect<MyServicesCards.I18nScheme>(),
     [symToStr({ LoginDivider })]: Reflect<LoginDivider.I18nScheme>(),
     [symToStr({ Login })]: Reflect<Login.I18nScheme>(),
 };
@@ -103,49 +65,6 @@ assert<SupportedLanguage extends KcLanguageTag ? true : false>();
 export const fallbackLanguage = "en";
 
 assert<typeof fallbackLanguage extends SupportedLanguage ? true : false>();
-
-const common = id<
-    Record<
-        SupportedLanguage,
-        Record<
-            | "file"
-            | "secret"
-            | "create"
-            | "cancel"
-            | "rename"
-            | "delete"
-            | "ok"
-            | "here"
-            | "do not display again",
-            string
-        >
-    >
->({
-    "en": {
-        "file": "file",
-        "secret": "secret",
-        "create": "create",
-        "cancel": "cancel",
-        "rename": "rename",
-        "delete": "delete",
-        "ok": "Ok",
-        "here": "here",
-        "do not display again": "Don't display again",
-    },
-    "fr": {
-        /* spell-checker: disable */
-        "file": "fichier",
-        "secret": "secret",
-        "create": "crée",
-        "cancel": "annuler",
-        "rename": "renommer",
-        "delete": "supprimer",
-        "ok": "Ok",
-        "here": "ici",
-        "do not display again": "Ne plus afficher",
-        /* spell-checker: enable */
-    },
-});
 
 export const resources = id<Record<SupportedLanguage, Translations>>({
     "en": {
@@ -233,82 +152,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
                 "Please make sure the form is properly filled out",
             "must respect the pattern": "Must respect the pattern",
         },
-        "MySecrets": {
-            ...common.en,
-            "page title": "My Secrets",
-            "what this page is used for": `Here can be defined variables that will be accessible in you services under the form of environnement variable.`,
-            "to learn more": "To learn more about secrets management,",
-            "read our documentation": "read our documentation.",
-        },
-        "MyFilesMySecrets": {
-            "page title - my files": "My Files",
-            "page title - my secrets": "My Secrets",
-            "what this page is used for - my files":
-                "Here you can browse your S3 Buckets.",
-            "what this page is used for - my secrets":
-                "Here can be defined variables that will be accessible in you services under the form of environnement variable.",
-            "learn more - my files": "To learn more about file management,",
-            "to learn more - my secrets": "To learn more about secrets management,",
-            "read our documentation": "read our documentation.",
-        },
-        "ExplorerItem": {
-            "description": "description",
-        },
-        "ExplorerButtonBar": {
-            ...common.en,
-            "create secret": "Create secret",
-            "upload file": "Upload file",
-            "copy path": "Use in a service",
-            "create directory": "Create directory",
-            "refresh": "refresh",
-            "create what": "Create {{what}}",
-        },
-        "Explorer": {
-            ...common.en,
-            "untitled what": "untitled_{{what}}",
-            "directory": "folder",
-            "deletion dialog title": "Delete a {{deleteWhat}} ?",
-            "deletion dialog body": `You are about to delete {{deleteWhat}}. 
-            This action can't be reverted.`,
-        },
-        "ExplorerItems": {
-            "empty directory": "This directory is empty",
-        },
-        "MySecretsEditor": {
-            ...common.en,
-            "add an entry": "Add a new variable",
-            "environnement variable default name": "NEW_VAR",
-            "table of secret": "table of secret",
-
-            "key column name": "Variable name",
-            "value column name": "Value",
-            "resolved value column name": "Resolved Value",
-            "what's a resolved value": `
-            An environnement variable can reference another one. If for example you have defined 
-            FIRST_NAME=John you can set FULL_NAME="$FIRST_NAME"-Doe, the resolved value of 
-            FILL_NAME will be «John-Doe»
-            `,
-            "unavailable key": "Already used",
-            "invalid key empty string": "Name required",
-            "invalid key _ not valid": "Can't be just _",
-            "invalid key start with digit": "Can't start with a digit",
-            "invalid key invalid character": "Invalid character",
-            "invalid value cannot eval": "Invalid shell expression",
-            "use this secret": `Use in services`,
-            "use secret dialog title": "Use in a service",
-            "use secret dialog subtitle": "The path of the secret have been copied",
-            "use secret dialog body": `
-                When you launch a service (RStudio, Jupyter, ect) go to the
-                secret tab and and paste the path of the secret provided for this 
-                purpose.
-                The values will be injected as environnement variable.
-            `,
-            "use secret dialog ok": "Got it",
-        },
-        "MySecretsEditorRow": {
-            "key input desc": "Environnement variable name",
-            "value input desc": "Environnement variable value",
-        },
         "Header": {
             "login": "Login",
             "logout": "Logout",
@@ -321,9 +164,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "home": "Home",
             "account": "My account",
             "catalog": "Services catalog",
-            "myServices": "My Services",
-            "mySecrets": "My Secrets",
-            "myFiles": "My Files",
         },
         "FourOhFour": {
             "not found": "Page not found",
@@ -352,11 +192,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "cardButton2": "Join the community",
             "cardButton3": "Consult the data",
         },
-        "CatalogExplorerCard": {
+        "CatalogCard": {
             "launch": "Launch",
             "learn more": "Learn more",
         },
-        "CatalogExplorerCards": {
+        "CatalogCards": {
             "show more": "Show more",
             "no service found": "No service found",
             "no result found": "No result found for {{forWhat}}",
@@ -371,109 +211,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "header text1": "Services catalog",
             "header text2":
                 "Explore, launch and configure services with just a few clicks.",
-            "all services are open sources": "All services are open source. ",
-            "contribute to the catalog": "contribute to the {{catalogId}} catalog",
-            "contribute to the package":
-                "Find the sources of the {{packageName}} package ",
-            "here": "here",
-        },
-        "CatalogLauncher": {
-            "no longer bookmarked dialog title": "Your changes wont be saved",
-            "no longer bookmarked dialog body":
-                "Click on the bookmark icon again to update your saved configuration",
-            "ok": "Ok",
-            "should overwrite configuration dialog title":
-                "Would you like to replace it?",
-            "should overwrite configuration dialog subtitle":
-                "«{{friendlyName}}» already exists in your store.",
-            "should overwrite configuration dialog body":
-                "You already have a saved service with this name. If you replace it the previous configuration will be lost",
-            "cancel": "Annuler",
-            "replace": "Replace it",
         },
         "Footer": {
             "contribute": "Contribute",
             "terms of service": "Terms of service",
             "change language": "Change language",
-        },
-        "CatalogLauncherMainCard": {
-            "card title": "Create your personal services",
-            "friendly name": "Friendly name",
-            "launch": "Launch",
-            "cancel": "Cancel",
-            "copy url helper text": "Copy url to restore this configuration",
-            "save configuration": "Save this configuration",
-            "share the service": "Share the service",
-            "share the service - explain":
-                "Make the service accessible to the group members",
-        },
-        "CatalogLauncherConfigurationCard": {
-            "global config": "Global configuration",
-            "configuration": "{{packageName}} configurations",
-            "dependency": "{{dependencyName}} dependency",
-            "launch of a service": "A {{dependencyName}} service will be launched",
-            "malformed input": "Malformed input.",
-        },
-        "MyServices": {
-            "text1": "My Services",
-            "text2": "Access your running services",
-            "text3":
-                "Services are supposed to be shut down as soon as you stop using them actively.",
-            "running services": "Running services",
-            "confirm delete title": "Are you sure?",
-            "confirm delete subtitle": "Make sure your service are ready to be deleted",
-            "confirm delete body shared services":
-                "Be mindful that some of your services are shared with the other project member.",
-            "confirm delete body":
-                "Don't forget to push your code on GitHub or GitLab before terminating your services",
-            "cancel": "cancel",
-            "confirm": "Yes, delete",
-        },
-        "MyServicesButtonBar": {
-            "refresh": "Refresh",
-            "launch": "New service",
-            "password": "Copy the services password",
-            "trash": "Delete all",
-            "trash my own": "Delete all my services",
-        },
-        "MyServicesCard": {
-            "service": "Service",
-            "running since": "Running since: ",
-            "open": "open",
-            "readme": "readme",
-            "shared by you": "Shared by you",
-            "which token expire when": "The {{which}} token expires {{howMuchTime}}.",
-            "which token expired": "The {{which}} token is expired.",
-            "reminder to delete services": "Remember to delete your services.",
-            "this is a shared service": "This service is shared among project's member",
-        },
-        "MyServicesRunningTime": {
-            "launching": "Launching...",
-        },
-        "MyServicesSavedConfigOptions": {
-            "edit": "Edit",
-            "copy link": "Copy URL link",
-            "remove bookmark": "Delete",
-        },
-        "MyServicesSavedConfig": {
-            "edit": "Edit",
-            "launch": "Launch",
-        },
-        "MyServicesSavedConfigs": {
-            "saved": "Saved",
-            "show all": "Show all",
-        },
-        "MyServicesCards": {
-            "running services": "Running services",
-            "no services running": "You don't have any service running",
-            "launch one": "Click here to launch one",
-            "ok": "ok",
-            "need to copy": "Need to copy untruncated values?",
-            "everything have been printed to the console":
-                "Everything have been printed to the console",
-            "first copy the password": "First, copy the service...",
-            "open the service": "Open the service 🚀",
-            "return": "Return",
         },
         "LoginDivider": {
             "or": "or",
@@ -567,86 +309,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
                 "Veuillez vérifier que vous avez bien rempli le formulaire",
             "must respect the pattern": "Dois respecter le format",
         },
-        "MySecrets": {
-            ...common.fr,
-            "page title": "Mes secrets",
-            "what this page is used for": `Stockez ici des secrets qui seront accessibles sous forme de variables d'environnement dans vos services.`,
-            "to learn more": "Pour en savoir plus sur l'utilisation de secrets,",
-            "read our documentation": "lisez notre documentation.",
-        },
-        "MyFilesMySecrets": {
-            "page title - my files": "Mes fichiers",
-            "page title - my secrets": "My Secrets",
-            "what this page is used for - my files":
-                "Stocker ici vos fichiers de donnée.",
-            "what this page is used for - my secrets":
-                "Stockez ici des secrets qui seront accessibles sous forme de variables d'environnement dans vos services.",
-            "learn more - my files":
-                "Pour en savoir plus sur l'utilisation du stockage S3,",
-            "to learn more - my secrets":
-                "Pour en savoir plus sur l'utilisation de secrets,",
-            "read our documentation": "lisez notre documentation.",
-        },
-        "ExplorerItem": {
-            "description": "description",
-        },
-        "ExplorerButtonBar": {
-            ...common.fr,
-            "create secret": "Nouveau secret",
-            "upload file": "Téléverser un fichier",
-            "copy path": "Utiliser dans le service",
-            "create directory": "Nouveau dossier",
-            "refresh": "rafraîchir",
-            "create what": "Nouveau {{what}}",
-        },
-        "Explorer": {
-            ...common.fr,
-            "untitled what": "{{what}}_sans_nom",
-            "directory": "dossier",
-            "deletion dialog title": "Supprimer un {{deleteWhat}} ?",
-            "deletion dialog body": `
-            Vous êtes sur le point de supprimer un {{deleteWhat}}. 
-            Cette action entraînera la perte potentielle des données liées à ce {{deleteWhat}}.
-            `,
-        },
-        "ExplorerItems": {
-            "empty directory": "Ce répertoire est vide",
-        },
-        "MySecretsEditor": {
-            ...common.fr,
-            "add an entry": "Ajouter une variable",
-            "environnement variable default name": "NOUVELLE_VARENV",
-            "table of secret": "table de secret",
-
-            "key column name": "Nom de la variable",
-            "value column name": "Valeur",
-            "resolved value column name": "Valeur résolue",
-            "what's a resolved value": `
-            Une variable d'environement peut en référencer une autre, si par example vous avez
-            défini la variable PRENOM=Louis vous pouvez définir la variable NOM_COMPLET="$PRENOM"-Dupon
-            qui aura comme valeur résolue «Louis-Dupon»
-            `,
-            "unavailable key": "Déjà utilisé",
-            "invalid key empty string": "Un nom est requis",
-            "invalid key _ not valid": "Ne peut pas être juste _",
-            "invalid key start with digit": "Ne doit pas commencer par un chiffre",
-            "invalid key invalid character": "Caractère non valide",
-            "invalid value cannot eval": "Expression shell non valide",
-            "use this secret": "Utiliser dans un service",
-
-            "use secret dialog title": "Utiliser dans un service",
-            "use secret dialog subtitle": "Le chemin du secret a été copié.",
-            "use secret dialog body": `
-                Au moment de lancer un service (RStudio, Jupyter), rendez-vous
-                dans l'onglet 'VAULT' et collez le chemin du secret dans le champ prévu à cet effet.
-                Vos clefs valeurs seront disponibles sous forme de variables d'environnement.
-            `,
-            "use secret dialog ok": "J'ai compris",
-        },
-        "MySecretsEditorRow": {
-            "key input desc": "Nom de la variable d'environnement",
-            "value input desc": "Valeur de la variable d'environnement",
-        },
         "Header": {
             "login": "Connexion",
             "logout": "Déconnexion",
@@ -659,9 +321,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "home": "Accueil",
             "account": "Mon compte",
             "catalog": "Catalogue de services",
-            "myServices": "Mes services",
-            "mySecrets": "Mes secrets",
-            "myFiles": "Mes fichiers",
         },
         "FourOhFour": {
             "not found": "Page non trouvée",
@@ -691,11 +350,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "cardButton2": "Rejoindre la communauté",
             "cardButton3": "Consulter des données",
         },
-        "CatalogExplorerCard": {
+        "CatalogCard": {
             "launch": "Lancer",
             "learn more": "En savoir plus",
         },
-        "CatalogExplorerCards": {
+        "CatalogCards": {
             "show more": "Afficher tous",
             "no service found": "Service non trouvé",
             "no result found": "Aucun résultat trouvé pour {{forWhat}}",
@@ -711,115 +370,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "header text1": "Catalogue de services",
             "header text2":
                 "Explorez, lancez et configurez des services en quelques clics seulement.",
-            "all services are open sources":
-                "Tous les services proposés sont open source, ",
-            "contribute to the catalog": "contribuer au catalogue {{catalogId}}",
-            "contribute to the package":
-                "Accéder aux sources du package {{packageName}} ",
-            "here": "ici",
-        },
-        "CatalogLauncher": {
-            "no longer bookmarked dialog title": "Changements non enregistrés",
-            "no longer bookmarked dialog body":
-                "Cliquer une nouvelle fois sur le symbole marque-page pour mettre à jour votre configuration enregistrée.",
-            "ok": "Ok",
-            "should overwrite configuration dialog title":
-                "Souhaitez-vous le remplacer ?",
-            "should overwrite configuration dialog subtitle":
-                "«{{friendlyName}}» exsiste déjà dans vos enregistrements.",
-            "should overwrite configuration dialog body":
-                "Un service enregistré du même nom exsiste déjà. Si vous le remplacez, le contenu d'origine sera perdu.",
-            "cancel": "Annuler",
-            "replace": "Remplacer",
         },
         "Footer": {
             "contribute": "Contribuer au projet",
             "terms of service": "Conditions d'utilisation",
             "change language": "Changer la langue",
-        },
-        "CatalogLauncherMainCard": {
-            "card title": "Créer votre propre service",
-            "friendly name": "Nom personalisé",
-            "launch": "Lancer",
-            "cancel": "Annuler",
-            "copy url helper text":
-                "Copier l'URL permettant de restaurer cette configuration",
-            "save configuration": "Enregistrer cette configuration",
-            "share the service": "Partager le service",
-            "share the service - explain":
-                "Rendre accessible le service aux collaborateurs du groupe",
-        },
-        "CatalogLauncherConfigurationCard": {
-            "global config": "Configurations globales",
-            "configuration": "Configuration {{packageName}}",
-            "dependency": "Dépendance {{dependencyName}}",
-            "launch of a service": "Lancement d'un service {{dependencyName}}",
-            "malformed input": "Text non valide.",
-        },
-        "MyServices": {
-            "text1": "Mes services",
-            "text2":
-                "Lancer, visualiser et gérer rapidement vos différents services en cours d'exécution.",
-            "text3":
-                "Il est recommandé de supprimer vos services après chaque session de travail.",
-            "running services": "Services en cours",
-            "confirm delete title": "Êtes-vous sur?",
-            "confirm delete subtitle":
-                "Assurez-vous que vos services ne contentent pas de travail non sauvegardé.",
-            "confirm delete body":
-                "N'oubliez pas de pusher votre code sur GitHub ou GitLab avant de continuer.",
-            "confirm delete body shared services":
-                "Attention, certains de vos services sont partagés aux autres membres du projet.",
-            "cancel": "Annuler",
-            "confirm": "Oui, supprimer",
-        },
-        "MyServicesButtonBar": {
-            "refresh": "Rafraîchir",
-            "launch": "Nouveau service",
-            "password": "Copier le mot de passe",
-            "trash": "Supprimer tous",
-            "trash my own": "Supprimer tous mes services",
-        },
-        "MyServicesCard": {
-            "service": "Service",
-            "running since": "En exécution depuis: ",
-            "open": "ouvrir",
-            "readme": "readme",
-            "shared by you": "partagé par vous",
-            "which token expire when": "Le token {{which}} expire {{howMuchTime}}.",
-            "which token expired": "Le token {{which}} est expiré.",
-            "reminder to delete services":
-                "Rappelez-vous de supprimer vos services après utilisation.",
-            "this is a shared service": "Ce service est partagé au sein du projet",
-        },
-        "MyServicesRunningTime": {
-            "launching": "En cours...",
-        },
-        "MyServicesSavedConfigOptions": {
-            "edit": "Modifier",
-            "copy link": "Copier l'URL",
-            "remove bookmark": "Supprimer",
-        },
-        "MyServicesSavedConfig": {
-            "edit": "Modifier",
-            "launch": "Lancer",
-        },
-        "MyServicesSavedConfigs": {
-            "saved": "Enregistrés",
-            "show all": "Afficher tous",
-        },
-        "MyServicesCards": {
-            "running services": "Services en cours",
-            "no services running":
-                "Vous n'avez actuellement aucun service en cours d'exécution",
-            "launch one": "Cliquez ici pour en lancer un",
-            "ok": "ok",
-            "need to copy": "Besoin de copier les valeurs non tronquées?",
-            "everything have been printed to the console":
-                "Tout a été loggé dans la console",
-            "first copy the password": "Commencez par copier le mot de passe...",
-            "open the service": "Ouvrir le service 🚀",
-            "return": "Retour",
         },
         "LoginDivider": {
             "or": "ou",

@@ -25,9 +25,8 @@ export const { RouteProvider, useRoute, routes } = createRouter({
     ),
     "catalogExplorer": defineRoute(
         {
-            "catalogId": param.path.optional.string,
             "search": param.query.optional.string.default(""),
         },
-        ({ catalogId }) => `/catalogue/${catalogId}`,
+        () => `/catalogue`,
     ),
 });

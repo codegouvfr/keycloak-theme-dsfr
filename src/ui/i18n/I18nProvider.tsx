@@ -1,4 +1,3 @@
-import { useState } from "react";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { resources } from "./translations";
@@ -7,7 +6,7 @@ import { Evt } from "evt";
 import { useEvt } from "evt/hooks";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 import { useLng } from "./useLng";
-import {} from "powerhooks/useConst";
+import { useConst } from "powerhooks/useConst";
 
 export type Props = {
     children: React.ReactNode;
@@ -18,7 +17,7 @@ export function I18nProvider(props: Props) {
 
     const { lng } = useLng();
 
-    const [{ i18nInstance }] = useState(() => {
+    const { i18nInstance } = useConst(() => {
         i18n.use(initReactI18next).init({
             "debug": false,
             "interpolation": {
