@@ -3,6 +3,7 @@ import { createTRPCClient } from "@trpc/client";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import type { TrpcRouter } from "sill-api";
+import memoize from "memoizee";
 
 export function createTrpcSillApiClient(params: {
     url: string;
@@ -22,7 +23,9 @@ export function createTrpcSillApiClient(params: {
     });
 
     return {
-        "getOidcParams": () => trpcClient.query("getOidcParams"),
+        "getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
+            "promise": true,
+        }),
         "getSoftware": () => trpcClient.query("getSoftware"),
     };
 }

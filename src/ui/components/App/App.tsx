@@ -258,7 +258,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
         const Page = Catalog;
 
         if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
                 userAuthenticationThunks.login();
                 return null;
             }

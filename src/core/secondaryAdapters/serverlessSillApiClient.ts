@@ -1,5 +1,6 @@
 import type { SillApiClient } from "../ports/SillApiClient";
 import type { Software } from "sill-api";
+import memoize from "memoizee";
 
 export function createServerlessSillApiClient(params: {
     jsonUrl: string;
@@ -7,18 +8,21 @@ export function createServerlessSillApiClient(params: {
     const { jsonUrl } = params;
 
     return {
-        "getOidcParams": () =>
-            Promise.resolve({
-                "keycloakParams": undefined,
-                "jwtClaims": {
-                    "email": "a",
-                    "familyName": "b",
-                    "firstName": "c",
-                    "username": "d",
-                    "groups": "e",
-                    "local": "f",
-                },
-            }),
+        "getOidcParams": memoize(
+            () =>
+                Promise.resolve({
+                    "keycloakParams": undefined,
+                    "jwtClaims": {
+                        "email": "a",
+                        "familyName": "b",
+                        "firstName": "c",
+                        "username": "d",
+                        "groups": "e",
+                        "local": "f",
+                    },
+                }),
+            { "promise": true },
+        ),
         "getSoftware": () =>
             fetch(jsonUrl)
                 .then(res => res.text())

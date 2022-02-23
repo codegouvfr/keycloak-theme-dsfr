@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "start": "./env.local.sh react-app-rewired start",
+        "start": "./.env.local.sh react-app-rewired start",
         "build": "react-app-rewired build yarn",
         "keycloak": "yarn build && build-keycloak-theme",
         "eject": "react-scripts eject",

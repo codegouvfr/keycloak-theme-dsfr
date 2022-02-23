@@ -13,7 +13,10 @@ type InferQueryOutput<TRouteKey extends TQuery> = inferProcedureOutput<
 >;
 
 export type SillApiClient = {
-    getOidcParams: () => Promise<InferQueryOutput<"getOidcParams">>;
+    getOidcParams: {
+        (): Promise<InferQueryOutput<"getOidcParams">>;
+        clear: () => void;
+    };
     getSoftware: () => Promise<InferQueryOutput<"getSoftware">>;
 };
 

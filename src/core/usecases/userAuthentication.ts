@@ -2,6 +2,7 @@ import { assert } from "tsafe/assert";
 import type { User } from "../ports/UserApiClient";
 import type { ThunkAction, ThunksExtraArgument } from "../setup";
 import type { KcLanguageTag } from "keycloakify";
+import { urlJoin } from "url-join-ts";
 
 export const name = "userAuthentication";
 
@@ -53,28 +54,50 @@ export const thunks = {
 
             return getSliceContexts(extraArgs).thermsOfServices;
         },
+    "getKeycloakAccountConfigurationUrl":
+        (): ThunkAction<string | undefined> =>
+        (...args) => {
+            const [, , extraArgs] = args;
+
+            return getSliceContexts(extraArgs).keycloakAccountConfigurationUrl;
+        },
 };
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction =>
-        async (...args) => {
-            const [, , extraArg] = args;
-
+        (): ThunkAction<void> =>
+        async (...[, , extraArg]) =>
             setSliceContext(extraArg, {
                 "user": !extraArg.oidcClient.isUserLoggedIn
                     ? undefined
                     : await extraArg.userApiClient.getUser(),
-                "thermsOfServices": (await extraArg.sillApiClient.getOidcParams())
-                    .keycloakParams?.termsOfServices,
-            });
-        },
+                ...(await (async () => {
+                    const { keycloakParams } =
+                        await extraArg.sillApiClient.getOidcParams();
+
+                    return {
+                        "thermsOfServices": keycloakParams?.termsOfServices,
+                        "keycloakAccountConfigurationUrl":
+                            keycloakParams === undefined
+                                ? undefined
+                                : urlJoin(
+                                      keycloakParams.url,
+                                      "auth",
+                                      "realms",
+                                      keycloakParams.realm,
+                                      "account",
+                                  ),
+                    };
+                })()),
+            }),
 };
 
 type SliceContext = {
-    /** undefined when not authentificated */
+    /** undefined when not authenticated */
     user: User | undefined;
     thermsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
+    /** Undefined it authentication is not keycloak */
+    keycloakAccountConfigurationUrl: string | undefined;
 };
 
 const { getSliceContexts, setSliceContext } = (() => {

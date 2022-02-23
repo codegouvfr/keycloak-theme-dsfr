@@ -1,13 +1,11 @@
 import { Tabs } from "onyxia-ui/Tabs";
 import { AccountInfoTab } from "./tabs/AccountInfoTab";
-import { AccountIntegrationsTab } from "./tabs/AccountIntegrationsTab";
 import { useMemo } from "react";
 import { createGroup } from "type-route";
 import { routes } from "ui/routes";
 import { accountTabIds } from "./accountTabIds";
 import type { AccountTabId } from "./accountTabIds";
 import { useTranslation } from "ui/i18n/useTranslations";
-import { AccountStorageTab } from "./tabs/AccountStorageTab";
 import { AccountUserInterfaceTab } from "./tabs/AccountUserInterfaceTab";
 import { PageHeader } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -59,10 +57,6 @@ export function Account(props: Props) {
                     switch (route.params.tabId) {
                         case "infos":
                             return <AccountInfoTab />;
-                        case "third-party-integration":
-                            return <AccountIntegrationsTab />;
-                        case "storage":
-                            return <AccountStorageTab />;
                         case "user-interface":
                             return <AccountUserInterfaceTab />;
                     }

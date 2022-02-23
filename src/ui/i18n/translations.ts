@@ -10,8 +10,6 @@ import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
 import { AccountField } from "ui/components/pages/Account/AccountField";
 import { Account } from "ui/components/pages/Account/Account";
 import { AccountInfoTab } from "ui/components/pages/Account/tabs/AccountInfoTab";
-import { AccountIntegrationsTab } from "ui/components/pages/Account/tabs/AccountIntegrationsTab";
-import { AccountStorageTab } from "ui/components/pages/Account/tabs/AccountStorageTab";
 import { AccountUserInterfaceTab } from "ui/components/pages/Account/tabs/AccountUserInterfaceTab";
 import { CatalogCards } from "ui/components/pages/Catalog/CatalogCards/CatalogCards";
 import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
@@ -41,8 +39,6 @@ const reflectedI18nSchemes = {
     [symToStr({ AccountField })]: Reflect<AccountField.I18nScheme>(),
     [symToStr({ Account })]: Reflect<Account.I18nScheme>(),
     [symToStr({ AccountInfoTab })]: Reflect<AccountInfoTab.I18nScheme>(),
-    [symToStr({ AccountIntegrationsTab })]: Reflect<AccountIntegrationsTab.I18nScheme>(),
-    [symToStr({ AccountStorageTab })]: Reflect<AccountStorageTab.I18nScheme>(),
     [symToStr({ AccountUserInterfaceTab })]: Reflect<AccountUserInterfaceTab.I18nScheme>(),
     [symToStr({ CatalogCard })]: Reflect<CatalogCard.I18nScheme>(),
     [symToStr({ CatalogCards })]: Reflect<CatalogCards.I18nScheme>(),
@@ -70,8 +66,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
     "en": {
         "Account": {
             "infos": "Account infos",
-            "third-party-integration": "external services",
-            "storage": "Connect to storage",
             "user-interface": "Interface preferences",
             "text1": "My account",
             "text2": "Access your different account information.",
@@ -89,45 +83,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "auth information": "Onyxia authentication information",
             "auth information helper": `Theses information allows you to identify yourself
             within the platform and the various services.`,
-            "ip address": "IP Address",
-        },
-        "AccountIntegrationsTab": {
-            "git section title": "Git configuration",
-            "git section helper": `To ensure that you appear from your services 
-            as the author of Git contributions`,
-            "gitName": "Username for Git",
-            "gitEmail": "Email for Git",
-            "third party tokens section title":
-                "Connect your Gitlab, Github and Kaggle accounts",
-            "third party tokens section helper": `
-                Connect your services to external accounts using 
-                personal access tokens and environment variables
-            `,
-            "personal token": "{{serviceName}} personal access token",
-            "link for token creation": "Create your {{serviceName}} token.",
-            "accessible as env":
-                "Accessible withing your services as the environnement variable",
-        },
-        "AccountStorageTab": {
-            "credentials section title": "Connect your data to your services",
-            "credentials section helper":
-                "Amazon-compatible MinIO object storage (AWS S3). This information is already filled in automatically.",
-            "accessible as env":
-                "Accessible withing your services as the environnement variable:",
-            "init script section title":
-                "To access your storage outside of datalab services",
-            "init script section helper":
-                "Download or copy the init script in the programming language of your choice.",
-            "valid until": "Valid until {{when}}",
         },
         "AccountUserInterfaceTab": {
             "title": "Interface preferences",
             "enable dark mode": "Enable dark mode",
             "dark mode helper": "Low light interface theme with dark colored background.",
-            "enable beta": "Enable beta-test mode",
-            "beta mode helper": "For advanced platform configurations and features.",
-            "enable dev mode": "Enable developer mode",
-            "dev mode helper": "Enable features that are currently being developed",
         },
         "AccountField": {
             "copy tooltip": "Copy in clipboard",
@@ -228,8 +188,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         /* spell-checker: disable */
         "Account": {
             "infos": "Information du compte",
-            "third-party-integration": "Services externes",
-            "storage": "Connexion au stockage",
             "user-interface": "Modes d'interface",
             "text1": "Mon compte",
             "text2": "Accèdez à vos différentes informations de compte.",
@@ -247,44 +205,12 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "auth information": "Informations d'authentification Onyxia",
             "auth information helper": `Ces informations vous permettent de vous identifier 
             au sein de la plateforme et des différents services.`,
-            "ip address": "Adresse IP",
-        },
-        "AccountIntegrationsTab": {
-            "git section title": "Configurations Git",
-            "git section helper": `Pour vous assurez que vous apparaissiez depuis vos
-            services comme l'auteur des contributions Git`,
-            "gitName": "Nom d'utilisateur pour Git",
-            "gitEmail": "Email pour Git",
-            "third party tokens section title":
-                "Connecter vos comptes Gitlab, Github et Kaggle",
-            "third party tokens section helper": `Connectez vos services à des comptes extérieurs à l'aide
-            de jetons d'accès personnel et de variables d'environnement.`,
-            "personal token": "Jeton d'accès personnel {{serviceName}}",
-            "link for token creation": "Créer votre jeton {{serviceName}}.",
-            "accessible as env":
-                "Accessible au sein de vos services en tant que la variable d'environnement",
-        },
-        "AccountStorageTab": {
-            "credentials section title": "Connecter vos données à vos services",
-            "credentials section helper":
-                "Stockage object MinIO compatible Amazon (AWS S3). Ces informations sont déjà renseignés automatiquement.",
-            "accessible as env":
-                "Accessible au sein de vos services en tant que la variable d'environnement",
-            "init script section title":
-                "Pour accèder au stockage en dehors des services du datalab",
-            "init script section helper": `Téléchargez ou copiez le script d'initialisation dans le langage de programmation de votre choix.`,
-            "valid until": "Valides jusqu'a {{when}}",
         },
         "AccountUserInterfaceTab": {
             "title": "Configurer le mode d'interface",
             "enable dark mode": "Activer le mode sombre",
             "dark mode helper":
                 "Thème de l'interface à faible luminosité avec un fond de couleur sombre.",
-            "enable beta": "Activer le mode béta-testeur",
-            "beta mode helper":
-                "Pour des configurations et fonctionnalités avancées de la plateforme.",
-            "enable dev mode": "Activer le mode développeur",
-            "dev mode helper": "Activer les fonctionnalités en cours de développement",
         },
         "AccountField": {
             "copy tooltip": "Copier dans le press papier",

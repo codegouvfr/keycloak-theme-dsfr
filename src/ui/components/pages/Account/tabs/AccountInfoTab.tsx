@@ -1,17 +1,13 @@
-import { useEffect, useReducer, memo } from "react";
+import { memo } from "react";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { AccountSectionHeader } from "../AccountSectionHeader";
 import { AccountField } from "../AccountField";
-import { useSelector, useThunks } from "ui/coreApi";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { copyToClipboard } from "ui/tools/copyToClipboard";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
-import { getEnv } from "env";
-import { urlJoin } from "url-join-ts";
-import { useConstCallback } from "powerhooks/useConstCallback";
 import { makeStyles } from "ui/theme";
-import { useAsync } from "react-async-hook";
+import { useThunks } from "ui/coreApi";
 
 export type Props = {
     className?: string;
@@ -22,42 +18,18 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const { t } = useTranslation({ AccountInfoTab });
 
-    const { publicIpThunks, projectConfigsThunks, userAuthenticationThunks } =
-        useThunks();
+    const { userAuthenticationThunks } = useThunks();
 
     const onRequestCopyFactory = useCallbackFactory(([textToCopy]: [string]) =>
         copyToClipboard(textToCopy),
     );
 
-    const publicIp = useSelector(state => state.publicIp) ?? "Loading...";
-
-    const selectedProjectId = useSelector(
-        state => state.projectSelection.selectedProjectId,
-    );
-
-    useEffect(() => {
-        publicIpThunks.fetch();
-    }, []);
-
-    const [refreshServicePasswordTrigger, pullRefreshServicePasswordTrigger] = useReducer(
-        n => n + 1,
-        0,
-    );
-
-    const servicePasswordAsync = useAsync(
-        () => projectConfigsThunks.getValue({ "key": "servicePassword" }),
-        [refreshServicePasswordTrigger, selectedProjectId],
-    );
-
-    const onRequestServicePasswordRenewal = useConstCallback(async () => {
-        await projectConfigsThunks.renewServicePassword();
-
-        pullRefreshServicePasswordTrigger();
-    });
-
     const user = userAuthenticationThunks.getUser();
 
     const fullName = `${user.firstName} ${user.familyName}`;
+
+    const keycloakAccountConfigurationUrl =
+        userAuthenticationThunks.getKeycloakAccountConfigurationUrl();
 
     const { classes } = useStyles();
 
@@ -82,15 +54,10 @@ export const AccountInfoTab = memo((props: Props) => {
                 text={user.email}
                 onRequestCopy={onRequestCopyFactory(user.email)}
             />
-            {getEnv().OIDC_URL !== "" && (
+            {keycloakAccountConfigurationUrl !== undefined && (
                 <Link
                     className={classes.link}
-                    href={urlJoin(
-                        getEnv().OIDC_URL,
-                        "realms",
-                        getEnv().OIDC_REALM,
-                        "account",
-                    )}
+                    href={keycloakAccountConfigurationUrl}
                     target="_blank"
                     underline="hover"
                 >
@@ -101,23 +68,6 @@ export const AccountInfoTab = memo((props: Props) => {
             <AccountSectionHeader
                 title={t("auth information")}
                 helperText={t("auth information helper")}
-            />
-            <AccountField
-                type="service password"
-                isLocked={servicePasswordAsync.loading}
-                servicePassword={servicePasswordAsync.result ?? "⏳"}
-                onRequestCopy={
-                    servicePasswordAsync.result === undefined
-                        ? () => {}
-                        : onRequestCopyFactory(servicePasswordAsync.result)
-                }
-                onRequestServicePasswordRenewal={onRequestServicePasswordRenewal}
-            />
-            <AccountField
-                type="text"
-                title={t("ip address")}
-                text={publicIp}
-                onRequestCopy={onRequestCopyFactory(publicIp)}
             />
         </div>
     );
@@ -132,7 +82,6 @@ export declare namespace AccountInfoTab {
         "change account info": undefined;
         "auth information": undefined;
         "auth information helper": undefined;
-        "ip address": undefined;
     };
 }
 
