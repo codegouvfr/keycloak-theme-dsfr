@@ -21,6 +21,7 @@ namespace CatalogExplorerState {
         stateDescription: "ready";
         "~internal": {
             softwares: Software[];
+            displayCount: number;
         };
         search: string;
     };
@@ -51,7 +52,10 @@ export const { name, reducer, actions } = createSlice({
 
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
-                "~internal": { softwares },
+                "~internal": {
+                    softwares,
+                    "displayCount": 12,
+                },
                 "search": "",
             });
         },
@@ -61,6 +65,11 @@ export const { name, reducer, actions } = createSlice({
             assert(state.stateDescription === "ready");
 
             state.search = search;
+        },
+        "moreLoaded": state => {
+            assert(state.stateDescription === "ready");
+
+            state["~internal"].displayCount += 12;
         },
     },
 });
@@ -93,10 +102,17 @@ export const thunks = {
 
             dispatch(actions.setSearch({ search }));
         },
+    "loadMore":
+        (): ThunkAction =>
+        async (...args) => {
+            const [dispatch] = args;
+
+            dispatch(actions.moreLoaded());
+        },
 };
 
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
-    const { waitForDebounce } = waitForDebounceFactory({ "delay": 500 });
+    const { waitForDebounce } = waitForDebounceFactory({ "delay": 750 });
     return {
         "waitForSearchDebounce": waitForDebounce,
     };
@@ -116,27 +132,38 @@ export const selectors = (() => {
 
         const {
             search,
-            "~internal": { softwares },
+            "~internal": { softwares, displayCount },
         } = state;
 
         return [...softwares]
             .sort((a, b) => getSoftwareWeight(b) - getSoftwareWeight(a))
+            .slice(0, search === "" ? displayCount : softwares.length)
             .filter(
-                ({ name, function: fn, license, comptoirDuLibreSoftware, wikidata }) =>
-                    [
-                        name,
-                        fn,
-                        license,
-                        comptoirDuLibreSoftware?.name,
-                        wikidata?.descriptionFr,
-                        wikidata?.descriptionFr,
-                        wikidata?.sourceUrl,
-                        wikidata?.websiteUrl,
-                    ]
-                        .map(e => (!!e ? e : undefined))
-                        .filter(exclude(undefined))
-                        .map(str => str.toLowerCase().includes(search.toLowerCase()))
-                        .indexOf(true) >= 0,
+                search === ""
+                    ? () => true
+                    : ({
+                          name,
+                          function: fn,
+                          license,
+                          comptoirDuLibreSoftware,
+                          wikidata,
+                      }) =>
+                          [
+                              name,
+                              fn,
+                              license,
+                              comptoirDuLibreSoftware?.name,
+                              wikidata?.descriptionFr,
+                              wikidata?.descriptionFr,
+                              wikidata?.sourceUrl,
+                              wikidata?.websiteUrl,
+                          ]
+                              .map(e => (!!e ? e : undefined))
+                              .filter(exclude(undefined))
+                              .map(str =>
+                                  str.toLowerCase().includes(search.toLowerCase()),
+                              )
+                              .indexOf(true) >= 0,
             );
     };
 
