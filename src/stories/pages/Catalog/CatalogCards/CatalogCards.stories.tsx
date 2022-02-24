@@ -95,5 +95,6 @@ export const VueDefault = getStory({
     softwares,
     "scrollableDivRef": { "current": null },
     "search": "",
-    ...logCallbacks(["onSearchChange"]),
+    "hasMoreToLoad": true,
+    ...logCallbacks(["onSearchChange", "onLoadMore"]),
 });

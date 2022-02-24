@@ -54,7 +54,7 @@ export const { name, reducer, actions } = createSlice({
                 "stateDescription": "ready",
                 "~internal": {
                     softwares,
-                    "displayCount": 12,
+                    "displayCount": 24,
                 },
                 "search": "",
             });
@@ -65,11 +65,15 @@ export const { name, reducer, actions } = createSlice({
             assert(state.stateDescription === "ready");
 
             state.search = search;
+
+            if (search === "") {
+                state["~internal"].displayCount = 24;
+            }
         },
         "moreLoaded": state => {
             assert(state.stateDescription === "ready");
 
-            state["~internal"].displayCount += 12;
+            state["~internal"].displayCount += 24;
         },
     },
 });
@@ -108,6 +112,19 @@ export const thunks = {
             const [dispatch] = args;
 
             dispatch(actions.moreLoaded());
+        },
+    "getHasMoreToLoad":
+        (): ThunkAction<boolean> =>
+        (...args) => {
+            const [, getState] = args;
+
+            const state = getState().catalogExplorer;
+
+            assert(state.stateDescription === "ready");
+
+            const { displayCount, softwares } = state["~internal"];
+
+            return state.search === "" && displayCount < softwares.length;
         },
 };
 

@@ -11,8 +11,8 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
-import { useElementEvt } from "evt/hooks/useElementEvt";
-import { Evt } from "evt";
+//import { useElementEvt } from "evt/hooks/useElementEvt";
+//import { Evt } from "evt";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -89,36 +89,6 @@ export function Catalog(props: Props) {
         selectors.catalogExplorer.filteredSoftwares,
     );
 
-    useElementEvt(
-        ({ ctx, element }) =>
-            Evt.from(ctx, element, "scroll").attach(() => {
-                const { scrollTop, clientHeight, scrollHeight } = element;
-
-                console.log(
-                    JSON.stringify(
-                        {
-                            scrollTop,
-                            clientHeight,
-                            scrollHeight,
-                            "scrollTop + clientHeight - scrollHeight":
-                                scrollTop + clientHeight - scrollHeight,
-                            "scrollTop + clientHeight === scrollHeight":
-                                scrollTop + clientHeight === scrollHeight,
-                        },
-                        null,
-                        2,
-                    ),
-                );
-
-                if (scrollTop + clientHeight === scrollHeight) {
-                    console.log("load more");
-                    catalogExplorerThunks.loadMore();
-                }
-            }),
-        scrollableDivRef,
-        [catalogExplorerThunks],
-    );
-
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -144,6 +114,8 @@ export function Catalog(props: Props) {
                     className={className}
                     softwares={filteredSoftwares}
                     scrollableDivRef={scrollableDivRef}
+                    onLoadMore={catalogExplorerThunks.loadMore}
+                    hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                 />
             </div>
         </div>

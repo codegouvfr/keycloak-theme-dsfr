@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, useRef, memo } from "react";
 import type { RefObject } from "react";
 import { makeStyles } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
@@ -13,22 +13,35 @@ import type { UnpackEvt } from "evt";
 import { breakpointsValues } from "onyxia-ui";
 import { Evt } from "evt";
 import type { Software } from "sill-api";
+import { useOnLoadMore } from "ui/tools/useOnLoadMore";
+import { CircularProgress } from "onyxia-ui/CircularProgress";
 
 export type Props = {
     className?: string;
     softwares: Software[];
     search: string;
     onSearchChange: (search: string) => void;
+    onLoadMore: () => void;
+    hasMoreToLoad: boolean;
     scrollableDivRef: RefObject<HTMLDivElement>;
 };
 
 export const CatalogCards = memo((props: Props) => {
-    const { className, softwares, search, onSearchChange, scrollableDivRef } = props;
+    const {
+        className,
+        softwares,
+        search,
+        onSearchChange,
+        onLoadMore,
+        hasMoreToLoad,
+        scrollableDivRef,
+    } = props;
 
     const { t } = useTranslation({ CatalogCards });
 
     const { classes, cx } = useStyles({
         "filteredCardCount": softwares.length,
+        hasMoreToLoad,
     });
 
     const [evtSearchBarAction] = useState(() =>
@@ -37,8 +50,16 @@ export const CatalogCards = memo((props: Props) => {
 
     const onGoBackClick = useConstCallback(() => evtSearchBarAction.post("CLEAR SEARCH"));
 
+    const loadingDivRef = useRef<HTMLDivElement>(null);
+
+    useOnLoadMore({
+        scrollableDivRef,
+        loadingDivRef,
+        onLoadMore,
+    });
+
     return (
-        <div className={cx(classes.root, className, "foo-bar")}>
+        <div className={cx(classes.root, className)}>
             <SearchBar
                 className={classes.searchBar}
                 search={search}
@@ -61,7 +82,9 @@ export const CatalogCards = memo((props: Props) => {
                         ))
                     )}
                 </div>
-                <div className={classes.bottomScrollSpace} />
+                <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
+                    <CircularProgress color="textPrimary" />
+                </div>
             </div>
         </div>
     );
@@ -146,7 +169,8 @@ const { NoMatches } = (() => {
 
 const useStyles = makeStyles<{
     filteredCardCount: number;
-}>({ "name": { CatalogCards } })((theme, { filteredCardCount }) => ({
+    hasMoreToLoad: boolean;
+}>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
     "root": {
         "height": "100%",
         "display": "flex",
@@ -181,6 +205,21 @@ const useStyles = makeStyles<{
               }),
     },
     "bottomScrollSpace": {
-        "height": theme.spacing(3),
+        //"height": theme.spacing(3),
+        //"height": 100,
+        //"border": "1px solid black",
+        //"backgroundColor": "pink",
+        ...(hasMoreToLoad
+            ? {
+                  "display": "flex",
+                  "justifyContent": "center",
+                  ...theme.spacing.topBottom("padding", 3),
+              }
+            : {
+                  "& > *": {
+                      "display": "none",
+                  },
+                  "height": theme.spacing(3),
+              }),
     },
 }));
