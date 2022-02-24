@@ -29,7 +29,7 @@ import { ReactComponent as CollaborationToolsSvg } from "./assets/svg/Collaborat
 import { ReactComponent as BashSvg } from "./assets/svg/Bash.svg";
 import { ReactComponent as CatalogSvg } from "./assets/svg/Catalog.svg";
 import { ReactComponent as KeySvg } from "./assets/svg/Key.svg";
-import { ReactComponent as OnyxiaLogoSvg } from "ui/assets/svg/OnyxiaLogo.svg";
+//import { ReactComponent as OnyxiaLogoSvg } from "ui/assets/svg/OnyxiaLogo.svg";
 import { ReactComponent as TrainingsLogoSvg } from "ui/assets/svg/Trainings2.svg";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import GradingIcon from "@mui/icons-material/Grading";
@@ -199,7 +199,8 @@ export function getThemeProviderProps(params: {
                       "targetBrowserFontSizeFactor": 1,
                   };
               },
-        "splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
+        //"splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
+        "splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
     };
 }
 
