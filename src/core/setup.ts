@@ -23,7 +23,7 @@ import type { Param0 } from "tsafe";
 import type { KcLanguageTag } from "keycloakify";
 import { id } from "tsafe/id";
 
-export type CreateStoreParams = ReturnType<typeof getConfiguration> &
+export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
     Pick<Param0<typeof createKeycloakOidcClient>, "transformUrlBeforeRedirectToLogin">;
 
 // All these assert<Equals<...>> are just here to help visualize what the type

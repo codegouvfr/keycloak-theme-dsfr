@@ -14,7 +14,14 @@ export REACT_APP_CONFIGURATION=$(cat << EOF
 			"groups": [],
 			"local": "fr"
 		}
-	}
+	},
+	"headerLinks": [
+		{ 
+	  		"label": "code.gouv.fr", 
+	  		"iconId": "assuredWorkload", 
+	  		"url": "https://code.gouv.fr" 
+		}
+	]
 }
 EOF
 ) 

@@ -70,6 +70,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import type { Param0 } from "tsafe/Param0";
 import { ComponentType } from "ui/tools/types/ComponentType";
 import type { SupportedLanguage } from "ui/i18n/translations";
+import { objectKeys } from "tsafe/objectKeys";
 import { THEME_ID } from "ui/envCarriedOverToKc";
 
 const { ThemeProvider, useTheme } = createThemeProvider({
@@ -112,8 +113,7 @@ export { ThemeProvider };
 
 export const { makeStyles, useStyles } = createMakeStyles({ useTheme });
 
-/** @see: <https://next.material-ui.com/components/material-icons/> */
-export const { Icon } = createIcon({
+const createIconParams = {
     "delete": DeleteIcon,
     "edit": EditIcon,
     "add": AddIcon,
@@ -161,7 +161,12 @@ export const { Icon } = createIcon({
     "errorOutline": ErrorOutlineIcon,
     "assuredWorkload": AssuredWorkloadIcon,
     "grading": GradingIcon,
-});
+};
+
+export const iconIds = objectKeys(createIconParams);
+
+/** @see: <https://next.material-ui.com/components/material-icons/> */
+export const { Icon } = createIcon(createIconParams);
 
 export type IconId = Param0<typeof Icon>["iconId"];
 

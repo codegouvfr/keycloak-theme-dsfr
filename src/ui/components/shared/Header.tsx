@@ -5,7 +5,7 @@ import { makeStyles, Text } from "ui/theme";
 import marianneRoundUrl from "ui/assets/img/marianne_round.png";
 import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
 import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOverToKc";
-import { getHeaderLinksFromEnv } from "ui/env";
+import { getConfiguration } from "configuration";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import { useLng } from "ui/i18n/useLng";
 import { id } from "tsafe/id";
@@ -85,9 +85,9 @@ export const Header = memo((props: Props) => {
                 {props.useCase === "core app" && (
                     <>
                         {(() => {
-                            const headerLinksFromEnv = getHeaderLinksFromEnv();
+                            const { headerLinks } = getConfiguration();
 
-                            if (headerLinksFromEnv === undefined) {
+                            if (headerLinks === undefined) {
                                 return null;
                             }
 
@@ -96,7 +96,7 @@ export const Header = memo((props: Props) => {
                                     "currentLanguage": lng,
                                     "fallbackLanguage": id<typeof fallbackLanguage>("en"),
                                 });
-                            return headerLinksFromEnv.map(({ iconId, url, label }) => (
+                            return headerLinks.map(({ iconId, url, label }) => (
                                 <ButtonBarButton
                                     key={url}
                                     className={classes.button}

@@ -3,11 +3,15 @@ import memoize from "memoizee";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { arrDiff } from "evt/tools/reducers/diff";
-import * as commentJson from "comment-json";
+import * as JSONC from "comment-json";
 import { getEnv } from "./env";
 import type { KcLanguageTag } from "keycloakify";
 import { kcLanguageTags } from "keycloakify/lib/i18n/KcLanguageTag";
 import { id } from "tsafe/id";
+import { SupportedLanguage } from "ui/i18n/translations";
+import { objectKeys } from "tsafe/objectKeys";
+import { IconId } from "ui/theme";
+import { iconIds } from "ui/theme";
 
 export type Configuration = {
     /**
@@ -33,6 +37,11 @@ export type Configuration = {
             local: KcLanguageTag;
         };
     };
+    headerLinks?: {
+        iconId: IconId;
+        label: string | Partial<Record<KcLanguageTag, string>>;
+        url: string;
+    }[];
 };
 
 export const getConfiguration = memoize(
@@ -60,7 +69,7 @@ export const getConfiguration = memoize(
         let configuration: Configuration;
 
         try {
-            configuration = commentJson.parse(CONFIGURATION) as any;
+            configuration = JSONC.parse(CONFIGURATION) as any;
         } catch {
             throw new Error(
                 m(
@@ -72,11 +81,12 @@ export const getConfiguration = memoize(
         assert(configuration instanceof Object, m("Should be a JSON object"));
 
         {
-            const { apiUrl, mockAuthentication } = configuration;
+            const { apiUrl, mockAuthentication, headerLinks } = configuration;
 
             const propertiesNames = [
                 symToStr({ apiUrl }),
                 symToStr({ mockAuthentication }),
+                symToStr({ headerLinks }),
             ] as const;
 
             assert<Equals<typeof propertiesNames[number], keyof Configuration>>();
@@ -110,11 +120,11 @@ export const getConfiguration = memoize(
             resolvedApiUrl = apiUrl;
         }
 
-        scope: {
+        scope_mockAuthentication: {
             const { mockAuthentication } = configuration;
 
             if (mockAuthentication === undefined) {
-                break scope;
+                break scope_mockAuthentication;
             }
 
             const m_1 = (reason: string) =>
@@ -225,6 +235,140 @@ export const getConfiguration = memoize(
                         )}`,
                     ),
                 );
+            }
+        }
+
+        scope_headerLinks: {
+            const { headerLinks } = configuration;
+
+            if (headerLinks === undefined) {
+                break scope_headerLinks;
+            }
+
+            const m_1 = (reason: string) => m(`${symToStr({ headerLinks })}: ${reason}`);
+
+            assert(headerLinks instanceof Array, m_1("Is supposed to be an array"));
+
+            for (const headerLink of headerLinks) {
+                const m_2 = (reason: string) =>
+                    m(`${JSON.stringify(headerLink)} malformed: ${reason}`);
+
+                assert(headerLink instanceof Object, m_2("Should be an object"));
+
+                const { url, iconId, label } = headerLink;
+
+                {
+                    const propertiesNames = [
+                        symToStr({ url }),
+                        symToStr({ iconId }),
+                        symToStr({ label }),
+                    ] as const;
+
+                    assert<
+                        Equals<
+                            typeof propertiesNames[number],
+                            keyof NonNullable<
+                                NonNullable<Configuration["headerLinks"]>[number]
+                            >
+                        >
+                    >();
+
+                    const { added } = arrDiff(propertiesNames, Object.keys(headerLink));
+
+                    assert(
+                        added.length === 0,
+                        m_1(
+                            `The following properties are not recognized: ${added.join(
+                                " ",
+                            )}`,
+                        ),
+                    );
+                }
+
+                for (const [propertyName, propertyValue] of [
+                    [symToStr({ url }), url],
+                    [symToStr({ iconId }), iconId],
+                ] as const) {
+                    assert(propertyValue !== undefined, m_1(`${propertyName} missing`));
+                    assert(
+                        typeof propertyValue === "string",
+                        m_1(`${propertyName} is supposed to be a string`),
+                    );
+                    assert(
+                        propertyValue !== "",
+                        m_1(`${propertyName} is supposed to be a non empty string`),
+                    );
+                }
+
+                assert(
+                    id<readonly string[]>(iconIds).includes(iconId),
+                    m_1(
+                        `${symToStr({
+                            iconId,
+                        })}: ${iconId} is not a known icon available icons are: ${iconIds.join(
+                            ", ",
+                        )}`,
+                    ),
+                );
+
+                assert(
+                    /^http/.test(url),
+                    m_1(
+                        `${symToStr({
+                            url,
+                        })} should be an url (starting with 'http') ${url}`,
+                    ),
+                );
+
+                scope_label: {
+                    if (typeof label === "string") {
+                        break scope_label;
+                    }
+
+                    {
+                        const languages = objectKeys(label);
+
+                        assert(
+                            languages.length !== 0,
+                            m_1(
+                                `${symToStr({
+                                    label,
+                                })} if an object is provided it should have at least one label for one language`,
+                            ),
+                        );
+
+                        const supportedLanguages = ["en", "fr"] as const;
+
+                        assert<
+                            Equals<SupportedLanguage, typeof supportedLanguages[number]>
+                        >();
+
+                        languages.forEach(lng =>
+                            assert(
+                                id<readonly string[]>(supportedLanguages).includes(lng),
+                                m_1(
+                                    `${symToStr({
+                                        label,
+                                    })}: ${lng} is not a supported languages, supported languages are: ${supportedLanguages.join(
+                                        ", ",
+                                    )}`,
+                                ),
+                            ),
+                        );
+
+                        languages.forEach(lng => {
+                            const url = label[lng];
+                            assert(
+                                typeof url === "string",
+                                m_1(
+                                    `${symToStr({
+                                        label,
+                                    })} malformed (${lng}). It is supposed to be a string`,
+                                ),
+                            );
+                        });
+                    }
+                }
             }
         }
 

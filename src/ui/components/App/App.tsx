@@ -17,8 +17,6 @@ import { typeGuard } from "tsafe/typeGuard";
 import type { SupportedLanguage, fallbackLanguage } from "ui/i18n/translations";
 import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
-import type { Item } from "onyxia-ui/LeftBar";
-import { getExtraLeftBarItemsFromEnv } from "ui/env";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 
@@ -100,36 +98,12 @@ export const App = memo((props: Props) => {
                     "label": t("account"),
                     "link": routes.account().link,
                     "hasDividerBelow": true,
-                } as const,
+                },
                 "catalog": {
                     "iconId": "catalog",
                     "label": t("catalog"),
                     "link": routes.catalogExplorer().link,
                 },
-                ...(() => {
-                    const extraLeftBarItems = getExtraLeftBarItemsFromEnv();
-
-                    const { resolveLocalizedString } = createResolveLocalizedString({
-                        "currentLanguage": lng,
-                        "fallbackLanguage": id<typeof fallbackLanguage>("en"),
-                    });
-
-                    return extraLeftBarItems === undefined
-                        ? {}
-                        : Object.fromEntries(
-                              extraLeftBarItems.map(({ iconId, label, url }, i) => [
-                                  `extraItem${i}`,
-                                  id<Item>({
-                                      "iconId": iconId as any,
-                                      "label": resolveLocalizedString(label),
-                                      "link": {
-                                          "href": url,
-                                          "target": "_blank",
-                                      },
-                                  }),
-                              ]),
-                          );
-                })(),
             } as const),
         [t, lng],
     );
