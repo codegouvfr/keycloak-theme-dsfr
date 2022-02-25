@@ -4,9 +4,11 @@ import {
     francePalette,
     ultravioletPalette,
     defaultGetTypographyDesc,
+    /*
     getIsPortraitOrientation,
     ViewPortOutOfRangeError,
     breakpointsValues,
+    */
 } from "onyxia-ui";
 import type { ThemeProviderProps } from "onyxia-ui";
 import { createIcon } from "onyxia-ui/Icon";
@@ -174,13 +176,14 @@ export const { IconButton } = createIconButton({ Icon });
 export const { Button } = createButton({ Icon });
 export const { Text } = createText({ useTheme });
 
-export function getThemeProviderProps(params: {
+export function getThemeProviderProps(_params: {
     PortraitModeUnsupported: ComponentType;
     doDisableViewPortAdapter: boolean;
 }): Omit<ThemeProviderProps, "children"> {
-    const { PortraitModeUnsupported, doDisableViewPortAdapter } = params;
+    //const { PortraitModeUnsupported, doDisableViewPortAdapter } = params;
 
     return {
+        /*
         "getViewPortConfig": doDisableViewPortAdapter
             ? undefined
             : ({ windowInnerWidth, windowInnerHeight }) => {
@@ -204,6 +207,7 @@ export function getThemeProviderProps(params: {
                       "targetBrowserFontSizeFactor": 1,
                   };
               },
+              */
         //"splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
         "splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
     };

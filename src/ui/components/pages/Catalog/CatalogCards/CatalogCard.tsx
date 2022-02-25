@@ -1,10 +1,11 @@
 import { memo } from "react";
 import { makeStyles, Text } from "ui/theme";
-import { RoundLogo } from "ui/components/shared/RoundLogo";
+//import { RoundLogo } from "ui/components/shared/RoundLogo";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
 import { Software } from "sill-api";
+import { useDomRect } from "powerhooks/useDomRect";
 
 export type Props = {
     className?: string;
@@ -14,13 +15,29 @@ export type Props = {
 export const CatalogCard = memo((props: Props) => {
     const { className, software } = props;
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
 
     const { t } = useTranslation({ CatalogCard });
+
+    const { imgRef, isBanner } = (function useClosure() {
+        const {
+            ref: imgRef,
+            domRect: { height, width },
+        } = useDomRect();
+
+        const isBanner = width === 0 || height === 0 ? undefined : width > height * 1.7;
+
+        if (isBanner !== undefined) {
+            console.log(software.name, { height, width, isBanner });
+        }
+
+        return { imgRef, isBanner };
+    })();
 
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
+                {/*
                 {(() => {
                     const { logoUrl } = software.wikidata ?? {};
 
@@ -31,6 +48,28 @@ export const CatalogCard = memo((props: Props) => {
                 <Text className={classes.title} typo="object heading">
                     {capitalize(software.name)}
                 </Text>
+                */}
+                {(() => {
+                    const { logoUrl } = software.wikidata ?? {};
+
+                    return (
+                        <>
+                            {logoUrl !== undefined && (
+                                <img
+                                    ref={imgRef}
+                                    src={logoUrl}
+                                    alt=""
+                                    className={css({ "height": "100%" })}
+                                />
+                            )}
+                            {(isBanner === false || logoUrl === undefined) && (
+                                <Text className={classes.title} typo="object heading">
+                                    {capitalize(software.name)}
+                                </Text>
+                            )}
+                        </>
+                    );
+                })()}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
@@ -86,11 +125,12 @@ const useStyles = makeStyles<void, "learnMoreButton">({
         "flexDirection": "column",
     },
     "aboveDivider": {
-        "padding": theme.spacing({ "topBottom": 3, "rightLeft": 4 }),
+        "padding": theme.spacing({ "topBottom": 2, "rightLeft": 4 }),
         "borderBottom": `1px solid ${theme.colors.useCases.typography.textTertiary}`,
         "boxSizing": "border-box",
         "display": "flex",
         "alignItems": "center",
+        "height": 45,
     },
     "title": {
         "marginLeft": theme.spacing(3),
