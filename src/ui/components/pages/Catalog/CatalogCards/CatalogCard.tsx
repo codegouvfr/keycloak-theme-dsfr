@@ -37,18 +37,6 @@ export const CatalogCard = memo((props: Props) => {
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
-                {/*
-                {(() => {
-                    const { logoUrl } = software.wikidata ?? {};
-
-                    return (
-                        logoUrl !== undefined && <RoundLogo url={logoUrl} size="large" />
-                    );
-                })()}
-                <Text className={classes.title} typo="object heading">
-                    {capitalize(software.name)}
-                </Text>
-                */}
                 {(() => {
                     const { logoUrl } = software.wikidata ?? {};
 
@@ -74,7 +62,7 @@ export const CatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Text typo="body 1" className={classes.bodyTypo}>
-                        {software.function}
+                        {capitalize(software.name)}, {software.function}
                     </Text>
                 </div>
                 <div className={classes.buttonsWrapper}>
