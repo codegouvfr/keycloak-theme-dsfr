@@ -25,7 +25,7 @@ export const Footer = memo((props: Props) => {
 
     return (
         <footer className={cx(classes.root, className)}>
-            <Text typo="body 2">2017 - 2022 Onyxia, InseefrLab</Text>
+            <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
             {spacing}
             <a
                 href={contributeUrl}
@@ -80,9 +80,12 @@ const useStyles = makeStyles<Props>({ "name": { Footer } })(theme => ({
         "backgroundColor": theme.colors.useCases.surfaces.background,
         "display": "flex",
         "alignItems": "center",
-        "& a:hover": {
-            "textDecoration": "underline",
-            "textDecorationColor": theme.colors.useCases.typography.textPrimary,
+        "& a": {
+            "textDecoration": "none",
+            "&:hover": {
+                "textDecoration": "underline",
+                "textDecorationColor": theme.colors.useCases.typography.textPrimary,
+            },
         },
     },
     "icon": {
