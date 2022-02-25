@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { makeStyles, Text } from "ui/theme";
-//import { RoundLogo } from "ui/components/shared/RoundLogo";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
