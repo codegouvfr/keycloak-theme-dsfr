@@ -5,7 +5,6 @@ import { Header } from "ui/components/shared/Header";
 import { App } from "ui/components/App/App";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { PortraitModeUnsupported } from "ui/components/pages/PortraitModeUnsupported";
-import { Home } from "ui/components/pages/Home";
 import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
 import { AccountField } from "ui/components/pages/Account/AccountField";
 import { Account } from "ui/components/pages/Account/Account";
@@ -34,7 +33,6 @@ const reflectedI18nSchemes = {
     [symToStr({ App })]: Reflect<App.I18nScheme>(),
     [symToStr({ PortraitModeUnsupported })]: Reflect<PortraitModeUnsupported.I18nScheme>(),
     [symToStr({ FourOhFour })]: Reflect<FourOhFour.I18nScheme>(),
-    [symToStr({ Home })]: Reflect<Home.I18nScheme>(),
     [symToStr({ RegisterUserProfile })]: Reflect<RegisterUserProfile.I18nScheme>(),
     [symToStr({ AccountField })]: Reflect<AccountField.I18nScheme>(),
     [symToStr({ Account })]: Reflect<Account.I18nScheme>(),
@@ -121,7 +119,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         },
         "App": {
             "reduce": "Reduce",
-            "home": "Home",
             "account": "My account",
             "catalog": "Services catalog",
         },
@@ -132,25 +129,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "portrait mode not supported": "Portrait mode isn't supported yet",
             "instructions":
                 "To use this app on your phone please enable the rotation sensor and turn your phone.",
-        },
-        "Home": {
-            "welcome": `Welcome {{who}}!`,
-            "title": "Welcome to the Onyxia datalab",
-            "new user": "New to the datalab?",
-            "login": "Login",
-            "subtitle": "Work with Python or R, enjoy all the computing power you need!",
-            "cardTitle1": "An ergonomic environment and on-demand services",
-            "cardTitle2": "An active and enthusiastic community at your service",
-            "cardTitle3": "Fast, flexible and online data storage",
-            "cardText1":
-                "Analyze data, perform distributed computing and take advantage of a large catalog of services. Reserve the computing power you need.",
-            "cardText2":
-                "Use and share the resources available to you: tutorials, training and exchange channels.",
-            "cardText3":
-                "To easily access your data and those made available to you from your programs - S3 API implementation",
-            "cardButton1": "Consult the catalog",
-            "cardButton2": "Join the community",
-            "cardButton3": "Consult the data",
         },
         "CatalogCard": {
             "launch": "Launch",
@@ -244,7 +222,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         },
         "App": {
             "reduce": "Réduire",
-            "home": "Accueil",
             "account": "Mon compte",
             "catalog": "Catalogue de services",
         },
@@ -255,26 +232,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "portrait mode not supported": "Le mode portrait n'est pas encore supporté",
             "instructions":
                 "Pour utiliser cette application depuis votre mobile, veuillez activer le capteur de rotation et tourner votre téléphone.",
-        },
-        "Home": {
-            "welcome": `Bienvenue {{who}}!`,
-            "title": "Bienvenue sur le datalab",
-            "login": "Connexion",
-            "new user": "Nouvel utilisateur du datalab?",
-            "subtitle":
-                "Travaillez avec Python ou R et disposez de la puissance dont vous avez besoin!",
-            "cardTitle1": "Un environnement ergonomique et des services à la demande",
-            "cardTitle2": "Une communauté active et enthousiaste à votre écoute",
-            "cardTitle3": "Un espace de stockage de données rapide, flexible et en ligne",
-            "cardText1":
-                "Analysez les données, faites du calcul distribué et profitez d’un large catalogue de services. Réservez la puissance de calcul dont vous avez besoin.",
-            "cardText2":
-                "Profitez et partagez des ressources mises à votre disposition: tutoriels, formations et canaux d’échanges.",
-            "cardText3":
-                "Pour accéder facilement à vos données et à celles mises à votre disposition depuis vos programmes - Implémentation API S3",
-            "cardButton1": "Consulter le catalogue",
-            "cardButton2": "Rejoindre la communauté",
-            "cardButton3": "Consulter des données",
         },
         "CatalogCard": {
             "launch": "Lancer",

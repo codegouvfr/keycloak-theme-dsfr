@@ -8,7 +8,6 @@ import { useTranslation } from "ui/i18n/useTranslations";
 import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useRoute, routes } from "ui/routes";
-import { Home } from "ui/components/pages/Home";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 import { useDomRect, useSplashScreen } from "onyxia-ui";
 import { Account } from "ui/components/pages/Account";
@@ -58,7 +57,7 @@ export const App = memo((props: Props) => {
 
     const route = useRoute();
 
-    const onHeaderLogoClick = useConstCallback(() => routes.home().push());
+    const onHeaderLogoClick = useConstCallback(() => routes.catalogExplorer().push());
 
     const { userAuthenticationThunks } = useThunks();
 
@@ -96,17 +95,12 @@ export const App = memo((props: Props) => {
     const leftBarItems = useMemo(
         () =>
             ({
-                "home": {
-                    "iconId": "home",
-                    "label": t("home"),
-                    "link": routes.home().link,
-                } as const,
                 "account": {
                     "iconId": "account",
                     "label": t("account"),
                     "link": routes.account().link,
                     "hasDividerBelow": true,
-                },
+                } as const,
                 "catalog": {
                     "iconId": "catalog",
                     "label": t("catalog"),
@@ -172,8 +166,6 @@ export const App = memo((props: Props) => {
                     items={leftBarItems}
                     currentItemId={(() => {
                         switch (route.name) {
-                            case "home":
-                                return "home";
                             case "account":
                                 return "account";
                             case "catalogExplorer":
@@ -198,7 +190,7 @@ export const App = memo((props: Props) => {
 });
 
 export declare namespace App {
-    export type I18nScheme = Record<"reduce" | "home" | "account" | "catalog", undefined>;
+    export type I18nScheme = Record<"reduce" | "account" | "catalog", undefined>;
 }
 
 const useStyles = makeStyles({ "name": { App } })(theme => {
@@ -264,19 +256,6 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
             }
 
             return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = Home;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login();
-                return null;
-            }
-
-            return <Page />;
         }
     }
 

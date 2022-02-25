@@ -6,7 +6,6 @@ import type { AccountTabId } from "ui/components/pages/Account/accountTabIds";
 import { accountTabIds } from "ui/components/pages/Account/accountTabIds";
 
 export const { RouteProvider, useRoute, routes } = createRouter({
-    "home": defineRoute(["/", "/accueil"]),
     "account": defineRoute(
         {
             "tabId": param.path.optional
@@ -27,6 +26,6 @@ export const { RouteProvider, useRoute, routes } = createRouter({
         {
             "search": param.query.optional.string.default(""),
         },
-        () => `/catalogue`,
+        () => ["/", `/catalogue`],
     ),
 });
