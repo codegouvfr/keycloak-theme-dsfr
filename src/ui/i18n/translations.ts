@@ -120,7 +120,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         "App": {
             "reduce": "Reduce",
             "account": "My account",
-            "catalog": "Services catalog",
+            "catalog": "Software catalog",
         },
         "FourOhFour": {
             "not found": "Page not found",
@@ -146,9 +146,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "search": "Search",
         },
         "Catalog": {
-            "header text1": "Services catalog",
+            "header text1": "Software catalog",
             "header text2":
-                "Explore, launch and configure services with just a few clicks.",
+                "Catalog of used and recommended free and open source software for administrative public services.",
+            "header text3":
+                "You are a public agent and you want to recommend a free software? Click here.",
         },
         "Footer": {
             "contribute": "Contribute",
@@ -223,7 +225,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         "App": {
             "reduce": "Réduire",
             "account": "Mon compte",
-            "catalog": "Catalogue de services",
+            "catalog": "Catalogue de logiciel",
         },
         "FourOhFour": {
             "not found": "Page non trouvée",
@@ -250,9 +252,11 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "search": "Rechercher",
         },
         "Catalog": {
-            "header text1": "Catalogue de services",
+            "header text1": "Catalogue de logiciel",
             "header text2":
-                "Explorez, lancez et configurez des services en quelques clics seulement.",
+                "Le catalogue des logiciels libres utilisé et recommandé pour les administrations",
+            "header text3":
+                "Vous êtes Agen publique et souhaitez recommander un logiciel libre? Cliquez ici.",
         },
         "Footer": {
             "contribute": "Contribuer au projet",

@@ -11,8 +11,6 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
-//import { useElementEvt } from "evt/hooks/useElementEvt";
-//import { Evt } from "evt";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -102,7 +100,7 @@ export function Catalog(props: Props) {
                 mainIcon="catalog"
                 title={t("header text1")}
                 helpTitle={t("header text2")}
-                helpContent={"TODO"}
+                helpContent={t("header text3")}
                 helpIcon="sentimentSatisfied"
                 titleCollapseParams={titleCollapseParams}
                 helpCollapseParams={helpCollapseParams}
@@ -125,6 +123,7 @@ export declare namespace Catalog {
     export type I18nScheme = {
         "header text1": undefined;
         "header text2": undefined;
+        "header text3": undefined;
     };
 }
 
