@@ -2,14 +2,14 @@ import { memo } from "react";
 import { Button, ButtonBarButton } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, Text } from "ui/theme";
-import { ReactComponent as OnyxiaLogoSvg } from "ui/assets/svg/OnyxiaLogo.svg";
+import marianneRoundUrl from "ui/assets/img/marianne_round.png";
+import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
 import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOverToKc";
 import { getHeaderLinksFromEnv } from "ui/env";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import { useLng } from "ui/i18n/useLng";
 import { id } from "tsafe/id";
 import type { fallbackLanguage } from "ui/i18n/translations";
-import { getDoHideOnyxia } from "ui/env";
 
 export type Props = Props.LoginPages | Props.UserNotLoggedIn | Props.UserLoggedIn;
 export declare namespace Props {
@@ -45,24 +45,27 @@ export const Header = memo((props: Props) => {
 
     const { lng } = useLng();
 
-    const doShowOnyxia = props.useCase === "core app" && !getDoHideOnyxia();
-
     return (
         <header className={cx(classes.root, className)}>
             <div onClick={onLogoClick} className={classes.logoContainer}>
-                <OnyxiaLogoSvg className={classes.svg} />
+                <img
+                    src={
+                        theme.isDarkModeEnabled
+                            ? marianneRoundUrl
+                            : marianneRoundTransparentUrl
+                    }
+                    alt=""
+                    className={classes.svg}
+                />
             </div>
             <div onClick={onLogoClick} className={classes.mainTextContainer}>
-                {doShowOnyxia && (
-                    <Text typo="section heading" className={css({ "fontWeight": 600 })}>
-                        Onyxia -
-                    </Text>
-                )}
                 {HEADER_ORGANIZATION && (
                     <Text
                         typo="section heading"
-                        className={cx(css({ ...theme.spacing.rightLeft("margin", 2) }), {
-                            [css({ "marginLeft": 0 })]: !doShowOnyxia,
+                        className={css({
+                            "fontWeight": 600,
+                            "marginLeft": theme.spacing(3),
+                            "marginRight": theme.spacing(2),
                         })}
                     >
                         {HEADER_ORGANIZATION}
@@ -157,8 +160,7 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             },
         },
         "svg": {
-            "fill": theme.colors.useCases.typography.textFocus,
-            "width": "70%",
+            "width": "80%",
         },
         "button": {
             "marginBottom": theme.spacing(1),
