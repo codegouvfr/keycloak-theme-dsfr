@@ -33,6 +33,7 @@ jobs:
     - run: |
         ./.env.local.sh npx embed-environnement-variables
         npx hack-gh-pages src/ui/routes.ts
+        echo "sill.garronej.dev > build/CNAME
     - uses: actions/upload-artifact@v2
       with:
         name: build_gh-pages
