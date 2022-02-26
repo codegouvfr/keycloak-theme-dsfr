@@ -142,6 +142,7 @@ jobs:
       - update_changelog
       - deploy_storybook
     steps:
+    - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
       with:
         name: build_gh-pages
