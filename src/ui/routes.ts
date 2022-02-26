@@ -1,11 +1,12 @@
-import "minimal-polyfills/Object.fromEntries";
 import { createRouter, defineRoute, param, noMatch } from "type-route";
 import type { ValueSerializer } from "type-route";
 import { id } from "tsafe/id";
 import type { AccountTabId } from "ui/components/pages/Account/accountTabIds";
-import { accountTabIds } from "ui/components/pages/Account/accountTabIds";
+//NOTE: This import needs to stay relative for github-pages-plugin-for-type-route
+import { accountTabIds } from "./components/pages/Account/accountTabIds";
+import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
 
-export const { RouteProvider, useRoute, routes } = createRouter({
+const routeDefs = {
     "account": defineRoute(
         {
             "tabId": param.path.optional
@@ -28,4 +29,8 @@ export const { RouteProvider, useRoute, routes } = createRouter({
         },
         () => ["/", `/catalogue`],
     ),
-});
+};
+
+export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);
+
+makeThisModuleAnExecutableRouteLister(routeDefs);
