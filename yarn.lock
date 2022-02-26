@@ -14469,12 +14469,13 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.0.24:
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.0.24.tgz#6f97451cbccc79dce67c4297a1430d630f8d74ef"
-  integrity sha512-RcXWQpVkmqYBBnKfJTXvOcwnjTads//t+is15/iue8/ONvW8jZgC9Ay2FVsbY/vyqVjozvy1EodRsHQQVPLX9A==
+sill-api@^0.0.25:
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.0.25.tgz#f4580f1c657941630d0e847fd92c96479b02ef2a"
+  integrity sha512-SSfGh4hCyoUvaW+3a0dV4Bw4pISd+yEasp1CaoxnPsXcz8q5UYiQM8Mlg4oii1X6VDU2jIGmzmfSfLIH/7z1ew==
   dependencies:
     "@trpc/server" "^9.18.0"
+    jwt-simple "^0.5.6"
     tsafe "^0.9.0"
 
 simple-swizzle@^0.2.2:
