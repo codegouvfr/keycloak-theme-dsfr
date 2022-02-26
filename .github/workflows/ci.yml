@@ -142,14 +142,13 @@ jobs:
       - update_changelog
       - deploy_storybook
     steps:
-    - uses: actions/setup-node@v2.1.3
-      with:
-        node-version: '16'
-    - uses: bahmutov/npm-install@v1
     - uses: actions/download-artifact@v2
       with:
         name: build_gh-pages
         path: build
+    - uses: actions/setup-node@v2.1.3
+      with:
+        node-version: '16'
     - run: git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{github.repository}}.git
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
