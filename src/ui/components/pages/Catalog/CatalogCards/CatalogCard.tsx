@@ -75,7 +75,7 @@ export const CatalogCard = memo((props: Props) => {
                         return (
                             url !== undefined && (
                                 <Button
-                                    className={classes.learnMoreButton}
+                                    className={classes.cardButtons}
                                     href={url}
                                     variant="ternary"
                                 >
@@ -90,7 +90,7 @@ export const CatalogCard = memo((props: Props) => {
                         return (
                             url !== undefined && (
                                 <Button
-                                    className={classes.learnMoreButton}
+                                    className={classes.cardButtons}
                                     href={url}
                                     variant="ternary"
                                 >
@@ -112,7 +112,7 @@ export declare namespace CatalogCard {
     };
 }
 
-const useStyles = makeStyles<void, "learnMoreButton">({
+const useStyles = makeStyles<void, "cardButtons">({
     "name": { CatalogCard },
 })((theme, _params, classes) => ({
     "root": {
@@ -121,7 +121,7 @@ const useStyles = makeStyles<void, "learnMoreButton">({
         "backgroundColor": theme.colors.useCases.surfaces.surface1,
         "&:hover": {
             "boxShadow": theme.shadows[6],
-            [`& .${classes.learnMoreButton}`]: {
+            [`& .${classes.cardButtons}`]: {
                 "visibility": "visible",
             },
         },
@@ -161,7 +161,7 @@ const useStyles = makeStyles<void, "learnMoreButton">({
         "justifyContent": "flex-end",
         "marginTop": theme.spacing(4),
     },
-    "learnMoreButton": {
+    "cardButtons": {
         "marginRight": theme.spacing(2),
         "visibility": "hidden",
     },
