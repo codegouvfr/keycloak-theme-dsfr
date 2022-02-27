@@ -137,7 +137,9 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 
 export const selectors = (() => {
     const getSoftwareWeight = memoize(
-        (software: Software): number => JSON.stringify(software).length,
+        (software: Software): number =>
+            JSON.stringify(software).length -
+            (software.wikidata?.logoUrl === undefined ? 10000 : 0),
     );
 
     const filteredSoftwares = (rootState: RootState) => {
