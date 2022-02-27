@@ -84,6 +84,21 @@ export const CatalogCard = memo((props: Props) => {
                             )
                         );
                     })()}
+                    {(() => {
+                        const url = software.testUrl ?? undefined;
+
+                        return (
+                            url !== undefined && (
+                                <Button
+                                    className={classes.learnMoreButton}
+                                    href={url}
+                                    variant="ternary"
+                                >
+                                    {t("try it")}
+                                </Button>
+                            )
+                        );
+                    })()}
                 </div>
             </div>
         </div>
@@ -93,7 +108,7 @@ export const CatalogCard = memo((props: Props) => {
 export declare namespace CatalogCard {
     export type I18nScheme = {
         "learn more": undefined;
-        launch: undefined;
+        "try it": undefined;
     };
 }
 

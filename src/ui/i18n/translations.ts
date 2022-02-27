@@ -131,8 +131,8 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
                 "To use this app on your phone please enable the rotation sensor and turn your phone.",
         },
         "CatalogCard": {
-            "launch": "Launch",
             "learn more": "Learn more",
+            "try it": "Try it 🚀",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -236,8 +236,8 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
                 "Pour utiliser cette application depuis votre mobile, veuillez activer le capteur de rotation et tourner votre téléphone.",
         },
         "CatalogCard": {
-            "launch": "Lancer",
             "learn more": "En savoir plus",
+            "try it": "Essayer 🚀",
         },
         "CatalogCards": {
             "show more": "Afficher tous",
