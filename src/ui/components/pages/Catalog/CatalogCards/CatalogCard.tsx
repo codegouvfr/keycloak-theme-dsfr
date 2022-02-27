@@ -50,7 +50,7 @@ export const CatalogCard = memo((props: Props) => {
                             {(isBanner === false || logoUrl === undefined) && (
                                 <Text className={classes.title} typo="object heading">
                                     {smartTrim({
-                                        "maxLength": 35,
+                                        "maxLength": 28,
                                         "minCharAtTheEnd": 0,
                                         "text": capitalize(software.name),
                                     })}
