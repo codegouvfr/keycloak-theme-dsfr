@@ -4,7 +4,6 @@ import { Evt } from "evt";
 import { useDomRect } from "powerhooks/useDomRect";
 import { useElementEvt } from "evt/hooks/useElementEvt";
 import { useConst } from "powerhooks/useConst";
-import memoize from "memoizee";
 
 export function useOnLoadMore(props: {
     scrollableDivRef: RefObject<any>;
@@ -20,9 +19,19 @@ export function useOnLoadMore(props: {
     const { onLoadMoreOnce } = (function useClosure() {
         const onLoadMoreConst = useConstCallback(onLoadMore);
 
-        const onLoadMoreOnce = useConst(() =>
-            memoize((_scrollHeight: number) => onLoadMoreConst()),
-        );
+        const onLoadMoreOnce = useConst(() => {
+            let lastScrollHeight: number | undefined = undefined;
+
+            return (scrollHeight: number) => {
+                if (lastScrollHeight === scrollHeight) {
+                    return;
+                }
+
+                lastScrollHeight = scrollHeight;
+
+                onLoadMoreConst();
+            };
+        });
 
         return { onLoadMoreOnce };
     })();
