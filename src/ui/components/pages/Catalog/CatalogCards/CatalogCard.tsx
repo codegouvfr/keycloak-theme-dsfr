@@ -6,6 +6,7 @@ import { capitalize } from "tsafe/capitalize";
 import { Software } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
+import { smartTrim } from "ui/tools/smartTrim";
 
 export type Props = {
     className?: string;
@@ -26,10 +27,6 @@ export const CatalogCard = memo((props: Props) => {
         } = useDomRect();
 
         const isBanner = width === 0 || height === 0 ? undefined : width > height * 1.7;
-
-        if (isBanner !== undefined) {
-            console.log(software.name, { height, width, isBanner });
-        }
 
         return { imgRef, isBanner };
     })();
@@ -52,7 +49,11 @@ export const CatalogCard = memo((props: Props) => {
                             )}
                             {(isBanner === false || logoUrl === undefined) && (
                                 <Text className={classes.title} typo="object heading">
-                                    {capitalize(software.name)}
+                                    {smartTrim({
+                                        "maxLength": 35,
+                                        "minCharAtTheEnd": 0,
+                                        "text": capitalize(software.name),
+                                    })}
                                 </Text>
                             )}
                         </>
@@ -62,13 +63,8 @@ export const CatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Markdown>
-                        {`${capitalize(software.name)} ${software.function}`}
+                        {`${capitalize(software.name)}, ${software.function}`}
                     </Markdown>
-                    {/*
-                    <Text typo="body 1" className={classes.bodyTypo}>
-                        {capitalize(software.name)}, {software.function}
-                    </Text>
-                    */}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     {(() => {
