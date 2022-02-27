@@ -5,6 +5,7 @@ import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
 import { Software } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
+import { Markdown } from "ui/tools/Markdown";
 
 export type Props = {
     className?: string;
@@ -60,9 +61,14 @@ export const CatalogCard = memo((props: Props) => {
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
+                    <Markdown>
+                        {`${capitalize(software.name)} ${software.function}`}
+                    </Markdown>
+                    {/*
                     <Text typo="body 1" className={classes.bodyTypo}>
                         {capitalize(software.name)}, {software.function}
                     </Text>
+                    */}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     {(() => {
