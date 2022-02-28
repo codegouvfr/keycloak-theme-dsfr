@@ -11,6 +11,7 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
+import { SoftwareDetails } from "./SoftwareDetails";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -92,11 +93,15 @@ export function Catalog(props: Props) {
             filteredSoftwares?.map(software => ({
                 software,
                 "openLink": routes.catalogExplorer({
-                    "search": undefined,
+                    "search": route.params.search || undefined,
                     "softwareName": software.name,
                 }).link,
             })),
         [filteredSoftwares],
+    );
+
+    const onGoBack = useConstCallback(() =>
+        routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
     if (catalogExplorerState.stateDescription !== "ready") {
@@ -118,19 +123,36 @@ export function Catalog(props: Props) {
                 helpCollapseParams={helpCollapseParams}
             />
             <div className={classes.bodyWrapper}>
-                {route.params.softwareName === undefined ? (
-                    <CatalogCards
-                        search={route.params.search}
-                        onSearchChange={onSearchChange}
-                        className={className}
-                        softwares={catalogCardsSoftwares}
-                        scrollableDivRef={scrollableDivRef}
-                        onLoadMore={catalogExplorerThunks.loadMore}
-                        hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                    />
-                ) : (
-                    <h1>Display more info about {route.params.softwareName}</h1>
-                )}
+                {(() => {
+                    const { softwareName } = route.params;
+
+                    return softwareName === undefined ? (
+                        <CatalogCards
+                            search={route.params.search}
+                            onSearchChange={onSearchChange}
+                            className={className}
+                            softwares={catalogCardsSoftwares}
+                            scrollableDivRef={scrollableDivRef}
+                            onLoadMore={catalogExplorerThunks.loadMore}
+                            hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                        />
+                    ) : (
+                        (() => {
+                            const software = catalogCardsSoftwares
+                                .map(({ software }) => software)
+                                .find(({ name }) => name === softwareName);
+
+                            assert(software !== undefined);
+
+                            return (
+                                <SoftwareDetails
+                                    software={software}
+                                    onGoBack={onGoBack}
+                                />
+                            );
+                        })()
+                    );
+                })()}
             </div>
         </div>
     );

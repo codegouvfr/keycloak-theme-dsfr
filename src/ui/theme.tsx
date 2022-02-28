@@ -69,6 +69,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import PeopleIcon from "@mui/icons-material/People";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import AirplayIcon from "@mui/icons-material/Airplay";
 import type { Param0 } from "tsafe/Param0";
 import { ComponentType } from "ui/tools/types/ComponentType";
 import type { SupportedLanguage } from "ui/i18n/translations";
@@ -163,6 +164,7 @@ const createIconParams = {
     "errorOutline": ErrorOutlineIcon,
     "assuredWorkload": AssuredWorkloadIcon,
     "grading": GradingIcon,
+    "airplay": AirplayIcon,
 };
 
 export const iconIds = objectKeys(createIconParams);
