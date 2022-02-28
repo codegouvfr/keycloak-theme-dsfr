@@ -7,6 +7,7 @@ import { accountTabIds } from "./components/pages/Account/accountTabIds";
 import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
 
 const routeDefs = {
+    "home": defineRoute(["/"]),
     "account": defineRoute(
         {
             "tabId": param.path.optional
@@ -26,8 +27,9 @@ const routeDefs = {
     "catalogExplorer": defineRoute(
         {
             "search": param.query.optional.string.default(""),
+            "softwareName": param.path.optional.string,
         },
-        () => ["/", `/catalogue`],
+        ({ softwareName }) => `/catalogue/${softwareName}`,
     ),
 };
 

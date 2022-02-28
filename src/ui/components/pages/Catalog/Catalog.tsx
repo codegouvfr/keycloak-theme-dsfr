@@ -87,11 +87,23 @@ export function Catalog(props: Props) {
         selectors.catalogExplorer.filteredSoftwares,
     );
 
+    const catalogCardsSoftwares = useMemo(
+        () =>
+            filteredSoftwares?.map(software => ({
+                software,
+                "openLink": routes.catalogExplorer({
+                    "search": undefined,
+                    "softwareName": software.name,
+                }).link,
+            })),
+        [filteredSoftwares],
+    );
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
 
-    assert(filteredSoftwares !== undefined);
+    assert(catalogCardsSoftwares !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -106,15 +118,19 @@ export function Catalog(props: Props) {
                 helpCollapseParams={helpCollapseParams}
             />
             <div className={classes.bodyWrapper}>
-                <CatalogCards
-                    search={route.params.search}
-                    onSearchChange={onSearchChange}
-                    className={className}
-                    softwares={filteredSoftwares}
-                    scrollableDivRef={scrollableDivRef}
-                    onLoadMore={catalogExplorerThunks.loadMore}
-                    hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                />
+                {route.params.softwareName === undefined ? (
+                    <CatalogCards
+                        search={route.params.search}
+                        onSearchChange={onSearchChange}
+                        className={className}
+                        softwares={catalogCardsSoftwares}
+                        scrollableDivRef={scrollableDivRef}
+                        onLoadMore={catalogExplorerThunks.loadMore}
+                        hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                    />
+                ) : (
+                    <h1>Display more info about {route.params.softwareName}</h1>
+                )}
             </div>
         </div>
     );

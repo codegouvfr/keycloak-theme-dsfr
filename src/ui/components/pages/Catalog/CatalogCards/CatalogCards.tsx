@@ -5,7 +5,7 @@ import { CatalogCard } from "./CatalogCard";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { Text } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import Link from "@mui/material/Link";
+import MuiLink from "@mui/material/Link";
 import { ReactComponent as ServiceNotFoundSvg } from "ui/assets/svg/ServiceNotFound.svg";
 import { SearchBar } from "onyxia-ui/SearchBar";
 import type { SearchBarProps } from "onyxia-ui/SearchBar";
@@ -15,10 +15,14 @@ import { Evt } from "evt";
 import type { Software } from "sill-api";
 import { useOnLoadMore } from "ui/tools/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
+import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
-    softwares: Software[];
+    softwares: {
+        software: Software;
+        openLink: Link;
+    }[];
     search: string;
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
@@ -77,8 +81,12 @@ export const CatalogCards = memo((props: Props) => {
                     {softwares.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
-                        softwares.map(software => (
-                            <CatalogCard key={software.id} software={software} />
+                        softwares.map(({ openLink, software }) => (
+                            <CatalogCard
+                                key={software.id}
+                                software={software}
+                                openLink={openLink}
+                            />
                         ))
                     )}
                 </div>
@@ -156,9 +164,9 @@ const { NoMatches } = (() => {
                     <Text className={classes.typo} typo="body 1">
                         {t("check spelling")}
                     </Text>
-                    <Link className={classes.link} onClick={onGoBackClick}>
+                    <MuiLink className={classes.link} onClick={onGoBackClick}>
                         {t("go back")}
-                    </Link>
+                    </MuiLink>
                 </div>
             </div>
         );

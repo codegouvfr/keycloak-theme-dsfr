@@ -55,7 +55,7 @@ export const App = memo((props: Props) => {
 
     const route = useRoute();
 
-    const onHeaderLogoClick = useConstCallback(() => routes.catalogExplorer().push());
+    const onHeaderLogoClick = useConstCallback(() => routes.home().push());
 
     const { userAuthenticationThunks } = useThunks();
 
@@ -216,10 +216,37 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
 
+    {
+        useEffect(() => {
+            if (route.name !== "home") {
+                return;
+            }
+
+            routes.catalogExplorer().replace();
+        }, [route.name]);
+
+        if (route.name === "home") {
+            return null;
+        }
+    }
+
     /*
     Here is one of the few places in the codebase where we tolerate code duplication.
     We sacrifice dryness for the sake of type safety and flexibility.
     */
+    {
+        const Page = Catalog;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login();
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
     {
         const Page = Catalog;
 

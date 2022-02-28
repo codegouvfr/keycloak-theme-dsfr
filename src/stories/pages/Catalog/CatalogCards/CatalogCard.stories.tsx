@@ -87,4 +87,8 @@ const software: Software = {
 
 export const VueDefault = getStory({
     software,
+    "openLink": {
+        "href": "https://example.com",
+        "onClick": () => {},
+    },
 });

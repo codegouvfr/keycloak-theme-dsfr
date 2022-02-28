@@ -7,14 +7,16 @@ import { Software } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
 import { smartTrim } from "ui/tools/smartTrim";
+import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
     software: Software;
+    openLink: Link;
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software } = props;
+    const { className, software, openLink } = props;
 
     const { classes, cx, css } = useStyles();
 
@@ -67,23 +69,14 @@ export const CatalogCard = memo((props: Props) => {
                     </Markdown>
                 </div>
                 <div className={classes.buttonsWrapper}>
-                    {(() => {
-                        const url =
-                            software.wikidata?.sourceUrl ??
-                            software.wikidata?.documentationUrl;
-
-                        return (
-                            url !== undefined && (
-                                <Button
-                                    className={classes.cardButtons}
-                                    href={url}
-                                    variant="ternary"
-                                >
-                                    {t("learn more")}
-                                </Button>
-                            )
-                        );
-                    })()}
+                    <Button
+                        className={classes.cardButtons}
+                        variant="ternary"
+                        {...openLink}
+                        doOpenNewTabIfHref={false}
+                    >
+                        {t("learn more")}
+                    </Button>
                     {(() => {
                         const url = software.testUrl ?? undefined;
 
