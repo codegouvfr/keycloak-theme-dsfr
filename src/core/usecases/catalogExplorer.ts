@@ -12,18 +12,21 @@ import { exclude } from "tsafe/exclude";
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
 namespace CatalogExplorerState {
-    export type NotFetched = {
+    export type Common = {
+        search: string;
+    };
+
+    export type NotFetched = Common & {
         stateDescription: "not fetched";
         isFetching: boolean;
     };
 
-    export type Ready = {
+    export type Ready = Common & {
         stateDescription: "ready";
         "~internal": {
             softwares: Software[];
             displayCount: number;
         };
-        search: string;
     };
 }
 
@@ -33,6 +36,7 @@ export const { name, reducer, actions } = createSlice({
         id<CatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
             "isFetching": false,
+            "search": "",
         }),
     ),
     "reducers": {
@@ -41,7 +45,7 @@ export const { name, reducer, actions } = createSlice({
             state.isFetching = true;
         },
         "catalogsFetched": (
-            _state,
+            state,
             {
                 payload,
             }: PayloadAction<{
@@ -56,17 +60,15 @@ export const { name, reducer, actions } = createSlice({
                     softwares,
                     "displayCount": 24,
                 },
-                "search": "",
+                "search": state.search,
             });
         },
         "setSearch": (state, { payload }: PayloadAction<{ search: string }>) => {
             const { search } = payload;
 
-            assert(state.stateDescription === "ready");
-
             state.search = search;
 
-            if (search === "") {
+            if (search === "" && state.stateDescription === "ready") {
                 state["~internal"].displayCount = 24;
             }
         },
@@ -94,14 +96,26 @@ export const thunks = {
         (params: { search: string }): ThunkAction =>
         async (...args) => {
             const { search } = params;
-            const [dispatch, getState, extra] = args;
+            const [dispatch, , extra] = args;
 
-            const { waitForSearchDebounce } = getSliceContext(extra);
+            const sliceContext = getSliceContext(extra);
 
-            await waitForSearchDebounce();
+            const { prevSearch, waitForSearchDebounce } = sliceContext;
 
-            if (getState().catalogExplorer.stateDescription !== "ready") {
+            sliceContext.prevSearch = search;
+
+            //NOTE: At least 3 character to trigger search
+            if (search !== "" && search.length <= 2) {
                 return;
+            }
+
+            debounce: {
+                //NOTE: We do note debounce if we detect that the search was restored from url or pasted.
+                if (Math.abs(search.length - prevSearch.length) > 1) {
+                    break debounce;
+                }
+
+                await waitForSearchDebounce();
             }
 
             dispatch(actions.setSearch({ search }));
@@ -132,6 +146,7 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
     const { waitForDebounce } = waitForDebounceFactory({ "delay": 750 });
     return {
         "waitForSearchDebounce": waitForDebounce,
+        "prevSearch": "",
     };
 });
 
