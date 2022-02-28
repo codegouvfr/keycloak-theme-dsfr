@@ -1,3 +1,14 @@
+### **0.0.3** (2022-02-28)  
+  
+- :bookmark:  Bump version  
+- :sparkles:  Preview the software data as json  
+- :sparkles:  Fet more info about a software  
+- Restoring assets without Git LFS  
+- Restoring assets files  
+- Remove LFS configuration file  
+- Remove lfs files  
+- :zap:  Improving performance of the search algorithm    
+  
 ### **0.0.2** (2022-02-27)  
   
 - :bookmark:  Bump version  
