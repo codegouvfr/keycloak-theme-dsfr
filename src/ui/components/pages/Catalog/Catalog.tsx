@@ -166,13 +166,6 @@ export declare namespace Catalog {
 }
 
 const useStyles = makeStyles({ "name": { Catalog } })({
-    "root": {
-        "height": "100%",
-        "display": "flex",
-        "flexDirection": "column",
-    },
-    "bodyWrapper": {
-        "flex": 1,
-        "overflow": "hidden",
-    },
+    "root": {},
+    "bodyWrapper": {},
 });

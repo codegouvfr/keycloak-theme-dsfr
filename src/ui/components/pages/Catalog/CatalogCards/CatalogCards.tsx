@@ -179,21 +179,14 @@ const useStyles = makeStyles<{
     filteredCardCount: number;
     hasMoreToLoad: boolean;
 }>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
-    "root": {
-        "height": "100%",
-        "display": "flex",
-        "flexDirection": "column",
-    },
+    "root": {},
     "searchBar": {
         "marginBottom": theme.spacing(4),
     },
     "contextTypo": {
         "marginBottom": theme.spacing(4),
     },
-    "cardsWrapper": {
-        "flex": 1,
-        "overflow": "auto",
-    },
+    "cardsWrapper": {},
     "cards": {
         ...(filteredCardCount === 0
             ? {}

@@ -211,7 +211,7 @@ export function getThemeProviderProps(_params: {
               },
               */
         //"splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
-        "splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
+        //"splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
     };
 }
 

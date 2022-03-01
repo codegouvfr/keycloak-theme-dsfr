@@ -40,8 +40,5 @@ export const SoftwareDetails = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({ "name": { SoftwareDetails } })(() => ({
-    "root": {
-        "height": "100%",
-        "overflow": "auto",
-    },
+    "root": {},
 }));

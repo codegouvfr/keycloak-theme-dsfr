@@ -19,6 +19,7 @@ import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
+import { useStickyTop } from "ui/tools/useStickyTop";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -46,7 +47,9 @@ export const App = memo((props: Props) => {
         }, [rootWidth === 0]);
     }
 
-    const { classes, cx } = useStyles();
+    const { refSticky, top } = useStickyTop();
+
+    const { classes, cx } = useStyles({ "leftBarTop": top });
 
     const logoContainerWidth = Math.max(
         Math.floor((Math.min(rootWidth, 1920) * logoContainerWidthInPercent) / 100),
@@ -134,6 +137,7 @@ export const App = memo((props: Props) => {
             })()}
             <section className={classes.betweenHeaderAndFooter}>
                 <LeftBar
+                    ref={refSticky}
                     className={classes.leftBar}
                     collapsedWidth={logoContainerWidth}
                     reduceText={t("reduce")}
@@ -167,47 +171,40 @@ export declare namespace App {
     export type I18nScheme = Record<"reduce" | "account" | "catalog", undefined>;
 }
 
-const useStyles = makeStyles({ "name": { App } })(theme => {
-    const footerHeight = 32;
-
-    return {
+const useStyles = makeStyles<{ leftBarTop: number | undefined }>({ "name": { App } })(
+    (theme, { leftBarTop }) => ({
         "root": {
             "height": "100%",
-            "display": "flex",
-            "flexDirection": "column",
+            "overflow": "auto",
             "backgroundColor": theme.colors.useCases.surfaces.background,
-            "margin": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
+            "padding": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
             "position": "relative",
         },
         "header": {
-            "paddingBottom": 0, //For the LeftBar shadow
+            //"paddingBottom": 0, //For the LeftBar shadow
+            "position": "sticky",
+            "top": 0,
         },
         "betweenHeaderAndFooter": {
-            "flex": 1,
-            "overflow": "hidden",
             "display": "flex",
-            "paddingTop": theme.spacing(2.3), //For the LeftBar shadow
-            "paddingBottom": footerHeight,
+            "alignItems": "start",
         },
         "footer": {
-            "height": footerHeight,
-            "position": "absolute",
+            "height": 32,
+            "position": "sticky",
             "bottom": 0,
-            "width": "100%",
-            "background": "transparent",
         },
         "leftBar": {
-            "height": "100%",
+            "position": "sticky",
+            "top": leftBarTop,
         },
         "main": {
-            "height": "100%",
-            "flex": 1,
             //TODO: See if scroll delegation works if we put auto here instead of "hidden"
             "paddingLeft": theme.spacing(4),
-            "overflow": "hidden",
+            "flex": 1,
         },
-    };
-});
+    }),
+);
 
 const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     const { route } = props;
