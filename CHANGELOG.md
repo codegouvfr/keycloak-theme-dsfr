@@ -1,3 +1,10 @@
+### **0.0.4** (2022-03-02)  
+  
+- Update README.md  
+- Update README.md  
+- :bookmark:  Bump version  
+- :arrow_up:  Update sill-web    
+  
 ### **0.0.3** (2022-02-28)  
   
 - :bookmark:  Bump version  
