@@ -77,8 +77,7 @@ const softwares = new Array(20).fill(0).map((...[, _i]) =>
                 ],
             },
             "license": "EPL-2.0",
-            "whereAndInWhatContextIsItUsed":
-                "Outil et/ou plugin de génération de tout ou partie du code",
+            "contextOfUse": "Outil et/ou plugin de génération de tout ou partie du code",
             "catalogNumeriqueGouvFrId": null,
             "mimGroup": "MIMDEV",
             "versionMin": "3.7.8",
