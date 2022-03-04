@@ -67,26 +67,21 @@ export const CollapsibleWrapper = memo((props: CollapsibleWrapperProps) => {
                 .attach(scrollTop =>
                     registerSideEffect(() =>
                         setIsCollapsedIfDependsOfScroll(
-                            scrollTop > scrollTopThreshold,
-
-                            /*
+                            //scrollTop > scrollTopThreshold,
                             isCollapsedIfDependsOfScroll =>
-                            isCollapsedIfDependsOfScroll
-                                ? scrollTop + childrenWrapperHeight * 1.3 >
-                                  scrollTopThreshold
-                                : scrollTop > scrollTopThreshold,
-                                */
+                                isCollapsedIfDependsOfScroll
+                                    ? scrollTop + childrenWrapperHeight * 1.3 >
+                                      scrollTopThreshold
+                                    : scrollTop > scrollTopThreshold,
                         ),
                     ),
                 );
         },
         childrenWrapperRef,
-        /*
         rest.behavior !== "collapses on scroll"
             ? [null, null]
             : [rest.scrollTopThreshold, childrenWrapperHeight],
-        */
-        [rest.behavior !== "collapses on scroll" ? null : rest.scrollTopThreshold],
+        //[rest.behavior !== "collapses on scroll" ? null : rest.scrollTopThreshold],
     );
 
     const isCollapsed = (() => {
