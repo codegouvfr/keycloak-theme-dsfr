@@ -2,15 +2,19 @@ import type { RefObject } from "react";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Evt } from "evt";
 import { useDomRect } from "powerhooks/useDomRect";
-import { useElementEvt } from "evt/hooks/useElementEvt";
+import { useEvt } from "evt/hooks/useEvt";
 import { useConst } from "powerhooks/useConst";
+import { getScrollableParent } from "./getScrollableParent";
+import { assert } from "tsafe/assert";
+import { is } from "tsafe/is";
 
 export function useOnLoadMore(props: {
-    scrollableDivRef: RefObject<any>;
     loadingDivRef: RefObject<any>;
     onLoadMore: () => void;
 }) {
-    const { scrollableDivRef, loadingDivRef, onLoadMore } = props;
+    const { loadingDivRef, onLoadMore } = props;
+
+    assert(is<RefObject<HTMLElement>>(loadingDivRef));
 
     const {
         domRect: { height: loadingDivHeight },
@@ -19,10 +23,10 @@ export function useOnLoadMore(props: {
     const { onLoadMoreOnce } = (function useClosure() {
         const onLoadMoreConst = useConstCallback(onLoadMore);
 
-        const onLoadMoreOnce = useConst(() => {
+        const { onLoadMoreOnce } = useConst(() => {
             let lastScrollHeight: number | undefined = undefined;
 
-            return (scrollHeight: number) => {
+            function onLoadMoreOnce(scrollHeight: number) {
                 if (lastScrollHeight === scrollHeight) {
                     return;
                 }
@@ -30,22 +34,31 @@ export function useOnLoadMore(props: {
                 lastScrollHeight = scrollHeight;
 
                 onLoadMoreConst();
-            };
+            }
+
+            return { onLoadMoreOnce };
         });
 
         return { onLoadMoreOnce };
     })();
 
-    useElementEvt(
-        ({ ctx, element, registerSideEffect }) => {
+    useEvt(
+        (ctx, registerSideEffect) => {
             if (loadingDivHeight === 0) {
                 return;
             }
 
-            Evt.from(ctx, element, "scroll")
+            const loadingDivElement = loadingDivRef.current;
+
+            //NOTE: If the loadingDivHeight is not 0, loadingDiv has rendered.
+            assert(loadingDivElement !== null);
+
+            const scrollElement = getScrollableParent(loadingDivElement);
+
+            Evt.from(ctx, scrollElement, "scroll")
                 .toStateful()
                 .attach(() => {
-                    const { scrollTop, clientHeight, scrollHeight } = element;
+                    const { scrollTop, clientHeight, scrollHeight } = scrollElement;
 
                     const rest = scrollHeight - (scrollTop + clientHeight);
 
@@ -54,7 +67,6 @@ export function useOnLoadMore(props: {
                     }
                 });
         },
-        scrollableDivRef,
-        [loadingDivHeight],
+        [loadingDivHeight, loadingDivRef],
     );
 }

@@ -1,5 +1,4 @@
 import { useState, useRef, memo } from "react";
-import type { RefObject } from "react";
 import { makeStyles } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -27,19 +26,11 @@ export type Props = {
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
-    scrollableDivRef: RefObject<HTMLDivElement>;
 };
 
 export const CatalogCards = memo((props: Props) => {
-    const {
-        className,
-        softwares,
-        search,
-        onSearchChange,
-        onLoadMore,
-        hasMoreToLoad,
-        scrollableDivRef,
-    } = props;
+    const { className, softwares, search, onSearchChange, onLoadMore, hasMoreToLoad } =
+        props;
 
     const { t } = useTranslation({ CatalogCards });
 
@@ -57,7 +48,6 @@ export const CatalogCards = memo((props: Props) => {
     const loadingDivRef = useRef<HTMLDivElement>(null);
 
     useOnLoadMore({
-        scrollableDivRef,
         loadingDivRef,
         onLoadMore,
     });
@@ -71,7 +61,7 @@ export const CatalogCards = memo((props: Props) => {
                 onSearchChange={onSearchChange}
                 placeholder={t("search")}
             />
-            <div ref={scrollableDivRef} className={classes.cardsWrapper}>
+            <div className={classes.cardsWrapper}>
                 {softwares.length === 0 ? undefined : (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all services")}

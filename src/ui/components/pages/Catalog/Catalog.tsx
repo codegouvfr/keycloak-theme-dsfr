@@ -1,8 +1,8 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
-import type { CollapseParams } from "onyxia-ui/tools/CollapsibleWrapper";
+import type { CollapseParams } from "ui/tools/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
@@ -12,6 +12,7 @@ import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
+import { useStickyTop } from "ui/tools/useStickyTop";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -29,15 +30,14 @@ export function Catalog(props: Props) {
 
     const { t } = useTranslation({ Catalog });
 
-    const { classes, cx, css } = useStyles();
+    const { refSticky, top: pageHeaderStickyTop } = useStickyTop();
 
-    const scrollableDivRef = useRef<HTMLDivElement>(null);
+    const { classes } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo(
         (): CollapseParams => ({
             "behavior": "collapses on scroll",
             "scrollTopThreshold": 600,
-            "scrollableElementRef": scrollableDivRef,
         }),
         [],
     );
@@ -46,7 +46,6 @@ export function Catalog(props: Props) {
         (): CollapseParams => ({
             "behavior": "collapses on scroll",
             "scrollTopThreshold": 300,
-            "scrollableElementRef": scrollableDivRef,
         }),
         [],
     );
@@ -104,6 +103,14 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
+    const pageHeaderClasses = useMemo(
+        () => ({
+            "root": classes.pageHeader,
+            "title": classes.pageHeaderTitle,
+        }),
+        [classes.pageHeader, classes.pageHeaderTitle],
+    );
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -111,9 +118,10 @@ export function Catalog(props: Props) {
     assert(catalogCardsSoftwares !== undefined);
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <PageHeader
-                classes={{ "title": css({ "paddingBottom": 3 }) }}
+                ref={refSticky}
+                classes={pageHeaderClasses}
                 mainIcon="catalog"
                 title={t("header text1")}
                 helpTitle={t("header text2")}
@@ -122,7 +130,7 @@ export function Catalog(props: Props) {
                 titleCollapseParams={titleCollapseParams}
                 helpCollapseParams={helpCollapseParams}
             />
-            <div className={classes.bodyWrapper}>
+            <div>
                 {(() => {
                     const { softwareName } = route.params;
 
@@ -132,7 +140,6 @@ export function Catalog(props: Props) {
                             onSearchChange={onSearchChange}
                             className={className}
                             softwares={catalogCardsSoftwares}
-                            scrollableDivRef={scrollableDivRef}
                             onLoadMore={catalogExplorerThunks.loadMore}
                             hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                         />
@@ -165,7 +172,15 @@ export declare namespace Catalog {
     };
 }
 
-const useStyles = makeStyles({ "name": { Catalog } })({
-    "root": {},
-    "bodyWrapper": {},
-});
+const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
+    "name": { Catalog },
+})((theme, { pageHeaderStickyTop }) => ({
+    "pageHeader": {
+        "position": "sticky",
+        "top": pageHeaderStickyTop,
+        "backgroundColor": theme.colors.useCases.surfaces.background,
+    },
+    "pageHeaderTitle": {
+        "paddingBottom": 3,
+    },
+}));

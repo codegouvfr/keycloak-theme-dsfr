@@ -17,7 +17,7 @@ import { createButton } from "onyxia-ui/Button";
 import { createButtonBarButton } from "onyxia-ui/ButtonBarButton";
 import { createButtonBar } from "onyxia-ui/ButtonBar";
 import { createText } from "onyxia-ui/Text";
-import { createPageHeader } from "onyxia-ui/PageHeader";
+import { createPageHeader } from "ui/tools/PageHeader";
 import { createMakeStyles } from "tss-react/compat";
 import { createLanguageSelect } from "onyxia-ui/LanguageSelect";
 import { createLeftBar } from "onyxia-ui/LeftBar";
@@ -211,7 +211,7 @@ export function getThemeProviderProps(_params: {
               },
               */
         //"splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
-        //"splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
+        "splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
     };
 }
 

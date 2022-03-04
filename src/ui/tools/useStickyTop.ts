@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { assert } from "tsafe/assert";
 import { useDomRect } from "powerhooks/useDomRect";
+import { getScrollableParent } from "./getScrollableParent";
 
 export function useStickyTop() {
     const {
@@ -30,18 +31,4 @@ export function useStickyTop() {
     }, [topSticky]);
 
     return { top, refSticky };
-}
-
-function getScrollableParent(element: HTMLElement): HTMLElement {
-    const parentElement = element.parentElement;
-
-    if (parentElement === null) {
-        return element;
-    }
-
-    if (["auto", "scroll"].includes(getComputedStyle(parentElement).overflow)) {
-        return parentElement;
-    }
-
-    return getScrollableParent(parentElement);
 }
