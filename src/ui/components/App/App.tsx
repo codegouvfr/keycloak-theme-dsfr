@@ -35,8 +35,17 @@ export const App = memo((props: Props) => {
     useApplyLanguageSelectedAtLogin();
 
     const {
-        domRect: { width: rootWidth },
+        domRect: { width: rootWidth, height: rootHeight },
         ref: rootRef,
+    } = useDomRect();
+
+    const {
+        ref: headerRef,
+        domRect: { height: headerHeight },
+    } = useDomRect();
+    const {
+        ref: footerRef,
+        domRect: { height: footerHeight },
     } = useDomRect();
 
     {
@@ -49,7 +58,10 @@ export const App = memo((props: Props) => {
 
     const { refSticky, top } = useStickyTop();
 
-    const { classes, cx } = useStyles({ "leftBarTop": top });
+    const { classes, cx } = useStyles({
+        "leftBarTop": top,
+        "leftBarHeight": rootHeight - headerHeight - footerHeight,
+    });
 
     const logoContainerWidth = Math.max(
         Math.floor((Math.min(rootWidth, 1920) * logoContainerWidthInPercent) / 100),
@@ -119,6 +131,7 @@ export const App = memo((props: Props) => {
                     "useCase": "core app",
                     logoContainerWidth,
                     "onLogoClick": onHeaderLogoClick,
+                    "ref": headerRef,
                 } as const;
 
                 return isUserLoggedIn ? (
@@ -162,6 +175,7 @@ export const App = memo((props: Props) => {
                 packageJsonVersion={process.env.VERSION!}
                 contributeUrl={"https://github.com/etalab/sill"}
                 tosUrl={tosUrl}
+                ref={footerRef}
             />
         </div>
     );
@@ -171,42 +185,45 @@ export declare namespace App {
     export type I18nScheme = Record<"reduce" | "account" | "catalog", undefined>;
 }
 
-const useStyles = makeStyles<{ leftBarTop: number | undefined }>({ "name": { App } })(
-    (theme, { leftBarTop }) => ({
-        "root": {
-            "height": "100%",
-            "overflow": "auto",
-            "backgroundColor": theme.colors.useCases.surfaces.background,
-            "padding": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
-            "position": "relative",
-            // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
-            "overflowAnchor": "none",
-        },
-        "header": {
-            //"paddingBottom": 0, //For the LeftBar shadow
-            "position": "sticky",
-            "top": 0,
-        },
-        "betweenHeaderAndFooter": {
-            "display": "flex",
-            "alignItems": "start",
-        },
-        "footer": {
-            "height": 32,
-            "position": "sticky",
-            "bottom": 0,
-        },
-        "leftBar": {
-            "position": "sticky",
-            "top": leftBarTop,
-        },
-        "main": {
-            //TODO: See if scroll delegation works if we put auto here instead of "hidden"
-            "paddingLeft": theme.spacing(4),
-            "flex": 1,
-        },
-    }),
-);
+const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
+    "name": { App },
+})((theme, { leftBarTop, leftBarHeight }) => ({
+    "root": {
+        "height": "100%",
+        "overflow": "auto",
+        "backgroundColor": theme.colors.useCases.surfaces.background,
+        "padding": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
+        "position": "relative",
+        // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
+        "overflowAnchor": "none",
+    },
+    "header": {
+        //"paddingBottom": 0, //For the LeftBar shadow
+        "position": "sticky",
+        "top": 0,
+    },
+    "betweenHeaderAndFooter": {
+        "display": "flex",
+        "alignItems": "start",
+    },
+    "footer": {
+        "height": 32,
+        "position": "sticky",
+        "bottom": 0,
+        "zIndex": 0,
+    },
+    "leftBar": {
+        "position": "sticky",
+        "top": leftBarTop,
+        "height": leftBarHeight,
+        "zIndex": 1,
+    },
+    "main": {
+        //TODO: See if scroll delegation works if we put auto here instead of "hidden"
+        "paddingLeft": theme.spacing(4),
+        "flex": 1,
+    },
+}));
 
 const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     const { route } = props;
