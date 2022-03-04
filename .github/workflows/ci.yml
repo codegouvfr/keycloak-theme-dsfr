@@ -198,5 +198,5 @@ jobs:
     - uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.PAT_PRIVATE_REPO_DISPATCH }}
-        event-type: update_sill
+        event-type: update_sill_web
         repository: etalab/paris-sspcloud
