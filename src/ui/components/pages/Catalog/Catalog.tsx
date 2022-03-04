@@ -138,7 +138,6 @@ export function Catalog(props: Props) {
                         <CatalogCards
                             search={route.params.search}
                             onSearchChange={onSearchChange}
-                            className={className}
                             softwares={catalogCardsSoftwares}
                             onLoadMore={catalogExplorerThunks.loadMore}
                             hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
