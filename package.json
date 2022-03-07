@@ -16,10 +16,6 @@
         "format:check": "npm run _format -- --list-different",
         "link_inhouse_deps": "ts-node --skip-project src/bin/link_inhouse_deps.ts"
     },
-    "resolutions": {
-        "babel-loader": "8.1.0",
-        "evt": "2.0.0-beta.39"
-    },
     "devDependencies": {
         "@storybook/addon-actions": "^6.1.11",
         "@storybook/addon-essentials": "^6.1.11",
@@ -67,11 +63,8 @@
         "i18next": "^19.8.4",
         "jwt-simple": "^0.5.6",
         "keycloak-js": "^15.0.2",
-        "keycloakify": "^4.5.2",
         "memoizee": "^0.4.14",
-        "onyxia-ui": "^0.26.1",
         "path": "^0.12.7",
-        "powerhooks": "^0.11.2",
         "react": "^17.0.2",
         "react-async-hook": "^3.6.1",
         "react-dom": "^17.0.2",
@@ -82,10 +75,19 @@
         "redux-clean-architecture": "^1.0.2",
         "run-exclusive": "^2.2.14",
         "tsafe": "^0.9.1",
-        "tss-react": "^3.4.1",
         "type-route": "^0.6.0",
         "url-join-ts": "^1.0.5",
-        "moment": "^2.29.1"
+        "moment": "^2.29.1",
+        "keycloakify": "^4.6.0",
+        "onyxia-ui": "^0.30.0",
+        "tss-react": "^3.5.2",
+        "powerhooks": "^0.14.0"
+    },
+    "resolutions": {
+        "babel-loader": "8.1.0",
+        "evt": "2.0.0-beta.39",
+        "tss-react": "3.5.2",
+        "powerhooks": "0.14.0"
     },
     "eslintConfig": {
         "extends": [

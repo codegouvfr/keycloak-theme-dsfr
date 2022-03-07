@@ -98,8 +98,8 @@ const softwares = new Array(20).fill(0).map((...[, _i]) =>
 export const VueDefault = getStory({
     className,
     softwares,
-    "scrollableDivRef": { "current": null },
     "search": "",
     "hasMoreToLoad": true,
     ...logCallbacks(["onSearchChange", "onLoadMore"]),
+    "searchBarWrapperElement": document.createElement("div"),
 });

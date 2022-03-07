@@ -1,9 +1,11 @@
-import { memo } from "react";
+import { memo, forwardRef } from "react";
 import { makeStyles, Text, LanguageSelect } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { ReactComponent as GitHubSvg } from "ui/assets/svg/GitHub.svg";
 import { useLng } from "ui/i18n/useLng";
 import { DarkModeSwitch } from "onyxia-ui/DarkModeSwitch";
+import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
 
 export type Props = {
     className?: string;
@@ -12,60 +14,75 @@ export type Props = {
     tosUrl: string | undefined;
 };
 
-export const Footer = memo((props: Props) => {
-    const { contributeUrl, tosUrl, packageJsonVersion, className } = props;
+export const Footer = memo(
+    forwardRef<any, Props>((props, ref) => {
+        const {
+            contributeUrl,
+            tosUrl,
+            packageJsonVersion,
+            className,
+            children,
+            ...rest
+        } = props;
 
-    const { classes, cx } = useStyles(props);
+        assert(!children);
 
-    const { t } = useTranslation({ Footer });
+        //For the forwarding, rest should be empty (typewise),
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        assert<Equals<typeof rest, {}>>();
 
-    const { lng, setLng } = useLng();
+        const { classes, cx } = useStyles(props);
 
-    const spacing = <div className={classes.spacing} />;
+        const { t } = useTranslation({ Footer });
 
-    return (
-        <footer className={cx(classes.root, className)}>
-            <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
-            {spacing}
-            <a
-                href={contributeUrl}
-                className={classes.contribute}
-                target="_blank"
-                rel="noreferrer"
-            >
-                <GitHubSvg className={classes.icon} />
-                &nbsp;
-                <Text typo="body 2">{t("contribute")}</Text>
-            </a>
-            <div className={classes.sep} />
-            <LanguageSelect
-                language={lng}
-                onLanguageChange={setLng}
-                variant="small"
-                changeLanguageText={t("change language")}
-            />
-            {spacing}
-            {tosUrl !== undefined && (
-                <>
-                    <a href={tosUrl} target="_blank" rel="noreferrer">
-                        {" "}
-                        <Text typo="body 2">{t("terms of service")}</Text>{" "}
-                    </a>
-                    {spacing}
-                </>
-            )}
-            <a
-                href={`https://github.com/InseeFrLab/onyxia-web/tree/v${packageJsonVersion}`}
-                target="_blank"
-                rel="noreferrer"
-            >
-                <Text typo="body 2">v{packageJsonVersion} </Text>
-            </a>
-            {spacing}
-            <DarkModeSwitch size="extra small" className={classes.darkModeSwitch} />
-        </footer>
-    );
-});
+        const { lng, setLng } = useLng();
+
+        const spacing = <div className={classes.spacing} />;
+
+        return (
+            <footer className={cx(classes.root, className)} ref={ref} {...rest}>
+                <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
+                {spacing}
+                <a
+                    href={contributeUrl}
+                    className={classes.contribute}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <GitHubSvg className={classes.icon} />
+                    &nbsp;
+                    <Text typo="body 2">{t("contribute")}</Text>
+                </a>
+                <div className={classes.sep} />
+                <LanguageSelect
+                    language={lng}
+                    onLanguageChange={setLng}
+                    variant="small"
+                    changeLanguageText={t("change language")}
+                />
+                {spacing}
+                {tosUrl !== undefined && (
+                    <>
+                        <a href={tosUrl} target="_blank" rel="noreferrer">
+                            {" "}
+                            <Text typo="body 2">{t("terms of service")}</Text>{" "}
+                        </a>
+                        {spacing}
+                    </>
+                )}
+                <a
+                    href={`https://github.com/InseeFrLab/onyxia-web/tree/v${packageJsonVersion}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">v{packageJsonVersion} </Text>
+                </a>
+                {spacing}
+                <DarkModeSwitch size="extra small" className={classes.darkModeSwitch} />
+            </footer>
+        );
+    }),
+);
 
 export declare namespace Footer {
     export type I18nScheme = {

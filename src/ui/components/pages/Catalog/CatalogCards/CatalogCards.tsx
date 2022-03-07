@@ -1,5 +1,5 @@
-import { useState, useRef, memo } from "react";
-import type { RefObject } from "react";
+import { useRef, memo } from "react";
+import { createPortal } from "react-dom";
 import { makeStyles } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -13,9 +13,10 @@ import type { UnpackEvt } from "evt";
 import { breakpointsValues } from "onyxia-ui";
 import { Evt } from "evt";
 import type { Software } from "sill-api";
-import { useOnLoadMore } from "ui/tools/useOnLoadMore";
+import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
+import { useConst } from "powerhooks/useConst";
 
 export type Props = {
     className?: string;
@@ -27,7 +28,7 @@ export type Props = {
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
-    scrollableDivRef: RefObject<HTMLDivElement>;
+    searchBarWrapperElement: HTMLDivElement;
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -38,17 +39,17 @@ export const CatalogCards = memo((props: Props) => {
         onSearchChange,
         onLoadMore,
         hasMoreToLoad,
-        scrollableDivRef,
+        searchBarWrapperElement,
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
 
-    const { classes, cx } = useStyles({
+    const { classes } = useStyles({
         "filteredCardCount": softwares.length,
         hasMoreToLoad,
     });
 
-    const [evtSearchBarAction] = useState(() =>
+    const evtSearchBarAction = useConst(() =>
         Evt.create<UnpackEvt<SearchBarProps["evtAction"]>>(),
     );
 
@@ -57,21 +58,24 @@ export const CatalogCards = memo((props: Props) => {
     const loadingDivRef = useRef<HTMLDivElement>(null);
 
     useOnLoadMore({
-        scrollableDivRef,
         loadingDivRef,
         onLoadMore,
     });
 
     return (
-        <div className={cx(classes.root, className)}>
-            <SearchBar
-                className={classes.searchBar}
-                search={search}
-                evtAction={evtSearchBarAction}
-                onSearchChange={onSearchChange}
-                placeholder={t("search")}
-            />
-            <div ref={scrollableDivRef} className={classes.cardsWrapper}>
+        <>
+            {createPortal(
+                <div className={classes.searchBarWrapper}>
+                    <SearchBar
+                        search={search}
+                        evtAction={evtSearchBarAction}
+                        onSearchChange={onSearchChange}
+                        placeholder={t("search")}
+                    />
+                </div>,
+                searchBarWrapperElement,
+            )}
+            <div className={className}>
                 {softwares.length === 0 ? undefined : (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all services")}
@@ -94,7 +98,7 @@ export const CatalogCards = memo((props: Props) => {
                     <CircularProgress color="textPrimary" />
                 </div>
             </div>
-        </div>
+        </>
     );
 });
 
@@ -111,6 +115,55 @@ export declare namespace CatalogCards {
         "search": undefined;
     };
 }
+
+const useStyles = makeStyles<{
+    filteredCardCount: number;
+    hasMoreToLoad: boolean;
+}>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
+    "searchBarWrapper": {
+        "paddingTop": theme.spacing(3),
+        "paddingBottom": theme.spacing(4),
+    },
+    "contextTypo": {
+        "marginBottom": theme.spacing(4),
+    },
+    "cards": {
+        ...(filteredCardCount === 0
+            ? {}
+            : {
+                  "display": "grid",
+                  "gridTemplateColumns": `repeat(${(() => {
+                      if (theme.windowInnerWidth >= breakpointsValues.xl) {
+                          return 4;
+                      }
+                      if (theme.windowInnerWidth >= breakpointsValues.lg) {
+                          return 3;
+                      }
+
+                      return 2;
+                  })()},1fr)`,
+                  "gap": theme.spacing(4),
+              }),
+    },
+    "bottomScrollSpace": {
+        //"height": theme.spacing(3),
+        //"height": 100,
+        //"border": "1px solid black",
+        //"backgroundColor": "pink",
+        ...(hasMoreToLoad
+            ? {
+                  "display": "flex",
+                  "justifyContent": "center",
+                  ...theme.spacing.topBottom("padding", 3),
+              }
+            : {
+                  "& > *": {
+                      "display": "none",
+                  },
+                  "height": theme.spacing(3),
+              }),
+    },
+}));
 
 const { NoMatches } = (() => {
     type Props = {
@@ -174,60 +227,3 @@ const { NoMatches } = (() => {
 
     return { NoMatches };
 })();
-
-const useStyles = makeStyles<{
-    filteredCardCount: number;
-    hasMoreToLoad: boolean;
-}>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
-    "root": {
-        "height": "100%",
-        "display": "flex",
-        "flexDirection": "column",
-    },
-    "searchBar": {
-        "marginBottom": theme.spacing(4),
-    },
-    "contextTypo": {
-        "marginBottom": theme.spacing(4),
-    },
-    "cardsWrapper": {
-        "flex": 1,
-        "overflow": "auto",
-    },
-    "cards": {
-        ...(filteredCardCount === 0
-            ? {}
-            : {
-                  "display": "grid",
-                  "gridTemplateColumns": `repeat(${(() => {
-                      if (theme.windowInnerWidth >= breakpointsValues.xl) {
-                          return 4;
-                      }
-                      if (theme.windowInnerWidth >= breakpointsValues.lg) {
-                          return 3;
-                      }
-
-                      return 2;
-                  })()},1fr)`,
-                  "gap": theme.spacing(4),
-              }),
-    },
-    "bottomScrollSpace": {
-        //"height": theme.spacing(3),
-        //"height": 100,
-        //"border": "1px solid black",
-        //"backgroundColor": "pink",
-        ...(hasMoreToLoad
-            ? {
-                  "display": "flex",
-                  "justifyContent": "center",
-                  ...theme.spacing.topBottom("padding", 3),
-              }
-            : {
-                  "& > *": {
-                      "display": "none",
-                  },
-                  "height": theme.spacing(3),
-              }),
-    },
-}));

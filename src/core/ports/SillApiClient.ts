@@ -1,16 +1,7 @@
 import type { TrpcRouter } from "sill-api";
-import { TRPCClient } from "@trpc/client";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import type { inferProcedureOutput } from "@trpc/server";
-
-export type TrpcSillApiClient = TRPCClient<TrpcRouter>;
-
-type TQuery = keyof TrpcRouter["_def"]["queries"];
-
-type InferQueryOutput<TRouteKey extends TQuery> = inferProcedureOutput<
-    TrpcRouter["_def"]["queries"][TRouteKey]
->;
 
 export type SillApiClient = {
     getOidcParams: {
@@ -19,6 +10,12 @@ export type SillApiClient = {
     };
     getSoftware: () => Promise<InferQueryOutput<"getSoftware">>;
 };
+
+type TQuery = keyof TrpcRouter["_def"]["queries"];
+
+type InferQueryOutput<TRouteKey extends TQuery> = inferProcedureOutput<
+    TrpcRouter["_def"]["queries"][TRouteKey]
+>;
 
 //NOTE: We make sure we don't forget queries
 {

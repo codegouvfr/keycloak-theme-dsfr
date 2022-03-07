@@ -19,6 +19,7 @@ import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
+import { useStickyTop } from "powerhooks/useStickyTop";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -34,8 +35,17 @@ export const App = memo((props: Props) => {
     useApplyLanguageSelectedAtLogin();
 
     const {
-        domRect: { width: rootWidth },
+        domRect: { width: rootWidth, height: rootHeight },
         ref: rootRef,
+    } = useDomRect();
+
+    const {
+        ref: headerRef,
+        domRect: { height: headerHeight },
+    } = useDomRect();
+    const {
+        ref: footerRef,
+        domRect: { height: footerHeight },
     } = useDomRect();
 
     {
@@ -46,7 +56,12 @@ export const App = memo((props: Props) => {
         }, [rootWidth === 0]);
     }
 
-    const { classes, cx } = useStyles();
+    const { refSticky, top } = useStickyTop();
+
+    const { classes, cx } = useStyles({
+        "leftBarTop": top,
+        "leftBarHeight": rootHeight - headerHeight - footerHeight,
+    });
 
     const logoContainerWidth = Math.max(
         Math.floor((Math.min(rootWidth, 1920) * logoContainerWidthInPercent) / 100),
@@ -109,13 +124,14 @@ export const App = memo((props: Props) => {
     );
 
     return (
-        <div ref={rootRef} className={cx(classes.root, className)}>
+        <div ref={rootRef} className={cx(classes.root, className)} tabIndex={-1}>
             {(() => {
                 const common = {
                     "className": classes.header,
                     "useCase": "core app",
                     logoContainerWidth,
                     "onLogoClick": onHeaderLogoClick,
+                    "ref": headerRef,
                 } as const;
 
                 return isUserLoggedIn ? (
@@ -134,6 +150,7 @@ export const App = memo((props: Props) => {
             })()}
             <section className={classes.betweenHeaderAndFooter}>
                 <LeftBar
+                    ref={refSticky}
                     className={classes.leftBar}
                     collapsedWidth={logoContainerWidth}
                     reduceText={t("reduce")}
@@ -158,6 +175,7 @@ export const App = memo((props: Props) => {
                 packageJsonVersion={process.env.VERSION!}
                 contributeUrl={"https://github.com/etalab/sill"}
                 tosUrl={tosUrl}
+                ref={footerRef}
             />
         </div>
     );
@@ -167,47 +185,44 @@ export declare namespace App {
     export type I18nScheme = Record<"reduce" | "account" | "catalog", undefined>;
 }
 
-const useStyles = makeStyles({ "name": { App } })(theme => {
-    const footerHeight = 32;
-
-    return {
-        "root": {
-            "height": "100%",
-            "display": "flex",
-            "flexDirection": "column",
-            "backgroundColor": theme.colors.useCases.surfaces.background,
-            "margin": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
-            "position": "relative",
-        },
-        "header": {
-            "paddingBottom": 0, //For the LeftBar shadow
-        },
-        "betweenHeaderAndFooter": {
-            "flex": 1,
-            "overflow": "hidden",
-            "display": "flex",
-            "paddingTop": theme.spacing(2.3), //For the LeftBar shadow
-            "paddingBottom": footerHeight,
-        },
-        "footer": {
-            "height": footerHeight,
-            "position": "absolute",
-            "bottom": 0,
-            "width": "100%",
-            "background": "transparent",
-        },
-        "leftBar": {
-            "height": "100%",
-        },
-        "main": {
-            "height": "100%",
-            "flex": 1,
-            //TODO: See if scroll delegation works if we put auto here instead of "hidden"
-            "paddingLeft": theme.spacing(4),
-            "overflow": "hidden",
-        },
-    };
-});
+const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
+    "name": { App },
+})((theme, { leftBarTop, leftBarHeight }) => ({
+    "root": {
+        "height": "100%",
+        "overflow": "auto",
+        "backgroundColor": theme.colors.useCases.surfaces.background,
+        "padding": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
+        "position": "relative",
+        // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
+        //"overflowAnchor": "none",
+    },
+    "header": {
+        //"paddingBottom": 0, //For the LeftBar shadow
+        "position": "sticky",
+        "top": 0,
+    },
+    "betweenHeaderAndFooter": {
+        "display": "flex",
+        "alignItems": "start",
+    },
+    "footer": {
+        "height": 32,
+        "position": "sticky",
+        "bottom": 0,
+    },
+    "leftBar": {
+        "position": "sticky",
+        "top": leftBarTop,
+        "height": leftBarHeight,
+        "zIndex": 1,
+    },
+    "main": {
+        //TODO: See if scroll delegation works if we put auto here instead of "hidden"
+        //"paddingLeft": theme.spacing(4),
+        "flex": 1,
+    },
+}));
 
 const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     const { route } = props;

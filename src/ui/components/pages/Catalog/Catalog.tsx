@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
@@ -12,6 +12,7 @@ import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
+import { useStickyTop } from "powerhooks/useStickyTop";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -29,15 +30,14 @@ export function Catalog(props: Props) {
 
     const { t } = useTranslation({ Catalog });
 
-    const { classes, cx, css } = useStyles();
+    const { refSticky: pageHeaderRef, top: pageHeaderStickyTop } = useStickyTop();
 
-    const scrollableDivRef = useRef<HTMLDivElement>(null);
+    const { classes } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo(
         (): CollapseParams => ({
             "behavior": "collapses on scroll",
             "scrollTopThreshold": 600,
-            "scrollableElementRef": scrollableDivRef,
         }),
         [],
     );
@@ -46,7 +46,6 @@ export function Catalog(props: Props) {
         (): CollapseParams => ({
             "behavior": "collapses on scroll",
             "scrollTopThreshold": 300,
-            "scrollableElementRef": scrollableDivRef,
         }),
         [],
     );
@@ -104,6 +103,37 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
+    const pageHeaderClasses = useMemo(
+        () => ({
+            "root": classes.pageHeader,
+            "title": classes.pageHeaderTitle,
+        }),
+        [classes.pageHeader, classes.pageHeaderTitle],
+    );
+
+    const { searchBarWrapperElement } = (function useClosure() {
+        const [searchBarWrapperElement, setSearchBarWrapperElement] = useState<
+            HTMLDivElement | undefined
+        >();
+
+        useEffect(() => {
+            const pageHeaderElement = pageHeaderRef.current;
+
+            if (pageHeaderElement === null) {
+                return;
+            }
+
+            const searchBarWrapperElement = document.createElement("div");
+            searchBarWrapperElement.className = "searchBar_portal";
+
+            pageHeaderElement.appendChild(searchBarWrapperElement);
+
+            setSearchBarWrapperElement(searchBarWrapperElement);
+        }, [pageHeaderRef.current]);
+
+        return { searchBarWrapperElement };
+    })();
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -111,9 +141,10 @@ export function Catalog(props: Props) {
     assert(catalogCardsSoftwares !== undefined);
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <PageHeader
-                classes={{ "title": css({ "paddingBottom": 3 }) }}
+                ref={pageHeaderRef}
+                classes={pageHeaderClasses}
                 mainIcon="catalog"
                 title={t("header text1")}
                 helpTitle={t("header text2")}
@@ -122,20 +153,23 @@ export function Catalog(props: Props) {
                 titleCollapseParams={titleCollapseParams}
                 helpCollapseParams={helpCollapseParams}
             />
-            <div className={classes.bodyWrapper}>
+            <div className={classes.contentWrapper}>
                 {(() => {
                     const { softwareName } = route.params;
 
                     return softwareName === undefined ? (
-                        <CatalogCards
-                            search={route.params.search}
-                            onSearchChange={onSearchChange}
-                            className={className}
-                            softwares={catalogCardsSoftwares}
-                            scrollableDivRef={scrollableDivRef}
-                            onLoadMore={catalogExplorerThunks.loadMore}
-                            hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                        />
+                        <>
+                            {searchBarWrapperElement !== undefined && (
+                                <CatalogCards
+                                    search={route.params.search}
+                                    onSearchChange={onSearchChange}
+                                    softwares={catalogCardsSoftwares}
+                                    onLoadMore={catalogExplorerThunks.loadMore}
+                                    hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                                    searchBarWrapperElement={searchBarWrapperElement}
+                                />
+                            )}
+                        </>
                     ) : (
                         (() => {
                             const software = catalogCardsSoftwares
@@ -165,14 +199,20 @@ export declare namespace Catalog {
     };
 }
 
-const useStyles = makeStyles({ "name": { Catalog } })({
-    "root": {
-        "height": "100%",
-        "display": "flex",
-        "flexDirection": "column",
+const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
+    "name": { Catalog },
+})((theme, { pageHeaderStickyTop }) => ({
+    "pageHeader": {
+        "position": "sticky",
+        "top": pageHeaderStickyTop,
+        "backgroundColor": theme.colors.useCases.surfaces.background,
+        "paddingLeft": theme.spacing(4),
+        "marginBottom": 0,
     },
-    "bodyWrapper": {
-        "flex": 1,
-        "overflow": "hidden",
+    "contentWrapper": {
+        "marginLeft": theme.spacing(4),
     },
-});
+    "pageHeaderTitle": {
+        "paddingBottom": 3,
+    },
+}));
