@@ -1,3 +1,21 @@
+### **0.0.6** (2022-03-07)  
+  
+- :bookmark: (Bump version)  
+- :globe_with_meridians:  Localize card description  
+- Merge pull request #1 from etalab/sticky
+
+Sticky  
+- :lipstick:  Use portal to render search bar  
+- :package:  Externalize logic about sticky positioning  
+- Fix dispatch  
+- :lipstick:  Make scrolling with finger ok  
+- :lipstick:  Auto size header  
+- :lipstick:  Fix scroll by using overflow-anchor: none  
+- :construction:  Failed migration to a sticky layout
+
+It doesn't work as intended preformance wise  
+- :arrow_up:  Update sill-api    
+  
 ### **0.0.5** (2022-03-02)  
   
 - :bookmark:  Bump version    
