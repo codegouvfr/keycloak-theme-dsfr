@@ -121,7 +121,6 @@ const useStyles = makeStyles<{
     hasMoreToLoad: boolean;
 }>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
     "searchBarWrapper": {
-        "paddingTop": theme.spacing(3),
         "paddingBottom": theme.spacing(4),
     },
     "contextTypo": {
@@ -146,10 +145,6 @@ const useStyles = makeStyles<{
               }),
     },
     "bottomScrollSpace": {
-        //"height": theme.spacing(3),
-        //"height": 100,
-        //"border": "1px solid black",
-        //"backgroundColor": "pink",
         ...(hasMoreToLoad
             ? {
                   "display": "flex",

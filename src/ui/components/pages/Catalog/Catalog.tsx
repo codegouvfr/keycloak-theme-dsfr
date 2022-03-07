@@ -103,14 +103,6 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
-    const pageHeaderClasses = useMemo(
-        () => ({
-            "root": classes.pageHeader,
-            "title": classes.pageHeaderTitle,
-        }),
-        [classes.pageHeader, classes.pageHeaderTitle],
-    );
-
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -121,7 +113,7 @@ export function Catalog(props: Props) {
         <div className={className}>
             <PageHeader
                 ref={pageHeaderRef}
-                classes={pageHeaderClasses}
+                className={classes.pageHeader}
                 mainIcon="catalog"
                 title={t("header text1")}
                 helpTitle={t("header text2")}
@@ -175,17 +167,14 @@ export declare namespace Catalog {
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
 })((theme, { pageHeaderStickyTop }) => ({
+    "contentWrapper": {
+        "marginLeft": theme.spacing(4),
+    },
     "pageHeader": {
         "position": "sticky",
         "top": pageHeaderStickyTop,
         "backgroundColor": theme.colors.useCases.surfaces.background,
         "paddingLeft": theme.spacing(4),
         "marginBottom": 0,
-    },
-    "contentWrapper": {
-        "marginLeft": theme.spacing(4),
-    },
-    "pageHeaderTitle": {
-        "paddingBottom": 3,
     },
 }));
