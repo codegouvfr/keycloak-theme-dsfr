@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
@@ -30,9 +30,9 @@ export function Catalog(props: Props) {
 
     const { t } = useTranslation({ Catalog });
 
-    const { refSticky, top: pageHeaderStickyTop } = useStickyTop();
+    const { refSticky: pageHeaderRef, top: pageHeaderStickyTop } = useStickyTop();
 
-    const { classes, cx } = useStyles({ pageHeaderStickyTop });
+    const { classes } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo(
         (): CollapseParams => ({
@@ -111,6 +111,29 @@ export function Catalog(props: Props) {
         [classes.pageHeader, classes.pageHeaderTitle],
     );
 
+    const { searchBarWrapperElement } = (function useClosure() {
+        const [searchBarWrapperElement, setSearchBarWrapperElement] = useState<
+            HTMLDivElement | undefined
+        >();
+
+        useEffect(() => {
+            const pageHeaderElement = pageHeaderRef.current;
+
+            if (pageHeaderElement === null) {
+                return;
+            }
+
+            const searchBarWrapperElement = document.createElement("div");
+            searchBarWrapperElement.className = "searchBar_portal";
+
+            pageHeaderElement.appendChild(searchBarWrapperElement);
+
+            setSearchBarWrapperElement(searchBarWrapperElement);
+        }, [pageHeaderRef.current]);
+
+        return { searchBarWrapperElement };
+    })();
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -118,9 +141,9 @@ export function Catalog(props: Props) {
     assert(catalogCardsSoftwares !== undefined);
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <PageHeader
-                ref={refSticky}
+                ref={pageHeaderRef}
                 classes={pageHeaderClasses}
                 mainIcon="catalog"
                 title={t("header text1")}
@@ -135,13 +158,18 @@ export function Catalog(props: Props) {
                     const { softwareName } = route.params;
 
                     return softwareName === undefined ? (
-                        <CatalogCards
-                            search={route.params.search}
-                            onSearchChange={onSearchChange}
-                            softwares={catalogCardsSoftwares}
-                            onLoadMore={catalogExplorerThunks.loadMore}
-                            hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                        />
+                        <>
+                            {searchBarWrapperElement !== undefined && (
+                                <CatalogCards
+                                    search={route.params.search}
+                                    onSearchChange={onSearchChange}
+                                    softwares={catalogCardsSoftwares}
+                                    onLoadMore={catalogExplorerThunks.loadMore}
+                                    hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                                    searchBarWrapperElement={searchBarWrapperElement}
+                                />
+                            )}
+                        </>
                     ) : (
                         (() => {
                             const software = catalogCardsSoftwares
@@ -174,12 +202,12 @@ export declare namespace Catalog {
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
 })((theme, { pageHeaderStickyTop }) => ({
-    "root": {},
     "pageHeader": {
         "position": "sticky",
         "top": pageHeaderStickyTop,
         "backgroundColor": theme.colors.useCases.surfaces.background,
         "paddingLeft": theme.spacing(4),
+        "marginBottom": 0,
     },
     "contentWrapper": {
         "marginLeft": theme.spacing(4),

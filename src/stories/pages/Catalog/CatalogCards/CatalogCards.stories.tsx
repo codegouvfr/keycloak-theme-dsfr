@@ -101,4 +101,5 @@ export const VueDefault = getStory({
     "search": "",
     "hasMoreToLoad": true,
     ...logCallbacks(["onSearchChange", "onLoadMore"]),
+    "searchBarWrapperElement": document.createElement("div"),
 });
