@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
@@ -111,29 +111,6 @@ export function Catalog(props: Props) {
         [classes.pageHeader, classes.pageHeaderTitle],
     );
 
-    const { searchBarWrapperElement } = (function useClosure() {
-        const [searchBarWrapperElement, setSearchBarWrapperElement] = useState<
-            HTMLDivElement | undefined
-        >();
-
-        useEffect(() => {
-            const pageHeaderElement = pageHeaderRef.current;
-
-            if (pageHeaderElement === null) {
-                return;
-            }
-
-            const searchBarWrapperElement = document.createElement("div");
-            searchBarWrapperElement.className = "searchBar_portal";
-
-            pageHeaderElement.appendChild(searchBarWrapperElement);
-
-            setSearchBarWrapperElement(searchBarWrapperElement);
-        }, [pageHeaderRef.current]);
-
-        return { searchBarWrapperElement };
-    })();
-
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -157,35 +134,31 @@ export function Catalog(props: Props) {
                 {(() => {
                     const { softwareName } = route.params;
 
-                    return softwareName === undefined ? (
-                        <>
-                            {searchBarWrapperElement !== undefined && (
-                                <CatalogCards
-                                    search={route.params.search}
-                                    onSearchChange={onSearchChange}
-                                    softwares={catalogCardsSoftwares}
-                                    onLoadMore={catalogExplorerThunks.loadMore}
-                                    hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                                    searchBarWrapperElement={searchBarWrapperElement}
-                                />
-                            )}
-                        </>
-                    ) : (
-                        (() => {
-                            const software = catalogCardsSoftwares
-                                .map(({ software }) => software)
-                                .find(({ name }) => name === softwareName);
+                    return softwareName === undefined
+                        ? pageHeaderRef.current !== null && (
+                              <CatalogCards
+                                  search={route.params.search}
+                                  onSearchChange={onSearchChange}
+                                  softwares={catalogCardsSoftwares}
+                                  onLoadMore={catalogExplorerThunks.loadMore}
+                                  hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                                  searchBarWrapperElement={pageHeaderRef.current}
+                              />
+                          )
+                        : (() => {
+                              const software = catalogCardsSoftwares
+                                  .map(({ software }) => software)
+                                  .find(({ name }) => name === softwareName);
 
-                            assert(software !== undefined);
+                              assert(software !== undefined);
 
-                            return (
-                                <SoftwareDetails
-                                    software={software}
-                                    onGoBack={onGoBack}
-                                />
-                            );
-                        })()
-                    );
+                              return (
+                                  <SoftwareDetails
+                                      software={software}
+                                      onGoBack={onGoBack}
+                                  />
+                              );
+                          })();
                 })()}
             </div>
         </div>
