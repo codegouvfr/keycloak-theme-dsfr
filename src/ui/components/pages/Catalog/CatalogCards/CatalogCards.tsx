@@ -12,7 +12,7 @@ import type { UnpackEvt } from "evt";
 import { breakpointsValues } from "onyxia-ui";
 import { Evt } from "evt";
 import type { Software } from "sill-api";
-import { useOnLoadMore } from "ui/tools/useOnLoadMore";
+import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 

@@ -19,7 +19,7 @@ import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
-import { useStickyTop } from "ui/tools/useStickyTop";
+import { useStickyTop } from "powerhooks/useStickyTop";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -210,7 +210,6 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         "height": 32,
         "position": "sticky",
         "bottom": 0,
-        "zIndex": 0,
     },
     "leftBar": {
         "position": "sticky",
@@ -220,7 +219,7 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
     },
     "main": {
         //TODO: See if scroll delegation works if we put auto here instead of "hidden"
-        "paddingLeft": theme.spacing(4),
+        //"paddingLeft": theme.spacing(4),
         "flex": 1,
     },
 }));

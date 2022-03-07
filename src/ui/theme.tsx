@@ -17,7 +17,7 @@ import { createButton } from "onyxia-ui/Button";
 import { createButtonBarButton } from "onyxia-ui/ButtonBarButton";
 import { createButtonBar } from "onyxia-ui/ButtonBar";
 import { createText } from "onyxia-ui/Text";
-import { createPageHeader } from "ui/tools/PageHeader";
+import { createPageHeader } from "onyxia-ui/PageHeader";
 import { createMakeStyles } from "tss-react/compat";
 import { createLanguageSelect } from "onyxia-ui/LanguageSelect";
 import { createLeftBar } from "onyxia-ui/LeftBar";

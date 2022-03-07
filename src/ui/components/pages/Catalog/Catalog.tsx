@@ -2,7 +2,7 @@ import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
-import type { CollapseParams } from "ui/tools/CollapsibleWrapper";
+import type { CollapseParams } from "onyxia-ui/tools/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
@@ -12,7 +12,7 @@ import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
-import { useStickyTop } from "ui/tools/useStickyTop";
+import { useStickyTop } from "powerhooks/useStickyTop";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -32,7 +32,7 @@ export function Catalog(props: Props) {
 
     const { refSticky, top: pageHeaderStickyTop } = useStickyTop();
 
-    const { classes } = useStyles({ pageHeaderStickyTop });
+    const { classes, cx } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo(
         (): CollapseParams => ({
@@ -118,7 +118,7 @@ export function Catalog(props: Props) {
     assert(catalogCardsSoftwares !== undefined);
 
     return (
-        <div className={className}>
+        <div className={cx(classes.root, className)}>
             <PageHeader
                 ref={refSticky}
                 classes={pageHeaderClasses}
@@ -130,7 +130,7 @@ export function Catalog(props: Props) {
                 titleCollapseParams={titleCollapseParams}
                 helpCollapseParams={helpCollapseParams}
             />
-            <div>
+            <div className={classes.contentWrapper}>
                 {(() => {
                     const { softwareName } = route.params;
 
@@ -174,10 +174,15 @@ export declare namespace Catalog {
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
 })((theme, { pageHeaderStickyTop }) => ({
+    "root": {},
     "pageHeader": {
         "position": "sticky",
         "top": pageHeaderStickyTop,
         "backgroundColor": theme.colors.useCases.surfaces.background,
+        "paddingLeft": theme.spacing(4),
+    },
+    "contentWrapper": {
+        "marginLeft": theme.spacing(4),
     },
     "pageHeaderTitle": {
         "paddingBottom": 3,
