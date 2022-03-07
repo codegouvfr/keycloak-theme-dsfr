@@ -1,4 +1,5 @@
 import { assert } from "tsafe/assert";
+import { removeUndefinedProperties } from "./removeUndefinedProperties";
 
 export function createResolveLocalizedString<Language extends string>(params: {
     currentLanguage: Language;
@@ -12,6 +13,8 @@ export function createResolveLocalizedString<Language extends string>(params: {
         if (typeof localizedString === "string") {
             return localizedString;
         }
+
+        localizedString = removeUndefinedProperties(localizedString);
 
         {
             const text = localizedString[currentLanguage];

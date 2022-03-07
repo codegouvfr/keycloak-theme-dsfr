@@ -8,6 +8,7 @@ import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
 import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
+import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 
 export type Props = {
     className?: string;
@@ -32,6 +33,8 @@ export const CatalogCard = memo((props: Props) => {
 
         return { imgRef, isBanner };
     })();
+
+    const { resolveLocalizedString } = useResolveLocalizedString();
 
     return (
         <div className={cx(classes.root, className)}>
@@ -65,7 +68,10 @@ export const CatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Markdown>
-                        {`${capitalize(software.name)}, ${software.function}`}
+                        {`${capitalize(software.name)}, ${resolveLocalizedString({
+                            "en": software.wikidata?.descriptionEn,
+                            "fr": software.wikidata?.descriptionFr ?? software.function,
+                        })}`}
                     </Markdown>
                 </div>
                 <div className={classes.buttonsWrapper}>

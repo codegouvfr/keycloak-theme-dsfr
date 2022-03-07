@@ -6,12 +6,9 @@ import marianneRoundUrl from "ui/assets/img/marianne_round.png";
 import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
 import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOverToKc";
 import { getConfiguration } from "configuration";
-import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
-import { useLng } from "ui/i18n/useLng";
-import { id } from "tsafe/id";
-import type { fallbackLanguage } from "ui/i18n/translations";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
+import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 
 export type Props = Props.LoginPages | Props.UserNotLoggedIn | Props.UserLoggedIn;
 export declare namespace Props {
@@ -74,7 +71,7 @@ export const Header = memo(
 
         const { classes, cx, css, theme } = useStyles({ logoContainerWidth });
 
-        const { lng } = useLng();
+        const { resolveLocalizedString } = useResolveLocalizedString();
 
         return (
             <header className={cx(classes.root, className)} ref={ref} {...rest}>
@@ -122,12 +119,6 @@ export const Header = memo(
                                     return null;
                                 }
 
-                                const { resolveLocalizedString } =
-                                    createResolveLocalizedString({
-                                        "currentLanguage": lng,
-                                        "fallbackLanguage":
-                                            id<typeof fallbackLanguage>("en"),
-                                    });
                                 return headerLinks.map(({ iconId, url, label }) => (
                                     <ButtonBarButton
                                         key={url}
