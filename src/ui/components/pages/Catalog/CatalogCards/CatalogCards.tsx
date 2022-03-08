@@ -17,6 +17,7 @@ import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
+import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 
 export type Props = {
     className?: string;
@@ -44,11 +45,6 @@ export const CatalogCards = memo((props: Props) => {
 
     const { t } = useTranslation({ CatalogCards });
 
-    const { classes } = useStyles({
-        "filteredCardCount": softwares.length,
-        hasMoreToLoad,
-    });
-
     const evtSearchBarAction = useConst(() =>
         Evt.create<UnpackEvt<SearchBarProps["evtAction"]>>(),
     );
@@ -62,20 +58,39 @@ export const CatalogCards = memo((props: Props) => {
         onLoadMore,
     });
 
+    const doRenderSearchBarInHeader = (function useClosure() {
+        const { windowInnerWidth } = useWindowInnerSize();
+
+        if (windowInnerWidth >= breakpointsValues.lg) {
+            return true;
+        }
+
+        return false;
+    })();
+
+    const { classes } = useStyles({
+        "filteredCardCount": softwares.length,
+        hasMoreToLoad,
+        doRenderSearchBarInHeader,
+    });
+
+    const searchBarNode = (
+        <div className={classes.searchBarWrapper}>
+            <SearchBar
+                search={search}
+                evtAction={evtSearchBarAction}
+                onSearchChange={onSearchChange}
+                placeholder={t("search")}
+            />
+        </div>
+    );
+
     return (
         <>
-            {createPortal(
-                <div className={classes.searchBarWrapper}>
-                    <SearchBar
-                        search={search}
-                        evtAction={evtSearchBarAction}
-                        onSearchChange={onSearchChange}
-                        placeholder={t("search")}
-                    />
-                </div>,
-                searchBarWrapperElement,
-            )}
+            {doRenderSearchBarInHeader &&
+                createPortal(searchBarNode, searchBarWrapperElement)}
             <div className={className}>
+                {!doRenderSearchBarInHeader && searchBarNode}
                 {softwares.length === 0 ? undefined : (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all services")}
@@ -119,46 +134,59 @@ export declare namespace CatalogCards {
 const useStyles = makeStyles<{
     filteredCardCount: number;
     hasMoreToLoad: boolean;
-}>({ "name": { CatalogCards } })((theme, { filteredCardCount, hasMoreToLoad }) => ({
-    "searchBarWrapper": {
-        "paddingBottom": theme.spacing(4),
-    },
-    "contextTypo": {
-        "marginBottom": theme.spacing(4),
-    },
-    "cards": {
-        ...(filteredCardCount === 0
-            ? {}
-            : {
-                  "display": "grid",
-                  "gridTemplateColumns": `repeat(${(() => {
-                      if (theme.windowInnerWidth >= breakpointsValues.xl) {
-                          return 4;
-                      }
-                      if (theme.windowInnerWidth >= breakpointsValues.lg) {
-                          return 3;
-                      }
+    doRenderSearchBarInHeader: boolean;
+}>({ "name": { CatalogCards } })(
+    (theme, { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader }) => ({
+        "searchBarWrapper": {
+            "paddingBottom": theme.spacing(4),
+            ...(doRenderSearchBarInHeader
+                ? {}
+                : {
+                      "position": "sticky",
+                      "top": theme.spacing(3),
+                  }),
+        },
+        "contextTypo": {
+            "marginBottom": theme.spacing(4),
+        },
+        "cards": {
+            ...(filteredCardCount === 0
+                ? {}
+                : {
+                      "display": "grid",
+                      "gridTemplateColumns": `repeat(${(() => {
+                          if (theme.windowInnerWidth >= breakpointsValues.xl) {
+                              return 4;
+                          }
+                          if (theme.windowInnerWidth >= breakpointsValues.lg) {
+                              return 3;
+                          }
 
-                      return 2;
-                  })()},1fr)`,
-                  "gap": theme.spacing(4),
-              }),
-    },
-    "bottomScrollSpace": {
-        ...(hasMoreToLoad
-            ? {
-                  "display": "flex",
-                  "justifyContent": "center",
-                  ...theme.spacing.topBottom("padding", 3),
-              }
-            : {
-                  "& > *": {
-                      "display": "none",
-                  },
-                  "height": theme.spacing(3),
-              }),
-    },
-}));
+                          if (theme.windowInnerWidth >= breakpointsValues.md) {
+                              return 2;
+                          }
+
+                          return 1;
+                      })()},1fr)`,
+                      "gap": theme.spacing(4),
+                  }),
+        },
+        "bottomScrollSpace": {
+            ...(hasMoreToLoad
+                ? {
+                      "display": "flex",
+                      "justifyContent": "center",
+                      ...theme.spacing.topBottom("padding", 3),
+                  }
+                : {
+                      "& > *": {
+                          "display": "none",
+                      },
+                      "height": theme.spacing(3),
+                  }),
+        },
+    }),
+);
 
 const { NoMatches } = (() => {
     type Props = {

@@ -20,6 +20,7 @@ import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
+import { breakpointsValues } from "onyxia-ui";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -197,11 +198,16 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
         //"overflowAnchor": "none",
     },
-    "header": {
-        //"paddingBottom": 0, //For the LeftBar shadow
-        "position": "sticky",
-        "top": 0,
-    },
+    "header": (() => {
+        if (theme.windowInnerWidth >= breakpointsValues.md) {
+            return {
+                "position": "sticky",
+                "top": 0,
+            } as const;
+        }
+
+        return {};
+    })(),
     "betweenHeaderAndFooter": {
         "display": "flex",
         "alignItems": "start",
@@ -216,10 +222,20 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         "top": leftBarTop,
         "height": leftBarHeight,
         "zIndex": 1,
+
+        "display": (() => {
+            if (theme.windowInnerWidth >= breakpointsValues.md) {
+                return undefined;
+            }
+            return "none";
+        })(),
     },
     "main": {
         //TODO: See if scroll delegation works if we put auto here instead of "hidden"
         //"paddingLeft": theme.spacing(4),
+        "& > *": {
+            "marginLeft": theme.spacing(4),
+        },
         "flex": 1,
     },
 }));
@@ -249,19 +265,6 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     Here is one of the few places in the codebase where we tolerate code duplication.
     We sacrifice dryness for the sake of type safety and flexibility.
     */
-    {
-        const Page = Catalog;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login();
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
     {
         const Page = Catalog;
 

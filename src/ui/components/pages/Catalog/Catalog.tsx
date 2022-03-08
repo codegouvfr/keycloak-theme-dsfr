@@ -13,6 +13,7 @@ import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
 import { useStickyTop } from "powerhooks/useStickyTop";
+import { breakpointsValues } from "onyxia-ui";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -32,23 +33,35 @@ export function Catalog(props: Props) {
 
     const { refSticky: pageHeaderRef, top: pageHeaderStickyTop } = useStickyTop();
 
-    const { classes } = useStyles({ pageHeaderStickyTop });
+    const { classes, theme, cx } = useStyles({ pageHeaderStickyTop });
 
-    const titleCollapseParams = useMemo(
-        (): CollapseParams => ({
-            "behavior": "collapses on scroll",
-            "scrollTopThreshold": 600,
-        }),
-        [],
-    );
+    const titleCollapseParams = useMemo((): CollapseParams => {
+        if (theme.windowInnerWidth >= breakpointsValues.lg) {
+            return {
+                "behavior": "collapses on scroll",
+                "scrollTopThreshold": 600,
+            };
+        }
 
-    const helpCollapseParams = useMemo(
-        (): CollapseParams => ({
-            "behavior": "collapses on scroll",
-            "scrollTopThreshold": 300,
-        }),
-        [],
-    );
+        return {
+            "behavior": "controlled",
+            "isCollapsed": false,
+        };
+    }, [theme.windowInnerWidth]);
+
+    const helpCollapseParams = useMemo((): CollapseParams => {
+        if (theme.windowInnerWidth >= breakpointsValues.lg) {
+            return {
+                "behavior": "collapses on scroll",
+                "scrollTopThreshold": 300,
+            };
+        }
+
+        return {
+            "behavior": "controlled",
+            "isCollapsed": false,
+        };
+    }, []);
 
     const catalogExplorerState = useSelector(state => state.catalogExplorer);
 
@@ -110,7 +123,7 @@ export function Catalog(props: Props) {
     assert(catalogCardsSoftwares !== undefined);
 
     return (
-        <div className={className}>
+        <div className={cx(classes.root, className)}>
             <PageHeader
                 ref={pageHeaderRef}
                 className={classes.pageHeader}
@@ -166,15 +179,38 @@ export declare namespace Catalog {
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
-})((theme, { pageHeaderStickyTop }) => ({
-    "contentWrapper": {
-        "marginLeft": theme.spacing(4),
-    },
-    "pageHeader": {
-        "position": "sticky",
-        "top": pageHeaderStickyTop,
-        "backgroundColor": theme.colors.useCases.surfaces.background,
-        "paddingLeft": theme.spacing(4),
-        "marginBottom": 0,
-    },
-}));
+})((theme, { pageHeaderStickyTop }) => {
+    const spacingLeft = theme.spacing(
+        (() => {
+            if (theme.windowInnerWidth >= breakpointsValues.md) {
+                return 4;
+            }
+
+            return 0;
+        })(),
+    );
+
+    return {
+        "root": {
+            "marginLeft": "unset",
+        },
+        "contentWrapper": {
+            "marginLeft": spacingLeft,
+        },
+        "pageHeader": {
+            ...(() => {
+                if (theme.windowInnerWidth >= breakpointsValues.lg) {
+                    return {
+                        "position": "sticky",
+                        "top": pageHeaderStickyTop,
+                    } as const;
+                }
+
+                return {};
+            })(),
+            "backgroundColor": theme.colors.useCases.surfaces.background,
+            "paddingLeft": spacingLeft,
+            "marginBottom": 0,
+        },
+    };
+});

@@ -9,6 +9,7 @@ import { getConfiguration } from "configuration";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
+import { getEnv } from "env";
 
 export type Props = Props.LoginPages | Props.UserNotLoggedIn | Props.UserLoggedIn;
 export declare namespace Props {
@@ -34,6 +35,8 @@ export declare namespace Props {
         onLogoutClick: () => void;
     };
 }
+
+const breakpoint = 450;
 
 export const Header = memo(
     forwardRef<any, Props>((props, ref) => {
@@ -96,10 +99,12 @@ export const Header = memo(
                                 "marginRight": theme.spacing(2),
                             })}
                         >
-                            {HEADER_ORGANIZATION}
+                            {theme.windowInnerWidth > breakpoint
+                                ? HEADER_ORGANIZATION
+                                : getEnv().HEADER_SHORT}
                         </Text>
                     )}
-                    {theme.windowInnerWidth > 450 && HEADER_USECASE_DESCRIPTION && (
+                    {theme.windowInnerWidth > breakpoint && HEADER_USECASE_DESCRIPTION && (
                         <Text
                             typo="section heading"
                             className={css({ "fontWeight": 500 })}
@@ -131,17 +136,21 @@ export const Header = memo(
                                     </ButtonBarButton>
                                 ));
                             })()}
-                            <Button
-                                onClick={
-                                    props.isUserLoggedIn
-                                        ? props.onLogoutClick
-                                        : props.onLoginClick
-                                }
-                                variant={props.isUserLoggedIn ? "secondary" : "primary"}
-                                className={css({ "marginLeft": theme.spacing(3) })}
-                            >
-                                {t(props.isUserLoggedIn ? "logout" : "login")}
-                            </Button>
+                            {theme.windowInnerWidth >= breakpoint && (
+                                <Button
+                                    onClick={
+                                        props.isUserLoggedIn
+                                            ? props.onLogoutClick
+                                            : props.onLoginClick
+                                    }
+                                    variant={
+                                        props.isUserLoggedIn ? "secondary" : "primary"
+                                    }
+                                    className={css({ "marginLeft": theme.spacing(3) })}
+                                >
+                                    {t(props.isUserLoggedIn ? "logout" : "login")}
+                                </Button>
+                            )}
                         </>
                     )}
                 </div>
