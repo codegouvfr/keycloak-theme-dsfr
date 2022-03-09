@@ -106,7 +106,10 @@ export async function createStore(params: CreateStoreParams) {
                   mockAuthentication !== undefined,
                   "The server doesn't have authentication enable, a mocked user should be provided",
               ),
-              mockAuthentication),
+              {
+                  jwtClaims,
+                  ...mockAuthentication,
+              }),
           )
         : createKeycloakOidcClient(
               (assert(
