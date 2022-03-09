@@ -1,3 +1,12 @@
+### **0.0.7** (2022-03-09)  
+  
+- :bug:  Fix build  
+- :recycle:  
+- :bookmark:  Bump version  
+- :lipstick:  Make the app responsive  
+- :lipstick:  Better spacing pageHeader  
+- :recycle:  Beter use of react protals    
+  
 ### **0.0.6** (2022-03-07)  
   
 - :bookmark: (Bump version)  
