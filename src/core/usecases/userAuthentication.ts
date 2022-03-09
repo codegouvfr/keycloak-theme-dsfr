@@ -65,7 +65,7 @@ export const thunks = {
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction<void> =>
+        (): ThunkAction =>
         async (...[, , extraArg]) =>
             setSliceContext(extraArg, {
                 "user": !extraArg.oidcClient.isUserLoggedIn

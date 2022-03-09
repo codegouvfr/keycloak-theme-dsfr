@@ -2,7 +2,7 @@ import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles, PageHeader } from "ui/theme";
-import type { CollapseParams } from "onyxia-ui/tools/CollapsibleWrapper";
+import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
