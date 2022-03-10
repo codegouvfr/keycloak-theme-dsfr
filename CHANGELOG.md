@@ -1,3 +1,7 @@
+### **0.0.9** (2022-03-10)  
+  
+- :green_heart:  Dryer build system    
+  
 ### **0.0.8** (2022-03-10)  
   
 - :whale:  Publsh the docker image under etalab/sill-web    
