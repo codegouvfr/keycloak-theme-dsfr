@@ -1,3 +1,9 @@
+### **0.0.10** (2022-03-10)  
+  
+- :bug:  comment debug login  
+- :bookmark:  Bump version  
+- :lipstick:  Remove onyxia background    
+  
 ### **0.0.9** (2022-03-10)  
   
 - :green_heart:  Dryer build system    
