@@ -1,3 +1,7 @@
+### **0.0.8** (2022-03-10)  
+  
+- :whale:  Publsh the docker image under etalab/sill-web    
+  
 ### **0.0.7** (2022-03-09)  
   
 - :bug:  Fix build  
