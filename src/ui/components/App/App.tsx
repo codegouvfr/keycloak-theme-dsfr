@@ -312,12 +312,12 @@ function useApplyLanguageSelectedAtLogin() {
             return;
         }
 
-        const { local } = userAuthenticationThunks.getUser();
+        const { locale } = userAuthenticationThunks.getUser();
 
         if (
             !typeGuard<SupportedLanguage>(
-                local,
-                local in
+                locale,
+                locale in
                     id<Record<SupportedLanguage, null>>({
                         "en": null,
                         "fr": null,
@@ -327,6 +327,6 @@ function useApplyLanguageSelectedAtLogin() {
             return;
         }
 
-        setLng(local);
+        setLng(locale);
     }, []);
 }

@@ -45,7 +45,7 @@ assert<
                     firstName: string;
                     username: string;
                     groups: string[];
-                    local: KcLanguageTag;
+                    locale: KcLanguageTag;
                 };
             };
             transformUrlBeforeRedirectToLogin: (params: {

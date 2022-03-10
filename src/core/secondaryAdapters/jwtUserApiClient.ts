@@ -19,7 +19,7 @@ export function createJwtUserApiClient(params: {
         "getUser": async () => {
             const {
                 groups: groupsStr,
-                local,
+                locale,
                 email,
                 familyName,
                 firstName,
@@ -47,13 +47,13 @@ export function createJwtUserApiClient(params: {
                 m(`${symToStr({ groups })} is supposed to be an array of string`),
             );
 
-            assert(local !== undefined, m(`${symToStr({ local })} missing`));
+            assert(locale !== undefined, m(`${symToStr({ locale })} missing`));
             assert(
                 typeGuard<KcLanguageTag>(
-                    local,
-                    id<readonly string[]>(kcLanguageTags).indexOf(local) >= 0,
+                    locale,
+                    id<readonly string[]>(kcLanguageTags).indexOf(locale) >= 0,
                 ),
-                m(`${symToStr({ local })} must be one of: ${kcLanguageTags.join(", ")}`),
+                m(`${symToStr({ locale })} must be one of: ${kcLanguageTags.join(", ")}`),
             );
 
             for (const [propertyName, propertyValue] of [
@@ -73,7 +73,7 @@ export function createJwtUserApiClient(params: {
                 );
             }
 
-            return { groups, local, email, familyName, firstName, username };
+            return { groups, locale, email, familyName, firstName, username };
         },
     };
 }

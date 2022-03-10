@@ -18,7 +18,7 @@ export function createServerlessSillApiClient(params: {
                         "firstName": "c",
                         "username": "d",
                         "groups": "e",
-                        "local": "f",
+                        "locale": "f",
                     },
                 }),
             { "promise": true },

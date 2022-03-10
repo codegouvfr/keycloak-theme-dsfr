@@ -34,7 +34,7 @@ export type Configuration = {
             username: string;
             groups: string[];
             /** example: 'en' 'fr' ... */
-            local: KcLanguageTag;
+            locale: KcLanguageTag;
         };
     };
     headerLinks?: {
@@ -169,7 +169,7 @@ export const getConfiguration = memoize(
             );
 
             {
-                const { email, familyName, firstName, groups, local, username } = user;
+                const { email, familyName, firstName, groups, locale, username } = user;
 
                 const m_2 = (reason: string) => m_1(`${symToStr({ user })}: ${reason}`);
 
@@ -179,7 +179,7 @@ export const getConfiguration = memoize(
                         symToStr({ familyName }),
                         symToStr({ firstName }),
                         symToStr({ groups }),
-                        symToStr({ local }),
+                        symToStr({ locale }),
                         symToStr({ username }),
                     ] as const;
 
@@ -223,14 +223,14 @@ export const getConfiguration = memoize(
                 assert(
                     groups instanceof Array &&
                         groups.find(group => typeof group !== "string") === undefined,
-                    m_1(`${symToStr({ local })} is supposed to be a non empty string`),
+                    m_1(`${symToStr({ locale })} is supposed to be a non empty string`),
                 );
 
-                assert(local !== undefined, m_1(`${symToStr({ local })} missing`));
+                assert(locale !== undefined, m_1(`${symToStr({ locale })} missing`));
                 assert(
-                    id<readonly string[]>(kcLanguageTags).indexOf(local) >= 0,
+                    id<readonly string[]>(kcLanguageTags).indexOf(locale) >= 0,
                     m_1(
-                        `${symToStr({ local })} must be one of: ${kcLanguageTags.join(
+                        `${symToStr({ locale })} must be one of: ${kcLanguageTags.join(
                             ", ",
                         )}`,
                     ),
