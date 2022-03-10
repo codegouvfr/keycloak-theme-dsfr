@@ -31,9 +31,9 @@ jobs:
         name: build
         path: build
     - run: |
-        ./.env.local.sh npx embed-environnement-variables
+        ./.env.static.sh npx embed-environnement-variables
         npx hack-gh-pages src/ui/routes.ts
-        echo "sill.garronej.dev" > build/CNAME
+        echo $(node -e 'console.log(require("./package.json").homepage.match(/^https?:\/\/(.*)$/)[1])') > build/CNAME
     - uses: actions/upload-artifact@v2
       with:
         name: build_gh-pages
