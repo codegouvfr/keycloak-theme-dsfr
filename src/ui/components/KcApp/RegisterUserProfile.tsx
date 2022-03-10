@@ -52,7 +52,7 @@ export const RegisterUserProfile = memo(
                     "shouldBe": "different" as const,
                 },
                 "length": {
-                    "min": "12" as const,
+                    "min": "8" as const,
                     "ignore.empty.value": true,
                 },
             }),
