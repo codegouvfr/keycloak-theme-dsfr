@@ -2,8 +2,6 @@ import { useEffect, memo } from "react";
 import { useSplashScreen } from "onyxia-ui";
 import { defaultKcProps } from "keycloakify";
 import { makeStyles } from "ui/theme";
-import onyxiaNeumorphismDarkModeUrl from "ui/assets/svg/OnyxiaNeumorphismDarkMode.svg";
-import onyxiaNeumorphismLightModeUrl from "ui/assets/svg/OnyxiaNeumorphismLightMode.svg";
 import { Login } from "./Login";
 import { Terms } from "./Terms";
 import { LoginUpdateProfile } from "./LoginUpdateProfile";
@@ -63,11 +61,6 @@ const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
     },
     "kcHtmlClass": {
         "& body": {
-            "background": `url(${
-                theme.isDarkModeEnabled
-                    ? onyxiaNeumorphismDarkModeUrl
-                    : onyxiaNeumorphismLightModeUrl
-            }) no-repeat center center fixed`,
             "fontFamily": theme.typography.fontFamily,
         },
         "background": `${theme.colors.useCases.surfaces.background}`,

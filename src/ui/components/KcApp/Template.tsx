@@ -13,8 +13,6 @@ import { Header } from "ui/components/shared/Header";
 import { logoContainerWidthInPercent } from "ui/components/App";
 import { makeStyles, IconButton, Text } from "ui/theme";
 import { useDomRect, useWindowInnerSize } from "onyxia-ui";
-import onyxiaNeumorphismDarkModeUrl from "ui/assets/svg/OnyxiaNeumorphismDarkMode.svg";
-import onyxiaNeumorphismLightModeUrl from "ui/assets/svg/OnyxiaNeumorphismLightMode.svg";
 import { Card } from "onyxia-ui/Card";
 import { Alert } from "onyxia-ui/Alert";
 import { headInsert } from "keycloakify/lib/tools/headInsert";
@@ -57,11 +55,6 @@ const useStyles = makeStyles<{
     "betweenHeaderAndFooter": {
         "flex": 1,
         "overflow": "hidden",
-        "backgroundImage": `url( ${
-            theme.isDarkModeEnabled
-                ? onyxiaNeumorphismDarkModeUrl
-                : onyxiaNeumorphismLightModeUrl
-        })`,
         "backgroundSize": "auto 90%",
         "backgroundPosition": "center",
         "backgroundRepeat": "no-repeat",
