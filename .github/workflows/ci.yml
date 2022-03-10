@@ -99,7 +99,6 @@ jobs:
            IS_UPGRADED_VERSION: ${{ needs.check_if_version_upgraded.outputs.is_upgraded_version }}
            TO_VERSION: ${{ needs.check_if_version_upgraded.outputs.to_version }}
          run: |
-           GITHUB_REPOSITORY=garronej/sill-api
            OUT=$GITHUB_REPOSITORY:$(
            [ "$GITHUB_EVENT_NAME" == "pull_request" ] &&
              echo "$GITHUB_HEAD_REF" ||
