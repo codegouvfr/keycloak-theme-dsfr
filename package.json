@@ -79,7 +79,7 @@
         "url-join-ts": "^1.0.5",
         "moment": "^2.29.1",
         "keycloakify": "^4.6.0",
-        "onyxia-ui": "^0.30.2",
+        "onyxia-ui": "^0.30.3",
         "tss-react": "^3.5.2",
         "powerhooks": "^0.14.0"
     },
