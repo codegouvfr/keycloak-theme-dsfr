@@ -1,3 +1,8 @@
+### **0.0.14** (2022-03-11)  
+  
+- :bookmark:  Bump version  
+- :sparkles:  Show software of user    
+  
 ### **0.0.13** (2022-03-11)  
   
 - :arrow_up:  Update sill-api  
