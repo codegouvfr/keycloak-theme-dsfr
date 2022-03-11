@@ -82,7 +82,6 @@ export const privateThunks = {
                                 ? undefined
                                 : urlJoin(
                                       keycloakParams.url,
-                                      "auth",
                                       "realms",
                                       keycloakParams.realm,
                                       "account",
