@@ -87,6 +87,7 @@ const softwares = new Array(20).fill(0).map((...[, _i]) =>
             "testUrl": null,
             "useCasesUrl": [],
             "services": [],
+            "isUserReferent": true,
         },
         "openLink": {
             "href": "https://example.com",

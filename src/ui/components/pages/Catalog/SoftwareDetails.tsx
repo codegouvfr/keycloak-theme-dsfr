@@ -1,12 +1,12 @@
 import { memo } from "react";
 import { DirectoryHeader } from "onyxia-ui/DirectoryHeader";
-import type { Software } from "sill-api";
+import type { NoReferentCredentialsSoftware } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
 import { Card } from "onyxia-ui/Card";
 
 export type Props = {
     className?: string;
-    software: Software;
+    software: NoReferentCredentialsSoftware;
     onGoBack: () => void;
 };
 

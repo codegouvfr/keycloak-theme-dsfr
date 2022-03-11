@@ -27,5 +27,6 @@ export function createTrpcSillApiClient(params: {
             "promise": true,
         }),
         "getSoftware": () => trpcClient.query("getSoftware"),
+        "getUserSoftwareIds": () => trpcClient.query("getUserSoftwareIds"),
     };
 }

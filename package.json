@@ -45,7 +45,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.1.3",
+        "sill-api": "^0.2.2",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2",
         "github-pages-plugin-for-type-route": "^0.1.0"

@@ -1,5 +1,5 @@
 import type { SillApiClient } from "../ports/SillApiClient";
-import type { Software } from "sill-api";
+import type { NoReferentCredentialsSoftware } from "sill-api";
 import memoize from "memoizee";
 
 export function createServerlessSillApiClient(params: {
@@ -26,6 +26,7 @@ export function createServerlessSillApiClient(params: {
         "getSoftware": () =>
             fetch(jsonUrl)
                 .then(res => res.text())
-                .then(text => JSON.parse(text) as Software[]),
+                .then(text => JSON.parse(text) as NoReferentCredentialsSoftware[]),
+        "getUserSoftwareIds": () => Promise.resolve([]),
     };
 }

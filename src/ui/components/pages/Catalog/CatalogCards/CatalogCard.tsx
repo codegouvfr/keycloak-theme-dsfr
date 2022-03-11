@@ -3,16 +3,17 @@ import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
-import { Software } from "sill-api";
+import { NoReferentCredentialsSoftware } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
 import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
+import { Tag } from "onyxia-ui/Tag";
 
 export type Props = {
     className?: string;
-    software: Software;
+    software: NoReferentCredentialsSoftware & { isUserReferent: boolean };
     openLink: Link;
 };
 
@@ -64,6 +65,8 @@ export const CatalogCard = memo((props: Props) => {
                         </>
                     );
                 })()}
+                <div style={{ "flex": 1 }} />
+                {software.isUserReferent && <Tag text={t("you are referent")} />}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
@@ -108,6 +111,7 @@ export declare namespace CatalogCard {
     export type I18nScheme = {
         "learn more": undefined;
         "try it": undefined;
+        "you are referent": undefined;
     };
 }
 

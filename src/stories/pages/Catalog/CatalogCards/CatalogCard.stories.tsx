@@ -1,7 +1,7 @@
 import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
-import { Software } from "sill-api";
+import { NoReferentCredentialsSoftware } from "sill-api";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
@@ -11,7 +11,7 @@ const { meta, getStory } = getStoryFactory({
 
 export default meta;
 
-const software: Software = {
+const software: NoReferentCredentialsSoftware & { isUserReferent: boolean } = {
     "id": 2,
     "name": "Acceleo",
     "function": "Outil et/ou plugin de génération de tout ou partie du code",
@@ -82,6 +82,7 @@ const software: Software = {
     "testUrl": null,
     "useCasesUrl": [],
     "services": [],
+    "isUserReferent": true,
 };
 
 export const VueDefault = getStory({

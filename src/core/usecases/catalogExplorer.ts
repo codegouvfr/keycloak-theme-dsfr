@@ -1,7 +1,7 @@
 import type { ThunkAction } from "../setup";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { Software } from "sill-api";
+import type { NoReferentCredentialsSoftware } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ThunksExtraArgument, RootState } from "../setup";
@@ -24,8 +24,9 @@ namespace CatalogExplorerState {
     export type Ready = Common & {
         stateDescription: "ready";
         "~internal": {
-            softwares: Software[];
+            softwares: NoReferentCredentialsSoftware[];
             displayCount: number;
+            userSoftwareIds: number[];
         };
     };
 }
@@ -49,16 +50,18 @@ export const { name, reducer, actions } = createSlice({
             {
                 payload,
             }: PayloadAction<{
-                softwares: Software[];
+                softwares: NoReferentCredentialsSoftware[];
+                userSoftwareIds: number[];
             }>,
         ) => {
-            const { softwares } = payload;
+            const { softwares, userSoftwareIds } = payload;
 
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
                 "~internal": {
                     softwares,
                     "displayCount": 24,
+                    userSoftwareIds,
                 },
                 "search": state.search,
             });
@@ -84,13 +87,17 @@ export const thunks = {
     "fetchCatalogs":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , { sillApiClient }] = args;
+            const [dispatch, , { sillApiClient, oidcClient }] = args;
 
             dispatch(actions.catalogsFetching());
 
             const softwares = await sillApiClient.getSoftware();
 
-            dispatch(actions.catalogsFetched({ softwares }));
+            const userSoftwareIds = oidcClient.isUserLoggedIn
+                ? await sillApiClient.getUserSoftwareIds()
+                : [];
+
+            dispatch(actions.catalogsFetched({ softwares, userSoftwareIds }));
         },
     "setSearch":
         (params: { search: string }): ThunkAction =>
@@ -152,7 +159,7 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 
 export const selectors = (() => {
     const getSoftwareWeight = memoize(
-        (software: Software): number =>
+        (software: NoReferentCredentialsSoftware): number =>
             JSON.stringify(software).length -
             (software.wikidata?.logoUrl === undefined ? 10000 : 0),
     );
@@ -166,10 +173,14 @@ export const selectors = (() => {
 
         const {
             search,
-            "~internal": { softwares, displayCount },
+            "~internal": { softwares, userSoftwareIds, displayCount },
         } = state;
 
         return [...softwares]
+            .map(software => ({
+                ...software,
+                "isUserReferent": userSoftwareIds.includes(software.id),
+            }))
             .sort((a, b) => getSoftwareWeight(b) - getSoftwareWeight(a))
             .slice(0, search === "" ? displayCount : softwares.length)
             .filter(
