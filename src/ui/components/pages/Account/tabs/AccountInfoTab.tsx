@@ -4,7 +4,6 @@ import { AccountSectionHeader } from "../AccountSectionHeader";
 import { AccountField } from "../AccountField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { copyToClipboard } from "ui/tools/copyToClipboard";
-import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import { makeStyles } from "ui/theme";
 import { useThunks } from "ui/coreApi";
@@ -64,11 +63,6 @@ export const AccountInfoTab = memo((props: Props) => {
                     {t("change account info")}
                 </Link>
             )}
-            <Divider className={classes.divider} variant="middle" />
-            <AccountSectionHeader
-                title={t("auth information")}
-                helperText={t("auth information helper")}
-            />
         </div>
     );
 });
@@ -80,8 +74,6 @@ export declare namespace AccountInfoTab {
         "full name": undefined;
         "email": undefined;
         "change account info": undefined;
-        "auth information": undefined;
-        "auth information helper": undefined;
     };
 }
 

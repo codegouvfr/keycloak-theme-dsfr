@@ -78,9 +78,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "full name": "Full name",
             "email": "Email address",
             "change account info": "Change account information (e.g., password).",
-            "auth information": "Onyxia authentication information",
-            "auth information helper": `Theses information allows you to identify yourself
-            within the platform and the various services.`,
         },
         "AccountUserInterfaceTab": {
             "title": "Interface preferences",
@@ -182,9 +179,6 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "email": "Adresse mail",
             "change account info":
                 "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
-            "auth information": "Informations d'authentification Onyxia",
-            "auth information helper": `Ces informations vous permettent de vous identifier 
-            au sein de la plateforme et des différents services.`,
         },
         "AccountUserInterfaceTab": {
             "title": "Configurer le mode d'interface",
