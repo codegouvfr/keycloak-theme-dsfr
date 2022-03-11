@@ -1,3 +1,15 @@
+### **0.0.13** (2022-03-11)  
+  
+- :arrow_up:  Update sill-api  
+- :bug:  Fix link to edit profile  
+- :bookmark:  
+- :sparkles:  Make app connect to real backend  
+- :fire:  Remove infos from legacy app  
+- :bookmark:  Bump version  
+- :bug:  Fixing multiple little bugs  
+- :bookmark:  Bump version  
+- :lock:  Min password lenght 8 char    
+  
 ### **0.0.10** (2022-03-10)  
   
 - :bug:  comment debug login  
