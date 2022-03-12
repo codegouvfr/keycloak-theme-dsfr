@@ -1,3 +1,11 @@
+### **0.0.17** (2022-03-12)  
+  
+- :bookmark:  Bump version  
+- :construction_worker:  Remove add, overide instead  
+- :construction_worker: (Reporductible gh page deployment)  
+- :fire:  remove unessesary script  
+- :building_construction:  compat with gh-page (prefer query params)    
+  
 ### **0.0.16** (2022-03-11)  
   
 - :bookmark:  Bump version  
