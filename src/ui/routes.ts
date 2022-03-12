@@ -7,10 +7,10 @@ import { accountTabIds } from "./components/pages/Account/accountTabIds";
 import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
 
 const routeDefs = {
-    "home": defineRoute(["/"]),
+    "home": defineRoute("/"),
     "account": defineRoute(
         {
-            "tabId": param.path.optional
+            "tabId": param.query.optional
                 .ofType(
                     id<ValueSerializer<AccountTabId>>({
                         "parse": raw =>
@@ -22,14 +22,14 @@ const routeDefs = {
                 )
                 .default(accountTabIds[0]),
         },
-        ({ tabId }) => `/compte/${tabId}`,
+        () => `/compte`,
     ),
     "catalogExplorer": defineRoute(
         {
             "search": param.query.optional.string.default(""),
-            "softwareName": param.path.optional.string,
+            "softwareName": param.query.optional.string,
         },
-        ({ softwareName }) => `/catalogue/${softwareName}`,
+        () => `/catalogue`,
     ),
 };
 
