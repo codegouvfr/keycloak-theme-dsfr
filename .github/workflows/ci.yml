@@ -150,7 +150,6 @@ jobs:
       with:
         name: storybook
         path: build/storybook
-    - run: du -a .
     - uses: actions/setup-node@v2.1.3
       with:
         node-version: '16'
