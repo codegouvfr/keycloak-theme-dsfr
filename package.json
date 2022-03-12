@@ -6,7 +6,6 @@
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
         "build": "react-app-rewired build",
-        "patch_build_for_static": "./.env.local.sh embed-environnement-variables && hack-gh-pages src/ui/routes.ts",
         "keycloak": "yarn build && build-keycloak-theme",
         "storybook": "start-storybook -p 6006 -s public",
         "postinstall": "generate-env-getter",
