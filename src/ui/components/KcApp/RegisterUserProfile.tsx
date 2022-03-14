@@ -14,6 +14,7 @@ import type { Param0 } from "tsafe";
 import type { TextFieldProps } from "onyxia-ui/TextField";
 import { capitalize } from "tsafe/capitalize";
 import { generateUsername } from "./generateUsername";
+import { regExpStrToEmailDomains } from "./emailDomainAcceptListHelper";
 
 export const RegisterUserProfile = memo(
     ({
@@ -52,7 +53,7 @@ export const RegisterUserProfile = memo(
                     "shouldBe": "different" as const,
                 },
                 "length": {
-                    "min": "8" as const,
+                    "min": "12" as const,
                     "ignore.empty.value": true,
                 },
             }),
@@ -429,16 +430,7 @@ const { getHardCodedFieldWeight } = (() => {
 
 function formatEmailPattern(pattern: string) {
     try {
-        return pattern
-            .match(/\*\((.+)\)\$$/)![1]
-            .split("|")
-            .map(part =>
-                part
-                    .match(/\(?([^)]+)\)?$/)![1]
-                    .replace(/\\./, ".")
-                    .replace(/\$$/, ""),
-            )
-            .join(", ");
+        return regExpStrToEmailDomains(pattern).join(", ");
     } catch {
         return pattern;
     }
