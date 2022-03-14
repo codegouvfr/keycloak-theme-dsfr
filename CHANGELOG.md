@@ -1,3 +1,10 @@
+### **0.0.18** (2022-03-14)  
+  
+- :bookmark:  Bump version  
+- :bug:  Fix email accept list  
+- :recycle:  Simplify CoreProvider  
+- Update ci.yml    
+  
 ### **0.0.17** (2022-03-12)  
   
 - :bookmark:  Bump version  
