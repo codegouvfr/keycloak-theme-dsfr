@@ -10,11 +10,11 @@ import { Button, makeStyles } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { TextField } from "onyxia-ui/TextField";
-import type { Param0 } from "tsafe";
-import type { TextFieldProps } from "onyxia-ui/TextField";
 import { capitalize } from "tsafe/capitalize";
 import { generateUsername } from "./generateUsername";
 import { regExpStrToEmailDomains } from "./emailDomainAcceptListHelper";
+import MuiTextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 export const RegisterUserProfile = memo(
     ({
@@ -79,10 +79,7 @@ export const RegisterUserProfile = memo(
         );
 
         const onChangeFactory = useCallbackFactory(
-            (
-                [name]: [string],
-                [{ value }]: [Param0<TextFieldProps["onValueBeingTypedChange"]>],
-            ) =>
+            ([name]: [string], [{ value }]: [{ value: string }]) =>
                 formValidationReducer({
                     "action": "update value",
                     name,
@@ -213,45 +210,8 @@ export const RegisterUserProfile = memo(
                                                     )}
                                                 </div>
                                             )}
-                                        <TextField
-                                            type={(() => {
-                                                switch (attribute.name) {
-                                                    case "password-confirm":
-                                                    case "password":
-                                                        return "password";
-                                                    default:
-                                                        return "text";
-                                                }
-                                            })()}
-                                            id={attribute.name}
-                                            name={attribute.name}
-                                            defaultValue={value}
-                                            className={cx(props.kcInputClass)}
-                                            aria-invalid={displayableErrors.length !== 0}
-                                            disabled={attribute.readOnly}
-                                            autoComplete={attribute.autocomplete}
-                                            onBlur={onBlurFactory(attribute.name)}
-                                            inputProps_aria-label={attribute.name}
-                                            inputProps_tabIndex={
-                                                attribute.name === "username"
-                                                    ? -1
-                                                    : getIncrementedTabIndex()
-                                            }
-                                            onValueBeingTypedChange={onChangeFactory(
-                                                attribute.name,
-                                            )}
-                                            inputProps_autoFocus={i === 0}
-                                            inputProps_spellCheck={false}
-                                            transformValueBeingTyped={(() => {
-                                                switch (attribute.name) {
-                                                    case "firstName":
-                                                    case "lastName":
-                                                        return capitalize;
-                                                    default:
-                                                        return undefined;
-                                                }
-                                            })()}
-                                            label={
+                                        {(() => {
+                                            const label = (
                                                 <>
                                                     {advancedMsg(
                                                         attribute.displayName ?? "",
@@ -261,87 +221,174 @@ export const RegisterUserProfile = memo(
                                                         attribute.required &&
                                                         "*"}
                                                 </>
+                                            );
+
+                                            const { options } = attribute.validators;
+
+                                            if (options !== undefined) {
+                                                return (
+                                                    <Autocomplete
+                                                        disablePortal
+                                                        value={value || null}
+                                                        onChange={(...[, option]) => {
+                                                            if (option === null) {
+                                                                return;
+                                                            }
+                                                            onChangeFactory(
+                                                                attribute.name,
+                                                            )({ value: option });
+                                                        }}
+                                                        options={options.options}
+                                                        renderInput={params => (
+                                                            <MuiTextField
+                                                                {...params}
+                                                                label={label}
+                                                            />
+                                                        )}
+                                                    />
+                                                );
                                             }
-                                            helperText={(() => {
-                                                const displayableErrors =
-                                                    fieldStateByAttributeName[
-                                                        attribute.name
-                                                    ].displayableErrors.filter(
-                                                        ({ validatorName }) =>
-                                                            !(
-                                                                validatorName ===
-                                                                    "pattern" &&
-                                                                attribute.name === "email"
-                                                            ),
-                                                    );
 
-                                                if (displayableErrors.length !== 0) {
-                                                    return displayableErrors.map(
-                                                        ({ errorMessage }, i) => (
-                                                            <span key={i}>
-                                                                {errorMessage}&nbsp;
-                                                            </span>
-                                                        ),
-                                                    );
-                                                }
+                                            return (
+                                                <TextField
+                                                    type={(() => {
+                                                        switch (attribute.name) {
+                                                            case "password-confirm":
+                                                            case "password":
+                                                                return "password";
+                                                            default:
+                                                                return "text";
+                                                        }
+                                                    })()}
+                                                    id={attribute.name}
+                                                    name={attribute.name}
+                                                    defaultValue={value}
+                                                    className={cx(props.kcInputClass)}
+                                                    aria-invalid={
+                                                        displayableErrors.length !== 0
+                                                    }
+                                                    disabled={attribute.readOnly}
+                                                    autoComplete={attribute.autocomplete}
+                                                    onBlur={onBlurFactory(attribute.name)}
+                                                    inputProps_aria-label={attribute.name}
+                                                    inputProps_tabIndex={
+                                                        attribute.name === "username"
+                                                            ? -1
+                                                            : getIncrementedTabIndex()
+                                                    }
+                                                    onValueBeingTypedChange={onChangeFactory(
+                                                        attribute.name,
+                                                    )}
+                                                    inputProps_autoFocus={i === 0}
+                                                    inputProps_spellCheck={false}
+                                                    transformValueBeingTyped={(() => {
+                                                        switch (attribute.name) {
+                                                            case "firstName":
+                                                            case "lastName":
+                                                                return capitalize;
+                                                            default:
+                                                                return undefined;
+                                                        }
+                                                    })()}
+                                                    label={label}
+                                                    helperText={(() => {
+                                                        const displayableErrors =
+                                                            fieldStateByAttributeName[
+                                                                attribute.name
+                                                            ].displayableErrors.filter(
+                                                                ({ validatorName }) =>
+                                                                    !(
+                                                                        validatorName ===
+                                                                            "pattern" &&
+                                                                        attribute.name ===
+                                                                            "email"
+                                                                    ),
+                                                            );
 
-                                                switch (attribute.name) {
-                                                    case "email":
-                                                        return t("allowed email domains");
-                                                    case "password": {
-                                                        const { min } =
-                                                            attribute.validators.length ??
-                                                            {};
-                                                        if (min === undefined) {
-                                                            break;
+                                                        if (
+                                                            displayableErrors.length !== 0
+                                                        ) {
+                                                            return displayableErrors.map(
+                                                                ({ errorMessage }, i) => (
+                                                                    <span key={i}>
+                                                                        {errorMessage}
+                                                                        &nbsp;
+                                                                    </span>
+                                                                ),
+                                                            );
                                                         }
 
-                                                        return t("minimum length", {
-                                                            "n": `${parseInt(min)}`,
-                                                        });
+                                                        switch (attribute.name) {
+                                                            case "email":
+                                                                return t(
+                                                                    "allowed email domains",
+                                                                );
+                                                            case "password": {
+                                                                const { min } =
+                                                                    attribute.validators
+                                                                        .length ?? {};
+                                                                if (min === undefined) {
+                                                                    break;
+                                                                }
+
+                                                                return t(
+                                                                    "minimum length",
+                                                                    {
+                                                                        "n": `${parseInt(
+                                                                            min,
+                                                                        )}`,
+                                                                    },
+                                                                );
+                                                            }
+                                                        }
+
+                                                        {
+                                                            const { pattern } =
+                                                                attribute.validators;
+
+                                                            if (pattern !== undefined) {
+                                                                const {
+                                                                    "error-message":
+                                                                        errorMessageKey,
+                                                                } = pattern;
+
+                                                                return errorMessageKey !==
+                                                                    undefined
+                                                                    ? advancedMsg(
+                                                                          errorMessageKey,
+                                                                      )
+                                                                    : t(
+                                                                          "must respect the pattern",
+                                                                      );
+                                                            }
+                                                        }
+
+                                                        return undefined;
+                                                    })()}
+                                                    questionMarkHelperText={(() => {
+                                                        const { pattern } =
+                                                            attribute.validators
+                                                                .pattern ?? {};
+
+                                                        return pattern === undefined
+                                                            ? undefined
+                                                            : attribute.name === "email"
+                                                            ? formatEmailPattern(pattern)
+                                                            : fieldStateByAttributeName[
+                                                                  attribute.name
+                                                              ].displayableErrors
+                                                                  .length === 0
+                                                            ? pattern
+                                                            : undefined;
+                                                    })()}
+                                                    inputProps_aria-invalid={
+                                                        fieldStateByAttributeName[
+                                                            attribute.name
+                                                        ].displayableErrors.length !== 0
                                                     }
-                                                }
-
-                                                {
-                                                    const { pattern } =
-                                                        attribute.validators;
-
-                                                    if (pattern !== undefined) {
-                                                        const {
-                                                            "error-message":
-                                                                errorMessageKey,
-                                                        } = pattern;
-
-                                                        return errorMessageKey !==
-                                                            undefined
-                                                            ? advancedMsg(errorMessageKey)
-                                                            : t(
-                                                                  "must respect the pattern",
-                                                              );
-                                                    }
-                                                }
-
-                                                return undefined;
-                                            })()}
-                                            questionMarkHelperText={(() => {
-                                                const { pattern } =
-                                                    attribute.validators.pattern ?? {};
-
-                                                return pattern === undefined
-                                                    ? undefined
-                                                    : attribute.name === "email"
-                                                    ? formatEmailPattern(pattern)
-                                                    : fieldStateByAttributeName[
-                                                          attribute.name
-                                                      ].displayableErrors.length === 0
-                                                    ? pattern
-                                                    : undefined;
-                                            })()}
-                                            inputProps_aria-invalid={
-                                                fieldStateByAttributeName[attribute.name]
-                                                    .displayableErrors.length !== 0
-                                            }
-                                        />
+                                                />
+                                            );
+                                        })()}
                                     </Fragment>
                                 );
                             })}

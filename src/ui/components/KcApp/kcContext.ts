@@ -6,7 +6,7 @@ import { id } from "tsafe/id";
 
 /** It's the Keycloak context, it is undefined unless we are on Keycloak, rendering the login pages. */
 export const { kcContext } = getKcContext({
-    //"mockPageId": "register-user-profile.ftl",
+    "mockPageId": "register-user-profile.ftl",
     /**
      * Customize the simulated kcContext that will let us
      * dev the page outside keycloak (with auto-reload)
@@ -26,7 +26,7 @@ export const { kcContext } = getKcContext({
             },
         },
         {
-            "pageId": "register-user-profile.ftl",
+            //"pageId": "register-user-profile.ftl",
             "profile": {
                 "attributes": [
                     {
@@ -52,6 +52,37 @@ export const { kcContext } = getKcContext({
                         },
                         "name": "email",
                     },
+                    {
+                        "validators": {
+                            "options": {
+                                "options": [
+                                    "DINUM",
+                                    "DINUM/Etalab",
+                                    "MIM",
+                                    "MENJS",
+                                    "ENJS/Rennes",
+                                    "ENJS/Paris",
+                                    "MESRI/RENATER",
+                                    "PIX",
+                                    "ADULLACT",
+                                    "Université de Lorraine",
+                                    "AGEDI",
+                                    "x",
+                                    "xx",
+                                    "xxx",
+                                    "xxxx",
+                                    "xxxxx",
+                                ],
+                            },
+                        },
+                        // eslint-disable-next-line no-template-curly-in-string
+                        "displayName": "${agencyName}",
+                        "annotations": {},
+                        "required": true,
+                        "groupAnnotations": {},
+                        "readOnly": false,
+                        "name": "agencyName",
+                    },
                 ],
             },
         },
@@ -66,6 +97,12 @@ export type KcContext = NonNullable<typeof kcContext>;
             "en": "Only alphanumerical characters",
             /* spell-checker: disable */
             "fr": "Caractère alphanumérique uniquement",
+            /* spell-checker: enable */
+        },
+        "agencyName": {
+            "en": "Agency Name",
+            /* spell-checker: disable */
+            "fr": "Nom d'agence",
             /* spell-checker: enable */
         },
     };

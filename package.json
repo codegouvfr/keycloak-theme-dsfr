@@ -78,7 +78,7 @@
         "type-route": "^0.6.0",
         "url-join-ts": "^1.0.5",
         "moment": "^2.29.1",
-        "keycloakify": "^4.6.0",
+        "keycloakify": "^4.7.0",
         "onyxia-ui": "^0.30.4",
         "tss-react": "^3.5.2",
         "powerhooks": "^0.14.0"
