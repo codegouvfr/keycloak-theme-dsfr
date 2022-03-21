@@ -3,7 +3,7 @@ import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { capitalize } from "tsafe/capitalize";
-import { NoReferentCredentialsSoftware } from "sill-api";
+import { CompiledData } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
 import { smartTrim } from "ui/tools/smartTrim";
@@ -13,7 +13,7 @@ import { Tag } from "onyxia-ui/Tag";
 
 export type Props = {
     className?: string;
-    software: NoReferentCredentialsSoftware & { isUserReferent: boolean };
+    software: CompiledData.Software & { isUserReferent: boolean };
     openLink: Link;
 };
 
@@ -41,7 +41,7 @@ export const CatalogCard = memo((props: Props) => {
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
                 {(() => {
-                    const { logoUrl } = software.wikidata ?? {};
+                    const { logoUrl } = software.wikidataData ?? {};
 
                     return (
                         <>
@@ -72,8 +72,9 @@ export const CatalogCard = memo((props: Props) => {
                 <div className={classes.body}>
                     <Markdown>
                         {`${capitalize(software.name)}, ${resolveLocalizedString({
-                            "en": software.wikidata?.descriptionEn,
-                            "fr": software.wikidata?.descriptionFr ?? software.function,
+                            "en": software.wikidataData?.descriptionEn,
+                            "fr":
+                                software.wikidataData?.descriptionFr ?? software.function,
                         })}`}
                     </Markdown>
                 </div>
@@ -87,7 +88,7 @@ export const CatalogCard = memo((props: Props) => {
                         {t("learn more")}
                     </Button>
                     {(() => {
-                        const url = software.testUrl ?? undefined;
+                        const url = software.testUrls?.[0].url ?? undefined;
 
                         return (
                             url !== undefined && (

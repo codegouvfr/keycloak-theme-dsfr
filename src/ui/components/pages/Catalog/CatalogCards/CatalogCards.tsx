@@ -17,12 +17,12 @@ import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
-import { NoReferentCredentialsSoftware } from "sill-api";
+import { CompiledData } from "sill-api";
 
 export type Props = {
     className?: string;
     softwares: {
-        software: NoReferentCredentialsSoftware & { isUserReferent: boolean };
+        software: CompiledData.Software & { isUserReferent: boolean };
         openLink: Link;
     }[];
     search: string;

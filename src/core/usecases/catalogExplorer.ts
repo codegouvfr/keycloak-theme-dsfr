@@ -1,7 +1,7 @@
 import type { ThunkAction } from "../setup";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { NoReferentCredentialsSoftware } from "sill-api";
+import type { CompiledData } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ThunksExtraArgument, RootState } from "../setup";
@@ -24,7 +24,7 @@ namespace CatalogExplorerState {
     export type Ready = Common & {
         stateDescription: "ready";
         "~internal": {
-            softwares: NoReferentCredentialsSoftware[];
+            softwares: CompiledData.Software[];
             displayCount: number;
             userSoftwareIds: number[];
         };
@@ -50,7 +50,7 @@ export const { name, reducer, actions } = createSlice({
             {
                 payload,
             }: PayloadAction<{
-                softwares: NoReferentCredentialsSoftware[];
+                softwares: CompiledData.Software[];
                 userSoftwareIds: number[];
             }>,
         ) => {
@@ -91,10 +91,10 @@ export const thunks = {
 
             dispatch(actions.catalogsFetching());
 
-            const softwares = await sillApiClient.getSoftware();
+            const { catalog: softwares } = await sillApiClient.getCompiledData();
 
             const userSoftwareIds = oidcClient.isUserLoggedIn
-                ? await sillApiClient.getUserSoftwareIds()
+                ? await sillApiClient.getIdOfSoftwareUserIsReferentOf()
                 : [];
 
             dispatch(actions.catalogsFetched({ softwares, userSoftwareIds }));
@@ -159,9 +159,9 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 
 export const selectors = (() => {
     const getSoftwareWeight = memoize(
-        (software: NoReferentCredentialsSoftware): number =>
+        (software: CompiledData.Software): number =>
             JSON.stringify(software).length -
-            (software.wikidata?.logoUrl === undefined ? 10000 : 0),
+            (software.wikidataData?.logoUrl === undefined ? 10000 : 0),
     );
 
     const filteredSoftwares = (rootState: RootState) => {
@@ -191,17 +191,17 @@ export const selectors = (() => {
                           function: fn,
                           license,
                           comptoirDuLibreSoftware,
-                          wikidata,
+                          wikidataData,
                       }) =>
                           [
                               name,
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
-                              wikidata?.descriptionFr,
-                              wikidata?.descriptionFr,
-                              wikidata?.sourceUrl,
-                              wikidata?.websiteUrl,
+                              wikidataData?.descriptionFr,
+                              wikidataData?.descriptionFr,
+                              wikidataData?.sourceUrl,
+                              wikidataData?.websiteUrl,
                           ]
                               .map(e => (!!e ? e : undefined))
                               .filter(exclude(undefined))
