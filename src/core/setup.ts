@@ -22,9 +22,13 @@ import type { getConfiguration } from "../configuration";
 import type { Param0 } from "tsafe";
 import type { KcLanguageTag } from "keycloakify";
 import { id } from "tsafe/id";
+import type { NonPostableEvt } from "evt";
 
 export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
-    Pick<Param0<typeof createKeycloakOidcClient>, "transformUrlBeforeRedirectToLogin">;
+    Pick<
+        Param0<typeof createKeycloakOidcClient>,
+        "transformUrlBeforeRedirectToLogin" | "evtUserActivity"
+    >;
 
 // All these assert<Equals<...>> are just here to help visualize what the type
 // actually is. It's hard to tell just by looking at the definition
@@ -55,6 +59,7 @@ assert<
                     | Partial<Record<KcLanguageTag, string>>
                     | undefined;
             }) => string;
+            evtUserActivity: NonPostableEvt<void>;
         }
     >
 >();
@@ -83,17 +88,22 @@ export async function createStore(params: CreateStoreParams) {
 
     createStore.isFirstInvocation = false;
 
-    const { apiUrl, mockAuthentication, transformUrlBeforeRedirectToLogin } = params;
+    const {
+        apiUrl,
+        mockAuthentication,
+        transformUrlBeforeRedirectToLogin,
+        evtUserActivity,
+    } = params;
 
-    let refGetOidcAccessToken:
-        | Param0<typeof createTrpcSillApiClient>["refGetOidcAccessToken"]
+    let refOidcAccessToken:
+        | Param0<typeof createTrpcSillApiClient>["refOidcAccessToken"]
         | undefined = undefined;
 
     const sillApiClient = apiUrl.endsWith(".json")
         ? createServerlessSillApiClient({ "jsonUrl": apiUrl })
         : createTrpcSillApiClient({
               "url": apiUrl,
-              "refGetOidcAccessToken": (refGetOidcAccessToken = {
+              "refOidcAccessToken": (refOidcAccessToken = {
                   "current": undefined,
               }),
           });
@@ -119,16 +129,23 @@ export async function createStore(params: CreateStoreParams) {
               {
                   ...keycloakParams,
                   transformUrlBeforeRedirectToLogin,
+                  evtUserActivity,
               }),
           ));
-    if (oidcClient.isUserLoggedIn && refGetOidcAccessToken !== undefined) {
-        refGetOidcAccessToken.current = () => oidcClient.getAccessToken();
+    if (oidcClient.isUserLoggedIn && refOidcAccessToken !== undefined) {
+        const prop = "current";
+        Object.defineProperty(refOidcAccessToken, prop, {
+            "get": () =>
+                id<NonNullable<typeof refOidcAccessToken>[typeof prop]>(
+                    oidcClient.accessToken,
+                ),
+        });
     }
 
     const userApiClient = oidcClient.isUserLoggedIn
         ? createJwtUserApiClient({
               jwtClaims,
-              "getOidcAccessToken": () => oidcClient.getAccessToken(),
+              "getOidcAccessToken": () => oidcClient.accessToken,
           })
         : createObjectThatThrowsIfAccessed<UserApiClient>();
 

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Provider as ReactReduxProvider } from "react-redux";
 import { createStore } from "core";
 import { getConfiguration } from "configuration";
@@ -7,19 +7,27 @@ import { injectTransferableEnvsInSearchParams } from "ui/envCarriedOverToKc";
 import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
 import { injectTosInSearchParams } from "ui/termsOfServices";
 import type { ReturnType } from "tsafe";
+import { Evt } from "evt";
+import { useRerenderOnStateChange } from "evt/hooks";
 
 type Props = {
     children: ReactNode;
 };
 
+const evtStore = Evt.create<ReturnType<typeof createStore> | undefined>(undefined);
+
 export function CoreProvider(props: Props) {
     const { children } = props;
 
-    const [store, setStore] = useState<ReturnType<typeof createStore> | undefined>(
-        undefined,
-    );
+    useRerenderOnStateChange(evtStore);
+
+    const store = evtStore.state;
 
     useEffect(() => {
+        if (store !== undefined) {
+            return;
+        }
+
         createStore({
             ...getConfiguration(),
             "transformUrlBeforeRedirectToLogin": ({ url, termsOfServices }) =>
@@ -27,7 +35,11 @@ export function CoreProvider(props: Props) {
                     .map(injectTransferableEnvsInSearchParams)
                     .map(injectGlobalStatesInSearchParams)
                     .map(url => injectTosInSearchParams({ url, termsOfServices }))[0],
-        }).then(setStore);
+            "evtUserActivity": Evt.merge([
+                Evt.from(document, "mousemove"),
+                Evt.from(document, "keydown"),
+            ]).pipe(() => [undefined as void]),
+        }).then(store => (evtStore.state = store));
     }, []);
 
     if (store === undefined) {

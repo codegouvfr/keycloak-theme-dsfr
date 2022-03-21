@@ -6,11 +6,11 @@ import { addParamToUrl, retrieveParamFromUrl } from "powerhooks/tools/urlSearchP
 import { objectKeys } from "tsafe/objectKeys";
 import type { User } from "../ports/UserApiClient";
 
-export async function createPhonyOidcClient(params: {
+export function createPhonyOidcClient(params: {
     jwtClaims: Record<keyof User, string>;
     isUserInitiallyLoggedIn: boolean;
     user: User;
-}): Promise<OidcClient> {
+}): OidcClient {
     const isUserLoggedIn = (() => {
         const result = retrieveParamFromUrl({
             "url": window.location.href,
@@ -41,7 +41,7 @@ export async function createPhonyOidcClient(params: {
 
     return id<OidcClient.LoggedIn>({
         "isUserLoggedIn": true,
-        "getAccessToken": (() => {
+        ...(() => {
             const { jwtClaims, user } = params;
 
             const accessToken = jwtSimple.encode(
@@ -51,7 +51,7 @@ export async function createPhonyOidcClient(params: {
                 "xxx",
             );
 
-            return () => Promise.resolve(accessToken);
+            return { accessToken };
         })(),
         "logout": () => {
             const { newUrl } = addParamToUrl({

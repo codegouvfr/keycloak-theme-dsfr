@@ -7,17 +7,17 @@ import memoize from "memoizee";
 
 export function createTrpcSillApiClient(params: {
     url: string;
-    refGetOidcAccessToken: { current: (() => Promise<string>) | undefined };
+    refOidcAccessToken: { current: string | undefined };
 }): SillApiClient {
-    const { refGetOidcAccessToken, url } = params;
+    const { refOidcAccessToken, url } = params;
 
     const trpcClient = createTRPCClient<TrpcRouter>({
         "links": [loggerLink(), httpBatchLink({ url })],
-        "headers": async () => ({
-            ...(refGetOidcAccessToken.current === undefined
+        "headers": () => ({
+            ...(refOidcAccessToken.current === undefined
                 ? {}
                 : {
-                      "authorization": `Bearer ${await refGetOidcAccessToken.current()}`,
+                      "authorization": `Bearer ${refOidcAccessToken.current}`,
                   }),
         }),
     });
