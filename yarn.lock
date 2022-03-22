@@ -14136,15 +14136,16 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.2.2.tgz#9797ae8699eb823c5cf557c1c01fed2868746dee"
-  integrity sha512-Kf9NBVnCxsrjxldjlcZMD/68Xllc50MMfA9QBQcMl1JgpgW/vKzG83YoXPtmJGXU66R39DOc2tprRgMHy5l2hg==
+sill-api@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.3.5.tgz#9fadc44bab2685367380a8e9b92809d9afc2cd6f"
+  integrity sha512-CVYPeFotyjpKp7re6fWvgqkgK9tedwwW3vXKSVgbdSMAlbOmwnqeImK7BNnfrer7LicmIeRv63nHTFjQUvzUpA==
   dependencies:
     "@trpc/server" "^9.20.1"
     "@types/cors" "^2.8.12"
     cors "^2.8.5"
     jwt-simple "^0.5.6"
+    run-exclusive "^2.2.14"
     tsafe "^0.9.0"
 
 simple-swizzle@^0.2.2:
