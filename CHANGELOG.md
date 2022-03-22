@@ -1,3 +1,15 @@
+### **0.0.19** (2022-03-22)  
+  
+- :bookmark:  Bump version  
+- :arrow_up:  Update sill-api  
+- :children_crossing:  Better managment of token expiration  
+- :recycle:  Aplying backend changes to frontend  
+- :sparkles:  Support option in register page
+
+https://github.com/etalab/sill-api/issues/15  
+- :recycle:  Refactor Oidc port, use arrow function notation  
+- :fire:  Remove legacy type    
+  
 ### **0.0.18** (2022-03-14)  
   
 - :bookmark:  Bump version  
