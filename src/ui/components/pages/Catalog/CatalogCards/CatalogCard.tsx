@@ -88,7 +88,7 @@ export const CatalogCard = memo((props: Props) => {
                         {t("learn more")}
                     </Button>
                     {(() => {
-                        const url = software.testUrls?.[0].url ?? undefined;
+                        const url = software.testUrls[0]?.url ?? undefined;
 
                         return (
                             url !== undefined && (

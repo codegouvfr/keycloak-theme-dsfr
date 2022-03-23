@@ -3135,19 +3135,17 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trpc/client@^9.20.1":
-  version "9.20.1"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-9.20.1.tgz#a9a5e5e4ebceacb18f31950838942a02a37b9138"
-  integrity sha512-nsRToriDb6ny5UpgNGB/ux2NXGmSs4/cWh9QREXi8S3jbDogFjs++J+xRzq5Q5RHtchcyOile5wxtIy3iHVhtQ==
+"@trpc/client@^9.20.3":
+  version "9.20.3"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-9.20.3.tgz#7f75a7f922a19e4cda654dbf3c39ce9f694f7eeb"
+  integrity sha512-sgIZe3+EBbuxlI0YSv6tnPnEQtRB1YPGuWT8ihAI9sHcF4yLRwiDSnj2GnvR0z2O5wFh2yW1TDmQIJM8NMG0Fg==
   dependencies:
     "@babel/runtime" "^7.9.0"
 
-"@trpc/server@^9.20.1":
-  version "9.20.1"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-9.20.1.tgz#e222283e64a2f2ded6aceba762a219976079f8ab"
-  integrity sha512-UsuDslmzWrhkv1JZ12/fK4Z/5lSaPj5UJg23j1EE1gkH5aSkQgY5CHzvNv+jkiAR6rR4K2HDOMpVF4Tz50YE9Q==
-  dependencies:
-    tslib "^2.1.0"
+"@trpc/server@^9.20.3":
+  version "9.20.3"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-9.20.3.tgz#0b9895fa344675057f782d9f393ccc32a0ff6173"
+  integrity sha512-sVzqRsBeXqBeMU/bU5pnM/2YdEMRcebKlpDffFMvft5vkjA62eutLJAqseCtfkHBY0scUEGqg84RTS9gLYVxsw==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -3228,11 +3226,6 @@
   integrity sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==
   dependencies:
     "@types/node" "*"
-
-"@types/cors@^2.8.12":
-  version "2.8.12"
-  resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
-  integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
 
 "@types/ejs@^3.1.0":
   version "3.1.0"
@@ -5714,14 +5707,6 @@ core-util-is@^1.0.2, core-util-is@~1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
-
-cors@^2.8.5:
-  version "2.8.5"
-  resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
-  integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
-  dependencies:
-    object-assign "^4"
-    vary "^1"
 
 cosmiconfig-typescript-loader@^1.0.0:
   version "1.0.5"
@@ -11160,7 +11145,7 @@ nwsapi@^2.2.0:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.0.tgz#204879a9e3d068ff2a55139c2c772780681a38b7"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
 
-object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -14136,16 +14121,13 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.3.5.tgz#9fadc44bab2685367380a8e9b92809d9afc2cd6f"
-  integrity sha512-CVYPeFotyjpKp7re6fWvgqkgK9tedwwW3vXKSVgbdSMAlbOmwnqeImK7BNnfrer7LicmIeRv63nHTFjQUvzUpA==
+sill-api@^0.3.12:
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.3.12.tgz#8d9c6997b49d727eff8ea76debc6bf134c5708de"
+  integrity sha512-Wt8u2YAhj+q7W0H6pHRo9OkS5fkDf0MIrqIm6d7POv+Q2+UxxvUeHye67Yg7vi4COB8TAwC1TKJFHMzH5s6xcg==
   dependencies:
-    "@trpc/server" "^9.20.1"
-    "@types/cors" "^2.8.12"
-    cors "^2.8.5"
+    "@trpc/server" "^9.20.3"
     jwt-simple "^0.5.6"
-    run-exclusive "^2.2.14"
     tsafe "^0.9.0"
 
 simple-swizzle@^0.2.2:
@@ -15127,10 +15109,10 @@ tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
-tss-react@3.5.2, tss-react@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-3.5.2.tgz#1b5db1f4a71fe62c939eed5368ea7809ca2ad0a9"
-  integrity sha512-IgGizaOhbntrWdh2EISJYnhYEEWXXWf3sn5aa8LYf7e59NCM5mg0PxJuEoLx9pLG5WlJF80zTRN/Y1Jnjw9LYA==
+tss-react@3.6.0, tss-react@^3.5.2, tss-react@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-3.6.0.tgz#22b58a65a1390507891d6b9ac95f58d22c5cd666"
+  integrity sha512-mtQ8VL0btMVZZtax5gwaGU+jSBdKtbYMLVCLGB26Bi+BcOI0GQ6GTn1EaeK1nSgN5qbe6FL0zEOC6qoY+8+MEg==
   dependencies:
     "@emotion/cache" "*"
     "@emotion/serialize" "*"
@@ -15620,7 +15602,7 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vary@^1, vary@~1.1.2:
+vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=

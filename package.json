@@ -13,7 +13,7 @@
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
         "format": "npm run _format -- --write",
         "format:check": "npm run _format -- --list-different",
-        "link_inhouse_deps": "ts-node --skip-project src/bin/link_inhouse_deps.ts",
+        "link_api": "ts-node --skip-project src/bin/link_inhouse_deps.ts sill-api",
         "emails_domain_accept_list_helper": "ts-node --skip-project src/bin/emails_domain_accept_list_helper.ts"
     },
     "devDependencies": {
@@ -24,7 +24,6 @@
         "@storybook/node-logger": "^6.1.11",
         "@storybook/preset-create-react-app": "^3.1.5",
         "@storybook/react": "^6.1.11",
-        "@trpc/server": "^9.20.1",
         "@types/express": "4.17.13",
         "@types/jwt-simple": "^0.5.33",
         "@types/memoizee": "^0.4.4",
@@ -45,7 +44,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.3.5",
+        "sill-api": "^0.3.12",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2",
         "github-pages-plugin-for-type-route": "^0.1.0"
@@ -56,7 +55,7 @@
         "@mui/icons-material": "^5.0.4",
         "@mui/material": "^5.2.5",
         "@reduxjs/toolkit": "^1.4.0",
-        "@trpc/client": "^9.20.1",
+        "@trpc/client": "^9.20.3",
         "comment-json": "^3.0.0",
         "cra-envs": "^1.2.1",
         "evt": "2.0.0-beta.39",
@@ -80,13 +79,13 @@
         "moment": "^2.29.1",
         "keycloakify": "^4.7.0",
         "onyxia-ui": "^0.30.4",
-        "tss-react": "^3.5.2",
+        "tss-react": "^3.6.0",
         "powerhooks": "^0.14.0"
     },
     "resolutions": {
         "babel-loader": "8.1.0",
         "evt": "2.0.0-beta.39",
-        "tss-react": "3.5.2",
+        "tss-react": "3.6.0",
         "powerhooks": "0.14.0"
     },
     "eslintConfig": {

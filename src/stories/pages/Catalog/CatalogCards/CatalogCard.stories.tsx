@@ -34,6 +34,7 @@ const software: CompiledData.Software & { isUserReferent: boolean } = {
     "testUrls": [],
     "useCaseUrls": [],
     "wikidataData": {
+        "id": "Q110492908",
         "descriptionFr": "Un lanceur de conteneur orienté data science",
         "descriptionEn": "A data science oriented container launcher",
         "logoUrl":

@@ -1,7 +1,6 @@
-import type { TrpcRouter } from "sill-api";
+import type { TrpcRouter, inferProcedureOutput } from "sill-api";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
-import type { inferProcedureOutput } from "@trpc/server";
 
 export type SillApiClient = {
     getOidcParams: {
