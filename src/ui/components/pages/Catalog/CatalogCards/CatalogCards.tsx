@@ -91,9 +91,9 @@ export const CatalogCards = memo((props: Props) => {
                 createPortal(searchBarNode, searchBarWrapperElement)}
             <div className={className}>
                 {!doRenderSearchBarInHeader && searchBarNode}
-                {softwares.length === 0 ? undefined : (
+                {softwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
-                        {t(search !== "" ? "search results" : "all services")}
+                        {t(search !== "" ? "search results" : "all software")}
                     </Text>
                 )}
                 <div className={classes.cards}>
@@ -120,7 +120,7 @@ export const CatalogCards = memo((props: Props) => {
 export declare namespace CatalogCards {
     export type I18nScheme = {
         "main services": undefined;
-        "all services": undefined;
+        "all software": undefined;
         "search results": undefined;
         "show more": undefined;
         "no service found": undefined;

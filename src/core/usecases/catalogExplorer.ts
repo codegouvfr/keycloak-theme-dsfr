@@ -182,6 +182,9 @@ export const selectors = (() => {
                 "isUserReferent": userSoftwareIds.includes(software.id),
             }))
             .sort((a, b) => getSoftwareWeight(b) - getSoftwareWeight(a))
+            .sort((a, b) =>
+                a.isUserReferent === b.isUserReferent ? 0 : a.isUserReferent ? -1 : 1,
+            )
             .slice(0, search === "" ? displayCount : softwares.length)
             .filter(
                 search === ""
