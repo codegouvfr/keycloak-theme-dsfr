@@ -1,3 +1,9 @@
+### **0.0.21** (2022-03-24)  
+  
+- :bookmark:  Release  
+- :recycle:  Prepare showing alike software  
+- :sparkles:  Display user's software first    
+  
 ### **0.0.20** (2022-03-23)  
   
 - :bookmark: Bump version  
