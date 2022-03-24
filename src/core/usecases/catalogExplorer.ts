@@ -1,5 +1,6 @@
 import type { ThunkAction } from "../setup";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
 import { id } from "tsafe/id";
@@ -25,8 +26,8 @@ namespace CatalogExplorerState {
         stateDescription: "ready";
         "~internal": {
             softwares: CompiledData.Software[];
-            displayCount: number;
             userSoftwareIds: number[];
+            displayCount: number;
         };
     };
 }
@@ -59,9 +60,9 @@ export const { name, reducer, actions } = createSlice({
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
                 "~internal": {
+                    userSoftwareIds,
                     softwares,
                     "displayCount": 24,
-                    userSoftwareIds,
                 },
                 "search": state.search,
             });
@@ -164,28 +165,44 @@ export const selectors = (() => {
             (software.wikidataData?.logoUrl === undefined ? 10000 : 0),
     );
 
-    const filteredSoftwares = (rootState: RootState) => {
+    const readyState = (rootState: RootState): CatalogExplorerState.Ready | undefined => {
         const state = rootState.catalogExplorer;
+        switch (state.stateDescription) {
+            case "ready":
+                return state;
+            default:
+                return undefined;
+        }
+    };
 
-        if (state.stateDescription !== "ready") {
+    const userSoftwareIds = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state["~internal"].userSoftwareIds;
+    });
+
+    const filteredSoftwares = createSelector(readyState, state => {
+        if (state === undefined) {
             return undefined;
         }
 
         const {
             search,
-            "~internal": { softwares, userSoftwareIds, displayCount },
+            "~internal": { softwares, displayCount, userSoftwareIds },
         } = state;
 
         return [...softwares]
             .map(software => ({
-                ...software,
+                software,
                 "isUserReferent": userSoftwareIds.includes(software.id),
             }))
-            .sort((a, b) => getSoftwareWeight(b) - getSoftwareWeight(a))
+            .sort((a, b) => getSoftwareWeight(b.software) - getSoftwareWeight(a.software))
             .sort((a, b) =>
                 a.isUserReferent === b.isUserReferent ? 0 : a.isUserReferent ? -1 : 1,
             )
             .slice(0, search === "" ? displayCount : softwares.length)
+            .map(({ software }) => software)
             .filter(
                 search === ""
                     ? () => true
@@ -213,7 +230,36 @@ export const selectors = (() => {
                               )
                               .indexOf(true) >= 0,
             );
-    };
+    });
 
-    return { filteredSoftwares };
+    const alikeSoftwares = createSelector(
+        readyState,
+        filteredSoftwares,
+        (state, filteredSoftwares) => {
+            if (state === undefined) {
+                return undefined;
+            }
+
+            assert(filteredSoftwares !== undefined);
+
+            if (filteredSoftwares.length !== 1) {
+                return [];
+            }
+
+            const [software] = filteredSoftwares;
+
+            return software.alikeSoftwares.map(softwareRef =>
+                softwareRef.isKnown
+                    ? {
+                          "software": state["~internal"].softwares.find(
+                              s => s.id === softwareRef.softwareId,
+                          )!,
+                          "isKnown": true,
+                      }
+                    : softwareRef,
+            );
+        },
+    );
+
+    return { filteredSoftwares, alikeSoftwares, userSoftwareIds };
 })();

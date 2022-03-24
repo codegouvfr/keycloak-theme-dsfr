@@ -11,7 +11,7 @@ const { meta, getStory } = getStoryFactory({
 
 export default meta;
 
-const software: CompiledData.Software & { isUserReferent: boolean } = {
+const software: CompiledData.Software = {
     "id": 233,
     "name": "Onyxia",
     "function":
@@ -58,7 +58,6 @@ const software: CompiledData.Software & { isUserReferent: boolean } = {
     },
     "hasExpertReferent": true,
     "referentCount": 1,
-    "isUserReferent": true,
 };
 
 export const VueDefault = getStory({
@@ -67,4 +66,5 @@ export const VueDefault = getStory({
         "href": "https://example.com",
         "onClick": () => {},
     },
+    "isUserReferent": true,
 });

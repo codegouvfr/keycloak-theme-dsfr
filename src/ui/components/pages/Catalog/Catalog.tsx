@@ -14,6 +14,8 @@ import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { breakpointsValues } from "onyxia-ui";
+import { exclude } from "tsafe/exclude";
+import type { Link } from "type-route";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -100,17 +102,56 @@ export function Catalog(props: Props) {
         selectors.catalogExplorer.filteredSoftwares,
     );
 
-    const catalogCardsSoftwares = useMemo(
-        () =>
-            filteredSoftwares?.map(software => ({
-                software,
-                "openLink": routes.catalogExplorer({
-                    "search": route.params.search || undefined,
-                    "softwareName": software.name,
-                }).link,
-            })),
-        [filteredSoftwares],
-    );
+    const { alikeSoftwares } = useSelector(selectors.catalogExplorer.alikeSoftwares);
+    const { userSoftwareIds } = useSelector(selectors.catalogExplorer.userSoftwareIds);
+
+    const { getSoftwareExtraInfo } = (function useClosure() {
+        const map = useMemo(() => {
+            if (filteredSoftwares === undefined) {
+                return undefined;
+            }
+
+            assert(alikeSoftwares !== undefined, "one!!!");
+            assert(userSoftwareIds !== undefined, "two!!!");
+
+            const map = new Map<
+                number,
+                {
+                    isUserReferent: boolean;
+                    openLink: Link;
+                }
+            >();
+
+            [
+                ...filteredSoftwares,
+                ...alikeSoftwares
+                    .map(e => (e.isKnown ? e.software : undefined))
+                    .filter(exclude(undefined)),
+            ].forEach(software =>
+                map.set(software.id, {
+                    "isUserReferent": userSoftwareIds.includes(software.id),
+                    "openLink": routes.catalogExplorer({
+                        "search": route.params.search || undefined,
+                        "softwareName": software.name,
+                    }).link,
+                }),
+            );
+
+            return map;
+        }, [filteredSoftwares, alikeSoftwares, route.params.search]);
+
+        const getSoftwareExtraInfo = useConstCallback(softwareId => {
+            assert(map !== undefined);
+
+            const info = map.get(softwareId);
+
+            assert(info !== undefined);
+
+            return info;
+        });
+
+        return { getSoftwareExtraInfo };
+    })();
 
     const onGoBack = useConstCallback(() =>
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
@@ -120,7 +161,8 @@ export function Catalog(props: Props) {
         return null;
     }
 
-    assert(catalogCardsSoftwares !== undefined);
+    assert(alikeSoftwares !== undefined);
+    assert(filteredSoftwares !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -144,16 +186,18 @@ export function Catalog(props: Props) {
                               <CatalogCards
                                   search={route.params.search}
                                   onSearchChange={onSearchChange}
-                                  softwares={catalogCardsSoftwares}
+                                  filteredSoftwares={filteredSoftwares}
+                                  alikeSoftwares={alikeSoftwares}
+                                  getSoftwareExtraInfos={getSoftwareExtraInfo}
                                   onLoadMore={catalogExplorerThunks.loadMore}
                                   hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                                   searchBarWrapperElement={pageHeaderRef.current}
                               />
                           )
                         : (() => {
-                              const software = catalogCardsSoftwares
-                                  .map(({ software }) => software)
-                                  .find(({ name }) => name === softwareName);
+                              const software = filteredSoftwares.find(
+                                  ({ name }) => name === softwareName,
+                              );
 
                               assert(software !== undefined);
 

@@ -13,12 +13,13 @@ import { Tag } from "onyxia-ui/Tag";
 
 export type Props = {
     className?: string;
-    software: CompiledData.Software & { isUserReferent: boolean };
+    software: CompiledData.Software;
     openLink: Link;
+    isUserReferent: boolean;
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, openLink } = props;
+    const { className, software, openLink, isUserReferent } = props;
 
     const { classes, cx, css } = useStyles();
 
@@ -66,7 +67,7 @@ export const CatalogCard = memo((props: Props) => {
                     );
                 })()}
                 <div style={{ "flex": 1 }} />
-                {software.isUserReferent && <Tag text={t("you are referent")} />}
+                {isUserReferent && <Tag text={t("you are referent")} />}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>

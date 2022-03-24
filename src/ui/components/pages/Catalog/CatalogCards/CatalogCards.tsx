@@ -17,14 +17,22 @@ import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
-import { CompiledData } from "sill-api";
+import type { CompiledData, SoftwareRef } from "sill-api/model/types";
 
 export type Props = {
     className?: string;
-    softwares: {
-        software: CompiledData.Software & { isUserReferent: boolean };
+    filteredSoftwares: CompiledData.Software[];
+    alikeSoftwares: (
+        | SoftwareRef.Unknown
+        | {
+              software: CompiledData.Software.WithoutReferent;
+              isKnown: boolean;
+          }
+    )[];
+    getSoftwareExtraInfos: (softwareId: number) => {
         openLink: Link;
-    }[];
+        isUserReferent: boolean;
+    };
     search: string;
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
@@ -35,13 +43,17 @@ export type Props = {
 export const CatalogCards = memo((props: Props) => {
     const {
         className,
-        softwares,
+        filteredSoftwares,
+        alikeSoftwares,
+        getSoftwareExtraInfos,
         search,
         onSearchChange,
         onLoadMore,
         hasMoreToLoad,
         searchBarWrapperElement,
     } = props;
+
+    console.log("TODO: display", alikeSoftwares);
 
     const { t } = useTranslation({ CatalogCards });
 
@@ -69,7 +81,7 @@ export const CatalogCards = memo((props: Props) => {
     })();
 
     const { classes } = useStyles({
-        "filteredCardCount": softwares.length,
+        "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
         doRenderSearchBarInHeader,
     });
@@ -91,22 +103,28 @@ export const CatalogCards = memo((props: Props) => {
                 createPortal(searchBarNode, searchBarWrapperElement)}
             <div className={className}>
                 {!doRenderSearchBarInHeader && searchBarNode}
-                {softwares.length !== 0 && (
+                {filteredSoftwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all software")}
                     </Text>
                 )}
                 <div className={classes.cards}>
-                    {softwares.length === 0 ? (
+                    {filteredSoftwares.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
-                        softwares.map(({ openLink, software }) => (
-                            <CatalogCard
-                                key={software.id}
-                                software={software}
-                                openLink={openLink}
-                            />
-                        ))
+                        filteredSoftwares
+                            .map(software => ({
+                                software,
+                                ...getSoftwareExtraInfos(software.id),
+                            }))
+                            .map(({ software, isUserReferent, openLink }) => (
+                                <CatalogCard
+                                    key={software.id}
+                                    software={software}
+                                    openLink={openLink}
+                                    isUserReferent={isUserReferent}
+                                />
+                            ))
                     )}
                 </div>
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
