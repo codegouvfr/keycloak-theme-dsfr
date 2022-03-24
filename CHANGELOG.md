@@ -1,3 +1,9 @@
+### **0.0.22** (2022-03-24)  
+  
+- :bug:  Fix build  
+- :fire:  Removing requirement to provide a username  
+- :green_heart:  Only poke gitops after github pages deployment    
+  
 ### **0.0.21** (2022-03-24)  
   
 - :bookmark:  Release  
