@@ -17,7 +17,7 @@ import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
-import type { CompiledData, SoftwareRef } from "sill-api/model/types";
+import type { CompiledData, SoftwareRef } from "sill-api";
 
 export type Props = {
     className?: string;

@@ -29,10 +29,7 @@ export type Configuration = {
         isUserInitiallyLoggedIn: boolean;
         user: {
             email: string;
-            familyName: string;
-            firstName: string;
-            username: string;
-            groups: string[];
+            agencyName: string;
             /** example: 'en' 'fr' ... */
             locale: KcLanguageTag;
         };
@@ -169,18 +166,15 @@ export const getConfiguration = memoize(
             );
 
             {
-                const { email, familyName, firstName, groups, locale, username } = user;
+                const { email, agencyName, locale } = user;
 
                 const m_2 = (reason: string) => m_1(`${symToStr({ user })}: ${reason}`);
 
                 {
                     const propertiesNames = [
                         symToStr({ email }),
-                        symToStr({ familyName }),
-                        symToStr({ firstName }),
-                        symToStr({ groups }),
+                        symToStr({ agencyName }),
                         symToStr({ locale }),
-                        symToStr({ username }),
                     ] as const;
 
                     assert<
@@ -204,9 +198,7 @@ export const getConfiguration = memoize(
 
                 for (const [propertyName, propertyValue] of [
                     [symToStr({ email }), email],
-                    [symToStr({ familyName }), familyName],
-                    [symToStr({ firstName }), firstName],
-                    [symToStr({ username }), username],
+                    [symToStr({ agencyName }), agencyName],
                 ] as const) {
                     assert(propertyValue !== undefined, m_1(`${propertyName} missing`));
                     assert(
@@ -218,13 +210,6 @@ export const getConfiguration = memoize(
                         m_1(`${propertyName} is supposed to be a non empty string`),
                     );
                 }
-
-                assert(groups !== undefined, m_1(`${symToStr({ groups })} missing`));
-                assert(
-                    groups instanceof Array &&
-                        groups.find(group => typeof group !== "string") === undefined,
-                    m_1(`${symToStr({ locale })} is supposed to be a non empty string`),
-                );
 
                 assert(locale !== undefined, m_1(`${symToStr({ locale })} missing`));
                 assert(

@@ -45,10 +45,7 @@ assert<
                 isUserInitiallyLoggedIn: boolean;
                 user: {
                     email: string;
-                    familyName: string;
-                    firstName: string;
-                    username: string;
-                    groups: string[];
+                    agencyName: string;
                     locale: KcLanguageTag;
                 };
             };

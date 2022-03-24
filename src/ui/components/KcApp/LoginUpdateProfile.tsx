@@ -86,64 +86,6 @@ export const LoginUpdateProfile = memo(
                             </div>
                         </div>
 
-                        <div
-                            className={cx(
-                                props.kcFormGroupClass,
-                                messagesPerField.printIfExists(
-                                    "firstName",
-                                    props.kcFormGroupErrorClass,
-                                ),
-                            )}
-                        >
-                            <div className={cx(props.kcLabelWrapperClass)}>
-                                <label
-                                    htmlFor="firstName"
-                                    className={cx(props.kcLabelClass)}
-                                >
-                                    {msg("firstName")}
-                                </label>
-                            </div>
-                            <div className={cx(props.kcInputWrapperClass)}>
-                                <input
-                                    readOnly
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    defaultValue={user.firstName ?? ""}
-                                    className={cx(props.kcInputClass)}
-                                />
-                            </div>
-                        </div>
-
-                        <div
-                            className={cx(
-                                props.kcFormGroupClass,
-                                messagesPerField.printIfExists(
-                                    "lastName",
-                                    props.kcFormGroupErrorClass,
-                                ),
-                            )}
-                        >
-                            <div className={cx(props.kcLabelWrapperClass)}>
-                                <label
-                                    htmlFor="lastName"
-                                    className={cx(props.kcLabelClass)}
-                                >
-                                    {msg("lastName")}
-                                </label>
-                            </div>
-                            <div className={cx(props.kcInputWrapperClass)}>
-                                <input
-                                    readOnly
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    defaultValue={user.lastName ?? ""}
-                                    className={cx(props.kcInputClass)}
-                                />
-                            </div>
-                        </div>
-
                         <div className={cx(props.kcFormGroupClass)}>
                             <div
                                 id="kc-form-options"

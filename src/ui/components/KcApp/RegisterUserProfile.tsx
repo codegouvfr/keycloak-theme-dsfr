@@ -10,7 +10,6 @@ import { Button, makeStyles } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { TextField } from "onyxia-ui/TextField";
-import { capitalize } from "tsafe/capitalize";
 import { regExpStrToEmailDomains } from "./emailDomainAcceptListHelper";
 import MuiTextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -259,15 +258,6 @@ export const RegisterUserProfile = memo(
                                                     )}
                                                     inputProps_autoFocus={i === 0}
                                                     inputProps_spellCheck={false}
-                                                    transformValueBeingTyped={(() => {
-                                                        switch (attribute.name) {
-                                                            case "firstName":
-                                                            case "lastName":
-                                                                return capitalize;
-                                                            default:
-                                                                return undefined;
-                                                        }
-                                                    })()}
                                                     label={label}
                                                     helperText={(() => {
                                                         const displayableErrors =
@@ -431,13 +421,9 @@ export declare namespace RegisterUserProfile {
 }
 
 const { getHardCodedFieldWeight } = (() => {
-    const orderedFields = [
-        "firstName",
-        "lastName",
-        "email",
-        "password",
-        "password-confirm",
-    ].map(fieldName => fieldName.toLowerCase());
+    const orderedFields = ["email", "agencyName", "password", "password-confirm"].map(
+        fieldName => fieldName.toLowerCase(),
+    );
 
     function getHardCodedFieldWeight(fieldName: string) {
         for (let i = 0; i < orderedFields.length; i++) {

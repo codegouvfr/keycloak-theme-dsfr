@@ -17,35 +17,12 @@ export function createJwtUserApiClient(params: {
 
     return {
         "getUser": async () => {
-            const {
-                groups: groupsStr,
-                locale,
-                email,
-                familyName,
-                firstName,
-                username,
-            } = await decodeJwt({
+            const { email, agencyName, locale } = await decodeJwt({
                 "jwtToken": getOidcAccessToken(),
             });
 
             const m = (reason: string) =>
                 `The JWT token do not have the expected format: ${reason}`;
-
-            let groups: string[] | undefined = undefined;
-
-            assert(groupsStr !== undefined, m(`${symToStr({ groups })} missing`));
-
-            try {
-                groups = JSON.parse(groupsStr);
-            } catch {
-                assert(false, `${symToStr({ groups })} is not supposed to be a string`);
-            }
-
-            assert(
-                groups instanceof Array &&
-                    groups.find(group => typeof group !== "string") === undefined,
-                m(`${symToStr({ groups })} is supposed to be an array of string`),
-            );
 
             assert(locale !== undefined, m(`${symToStr({ locale })} missing`));
             assert(
@@ -58,9 +35,7 @@ export function createJwtUserApiClient(params: {
 
             for (const [propertyName, propertyValue] of [
                 [symToStr({ email }), email],
-                [symToStr({ familyName }), familyName],
-                [symToStr({ firstName }), firstName],
-                [symToStr({ username }), username],
+                [symToStr({ agencyName }), agencyName],
             ] as const) {
                 assert(propertyValue !== undefined, m(`${propertyName} missing`));
                 assert(
@@ -73,7 +48,7 @@ export function createJwtUserApiClient(params: {
                 );
             }
 
-            return { groups, locale, email, familyName, firstName, username };
+            return { email, agencyName, locale };
         },
     };
 }

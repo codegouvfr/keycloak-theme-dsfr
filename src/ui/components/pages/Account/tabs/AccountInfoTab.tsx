@@ -25,8 +25,6 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const user = userAuthenticationThunks.getUser();
 
-    const fullName = `${user.firstName} ${user.familyName}`;
-
     const keycloakAccountConfigurationUrl =
         userAuthenticationThunks.getKeycloakAccountConfigurationUrl();
 
@@ -37,22 +35,17 @@ export const AccountInfoTab = memo((props: Props) => {
             <AccountSectionHeader title={t("general information")} />
             <AccountField
                 type="text"
-                title={t("user id")}
-                text={user.username}
-                onRequestCopy={onRequestCopyFactory(user.username)}
-            />
-            <AccountField
-                type="text"
-                title={t("full name")}
-                text={fullName}
-                onRequestCopy={onRequestCopyFactory(fullName)}
-            />
-            <AccountField
-                type="text"
                 title={t("email")}
                 text={user.email}
                 onRequestCopy={onRequestCopyFactory(user.email)}
             />
+            <AccountField
+                type="text"
+                title={t("agency name")}
+                text={user.agencyName}
+                onRequestCopy={onRequestCopyFactory(user.agencyName)}
+            />
+
             {keycloakAccountConfigurationUrl !== undefined && (
                 <Link
                     className={classes.link}
@@ -74,6 +67,7 @@ export declare namespace AccountInfoTab {
         "full name": undefined;
         "email": undefined;
         "change account info": undefined;
+        "agency name": undefined;
     };
 }
 

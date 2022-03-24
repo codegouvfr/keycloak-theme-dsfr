@@ -99,10 +99,16 @@ export type KcContext = NonNullable<typeof kcContext>;
             "fr": "Caractère alphanumérique uniquement",
             /* spell-checker: enable */
         },
+        "administrativeEmail": {
+            "en": "Administrative Email",
+            /* spell-checker: disable */
+            "fr": "Email administratif",
+            /* spell-checker: enable */
+        },
         "agencyName": {
             "en": "Agency Name",
             /* spell-checker: disable */
-            "fr": "Nom d'agence",
+            "fr": "Nom du service de rattachement",
             /* spell-checker: enable */
         },
     };

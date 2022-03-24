@@ -15,10 +15,7 @@ export REACT_APP_CONFIGURATION=$(cat << EOF
 		"isUserInitiallyLoggedIn": false,
 		"user": {
 			"email": "joseph.garrone@data.gouv.fr",
-			"familyName": "Garrone",
-			"firstName": "Joseph",
-			"username": "garronej",
-			"groups": [],
+			"agencyName": "Etalab",
 			"local": "fr"
 		}
 	},

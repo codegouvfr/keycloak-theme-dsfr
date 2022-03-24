@@ -14,11 +14,8 @@ export function createServerlessSillApiClient(params: {
                     "keycloakParams": undefined,
                     "jwtClaims": {
                         "email": "a",
-                        "familyName": "b",
-                        "firstName": "c",
-                        "username": "d",
-                        "groups": "e",
-                        "locale": "f",
+                        "agencyName": "b",
+                        "locale": "c",
                     },
                 }),
             { "promise": true },

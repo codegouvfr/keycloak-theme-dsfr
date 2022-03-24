@@ -78,6 +78,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "full name": "Full name",
             "email": "Email address",
             "change account info": "Change account information (e.g., password).",
+            "agency name": "Agency name",
         },
         "AccountUserInterfaceTab": {
             "title": "Interface preferences",
@@ -180,6 +181,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
             "email": "Adresse mail",
             "change account info":
                 "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
+            "agency name": "Nom du service de ratachement",
         },
         "AccountUserInterfaceTab": {
             "title": "Configurer le mode d'interface",
