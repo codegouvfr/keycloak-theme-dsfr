@@ -96,9 +96,7 @@ export const RegisterUserProfile = memo(
             attributesWithPassword
                 .filter(
                     ({ name }) =>
-                        !["username", "email", "password", "password-confirm"].includes(
-                            name,
-                        ),
+                        !["email", "password", "password-confirm"].includes(name),
                 )
                 .map(({ name }) =>
                     formValidationReducer({
@@ -421,7 +419,7 @@ export declare namespace RegisterUserProfile {
 }
 
 const { getHardCodedFieldWeight } = (() => {
-    const orderedFields = ["email", "agencyName", "password", "password-confirm"].map(
+    const orderedFields = ["agencyName", "email", "password", "password-confirm"].map(
         fieldName => fieldName.toLowerCase(),
     );
 

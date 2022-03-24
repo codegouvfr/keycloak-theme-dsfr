@@ -17,12 +17,12 @@ export function createJwtUserApiClient(params: {
 
     return {
         "getUser": async () => {
-            const { email, agencyName, locale } = await decodeJwt({
-                "jwtToken": getOidcAccessToken(),
-            });
+            const jwtToken = getOidcAccessToken();
+
+            const { email, agencyName, locale } = await decodeJwt({ jwtToken });
 
             const m = (reason: string) =>
-                `The JWT token do not have the expected format: ${reason}`;
+                `The JWT token do not have the expected format: ${reason} token: ${jwtToken}`;
 
             assert(locale !== undefined, m(`${symToStr({ locale })} missing`));
             assert(
