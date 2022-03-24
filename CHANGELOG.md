@@ -1,3 +1,7 @@
+### **0.0.24** (2022-03-24)  
+  
+- :bug:  Agency name first so that it's not saved as username    
+  
 ### **0.0.23** (2022-03-24)  
   
 - :bookmark:  Bump version  
