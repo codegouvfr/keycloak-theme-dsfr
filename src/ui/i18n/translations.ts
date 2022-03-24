@@ -100,7 +100,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         "RegisterUserProfile": {
             "allowed email domains": "Allowed domains",
             "minimum length": "Minimum length: {{n}}",
-            "must be different from username": "Pass can't be the username",
+            "must be different from email": "Pass can't be the email",
             "password mismatch": "Passwords mismatch",
             "go back": "Go back",
             "form not filled properly yet":
@@ -203,7 +203,7 @@ export const resources = id<Record<SupportedLanguage, Translations>>({
         "RegisterUserProfile": {
             "allowed email domains": "Domaines autorisés",
             "minimum length": "Longueur minimum {{n}}",
-            "must be different from username": "Ne peut pas être le nom d'utilisateur",
+            "must be different from email": "Ne peut pas être le courriel",
             "password mismatch": "Les deux mots de passe ne correspondent pas",
             "go back": "Retour",
             "form not filled properly yet":

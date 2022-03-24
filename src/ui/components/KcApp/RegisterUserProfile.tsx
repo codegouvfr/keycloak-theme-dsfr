@@ -11,7 +11,6 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { TextField } from "onyxia-ui/TextField";
 import { capitalize } from "tsafe/capitalize";
-import { generateUsername } from "./generateUsername";
 import { regExpStrToEmailDomains } from "./emailDomainAcceptListHelper";
 import MuiTextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -47,13 +46,13 @@ export const RegisterUserProfile = memo(
         const passwordValidators = useMemo(
             () => ({
                 "_compareToOther": {
-                    "error-message": t("must be different from username"),
+                    "error-message": t("must be different from email"),
                     "ignore.empty.value": true,
-                    "name": "username",
+                    "name": "email",
                     "shouldBe": "different" as const,
                 },
                 "length": {
-                    "min": "12" as const,
+                    "min": "8" as const,
                     "ignore.empty.value": true,
                 },
             }),
@@ -114,23 +113,6 @@ export const RegisterUserProfile = memo(
             () => attributesWithPassword.every(({ required }) => required),
             [attributesWithPassword],
         );
-
-        {
-            const firstName = fieldStateByAttributeName["firstName"]?.value ?? "";
-            const lastName = fieldStateByAttributeName["lastName"]?.value ?? "";
-
-            useEffect(() => {
-                if (firstName === "") {
-                    return;
-                }
-
-                formValidationReducer({
-                    "action": "update value",
-                    "name": "username",
-                    "newValue": generateUsername({ firstName, lastName }),
-                });
-            }, [firstName, lastName]);
-        }
 
         let currentGroup = "";
 
@@ -271,11 +253,7 @@ export const RegisterUserProfile = memo(
                                                     autoComplete={attribute.autocomplete}
                                                     onBlur={onBlurFactory(attribute.name)}
                                                     inputProps_aria-label={attribute.name}
-                                                    inputProps_tabIndex={
-                                                        attribute.name === "username"
-                                                            ? -1
-                                                            : getIncrementedTabIndex()
-                                                    }
+                                                    inputProps_tabIndex={getIncrementedTabIndex()}
                                                     onValueBeingTypedChange={onChangeFactory(
                                                         attribute.name,
                                                     )}
@@ -444,7 +422,7 @@ export declare namespace RegisterUserProfile {
     export type I18nScheme = {
         "allowed email domains": undefined;
         "minimum length": { n: string };
-        "must be different from username": undefined;
+        "must be different from email": undefined;
         "password mismatch": undefined;
         "go back": undefined;
         "form not filled properly yet": undefined;
@@ -457,7 +435,6 @@ const { getHardCodedFieldWeight } = (() => {
         "firstName",
         "lastName",
         "email",
-        "username",
         "password",
         "password-confirm",
     ].map(fieldName => fieldName.toLowerCase());
