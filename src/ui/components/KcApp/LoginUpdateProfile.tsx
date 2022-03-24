@@ -1,13 +1,9 @@
-import type { ChangeEvent } from "react";
-import { useState, memo } from "react";
+import { memo } from "react";
 import type { KcProps } from "keycloakify/lib/components/KcProps";
 import type { KcContext } from "./kcContext";
 import { useKcMessage } from "keycloakify/lib/i18n/useKcMessage";
 import { Template } from "./Template";
 import { useStyles } from "ui/theme";
-
-import { generateUsername, toAlphaNumerical } from "./generateUsername";
-import { useConstCallback } from "powerhooks/useConstCallback";
 
 type KcContext_LoginUpdateProfile = Extract<
     KcContext,
@@ -21,18 +17,6 @@ export const LoginUpdateProfile = memo(
         const { msg, msgStr } = useKcMessage();
 
         const { cx } = useStyles();
-
-        const [username, setUsername] = useState(
-            generateUsername({
-                "firstName": user.firstName ?? "",
-                "lastName": user.lastName ?? "",
-            }),
-        );
-
-        const onUsernameInputChange = useConstCallback(
-            (event: ChangeEvent<HTMLInputElement>) =>
-                setUsername(toAlphaNumerical(event.target.value)),
-        );
 
         return (
             <Template
@@ -70,8 +54,6 @@ export const LoginUpdateProfile = memo(
                                         type="text"
                                         id="username"
                                         name="username"
-                                        value={username}
-                                        onChange={onUsernameInputChange}
                                         className={cx(props.kcInputClass)}
                                     />
                                 </div>
