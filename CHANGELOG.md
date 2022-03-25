@@ -1,3 +1,8 @@
+### **0.0.28** (2022-03-25)  
+  
+- :bookmark:  Bump version  
+- :sparkles:  Display similar software that are not in the sill    
+  
 ### **0.0.27** (2022-03-25)  
   
 - :bookmark:  Bump version  
