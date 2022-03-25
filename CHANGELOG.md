@@ -1,3 +1,8 @@
+### **0.0.30** (2022-03-25)  
+  
+- :bookmark:  Bupm version  
+- :bug:  Fix google inference    
+  
 ### **0.0.29** (2022-03-25)  
   
 - :bookmark:  Bump version  
