@@ -17,7 +17,8 @@ import { GlobalStyles } from "tss-react/compat";
 import { objectKeys } from "tsafe/objectKeys";
 import { CoreProvider } from "ui/coreApi/CoreProvider";
 import { I18nProvider } from "ui/i18n/I18nProvider";
-import type { SupportedLanguage } from "ui/i18n/translations";
+import type { Language } from "sill-api";
+import { languages } from "sill-api";
 import { RouteProvider } from "ui/routes";
 import { useLng } from "ui/i18n/useLng";
 
@@ -81,7 +82,7 @@ export function getStoryFactory<Props>(params: {
             containerWidth: number;
             chromeFontSize: ChromeFontSize;
             targetWindowInnerWidth: number;
-            lng: SupportedLanguage;
+            lng: Language;
         }
     > = ({
         darkMode,
@@ -160,7 +161,7 @@ export function getStoryFactory<Props>(params: {
             "containerWidth": defaultContainerWidth ?? 0,
             "targetWindowInnerWidth": 0,
             "chromeFontSize": "Medium (Recommended)",
-            "lng": id<SupportedLanguage>("en"),
+            "lng": id<Language>("en"),
             ...props,
         };
 
@@ -193,7 +194,7 @@ export function getStoryFactory<Props>(params: {
                     "control": { "type": "select" },
                 },
                 "lng": {
-                    "options": id<SupportedLanguage[]>(["fr", "en"]),
+                    "options": languages,
                     "control": {
                         "type": "inline-radio",
                     },

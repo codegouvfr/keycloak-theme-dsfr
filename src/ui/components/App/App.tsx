@@ -14,7 +14,8 @@ import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
 import { typeGuard } from "tsafe/typeGuard";
-import type { SupportedLanguage, fallbackLanguage } from "ui/i18n/translations";
+import type { fallbackLanguage } from "ui/i18n/translations";
+import { Language } from "sill-api";
 import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
 import type { KcLanguageTag } from "keycloakify";
@@ -315,13 +316,14 @@ function useApplyLanguageSelectedAtLogin() {
         const { locale } = userAuthenticationThunks.getUser();
 
         if (
-            !typeGuard<SupportedLanguage>(
+            !typeGuard<Language>(
                 locale,
-                locale in
-                    id<Record<SupportedLanguage, null>>({
-                        "en": null,
-                        "fr": null,
-                    }),
+                locale !== undefined &&
+                    locale in
+                        id<Record<Language, null>>({
+                            "en": null,
+                            "fr": null,
+                        }),
             )
         ) {
             return;

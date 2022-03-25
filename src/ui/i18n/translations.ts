@@ -18,6 +18,7 @@ import { LoginDivider } from "ui/components/KcApp/Login/LoginDivider";
 import { Login } from "ui/components/KcApp/Login";
 import type { KcLanguageTag } from "keycloakify";
 import { assert } from "tsafe/assert";
+import type { Language } from "sill-api";
 
 export type Scheme = {
     [key: string]: undefined | Record<string, string>;
@@ -52,15 +53,13 @@ export type Translations = {
     [K in keyof I18nSchemes]: ToTranslations<I18nSchemes[K]>;
 };
 
-export type SupportedLanguage = "en" | "fr";
-
-assert<SupportedLanguage extends KcLanguageTag ? true : false>();
+assert<Language extends KcLanguageTag ? true : false>();
 
 export const fallbackLanguage = "en";
 
-assert<typeof fallbackLanguage extends SupportedLanguage ? true : false>();
+assert<typeof fallbackLanguage extends Language ? true : false>();
 
-export const resources = id<Record<SupportedLanguage, Translations>>({
+export const resources = id<Record<Language, Translations>>({
     "en": {
         "Account": {
             "infos": "Account infos",

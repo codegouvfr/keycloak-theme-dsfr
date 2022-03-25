@@ -8,7 +8,7 @@ import { getEnv } from "./env";
 import type { KcLanguageTag } from "keycloakify";
 import { kcLanguageTags } from "keycloakify/lib/i18n/KcLanguageTag";
 import { id } from "tsafe/id";
-import { SupportedLanguage } from "ui/i18n/translations";
+import { languages as supportedLanguage } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
 import { IconId } from "ui/theme";
 import { iconIds } from "ui/theme";
@@ -322,19 +322,13 @@ export const getConfiguration = memoize(
                             ),
                         );
 
-                        const supportedLanguages = ["en", "fr"] as const;
-
-                        assert<
-                            Equals<SupportedLanguage, typeof supportedLanguages[number]>
-                        >();
-
                         languages.forEach(lng =>
                             assert(
-                                id<readonly string[]>(supportedLanguages).includes(lng),
+                                id<readonly string[]>(supportedLanguage).includes(lng),
                                 m_1(
                                     `${symToStr({
                                         label,
-                                    })}: ${lng} is not a supported languages, supported languages are: ${supportedLanguages.join(
+                                    })}: ${lng} is not a supported languages, supported languages are: ${supportedLanguage.join(
                                         ", ",
                                     )}`,
                                 ),

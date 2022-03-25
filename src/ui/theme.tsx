@@ -72,7 +72,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import AirplayIcon from "@mui/icons-material/Airplay";
 import type { Param0 } from "tsafe/Param0";
 import { ComponentType } from "ui/tools/types/ComponentType";
-import type { SupportedLanguage } from "ui/i18n/translations";
+import type { Language } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
 import { THEME_ID } from "ui/envCarriedOverToKc";
 
@@ -219,7 +219,7 @@ export const { PageHeader } = createPageHeader({ Icon });
 
 export const { ButtonBarButton } = createButtonBarButton({ Icon });
 export const { ButtonBar } = createButtonBar({ Icon });
-export const { LanguageSelect } = createLanguageSelect<SupportedLanguage>({
+export const { LanguageSelect } = createLanguageSelect<Language>({
     "languagesPrettyPrint": {
         "en": "English",
         "fr": "Français",

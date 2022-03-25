@@ -1,9 +1,7 @@
-import type { KcLanguageTag } from "keycloakify";
-
 export type User = {
     email: string;
     agencyName: string;
-    locale: KcLanguageTag;
+    locale?: string;
 };
 
 export type UserApiClient = {
