@@ -1,3 +1,9 @@
+### **0.0.26** (2022-03-25)  
+  
+- :bug:  Put agency name in last so that it's not considered an username  
+- :bookmark: Bump version  
+- :sparkles:  Beter sharing of parsing of jwt token    
+  
 ### **0.0.24** (2022-03-24)  
   
 - :bug:  Agency name first so that it's not saved as username    
