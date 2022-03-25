@@ -419,7 +419,7 @@ export declare namespace RegisterUserProfile {
 }
 
 const { getHardCodedFieldWeight } = (() => {
-    const orderedFields = ["agencyName", "email", "password", "password-confirm"].map(
+    const orderedFields = ["email", "password", "password-confirm", "agencyName"].map(
         fieldName => fieldName.toLowerCase(),
     );
 
