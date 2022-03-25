@@ -1,6 +1,6 @@
 import type { UserApiClient, User } from "../ports/UserApiClient";
 import { parseJwtPayload } from "sill-api";
-import type { zParsedJwtTokenPayload } from "sill-api";
+import { zParsedJwtTokenPayload } from "sill-api";
 import * as jwtSimple from "jwt-simple";
 
 export function createJwtUserApiClient(params: {

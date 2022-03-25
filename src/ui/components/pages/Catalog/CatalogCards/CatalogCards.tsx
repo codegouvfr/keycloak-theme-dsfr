@@ -18,6 +18,7 @@ import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import type { CompiledData, SoftwareRef } from "sill-api";
+import { exclude } from "tsafe/exclude";
 
 export type Props = {
     className?: string;
@@ -52,8 +53,6 @@ export const CatalogCards = memo((props: Props) => {
         hasMoreToLoad,
         searchBarWrapperElement,
     } = props;
-
-    console.log("TODO: display", alikeSoftwares);
 
     const { t } = useTranslation({ CatalogCards });
 
@@ -125,6 +124,28 @@ export const CatalogCards = memo((props: Props) => {
                                     isUserReferent={isUserReferent}
                                 />
                             ))
+                    )}
+                    {alikeSoftwares.length === 0 ? null : (
+                        <>
+                            <Text typo="section heading" className={classes.contextTypo}>
+                                Alike softwares
+                            </Text>
+                            {alikeSoftwares
+                                .map(o => (o.isKnown ? o.software : undefined))
+                                .filter(exclude(undefined))
+                                .map(software => ({
+                                    software,
+                                    ...getSoftwareExtraInfos(software.id),
+                                }))
+                                .map(({ software, isUserReferent, openLink }) => (
+                                    <CatalogCard
+                                        key={software.id}
+                                        software={software}
+                                        openLink={openLink}
+                                        isUserReferent={isUserReferent}
+                                    />
+                                ))}
+                        </>
                     )}
                 </div>
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>

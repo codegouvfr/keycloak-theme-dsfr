@@ -242,22 +242,27 @@ export const selectors = (() => {
 
             assert(filteredSoftwares !== undefined);
 
-            if (filteredSoftwares.length !== 1) {
+            const n = 3;
+
+            if (filteredSoftwares.length > n) {
                 return [];
             }
 
-            const [software] = filteredSoftwares;
-
-            return software.alikeSoftwares.map(softwareRef =>
-                softwareRef.isKnown
-                    ? {
-                          "software": state["~internal"].softwares.find(
-                              s => s.id === softwareRef.softwareId,
-                          )!,
-                          "isKnown": true,
-                      }
-                    : softwareRef,
-            );
+            return filteredSoftwares
+                .slice(0, n)
+                .map(({ alikeSoftwares }) =>
+                    alikeSoftwares.map(softwareRef =>
+                        softwareRef.isKnown
+                            ? {
+                                  "software": state["~internal"].softwares.find(
+                                      s => s.id === softwareRef.softwareId,
+                                  )!,
+                                  "isKnown": true as const,
+                              }
+                            : softwareRef,
+                    ),
+                )
+                .flat();
         },
     );
 
