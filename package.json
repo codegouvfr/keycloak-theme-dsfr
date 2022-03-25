@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.garronej.dev",
     "name": "sill-web",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
