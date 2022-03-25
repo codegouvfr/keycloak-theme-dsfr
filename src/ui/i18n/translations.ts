@@ -142,6 +142,8 @@ export const resources = id<Record<Language, Translations>>({
             "all software": "All software",
             "search results": "Search result",
             "search": "Search",
+            "alike software": "Alike software",
+            "others": "Others",
         },
         "Catalog": {
             "header text1": "Software catalog",
@@ -247,6 +249,8 @@ export const resources = id<Record<Language, Translations>>({
             "all software": "Tous les logiciels",
             "search results": "Résultats de la recherche",
             "search": "Rechercher",
+            "alike software": "Logiciels similaires",
+            "others": "Autres",
         },
         "Catalog": {
             "header text1": "Catalogue de logiciel",

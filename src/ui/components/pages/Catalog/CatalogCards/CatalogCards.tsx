@@ -19,6 +19,7 @@ import { useConst } from "powerhooks/useConst";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
+import { capitalize } from "tsafe/capitalize";
 
 export type Props = {
     className?: string;
@@ -27,7 +28,7 @@ export type Props = {
         | SoftwareRef.Unknown
         | {
               software: CompiledData.Software.WithoutReferent;
-              isKnown: boolean;
+              isKnown: true;
           }
     )[];
     getSoftwareExtraInfos: (softwareId: number) => {
@@ -127,9 +128,7 @@ export const CatalogCards = memo((props: Props) => {
                     )}
                     {alikeSoftwares.length === 0 ? null : (
                         <>
-                            <Text typo="section heading" className={classes.contextTypo}>
-                                Alike softwares
-                            </Text>
+                            <Text typo="section heading">{t("alike software")}</Text>
                             {alikeSoftwares
                                 .map(o => (o.isKnown ? o.software : undefined))
                                 .filter(exclude(undefined))
@@ -145,6 +144,23 @@ export const CatalogCards = memo((props: Props) => {
                                         isUserReferent={isUserReferent}
                                     />
                                 ))}
+                            {(() => {
+                                const otherSoftwareNames = alikeSoftwares
+                                    .map(o => (o.isKnown ? undefined : o.softwareName))
+                                    .filter(exclude(undefined));
+
+                                return otherSoftwareNames.length === 0 ? null : (
+                                    <Text typo="label 1">
+                                        {capitalize(t("others"))} :
+                                        {alikeSoftwares
+                                            .map(o =>
+                                                o.isKnown ? undefined : o.softwareName,
+                                            )
+                                            .filter(exclude(undefined))
+                                            .join(", ")}
+                                    </Text>
+                                );
+                            })()}
                         </>
                     )}
                 </div>
@@ -167,6 +183,8 @@ export declare namespace CatalogCards {
         "check spelling": undefined;
         "go back": undefined;
         "search": undefined;
+        "alike software": undefined;
+        "others": undefined;
     };
 }
 
