@@ -1,3 +1,8 @@
+### **0.0.27** (2022-03-25)  
+  
+- :bookmark:  Bump version  
+- :lipstick:  Show alike sofwares in search    
+  
 ### **0.0.26** (2022-03-25)  
   
 - :bug:  Put agency name in last so that it's not considered an username  
