@@ -179,29 +179,37 @@ export const Login = memo(
                                     method="post"
                                 >
                                     <div>
-                                        <TextField
-                                            disabled={
-                                                usernameEditDisabled ||
-                                                areTextInputsDisabled
-                                            }
-                                            defaultValue={login.username ?? ""}
-                                            id="username"
-                                            name="username"
-                                            inputProps_ref={usernameInputRef}
-                                            inputProps_aria-label="username"
-                                            inputProps_tabIndex={1}
-                                            inputProps_autoFocus={!areTextInputsDisabled}
-                                            inputProps_spellCheck={false}
-                                            label={
-                                                !realm.loginWithEmailAllowed
-                                                    ? msg("username")
-                                                    : !realm.registrationEmailAsUsername
-                                                    ? msg("usernameOrEmail")
-                                                    : msg("email")
-                                            }
-                                            autoComplete="off"
-                                            getIsValidValue={getUsernameIsValidValue}
-                                        />
+                                        {(() => {
+                                            const label = !realm.loginWithEmailAllowed
+                                                ? ("username" as const)
+                                                : !realm.registrationEmailAsUsername
+                                                ? ("usernameOrEmail" as const)
+                                                : ("email" as const);
+
+                                            return (
+                                                <TextField
+                                                    disabled={
+                                                        usernameEditDisabled ||
+                                                        areTextInputsDisabled
+                                                    }
+                                                    defaultValue={login.username ?? ""}
+                                                    id={label}
+                                                    name={label}
+                                                    inputProps_ref={usernameInputRef}
+                                                    inputProps_aria-label="username"
+                                                    inputProps_tabIndex={1}
+                                                    inputProps_autoFocus={
+                                                        !areTextInputsDisabled
+                                                    }
+                                                    inputProps_spellCheck={false}
+                                                    label={msg(label)}
+                                                    autoComplete="off"
+                                                    getIsValidValue={
+                                                        getUsernameIsValidValue
+                                                    }
+                                                />
+                                            );
+                                        })()}
                                     </div>
                                     <div>
                                         <TextField
