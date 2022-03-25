@@ -80,7 +80,7 @@ export const CatalogCards = memo((props: Props) => {
         return false;
     })();
 
-    const { classes } = useStyles({
+    const { classes, css, theme } = useStyles({
         "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
         doRenderSearchBarInHeader,
@@ -126,44 +126,49 @@ export const CatalogCards = memo((props: Props) => {
                                 />
                             ))
                     )}
-                    {alikeSoftwares.length === 0 ? null : (
-                        <>
-                            <Text typo="section heading">{t("alike software")}</Text>
-                            {alikeSoftwares
-                                .map(o => (o.isKnown ? o.software : undefined))
-                                .filter(exclude(undefined))
-                                .map(software => ({
-                                    software,
-                                    ...getSoftwareExtraInfos(software.id),
-                                }))
-                                .map(({ software, isUserReferent, openLink }) => (
-                                    <CatalogCard
-                                        key={software.id}
-                                        software={software}
-                                        openLink={openLink}
-                                        isUserReferent={isUserReferent}
-                                    />
-                                ))}
-                            {(() => {
-                                const otherSoftwareNames = alikeSoftwares
-                                    .map(o => (o.isKnown ? undefined : o.softwareName))
-                                    .filter(exclude(undefined));
-
-                                return otherSoftwareNames.length === 0 ? null : (
-                                    <Text typo="label 1">
-                                        {capitalize(t("others"))} :
-                                        {alikeSoftwares
-                                            .map(o =>
-                                                o.isKnown ? undefined : o.softwareName,
-                                            )
-                                            .filter(exclude(undefined))
-                                            .join(", ")}
-                                    </Text>
-                                );
-                            })()}
-                        </>
-                    )}
                 </div>
+                {alikeSoftwares.length === 0 ? null : (
+                    <>
+                        <Text
+                            typo="section heading"
+                            className={css({ ...theme.spacing.topBottom("margin", 2) })}
+                        >
+                            {t("alike software")}
+                        </Text>
+                        {alikeSoftwares
+                            .map(o => (o.isKnown ? o.software : undefined))
+                            .filter(exclude(undefined))
+                            .map(software => ({
+                                software,
+                                ...getSoftwareExtraInfos(software.id),
+                            }))
+                            .map(({ software, isUserReferent, openLink }) => (
+                                <CatalogCard
+                                    key={software.id}
+                                    software={software}
+                                    openLink={openLink}
+                                    isUserReferent={isUserReferent}
+                                />
+                            ))}
+                        {(() => {
+                            const otherSoftwareNames = alikeSoftwares
+                                .map(o => (o.isKnown ? undefined : o.softwareName))
+                                .filter(exclude(undefined));
+
+                            return otherSoftwareNames.length === 0 ? null : (
+                                <Text typo="label 1">
+                                    {capitalize(t("others"))} :
+                                    {alikeSoftwares
+                                        .map(o =>
+                                            o.isKnown ? undefined : o.softwareName,
+                                        )
+                                        .filter(exclude(undefined))
+                                        .join(", ")}
+                                </Text>
+                            );
+                        })()}
+                    </>
+                )}
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
                     <CircularProgress color="textPrimary" />
                 </div>
