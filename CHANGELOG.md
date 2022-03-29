@@ -1,3 +1,9 @@
+### **0.0.31** (2022-03-29)  
+  
+- :bookmark:  Bump version  
+- :bug:  Try fixing bug login with email  
+- :sparkles:  Display referent information when logged in    
+  
 ### **0.0.30** (2022-03-25)  
   
 - :bookmark:  Bupm version  
