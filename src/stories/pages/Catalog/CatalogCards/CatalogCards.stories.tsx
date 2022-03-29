@@ -21,7 +21,7 @@ const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
         "function":
             "Lanceur de conteneurs orienté Data science. Mise en commun de ressources matérielles (CPU/GPU/RAM)",
         "referencedSinceTime": 1640995200000,
-        "recommendationStatus": "recommended",
+        "isStillInObservation": false,
         "isFromFrenchPublicService": true,
         "isPresentInSupportContract": false,
         "alikeSoftwares": [
@@ -69,15 +69,21 @@ export const VueDefault = getStory({
     className,
     filteredSoftwares,
     "alikeSoftwares": [],
-    "getSoftwareExtraInfos": () => ({
-        "isUserReferent": true,
-        "openLink": {
-            "href": "https://example.fr",
+    "referentsBySoftwareId": {
+        "233": {
+            "isUserExpert": true,
+            "isUserReferent": true,
+            "otherReferents": [],
+        },
+    },
+    "openLinkBySoftwareId": {
+        "233": {
+            "href": "https://example.com",
             "onClick": () => {},
         },
-    }),
+    },
     "search": "",
     "hasMoreToLoad": true,
-    ...logCallbacks(["onSearchChange", "onLoadMore"]),
+    ...logCallbacks(["onSearchChange", "onLoadMore", "onLogin"]),
     "searchBarWrapperElement": document.createElement("div"),
 });

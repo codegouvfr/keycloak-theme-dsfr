@@ -20,6 +20,7 @@ import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
+import type { SoftwareReferents } from "sill-api";
 
 export type Props = {
     className?: string;
@@ -31,15 +32,14 @@ export type Props = {
               isKnown: true;
           }
     )[];
-    getSoftwareExtraInfos: (softwareId: number) => {
-        openLink: Link;
-        isUserReferent: boolean;
-    };
+    referentsBySoftwareId: Record<number, SoftwareReferents> | undefined;
+    openLinkBySoftwareId: Record<number, Link>;
     search: string;
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
     searchBarWrapperElement: HTMLDivElement;
+    onLogin: () => void;
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -47,12 +47,14 @@ export const CatalogCards = memo((props: Props) => {
         className,
         filteredSoftwares,
         alikeSoftwares,
-        getSoftwareExtraInfos,
+        referentsBySoftwareId,
+        openLinkBySoftwareId,
         search,
         onSearchChange,
         onLoadMore,
         hasMoreToLoad,
         searchBarWrapperElement,
+        onLogin,
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
@@ -112,19 +114,15 @@ export const CatalogCards = memo((props: Props) => {
                     {filteredSoftwares.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
-                        filteredSoftwares
-                            .map(software => ({
-                                software,
-                                ...getSoftwareExtraInfos(software.id),
-                            }))
-                            .map(({ software, isUserReferent, openLink }) => (
-                                <CatalogCard
-                                    key={software.id}
-                                    software={software}
-                                    openLink={openLink}
-                                    isUserReferent={isUserReferent}
-                                />
-                            ))
+                        filteredSoftwares.map(software => (
+                            <CatalogCard
+                                key={software.id}
+                                software={software}
+                                openLink={openLinkBySoftwareId[software.id]!}
+                                softwareReferents={referentsBySoftwareId?.[software.id]}
+                                onLogin={onLogin}
+                            />
+                        ))
                     )}
                 </div>
                 {alikeSoftwares.length === 0 ? null : (
@@ -138,16 +136,15 @@ export const CatalogCards = memo((props: Props) => {
                         {alikeSoftwares
                             .map(o => (o.isKnown ? o.software : undefined))
                             .filter(exclude(undefined))
-                            .map(software => ({
-                                software,
-                                ...getSoftwareExtraInfos(software.id),
-                            }))
-                            .map(({ software, isUserReferent, openLink }) => (
+                            .map(software => (
                                 <CatalogCard
                                     key={software.id}
                                     software={software}
-                                    openLink={openLink}
-                                    isUserReferent={isUserReferent}
+                                    openLink={openLinkBySoftwareId[software.id]!}
+                                    softwareReferents={
+                                        referentsBySoftwareId?.[software.id]
+                                    }
+                                    onLogin={onLogin}
                                 />
                             ))}
                         {(() => {

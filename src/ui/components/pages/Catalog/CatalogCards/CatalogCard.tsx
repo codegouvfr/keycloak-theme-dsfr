@@ -10,16 +10,18 @@ import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 import { Tag } from "onyxia-ui/Tag";
+import type { SoftwareReferents } from "sill-api";
 
 export type Props = {
     className?: string;
     software: CompiledData.Software;
     openLink: Link;
-    isUserReferent: boolean;
+    softwareReferents: SoftwareReferents | undefined;
+    onLogin: () => void;
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, openLink, isUserReferent } = props;
+    const { className, software, openLink, softwareReferents, onLogin } = props;
 
     const { classes, cx, css } = useStyles();
 
@@ -67,7 +69,9 @@ export const CatalogCard = memo((props: Props) => {
                     );
                 })()}
                 <div style={{ "flex": 1 }} />
-                {isUserReferent && <Tag text={t("you are referent")} />}
+                {!!softwareReferents?.isUserReferent && (
+                    <Tag text={t("you are referent")} />
+                )}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
@@ -78,6 +82,18 @@ export const CatalogCard = memo((props: Props) => {
                                 software.wikidataData?.descriptionFr ?? software.function,
                         })}`}
                     </Markdown>
+                    {softwareReferents === undefined ? (
+                        <Button onClick={onLogin}>Reveal referents</Button>
+                    ) : (
+                        <Text typo="body 2">
+                            {(softwareReferents.isUserReferent
+                                ? softwareReferents.otherReferents
+                                : softwareReferents.referents
+                            )
+                                .map(({ email }) => email)
+                                .join(" ")}
+                        </Text>
+                    )}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     <Button
@@ -114,6 +130,7 @@ export declare namespace CatalogCard {
         "learn more": undefined;
         "try it": undefined;
         "you are referent": undefined;
+        "reveal referents": undefined;
     };
 }
 

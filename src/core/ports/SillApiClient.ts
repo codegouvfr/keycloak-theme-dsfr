@@ -8,9 +8,7 @@ export type SillApiClient = {
         clear: () => void;
     };
     getCompiledData: () => Promise<InferQueryOutput<"getCompiledData">>;
-    getIdOfSoftwareUserIsReferentOf: () => Promise<
-        InferQueryOutput<"getIdOfSoftwareUserIsReferentOf">
-    >;
+    getReferentsBySoftwareId: () => Promise<InferQueryOutput<"getReferentsBySoftwareId">>;
 };
 
 type TQuery = keyof TrpcRouter["_def"]["queries"];

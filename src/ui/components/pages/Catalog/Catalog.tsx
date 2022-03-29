@@ -1,3 +1,4 @@
+import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -14,7 +15,6 @@ import { CatalogCards } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { breakpointsValues } from "onyxia-ui";
-import { exclude } from "tsafe/exclude";
 import type { Link } from "type-route";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
@@ -67,7 +67,7 @@ export function Catalog(props: Props) {
 
     const catalogExplorerState = useSelector(state => state.catalogExplorer);
 
-    const { catalogExplorerThunks } = useThunks();
+    const { catalogExplorerThunks, userAuthenticationThunks } = useThunks();
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
@@ -103,55 +103,31 @@ export function Catalog(props: Props) {
     );
 
     const { alikeSoftwares } = useSelector(selectors.catalogExplorer.alikeSoftwares);
-    const { userSoftwareIds } = useSelector(selectors.catalogExplorer.userSoftwareIds);
+    const { referentsBySoftwareId } = useSelector(
+        selectors.catalogExplorer.referentsBySoftwareId,
+    );
 
-    const { getSoftwareExtraInfo } = (function useClosure() {
-        const map = useMemo(() => {
-            if (filteredSoftwares === undefined) {
-                return undefined;
-            }
+    const openLinkBySoftwareId = useMemo(() => {
+        if (filteredSoftwares === undefined) {
+            return undefined;
+        }
 
-            assert(alikeSoftwares !== undefined, "one!!!");
-            assert(userSoftwareIds !== undefined, "two!!!");
+        const openLinkBySoftwareId: Record<number, Link> = {};
 
-            const map = new Map<
-                number,
-                {
-                    isUserReferent: boolean;
-                    openLink: Link;
-                }
-            >();
-
-            [
-                ...filteredSoftwares,
-                ...alikeSoftwares
-                    .map(e => (e.isKnown ? e.software : undefined))
-                    .filter(exclude(undefined)),
-            ].forEach(software =>
-                map.set(software.id, {
-                    "isUserReferent": userSoftwareIds.includes(software.id),
-                    "openLink": routes.catalogExplorer({
-                        "search": route.params.search || undefined,
-                        "softwareName": software.name,
-                    }).link,
-                }),
-            );
-
-            return map;
-        }, [filteredSoftwares, alikeSoftwares, route.params.search]);
-
-        const getSoftwareExtraInfo = useConstCallback(softwareId => {
-            assert(map !== undefined);
-
-            const info = map.get(softwareId);
-
-            assert(info !== undefined);
-
-            return info;
+        filteredSoftwares.forEach(({ id, name }) => {
+            openLinkBySoftwareId[id] = routes.catalogExplorer({
+                "search": route.params.search || undefined,
+                "softwareName": name,
+            }).link;
         });
 
-        return { getSoftwareExtraInfo };
-    })();
+        return openLinkBySoftwareId;
+    }, [filteredSoftwares]);
+
+    const onLogin = useConstCallback(() => {
+        assert(!userAuthenticationThunks.getIsUserLoggedIn());
+        userAuthenticationThunks.login();
+    });
 
     const onGoBack = useConstCallback(() =>
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
@@ -163,6 +139,7 @@ export function Catalog(props: Props) {
 
     assert(alikeSoftwares !== undefined);
     assert(filteredSoftwares !== undefined);
+    assert(openLinkBySoftwareId !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -188,10 +165,12 @@ export function Catalog(props: Props) {
                                   onSearchChange={onSearchChange}
                                   filteredSoftwares={filteredSoftwares}
                                   alikeSoftwares={alikeSoftwares}
-                                  getSoftwareExtraInfos={getSoftwareExtraInfo}
+                                  referentsBySoftwareId={referentsBySoftwareId}
+                                  openLinkBySoftwareId={openLinkBySoftwareId}
                                   onLoadMore={catalogExplorerThunks.loadMore}
                                   hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                                   searchBarWrapperElement={pageHeaderRef.current}
+                                  onLogin={onLogin}
                               />
                           )
                         : (() => {

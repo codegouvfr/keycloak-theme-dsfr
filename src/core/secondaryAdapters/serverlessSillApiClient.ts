@@ -24,6 +24,6 @@ export function createServerlessSillApiClient(params: {
             fetch(jsonUrl)
                 .then(res => res.text())
                 .then(text => JSON.parse(text) as CompiledData),
-        "getIdOfSoftwareUserIsReferentOf": () => Promise.resolve([]),
+        "getReferentsBySoftwareId": () => Promise.reject(new Error("not implemented")),
     };
 }

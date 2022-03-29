@@ -1,6 +1,6 @@
 import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
 import { sectionName } from "./sectionName";
-import { getStoryFactory } from "stories/getStory";
+import { getStoryFactory, logCallbacks } from "stories/getStory";
 import { CompiledData } from "sill-api";
 
 const { meta, getStory } = getStoryFactory({
@@ -17,7 +17,7 @@ const software: CompiledData.Software = {
     "function":
         "Lanceur de conteneurs orienté Data science. Mise en commun de ressources matérielles (CPU/GPU/RAM)",
     "referencedSinceTime": 1640995200000,
-    "recommendationStatus": "recommended",
+    "isStillInObservation": false,
     "isFromFrenchPublicService": true,
     "isPresentInSupportContract": false,
     "alikeSoftwares": [
@@ -66,5 +66,6 @@ export const VueDefault = getStory({
         "href": "https://example.com",
         "onClick": () => {},
     },
-    "isUserReferent": true,
+    "softwareReferents": undefined,
+    ...logCallbacks(["onLogin"]),
 });

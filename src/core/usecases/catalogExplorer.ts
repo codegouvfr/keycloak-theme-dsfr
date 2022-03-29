@@ -9,6 +9,7 @@ import type { ThunksExtraArgument, RootState } from "../setup";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
+import type { SoftwareReferents } from "sill-api";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -26,7 +27,7 @@ namespace CatalogExplorerState {
         stateDescription: "ready";
         "~internal": {
             softwares: CompiledData.Software[];
-            userSoftwareIds: number[];
+            referentsBySoftwareId: undefined | Record<string, SoftwareReferents>;
             displayCount: number;
         };
     };
@@ -50,18 +51,20 @@ export const { name, reducer, actions } = createSlice({
             state,
             {
                 payload,
-            }: PayloadAction<{
-                softwares: CompiledData.Software[];
-                userSoftwareIds: number[];
-            }>,
+            }: PayloadAction<
+                Pick<
+                    CatalogExplorerState.Ready["~internal"],
+                    "softwares" | "referentsBySoftwareId"
+                >
+            >,
         ) => {
-            const { softwares, userSoftwareIds } = payload;
+            const { softwares, referentsBySoftwareId } = payload;
 
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
                 "~internal": {
-                    userSoftwareIds,
                     softwares,
+                    referentsBySoftwareId,
                     "displayCount": 24,
                 },
                 "search": state.search,
@@ -92,13 +95,14 @@ export const thunks = {
 
             dispatch(actions.catalogsFetching());
 
-            const { catalog: softwares } = await sillApiClient.getCompiledData();
-
-            const userSoftwareIds = oidcClient.isUserLoggedIn
-                ? await sillApiClient.getIdOfSoftwareUserIsReferentOf()
-                : [];
-
-            dispatch(actions.catalogsFetched({ softwares, userSoftwareIds }));
+            dispatch(
+                actions.catalogsFetched({
+                    "softwares": (await sillApiClient.getCompiledData()).catalog,
+                    "referentsBySoftwareId": !oidcClient.isUserLoggedIn
+                        ? undefined
+                        : await sillApiClient.getReferentsBySoftwareId(),
+                }),
+            );
         },
     "setSearch":
         (params: { search: string }): ThunkAction =>
@@ -175,11 +179,11 @@ export const selectors = (() => {
         }
     };
 
-    const userSoftwareIds = createSelector(readyState, state => {
+    const referentsBySoftwareId = createSelector(readyState, state => {
         if (state === undefined) {
             return undefined;
         }
-        return state["~internal"].userSoftwareIds;
+        return state["~internal"].referentsBySoftwareId;
     });
 
     const filteredSoftwares = createSelector(readyState, state => {
@@ -189,13 +193,14 @@ export const selectors = (() => {
 
         const {
             search,
-            "~internal": { softwares, displayCount, userSoftwareIds },
+            "~internal": { softwares, displayCount, referentsBySoftwareId },
         } = state;
 
         return [...softwares]
             .map(software => ({
                 software,
-                "isUserReferent": userSoftwareIds.includes(software.id),
+                "isUserReferent":
+                    referentsBySoftwareId?.[software.id].isUserReferent ?? false,
             }))
             .sort((a, b) => getSoftwareWeight(b.software) - getSoftwareWeight(a.software))
             .sort((a, b) =>
@@ -203,6 +208,10 @@ export const selectors = (() => {
             )
             .slice(0, search === "" ? displayCount : softwares.length)
             .map(({ software }) => software)
+            .map(software =>
+                software.dereferencing !== undefined ? undefined : software,
+            )
+            .filter(exclude(undefined))
             .filter(
                 search === ""
                     ? () => true
@@ -266,5 +275,5 @@ export const selectors = (() => {
         },
     );
 
-    return { filteredSoftwares, alikeSoftwares, userSoftwareIds };
+    return { filteredSoftwares, alikeSoftwares, referentsBySoftwareId };
 })();
