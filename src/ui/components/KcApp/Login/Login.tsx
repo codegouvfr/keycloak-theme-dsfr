@@ -194,9 +194,9 @@ export const Login = memo(
                                                     }
                                                     defaultValue={login.username ?? ""}
                                                     id={label}
-                                                    name={label}
+                                                    name="username"
                                                     inputProps_ref={usernameInputRef}
-                                                    inputProps_aria-label="username"
+                                                    inputProps_aria-label={label}
                                                     inputProps_tabIndex={1}
                                                     inputProps_autoFocus={
                                                         !areTextInputsDisabled
