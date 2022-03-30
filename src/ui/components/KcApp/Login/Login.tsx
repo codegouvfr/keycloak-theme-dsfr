@@ -199,6 +199,11 @@ export const Login = memo(
                                                 ? ("email" as const)
                                                 : ("usernameOrEmail" as const);
 
+                                            const autoCompleteHelper: typeof label =
+                                                label === "usernameOrEmail"
+                                                    ? "username"
+                                                    : label;
+
                                             return (
                                                 <TextField
                                                     disabled={
@@ -206,15 +211,11 @@ export const Login = memo(
                                                         areTextInputsDisabled
                                                     }
                                                     defaultValue={login.username ?? ""}
-                                                    id="username"
+                                                    id={autoCompleteHelper}
                                                     //NOTE: This is used by Google Chrome auto fill so we use it to tell
                                                     //the browser how to pre fill the form but before submit we put it back
                                                     //to username because it is what keycloak expects.
-                                                    name={
-                                                        label === "usernameOrEmail"
-                                                            ? "username"
-                                                            : label
-                                                    }
+                                                    name={autoCompleteHelper}
                                                     inputProps_ref={usernameInputRef}
                                                     inputProps_aria-label={label}
                                                     inputProps_tabIndex={1}
