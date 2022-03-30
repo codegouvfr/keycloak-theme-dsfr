@@ -1,3 +1,7 @@
+### **0.0.32** (2022-03-30)  
+  
+- :sparkles:  Fix browser autofill in login page    
+  
 ### **0.0.31** (2022-03-29)  
   
 - :bookmark:  Bump version  
