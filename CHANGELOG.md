@@ -1,3 +1,9 @@
+### **0.0.34** (2022-03-30)  
+  
+- :bookmark:  Bump version  
+- :lipstick:  Beter display of alikes softwares  
+- :recycle:  Refactor    
+  
 ### **0.0.33** (2022-03-30)  
   
 - :bookmark:  Bump version  
