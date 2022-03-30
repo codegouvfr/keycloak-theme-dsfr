@@ -1,3 +1,8 @@
+### **0.0.33** (2022-03-30)  
+  
+- :bookmark:  Bump version  
+- :bug:  Fix previous commit    
+  
 ### **0.0.32** (2022-03-30)  
   
 - :sparkles:  Fix browser autofill in login page    
