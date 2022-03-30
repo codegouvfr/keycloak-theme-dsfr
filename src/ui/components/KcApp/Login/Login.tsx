@@ -194,10 +194,10 @@ export const Login = memo(
                                     <div>
                                         {(() => {
                                             const label = !realm.loginWithEmailAllowed
-                                                ? ("username" as const)
+                                                ? "username"
                                                 : realm.registrationEmailAsUsername
-                                                ? ("email" as const)
-                                                : ("usernameOrEmail" as const);
+                                                ? "email"
+                                                : "usernameOrEmail";
 
                                             const autoCompleteHelper: typeof label =
                                                 label === "usernameOrEmail"
