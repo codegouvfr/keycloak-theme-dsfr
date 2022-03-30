@@ -1,3 +1,4 @@
+import "minimal-polyfills/Object.fromEntries";
 import { useRef, memo } from "react";
 import { createPortal } from "react-dom";
 import { makeStyles } from "ui/theme";
@@ -21,6 +22,7 @@ import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
 import type { SoftwareReferents } from "sill-api";
+import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 export type Props = {
     className?: string;
@@ -99,6 +101,26 @@ export const CatalogCards = memo((props: Props) => {
         </div>
     );
 
+    const catalogCardBySoftwareId = Object.fromEntries(
+        [
+            ...filteredSoftwares,
+            ...alikeSoftwares
+                .map(o => (o.isKnown ? o.software : undefined))
+                .filter(exclude(undefined)),
+        ]
+            .reduce(...removeDuplicates<CompiledData.Software>())
+            .map(software => [
+                software.id,
+                <CatalogCard
+                    key={software.id}
+                    software={software}
+                    openLink={openLinkBySoftwareId[software.id]!}
+                    softwareReferents={referentsBySoftwareId?.[software.id]}
+                    onLogin={onLogin}
+                />,
+            ]),
+    );
+
     return (
         <>
             {doRenderSearchBarInHeader &&
@@ -114,47 +136,45 @@ export const CatalogCards = memo((props: Props) => {
                     {filteredSoftwares.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
-                        filteredSoftwares.map(software => (
-                            <CatalogCard
-                                key={software.id}
-                                software={software}
-                                openLink={openLinkBySoftwareId[software.id]!}
-                                softwareReferents={referentsBySoftwareId?.[software.id]}
-                                onLogin={onLogin}
-                            />
-                        ))
+                        filteredSoftwares.map(
+                            software => catalogCardBySoftwareId[software.id],
+                        )
                     )}
                 </div>
-                {alikeSoftwares.length === 0 ? null : (
-                    <>
-                        <Text
-                            typo="section heading"
-                            className={css({ ...theme.spacing.topBottom("margin", 2) })}
-                        >
-                            {t("alike software")}
-                        </Text>
-                        {alikeSoftwares
-                            .map(o => (o.isKnown ? o.software : undefined))
-                            .filter(exclude(undefined))
-                            .map(software => (
-                                <CatalogCard
-                                    key={software.id}
-                                    software={software}
-                                    openLink={openLinkBySoftwareId[software.id]!}
-                                    softwareReferents={
-                                        referentsBySoftwareId?.[software.id]
-                                    }
-                                    onLogin={onLogin}
-                                />
-                            ))}
-                        {(() => {
-                            const otherSoftwareNames = alikeSoftwares
-                                .map(o => (o.isKnown ? undefined : o.softwareName))
-                                .filter(exclude(undefined));
+                {(() => {
+                    if (alikeSoftwares.length === 0) {
+                        return null;
+                    }
 
-                            return otherSoftwareNames.length === 0 ? null : (
+                    const softwares: CompiledData.Software[] = [];
+                    const otherSoftwareNames: string[] = [];
+
+                    alikeSoftwares.forEach(alikeSoftware => {
+                        if (alikeSoftware.isKnown) {
+                            softwares.push(alikeSoftware.software);
+                        } else {
+                            otherSoftwareNames.push(alikeSoftware.softwareName);
+                        }
+                    });
+
+                    return (
+                        <>
+                            <Text
+                                typo="section heading"
+                                className={css({
+                                    ...theme.spacing.topBottom("margin", 2),
+                                })}
+                            >
+                                {t("alike software")}
+                            </Text>
+                            <div className={classes.cards}>
+                                {softwares.map(
+                                    software => catalogCardBySoftwareId[software.id],
+                                )}
+                            </div>
+                            {otherSoftwareNames.length !== 0 && (
                                 <Text typo="label 1">
-                                    {capitalize(t("others"))} :
+                                    {capitalize(t("other similar software"))} :
                                     {alikeSoftwares
                                         .map(o =>
                                             o.isKnown ? undefined : o.softwareName,
@@ -162,10 +182,10 @@ export const CatalogCards = memo((props: Props) => {
                                         .filter(exclude(undefined))
                                         .join(", ")}
                                 </Text>
-                            );
-                        })()}
-                    </>
-                )}
+                            )}
+                        </>
+                    );
+                })()}
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
                     <CircularProgress color="textPrimary" />
                 </div>
@@ -186,7 +206,7 @@ export declare namespace CatalogCards {
         "go back": undefined;
         "search": undefined;
         "alike software": undefined;
-        "others": undefined;
+        "other similar software": undefined;
     };
 }
 
