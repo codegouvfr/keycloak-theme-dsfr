@@ -6,7 +6,7 @@ import { id } from "tsafe/id";
 
 /** It's the Keycloak context, it is undefined unless we are on Keycloak, rendering the login pages. */
 export const { kcContext } = getKcContext({
-    //"mockPageId": "register-user-profile.ftl",
+    //"mockPageId": "login.ftl",
     /**
      * Customize the simulated kcContext that will let us
      * dev the page outside keycloak (with auto-reload)
@@ -24,9 +24,13 @@ export const { kcContext } = getKcContext({
                     },
                 ],
             },
+            "realm": {
+                "loginWithEmailAllowed": true,
+                "registrationEmailAsUsername": true,
+            },
         },
         {
-            //"pageId": "register-user-profile.ftl",
+            "pageId": "register-user-profile.ftl",
             "profile": {
                 "attributes": [
                     {

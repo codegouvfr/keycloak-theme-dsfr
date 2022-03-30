@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, memo } from "react";
+import type { FormEventHandler } from "react";
 import type { KcProps } from "keycloakify/lib/components/KcProps";
 import { useKcMessage } from "keycloakify/lib/i18n/useKcMessage";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -18,6 +19,7 @@ import { LoginDivider } from "./LoginDivider";
 import { AgentConnectButton } from "./AgentConnectButton";
 import { useTranslation } from "ui/i18n/useTranslations";
 import type { KcContext } from "../kcContext";
+//import { assert } from "tsafe/assert";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
@@ -101,9 +103,20 @@ export const Login = memo(
             );
         }
 
-        const onSubmit = useConstCallback(() => {
+        const onSubmit = useConstCallback<FormEventHandler<HTMLFormElement>>(e => {
+            e.preventDefault();
+
             setIsLoginButtonDisabled(true);
-            return true;
+
+            const formElement = e.target as HTMLFormElement;
+
+            //NOTE: Even if we login with email Keycloak expect username and password in
+            //the POST request.
+            formElement
+                .querySelector("input[name='email']")
+                ?.setAttribute("name", "username");
+
+            formElement.submit();
         });
 
         const { classes } = useStyles();
@@ -182,9 +195,9 @@ export const Login = memo(
                                         {(() => {
                                             const label = !realm.loginWithEmailAllowed
                                                 ? ("username" as const)
-                                                : !realm.registrationEmailAsUsername
-                                                ? ("usernameOrEmail" as const)
-                                                : ("email" as const);
+                                                : realm.registrationEmailAsUsername
+                                                ? ("email" as const)
+                                                : ("usernameOrEmail" as const);
 
                                             return (
                                                 <TextField
@@ -193,8 +206,15 @@ export const Login = memo(
                                                         areTextInputsDisabled
                                                     }
                                                     defaultValue={login.username ?? ""}
-                                                    id={label}
-                                                    name="username"
+                                                    id="username"
+                                                    //NOTE: This is used by Google Chrome auto fill so we use it to tell
+                                                    //the browser how to pre fill the form but before submit we put it back
+                                                    //to username because it is what keycloak expects.
+                                                    name={
+                                                        label === "usernameOrEmail"
+                                                            ? "username"
+                                                            : label
+                                                    }
                                                     inputProps_ref={usernameInputRef}
                                                     inputProps_aria-label={label}
                                                     inputProps_tabIndex={1}
