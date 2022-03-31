@@ -248,6 +248,7 @@ export const selectors = (() => {
                 search === ""
                     ? () => true
                     : ({
+                          id,
                           name,
                           function: fn,
                           license,
@@ -263,6 +264,14 @@ export const selectors = (() => {
                               wikidataData?.descriptionFr,
                               wikidataData?.sourceUrl,
                               wikidataData?.websiteUrl,
+                              ...(referentsBySoftwareId === undefined
+                                  ? []
+                                  : referentsBySoftwareId[id].referents
+                                        .map(({ email, agencyName }) => [
+                                            email,
+                                            agencyName,
+                                        ])
+                                        .flat()),
                           ]
                               .map(e => (!!e ? e : undefined))
                               .filter(exclude(undefined))
