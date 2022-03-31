@@ -10,18 +10,20 @@ import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 import { Tag } from "onyxia-ui/Tag";
-import type { SoftwareReferents } from "sill-api";
+import { assert } from "tsafe/assert";
 
 export type Props = {
     className?: string;
     software: CompiledData.Software;
     openLink: Link;
-    softwareReferents: SoftwareReferents | undefined;
+    referents: CompiledData.Software.WithReferent["referents"] | undefined;
+    userIndexInReferents: number | undefined;
     onLogin: () => void;
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, openLink, softwareReferents, onLogin } = props;
+    const { className, software, openLink, referents, userIndexInReferents, onLogin } =
+        props;
 
     const { classes, cx, css } = useStyles();
 
@@ -69,9 +71,23 @@ export const CatalogCard = memo((props: Props) => {
                     );
                 })()}
                 <div style={{ "flex": 1 }} />
-                {!!softwareReferents?.isUserReferent && (
-                    <Tag text={t("you are referent")} />
-                )}
+                {(() => {
+                    if (userIndexInReferents === undefined) {
+                        return null;
+                    }
+
+                    assert(referents !== undefined);
+
+                    return (
+                        <Tag
+                            text={t(
+                                referents.length === 1
+                                    ? "you are the referent"
+                                    : "you are referent",
+                            )}
+                        />
+                    );
+                })()}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
@@ -82,16 +98,11 @@ export const CatalogCard = memo((props: Props) => {
                                 software.wikidataData?.descriptionFr ?? software.function,
                         })}`}
                     </Markdown>
-                    {softwareReferents === undefined ? (
+                    {referents === undefined ? (
                         <Button onClick={onLogin}>Reveal referents</Button>
                     ) : (
                         <Text typo="body 2">
-                            {(softwareReferents.isUserReferent
-                                ? softwareReferents.otherReferents
-                                : softwareReferents.referents
-                            )
-                                .map(({ email }) => email)
-                                .join(" ")}
+                            {referents.map(({ email }) => email).join(" ")}
                         </Text>
                     )}
                 </div>
@@ -130,6 +141,7 @@ export declare namespace CatalogCard {
         "learn more": undefined;
         "try it": undefined;
         "you are referent": undefined;
+        "you are the referent": undefined;
         "reveal referents": undefined;
     };
 }

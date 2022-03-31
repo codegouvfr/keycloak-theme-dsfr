@@ -71,9 +71,8 @@ export const VueDefault = getStory({
     "alikeSoftwares": [],
     "referentsBySoftwareId": {
         "233": {
-            "isUserExpert": true,
-            "isUserReferent": true,
-            "otherReferents": [],
+            "referents": [],
+            "userIndex": undefined,
         },
     },
     "openLinkBySoftwareId": {

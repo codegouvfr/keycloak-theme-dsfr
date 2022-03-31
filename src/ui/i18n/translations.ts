@@ -131,6 +131,7 @@ export const resources = id<Record<Language, Translations>>({
             "learn more": "Learn more",
             "try it": "Try it 🚀",
             "you are referent": "You are referent",
+            "you are the referent": "You are the referent",
             "reveal referents": "Reveal referents",
         },
         "CatalogCards": {
@@ -239,6 +240,7 @@ export const resources = id<Record<Language, Translations>>({
             "learn more": "En savoir plus",
             "try it": "Essayer 🚀",
             "you are referent": "Vous êtes référent",
+            "you are the referent": "Vous êtes le référent",
             "reveal referents": "Révéler les référents",
         },
         "CatalogCards": {

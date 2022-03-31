@@ -21,7 +21,6 @@ import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
-import type { SoftwareReferents } from "sill-api";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 export type Props = {
@@ -34,7 +33,15 @@ export type Props = {
               isKnown: true;
           }
     )[];
-    referentsBySoftwareId: Record<number, SoftwareReferents> | undefined;
+    referentsBySoftwareId:
+        | Record<
+              number,
+              {
+                  referents: CompiledData.Software.WithReferent["referents"];
+                  userIndex: number | undefined;
+              }
+          >
+        | undefined;
     openLinkBySoftwareId: Record<number, Link>;
     search: string;
     onSearchChange: (search: string) => void;
@@ -109,13 +116,20 @@ export const CatalogCards = memo((props: Props) => {
                 .filter(exclude(undefined)),
         ]
             .reduce(...removeDuplicates<CompiledData.Software>())
-            .map(software => [
+            .map(software => {
+                const { referents, userIndex } =
+                    referentsBySoftwareId?.[software.id] ?? {};
+
+                return { software, referents, userIndex };
+            })
+            .map(({ software, referents, userIndex }) => [
                 software.id,
                 <CatalogCard
                     key={software.id}
                     software={software}
                     openLink={openLinkBySoftwareId[software.id]!}
-                    softwareReferents={referentsBySoftwareId?.[software.id]}
+                    referents={referents}
+                    userIndexInReferents={userIndex}
                     onLogin={onLogin}
                 />,
             ]),

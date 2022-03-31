@@ -9,7 +9,7 @@ import type { ThunksExtraArgument, RootState } from "../setup";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
-import type { SoftwareReferents } from "sill-api";
+import { thunks as userAuthenticationThunks } from "./userAuthentication";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -27,7 +27,15 @@ namespace CatalogExplorerState {
         stateDescription: "ready";
         "~internal": {
             softwares: CompiledData.Software[];
-            referentsBySoftwareId: undefined | Record<string, SoftwareReferents>;
+            referentsBySoftwareId:
+                | undefined
+                | Record<
+                      string,
+                      {
+                          referents: CompiledData.Software.WithReferent["referents"];
+                          userIndex: number | undefined;
+                      }
+                  >;
             displayCount: number;
         };
     };
@@ -100,7 +108,31 @@ export const thunks = {
                     "softwares": (await sillApiClient.getCompiledData()).catalog,
                     "referentsBySoftwareId": !oidcClient.isUserLoggedIn
                         ? undefined
-                        : await sillApiClient.getReferentsBySoftwareId(),
+                        : await (async () => {
+                              const { email } = dispatch(
+                                  userAuthenticationThunks.getUser(),
+                              );
+
+                              return Object.fromEntries(
+                                  Object.entries(
+                                      await sillApiClient.getReferentsBySoftwareId(),
+                                  ).map(([softwareId, referents]) => [
+                                      softwareId,
+                                      {
+                                          referents,
+                                          "userIndex": (() => {
+                                              const userReferent = referents.find(
+                                                  referent => referent.email === email,
+                                              );
+
+                                              return userReferent === undefined
+                                                  ? undefined
+                                                  : referents.indexOf(userReferent);
+                                          })(),
+                                      },
+                                  ]),
+                              );
+                          })(),
                 }),
             );
         },
@@ -200,7 +232,7 @@ export const selectors = (() => {
             .map(software => ({
                 software,
                 "isUserReferent":
-                    referentsBySoftwareId?.[software.id].isUserReferent ?? false,
+                    referentsBySoftwareId?.[software.id].userIndex !== undefined,
             }))
             .sort((a, b) => getSoftwareWeight(b.software) - getSoftwareWeight(a.software))
             .sort((a, b) =>

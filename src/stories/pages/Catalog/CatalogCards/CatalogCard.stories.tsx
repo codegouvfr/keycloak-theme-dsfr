@@ -66,6 +66,7 @@ export const VueDefault = getStory({
         "href": "https://example.com",
         "onClick": () => {},
     },
-    "softwareReferents": undefined,
+    "referents": undefined,
+    "userIndexInReferents": undefined,
     ...logCallbacks(["onLogin"]),
 });
