@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { useState, memo } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -11,6 +11,12 @@ import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 import { Tag } from "onyxia-ui/Tag";
 import { assert } from "tsafe/assert";
+import { Dialog } from "onyxia-ui/Dialog";
+import { useConstCallback } from "powerhooks/useConstCallback";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks/useEvt";
+import { useConst } from "powerhooks/useConst";
+import { Evt } from "evt";
 
 export type Props = {
     className?: string;
@@ -41,6 +47,17 @@ export const CatalogCard = memo((props: Props) => {
     })();
 
     const { resolveLocalizedString } = useResolveLocalizedString();
+
+    const evtDialogAction = useConst(() => Evt.create<"open">());
+
+    const onShowReferentClick = useConstCallback(async () => {
+        if (referents === undefined) {
+            onLogin();
+            return;
+        }
+
+        evtDialogAction.post("open");
+    });
 
     return (
         <div className={cx(classes.root, className)}>
@@ -98,13 +115,6 @@ export const CatalogCard = memo((props: Props) => {
                                 software.wikidataData?.descriptionFr ?? software.function,
                         })}`}
                     </Markdown>
-                    {referents === undefined ? (
-                        <Button onClick={onLogin}>Reveal referents</Button>
-                    ) : (
-                        <Text typo="body 2">
-                            {referents.map(({ email }) => email).join(" ")}
-                        </Text>
-                    )}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     <Button
@@ -130,11 +140,81 @@ export const CatalogCard = memo((props: Props) => {
                             )
                         );
                     })()}
+                    <Button variant="secondary" onClick={onShowReferentClick}>
+                        {t("show referents")}
+                    </Button>
+                    <ReferentDialog
+                        referents={referents}
+                        userIndexInReferents={userIndexInReferents}
+                        evtAction={evtDialogAction}
+                    />
                 </div>
             </div>
         </div>
     );
 });
+
+const { ReferentDialog } = (() => {
+    type Props = {
+        evtAction: NonPostableEvt<"open">;
+        referents: CompiledData.Software.WithReferent["referents"] | undefined;
+        userIndexInReferents: number | undefined;
+    };
+
+    const ReferentDialog = memo((props: Props) => {
+        const { evtAction, referents, userIndexInReferents } = props;
+
+        const [isOpen, setIsOpen] = useState(false);
+
+        const onClose = useConstCallback(() => setIsOpen(false));
+
+        const { t } = useTranslation({ CatalogCard });
+
+        useEvt(
+            ctx =>
+                evtAction.attach(
+                    action => action === "open",
+                    ctx,
+                    () => setIsOpen(true),
+                ),
+            [evtAction],
+        );
+
+        const { classes } = useStyles();
+
+        if (referents === undefined) {
+            return null;
+        }
+
+        return (
+            <Dialog
+                body={
+                    <Markdown className={classes.dialogBody}>
+                        {referents
+                            .map(
+                                ({ email, agencyName, isExpert }, i) =>
+                                    "- " +
+                                    [
+                                        `**${email}**`,
+                                        agencyName,
+                                        ...(!isExpert ? [] : [`*${t("expert")}*`]),
+                                        ...(i !== userIndexInReferents
+                                            ? []
+                                            : [`(${t("you")})`]),
+                                    ].join(" - "),
+                            )
+                            .join("\n  ")}
+                    </Markdown>
+                }
+                buttons={<Button onClick={onClose}>{t("close")}</Button>}
+                isOpen={isOpen}
+                onClose={onClose}
+            />
+        );
+    });
+
+    return { ReferentDialog };
+})();
 
 export declare namespace CatalogCard {
     export type I18nScheme = {
@@ -142,7 +222,10 @@ export declare namespace CatalogCard {
         "try it": undefined;
         "you are referent": undefined;
         "you are the referent": undefined;
-        "reveal referents": undefined;
+        "show referents": undefined;
+        "close": undefined;
+        "expert": undefined;
+        "you": undefined;
     };
 }
 
@@ -198,5 +281,11 @@ const useStyles = makeStyles<void, "cardButtons">({
     "cardButtons": {
         "marginRight": theme.spacing(2),
         "visibility": "hidden",
+    },
+    "dialogBody": {
+        "& ul": {
+            "paddingInlineStart": 0,
+        },
+        "margin": theme.spacing(4),
     },
 }));
