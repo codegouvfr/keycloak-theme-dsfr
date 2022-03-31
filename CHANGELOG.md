@@ -1,3 +1,11 @@
+### **0.0.35** (2022-03-31)  
+  
+- :bookmark:  Bump version  
+- :arrow_up:  Update sill-api  
+- :sparkles:  Feat searching in referents  
+- :lipstick:  Beter display of referents  
+- :recycle:  Beter hadeling of referents    
+  
 ### **0.0.34** (2022-03-30)  
   
 - :bookmark:  Bump version  
