@@ -12,6 +12,7 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
+import type { Props as CatalogCardsProps } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { breakpointsValues } from "onyxia-ui";
@@ -85,6 +86,22 @@ export function Catalog(props: Props) {
         }
     }, [catalogExplorerState.stateDescription]);
 
+    const { isProcessing } = useSelector(selectors.catalogExplorer.isProcessing);
+
+    useEffect(() => {
+        if (isProcessing === undefined) {
+            return;
+        }
+
+        if (isProcessing) {
+            showSplashScreen({
+                "enableTransparency": true,
+            });
+        } else {
+            hideSplashScreen();
+        }
+    }, [isProcessing]);
+
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
@@ -133,6 +150,15 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
+    const onDeclareOneselfReferent = useConstCallback<
+        CatalogCardsProps["onDeclareOneselfReferent"]
+    >(({ isExpert, softwareId }) =>
+        catalogExplorerThunks.declareUserReferent({
+            isExpert,
+            softwareId,
+        }),
+    );
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -171,6 +197,7 @@ export function Catalog(props: Props) {
                                   hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                                   searchBarWrapperElement={pageHeaderRef.current}
                                   onLogin={onLogin}
+                                  onDeclareOneselfReferent={onDeclareOneselfReferent}
                               />
                           )
                         : (() => {

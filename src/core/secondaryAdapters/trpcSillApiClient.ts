@@ -28,5 +28,7 @@ export function createTrpcSillApiClient(params: {
         }),
         "getCompiledData": () => trpcClient.query("getCompiledData"),
         "getReferentsBySoftwareId": () => trpcClient.query("getReferentsBySoftwareId"),
+        "declareUserReferent": params =>
+            trpcClient.mutation("declareUserReferent", params),
     };
 }

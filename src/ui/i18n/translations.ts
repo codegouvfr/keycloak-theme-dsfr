@@ -136,6 +136,9 @@ export const resources = id<Record<Language, Translations>>({
             "close": "Close",
             "expert": "Expert",
             "you": "You",
+            "declare oneself referent": "Declare yourself referent",
+            "cancel": "Cancel",
+            "send": "Send",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -248,6 +251,9 @@ export const resources = id<Record<Language, Translations>>({
             "close": "Fermer",
             "expert": "Expert",
             "you": "Vous",
+            "declare oneself referent": "Me déclarer référent",
+            "cancel": "Annuler",
+            "send": "Envoyer",
         },
         "CatalogCards": {
             "show more": "Afficher tous",

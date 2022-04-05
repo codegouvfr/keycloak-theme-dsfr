@@ -83,6 +83,11 @@ export const VueDefault = getStory({
     },
     "search": "",
     "hasMoreToLoad": true,
-    ...logCallbacks(["onSearchChange", "onLoadMore", "onLogin"]),
+    ...logCallbacks([
+        "onSearchChange",
+        "onLoadMore",
+        "onLogin",
+        "onDeclareOneselfReferent",
+    ]),
     "searchBarWrapperElement": document.createElement("div"),
 });

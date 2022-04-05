@@ -3,6 +3,7 @@ import { useRef, memo } from "react";
 import { createPortal } from "react-dom";
 import { makeStyles } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
+import type { Props as CatalogCardProps } from "./CatalogCard";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { Text } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -22,6 +23,8 @@ import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import type { Param0 } from "tsafe";
 
 export type Props = {
     className?: string;
@@ -49,6 +52,7 @@ export type Props = {
     hasMoreToLoad: boolean;
     searchBarWrapperElement: HTMLDivElement;
     onLogin: () => void;
+    onDeclareOneselfReferent: (params: { softwareId: number; isExpert: boolean }) => void;
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -64,6 +68,7 @@ export const CatalogCards = memo((props: Props) => {
         hasMoreToLoad,
         searchBarWrapperElement,
         onLogin,
+        onDeclareOneselfReferent,
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
@@ -108,6 +113,20 @@ export const CatalogCards = memo((props: Props) => {
         </div>
     );
 
+    const onDeclareOneselfReferentFactory = useCallbackFactory(
+        (
+            [softwareId]: [number],
+            [params]: [Param0<CatalogCardProps["onDeclareOneselfReferent"]>],
+        ) => {
+            const { isExpert } = params;
+
+            onDeclareOneselfReferent({
+                softwareId,
+                isExpert,
+            });
+        },
+    );
+
     const catalogCardBySoftwareId = Object.fromEntries(
         [
             ...filteredSoftwares,
@@ -131,6 +150,9 @@ export const CatalogCards = memo((props: Props) => {
                     referents={referents}
                     userIndexInReferents={userIndex}
                     onLogin={onLogin}
+                    onDeclareOneselfReferent={onDeclareOneselfReferentFactory(
+                        software.id,
+                    )}
                 />,
             ]),
     );

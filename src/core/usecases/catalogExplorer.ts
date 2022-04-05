@@ -26,7 +26,7 @@ namespace CatalogExplorerState {
     export type Ready = Common & {
         stateDescription: "ready";
         "~internal": {
-            softwares: CompiledData.Software[];
+            softwares: CompiledData.Software<"without referents">[];
             referentsBySoftwareId:
                 | undefined
                 | Record<
@@ -37,6 +37,7 @@ namespace CatalogExplorerState {
                       }
                   >;
             displayCount: number;
+            isProcessing: boolean;
         };
     };
 }
@@ -74,6 +75,7 @@ export const { name, reducer, actions } = createSlice({
                     softwares,
                     referentsBySoftwareId,
                     "displayCount": 24,
+                    "isProcessing": false,
                 },
                 "search": state.search,
             });
@@ -91,6 +93,47 @@ export const { name, reducer, actions } = createSlice({
             assert(state.stateDescription === "ready");
 
             state["~internal"].displayCount += 24;
+        },
+        "processingStarted": state => {
+            assert(state.stateDescription === "ready");
+
+            state["~internal"].isProcessing = true;
+        },
+        "userDeclaredReferent": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                email: string;
+                agencyName: string;
+                firstName: string;
+                familyName: string;
+                isExpert: boolean;
+                softwareId: number;
+            }>,
+        ) => {
+            const { agencyName, softwareId, firstName, familyName, isExpert, email } =
+                payload;
+
+            assert(state.stateDescription === "ready");
+
+            const { referentsBySoftwareId } = state["~internal"];
+
+            assert(referentsBySoftwareId !== undefined);
+
+            const referents = referentsBySoftwareId[softwareId];
+
+            referents.referents.push({
+                email,
+                agencyName,
+                firstName,
+                familyName,
+                isExpert,
+            });
+
+            referents.userIndex = referents.referents.length - 1;
+
+            state["~internal"].isProcessing = false;
         },
     },
 });
@@ -183,6 +226,37 @@ export const thunks = {
             const { displayCount, softwares } = state["~internal"];
 
             return state.search === "" && displayCount < softwares.length;
+        },
+    "declareUserReferent":
+        (params: { isExpert: boolean; softwareId: number }): ThunkAction =>
+        async (...args) => {
+            const { isExpert, softwareId } = params;
+
+            const [dispatch, getState, { sillApiClient }] = args;
+
+            const state = getState().catalogExplorer;
+
+            assert(state.stateDescription === "ready");
+
+            dispatch(actions.processingStarted());
+
+            await sillApiClient.declareUserReferent({
+                isExpert,
+                softwareId,
+            });
+
+            const { agencyName, email } = dispatch(userAuthenticationThunks.getUser());
+
+            dispatch(
+                actions.userDeclaredReferent({
+                    agencyName,
+                    email,
+                    "firstName": "",
+                    "familyName": "",
+                    isExpert,
+                    softwareId,
+                }),
+            );
         },
 };
 
@@ -316,5 +390,12 @@ export const selectors = (() => {
         },
     );
 
-    return { filteredSoftwares, alikeSoftwares, referentsBySoftwareId };
+    const isProcessing = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state["~internal"].isProcessing;
+    });
+
+    return { filteredSoftwares, alikeSoftwares, referentsBySoftwareId, isProcessing };
 })();
