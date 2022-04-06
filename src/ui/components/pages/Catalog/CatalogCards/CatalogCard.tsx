@@ -177,6 +177,7 @@ export const CatalogCard = memo((props: Props) => {
                         if (length === 0) {
                             return (
                                 <Button
+                                    className={classes.cardButtons}
                                     variant="primary"
                                     onClick={onOpenDeclareBeingReferent}
                                 >
@@ -190,7 +191,11 @@ export const CatalogCard = memo((props: Props) => {
                         }
 
                         return (
-                            <Button variant="secondary" onClick={onShowReferentClick}>
+                            <Button
+                                className={classes.cardButtons}
+                                variant="secondary"
+                                onClick={onShowReferentClick}
+                            >
                                 {t(
                                     length === 1
                                         ? "show the referent"
