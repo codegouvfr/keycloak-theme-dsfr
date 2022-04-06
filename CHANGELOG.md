@@ -1,3 +1,9 @@
+## **0.2.1** (2022-04-06)  
+  
+- :lipstick:  Shorter work for "no referent"  
+- :bookmark:  Bump version  
+- :sparkles:  Enable users to tell they are no longer referent    
+  
 ### **0.1.1** (2022-04-06)  
   
 - :lipstick:  Only show buttons when the cursor is over"  
