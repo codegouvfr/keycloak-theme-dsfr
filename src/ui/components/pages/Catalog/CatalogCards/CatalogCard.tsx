@@ -157,9 +157,15 @@ export const CatalogCard = memo((props: Props) => {
                             )
                         );
                     })()}
-                    <Button variant="secondary" onClick={onShowReferentClick}>
-                        {t("show referents")}
-                    </Button>
+                    {referents === undefined || referents.length !== 0 ? (
+                        <Button variant="secondary" onClick={onShowReferentClick}>
+                            {t("show referents")}
+                        </Button>
+                    ) : (
+                        <Button variant="primary" onClick={onOpenDeclareBeingReferent}>
+                            {t("declare oneself referent")}
+                        </Button>
+                    )}
                     <ReferentDialog
                         referents={referents}
                         userIndexInReferents={userIndexInReferents}
@@ -167,6 +173,7 @@ export const CatalogCard = memo((props: Props) => {
                         onDeclareOneselfReferent={onOpenDeclareBeingReferent}
                     />
                     <DeclareOneselfReferentDialog
+                        softwareName={software.name}
                         evtAction={evtDeclareOneselfReferentDialogAction}
                         onDeclareOneselfReferent={onDeclareOneselfReferent}
                     />
@@ -259,12 +266,13 @@ const { ReferentDialog } = (() => {
 
 const { DeclareOneselfReferentDialog } = (() => {
     type Props = {
+        softwareName: string;
         evtAction: NonPostableEvt<"open">;
         onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
     };
 
     const DeclareOneselfReferentDialog = memo((props: Props) => {
-        const { evtAction, onDeclareOneselfReferent } = props;
+        const { evtAction, onDeclareOneselfReferent, softwareName } = props;
 
         const [isOpen, setIsOpen] = useState(false);
 
@@ -295,7 +303,7 @@ const { DeclareOneselfReferentDialog } = (() => {
 
         return (
             <Dialog
-                title={t("declare oneself referent")}
+                title={t("declare oneself referent of", { softwareName })}
                 body={<></>}
                 buttons={
                     <>
@@ -336,6 +344,7 @@ export declare namespace CatalogCard {
         "expert": undefined;
         "you": undefined;
         "declare oneself referent": undefined;
+        "declare oneself referent of": { softwareName: string };
         "cancel": undefined;
         "send": undefined;
     };
