@@ -159,15 +159,37 @@ export const CatalogCard = memo((props: Props) => {
                             )
                         );
                     })()}
-                    {referents === undefined || referents.length !== 0 ? (
-                        <Button variant="secondary" onClick={onShowReferentClick}>
-                            {t("show referents")}
-                        </Button>
-                    ) : (
-                        <Button variant="primary" onClick={onOpenDeclareBeingReferent}>
-                            {t("declare oneself referent")}
-                        </Button>
-                    )}
+                    {(() => {
+                        //NOTE: referents undefined is when user isn't connected
+                        const length = referents?.length ?? -1;
+
+                        if (length === 0) {
+                            return (
+                                <Button
+                                    variant="primary"
+                                    onClick={onOpenDeclareBeingReferent}
+                                >
+                                    {t("declare oneself referent")}
+                                </Button>
+                            );
+                        }
+
+                        if (length === 1 && userIndexInReferents !== undefined) {
+                            return null;
+                        }
+
+                        return (
+                            <Button variant="secondary" onClick={onShowReferentClick}>
+                                {t(
+                                    length === 1
+                                        ? "show the referent"
+                                        : userIndexInReferents === undefined
+                                        ? "show referents"
+                                        : "show the others referents",
+                                )}
+                            </Button>
+                        );
+                    })()}
                     <ReferentDialog
                         referents={referents}
                         userIndexInReferents={userIndexInReferents}
@@ -341,7 +363,9 @@ export declare namespace CatalogCard {
         "try it": undefined;
         "you are referent": undefined;
         "you are the referent": undefined;
+        "show the others referents": undefined;
         "show referents": undefined;
+        "show the referent": undefined;
         "close": undefined;
         "expert": undefined;
         "you": undefined;
