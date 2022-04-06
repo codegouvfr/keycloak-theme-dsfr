@@ -1,3 +1,11 @@
+### **0.1.1** (2022-04-06)  
+  
+- :lipstick:  Only show buttons when the cursor is over"  
+- :lipstick:  Tag when there is no referent  
+- :lipstick:  Better wording of buttons related to referents  
+- :lipstick:  'you are referent' badge is clickable  
+- :bug:  User can declare himself referent    
+  
 ## **0.1.0** (2022-04-05)  
   
 - :sparkles:  Enable to declare oneself as referent    
