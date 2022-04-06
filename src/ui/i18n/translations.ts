@@ -263,7 +263,7 @@ export const resources = id<Record<Language, Translations>>({
             "declare oneself referent of": "Me déclarer référent de {{softwareName}}",
             "cancel": "Annuler",
             "send": "Envoyer",
-            "this software has not referent": "Ce logiciel n'a pas de référent",
+            "this software has not referent": "Pas de référent",
             "no longer referent": "Je ne suis plus référent",
         },
         "CatalogCards": {
