@@ -113,13 +113,15 @@ export const CatalogCard = memo((props: Props) => {
                     assert(referents !== undefined);
 
                     return (
-                        <Tag
-                            text={t(
-                                referents.length === 1
-                                    ? "you are the referent"
-                                    : "you are referent",
-                            )}
-                        />
+                        <div onClick={onShowReferentClick} className={classes.tagWrapper}>
+                            <Tag
+                                text={t(
+                                    referents.length === 1
+                                        ? "you are the referent"
+                                        : "you are referent",
+                                )}
+                            />
+                        </div>
                     );
                 })()}
             </div>
@@ -408,5 +410,8 @@ const useStyles = makeStyles<void, "cardButtons">({
             "paddingInlineStart": 0,
         },
         "margin": theme.spacing(4),
+    },
+    "tagWrapper": {
+        "cursor": "pointer",
     },
 }));
