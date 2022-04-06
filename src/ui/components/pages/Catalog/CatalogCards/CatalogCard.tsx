@@ -124,6 +124,17 @@ export const CatalogCard = memo((props: Props) => {
                         </div>
                     );
                 })()}
+                {referents !== undefined && referents.length === 0 && (
+                    <div
+                        onClick={onOpenDeclareBeingReferent}
+                        className={classes.tagWrapper}
+                    >
+                        <Tag
+                            className={classes.warningTag}
+                            text={t("this software has not referent")}
+                        />
+                    </div>
+                )}
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
@@ -373,6 +384,7 @@ export declare namespace CatalogCard {
         "declare oneself referent of": { softwareName: string };
         "cancel": undefined;
         "send": undefined;
+        "this software has not referent": undefined;
     };
 }
 
@@ -437,5 +449,11 @@ const useStyles = makeStyles<void, "cardButtons">({
     },
     "tagWrapper": {
         "cursor": "pointer",
+    },
+    "warningTag": {
+        "backgroundColor": theme.colors.useCases.alertSeverity.warning.main,
+        "& > p": {
+            "color": theme.colors.palette.dark.main,
+        },
     },
 }));
