@@ -12,6 +12,9 @@ export type SillApiClient = {
     declareUserReferent: (
         params: InferInput<"declareUserReferent">,
     ) => Promise<InferOutput<"declareUserReferent">>;
+    userNoLongerReferent: (
+        params: InferInput<"userNoLongerReferent">,
+    ) => Promise<InferOutput<"userNoLongerReferent">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

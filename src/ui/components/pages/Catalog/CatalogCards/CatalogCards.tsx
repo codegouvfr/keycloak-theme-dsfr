@@ -53,6 +53,7 @@ export type Props = {
     searchBarWrapperElement: HTMLDivElement;
     onLogin: () => void;
     onDeclareOneselfReferent: (params: { softwareId: number; isExpert: boolean }) => void;
+    onUserNoLongerReferent: (params: { softwareId: number }) => void;
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -69,6 +70,7 @@ export const CatalogCards = memo((props: Props) => {
         searchBarWrapperElement,
         onLogin,
         onDeclareOneselfReferent,
+        onUserNoLongerReferent,
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
@@ -127,6 +129,10 @@ export const CatalogCards = memo((props: Props) => {
         },
     );
 
+    const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
+        onUserNoLongerReferent({ softwareId }),
+    );
+
     const catalogCardBySoftwareId = Object.fromEntries(
         [
             ...filteredSoftwares,
@@ -153,6 +159,7 @@ export const CatalogCards = memo((props: Props) => {
                     onDeclareOneselfReferent={onDeclareOneselfReferentFactory(
                         software.id,
                     )}
+                    onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
                 />,
             ]),
     );

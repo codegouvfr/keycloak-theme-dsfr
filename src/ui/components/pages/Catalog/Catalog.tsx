@@ -159,6 +159,10 @@ export function Catalog(props: Props) {
         }),
     );
 
+    const onUserNoLongerReferent = useConstCallback<
+        CatalogCardsProps["onUserNoLongerReferent"]
+    >(({ softwareId }) => catalogExplorerThunks.userNoLongerReferent({ softwareId }));
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -198,6 +202,7 @@ export function Catalog(props: Props) {
                                   searchBarWrapperElement={pageHeaderRef.current}
                                   onLogin={onLogin}
                                   onDeclareOneselfReferent={onDeclareOneselfReferent}
+                                  onUserNoLongerReferent={onUserNoLongerReferent}
                               />
                           )
                         : (() => {

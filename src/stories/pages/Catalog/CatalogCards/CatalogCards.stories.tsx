@@ -88,6 +88,7 @@ export const VueDefault = getStory({
         "onLoadMore",
         "onLogin",
         "onDeclareOneselfReferent",
+        "onUserNoLongerReferent",
     ]),
     "searchBarWrapperElement": document.createElement("div"),
 });

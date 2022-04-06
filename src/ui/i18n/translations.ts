@@ -144,6 +144,7 @@ export const resources = id<Record<Language, Translations>>({
             "cancel": "Cancel",
             "send": "Send",
             "this software has not referent": "This software has not referent",
+            "no longer referent": "I am no longer referent",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -263,6 +264,7 @@ export const resources = id<Record<Language, Translations>>({
             "cancel": "Annuler",
             "send": "Envoyer",
             "this software has not referent": "Ce logiciel n'a pas de référent",
+            "no longer referent": "Je ne suis plus référent",
         },
         "CatalogCards": {
             "show more": "Afficher tous",

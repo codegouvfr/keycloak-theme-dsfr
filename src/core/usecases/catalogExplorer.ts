@@ -135,6 +135,34 @@ export const { name, reducer, actions } = createSlice({
 
             state["~internal"].isProcessing = false;
         },
+        "userNoLongerReferent": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                softwareId: number;
+            }>,
+        ) => {
+            const { softwareId } = payload;
+
+            assert(state.stateDescription === "ready");
+
+            const { referentsBySoftwareId } = state["~internal"];
+
+            assert(referentsBySoftwareId !== undefined);
+
+            const referents = referentsBySoftwareId[softwareId];
+
+            const { userIndex } = referents;
+
+            assert(userIndex !== undefined);
+
+            referents.referents.splice(userIndex, 1);
+
+            referents.userIndex = undefined;
+
+            state["~internal"].isProcessing = false;
+        },
     },
 });
 
@@ -254,6 +282,29 @@ export const thunks = {
                     "firstName": "",
                     "familyName": "",
                     isExpert,
+                    softwareId,
+                }),
+            );
+        },
+    "userNoLongerReferent":
+        (params: { softwareId: number }): ThunkAction =>
+        async (...args) => {
+            const { softwareId } = params;
+
+            const [dispatch, getState, { sillApiClient }] = args;
+
+            const state = getState().catalogExplorer;
+
+            assert(state.stateDescription === "ready");
+
+            dispatch(actions.processingStarted());
+
+            await sillApiClient.userNoLongerReferent({
+                softwareId,
+            });
+
+            dispatch(
+                actions.userNoLongerReferent({
                     softwareId,
                 }),
             );

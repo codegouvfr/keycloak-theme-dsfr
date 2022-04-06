@@ -28,6 +28,7 @@ export type Props = {
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
     onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
+    onUserNoLongerReferent: () => void;
     onLogin: () => void;
 };
 
@@ -39,6 +40,7 @@ export const CatalogCard = memo((props: Props) => {
         referents,
         userIndexInReferents,
         onLogin,
+        onUserNoLongerReferent,
         onDeclareOneselfReferent,
     } = props;
 
@@ -211,6 +213,7 @@ export const CatalogCard = memo((props: Props) => {
                         userIndexInReferents={userIndexInReferents}
                         evtAction={evtReferentDialogAction}
                         onDeclareOneselfReferent={onOpenDeclareBeingReferent}
+                        onUserNoLongerReferent={onUserNoLongerReferent}
                     />
                     <DeclareOneselfReferentDialog
                         softwareName={software.name}
@@ -228,12 +231,18 @@ const { ReferentDialog } = (() => {
         evtAction: NonPostableEvt<"open">;
         referents: CompiledData.Software.WithReferent["referents"] | undefined;
         userIndexInReferents: number | undefined;
+        onUserNoLongerReferent: () => void;
         onDeclareOneselfReferent: () => void;
     };
 
     const ReferentDialog = memo((props: Props) => {
-        const { evtAction, referents, userIndexInReferents, onDeclareOneselfReferent } =
-            props;
+        const {
+            evtAction,
+            referents,
+            userIndexInReferents,
+            onDeclareOneselfReferent,
+            onUserNoLongerReferent,
+        } = props;
 
         const [isOpen, setIsOpen] = useState(false);
 
@@ -285,9 +294,13 @@ const { ReferentDialog } = (() => {
                 }
                 buttons={
                     <>
-                        {userIndexInReferents === undefined && (
+                        {userIndexInReferents === undefined ? (
                             <Button onClick={onDeclareOneselfReferentClick}>
                                 {t("declare oneself referent")}
+                            </Button>
+                        ) : (
+                            <Button onClick={onUserNoLongerReferent} variant="ternary">
+                                {t("no longer referent")}
                             </Button>
                         )}
                         <Button onClick={onClose} variant="secondary">
@@ -390,6 +403,7 @@ export declare namespace CatalogCard {
         "cancel": undefined;
         "send": undefined;
         "this software has not referent": undefined;
+        "no longer referent": undefined;
     };
 }
 
