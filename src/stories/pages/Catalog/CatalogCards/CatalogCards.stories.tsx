@@ -62,6 +62,7 @@ const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
         },
         "hasExpertReferent": true,
         "referentCount": 1,
+        "agentWorkstation": true,
     }),
 );
 

@@ -58,6 +58,7 @@ const software: CompiledData.Software = {
     },
     "hasExpertReferent": true,
     "referentCount": 1,
+    "agentWorkstation": true,
 };
 
 export const VueDefault = getStory({

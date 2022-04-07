@@ -64,6 +64,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CodeIcon from "@mui/icons-material/Code";
 import LinkIcon from "@mui/icons-material/Link";
+import PhonelinkIcon from "@mui/icons-material/Phonelink";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
@@ -165,6 +166,7 @@ const createIconParams = {
     "assuredWorkload": AssuredWorkloadIcon,
     "grading": GradingIcon,
     "airplay": AirplayIcon,
+    "phonelink": PhonelinkIcon,
 };
 
 export const iconIds = objectKeys(createIconParams);

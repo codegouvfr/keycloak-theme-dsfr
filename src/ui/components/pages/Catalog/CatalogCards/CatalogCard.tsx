@@ -20,6 +20,8 @@ import { Evt } from "evt";
 import Checkbox from "@mui/material/Checkbox";
 import type { CheckboxProps } from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { Icon } from "ui/theme";
+import { Tooltip } from "onyxia-ui/Tooltip";
 
 export type Props = {
     className?: string;
@@ -136,6 +138,11 @@ export const CatalogCard = memo((props: Props) => {
                             text={t("this software has not referent")}
                         />
                     </div>
+                )}
+                {software.agentWorkstation && (
+                    <Tooltip title={t("installed on the computer of the agent")}>
+                        <Icon iconId="phonelink" />
+                    </Tooltip>
                 )}
             </div>
             <div className={classes.belowDivider}>
@@ -404,6 +411,7 @@ export declare namespace CatalogCard {
         "send": undefined;
         "this software has not referent": undefined;
         "no longer referent": undefined;
+        "installed on the computer of the agent": undefined;
     };
 }
 
