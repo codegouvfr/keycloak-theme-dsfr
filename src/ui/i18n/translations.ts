@@ -145,8 +145,8 @@ export const resources = id<Record<Language, Translations>>({
             "send": "Send",
             "this software has not referent": "This software has not referent",
             "no longer referent": "I am no longer referent",
-            "installed on the computer of the agent":
-                "Installed on the computer of the agent",
+            "to install on the computer of the agent":
+                "To install on the computer of the agent",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -267,8 +267,8 @@ export const resources = id<Record<Language, Translations>>({
             "send": "Envoyer",
             "this software has not referent": "Pas de référent",
             "no longer referent": "Je ne suis plus référent",
-            "installed on the computer of the agent":
-                "Installé sur le poste de travail de l'agent",
+            "to install on the computer of the agent":
+                "À installer sur le poste de travail de l'agent",
         },
         "CatalogCards": {
             "show more": "Afficher tous",

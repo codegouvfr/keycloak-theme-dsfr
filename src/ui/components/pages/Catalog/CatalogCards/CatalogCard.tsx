@@ -140,7 +140,7 @@ export const CatalogCard = memo((props: Props) => {
                     </div>
                 )}
                 {software.agentWorkstation && (
-                    <Tooltip title={t("installed on the computer of the agent")}>
+                    <Tooltip title={t("to install on the computer of the agent")}>
                         <Icon iconId="phonelink" />
                     </Tooltip>
                 )}
@@ -411,7 +411,7 @@ export declare namespace CatalogCard {
         "send": undefined;
         "this software has not referent": undefined;
         "no longer referent": undefined;
-        "installed on the computer of the agent": undefined;
+        "to install on the computer of the agent": undefined;
     };
 }
 
