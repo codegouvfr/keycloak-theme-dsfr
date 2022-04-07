@@ -1,3 +1,14 @@
+## **0.3.1** (2022-04-07)  
+  
+- :bookmark:  Bump version  
+- :globe_with_meridians:  Change wording "to install..."
+
+Closes #5  
+- :bookmark:  Bump version  
+- :sparkles:  Display if software is installed the comp. of the agent
+
+Closes #5    
+  
 ## **0.2.1** (2022-04-06)  
   
 - :lipstick:  Shorter work for "no referent"  
