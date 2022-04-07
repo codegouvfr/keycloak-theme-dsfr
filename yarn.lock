@@ -14121,10 +14121,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.5.0.tgz#cf56bc12c55c6429c6f2da8a0093f2dde6383af4"
-  integrity sha512-IdVQqIhmh4DA8BH19nkbLd3WKMSeKLlZpflAukgdgFZoNEL25ZTSBjrVw/9nQHBjJSmdyS6T6i50xDr8SUGdiw==
+sill-api@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.5.1.tgz#69edd32f32b2cdeb3f6f8dd598750e4ab29621ea"
+  integrity sha512-7eSNwhD+3rnDLM/tM/kp23KrWpptfB5muXhaTN+5WGMtWRZ/i5LrDXnLXKssS2Sfatsrmt1IAQtDI2YyhURNCQ==
   dependencies:
     "@trpc/server" "^9.20.3"
     jwt-simple "^0.5.6"
