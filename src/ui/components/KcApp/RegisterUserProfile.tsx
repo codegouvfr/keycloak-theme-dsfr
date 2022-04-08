@@ -351,7 +351,7 @@ export const RegisterUserProfile = memo(
                                                                     )}
                                                                 </b>
                                                                 <br />
-                                                                {t("contact us at")}
+                                                                {t("contact us at")}&nbsp;
                                                                 <b>
                                                                     logiciels-libres@data.gouv.fr
                                                                 </b>
