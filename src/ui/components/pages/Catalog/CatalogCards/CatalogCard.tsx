@@ -99,7 +99,7 @@ export const CatalogCard = memo((props: Props) => {
                             {(isBanner === false || logoUrl === undefined) && (
                                 <Text className={classes.title} typo="object heading">
                                     {smartTrim({
-                                        "maxLength": 28,
+                                        "maxLength": 23,
                                         "minCharAtTheEnd": 0,
                                         "text": capitalize(software.name),
                                     })}
@@ -141,7 +141,7 @@ export const CatalogCard = memo((props: Props) => {
                 )}
                 {software.agentWorkstation && (
                     <Tooltip title={t("to install on the computer of the agent")}>
-                        <Icon iconId="phonelink" />
+                        <Icon iconId="phonelink" className={classes.agentWorkstation} />
                     </Tooltip>
                 )}
             </div>
@@ -482,5 +482,8 @@ const useStyles = makeStyles<void, "cardButtons">({
         "& > p": {
             "color": theme.colors.palette.dark.main,
         },
+    },
+    "agentWorkstation": {
+        "marginLeft": theme.spacing(2),
     },
 }));
