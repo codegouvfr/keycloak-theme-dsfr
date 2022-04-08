@@ -1,3 +1,12 @@
+### **0.3.2** (2022-04-08)  
+  
+- :lipstick:  Fix missing whitespace
+
+Closes #4  
+- :sparkles:  Contact us in register if domain not in accept list
+
+Closes #4    
+  
 ## **0.3.1** (2022-04-07)  
   
 - :bookmark:  Bump version  
