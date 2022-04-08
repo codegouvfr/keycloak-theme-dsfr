@@ -336,16 +336,32 @@ export const RegisterUserProfile = memo(
                                                             attribute.validators
                                                                 .pattern ?? {};
 
-                                                        return pattern === undefined
-                                                            ? undefined
-                                                            : attribute.name === "email"
-                                                            ? formatEmailPattern(pattern)
-                                                            : fieldStateByAttributeName[
-                                                                  attribute.name
-                                                              ].displayableErrors
-                                                                  .length === 0
-                                                            ? pattern
-                                                            : undefined;
+                                                        return pattern ===
+                                                            undefined ? undefined : attribute.name ===
+                                                          "email" ? (
+                                                            <>
+                                                                {formatEmailPattern(
+                                                                    pattern,
+                                                                )}
+                                                                <br />
+                                                                <br />
+                                                                <b>
+                                                                    {t(
+                                                                        "your domain isn't listed yet?",
+                                                                    )}
+                                                                </b>
+                                                                <br />
+                                                                {t("contact us at")}
+                                                                <b>
+                                                                    logiciels-libres@data.gouv.fr
+                                                                </b>
+                                                            </>
+                                                        ) : fieldStateByAttributeName[
+                                                              attribute.name
+                                                          ].displayableErrors.length ===
+                                                          0 ? (
+                                                            pattern
+                                                        ) : undefined;
                                                     })()}
                                                     inputProps_aria-invalid={
                                                         fieldStateByAttributeName[
@@ -415,6 +431,8 @@ export declare namespace RegisterUserProfile {
         "go back": undefined;
         "form not filled properly yet": undefined;
         "must respect the pattern": undefined;
+        "your domain isn't listed yet?": undefined;
+        "contact us at": undefined;
     };
 }
 

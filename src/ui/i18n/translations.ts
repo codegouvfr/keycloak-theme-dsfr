@@ -98,7 +98,7 @@ export const resources = id<Record<Language, Translations>>({
                 "Reset message windows that have been requested not to be shown again",
         },
         "RegisterUserProfile": {
-            "allowed email domains": "Allowed domains",
+            "allowed email domains": "Allowed domains:",
             "minimum length": "Minimum length: {{n}}",
             "must be different from email": "Pass can't be the email",
             "password mismatch": "Passwords mismatch",
@@ -106,6 +106,8 @@ export const resources = id<Record<Language, Translations>>({
             "form not filled properly yet":
                 "Please make sure the form is properly filled out",
             "must respect the pattern": "Must respect the pattern",
+            "your domain isn't listed yet?": "Your domain isn't listed yet?",
+            "contact us at": "Contact us at:",
         },
         "Header": {
             "login": "Login",
@@ -229,6 +231,9 @@ export const resources = id<Record<Language, Translations>>({
             "form not filled properly yet":
                 "Veuillez vérifier que vous avez bien rempli le formulaire",
             "must respect the pattern": "Dois respecter le format",
+            "your domain isn't listed yet?":
+                "Votre domaine n'est pas encore dans la liste?",
+            "contact us at": "Contactez-nous à:",
         },
         "Header": {
             "login": "Connexion",
