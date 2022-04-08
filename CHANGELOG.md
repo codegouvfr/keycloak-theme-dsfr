@@ -1,3 +1,8 @@
+### **0.3.3** (2022-04-08)  
+  
+- :bookmark:  Bump version  
+- :bug:  Add missing space    
+  
 ### **0.3.2** (2022-04-08)  
   
 - :lipstick:  Fix missing whitespace
