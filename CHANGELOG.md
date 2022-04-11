@@ -1,3 +1,9 @@
+### **0.3.5** (2022-04-11)  
+  
+- :globe_with_meridians:  "vous êtes expert" => "vous êtes expert technique"
+
+Closes #2    
+  
 ### **0.3.4** (2022-04-11)  
   
 - :bookmark:  Bump version  
