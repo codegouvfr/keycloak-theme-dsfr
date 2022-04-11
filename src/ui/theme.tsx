@@ -72,7 +72,6 @@ import PeopleIcon from "@mui/icons-material/People";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import AirplayIcon from "@mui/icons-material/Airplay";
 import type { Param0 } from "tsafe/Param0";
-import { ComponentType } from "ui/tools/types/ComponentType";
 import type { Language } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
 import { THEME_ID } from "ui/envCarriedOverToKc";
@@ -180,42 +179,10 @@ export const { IconButton } = createIconButton({ Icon });
 export const { Button } = createButton({ Icon });
 export const { Text } = createText({ useTheme });
 
-export function getThemeProviderProps(_params: {
-    PortraitModeUnsupported: ComponentType;
-    doDisableViewPortAdapter: boolean;
-}): Omit<ThemeProviderProps, "children"> {
-    //const { PortraitModeUnsupported, doDisableViewPortAdapter } = params;
-
-    return {
-        /*
-        "getViewPortConfig": doDisableViewPortAdapter
-            ? undefined
-            : ({ windowInnerWidth, windowInnerHeight }) => {
-                  if (
-                      getIsPortraitOrientation({
-                          windowInnerWidth,
-                          windowInnerHeight,
-                      })
-                  ) {
-                      throw new ViewPortOutOfRangeError(<PortraitModeUnsupported />);
-                  }
-
-                  let targetWindowInnerWidth = 1100;
-
-                  if (windowInnerWidth > breakpointsValues.md) {
-                      targetWindowInnerWidth = windowInnerWidth;
-                  }
-
-                  return {
-                      targetWindowInnerWidth,
-                      "targetBrowserFontSizeFactor": 1,
-                  };
-              },
-              */
-        //"splashScreen": { "Logo": OnyxiaLogoSvg, "minimumDisplayDuration": 0 },
-        "splashScreen": { "Logo": () => null, "minimumDisplayDuration": 0 },
-    };
-}
+export const splashScreen: ThemeProviderProps["splashScreen"] = {
+    "Logo": () => null,
+    "minimumDisplayDuration": 0,
+};
 
 export const { PageHeader } = createPageHeader({ Icon });
 

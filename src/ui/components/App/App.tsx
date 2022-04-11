@@ -22,6 +22,7 @@ import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { breakpointsValues } from "onyxia-ui";
+import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -37,7 +38,7 @@ export const App = memo((props: Props) => {
     useApplyLanguageSelectedAtLogin();
 
     const {
-        domRect: { width: rootWidth, height: rootHeight },
+        domRect: { width: rootWidth },
         ref: rootRef,
     } = useDomRect();
 
@@ -58,11 +59,13 @@ export const App = memo((props: Props) => {
         }, [rootWidth === 0]);
     }
 
-    const { refSticky, top } = useStickyTop();
+    const { ref: refSticky, top } = useStickyTop();
+
+    const { windowInnerHeight } = useWindowInnerSize();
 
     const { classes, cx } = useStyles({
         "leftBarTop": top,
-        "leftBarHeight": rootHeight - headerHeight - footerHeight,
+        "leftBarHeight": windowInnerHeight - headerHeight - footerHeight,
     });
 
     const logoContainerWidth = Math.max(
@@ -126,7 +129,7 @@ export const App = memo((props: Props) => {
     );
 
     return (
-        <div ref={rootRef} className={cx(classes.root, className)} tabIndex={-1}>
+        <div ref={rootRef} className={cx(classes.root, className)}>
             {(() => {
                 const common = {
                     "className": classes.header,

@@ -14,9 +14,10 @@ import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import type { Props as CatalogCardsProps } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
-import { useStickyTop } from "powerhooks/useStickyTop";
 import { breakpointsValues } from "onyxia-ui";
 import type { Link } from "type-route";
+import { useStateRef } from "powerhooks/useStateRef";
+import { useStickyTop } from "powerhooks/useStickyTop";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -34,7 +35,9 @@ export function Catalog(props: Props) {
 
     const { t } = useTranslation({ Catalog });
 
-    const { refSticky: pageHeaderRef, top: pageHeaderStickyTop } = useStickyTop();
+    const pageHeaderRef = useStateRef<HTMLDivElement>(null);
+
+    const { top: pageHeaderStickyTop } = useStickyTop({ "ref": pageHeaderRef });
 
     const { classes, theme, cx } = useStyles({ pageHeaderStickyTop });
 

@@ -78,15 +78,15 @@
         "url-join-ts": "^1.0.5",
         "moment": "^2.29.1",
         "keycloakify": "^4.7.0",
-        "onyxia-ui": "^0.30.4",
+        "onyxia-ui": "^0.31.2",
         "tss-react": "^3.6.0",
-        "powerhooks": "^0.14.0"
+        "powerhooks": "^0.16.1"
     },
     "resolutions": {
         "babel-loader": "8.1.0",
         "evt": "2.0.0-beta.39",
         "tss-react": "3.6.0",
-        "powerhooks": "0.14.0"
+        "powerhooks": "0.16.1"
     },
     "eslintConfig": {
         "extends": [

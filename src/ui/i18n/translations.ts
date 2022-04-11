@@ -4,7 +4,6 @@ import { id } from "tsafe/id";
 import { Header } from "ui/components/shared/Header";
 import { App } from "ui/components/App/App";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
-import { PortraitModeUnsupported } from "ui/components/pages/PortraitModeUnsupported";
 import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
 import { AccountField } from "ui/components/pages/Account/AccountField";
 import { Account } from "ui/components/pages/Account/Account";
@@ -32,7 +31,6 @@ type ToTranslations<S extends Scheme> = {
 const reflectedI18nSchemes = {
     [symToStr({ Header })]: Reflect<Header.I18nScheme>(),
     [symToStr({ App })]: Reflect<App.I18nScheme>(),
-    [symToStr({ PortraitModeUnsupported })]: Reflect<PortraitModeUnsupported.I18nScheme>(),
     [symToStr({ FourOhFour })]: Reflect<FourOhFour.I18nScheme>(),
     [symToStr({ RegisterUserProfile })]: Reflect<RegisterUserProfile.I18nScheme>(),
     [symToStr({ AccountField })]: Reflect<AccountField.I18nScheme>(),
@@ -123,11 +121,6 @@ export const resources = id<Record<Language, Translations>>({
         },
         "FourOhFour": {
             "not found": "Page not found",
-        },
-        "PortraitModeUnsupported": {
-            "portrait mode not supported": "Portrait mode isn't supported yet",
-            "instructions":
-                "To use this app on your phone please enable the rotation sensor and turn your phone.",
         },
         "CatalogCard": {
             "learn more": "Learn more",
@@ -249,11 +242,6 @@ export const resources = id<Record<Language, Translations>>({
         },
         "FourOhFour": {
             "not found": "Page non trouvée",
-        },
-        "PortraitModeUnsupported": {
-            "portrait mode not supported": "Le mode portrait n'est pas encore supporté",
-            "instructions":
-                "Pour utiliser cette application depuis votre mobile, veuillez activer le capteur de rotation et tourner votre téléphone.",
         },
         "CatalogCard": {
             "learn more": "En savoir plus",
