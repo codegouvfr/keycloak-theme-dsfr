@@ -32,5 +32,6 @@ export function createTrpcSillApiClient(params: {
             trpcClient.mutation("declareUserReferent", params),
         "userNoLongerReferent": params =>
             trpcClient.mutation("userNoLongerReferent", params),
+        "addSoftware": params => trpcClient.mutation("addSoftware", params),
     };
 }

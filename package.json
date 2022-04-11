@@ -44,7 +44,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.5.1",
+        "sill-api": "^0.6.0",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2",
         "github-pages-plugin-for-type-route": "^0.1.0"
@@ -78,7 +78,7 @@
         "url-join-ts": "^1.0.5",
         "moment": "^2.29.1",
         "keycloakify": "^4.7.0",
-        "onyxia-ui": "^0.31.2",
+        "onyxia-ui": "^0.31.4",
         "tss-react": "^3.6.0",
         "powerhooks": "^0.16.1"
     },

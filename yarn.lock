@@ -11288,10 +11288,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.31.2:
-  version "0.31.2"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.31.2.tgz#4c9d21dd9f29262717f50d98304498593121c0f6"
-  integrity sha512-VmPAThs/dQoyST6PitpFUSvUeix1S6Ophqz1U1XzinK8AhGa4B52rDZnw7oqiwvm+COpfTrbYVqv/MH+lxQ+jQ==
+onyxia-ui@^0.31.4:
+  version "0.31.4"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.31.4.tgz#0e017734345bc9528512fc8086fb22aedf07e198"
+  integrity sha512-ydiMUOixxaqpTrDVEVr9qXXGx9vP9btj+TGxaiqWhxe5FXqUe54qOpzbKROXfuAL3zewNiX4ajpAH9UGGfdTuQ==
   dependencies:
     "@mui/icons-material" "^5.0.3"
     color "3.1.3"
@@ -11300,6 +11300,7 @@ onyxia-ui@^0.31.2:
     memoizee "^0.4.15"
     minimal-polyfills "^2.2.1"
     powerhooks "^0.16.1"
+    run-exclusive "^2.2.14"
     tsafe "^0.8.1"
     tss-react "^3.5.2"
 
@@ -14121,10 +14122,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.5.1.tgz#69edd32f32b2cdeb3f6f8dd598750e4ab29621ea"
-  integrity sha512-7eSNwhD+3rnDLM/tM/kp23KrWpptfB5muXhaTN+5WGMtWRZ/i5LrDXnLXKssS2Sfatsrmt1IAQtDI2YyhURNCQ==
+sill-api@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.6.0.tgz#1b5eb3e5b8973a8f2eaca1d8adeb763421e222ce"
+  integrity sha512-2KRUK2Mdx6Dr5JZcldjgjewv7i4P3/BN5lPKQwrq4VxmU/zJGpaJvILUEHn2dBM7QBz3XsyOZeugFx4edjgFsw==
   dependencies:
     "@trpc/server" "^9.20.3"
     jwt-simple "^0.5.6"
