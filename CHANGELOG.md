@@ -1,3 +1,8 @@
+### **0.3.4** (2022-04-11)  
+  
+- :bookmark:  Bump version  
+- :lipstick:  Many framwork update done over the week end    
+  
 ### **0.3.3** (2022-04-08)  
   
 - :bookmark:  Bump version  
