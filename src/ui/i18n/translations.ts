@@ -131,7 +131,7 @@ export const resources = id<Record<Language, Translations>>({
             "show referents": "Show referents",
             "show the others referents": "Show the others referents",
             "close": "Close",
-            "expert": "You are expert",
+            "expert": "You are technical expert",
             "you": "You",
             "declare oneself referent": "Declare yourself referent",
             "declare oneself referent of":
@@ -252,7 +252,7 @@ export const resources = id<Record<Language, Translations>>({
             "show referents": "Voir les référents",
             "show the others referents": "Voir les autres référents",
             "close": "Fermer",
-            "expert": "Vous êtes expert",
+            "expert": "Vous êtes expert technique",
             "you": "Vous",
             "declare oneself referent": "Me déclarer référent",
             "declare oneself referent of": "Me déclarer référent de {{softwareName}}",
