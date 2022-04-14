@@ -26,12 +26,15 @@ export function createTrpcSillApiClient(params: {
         "getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
             "promise": true,
         }),
-        "getCompiledData": () => trpcClient.query("getCompiledData"),
+        "getCompiledData": memoize(() => trpcClient.query("getCompiledData"), {
+            "promise": true,
+        }),
         "getReferentsBySoftwareId": () => trpcClient.query("getReferentsBySoftwareId"),
         "declareUserReferent": params =>
             trpcClient.mutation("declareUserReferent", params),
         "userNoLongerReferent": params =>
             trpcClient.mutation("userNoLongerReferent", params),
         "addSoftware": params => trpcClient.mutation("addSoftware", params),
+        "updateSoftware": params => trpcClient.mutation("updateSoftware", params),
     };
 }

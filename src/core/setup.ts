@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Action, ThunkAction as GenericThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
-import * as catalogExplorerUseCase from "./usecases/catalogExplorer";
-import * as userAuthenticationUseCase from "./usecases/userAuthentication";
+import * as catalogExplorerUsecase from "./usecases/catalogExplorer";
+import * as userAuthenticationUsecase from "./usecases/userAuthentication";
+import * as softwareFormUsecase from "./usecases/softwareForm";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
 import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
@@ -61,7 +62,11 @@ assert<
     >
 >();
 
-export const usecases = [catalogExplorerUseCase, userAuthenticationUseCase];
+export const usecases = [
+    catalogExplorerUsecase,
+    userAuthenticationUsecase,
+    softwareFormUsecase,
+];
 
 const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
 
@@ -151,23 +156,22 @@ export async function createStore(params: CreateStoreParams) {
     const store = configureStore({
         "reducer": usecasesToReducer(usecases),
         "middleware": getDefaultMiddleware =>
-            [
-                ...getDefaultMiddleware({
-                    "thunk": {
-                        "extraArgument": id<ThunksExtraArgument>({
-                            "createStoreParams": params,
-                            userApiClient,
-                            oidcClient,
-                            sillApiClient,
-                            evtAction,
-                        }),
-                    },
-                }),
-                middlewareEvtAction,
-            ] as const,
+            getDefaultMiddleware({
+                "thunk": {
+                    "extraArgument": id<ThunksExtraArgument>({
+                        "createStoreParams": params,
+                        userApiClient,
+                        oidcClient,
+                        sillApiClient,
+                        evtAction,
+                    }),
+                },
+            }).concat(middlewareEvtAction),
     });
 
-    await store.dispatch(userAuthenticationUseCase.privateThunks.initialize());
+    await store.dispatch(userAuthenticationUsecase.privateThunks.initialize());
+
+    store.dispatch(catalogExplorerUsecase.privateThunks.initialize());
 
     return store;
 }

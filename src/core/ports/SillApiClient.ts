@@ -7,7 +7,10 @@ export type SillApiClient = {
         (): Promise<InferOutput<"getOidcParams">>;
         clear: () => void;
     };
-    getCompiledData: () => Promise<InferOutput<"getCompiledData">>;
+    getCompiledData: {
+        (): Promise<InferOutput<"getCompiledData">>;
+        clear: () => void;
+    };
     getReferentsBySoftwareId: () => Promise<InferOutput<"getReferentsBySoftwareId">>;
     declareUserReferent: (
         params: InferInput<"declareUserReferent">,
@@ -18,6 +21,9 @@ export type SillApiClient = {
     addSoftware: (
         params: InferInput<"addSoftware">,
     ) => Promise<InferOutput<"addSoftware">>;
+    updateSoftware: (
+        params: InferInput<"updateSoftware">,
+    ) => Promise<InferOutput<"updateSoftware">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

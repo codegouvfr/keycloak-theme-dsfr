@@ -20,13 +20,17 @@ export function createServerlessSillApiClient(params: {
                 }),
             { "promise": true },
         ),
-        "getCompiledData": () =>
-            fetch(jsonUrl)
-                .then(res => res.text())
-                .then(text => JSON.parse(text) as CompiledData),
+        "getCompiledData": memoize(
+            () =>
+                fetch(jsonUrl)
+                    .then(res => res.text())
+                    .then(text => JSON.parse(text) as CompiledData),
+            { "promise": true },
+        ),
         "getReferentsBySoftwareId": () => Promise.reject(new Error("not implemented")),
         "declareUserReferent": () => Promise.reject(new Error("not implemented")),
         "userNoLongerReferent": () => Promise.reject(new Error("not implemented")),
         "addSoftware": () => Promise.reject(new Error("not implemented")),
+        "updateSoftware": () => Promise.reject(new Error("not implemented")),
     };
 }

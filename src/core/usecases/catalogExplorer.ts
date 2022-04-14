@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
+import { removeReferent } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ThunksExtraArgument, RootState } from "../setup";
@@ -163,11 +164,40 @@ export const { name, reducer, actions } = createSlice({
 
             state["~internal"].isProcessing = false;
         },
+        "softwareAddedOrUpdated": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{ software: CompiledData.Software<"with referents"> }>,
+        ) => {
+            const { software } = payload;
+
+            if (state.stateDescription === "not fetched") {
+                return;
+            }
+
+            const { softwares, referentsBySoftwareId } = state["~internal"];
+
+            const oldSoftware = softwares.find(({ id }) => id === software.id);
+
+            if (oldSoftware !== undefined) {
+                softwares[softwares.indexOf(oldSoftware)!] = removeReferent(software);
+            } else {
+                softwares.push(removeReferent(software));
+
+                assert(referentsBySoftwareId !== undefined);
+
+                referentsBySoftwareId[software.id] = {
+                    "referents": software.referents,
+                    "userIndex": 0,
+                };
+            }
+        },
     },
 });
 
 export const thunks = {
-    "fetchCatalogs":
+    "fetchCatalog":
         (): ThunkAction =>
         async (...args) => {
             const [dispatch, , { sillApiClient, oidcClient }] = args;
@@ -307,6 +337,23 @@ export const thunks = {
                 actions.userNoLongerReferent({
                     softwareId,
                 }),
+            );
+        },
+};
+
+export const privateThunks = {
+    "initialize":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, , { evtAction }] = args;
+
+            evtAction.$attach(
+                action =>
+                    action.sliceName === "softwareForm" &&
+                    action.actionName === "softwareAddedOrUpdated"
+                        ? [action.payload.software]
+                        : null,
+                software => dispatch(actions.softwareAddedOrUpdated({ software })),
             );
         },
 };

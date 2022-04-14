@@ -80,7 +80,7 @@ export function Catalog(props: Props) {
             case "not fetched":
                 if (!catalogExplorerState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
-                    catalogExplorerThunks.fetchCatalogs();
+                    catalogExplorerThunks.fetchCatalog();
                 }
                 break;
             case "ready":
