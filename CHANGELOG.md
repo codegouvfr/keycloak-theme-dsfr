@@ -1,3 +1,10 @@
+### **0.4.2** (2022-04-15)  
+  
+- :bug:  Fixing bug  
+- :bug:  Fixing bugs  
+- :bug:  Moving on with bug fixes  
+- :bug:  Fix bug    
+  
 ### **0.4.1** (2022-04-15)  
   
 - :bookmark:  Bump version  
