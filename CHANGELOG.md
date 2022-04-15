@@ -1,3 +1,7 @@
+## **0.5.0** (2022-04-15)  
+  
+- :sparkles:  prefill based on wikidata id    
+  
 ### **0.4.2** (2022-04-15)  
   
 - :bug:  Fixing bug  
