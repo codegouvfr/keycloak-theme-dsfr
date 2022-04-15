@@ -1,3 +1,9 @@
+### **0.4.1** (2022-04-15)  
+  
+- :bookmark:  Bump version  
+- :bug:  Fix some more bugs  
+- :bug:  Fix many small bugs    
+  
 ## **0.4.0** (2022-04-15)  
   
 - :lipstick:  Ui for the softwar form  
