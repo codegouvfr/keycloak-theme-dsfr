@@ -13,6 +13,7 @@ import { is } from "tsafe/is";
 import { objectKeys } from "tsafe/objectKeys";
 import { typeGuard } from "tsafe/typeGuard";
 import { same } from "evt/tools/inDepth/same";
+import { thunks as catalogExplorerThunks } from "./catalogExplorer";
 
 type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
 
@@ -68,7 +69,6 @@ namespace SoftwareFormState {
         defaultValueByFieldName: ValueByFieldName;
         softwareId: number | undefined;
         isSubmitting: boolean;
-        catalog: CompiledData.Software[];
     };
 
     export type Submitted = {
@@ -109,10 +109,9 @@ export const { name, reducer, actions } = createSlice({
             }: PayloadAction<{
                 valueByFieldName: ValueByFieldName;
                 softwareId: number | undefined;
-                catalog: CompiledData.Software[];
             }>,
         ) => {
-            const { valueByFieldName, softwareId, catalog } = payload;
+            const { valueByFieldName, softwareId } = payload;
 
             return id<SoftwareFormState.Ready>({
                 "stateDescription": "form ready",
@@ -123,7 +122,6 @@ export const { name, reducer, actions } = createSlice({
                 ) as Record<FieldName, boolean>,
                 softwareId,
                 "isSubmitting": false,
-                catalog,
             });
         },
         "focusLost": (state, { payload }: PayloadAction<{ fieldName: FieldName }>) => {
@@ -178,17 +176,41 @@ export const thunks = {
         async (...args) => {
             const { softwareId } = params;
 
-            const [dispatch, , { sillApiClient }] = args;
+            const [dispatch, getState, { evtAction }] = args;
 
             dispatch(actions.initializationStarted());
-
-            const { catalog } = await sillApiClient.getCompiledData();
 
             const software =
                 softwareId === undefined
                     ? undefined
-                    : (() => {
-                          const software = catalog.find(
+                    : await (async () => {
+                          const { softwares } = await (async () => {
+                              let catalogExplorerState = getState().catalogExplorer;
+
+                              if (
+                                  catalogExplorerState.stateDescription === "not fetched"
+                              ) {
+                                  dispatch(catalogExplorerThunks.fetchCatalog());
+
+                                  await evtAction.waitFor(
+                                      action =>
+                                          action.sliceName === "catalogExplorer" &&
+                                          action.actionName === "catalogsFetched",
+                                  );
+
+                                  catalogExplorerState = getState().catalogExplorer;
+
+                                  assert(
+                                      catalogExplorerState.stateDescription === "ready",
+                                  );
+                              }
+
+                              const { softwares } = catalogExplorerState["~internal"];
+
+                              return { softwares };
+                          })();
+
+                          const software = softwares.find(
                               software => software.id === softwareId,
                           );
 
@@ -248,7 +270,6 @@ export const thunks = {
                                       })(),
                                   ]),
                               ) as ValueByFieldName),
-                    catalog,
                 }),
             );
         },
@@ -352,12 +373,12 @@ export const selectors = (() => {
 
     const { fieldErrorByFieldName } = (() => {
         function getFieldError<Field extends keyof ValueByFieldName>(params: {
-            catalog: CompiledData.Software[];
+            softwares: CompiledData.Software[];
             fieldName: Field;
             fieldValue: ValueByFieldName[Field];
             isCreation: boolean;
         }): FieldError {
-            const { fieldValue, catalog, isCreation } = params;
+            const { fieldValue, softwares, isCreation } = params;
             const fieldName: keyof ValueByFieldName = params.fieldName;
 
             if (
@@ -384,7 +405,7 @@ export const selectors = (() => {
 
                     if (
                         isCreation &&
-                        catalog.find(
+                        softwares.find(
                             software => software.wikidataData?.id === fieldValue,
                         ) !== undefined
                     ) {
@@ -400,7 +421,7 @@ export const selectors = (() => {
 
                     if (
                         isCreation &&
-                        catalog.find(software => {
+                        softwares.find(software => {
                             const tr = (s: string) => s.toLowerCase().replace(/ /g, "-");
 
                             return tr(software.name) === tr(fieldValue);
@@ -417,27 +438,32 @@ export const selectors = (() => {
             return { "hasError": false };
         }
 
-        const fieldErrorByFieldName = createSelector(
-            readyState,
-            (state): Record<FieldName, FieldError> | undefined => {
-                if (state === undefined) {
-                    return undefined;
-                }
+        const fieldErrorByFieldName = (
+            rootState: RootState,
+        ): Record<FieldName, FieldError> | undefined => {
+            const state = rootState.softwareForm;
 
-                return Object.fromEntries(
-                    fieldNames.map(fieldName => [
-                        fieldName,
-                        (() =>
-                            getFieldError({
-                                fieldName,
-                                "fieldValue": state.valueByFieldName[fieldName],
-                                "catalog": state.catalog,
-                                "isCreation": state.softwareId === undefined,
-                            }))(),
-                    ]),
-                ) as Record<FieldName, FieldError>;
-            },
-        );
+            if (state.stateDescription !== "form ready") {
+                return undefined;
+            }
+
+            const catalogExplorerState = rootState.catalogExplorer;
+
+            assert(catalogExplorerState.stateDescription === "ready");
+
+            return Object.fromEntries(
+                fieldNames.map(fieldName => [
+                    fieldName,
+                    (() =>
+                        getFieldError({
+                            fieldName,
+                            "fieldValue": state.valueByFieldName[fieldName],
+                            "softwares": catalogExplorerState["~internal"].softwares,
+                            "isCreation": state.softwareId === undefined,
+                        }))(),
+                ]),
+            ) as Record<FieldName, FieldError>;
+        };
 
         return { fieldErrorByFieldName };
     })();

@@ -7,10 +7,7 @@ export type SillApiClient = {
         (): Promise<InferOutput<"getOidcParams">>;
         clear: () => void;
     };
-    getCompiledData: {
-        (): Promise<InferOutput<"getCompiledData">>;
-        clear: () => void;
-    };
+    getCompiledData: () => Promise<InferOutput<"getCompiledData">>;
     getReferentsBySoftwareId: () => Promise<InferOutput<"getReferentsBySoftwareId">>;
     declareUserReferent: (
         params: InferInput<"declareUserReferent">,

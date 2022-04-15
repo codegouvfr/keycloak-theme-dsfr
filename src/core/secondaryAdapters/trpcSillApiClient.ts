@@ -26,9 +26,7 @@ export function createTrpcSillApiClient(params: {
         "getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
             "promise": true,
         }),
-        "getCompiledData": memoize(() => trpcClient.query("getCompiledData"), {
-            "promise": true,
-        }),
+        "getCompiledData": () => trpcClient.query("getCompiledData"),
         "getReferentsBySoftwareId": () => trpcClient.query("getReferentsBySoftwareId"),
         "declareUserReferent": params =>
             trpcClient.mutation("declareUserReferent", params),
