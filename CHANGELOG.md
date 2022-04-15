@@ -1,3 +1,9 @@
+## **0.4.0** (2022-04-15)  
+  
+- :lipstick:  Ui for the softwar form  
+- :sparkles:  Implement logic for creating or updating software  
+- :sparkles:  Add client method for create softawre form    
+  
 ### **0.3.5** (2022-04-11)  
   
 - :globe_with_meridians:  "vous êtes expert" => "vous êtes expert technique"
