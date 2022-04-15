@@ -419,20 +419,13 @@ export const selectors = (() => {
                 return Object.fromEntries(
                     fieldNames.map(fieldName => [
                         fieldName,
-                        ((): FieldError => {
-                            if (!state.hasLostFocusAtLeastOnceByFieldName[fieldName]) {
-                                return {
-                                    "hasError": false,
-                                };
-                            }
-
-                            return getFieldError({
+                        (() =>
+                            getFieldError({
                                 fieldName,
                                 "fieldValue": state.valueByFieldName[fieldName],
                                 "catalog": state.catalog,
                                 "isCreation": state.softwareId === undefined,
-                            });
-                        })(),
+                            }))(),
                     ]),
                 ) as Record<FieldName, FieldError>;
             },
@@ -440,6 +433,33 @@ export const selectors = (() => {
 
         return { fieldErrorByFieldName };
     })();
+
+    const displayableFieldErrorByFieldName = createSelector(
+        readyState,
+        fieldErrorByFieldName,
+        (state, fieldErrorByFieldName): Record<FieldName, FieldError> | undefined => {
+            if (state === undefined) {
+                return undefined;
+            }
+
+            assert(fieldErrorByFieldName !== undefined);
+
+            return Object.fromEntries(
+                fieldNames.map(fieldName => [
+                    fieldName,
+                    ((): FieldError => {
+                        if (!state.hasLostFocusAtLeastOnceByFieldName[fieldName]) {
+                            return {
+                                "hasError": false,
+                            };
+                        }
+
+                        return fieldErrorByFieldName[fieldName];
+                    })(),
+                ]),
+            ) as Record<FieldName, FieldError>;
+        },
+    );
 
     const isSubmittable = createSelector(
         readyState,
@@ -466,7 +486,7 @@ export const selectors = (() => {
         },
     );
 
-    return { fieldErrorByFieldName, isSubmittable };
+    return { displayableFieldErrorByFieldName, isSubmittable };
 })();
 
 export const pure = (() => {

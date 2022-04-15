@@ -22,6 +22,7 @@ import { Equals } from "tsafe";
 import { TextField } from "onyxia-ui/TextField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import FormHelperText from "@mui/material/FormHelperText";
+import { breakpointsValues } from "onyxia-ui";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -42,14 +43,16 @@ export function Form(props: Props) {
     const { softwareFormThunks } = useThunks();
 
     const { isSubmittable } = useSelector(selectors.softwareForm.isSubmittable);
-    const { fieldErrorByFieldName } = useSelector(
-        selectors.softwareForm.fieldErrorByFieldName,
+    const { displayableFieldErrorByFieldName } = useSelector(
+        selectors.softwareForm.displayableFieldErrorByFieldName,
     );
     const state = useSelector(state => state.softwareForm);
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
+        console.log("Initialize softwareForm", route.params.softwareId);
+
         softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
     }, [route.params.softwareId]);
 
@@ -101,7 +104,7 @@ export function Form(props: Props) {
     }
 
     assert(isSubmittable !== undefined);
-    assert(fieldErrorByFieldName !== undefined);
+    assert(displayableFieldErrorByFieldName !== undefined);
 
     return (
         <>
@@ -110,7 +113,10 @@ export function Form(props: Props) {
                     {objectKeys(state.valueByFieldName)
                         .map(
                             fieldName =>
-                                [fieldName, fieldErrorByFieldName[fieldName]] as const,
+                                [
+                                    fieldName,
+                                    displayableFieldErrorByFieldName[fieldName],
+                                ] as const,
                         )
                         .map(([fieldName, fieldError]) => (
                             <Fragment key={fieldName}>
@@ -213,8 +219,9 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
     "fields": {
         "padding": theme.spacing(7),
         "display": "grid",
-        "gridTemplateColumns": "repeat(3, 1fr)",
-        "gap": theme.spacing(5),
+        "gridTemplateColumns": "repeat(2, 1fr)",
+        "gap": theme.spacing(6),
+        "maxWidth": breakpointsValues.lg,
         //"gridAutoRows": "minmax(100px, auto)"
     },
     "submitButtonWrapper": {
