@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.garronej.dev",
     "name": "sill-web",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
@@ -45,7 +45,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.7.0",
+        "sill-api": "^0.7.2",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2"
     },
