@@ -21,6 +21,9 @@ export type SillApiClient = {
     updateSoftware: (
         params: InferInput<"updateSoftware">,
     ) => Promise<InferOutput<"updateSoftware">>;
+    fetchWikiDataData: (
+        params: InferInput<"fetchWikiDataData">,
+    ) => Promise<InferOutput<"fetchWikiDataData">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

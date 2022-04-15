@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { RootState } from "../setup";
+import type { ThunksExtraArgument, RootState } from "../setup";
 import type { SillApiClient } from "../ports/SillApiClient";
 import type { Param0, Equals, PickOptionals } from "tsafe";
 import { is } from "tsafe/is";
@@ -14,6 +14,8 @@ import { objectKeys } from "tsafe/objectKeys";
 import { typeGuard } from "tsafe/typeGuard";
 import { same } from "evt/tools/inDepth/same";
 import { thunks as catalogExplorerThunks } from "./catalogExplorer";
+import { waitForDebounceFactory } from "core/tools/waitForDebounce";
+import memoize from "memoizee";
 
 type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
 
@@ -180,36 +182,34 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
+            //NOTE: We need have the catalog fetched even if we don't use software here
+            //(we check errors)
+            const { softwares } = await (async () => {
+                let catalogExplorerState = getState().catalogExplorer;
+
+                if (catalogExplorerState.stateDescription === "not fetched") {
+                    dispatch(catalogExplorerThunks.fetchCatalog());
+
+                    await evtAction.waitFor(
+                        action =>
+                            action.sliceName === "catalogExplorer" &&
+                            action.actionName === "catalogsFetched",
+                    );
+
+                    catalogExplorerState = getState().catalogExplorer;
+
+                    assert(catalogExplorerState.stateDescription === "ready");
+                }
+
+                const { softwares } = catalogExplorerState["~internal"];
+
+                return { softwares };
+            })();
+
             const software =
                 softwareId === undefined
                     ? undefined
                     : await (async () => {
-                          const { softwares } = await (async () => {
-                              let catalogExplorerState = getState().catalogExplorer;
-
-                              if (
-                                  catalogExplorerState.stateDescription === "not fetched"
-                              ) {
-                                  dispatch(catalogExplorerThunks.fetchCatalog());
-
-                                  await evtAction.waitFor(
-                                      action =>
-                                          action.sliceName === "catalogExplorer" &&
-                                          action.actionName === "catalogsFetched",
-                                  );
-
-                                  catalogExplorerState = getState().catalogExplorer;
-
-                                  assert(
-                                      catalogExplorerState.stateDescription === "ready",
-                                  );
-                              }
-
-                              const { softwares } = catalogExplorerState["~internal"];
-
-                              return { softwares };
-                          })();
-
                           const software = softwares.find(
                               software => software.id === softwareId,
                           );
@@ -300,13 +300,59 @@ export const thunks = {
         (params: {
             fieldName: FieldName;
             value: ValueByFieldName[FieldName];
-        }): ThunkAction<void> =>
-        (...args) => {
+        }): ThunkAction =>
+        async (...args) => {
             const { fieldName, value } = params;
 
-            const [dispatch] = args;
+            const [dispatch, getState, extraArg] = args;
 
             dispatch(actions.fieldValueChanged({ fieldName, value }));
+
+            autofill_wikidata: {
+                if (fieldName !== "wikidataId") {
+                    break autofill_wikidata;
+                }
+
+                const fieldErrorByFieldName = selectors.fieldErrorByFieldName(getState());
+
+                assert(fieldErrorByFieldName !== undefined);
+
+                if (fieldErrorByFieldName[fieldName].hasError) {
+                    break autofill_wikidata;
+                }
+
+                assert(typeof value === "string");
+
+                const { fetchWikiDataDebounce } = getSliceContext(extraArg);
+
+                await fetchWikiDataDebounce();
+
+                const { sillApiClient } = extraArg;
+
+                const wikiDataData = await sillApiClient
+                    .fetchWikiDataData({ "wikidataId": value })
+                    .catch(() => undefined);
+
+                if (wikiDataData === undefined) {
+                    break autofill_wikidata;
+                }
+
+                description: {
+                    const description =
+                        wikiDataData.descriptionFr ?? wikiDataData.descriptionEn;
+
+                    if (description === undefined) {
+                        break description;
+                    }
+
+                    dispatch(
+                        actions.fieldValueChanged({
+                            "fieldName": "name",
+                            "value": description,
+                        }),
+                    );
+                }
+            }
         },
     "submit":
         (params: { isExpert: boolean | undefined }): ThunkAction =>
@@ -520,8 +566,15 @@ export const selectors = (() => {
         },
     );
 
-    return { displayableFieldErrorByFieldName, isSubmittable };
+    return { displayableFieldErrorByFieldName, isSubmittable, fieldErrorByFieldName };
 })();
+
+const getSliceContext = memoize((_: ThunksExtraArgument) => {
+    const { waitForDebounce } = waitForDebounceFactory({ "delay": 1000 });
+    return {
+        "fetchWikiDataDebounce": waitForDebounce,
+    };
+});
 
 export const pure = (() => {
     const { getIsOptionalField } = (() => {

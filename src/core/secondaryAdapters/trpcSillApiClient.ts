@@ -34,5 +34,6 @@ export function createTrpcSillApiClient(params: {
             trpcClient.mutation("userNoLongerReferent", params),
         "addSoftware": params => trpcClient.mutation("addSoftware", params),
         "updateSoftware": params => trpcClient.mutation("updateSoftware", params),
+        "fetchWikiDataData": params => trpcClient.query("fetchWikiDataData", params),
     };
 }

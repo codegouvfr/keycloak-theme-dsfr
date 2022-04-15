@@ -32,5 +32,6 @@ export function createServerlessSillApiClient(params: {
         "userNoLongerReferent": () => Promise.reject(new Error("not implemented")),
         "addSoftware": () => Promise.reject(new Error("not implemented")),
         "updateSoftware": () => Promise.reject(new Error("not implemented")),
+        "fetchWikiDataData": () => Promise.reject(new Error("not implemented")),
     };
 }
