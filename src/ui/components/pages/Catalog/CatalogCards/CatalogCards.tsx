@@ -25,6 +25,7 @@ import { capitalize } from "tsafe/capitalize";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
+import { Button } from "ui/theme";
 
 export type Props = {
     className?: string;
@@ -54,6 +55,7 @@ export type Props = {
     onLogin: () => void;
     onDeclareOneselfReferent: (params: { softwareId: number; isExpert: boolean }) => void;
     onUserNoLongerReferent: (params: { softwareId: number }) => void;
+    referenceNewSoftwareLink: Link;
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -71,6 +73,7 @@ export const CatalogCards = memo((props: Props) => {
         onLogin,
         onDeclareOneselfReferent,
         onUserNoLongerReferent,
+        referenceNewSoftwareLink,
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
@@ -173,6 +176,10 @@ export const CatalogCards = memo((props: Props) => {
                 {filteredSoftwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all software")}
+                        &nbsp;
+                        <Button {...referenceNewSoftwareLink}>
+                            {t("reference a new software")}
+                        </Button>
                     </Text>
                 )}
                 <div className={classes.cards}>
@@ -250,6 +257,7 @@ export declare namespace CatalogCards {
         "search": undefined;
         "alike software": undefined;
         "other similar software": undefined;
+        "reference a new software": undefined;
     };
 }
 

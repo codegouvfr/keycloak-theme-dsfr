@@ -3,17 +3,23 @@ import { DirectoryHeader } from "onyxia-ui/DirectoryHeader";
 import type { CompiledData } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
 import { Card } from "onyxia-ui/Card";
+import { Button } from "ui/theme";
+import { useTranslation } from "ui/i18n/useTranslations";
+import { Link } from "type-route";
 
 export type Props = {
     className?: string;
     software: CompiledData.Software;
     onGoBack: () => void;
+    editLink: Link | undefined;
 };
 
 export const SoftwareDetails = memo((props: Props) => {
-    const { className, software, onGoBack } = props;
+    const { className, software, onGoBack, editLink } = props;
 
     const { classes, cx, css } = useStyles();
+
+    const { t } = useTranslation({ SoftwareDetails });
 
     return (
         <div className={cx(classes.root, className)}>
@@ -28,6 +34,9 @@ export const SoftwareDetails = memo((props: Props) => {
                     />
                 }
             />
+            {editLink !== undefined && (
+                <Button {...editLink}>{t("update software information")}</Button>
+            )}
             <Card>
                 {(() => {
                     const { comptoirDuLibreSoftware, ...rest } = software;
@@ -38,6 +47,12 @@ export const SoftwareDetails = memo((props: Props) => {
         </div>
     );
 });
+
+export namespace SoftwareDetails {
+    export type I18nScheme = {
+        "update software information": undefined;
+    };
+}
 
 const useStyles = makeStyles({ "name": { SoftwareDetails } })(() => ({
     "root": {},

@@ -13,6 +13,7 @@ import { useDomRect, useSplashScreen } from "onyxia-ui";
 import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
+import { Form } from "ui/components/pages/Form";
 import { typeGuard } from "tsafe/typeGuard";
 import type { fallbackLanguage } from "ui/i18n/translations";
 import { Language } from "sill-api";
@@ -284,6 +285,19 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     {
         const Page = Account;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login();
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = Form;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {

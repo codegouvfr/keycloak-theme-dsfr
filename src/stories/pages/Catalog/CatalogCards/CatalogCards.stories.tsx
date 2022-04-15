@@ -92,4 +92,8 @@ export const VueDefault = getStory({
         "onUserNoLongerReferent",
     ]),
     "searchBarWrapperElement": document.createElement("div"),
+    "referenceNewSoftwareLink": {
+        "href": "https://example.com",
+        "onClick": () => {},
+    },
 });

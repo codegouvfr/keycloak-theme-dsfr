@@ -31,6 +31,12 @@ const routeDefs = {
         },
         () => `/catalogue`,
     ),
+    "form": defineRoute(
+        {
+            "softwareId": param.query.optional.number,
+        },
+        () => `/formulaire`,
+    ),
 };
 
 export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);

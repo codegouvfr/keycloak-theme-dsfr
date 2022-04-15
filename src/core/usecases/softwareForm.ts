@@ -20,7 +20,7 @@ type ValueByFieldName = {
     [K in keyof PartialSoftwareRow]-?: PartialSoftwareRow[K];
 };
 
-type FieldName = keyof ValueByFieldName;
+export type FieldName = keyof ValueByFieldName;
 
 const fieldNames = [
     "wikidataId",
@@ -35,16 +35,19 @@ const fieldNames = [
 
 assert<Equals<typeof fieldNames[number], FieldName>>();
 
+export type FieldErrorMessageKey =
+    | "mandatory field"
+    | "invalid wikidata id"
+    | "wikidata id already exists"
+    | "name already exists";
+
 type FieldError =
     | {
           hasError: false;
       }
     | {
           hasError: true;
-          errorMessageKey:
-              | "mandatory field"
-              | "invalid wikidata id"
-              | "wikidata id already exists";
+          errorMessageKey: FieldErrorMessageKey;
       };
 
 type SoftwareFormState =
@@ -70,7 +73,7 @@ namespace SoftwareFormState {
 
     export type Submitted = {
         stateDescription: "form submitted";
-        softwareId: number;
+        softwareName: string;
     };
 }
 
@@ -143,7 +146,7 @@ export const { name, reducer, actions } = createSlice({
 
             return id<SoftwareFormState.Submitted>({
                 "stateDescription": "form submitted",
-                "softwareId": software.id,
+                "softwareName": software.name,
             });
         },
         "submissionStarted": state => {
@@ -382,7 +385,25 @@ export const selectors = (() => {
                             "errorMessageKey": "wikidata id already exists",
                         };
                     }
+                    break;
                 }
+                case "name":
+                    assert(is<ValueByFieldName[typeof fieldName]>(fieldValue));
+
+                    if (
+                        isCreation &&
+                        catalog.find(software => {
+                            const tr = (s: string) => s.toLowerCase().replace(/ /g, "-");
+
+                            return tr(software.name) === tr(fieldValue);
+                        }) !== undefined
+                    ) {
+                        return {
+                            "hasError": true,
+                            "errorMessageKey": "name already exists",
+                        };
+                    }
+                    break;
             }
 
             return { "hasError": false };

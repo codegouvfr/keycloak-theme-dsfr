@@ -4,6 +4,8 @@ import { id } from "tsafe/id";
 import { Header } from "ui/components/shared/Header";
 import { App } from "ui/components/App/App";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
+import { Form } from "ui/components/pages/Form";
+import { SoftwareDetails } from "ui/components/pages/Catalog/SoftwareDetails";
 import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
 import { AccountField } from "ui/components/pages/Account/AccountField";
 import { Account } from "ui/components/pages/Account/Account";
@@ -43,6 +45,8 @@ const reflectedI18nSchemes = {
     [symToStr({ Footer })]: Reflect<Footer.I18nScheme>(),
     [symToStr({ LoginDivider })]: Reflect<LoginDivider.I18nScheme>(),
     [symToStr({ Login })]: Reflect<Login.I18nScheme>(),
+    [symToStr({ Form })]: Reflect<Form.I18nScheme>(),
+    [symToStr({ SoftwareDetails })]: Reflect<SoftwareDetails.I18nScheme>(),
 };
 
 export type I18nSchemes = typeof reflectedI18nSchemes;
@@ -156,6 +160,7 @@ export const resources = id<Record<Language, Translations>>({
             "alike software": "Alike software",
             "other similar software":
                 "Others similar software that are not in the catalog",
+            "reference a new software": "Reference a new software",
         },
         "Catalog": {
             "header text1": "Software catalog",
@@ -174,6 +179,41 @@ export const resources = id<Record<Language, Translations>>({
         },
         "Login": {
             "doRegister": "Create an account",
+        },
+        "Form": {
+            "agentWorkstation": "Agent workstation",
+            "agentWorkstation helper":
+                "Is it meant to be installed on the agent workstation?",
+            "cancel": "Cancel",
+            "comptoirDuLibreId": "Comptoir du Libre ID",
+            "comptoirDuLibreId helper":
+                "ID of the software on comptoir-du-libre.org (It's in the url, ex 67 for Gimp)",
+            "function": "Software's function",
+            "function helper": "What is the function of the software?",
+            "i am a technical expert": "I am a technical expert",
+            "invalid wikidata id": "Invalid wikidata id",
+            "isFromFrenchPublicService": "Is 🇫🇷",
+            "isFromFrenchPublicService helper":
+                "Is the software developed by a French public service?",
+            "license": "License",
+            "license helper": "What is the license of the software? E.g. GPLv3",
+            "mandatory field": "Mandatory field",
+            "name": "Software's name",
+            "name helper": "What is the name of the software?",
+            "send": "Send",
+            "versionMin": "Minimal version",
+            "versionMin helper":
+                "What is the minimal acceptable version of the software?",
+            "wikidata id already exists":
+                "There is already a software with this wikidata id in the SILL",
+            "wikidataId": "Wikidata ID",
+            "wikidataId helper":
+                "What is the wikidata id of the software? E.g. Q8038 for Gimp",
+            "name already exists":
+                "There is already a software with this name in the SILL",
+        },
+        "SoftwareDetails": {
+            "update software information": "Update software information",
         },
     },
     "fr": {
@@ -277,6 +317,7 @@ export const resources = id<Record<Language, Translations>>({
             "alike software": "Logiciels similaires",
             "other similar software":
                 "Autres logiciels similaires qui ne sont pas dans le catalogue",
+            "reference a new software": "Reférencer un nouveau logiciel",
         },
         "Catalog": {
             "header text1": "Catalogue de logiciel",
@@ -295,6 +336,39 @@ export const resources = id<Record<Language, Translations>>({
         },
         "Login": {
             "doRegister": "Créer un compte",
+        },
+        "Form": {
+            "agentWorkstation": "Ordinateur de l'agent",
+            "agentWorkstation helper": "S'install sur le poste de travail de l'agent?",
+            "cancel": "Annuler",
+            "comptoirDuLibreId": "Comptoir du Libre ID",
+            "comptoirDuLibreId helper":
+                "ID du logiciel sur comptoir-du-libre.org (Visible dans l'URL, ex 67 for Gimp)",
+            "function": "Fonction du logicel",
+            "function helper":
+                "Fonction du logiciel (ex: éditeur de texte, éditeur de vidéo, etc.)",
+            "i am a technical expert": "Je suis expert technique",
+            "invalid wikidata id": "Wikidata ID invalide",
+            "isFromFrenchPublicService": "Viens de l'administration 🇫🇷?",
+            "isFromFrenchPublicService helper":
+                "Est-ce que le logicel est développé par le service publique francais?",
+            "license": "Licence",
+            "license helper": "Licence du logiciel (ex: GPL, BSD, etc.)",
+            "mandatory field": "Ce champ est obligatoire",
+            "name": "Nom du logiciel",
+            "name helper": "Non du logiciel (ex: Gimp, Inkscape, etc.)",
+            "send": "Envoyer",
+            "versionMin": "Version minimale",
+            "versionMin helper":
+                "Quelle est la version minimal acceptable pour le logiciel?",
+            "wikidata id already exists": "Un logiciel avec cet ID existe déjà",
+            "wikidataId": "Wikidata ID",
+            "wikidataId helper":
+                "Quelle est l'identifiant Wikidata du logiciel, example: Q8038 for Gimp",
+            "name already exists": "Il existe déjà un logiciel avec ce nom",
+        },
+        "SoftwareDetails": {
+            "update software information": "Mettre à jour les informations du logiciel",
         },
         /* spell-checker: enable */
     },

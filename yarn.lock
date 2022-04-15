@@ -6124,6 +6124,11 @@ csstype@^3.0.10, csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
+csv-stringify@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-6.0.5.tgz#3474a4fe784249eb5c91d455f616e1f70961cdc0"
+  integrity sha512-7xpV3uweJCFF/Ssn56l3xsR/k2r3UqszwjEhej9qEn2cCPzyK1WyHCgoUVzBA792x8HbwonNX7CU9XM2K5s5yw==
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
@@ -7179,7 +7184,7 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-evt@*, evt@2.0.0-beta.39:
+evt@*, evt@2.0.0-beta.39, evt@^2.0.0-beta.39:
   version "2.0.0-beta.39"
   resolved "https://registry.yarnpkg.com/evt/-/evt-2.0.0-beta.39.tgz#3c859a83b35940f7eecfb5f148f03b7cbf3fee51"
   integrity sha512-XxJkaHrFWBrzjTbnr5LJYXkGkADsAXReZfq2lFu3Kf1iCEw5/5ibrdXu3bQdWW6xkZ8qwAHT3STU9zYcCl09BA==
@@ -10987,7 +10992,7 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
-node-fetch@^2.6.1:
+node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -14122,15 +14127,25 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.6.0.tgz#1b5eb3e5b8973a8f2eaca1d8adeb763421e222ce"
-  integrity sha512-2KRUK2Mdx6Dr5JZcldjgjewv7i4P3/BN5lPKQwrq4VxmU/zJGpaJvILUEHn2dBM7QBz3XsyOZeugFx4edjgFsw==
+sill-api@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.7.0.tgz#3c39346982ff261ce309d124e696078e0398c4ba"
+  integrity sha512-iT7V6vtbQuvPFX/Ee9pb7LyR3yLcjpZbYLR3wPf8e7CLyq1sKH3H1OCcnEVgLg55Q17h5vXb9JRmXj7boXASDQ==
   dependencies:
     "@trpc/server" "^9.20.3"
     jwt-simple "^0.5.6"
-    tsafe "^0.9.0"
+    tsafe "^0.10.0"
     zod "^3.11.6"
+
+sill-web@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/sill-web/-/sill-web-0.0.21.tgz#716d6214b028176e54dfdf416b36f7e305318cbc"
+  integrity sha512-BoyDnQ0cFSPclmEJt+kWYHSs6Y9REBBapo3o0kxhBJc+7Sn5Smrn0nJp8kfuk5rycSnzdmveJ+apKTXwcM2KXQ==
+  dependencies:
+    csv-stringify "^6.0.5"
+    evt "^2.0.0-beta.39"
+    node-fetch "^2.6.7"
+    tsafe "^0.9.0"
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
@@ -15075,6 +15090,11 @@ ts-pnp@1.2.0, ts-pnp@^1.1.6:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
+
+tsafe@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/tsafe/-/tsafe-0.10.0.tgz#c4fba365a49467ea6167e8c9482ddb94ee51b795"
+  integrity sha512-CFfa1uJKfU0DDRbuB8bf2mfXjkOqiTsrltexzMMLxq5gjd1LttFECNGsO8dYUALJDbShb6+f3CwAppW/wf9BrA==
 
 tsafe@^0.4.1:
   version "0.4.1"

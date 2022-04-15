@@ -18,6 +18,8 @@ import { breakpointsValues } from "onyxia-ui";
 import type { Link } from "type-route";
 import { useStateRef } from "powerhooks/useStateRef";
 import { useStickyTop } from "powerhooks/useStickyTop";
+import memoize from "memoizee";
+import { useConst } from "powerhooks/useConst";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -166,6 +168,10 @@ export function Catalog(props: Props) {
         CatalogCardsProps["onUserNoLongerReferent"]
     >(({ softwareId }) => catalogExplorerThunks.userNoLongerReferent({ softwareId }));
 
+    const getFormLink = useConst(() =>
+        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
+    );
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -206,6 +212,7 @@ export function Catalog(props: Props) {
                                   onLogin={onLogin}
                                   onDeclareOneselfReferent={onDeclareOneselfReferent}
                                   onUserNoLongerReferent={onUserNoLongerReferent}
+                                  referenceNewSoftwareLink={getFormLink(undefined)}
                               />
                           )
                         : (() => {
@@ -219,6 +226,14 @@ export function Catalog(props: Props) {
                                   <SoftwareDetails
                                       software={software}
                                       onGoBack={onGoBack}
+                                      editLink={
+                                          referentsBySoftwareId === undefined
+                                              ? undefined
+                                              : referentsBySoftwareId[software.id]
+                                                    .userIndex !== undefined
+                                              ? getFormLink(software.id)
+                                              : undefined
+                                      }
                                   />
                               );
                           })();
