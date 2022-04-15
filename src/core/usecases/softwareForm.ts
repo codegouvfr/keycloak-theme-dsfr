@@ -187,7 +187,15 @@ export const thunks = {
             const software =
                 softwareId === undefined
                     ? undefined
-                    : catalog.find(software => software.id === softwareId)!;
+                    : (() => {
+                          const software = catalog.find(
+                              software => software.id === softwareId,
+                          );
+
+                          assert(software !== undefined);
+
+                          return software;
+                      })();
 
             dispatch(
                 actions.initialized({

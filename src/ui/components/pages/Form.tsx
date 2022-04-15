@@ -51,8 +51,6 @@ export function Form(props: Props) {
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
-        console.log("Initialize softwareForm", route.params.softwareId);
-
         softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
     }, [route.params.softwareId]);
 
@@ -62,6 +60,7 @@ export function Form(props: Props) {
                 break;
             case "form submitted":
                 hideSplashScreen();
+                softwareFormThunks.initialize({ "softwareId": undefined });
                 routes
                     .catalogExplorer({
                         "softwareName": state.softwareName,
