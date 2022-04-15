@@ -35,7 +35,11 @@ export const SoftwareDetails = memo((props: Props) => {
                 }
             />
             {editLink !== undefined && (
-                <Button {...editLink} doOpenNewTabIfHref={false}>
+                <Button
+                    {...editLink}
+                    doOpenNewTabIfHref={false}
+                    className={classes.formLinkButton}
+                >
                     {t("update software information")}
                 </Button>
             )}
@@ -56,6 +60,9 @@ export namespace SoftwareDetails {
     };
 }
 
-const useStyles = makeStyles({ "name": { SoftwareDetails } })(() => ({
+const useStyles = makeStyles({ "name": { SoftwareDetails } })(theme => ({
     "root": {},
+    "formLinkButton": {
+        ...theme.spacing.topBottom("margin", 4),
+    },
 }));
