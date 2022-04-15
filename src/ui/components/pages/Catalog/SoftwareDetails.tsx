@@ -35,7 +35,9 @@ export const SoftwareDetails = memo((props: Props) => {
                 }
             />
             {editLink !== undefined && (
-                <Button {...editLink}>{t("update software information")}</Button>
+                <Button {...editLink} doOpenNewTabIfHref={false}>
+                    {t("update software information")}
+                </Button>
             )}
             <Card>
                 {(() => {

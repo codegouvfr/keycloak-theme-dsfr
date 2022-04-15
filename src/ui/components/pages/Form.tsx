@@ -58,9 +58,13 @@ export function Form(props: Props) {
                 softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
                 break;
             case "form submitted":
-                routes.catalogExplorer({
-                    "softwareName": state.softwareName,
-                });
+                hideSplashScreen();
+
+                routes
+                    .catalogExplorer({
+                        "softwareName": state.softwareName,
+                    })
+                    .push();
                 break;
             case "form ready":
                 if (state.isSubmitting) {
@@ -105,92 +109,99 @@ export function Form(props: Props) {
     return (
         <>
             <div className={cx(classes.root, className)}>
-                {objectKeys(state.valueByFieldName)
-                    .map(
-                        fieldName =>
-                            [fieldName, fieldErrorByFieldName[fieldName]] as const,
-                    )
-                    .map(([fieldName, fieldError]) => (
-                        <Fragment key={fieldName}>
-                            {(() => {
-                                const value = state.valueByFieldName[fieldName];
+                <div className={classes.fields}>
+                    {objectKeys(state.valueByFieldName)
+                        .map(
+                            fieldName =>
+                                [fieldName, fieldErrorByFieldName[fieldName]] as const,
+                        )
+                        .map(([fieldName, fieldError]) => (
+                            <Fragment key={fieldName}>
+                                {(() => {
+                                    const value = state.valueByFieldName[fieldName];
 
-                                switch (typeof value) {
-                                    case "string":
-                                        return (
-                                            <TextField
-                                                label={`${t(fieldName)}${
-                                                    !pure.softwareForm.getIsOptionalField(
+                                    switch (typeof value) {
+                                        case "string":
+                                            return (
+                                                <TextField
+                                                    label={`${t(fieldName)}${
+                                                        !pure.softwareForm.getIsOptionalField(
+                                                            fieldName,
+                                                        )
+                                                            ? " *"
+                                                            : ""
+                                                    }`}
+                                                    defaultValue={value}
+                                                    onValueBeingTypedChange={onValueBeingTypedChangeFactory(
                                                         fieldName,
-                                                    )
-                                                        ? " *"
-                                                        : ""
-                                                }`}
-                                                defaultValue={value}
-                                                onValueBeingTypedChange={onValueBeingTypedChangeFactory(
-                                                    fieldName,
-                                                )}
-                                                onEscapeKeyDown={onEscapeKeyFactory(
-                                                    fieldName,
-                                                )}
-                                                helperText={t(
-                                                    fieldError.hasError
-                                                        ? fieldError.errorMessageKey
-                                                        : (`${fieldName} helper` as const),
-                                                )}
-                                                inputProps_aria-invalid={
-                                                    fieldError.hasError
-                                                }
-                                                onBlur={onBlurFactory(fieldName)}
-                                            />
-                                        );
-                                    case "number":
-                                        return null;
-                                    case "boolean":
-                                        return (
-                                            <>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={value}
-                                                            onChange={(
-                                                                ...[, isChecked]
-                                                            ) =>
-                                                                softwareFormThunks.changeFieldValue(
-                                                                    {
-                                                                        fieldName,
-                                                                        "value":
-                                                                            isChecked,
-                                                                    },
-                                                                )
-                                                            }
-                                                        />
+                                                    )}
+                                                    onEscapeKeyDown={onEscapeKeyFactory(
+                                                        fieldName,
+                                                    )}
+                                                    helperText={t(
+                                                        fieldError.hasError
+                                                            ? fieldError.errorMessageKey
+                                                            : (`${fieldName} helper` as const),
+                                                    )}
+                                                    inputProps_aria-invalid={
+                                                        fieldError.hasError
                                                     }
-                                                    label={t(fieldName)}
+                                                    onBlur={onBlurFactory(fieldName)}
                                                 />
-                                                <FormHelperText>
-                                                    {t(`${fieldName} helper` as const)}
-                                                </FormHelperText>
-                                            </>
-                                        );
-                                }
+                                            );
+                                        case "number":
+                                            return null;
+                                        case "boolean":
+                                            return (
+                                                <div>
+                                                    <FormControlLabel
+                                                        control={
+                                                            <Checkbox
+                                                                checked={value}
+                                                                onChange={(
+                                                                    ...[, isChecked]
+                                                                ) =>
+                                                                    softwareFormThunks.changeFieldValue(
+                                                                        {
+                                                                            fieldName,
+                                                                            "value":
+                                                                                isChecked,
+                                                                        },
+                                                                    )
+                                                                }
+                                                            />
+                                                        }
+                                                        label={t(fieldName)}
+                                                    />
+                                                    <FormHelperText>
+                                                        {t(
+                                                            `${fieldName} helper` as const,
+                                                        )}
+                                                    </FormHelperText>
+                                                </div>
+                                            );
+                                    }
 
-                                assert<Equals<typeof value, never>>();
-                            })()}
-                        </Fragment>
-                    ))}
-                <Button
-                    disabled={!isSubmittable}
-                    onClick={() => {
-                        if (route.params.softwareId === undefined) {
-                            softwareFormThunks.submit({ "isExpert": undefined });
-                        } else {
-                            evtOpenDialogIsExpert.post();
-                        }
-                    }}
-                >
-                    {t("send")}
-                </Button>
+                                    assert<Equals<typeof value, never>>();
+                                })()}
+                            </Fragment>
+                        ))}
+                </div>
+                <div className={classes.submitButtonWrapper}>
+                    <Button
+                        className={classes.submitButton}
+                        disabled={!isSubmittable}
+                        onClick={() => {
+                            if (route.params.softwareId === undefined) {
+                                evtOpenDialogIsExpert.post();
+                            } else {
+                                softwareFormThunks.submit({ "isExpert": undefined });
+                            }
+                        }}
+                    >
+                        {t("send")}
+                    </Button>
+                </div>
             </div>
             <DialogIsExpert
                 evtOpen={evtOpenDialogIsExpert}
@@ -200,9 +211,23 @@ export function Form(props: Props) {
     );
 }
 
-const useStyles = makeStyles({ "name": { Form } })({
+const useStyles = makeStyles({ "name": { Form } })(theme => ({
     "root": {},
-});
+    "fields": {
+        "padding": theme.spacing(7),
+        "display": "grid",
+        "gridTemplateColumns": "repeat(3, 1fr)",
+        "gap": theme.spacing(5),
+        //"gridAutoRows": "minmax(100px, auto)"
+    },
+    "submitButtonWrapper": {
+        "display": "flex",
+        "justifyContent": "center",
+    },
+    "submitButton": {
+        "width": 200,
+    },
+}));
 
 export declare namespace Form {
     export type I18nScheme = Record<FieldErrorMessageKey, undefined> &

@@ -347,6 +347,10 @@ export const privateThunks = {
         (...args) => {
             const [dispatch, , { evtAction }] = args;
 
+            console.log("Initializing catalog explorer");
+
+            evtAction.attach(action => console.log(action));
+
             evtAction.$attach(
                 action =>
                     action.sliceName === "softwareForm" &&

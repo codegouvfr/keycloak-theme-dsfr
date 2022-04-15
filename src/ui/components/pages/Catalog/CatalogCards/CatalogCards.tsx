@@ -177,7 +177,11 @@ export const CatalogCards = memo((props: Props) => {
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t(search !== "" ? "search results" : "all software")}
                         &nbsp;
-                        <Button {...referenceNewSoftwareLink}>
+                        <Button
+                            {...referenceNewSoftwareLink}
+                            doOpenNewTabIfHref={false}
+                            className={classes.formLinkButton}
+                        >
                             {t("reference a new software")}
                         </Button>
                     </Text>
@@ -314,6 +318,9 @@ const useStyles = makeStyles<{
                       },
                       "height": theme.spacing(3),
                   }),
+        },
+        "formLinkButton": {
+            "marginLeft": theme.spacing(3),
         },
     }),
 );
