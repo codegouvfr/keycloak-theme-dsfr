@@ -50,16 +50,15 @@ export function Form(props: Props) {
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
+        softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
+    }, [route.params.softwareId]);
+
+    useEffect(() => {
         switch (state.stateDescription) {
             case "not initialized":
-                if (state.isInitializing) {
-                    return;
-                }
-                softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
                 break;
             case "form submitted":
                 hideSplashScreen();
-
                 routes
                     .catalogExplorer({
                         "softwareName": state.softwareName,
@@ -69,8 +68,6 @@ export function Form(props: Props) {
             case "form ready":
                 if (state.isSubmitting) {
                     showSplashScreen({ "enableTransparency": true });
-                } else {
-                    hideSplashScreen();
                 }
                 break;
         }
