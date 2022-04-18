@@ -195,10 +195,8 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
     "name": { App },
 })((theme, { leftBarTop, leftBarHeight }) => ({
     "root": {
-        "height": "100%",
-        "overflow": "auto",
         "backgroundColor": theme.colors.useCases.surfaces.background,
-        "padding": theme.spacing({ "topBottom": 0, "rightLeft": 4 }),
+        ...theme.spacing.rightLeft("padding", 4),
         "position": "relative",
         // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
         //"overflowAnchor": "none",

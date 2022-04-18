@@ -274,8 +274,6 @@ export const thunks = {
 
             await waitForLoadMoreDebounce();
 
-            console.log("load more");
-
             dispatch(actions.moreLoaded());
         },
     "getHasMoreToLoad":
