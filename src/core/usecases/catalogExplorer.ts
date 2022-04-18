@@ -268,7 +268,13 @@ export const thunks = {
     "loadMore":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch] = args;
+            const [dispatch, , extraArg] = args;
+
+            const { waitForLoadMoreDebounce } = getSliceContext(extraArg);
+
+            await waitForLoadMoreDebounce();
+
+            console.log("load more");
 
             dispatch(actions.moreLoaded());
         },
@@ -359,9 +365,10 @@ export const privateThunks = {
 };
 
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
-    const { waitForDebounce } = waitForDebounceFactory({ "delay": 750 });
     return {
-        "waitForSearchDebounce": waitForDebounce,
+        "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
+        "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 220 })
+            .waitForDebounce,
         "prevSearch": "",
     };
 });
