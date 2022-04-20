@@ -80,7 +80,7 @@ namespace SoftwareFormState {
     };
 }
 
-const defaultValueByFieldName: ValueByFieldName = {
+const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "wikidataId": "",
     "comptoirDuLibreId": 0,
     "function": "",
@@ -225,13 +225,15 @@ export const thunks = {
                     softwareId,
                     "valueByFieldName":
                         software === undefined
-                            ? defaultValueByFieldName
+                            ? newSoftwareDefaultValueByFieldName
                             : (Object.fromEntries(
                                   fieldNames.map(fieldName => [
                                       fieldName,
                                       (() => {
                                           const defaultValue =
-                                              defaultValueByFieldName[fieldName];
+                                              newSoftwareDefaultValueByFieldName[
+                                                  fieldName
+                                              ];
 
                                           if (
                                               typeGuard<
@@ -252,7 +254,7 @@ export const thunks = {
                                                   >(
                                                       software.comptoirDuLibreSoftware
                                                           ?.id ??
-                                                          defaultValueByFieldName[
+                                                          newSoftwareDefaultValueByFieldName[
                                                               fieldName
                                                           ],
                                                   );
@@ -261,7 +263,7 @@ export const thunks = {
                                                       ValueByFieldName[typeof fieldName]
                                                   >(
                                                       software.wikidataData?.id ??
-                                                          defaultValueByFieldName[
+                                                          newSoftwareDefaultValueByFieldName[
                                                               fieldName
                                                           ],
                                                   );
@@ -288,12 +290,16 @@ export const thunks = {
         (...args) => {
             const { fieldName } = params;
 
-            const [dispatch] = args;
+            const [dispatch, getState] = args;
+
+            const state = getState().softwareForm;
+
+            assert(state.stateDescription === "form ready");
 
             dispatch(
                 actions.fieldValueChanged({
                     fieldName,
-                    "value": defaultValueByFieldName[fieldName],
+                    "value": state.defaultValueByFieldName[fieldName],
                 }),
             );
         },
@@ -476,7 +482,7 @@ export const selectors = (() => {
             if (
                 !pure.getIsOptionalField(fieldName) &&
                 typeof fieldValue !== "boolean" &&
-                fieldValue === defaultValueByFieldName[fieldName]
+                fieldValue === newSoftwareDefaultValueByFieldName[fieldName]
             ) {
                 return {
                     "hasError": true,
