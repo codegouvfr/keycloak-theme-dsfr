@@ -148,11 +148,13 @@ export const CatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Markdown>
-                        {`${capitalize(software.name)}, ${resolveLocalizedString({
-                            "en": software.wikidataData?.descriptionEn,
-                            "fr":
-                                software.wikidataData?.descriptionFr ?? software.function,
-                        })}`}
+                        {`${capitalize(software.name)}, ${
+                            software.wikidataData?.description === undefined
+                                ? software.function
+                                : resolveLocalizedString(
+                                      software.wikidataData?.description,
+                                  )
+                        }`}
                     </Markdown>
                 </div>
                 <div className={classes.buttonsWrapper}>

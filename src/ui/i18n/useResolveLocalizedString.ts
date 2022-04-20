@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
+import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
 import { useLng } from "./useLng";
 import type { fallbackLanguage } from "./translations";
 import { id } from "tsafe/id";

@@ -1,7 +1,7 @@
 import type { KcLanguageTag } from "keycloakify";
 import type { fallbackLanguage } from "ui/i18n/translations";
 import { id } from "tsafe/id";
-import { createResolveLocalizedString } from "ui/tools/resolveLocalizedString";
+import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
 
 export function getTosMarkdownUrl(params: {
     kcLanguageTag: KcLanguageTag;

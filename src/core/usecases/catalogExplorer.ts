@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
-import { removeReferent } from "sill-api";
+import { removeReferent, languages } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ThunksExtraArgument, RootState } from "../setup";
@@ -11,6 +11,8 @@ import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { thunks as userAuthenticationThunks } from "./userAuthentication";
+import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
+import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -437,8 +439,28 @@ export const selectors = (() => {
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
-                              wikidataData?.descriptionFr,
-                              wikidataData?.descriptionFr,
+                              ...(["description", "label"] as const)
+                                  .map(prop =>
+                                      languages
+                                          .map(language => {
+                                              const description = wikidataData?.[prop];
+
+                                              if (description === undefined) {
+                                                  return undefined;
+                                              }
+
+                                              const { resolveLocalizedString } =
+                                                  createResolveLocalizedString({
+                                                      "currentLanguage": language,
+                                                      "fallbackLanguage": "en",
+                                                  });
+
+                                              return resolveLocalizedString(description);
+                                          })
+                                          .filter(exclude(undefined))
+                                          .reduce(...removeDuplicates<string>()),
+                                  )
+                                  .flat(),
                               wikidataData?.sourceUrl,
                               wikidataData?.websiteUrl,
                               ...(referentsBySoftwareId === undefined

@@ -16,6 +16,7 @@ import { same } from "evt/tools/inDepth/same";
 import { thunks as catalogExplorerThunks } from "./catalogExplorer";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
+import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
 
 type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
 
@@ -329,26 +330,71 @@ export const thunks = {
 
                 const { sillApiClient } = extraArg;
 
-                const wikiDataData = await sillApiClient
+                const resultOfFetch = await sillApiClient
                     .fetchWikiDataData({ "wikidataId": value })
                     .catch(() => undefined);
 
-                if (wikiDataData === undefined) {
+                if (resultOfFetch === undefined) {
                     break autofill_wikidata;
                 }
 
-                description: {
-                    const description =
-                        wikiDataData.descriptionFr ?? wikiDataData.descriptionEn;
+                const { wikidataData, latestSemVersionedTag } = resultOfFetch;
+
+                function_: {
+                    const { description } = wikidataData;
 
                     if (description === undefined) {
-                        break description;
+                        break function_;
+                    }
+
+                    dispatch(
+                        actions.fieldValueChanged({
+                            "fieldName": "function",
+                            "value": resolveLocalizedString(description),
+                        }),
+                    );
+                }
+
+                // eslint-disable-next-line no-label-var
+                name: {
+                    const { label } = wikidataData;
+
+                    if (label === undefined) {
+                        break name;
                     }
 
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "name",
-                            "value": description,
+                            "value": resolveLocalizedString(label),
+                        }),
+                    );
+                }
+
+                license: {
+                    const { license } = wikidataData;
+
+                    if (license === undefined) {
+                        break license;
+                    }
+
+                    dispatch(
+                        actions.fieldValueChanged({
+                            "fieldName": "license",
+                            "value": license,
+                        }),
+                    );
+                }
+
+                versionMin: {
+                    if (latestSemVersionedTag === undefined) {
+                        break versionMin;
+                    }
+
+                    dispatch(
+                        actions.fieldValueChanged({
+                            "fieldName": "versionMin",
+                            "value": latestSemVersionedTag,
                         }),
                     );
                 }
@@ -595,3 +641,8 @@ export const pure = (() => {
         getIsOptionalField,
     };
 })();
+
+const { resolveLocalizedString } = createResolveLocalizedString({
+    "currentLanguage": "fr",
+    "fallbackLanguage": "en",
+});

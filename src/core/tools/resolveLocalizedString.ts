@@ -1,5 +1,5 @@
 import { assert } from "tsafe/assert";
-import { removeUndefinedProperties } from "./removeUndefinedProperties";
+import { removeUndefinedProperties } from "../../ui/tools/removeUndefinedProperties";
 
 export function createResolveLocalizedString<Language extends string>(params: {
     currentLanguage: Language;

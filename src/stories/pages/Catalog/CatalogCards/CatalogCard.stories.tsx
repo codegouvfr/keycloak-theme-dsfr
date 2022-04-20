@@ -35,12 +35,20 @@ const software: CompiledData.Software = {
     "useCaseUrls": [],
     "wikidataData": {
         "id": "Q110492908",
-        "descriptionFr": "Un lanceur de conteneur orienté data science",
-        "descriptionEn": "A data science oriented container launcher",
+        "label": {
+            "en": "Onyxia",
+        },
+        "description": {
+            "fr": "Un lanceur de conteneur orienté data science",
+            "en": "A data science oriented container launcher",
+        },
         "logoUrl":
             "//upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Onyxia.svg/220px-Onyxia.svg.png",
         "websiteUrl": "https://github.com/InseeFrLab/onyxia",
         "sourceUrl": "https://github.com/InseeFrLab/onyxia",
+        "license": "MIT",
+        "documentationUrl": undefined,
+        "framaLibreId": undefined,
     },
     "comptoirDuLibreSoftware": {
         "id": 461,
