@@ -72,6 +72,7 @@ namespace SoftwareFormState {
         defaultValueByFieldName: ValueByFieldName;
         softwareId: number | undefined;
         isSubmitting: boolean;
+        isAutofillInProgress: boolean;
     };
 
     export type Submitted = {
@@ -125,7 +126,16 @@ export const { name, reducer, actions } = createSlice({
                 ) as Record<FieldName, boolean>,
                 softwareId,
                 "isSubmitting": false,
+                "isAutofillInProgress": false,
             });
+        },
+        "autofillStarted": state => {
+            assert(state.stateDescription === "form ready");
+            state.isAutofillInProgress = true;
+        },
+        "autoFillCompeted": state => {
+            assert(state.stateDescription === "form ready");
+            state.isAutofillInProgress = false;
         },
         "focusLost": (state, { payload }: PayloadAction<{ fieldName: FieldName }>) => {
             const { fieldName } = payload;
@@ -336,9 +346,13 @@ export const thunks = {
 
                 const { sillApiClient } = extraArg;
 
+                dispatch(actions.autofillStarted());
+
                 const resultOfFetch = await sillApiClient
                     .fetchWikiDataData({ "wikidataId": value })
                     .catch(() => undefined);
+
+                dispatch(actions.autoFillCompeted());
 
                 if (resultOfFetch === undefined) {
                     break autofill_wikidata;
@@ -622,7 +636,7 @@ export const selectors = (() => {
 })();
 
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
-    const { waitForDebounce } = waitForDebounceFactory({ "delay": 1000 });
+    const { waitForDebounce } = waitForDebounceFactory({ "delay": 300 });
     return {
         "fetchWikiDataDebounce": waitForDebounce,
     };

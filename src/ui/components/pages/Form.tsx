@@ -140,6 +140,9 @@ export function Form(props: Props) {
                                                     onEscapeKeyDown={onEscapeKeyFactory(
                                                         fieldName,
                                                     )}
+                                                    isCircularProgressShown={
+                                                        state.isAutofillInProgress
+                                                    }
                                                     helperText={t(
                                                         fieldError.hasError
                                                             ? fieldError.errorMessageKey
