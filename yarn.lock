@@ -12512,17 +12512,7 @@ postcss@^8.1.0:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-powerhooks@0.16.1, powerhooks@^0.14.0:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.16.1.tgz#fc6e818bb05f22f64405636f685eb497d06d069f"
-  integrity sha512-4oiAzwDfxxyLxCWPa6JpnesHMdDoj9ih5DLZjUZxbgaLGkvPmsRtomWs47s5mSEmW7GksYGqv588iT9rQcxAbA==
-  dependencies:
-    evt "2.0.0-beta.39"
-    memoizee "^0.4.15"
-    resize-observer-polyfill "^1.5.1"
-    tsafe "^0.8.1"
-
-powerhooks@^0.16.3:
+powerhooks@0.16.3, powerhooks@^0.14.0, powerhooks@^0.16.3:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.16.3.tgz#52965bcebf04f8f50c1ea99682572e2c9712a360"
   integrity sha512-NOAtu51bqrGPIL24mrSLQr/hzcjy11nILRNE7LAWkCQbRZI+PZX6ZmuADzy+joVtcIe91VlZdgAuXGDFuQiCqA==
@@ -15133,16 +15123,7 @@ tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
-tss-react@3.6.0, tss-react@^3.5.2:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-3.6.0.tgz#22b58a65a1390507891d6b9ac95f58d22c5cd666"
-  integrity sha512-mtQ8VL0btMVZZtax5gwaGU+jSBdKtbYMLVCLGB26Bi+BcOI0GQ6GTn1EaeK1nSgN5qbe6FL0zEOC6qoY+8+MEg==
-  dependencies:
-    "@emotion/cache" "*"
-    "@emotion/serialize" "*"
-    "@emotion/utils" "*"
-
-tss-react@^3.6.2:
+tss-react@3.6.2, tss-react@^3.5.2, tss-react@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-3.6.2.tgz#5e995d8b82ca730ba04a21203ae68f1c5372a85e"
   integrity sha512-+ecQIqCNFVlVJVk3NiCWZY2+5DhVKMVUVxIbEwv9nYsTRQA/KxyKCU8g+KMj5ByqFv9LW76+TUYzbWck/IHkfA==
