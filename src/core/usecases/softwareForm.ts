@@ -330,11 +330,22 @@ export const thunks = {
                     break autofill_wikidata;
                 }
 
+                {
+                    const state = getState().softwareForm;
+
+                    assert(state.stateDescription === "form ready");
+
+                    if (state.softwareId !== undefined) {
+                        //NOTE: We don't autofill wikidataId if we are updating an existing software.
+                        break autofill_wikidata;
+                    }
+                }
+
                 const fieldErrorByFieldName = selectors.fieldErrorByFieldName(getState());
 
                 assert(fieldErrorByFieldName !== undefined);
 
-                if (fieldErrorByFieldName[fieldName].hasError) {
+                if (fieldErrorByFieldName.wikidataId.hasError) {
                     break autofill_wikidata;
                 }
 
