@@ -1,3 +1,13 @@
+### **0.5.3** (2022-04-20)  
+  
+- :construction_worker:  Update lockfile  
+- :bug:  Do not autofill when updating software  
+- :lipstick:  Add feedback when autofilling in progress  
+- :bug:  Fix bug restore field defaut by clicking on escape  
+- :sparkles:  Feature form autofill  
+- :lipstick:  Better scroll on mobile  
+- :lipstick:  Debounce for load more for better rubber band effect    
+  
 ## **0.5.0** (2022-04-15)  
   
 - :sparkles:  prefill based on wikidata id    
