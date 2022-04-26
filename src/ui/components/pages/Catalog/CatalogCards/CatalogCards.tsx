@@ -1,31 +1,27 @@
 import "minimal-polyfills/Object.fromEntries";
 import { useRef, memo } from "react";
 import { createPortal } from "react-dom";
-import { makeStyles } from "ui/theme";
+import { makeStyles, Text, Button, isViewPortAdapterEnabled } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
 import type { Props as CatalogCardProps } from "./CatalogCard";
 import { useTranslation } from "ui/i18n/useTranslations";
-import { Text } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import MuiLink from "@mui/material/Link";
 import { ReactComponent as ServiceNotFoundSvg } from "ui/assets/svg/ServiceNotFound.svg";
 import { SearchBar } from "onyxia-ui/SearchBar";
 import type { SearchBarProps } from "onyxia-ui/SearchBar";
 import type { UnpackEvt } from "evt";
-import { breakpointsValues } from "onyxia-ui";
 import { Evt } from "evt";
 import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
 import { useConst } from "powerhooks/useConst";
-import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import type { CompiledData, SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
-import { Button } from "ui/theme";
 
 export type Props = {
     className?: string;
@@ -91,10 +87,8 @@ export const CatalogCards = memo((props: Props) => {
         onLoadMore,
     });
 
-    const doRenderSearchBarInHeader = (function useClosure() {
-        const { windowInnerWidth } = useWindowInnerSize();
-
-        if (windowInnerWidth >= breakpointsValues.lg) {
+    const doRenderSearchBarInHeader = (() => {
+        if (isViewPortAdapterEnabled) {
             return true;
         }
 
@@ -289,15 +283,8 @@ const useStyles = makeStyles<{
                 : {
                       "display": "grid",
                       "gridTemplateColumns": `repeat(${(() => {
-                          if (theme.windowInnerWidth >= breakpointsValues.xl) {
-                              return 4;
-                          }
-                          if (theme.windowInnerWidth >= breakpointsValues.lg) {
+                          if (isViewPortAdapterEnabled) {
                               return 3;
-                          }
-
-                          if (theme.windowInnerWidth >= breakpointsValues.md) {
-                              return 2;
                           }
 
                           return 1;

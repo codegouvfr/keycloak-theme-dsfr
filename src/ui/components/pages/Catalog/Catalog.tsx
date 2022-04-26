@@ -2,7 +2,7 @@ import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { useTranslation } from "ui/i18n/useTranslations";
-import { makeStyles, PageHeader } from "ui/theme";
+import { makeStyles, PageHeader, isViewPortAdapterEnabled } from "ui/theme";
 import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -14,7 +14,6 @@ import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
 import type { Props as CatalogCardsProps } from "./CatalogCards";
 import { SoftwareDetails } from "./SoftwareDetails";
-import { breakpointsValues } from "onyxia-ui";
 import type { Link } from "type-route";
 import { useStateRef } from "powerhooks/useStateRef";
 import { useStickyTop } from "powerhooks/useStickyTop";
@@ -44,7 +43,7 @@ export function Catalog(props: Props) {
     const { classes, theme, cx } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo((): CollapseParams => {
-        if (theme.windowInnerWidth >= breakpointsValues.lg) {
+        if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
                 "scrollTopThreshold": 600,
@@ -58,7 +57,7 @@ export function Catalog(props: Props) {
     }, [theme.windowInnerWidth]);
 
     const helpCollapseParams = useMemo((): CollapseParams => {
-        if (theme.windowInnerWidth >= breakpointsValues.lg) {
+        if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
                 "scrollTopThreshold": 300,
@@ -255,7 +254,7 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
 })((theme, { pageHeaderStickyTop }) => {
     const spacingLeft = theme.spacing(
         (() => {
-            if (theme.windowInnerWidth >= breakpointsValues.md) {
+            if (isViewPortAdapterEnabled) {
                 return 4;
             }
 
@@ -272,7 +271,7 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
         },
         "pageHeader": {
             ...(() => {
-                if (theme.windowInnerWidth >= breakpointsValues.lg) {
+                if (isViewPortAdapterEnabled) {
                     return {
                         "position": "sticky",
                         "top": pageHeaderStickyTop,

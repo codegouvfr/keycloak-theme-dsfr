@@ -3,7 +3,7 @@ import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
 import { useLng } from "ui/i18n/useLng";
-import { makeStyles } from "ui/theme";
+import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -22,7 +22,6 @@ import { createResolveLocalizedString } from "core/tools/resolveLocalizedString"
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
-import { breakpointsValues } from "onyxia-ui";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 
 export const logoContainerWidthInPercent = 4;
@@ -198,11 +197,17 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         "backgroundColor": theme.colors.useCases.surfaces.background,
         ...theme.spacing.rightLeft("padding", 4),
         "position": "relative",
+        ...(!isViewPortAdapterEnabled
+            ? {}
+            : {
+                  "height": "100%",
+                  "overflow": "auto",
+              }),
         // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
         //"overflowAnchor": "none",
     },
     "header": (() => {
-        if (theme.windowInnerWidth >= breakpointsValues.md) {
+        if (isViewPortAdapterEnabled) {
             return {
                 "position": "sticky",
                 "top": 0,
@@ -225,9 +230,8 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         "top": leftBarTop,
         "height": leftBarHeight,
         "zIndex": 1,
-
         "display": (() => {
-            if (theme.windowInnerWidth >= breakpointsValues.md) {
+            if (isViewPortAdapterEnabled) {
                 return undefined;
             }
             return "none";
