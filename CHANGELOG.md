@@ -1,3 +1,8 @@
+### **0.5.4** (2022-04-26)  
+  
+- :lipstick:  Enable ViewPort Adapter except on mobile for predictable UI  
+- Update README.md    
+  
 ### **0.5.3** (2022-04-20)  
   
 - :construction_worker:  Update lockfile  
