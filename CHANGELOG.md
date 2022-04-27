@@ -1,3 +1,7 @@
+### **0.5.6** (2022-04-27)  
+  
+- :lipstick:  Remove the link to sspcloud in Login    
+  
 ### **0.5.5** (2022-04-26)  
   
 - :bug:  Update view port adapter    
