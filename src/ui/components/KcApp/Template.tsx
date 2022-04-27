@@ -2,11 +2,7 @@
 
 import { useReducer, useEffect, memo } from "react";
 import type { ReactNode } from "react";
-import { useKcMessage } from "keycloakify/lib/i18n/useKcMessage";
-import { useKcLanguageTag } from "keycloakify/lib/i18n/useKcLanguageTag";
-import { assert } from "tsafe/assert";
-
-import { getBestMatchAmongKcLanguageTag } from "keycloakify/lib/i18n/KcLanguageTag";
+import { getMsg } from "keycloakify";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { KcTemplateProps } from "keycloakify";
 import { Header } from "ui/components/shared/Header";
@@ -75,24 +71,6 @@ export const Template = memo((props: TemplateProps) => {
     useEffect(() => {
         console.log("Rendering this page with react using keycloakify");
     }, []);
-
-    const { kcLanguageTag } = useKcLanguageTag();
-
-    useEffect(() => {
-        if (!kcContext.realm.internationalizationEnabled) {
-            return;
-        }
-
-        assert(kcContext.locale !== undefined);
-
-        if (kcLanguageTag === getBestMatchAmongKcLanguageTag(kcContext.locale.current)) {
-            return;
-        }
-
-        window.location.href = kcContext.locale.supported.find(
-            ({ languageTag }) => languageTag === kcLanguageTag,
-        )!.url;
-    }, [kcLanguageTag]);
 
     const {
         domRect: { width: rootWidth },
@@ -309,7 +287,7 @@ const { Page } = (() => {
                 ...kcProps
             } = props;
 
-            const { msg } = useKcMessage();
+            const { msg } = getMsg(kcContext);
 
             const { classes, cx } = useStyles();
 
@@ -447,7 +425,7 @@ const { Page } = (() => {
                 return false;
             });
 
-            const { msg } = useKcMessage();
+            const { msg } = getMsg(kcContext);
 
             const { classes, cx } = useStyles();
 

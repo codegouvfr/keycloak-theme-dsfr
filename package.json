@@ -62,7 +62,7 @@
         "i18next": "^19.8.4",
         "jwt-simple": "^0.5.6",
         "keycloak-js": "^15.0.2",
-        "keycloakify": "^4.10.0",
+        "keycloakify": "^5.1.0",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "onyxia-ui": "^0.32.3",

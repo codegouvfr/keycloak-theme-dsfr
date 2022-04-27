@@ -6,7 +6,7 @@ import { arrDiff } from "evt/tools/reducers/diff";
 import * as JSONC from "comment-json";
 import { getEnv } from "./env";
 import type { KcLanguageTag } from "keycloakify";
-import { kcLanguageTags } from "keycloakify/lib/i18n/KcLanguageTag";
+import { kcLanguageTags } from "keycloakify";
 import { id } from "tsafe/id";
 import { languages as supportedLanguage } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";

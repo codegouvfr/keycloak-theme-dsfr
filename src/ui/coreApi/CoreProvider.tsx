@@ -6,9 +6,11 @@ import { getConfiguration } from "configuration";
 import { injectTransferableEnvsInSearchParams } from "ui/envCarriedOverToKc";
 import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
 import { injectTosInSearchParams } from "ui/termsOfServices";
+import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 import type { ReturnType } from "tsafe";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks";
+import { evtLng } from "ui/i18n/useLng";
 
 type Props = {
     children: ReactNode;
@@ -34,6 +36,14 @@ export function CoreProvider(props: Props) {
                 [url]
                     .map(injectTransferableEnvsInSearchParams)
                     .map(injectGlobalStatesInSearchParams)
+                    .map(
+                        url =>
+                            addParamToUrl({
+                                url,
+                                "name": "ui_locales",
+                                "value": evtLng.state,
+                            }).newUrl,
+                    )
                     .map(url => injectTosInSearchParams({ url, termsOfServices }))[0],
             "evtUserActivity": Evt.merge([
                 Evt.from(document, "mousemove"),

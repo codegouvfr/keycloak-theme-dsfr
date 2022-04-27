@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, memo } from "react";
 import type { FormEventHandler } from "react";
 import type { KcProps } from "keycloakify/lib/components/KcProps";
-import { useKcMessage } from "keycloakify/lib/i18n/useKcMessage";
+import { getMsg } from "keycloakify";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Template } from "../Template";
 import { Button } from "ui/theme";
@@ -25,7 +25,7 @@ type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
 export const Login = memo(
     ({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
-        const { msg, msgStr } = useKcMessage();
+        const { msg, msgStr } = getMsg(kcContext);
 
         const {
             social,
