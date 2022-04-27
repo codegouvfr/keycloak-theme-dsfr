@@ -61,6 +61,7 @@ const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
     },
     "kcHtmlClass": {
         "& body": {
+            "background": "unset",
             "fontFamily": theme.typography.fontFamily,
         },
         "background": `${theme.colors.useCases.surfaces.background}`,
