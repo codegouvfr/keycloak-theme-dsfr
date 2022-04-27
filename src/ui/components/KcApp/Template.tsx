@@ -19,6 +19,7 @@ import { headInsert } from "keycloakify/lib/tools/headInsert";
 import { join as pathJoin } from "path";
 import type { KcContext } from "./kcContext";
 import { symToStr } from "tsafe/symToStr";
+import { routes } from "ui/routes";
 
 export type TemplateProps = {
     doFetchDefaultThemeResources: boolean;
@@ -111,9 +112,7 @@ export const Template = memo((props: TemplateProps) => {
         windowInnerHeight,
     });
 
-    const onHeaderLogoClick = useConstCallback(
-        () => (window.location.href = "https://docs.sspcloud.fr"),
-    );
+    const onHeaderLogoClick = useConstCallback(() => routes.home().push());
 
     const [isExtraCssLoaded, setExtraCssLoaded] = useReducer(() => true, false);
 
