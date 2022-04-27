@@ -1,3 +1,7 @@
+### **0.5.5** (2022-04-26)  
+  
+- :bug:  Update view port adapter    
+  
 ### **0.5.4** (2022-04-26)  
   
 - :lipstick:  Enable ViewPort Adapter except on mobile for predictable UI  
