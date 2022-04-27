@@ -1,3 +1,10 @@
+### **0.5.7** (2022-04-27)  
+  
+- :bug:  Fix emails translations  
+- :lipstick:  Hide default keycloak background  
+- :arrow_up:  Update Keycloakify  
+- Update readme assets    
+  
 ### **0.5.6** (2022-04-27)  
   
 - :lipstick:  Remove the link to sspcloud in Login    
