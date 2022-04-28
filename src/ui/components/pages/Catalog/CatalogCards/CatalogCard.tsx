@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, memo, Fragment } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -22,6 +22,7 @@ import type { CheckboxProps } from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Icon } from "ui/theme";
 import { Tooltip } from "onyxia-ui/Tooltip";
+import MuiLink from "@mui/material/Link";
 
 export type Props = {
     className?: string;
@@ -156,6 +157,31 @@ export const CatalogCard = memo((props: Props) => {
                                   )
                         }`}
                     </Markdown>
+                    {(() => {
+                        const developers = software.wikidataData?.developers ?? [];
+
+                        if (developers.length === 0) {
+                            return null;
+                        }
+
+                        return (
+                            <div className={classes.developers}>
+                                <Text typo="label 1">Identified developers:&nbsp;</Text>
+                                {developers.map(({ id, name }, i) => (
+                                    <span key={id}>
+                                        <MuiLink
+                                            underline="hover"
+                                            target="_blank"
+                                            href={`https://www.wikidata.org/wiki/${id}`}
+                                        >
+                                            {name}
+                                        </MuiLink>
+                                        {i !== developers.length - 1 && <>,&nbsp;</>}
+                                    </span>
+                                ))}
+                            </div>
+                        );
+                    })()}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     <Button
@@ -414,6 +440,9 @@ export declare namespace CatalogCard {
         "this software has not referent": undefined;
         "no longer referent": undefined;
         "to install on the computer of the agent": undefined;
+        //TODO: Use i18nts for this
+        "identified developers": undefined;
+        "identified developer": undefined;
     };
 }
 
@@ -487,5 +516,10 @@ const useStyles = makeStyles<void, "cardButtons">({
     },
     "agentWorkstation": {
         "marginLeft": theme.spacing(2),
+    },
+    "developers": {
+        "& > *": {
+            "display": "inline-block",
+        },
     },
 }));

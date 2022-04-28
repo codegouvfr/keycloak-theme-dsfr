@@ -53,6 +53,12 @@ const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
             "license": "MIT",
             "documentationUrl": undefined,
             "framaLibreId": undefined,
+            "developers": [
+                {
+                    "name": "Joseph Garrone",
+                    "id": "Q111738960",
+                },
+            ],
         },
         "comptoirDuLibreSoftware": {
             "id": 461,

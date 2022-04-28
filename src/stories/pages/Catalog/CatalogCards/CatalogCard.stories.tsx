@@ -49,6 +49,12 @@ const software: CompiledData.Software = {
         "license": "MIT",
         "documentationUrl": undefined,
         "framaLibreId": undefined,
+        "developers": [
+            {
+                "name": "Joseph Garrone",
+                "id": "Q111738960",
+            },
+        ],
     },
     "comptoirDuLibreSoftware": {
         "id": 461,

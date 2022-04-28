@@ -11,7 +11,7 @@ import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { thunks as userAuthenticationThunks } from "./userAuthentication";
-import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
+import { createResolveLocalizedString } from "sill-api/tools/LocalizedString";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;

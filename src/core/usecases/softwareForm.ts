@@ -16,7 +16,7 @@ import { same } from "evt/tools/inDepth/same";
 import { thunks as catalogExplorerThunks } from "./catalogExplorer";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
-import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
+import { createResolveLocalizedString } from "sill-api/tools/LocalizedString";
 
 type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
 

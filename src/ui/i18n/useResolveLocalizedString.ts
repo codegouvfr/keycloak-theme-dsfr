@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createResolveLocalizedString } from "core/tools/resolveLocalizedString";
+import { createResolveLocalizedString } from "sill-api/tools/LocalizedString";
 import { useLng } from "./useLng";
 import type { fallbackLanguage } from "./translations";
 import { id } from "tsafe/id";
