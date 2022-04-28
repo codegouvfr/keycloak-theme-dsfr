@@ -138,7 +138,7 @@ export function Catalog(props: Props) {
         filteredSoftwares.forEach(({ id, name }) => {
             openLinkBySoftwareId[id] = routes.catalogExplorer({
                 "search": route.params.search || undefined,
-                "softwareName": name,
+                "software": name,
             }).link;
         });
 
@@ -171,6 +171,51 @@ export function Catalog(props: Props) {
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
     );
 
+    const softwareNameOrSoftwareId = (() => {
+        const { software: softwareNameOrSoftwareIdAsString } = route.params;
+
+        if (softwareNameOrSoftwareIdAsString === undefined) {
+            return undefined;
+        }
+
+        const n = parseInt(softwareNameOrSoftwareIdAsString);
+
+        return isNaN(n) ? softwareNameOrSoftwareIdAsString : n;
+    })();
+
+    useEffect(() => {
+        if (typeof softwareNameOrSoftwareId !== "number") {
+            return;
+        }
+
+        if (filteredSoftwares === undefined) {
+            return;
+        }
+
+        const software = filteredSoftwares.find(
+            ({ name, id }) =>
+                softwareNameOrSoftwareId ===
+                (typeof softwareNameOrSoftwareId === "number" ? id : name),
+        );
+
+        if (software === undefined) {
+            routes.fourOhFour().replace();
+            return;
+        }
+
+        routes
+            .catalogExplorer({
+                "software": software.name,
+            })
+            .replace();
+    }, [softwareNameOrSoftwareId, filteredSoftwares]);
+
+    //NOTE: We expect the route param to be the name of the software, if
+    //it's the id we replace in the above effect.
+    if (typeof softwareNameOrSoftwareId === "number") {
+        return null;
+    }
+
     if (catalogExplorerState.stateDescription !== "ready") {
         return null;
     }
@@ -193,50 +238,49 @@ export function Catalog(props: Props) {
                 helpCollapseParams={helpCollapseParams}
             />
             <div className={classes.contentWrapper}>
-                {(() => {
-                    const { softwareName } = route.params;
+                {softwareNameOrSoftwareId === undefined
+                    ? pageHeaderRef.current !== null && (
+                          <CatalogCards
+                              search={route.params.search}
+                              onSearchChange={onSearchChange}
+                              filteredSoftwares={filteredSoftwares}
+                              alikeSoftwares={alikeSoftwares}
+                              referentsBySoftwareId={referentsBySoftwareId}
+                              openLinkBySoftwareId={openLinkBySoftwareId}
+                              onLoadMore={catalogExplorerThunks.loadMore}
+                              hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                              searchBarWrapperElement={pageHeaderRef.current}
+                              onLogin={onLogin}
+                              onDeclareOneselfReferent={onDeclareOneselfReferent}
+                              onUserNoLongerReferent={onUserNoLongerReferent}
+                              referenceNewSoftwareLink={getFormLink(undefined)}
+                          />
+                      )
+                    : (() => {
+                          const software = filteredSoftwares.find(
+                              ({ name }) => softwareNameOrSoftwareId === name,
+                          );
 
-                    return softwareName === undefined
-                        ? pageHeaderRef.current !== null && (
-                              <CatalogCards
-                                  search={route.params.search}
-                                  onSearchChange={onSearchChange}
-                                  filteredSoftwares={filteredSoftwares}
-                                  alikeSoftwares={alikeSoftwares}
-                                  referentsBySoftwareId={referentsBySoftwareId}
-                                  openLinkBySoftwareId={openLinkBySoftwareId}
-                                  onLoadMore={catalogExplorerThunks.loadMore}
-                                  hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
-                                  searchBarWrapperElement={pageHeaderRef.current}
-                                  onLogin={onLogin}
-                                  onDeclareOneselfReferent={onDeclareOneselfReferent}
-                                  onUserNoLongerReferent={onUserNoLongerReferent}
-                                  referenceNewSoftwareLink={getFormLink(undefined)}
+                          if (software === undefined) {
+                              routes.fourOhFour().replace();
+                              return null;
+                          }
+
+                          return (
+                              <SoftwareDetails
+                                  software={software}
+                                  onGoBack={onGoBack}
+                                  editLink={
+                                      referentsBySoftwareId === undefined
+                                          ? undefined
+                                          : referentsBySoftwareId[software.id]
+                                                .userIndex !== undefined
+                                          ? getFormLink(software.id)
+                                          : undefined
+                                  }
                               />
-                          )
-                        : (() => {
-                              const software = filteredSoftwares.find(
-                                  ({ name }) => name === softwareName,
-                              );
-
-                              assert(software !== undefined);
-
-                              return (
-                                  <SoftwareDetails
-                                      software={software}
-                                      onGoBack={onGoBack}
-                                      editLink={
-                                          referentsBySoftwareId === undefined
-                                              ? undefined
-                                              : referentsBySoftwareId[software.id]
-                                                    .userIndex !== undefined
-                                              ? getFormLink(software.id)
-                                              : undefined
-                                      }
-                                  />
-                              );
-                          })();
-                })()}
+                          );
+                      })()}
             </div>
         </div>
     );

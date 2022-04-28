@@ -27,7 +27,8 @@ const routeDefs = {
     "catalogExplorer": defineRoute(
         {
             "search": param.query.optional.string.default(""),
-            "softwareName": param.query.optional.string,
+            /** Can be the software name (string) or it's `${id}`  */
+            "software": param.query.optional.string,
         },
         () => `/catalogue`,
     ),
@@ -37,6 +38,14 @@ const routeDefs = {
         },
         () => `/formulaire`,
     ),
+    "legacyRoute": defineRoute(
+        {
+            "lng": param.path.string,
+            "id": param.query.optional.number,
+        },
+        ({ lng }) => `/${lng}/software`,
+    ),
+    "fourOhFour": defineRoute("/404"),
 };
 
 export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);

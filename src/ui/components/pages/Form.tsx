@@ -63,7 +63,7 @@ export function Form(props: Props) {
                 softwareFormThunks.initialize({ "softwareId": undefined });
                 routes
                     .catalogExplorer({
-                        "softwareName": state.softwareName,
+                        "software": state.softwareName,
                     })
                     .push();
                 break;

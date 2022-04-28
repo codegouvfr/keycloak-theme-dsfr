@@ -23,6 +23,8 @@ import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
+import { evtLng } from "ui/i18n/useLng";
+import { languages } from "sill-api";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -254,19 +256,37 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
 
-    {
-        useEffect(() => {
-            if (route.name !== "home") {
-                return;
-            }
+    useEffect(() => {
+        switch (route.name) {
+            case "home":
+                routes.catalogExplorer().replace();
+                break;
+            case "legacyRoute":
+                {
+                    {
+                        const { lng } = route.params;
 
-            routes.catalogExplorer().replace();
-        }, [route.name]);
+                        if (
+                            typeGuard<Language>(
+                                lng,
+                                id<readonly string[]>(languages).includes(lng),
+                            )
+                        ) {
+                            evtLng.state = lng;
+                        }
+                    }
+                    const { id: softwareId } = route.params;
 
-        if (route.name === "home") {
-            return null;
+                    routes
+                        .catalogExplorer({
+                            "software":
+                                softwareId === undefined ? undefined : `${softwareId}`,
+                        })
+                        .replace();
+                }
+                break;
         }
-    }
+    }, [route.name]);
 
     /*
     Here is one of the few places in the codebase where we tolerate code duplication.
