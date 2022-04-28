@@ -1,3 +1,7 @@
+### **0.5.8** (2022-04-28)  
+  
+- :arrow_up:  Update keycloakify    
+  
 ### **0.5.7** (2022-04-27)  
   
 - :bug:  Fix emails translations  
