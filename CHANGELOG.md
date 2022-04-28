@@ -1,3 +1,7 @@
+## **0.6.0** (2022-04-28)  
+  
+- :lipstick:  Display software developpers    
+  
 ### **0.5.8** (2022-04-28)  
   
 - :arrow_up:  Update keycloakify    
