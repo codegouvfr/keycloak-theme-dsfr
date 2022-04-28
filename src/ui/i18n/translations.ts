@@ -146,8 +146,9 @@ export const resources = id<Record<Language, Translations>>({
             "no longer referent": "I am no longer referent",
             "to install on the computer of the agent":
                 "To install on the computer of the agent",
-            "identified developer": "Identified developer",
-            "identified developers": "Identified developers",
+            //TODO: Rename
+            "identified developer": "Author",
+            "identified developers": "Authors",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -304,8 +305,8 @@ export const resources = id<Record<Language, Translations>>({
             "no longer referent": "Je ne suis plus référent",
             "to install on the computer of the agent":
                 "À installer sur le poste de travail de l'agent",
-            "identified developer": "Développeur identifié",
-            "identified developers": "Développeurs identifiés",
+            "identified developer": "Auteur",
+            "identified developers": "Auteurs",
         },
         "CatalogCards": {
             "show more": "Afficher tous",

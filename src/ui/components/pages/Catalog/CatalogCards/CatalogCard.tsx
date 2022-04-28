@@ -166,7 +166,14 @@ export const CatalogCard = memo((props: Props) => {
 
                         return (
                             <div className={classes.developers}>
-                                <Text typo="label 1">Identified developers:&nbsp;</Text>
+                                <Text typo="label 1">
+                                    {t(
+                                        developers.length === 1
+                                            ? "identified developer"
+                                            : "identified developers",
+                                    )}
+                                    :&nbsp;
+                                </Text>
                                 {developers.map(({ id, name }, i) => (
                                     <span key={id}>
                                         <MuiLink
