@@ -1,3 +1,10 @@
+## **0.7.0** (2022-04-28)  
+  
+- :bookmark:  Bump version (changlog ignore)  
+- :sparkles:  Implement retrocompatibility with old routes
+
+Closes #7    
+  
 ## **0.6.0** (2022-04-28)  
   
 - :lipstick:  Display software developpers    
