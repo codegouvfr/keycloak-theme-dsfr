@@ -1,3 +1,7 @@
+### **0.7.1** (2022-04-28)  
+  
+- :bug:  Rename identified developper -> authors #17    
+  
 ## **0.7.0** (2022-04-28)  
   
 - :bookmark:  Bump version (changlog ignore)  
