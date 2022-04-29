@@ -1,3 +1,9 @@
+### **0.7.2** (2022-04-29)  
+  
+- :twisted_rightwards_arrows:  
+- :bug:  Disable ViewPort adapter on login  
+- :bulb:  Give instruction on how to contribute    
+  
 ### **0.7.1** (2022-04-28)  
   
 - :bug:  Rename identified developper -> authors #17    
