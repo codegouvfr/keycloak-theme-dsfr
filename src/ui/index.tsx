@@ -12,7 +12,9 @@ reactDom.render(
         <RouteProvider>
             <ThemeProvider
                 splashScreen={splashScreen}
-                getViewPortConfig={getViewPortConfig}
+                getViewPortConfig={
+                    kcContext !== undefined ? undefined : getViewPortConfig
+                }
             >
                 {kcContext !== undefined ? (
                     <KcApp kcContext={kcContext} />
