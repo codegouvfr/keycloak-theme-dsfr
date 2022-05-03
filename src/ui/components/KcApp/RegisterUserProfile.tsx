@@ -1,4 +1,4 @@
-import { useMemo, memo, useEffect, Fragment } from "react";
+import { useMemo, memo, Fragment } from "react";
 import { Template } from "./Template";
 import type { KcProps } from "keycloakify";
 import type { KcContextBase } from "keycloakify";
@@ -91,20 +91,6 @@ export const RegisterUserProfile = memo(
                 name,
             }),
         );
-
-        useEffect(() => {
-            attributesWithPassword
-                .filter(
-                    ({ name }) =>
-                        !["email", "password", "password-confirm"].includes(name),
-                )
-                .map(({ name }) =>
-                    formValidationReducer({
-                        "action": "focus lost",
-                        name,
-                    }),
-                );
-        }, []);
 
         const areAllFieldsRequired = useMemo(
             () => attributesWithPassword.every(({ required }) => required),
