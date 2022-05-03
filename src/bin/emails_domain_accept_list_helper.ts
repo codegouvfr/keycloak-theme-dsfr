@@ -1,6 +1,8 @@
 //This is just a helper to generate the regexp that defines email allowed to register
 //the actual regexp is configured in keycloak.
 //https://user-images.githubusercontent.com/6702424/158169264-e3832e38-741f-49d8-9afd-6f855f7ccb4b.png
+//
+//NOTE: The output is for the JSON Editor (if you put it in the form you the backslashes get doubled)
 
 import {
     emailDomainsToRegExpStr,
