@@ -1,3 +1,7 @@
+### **0.7.3** (2022-05-02)  
+  
+- :bug:  Fix fallback on login test    
+  
 ### **0.7.2** (2022-04-29)  
   
 - :twisted_rightwards_arrows:  
