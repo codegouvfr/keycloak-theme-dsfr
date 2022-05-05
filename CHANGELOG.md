@@ -1,3 +1,9 @@
+### **0.7.6** (2022-05-05)  
+  
+- :bug:  Fix build  
+- :sparkles:  Better software detail vue  
+- :lipstick:  Adjustments on software details vue    
+  
 ### **0.7.4** (2022-05-03)  
   
 - :bug:  Maintain the email acceptlist  
