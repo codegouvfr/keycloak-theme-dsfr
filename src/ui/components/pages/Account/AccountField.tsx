@@ -65,7 +65,7 @@ export declare namespace Props {
 
     export type Text = Common & {
         type: "text";
-        text: string;
+        text: NonNullable<ReactNode>;
         isSensitiveInformation?: boolean;
     } & ICopyable &
         IGeneric;
@@ -93,7 +93,7 @@ export declare namespace Props {
     };
 
     type ICopyable = {
-        onRequestCopy: () => void;
+        onRequestCopy?: () => void;
     };
 }
 
@@ -116,7 +116,7 @@ export const AccountField = memo(
         }, [isFlashing]);
 
         const onRequestCopy = useConstCallback(() => {
-            assert("onRequestCopy" in props);
+            assert("onRequestCopy" in props && props.onRequestCopy !== undefined);
 
             setIsFlashing(true);
 
@@ -151,9 +151,12 @@ export const AccountField = memo(
 
                 const { TextWd } = useGuaranteedMemo(() => {
                     const TextWd = memo(
-                        (props: { children: string; className?: string }) => (
+                        (props: {
+                            children: NonNullable<ReactNode>;
+                            className?: string;
+                        }) => (
                             <Text typo="body 1" className={props.className}>
-                                {isTextHidden
+                                {isTextHidden && typeof props.children === "string"
                                     ? new Array(props.children.length).fill("•")
                                     : props.children}
                             </Text>
@@ -515,9 +518,11 @@ export const AccountField = memo(
                                     );
                                 case "text":
                                     return (
-                                        <IconButtonCopyToClipboard
-                                            onClick={onRequestCopy}
-                                        />
+                                        props.onRequestCopy !== undefined && (
+                                            <IconButtonCopyToClipboard
+                                                onClick={onRequestCopy}
+                                            />
+                                        )
                                     );
                                 case "language":
                                     return null;

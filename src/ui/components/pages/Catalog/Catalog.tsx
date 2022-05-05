@@ -12,13 +12,15 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
-import type { Props as CatalogCardsProps } from "./CatalogCards";
-import { SoftwareDetails } from "./SoftwareDetails";
+import { CatalogSoftwareDetails } from "./CatalogSoftwareDetails";
+import type { Props as CatalogSoftwareDetailsProps } from "./CatalogSoftwareDetails";
 import type { Link } from "type-route";
 import { useStateRef } from "powerhooks/useStateRef";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import memoize from "memoizee";
 import { useConst } from "powerhooks/useConst";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import type { Param0 } from "tsafe";
 
 Catalog.routeGroup = createGroup([routes.catalogExplorer]);
 
@@ -154,18 +156,22 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
-    const onDeclareOneselfReferent = useConstCallback<
-        CatalogCardsProps["onDeclareOneselfReferent"]
-    >(({ isExpert, softwareId }) =>
-        catalogExplorerThunks.declareUserReferent({
-            isExpert,
-            softwareId,
-        }),
+    const onDeclareOneselfReferentFactory = useCallbackFactory(
+        (
+            [softwareId]: [number],
+            [{ isExpert }]: [
+                Param0<CatalogSoftwareDetailsProps["onDeclareOneselfReferent"]>,
+            ],
+        ) =>
+            catalogExplorerThunks.declareUserReferent({
+                isExpert,
+                softwareId,
+            }),
     );
 
-    const onUserNoLongerReferent = useConstCallback<
-        CatalogCardsProps["onUserNoLongerReferent"]
-    >(({ softwareId }) => catalogExplorerThunks.userNoLongerReferent({ softwareId }));
+    const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
+        catalogExplorerThunks.userNoLongerReferent({ softwareId }),
+    );
 
     const getFormLink = useConst(() =>
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
@@ -253,8 +259,12 @@ export function Catalog(props: Props) {
                               hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                               searchBarWrapperElement={pageHeaderRef.current}
                               onLogin={onLogin}
-                              onDeclareOneselfReferent={onDeclareOneselfReferent}
-                              onUserNoLongerReferent={onUserNoLongerReferent}
+                              onDeclareOneselfReferent={
+                                  catalogExplorerThunks.declareUserReferent
+                              }
+                              onUserNoLongerReferent={
+                                  catalogExplorerThunks.userNoLongerReferent
+                              }
                               referenceNewSoftwareLink={getFormLink(undefined)}
                           />
                       )
@@ -268,8 +278,11 @@ export function Catalog(props: Props) {
                               return null;
                           }
 
+                          const { referents, userIndex } =
+                              referentsBySoftwareId?.[software.id] ?? {};
+
                           return (
-                              <SoftwareDetails
+                              <CatalogSoftwareDetails
                                   className={classes.softwareDetails}
                                   software={software}
                                   onGoBack={onGoBack}
@@ -281,6 +294,15 @@ export function Catalog(props: Props) {
                                           ? getFormLink(software.id)
                                           : undefined
                                   }
+                                  referents={referents}
+                                  userIndexInReferents={userIndex}
+                                  onDeclareOneselfReferent={onDeclareOneselfReferentFactory(
+                                      software.id,
+                                  )}
+                                  onUserNoLongerReferent={onUserNoLongerReferentFactory(
+                                      software.id,
+                                  )}
+                                  onLogin={onLogin}
                               />
                           );
                       })()}

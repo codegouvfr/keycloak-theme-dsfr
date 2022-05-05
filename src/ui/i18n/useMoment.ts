@@ -4,6 +4,7 @@ import "moment/locale/fr";
 import { useLng } from "./useLng";
 import { assert } from "tsafe/assert";
 import type { Language } from "sill-api";
+import { capitalize } from "tsafe/capitalize";
 
 export const { getFormattedDate } = (() => {
     const getFormatByLng = (isSameYear: boolean) => ({
@@ -20,7 +21,9 @@ export const { getFormattedDate } = (() => {
 
         const isSameYear = date.getFullYear() === new Date().getFullYear();
 
-        return moment(date).locale(lng).format(getFormatByLng(isSameYear)[lng]);
+        return capitalize(
+            moment(date).locale(lng).format(getFormatByLng(isSameYear)[lng]),
+        );
     }
 
     return { getFormattedDate };

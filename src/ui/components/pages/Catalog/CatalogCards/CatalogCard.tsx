@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { memo } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
@@ -11,18 +11,13 @@ import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 import { Tag } from "onyxia-ui/Tag";
 import { assert } from "tsafe/assert";
-import { Dialog } from "onyxia-ui/Dialog";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import type { NonPostableEvt } from "evt";
-import { useEvt } from "evt/hooks/useEvt";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
-import Checkbox from "@mui/material/Checkbox";
-import type { CheckboxProps } from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { Icon } from "ui/theme";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import MuiLink from "@mui/material/Link";
+import { CatalogReferentDialogs } from "../CatalogReferentDialogs";
 
 export type Props = {
     className?: string;
@@ -136,7 +131,7 @@ export const CatalogCard = memo((props: Props) => {
                     >
                         <Tag
                             className={classes.warningTag}
-                            text={t("this software has not referent")}
+                            text={t("this software has no referent")}
                         />
                     </div>
                 )}
@@ -250,183 +245,19 @@ export const CatalogCard = memo((props: Props) => {
                             </Button>
                         );
                     })()}
-                    <ReferentDialog
-                        referents={referents}
-                        userIndexInReferents={userIndexInReferents}
-                        evtAction={evtReferentDialogAction}
-                        onDeclareOneselfReferent={onOpenDeclareBeingReferent}
-                        onUserNoLongerReferent={onUserNoLongerReferent}
-                    />
-                    <DeclareOneselfReferentDialog
-                        softwareName={software.name}
-                        evtAction={evtDeclareOneselfReferentDialogAction}
-                        onDeclareOneselfReferent={onDeclareOneselfReferent}
-                    />
                 </div>
             </div>
+            <CatalogReferentDialogs
+                referents={referents}
+                userIndexInReferents={userIndexInReferents}
+                evtAction={evtReferentDialogAction}
+                onDeclareOneselfReferent={onDeclareOneselfReferent}
+                onUserNoLongerReferent={onUserNoLongerReferent}
+                softwareName={software.name}
+            />
         </div>
     );
 });
-
-const { ReferentDialog } = (() => {
-    type Props = {
-        evtAction: NonPostableEvt<"open">;
-        referents: CompiledData.Software.WithReferent["referents"] | undefined;
-        userIndexInReferents: number | undefined;
-        onUserNoLongerReferent: () => void;
-        onDeclareOneselfReferent: () => void;
-    };
-
-    const ReferentDialog = memo((props: Props) => {
-        const {
-            evtAction,
-            referents,
-            userIndexInReferents,
-            onDeclareOneselfReferent,
-            onUserNoLongerReferent,
-        } = props;
-
-        const [isOpen, setIsOpen] = useState(false);
-
-        const onClose = useConstCallback(() => setIsOpen(false));
-
-        const { t } = useTranslation({ CatalogCard });
-
-        useEvt(
-            ctx =>
-                evtAction.attach(
-                    action => action === "open",
-                    ctx,
-                    () => setIsOpen(true),
-                ),
-            [evtAction],
-        );
-
-        const { classes } = useStyles();
-
-        const onDeclareOneselfReferentClick = useConstCallback(() => {
-            onClose();
-
-            onDeclareOneselfReferent();
-        });
-
-        if (referents === undefined) {
-            return null;
-        }
-
-        return (
-            <Dialog
-                body={
-                    <Markdown className={classes.dialogBody}>
-                        {referents
-                            .map(
-                                ({ email, agencyName, isExpert }, i) =>
-                                    "- " +
-                                    [
-                                        `**${email}**`,
-                                        agencyName,
-                                        ...(!isExpert ? [] : [`*${t("expert")}*`]),
-                                        ...(i !== userIndexInReferents
-                                            ? []
-                                            : [`(${t("you")})`]),
-                                    ].join(" - "),
-                            )
-                            .join("\n  ")}
-                    </Markdown>
-                }
-                buttons={
-                    <>
-                        {userIndexInReferents === undefined ? (
-                            <Button onClick={onDeclareOneselfReferentClick}>
-                                {t("declare oneself referent")}
-                            </Button>
-                        ) : (
-                            <Button onClick={onUserNoLongerReferent} variant="ternary">
-                                {t("no longer referent")}
-                            </Button>
-                        )}
-                        <Button onClick={onClose} variant="secondary">
-                            {t("close")}
-                        </Button>
-                    </>
-                }
-                isOpen={isOpen}
-                onClose={onClose}
-            />
-        );
-    });
-
-    return { ReferentDialog };
-})();
-
-const { DeclareOneselfReferentDialog } = (() => {
-    type Props = {
-        softwareName: string;
-        evtAction: NonPostableEvt<"open">;
-        onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
-    };
-
-    const DeclareOneselfReferentDialog = memo((props: Props) => {
-        const { evtAction, onDeclareOneselfReferent, softwareName } = props;
-
-        const [isOpen, setIsOpen] = useState(false);
-
-        const onClose = useConstCallback(() => setIsOpen(false));
-
-        const { t } = useTranslation({ CatalogCard });
-
-        useEvt(
-            ctx =>
-                evtAction.attach(
-                    action => action === "open",
-                    ctx,
-                    () => setIsOpen(true),
-                ),
-            [evtAction],
-        );
-
-        const [isExpert, setIsExpert] = useState(false);
-
-        const onCheckboxChange = useConstCallback<CheckboxProps["onChange"]>(
-            (...[, isChecked]) => setIsExpert(isChecked),
-        );
-
-        const onDeclareOneselfReferentClick = useConstCallback(() => {
-            onDeclareOneselfReferent({ isExpert });
-            onClose();
-        });
-
-        return (
-            <Dialog
-                title={t("declare oneself referent of", { softwareName })}
-                body={<></>}
-                buttons={
-                    <>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={isExpert}
-                                    onChange={onCheckboxChange}
-                                />
-                            }
-                            label={t("expert")}
-                        />
-                        <Button onClick={onDeclareOneselfReferentClick}>
-                            {t("send")}
-                        </Button>
-                        <Button onClick={onClose} variant="secondary">
-                            {t("cancel")}
-                        </Button>
-                    </>
-                }
-                isOpen={isOpen}
-                onClose={onClose}
-            />
-        );
-    });
-
-    return { DeclareOneselfReferentDialog };
-})();
 
 export declare namespace CatalogCard {
     export type I18nScheme = {
@@ -437,17 +268,11 @@ export declare namespace CatalogCard {
         "show the others referents": undefined;
         "show referents": undefined;
         "show the referent": undefined;
-        "close": undefined;
-        "expert": undefined;
-        "you": undefined;
         "declare oneself referent": undefined;
-        "declare oneself referent of": { softwareName: string };
-        "cancel": undefined;
-        "send": undefined;
-        "this software has not referent": undefined;
+        "this software has no referent": undefined;
         "no longer referent": undefined;
         "to install on the computer of the agent": undefined;
-        //TODO: Use i18nts for this
+        //TODO: Use i18nifty for this
         "identified developers": undefined;
         "identified developer": undefined;
     };
@@ -505,12 +330,6 @@ const useStyles = makeStyles<void, "cardButtons">({
     "cardButtons": {
         "marginRight": theme.spacing(2),
         "visibility": "hidden",
-    },
-    "dialogBody": {
-        "& ul": {
-            "paddingInlineStart": 0,
-        },
-        "margin": theme.spacing(4),
     },
     "tagWrapper": {
         "cursor": "pointer",

@@ -5,7 +5,7 @@ import { Header } from "ui/components/shared/Header";
 import { App } from "ui/components/App/App";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Form } from "ui/components/pages/Form";
-import { SoftwareDetails } from "ui/components/pages/Catalog/SoftwareDetails";
+import { CatalogSoftwareDetails } from "ui/components/pages/Catalog/CatalogSoftwareDetails";
 import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
 import { AccountField } from "ui/components/pages/Account/AccountField";
 import { Account } from "ui/components/pages/Account/Account";
@@ -13,6 +13,7 @@ import { AccountInfoTab } from "ui/components/pages/Account/tabs/AccountInfoTab"
 import { AccountUserInterfaceTab } from "ui/components/pages/Account/tabs/AccountUserInterfaceTab";
 import { CatalogCards } from "ui/components/pages/Catalog/CatalogCards/CatalogCards";
 import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
+import { CatalogReferentDialogs } from "ui/components/pages/Catalog/CatalogReferentDialogs";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Footer } from "ui/components/App/Footer";
 import { LoginDivider } from "ui/components/KcApp/Login/LoginDivider";
@@ -46,7 +47,8 @@ const reflectedI18nSchemes = {
     [symToStr({ LoginDivider })]: Reflect<LoginDivider.I18nScheme>(),
     [symToStr({ Login })]: Reflect<Login.I18nScheme>(),
     [symToStr({ Form })]: Reflect<Form.I18nScheme>(),
-    [symToStr({ SoftwareDetails })]: Reflect<SoftwareDetails.I18nScheme>(),
+    [symToStr({ CatalogSoftwareDetails })]: Reflect<CatalogSoftwareDetails.I18nScheme>(),
+    [symToStr({ CatalogReferentDialogs })]: Reflect<CatalogReferentDialogs.I18nScheme>(),
 };
 
 export type I18nSchemes = typeof reflectedI18nSchemes;
@@ -134,21 +136,25 @@ export const resources = id<Record<Language, Translations>>({
             "show the referent": "Show the referent",
             "show referents": "Show referents",
             "show the others referents": "Show the others referents",
-            "close": "Close",
-            "expert": "You are technical expert",
-            "you": "You",
             "declare oneself referent": "Declare yourself referent",
-            "declare oneself referent of":
-                "Declare yourself referent of {{softwareName}}",
-            "cancel": "Cancel",
-            "send": "Send",
-            "this software has not referent": "This software has not referent",
+            "this software has no referent": "This software has not referent",
             "no longer referent": "I am no longer referent",
             "to install on the computer of the agent":
                 "To install on the computer of the agent",
             //TODO: Rename
             "identified developer": "Author",
             "identified developers": "Authors",
+        },
+        "CatalogReferentDialogs": {
+            "close": "Close",
+            "expert": "You are technical expert",
+            "you": "You",
+            "declare oneself referent of":
+                "Declare yourself referent of {{softwareName}}",
+            "cancel": "Cancel",
+            "send": "Send",
+            "declare oneself referent": "Declare yourself referent",
+            "no longer referent": "I am no longer referent",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -215,7 +221,7 @@ export const resources = id<Record<Language, Translations>>({
             "name already exists":
                 "There is already a software with this name in the SILL",
         },
-        "SoftwareDetails": {
+        "CatalogSoftwareDetails": {
             "update software information": "Update software information",
         },
     },
@@ -294,19 +300,23 @@ export const resources = id<Record<Language, Translations>>({
             "show the referent": "Voir le référent",
             "show referents": "Voir les référents",
             "show the others referents": "Voir les autres référents",
-            "close": "Fermer",
-            "expert": "Vous êtes expert technique",
-            "you": "Vous",
             "declare oneself referent": "Me déclarer référent",
-            "declare oneself referent of": "Me déclarer référent de {{softwareName}}",
-            "cancel": "Annuler",
-            "send": "Envoyer",
-            "this software has not referent": "Pas de référent",
+            "this software has no referent": "Pas de référent",
             "no longer referent": "Je ne suis plus référent",
             "to install on the computer of the agent":
                 "À installer sur le poste de travail de l'agent",
             "identified developer": "Auteur",
             "identified developers": "Auteurs",
+        },
+        "CatalogReferentDialogs": {
+            "close": "Fermer",
+            "expert": "Vous êtes expert technique",
+            "you": "Vous",
+            "declare oneself referent of": "Me déclarer référent de {{softwareName}}",
+            "cancel": "Annuler",
+            "send": "Envoyer",
+            "declare oneself referent": "Me déclarer référent",
+            "no longer referent": "Je ne suis plus référent",
         },
         "CatalogCards": {
             "show more": "Afficher tous",
@@ -372,7 +382,7 @@ export const resources = id<Record<Language, Translations>>({
                 "Quelle est l'identifiant Wikidata du logiciel, example: Q8038 for Gimp",
             "name already exists": "Il existe déjà un logiciel avec ce nom",
         },
-        "SoftwareDetails": {
+        "CatalogSoftwareDetails": {
             "update software information": "Mettre à jour les informations du logiciel",
         },
         /* spell-checker: enable */
