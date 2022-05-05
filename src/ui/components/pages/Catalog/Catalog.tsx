@@ -226,17 +226,19 @@ export function Catalog(props: Props) {
 
     return (
         <div className={cx(classes.root, className)}>
-            <PageHeader
-                ref={pageHeaderRef}
-                className={classes.pageHeader}
-                mainIcon="catalog"
-                title={t("header text1")}
-                helpTitle={t("header text2")}
-                helpContent={t("header text3")}
-                helpIcon="sentimentSatisfied"
-                titleCollapseParams={titleCollapseParams}
-                helpCollapseParams={helpCollapseParams}
-            />
+            {route.params.software === undefined && (
+                <PageHeader
+                    ref={pageHeaderRef}
+                    className={classes.pageHeader}
+                    mainIcon="catalog"
+                    title={t("header text1")}
+                    helpTitle={t("header text2")}
+                    helpContent={t("header text3")}
+                    helpIcon="sentimentSatisfied"
+                    titleCollapseParams={titleCollapseParams}
+                    helpCollapseParams={helpCollapseParams}
+                />
+            )}
             <div className={classes.contentWrapper}>
                 {softwareNameOrSoftwareId === undefined
                     ? pageHeaderRef.current !== null && (
@@ -268,6 +270,7 @@ export function Catalog(props: Props) {
 
                           return (
                               <SoftwareDetails
+                                  className={classes.softwareDetails}
                                   software={software}
                                   onGoBack={onGoBack}
                                   editLink={
@@ -327,6 +330,9 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             "backgroundColor": theme.colors.useCases.surfaces.background,
             "paddingLeft": spacingLeft,
             "marginBottom": 0,
+        },
+        "softwareDetails": {
+            "marginBottom": theme.spacing(3),
         },
     };
 });

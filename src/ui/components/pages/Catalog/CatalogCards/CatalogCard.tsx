@@ -1,4 +1,4 @@
-import { useState, memo, Fragment } from "react";
+import { useState, memo } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
