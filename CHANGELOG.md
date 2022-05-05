@@ -1,3 +1,8 @@
+### **0.7.4** (2022-05-03)  
+  
+- :bug:  Maintain the email acceptlist  
+- Only validate input when focus lost    
+  
 ### **0.7.3** (2022-05-02)  
   
 - :bug:  Fix fallback on login test    
