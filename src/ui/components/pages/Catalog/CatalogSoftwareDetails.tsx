@@ -30,6 +30,8 @@ export type Props = {
     onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
     onUserNoLongerReferent: () => void;
     onLogin: () => void;
+    openLinkBySoftwareId: Record<number, Link>;
+    softwareNameBySoftwareId: Record<number, string>;
 };
 
 export const CatalogSoftwareDetails = memo((props: Props) => {
@@ -43,6 +45,8 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
         onDeclareOneselfReferent,
         onUserNoLongerReferent,
         onLogin,
+        openLinkBySoftwareId,
+        softwareNameBySoftwareId,
     } = props;
 
     const { t } = useTranslation({ CatalogSoftwareDetails });
@@ -194,6 +198,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         title={"Dépot de code source"}
                         text={
                             <MuiLink
+                                target="_blank"
                                 underline="hover"
                                 href={software.wikidataData.sourceUrl}
                             >
@@ -211,6 +216,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         title={"Site web du logiciel"}
                         text={
                             <MuiLink
+                                target="_blank"
                                 underline="hover"
                                 href={software.wikidataData.websiteUrl}
                             >
@@ -239,6 +245,27 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         </Button>
                     }
                 />
+                {software.parentSoftware?.isKnown && (
+                    <AccountField
+                        type="text"
+                        title={"Parent software"}
+                        helperText="Ce logiciel est un plugin ou une extention d'un autre logiciel"
+                        text={
+                            <MuiLink
+                                {...openLinkBySoftwareId[
+                                    software.parentSoftware.softwareId
+                                ]}
+                                underline="hover"
+                            >
+                                {
+                                    softwareNameBySoftwareId[
+                                        software.parentSoftware.softwareId
+                                    ]
+                                }
+                            </MuiLink>
+                        }
+                    />
+                )}
                 {(() => {
                     const { comptoirDuLibreSoftware, ...rest } = software;
 

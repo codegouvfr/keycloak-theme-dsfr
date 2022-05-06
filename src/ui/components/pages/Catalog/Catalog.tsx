@@ -130,22 +130,28 @@ export function Catalog(props: Props) {
         selectors.catalogExplorer.referentsBySoftwareId,
     );
 
+    const { softwares } = useSelector(selectors.catalogExplorer.softwares);
+
+    const { softwareNameBySoftwareId } = useSelector(
+        selectors.catalogExplorer.softwareNameBySoftwareId,
+    );
+
     const openLinkBySoftwareId = useMemo(() => {
-        if (filteredSoftwares === undefined) {
+        if (softwareNameBySoftwareId === undefined) {
             return undefined;
         }
 
         const openLinkBySoftwareId: Record<number, Link> = {};
 
-        filteredSoftwares.forEach(({ id, name }) => {
-            openLinkBySoftwareId[id] = routes.catalogExplorer({
+        Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
+            openLinkBySoftwareId[parseInt(id)] = routes.catalogExplorer({
                 "search": route.params.search || undefined,
                 "software": name,
             }).link;
         });
 
         return openLinkBySoftwareId;
-    }, [filteredSoftwares]);
+    }, [softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
         assert(!userAuthenticationThunks.getIsUserLoggedIn());
@@ -194,11 +200,11 @@ export function Catalog(props: Props) {
             return;
         }
 
-        if (filteredSoftwares === undefined) {
+        if (softwares === undefined) {
             return;
         }
 
-        const software = filteredSoftwares.find(
+        const software = softwares.find(
             ({ name, id }) =>
                 softwareNameOrSoftwareId ===
                 (typeof softwareNameOrSoftwareId === "number" ? id : name),
@@ -214,7 +220,7 @@ export function Catalog(props: Props) {
                 "software": software.name,
             })
             .replace();
-    }, [softwareNameOrSoftwareId, filteredSoftwares]);
+    }, [softwareNameOrSoftwareId, softwares]);
 
     //NOTE: We expect the route param to be the name of the software, if
     //it's the id we replace in the above effect.
@@ -226,9 +232,11 @@ export function Catalog(props: Props) {
         return null;
     }
 
+    assert(softwares !== undefined);
     assert(alikeSoftwares !== undefined);
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
+    assert(softwareNameBySoftwareId !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -269,7 +277,7 @@ export function Catalog(props: Props) {
                           />
                       )
                     : (() => {
-                          const software = filteredSoftwares.find(
+                          const software = softwares.find(
                               ({ name }) => softwareNameOrSoftwareId === name,
                           );
 
@@ -303,6 +311,8 @@ export function Catalog(props: Props) {
                                       software.id,
                                   )}
                                   onLogin={onLogin}
+                                  openLinkBySoftwareId={openLinkBySoftwareId}
+                                  softwareNameBySoftwareId={softwareNameBySoftwareId}
                               />
                           );
                       })()}

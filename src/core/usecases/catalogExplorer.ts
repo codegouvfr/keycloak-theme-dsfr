@@ -481,6 +481,34 @@ export const selectors = (() => {
             );
     });
 
+    const softwareNameBySoftwareId = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+
+        const {
+            "~internal": { softwares },
+        } = state;
+
+        const softwareNameBySoftwareId: Record<number, string> = {};
+
+        softwares.forEach(({ id, name }) => (softwareNameBySoftwareId[id] = name));
+
+        return softwareNameBySoftwareId;
+    });
+
+    const softwares = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+
+        const {
+            "~internal": { softwares },
+        } = state;
+
+        return softwares;
+    });
+
     const alikeSoftwares = createSelector(
         readyState,
         filteredSoftwares,
@@ -522,5 +550,12 @@ export const selectors = (() => {
         return state["~internal"].isProcessing;
     });
 
-    return { filteredSoftwares, alikeSoftwares, referentsBySoftwareId, isProcessing };
+    return {
+        filteredSoftwares,
+        alikeSoftwares,
+        referentsBySoftwareId,
+        isProcessing,
+        softwareNameBySoftwareId,
+        softwares,
+    };
 })();
