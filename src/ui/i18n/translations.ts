@@ -7,7 +7,7 @@ import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Form } from "ui/components/pages/Form";
 import { CatalogSoftwareDetails } from "ui/components/pages/Catalog/CatalogSoftwareDetails";
 import { RegisterUserProfile } from "ui/components/KcApp/RegisterUserProfile";
-import { AccountField } from "ui/components/pages/Account/AccountField";
+import { DescriptiveField } from "ui/components/shared/DescriptiveField";
 import { Account } from "ui/components/pages/Account/Account";
 import { AccountInfoTab } from "ui/components/pages/Account/tabs/AccountInfoTab";
 import { AccountUserInterfaceTab } from "ui/components/pages/Account/tabs/AccountUserInterfaceTab";
@@ -36,7 +36,7 @@ const reflectedI18nSchemes = {
     [symToStr({ App })]: Reflect<App.I18nScheme>(),
     [symToStr({ FourOhFour })]: Reflect<FourOhFour.I18nScheme>(),
     [symToStr({ RegisterUserProfile })]: Reflect<RegisterUserProfile.I18nScheme>(),
-    [symToStr({ AccountField })]: Reflect<AccountField.I18nScheme>(),
+    [symToStr({ DescriptiveField })]: Reflect<DescriptiveField.I18nScheme>(),
     [symToStr({ Account })]: Reflect<Account.I18nScheme>(),
     [symToStr({ AccountInfoTab })]: Reflect<AccountInfoTab.I18nScheme>(),
     [symToStr({ AccountUserInterfaceTab })]: Reflect<AccountUserInterfaceTab.I18nScheme>(),
@@ -88,7 +88,7 @@ export const resources = id<Record<Language, Translations>>({
             "enable dark mode": "Enable dark mode",
             "dark mode helper": "Low light interface theme with dark colored background.",
         },
-        "AccountField": {
+        "DescriptiveField": {
             "copy tooltip": "Copy in clipboard",
             "language": "Change language",
             "s3 scripts": "Init script",
@@ -302,7 +302,7 @@ export const resources = id<Record<Language, Translations>>({
             "dark mode helper":
                 "Thème de l'interface à faible luminosité avec un fond de couleur sombre.",
         },
-        "AccountField": {
+        "DescriptiveField": {
             "copy tooltip": "Copier dans le press papier",
             "language": "Changer la langue",
             "s3 scripts": "Script d'initialisation",

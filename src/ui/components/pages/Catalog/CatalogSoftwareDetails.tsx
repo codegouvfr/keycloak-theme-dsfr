@@ -6,7 +6,7 @@ import { Card } from "onyxia-ui/Card";
 import { Button } from "ui/theme";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { Link } from "type-route";
-import { AccountField } from "ui/components/pages/Account/AccountField";
+import { DescriptiveField } from "ui/components/shared/DescriptiveField";
 import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
@@ -147,7 +147,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                 </Button>
             )}
             <Card className={classes.card}>
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("software name")}
                     text={capitalize(
@@ -156,13 +156,13 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                             .map(resolveLocalizedString)[0] ?? software.name,
                     )}
                 />
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("software's function")}
                     text={softwareFunction}
                 />
                 {software.testUrls.length !== 0 && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("test url")}
                         helperText={t("test url helper")}
@@ -183,23 +183,23 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         }
                     />
                 )}
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("sill id")}
                     helperText={t("sill id helper")}
                     text={`${software.id}`}
                 />
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("in sill from date")}
                     text={referencedSincePrettyPrint}
                 />
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("dev by public service")}
                     text={software.isFromFrenchPublicService ? "Oui" : "Non"}
                 />
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("present in support contract")}
                     helperText={
@@ -216,7 +216,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     text={t(software.isPresentInSupportContract ? "yes" : "no")}
                 />
                 {software.wikidataData?.sourceUrl && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("repo")}
                         text={
@@ -233,7 +233,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
                 {software.wikidataData?.websiteUrl && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("website of the software")}
                         text={
@@ -249,14 +249,18 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         }
                     />
                 )}
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("minimal version")}
                     helperText={t("minimal version helper")}
                     text={software.versionMin}
                 />
-                <AccountField type="text" title={t("license")} text={software.license} />
-                <AccountField
+                <DescriptiveField
+                    type="text"
+                    title={t("license")}
+                    text={software.license}
+                />
+                <DescriptiveField
                     type="text"
                     title={t("referents")}
                     helperText={t("referents helper")}
@@ -267,7 +271,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     }
                 />
                 {software.parentSoftware?.isKnown && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("parent software")}
                         helperText={t("parent software helper")}
@@ -288,7 +292,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
                 {software.alikeSoftwares.length !== 0 && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("alike softwares")}
                         helperText={t("alike softwares helper")}
@@ -309,14 +313,14 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         ))}
                     />
                 )}
-                <AccountField
+                <DescriptiveField
                     type="text"
                     title={t("workstation")}
                     helperText={t("workstation helper")}
                     text={software.agentWorkstation ? "Oui" : "Non"}
                 />
                 {!!software.wikidataData?.developers.length && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("authors")}
                         helperText={t("authors helper")}
@@ -337,7 +341,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                 )}
 
                 {!!software.comptoirDuLibreSoftware?.providers.length && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("service provider")}
                         helperText={t("service provider helper")}
@@ -354,7 +358,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
                 {software.comptoirDuLibreSoftware !== undefined && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("comptoir page")}
                         helperText={t("comptoir page helper")}
@@ -369,7 +373,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
                 {software.wikidataData !== undefined && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("wikidata page")}
                         helperText={t("wikidata page helper")}
@@ -384,7 +388,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
                 {software.workshopUrls.length !== 0 && (
-                    <AccountField
+                    <DescriptiveField
                         type="text"
                         title={t("workshops replay")}
                         helperText={

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { AccountSectionHeader } from "../AccountSectionHeader";
-import { AccountField } from "../AccountField";
+import { DescriptiveField } from "../../../shared/DescriptiveField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { copyToClipboard } from "ui/tools/copyToClipboard";
 import Link from "@mui/material/Link";
@@ -33,13 +33,13 @@ export const AccountInfoTab = memo((props: Props) => {
     return (
         <div className={className}>
             <AccountSectionHeader title={t("general information")} />
-            <AccountField
+            <DescriptiveField
                 type="text"
                 title={t("email")}
                 text={user.email}
                 onRequestCopy={onRequestCopyFactory(user.email)}
             />
-            <AccountField
+            <DescriptiveField
                 type="text"
                 title={t("agency name")}
                 text={user.agencyName}

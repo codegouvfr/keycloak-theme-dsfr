@@ -99,9 +99,9 @@ export declare namespace Props {
 
 const flashDurationMs = 600;
 
-export const AccountField = memo(
+export const DescriptiveField = memo(
     <T extends string>(props: Props<T>): ReturnType<FunctionComponent> => {
-        const { t } = useTranslation({ AccountField });
+        const { t } = useTranslation({ DescriptiveField });
 
         const { className } = props;
 
@@ -546,7 +546,7 @@ export const AccountField = memo(
     },
 );
 
-export declare namespace AccountField {
+export declare namespace DescriptiveField {
     export type I18nScheme = Record<
         Exclude<Props["type"], "text" | "editable text" | "toggle">,
         undefined
@@ -559,7 +559,7 @@ export declare namespace AccountField {
     };
 }
 
-const useStyles = makeStyles<{ isFlashing: boolean }>({ "name": { AccountField } })(
+const useStyles = makeStyles<{ isFlashing: boolean }>({ "name": { DescriptiveField } })(
     (theme, { isFlashing }) => ({
         "root": {
             "marginBottom": theme.spacing(3),

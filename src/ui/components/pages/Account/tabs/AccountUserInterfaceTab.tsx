@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { AccountSectionHeader } from "../AccountSectionHeader";
-import { AccountField } from "../AccountField";
+import { DescriptiveField } from "../../../shared/DescriptiveField";
 import { useIsDarkModeEnabled } from "onyxia-ui";
 import { useConstCallback } from "powerhooks/useConstCallback";
 
@@ -23,7 +23,7 @@ export const AccountUserInterfaceTab = memo((props: Props) => {
     return (
         <div className={className}>
             <AccountSectionHeader title={t("title")} />
-            <AccountField
+            <DescriptiveField
                 type="toggle"
                 title={t("enable dark mode")}
                 helperText={t("dark mode helper")}
@@ -31,7 +31,7 @@ export const AccountUserInterfaceTab = memo((props: Props) => {
                 isOn={isDarkModeEnabled}
                 onRequestToggle={onRequestToggleIsDarkModeEnabled}
             />
-            <AccountField type="language" />
+            <DescriptiveField type="language" />
         </div>
     );
 });
