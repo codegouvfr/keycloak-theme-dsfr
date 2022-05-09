@@ -220,6 +220,16 @@ export const resources = id<Record<Language, Translations>>({
                 "What is the wikidata id of the software? E.g. Q8038 for Gimp",
             "name already exists":
                 "There is already a software with this name in the SILL",
+            "title add": "Add new software",
+            "title edit": "Edit software",
+            "help title add": "Declare that this software is in use in your agency",
+            "help title edit": "Edit this software's information",
+            "help": `Most information are automatically collected from Wikidata.org
+            It is important that you first fill in the WikiData ID, the other fields will
+            be filled automatically.  
+            If the software do not exist yet in WikiData you are more than welcome to 
+            create an entry for it.
+            `,
         },
         "CatalogSoftwareDetails": {
             "update software information": "Update software information",
@@ -432,6 +442,15 @@ export const resources = id<Record<Language, Translations>>({
             "wikidataId helper":
                 "Quelle est l'identifiant Wikidata du logiciel, example: Q8038 for Gimp",
             "name already exists": "Il existe déjà un logiciel avec ce nom",
+            "title add": "Recenser un nouveau logiciel",
+            "title edit": "Editer une fiche",
+            "help title add":
+                "Déclarez que ce logiciel est utilisé au sein de votre administration.",
+            "help title edit": "Mettre à jour la fiche SILL de ce logiciel",
+            "help": `La plupart des informations sont collectées automatiquement depuis Wikidata.org
+            Il est important de renseigner l'ID WikiData en premier, les autres champs 
+            seront près remplis en fonction.  
+            Si le logiciel n'a pas encore de fiche WikiData, vous êtes bienvenu pour en créer une!`,
         },
         "CatalogSoftwareDetails": {
             "update software information": "Mettre à jour les informations du logiciel",

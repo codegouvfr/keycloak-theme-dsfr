@@ -23,6 +23,7 @@ import { TextField } from "onyxia-ui/TextField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import FormHelperText from "@mui/material/FormHelperText";
 import { breakpointsValues } from "onyxia-ui";
+import { PageHeader } from "ui/theme";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -108,6 +109,17 @@ export function Form(props: Props) {
     return (
         <>
             <div className={cx(classes.root, className)}>
+                <PageHeader
+                    mainIcon="add"
+                    title={t(state.softwareId === undefined ? "title add" : "title edit")}
+                    helpTitle={t(
+                        state.softwareId === undefined
+                            ? "help title add"
+                            : "help title edit",
+                    )}
+                    helpContent={t("help")}
+                    helpIcon="sentimentSatisfied"
+                />
                 <div className={classes.fields}>
                     {objectKeys(state.valueByFieldName)
                         .map(
@@ -242,6 +254,11 @@ export declare namespace Form {
             "i am a technical expert": undefined;
             "send": undefined;
             "cancel": undefined;
+            "title add": undefined;
+            "title edit": undefined;
+            "help title add": undefined;
+            "help title edit": undefined;
+            "help": undefined;
         };
 }
 
