@@ -1,3 +1,8 @@
+### **0.7.7** (2022-05-09)  
+  
+- :pencil:  add terms of services  
+- :sparkles:  Link to parent software    
+  
 ### **0.7.6** (2022-05-05)  
   
 - :bug:  Fix build  
