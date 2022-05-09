@@ -1,3 +1,7 @@
+## **0.8.0** (2022-05-09)  
+  
+- :sparkles:  Fully featured detail page    
+  
 ### **0.7.7** (2022-05-09)  
   
 - :pencil:  add terms of services  
