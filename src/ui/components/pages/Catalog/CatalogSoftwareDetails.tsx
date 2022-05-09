@@ -19,6 +19,7 @@ import { CatalogReferentDialogs } from "./CatalogReferentDialogs";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
+import { assert } from "tsafe/assert";
 
 export type Props = {
     className?: string;
@@ -160,6 +161,28 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     title={t("software's function")}
                     text={softwareFunction}
                 />
+                {software.testUrls.length !== 0 && (
+                    <AccountField
+                        type="text"
+                        title={t("test url")}
+                        helperText={t("test url helper")}
+                        text={
+                            <Button
+                                href={
+                                    (assert(
+                                        software.testUrls.length === 1,
+                                        "Implement view for multiple urls",
+                                    ),
+                                    software.testUrls[0].url)
+                                }
+                                doOpenNewTabIfHref={true}
+                                variant="ternary"
+                            >
+                                {t("launch")}
+                            </Button>
+                        }
+                    />
+                )}
                 <AccountField
                     type="text"
                     title={t("sill id")}
@@ -360,6 +383,33 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         }
                     />
                 )}
+                {software.workshopUrls.length !== 0 && (
+                    <AccountField
+                        type="text"
+                        title={t("workshops replay")}
+                        helperText={
+                            <>
+                                ${t("workshops replay helper")}&nbsp;
+                                <MuiLink href="https://github.com/blue-hats/ateliers">
+                                    {t("see all workshops")}
+                                </MuiLink>
+                            </>
+                        }
+                        text={software.workshopUrls.map(url => (
+                            <Fragment key={url}>
+                                <MuiLink
+                                    key={url}
+                                    href={url}
+                                    target="_blank"
+                                    underline="hover"
+                                >
+                                    {url}
+                                </MuiLink>
+                                &nbsp;
+                            </Fragment>
+                        ))}
+                    />
+                )}
             </Card>
             <CatalogReferentDialogs
                 referents={referents}
@@ -412,6 +462,12 @@ export namespace CatalogSoftwareDetails {
         "wikidata page helper": undefined;
         "see on wikidata": undefined;
         "license": undefined;
+        "workshops replay": undefined;
+        "workshops replay helper": undefined;
+        "see all workshops": undefined;
+        "test url": undefined;
+        "test url helper": undefined;
+        "launch": undefined;
     };
 }
 

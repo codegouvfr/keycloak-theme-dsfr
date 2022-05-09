@@ -250,7 +250,7 @@ export const resources = id<Record<Language, Translations>>({
             "alike softwares helper": "Known alternatives to this software",
             "workstation": "Agent workstation",
             "workstation helper":
-                "Is the software meant to be installed directly onto the agent computer, example: LibreOffice, contre example Wordpress",
+                "Is the software meant to be installed directly onto the agent computer, example: LibreOffice, counter example: Wordpress",
             "authors": "Authors",
             "authors helper":
                 "Authors, physical or moral entity behind the development of this software",
@@ -267,6 +267,13 @@ export const resources = id<Record<Language, Translations>>({
                 "Wikidata is a public database from which we collect most of the information we display",
             "see on wikidata": "Consult WikiData.org page",
             "license": "License",
+            "workshops replay": "Workshop replays",
+            "workshops replay helper": "Replays of workshop about this software",
+            "see all workshops": "See all workshops",
+            "test url": "Try this software right now",
+            "test url helper":
+                "If you are a french public agent you are entitled to test this software in your browser",
+            "launch": "Launch 🚀",
         },
     },
     "fr": {
@@ -475,6 +482,14 @@ export const resources = id<Record<Language, Translations>>({
                 "WikiData est une base de connaissance publique. La plus part des information afficher sont colécter sur WikiData.org",
             "see on wikidata": "Consulter la fiche WikiData.org",
             "license": "Lisence",
+            "workshops replay": "Replay des atteliers",
+            "workshops replay helper":
+                "Rediffustion des atteliers BlueHats sur ce logiciel",
+            "see all workshops": "Voir tous les atteliers et être avertis des prochains",
+            "test url": "Essayer ce logiciel maintenant",
+            "test url helper":
+                "Si vous êtes agent publique, vous avez le droit de tester ce logiciel dans votre navigateur",
+            "launch": "Launch 🚀",
         },
         /* spell-checker: enable */
     },
