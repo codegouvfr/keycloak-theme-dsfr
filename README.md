@@ -96,5 +96,3 @@ https://user-images.githubusercontent.com/6702424/165416253-c4be807d-6fba-4264-9
 ### SSO with the testing platform
 
 https://user-images.githubusercontent.com/6702424/166608626-7c3ee043-09dc-441d-a1da-f615e98d86e0.mov
-
-

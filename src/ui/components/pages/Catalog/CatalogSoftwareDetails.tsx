@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { Fragment, memo } from "react";
 import { DirectoryHeader } from "onyxia-ui/DirectoryHeader";
 import type { CompiledData } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
@@ -148,7 +148,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
             <Card className={classes.card}>
                 <AccountField
                     type="text"
-                    title={"Nom du logiciel"}
+                    title={t("software name")}
                     text={capitalize(
                         [software.wikidataData?.label]
                             .filter(exclude(undefined))
@@ -157,55 +157,54 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                 />
                 <AccountField
                     type="text"
-                    title={"Fonction du logiciel"}
+                    title={t("software's function")}
                     text={softwareFunction}
                 />
                 <AccountField
                     type="text"
-                    title={"Identifiant SILL"}
-                    text={software.id + ""}
+                    title={t("sill id")}
+                    helperText={t("sill id helper")}
+                    text={`${software.id}`}
                 />
                 <AccountField
                     type="text"
-                    title={"Date d'entré dans le sill"}
+                    title={t("in sill from date")}
                     text={referencedSincePrettyPrint}
                 />
                 <AccountField
                     type="text"
-                    title={"Développer par le service publique"}
+                    title={t("dev by public service")}
                     text={software.isFromFrenchPublicService ? "Oui" : "Non"}
                 />
                 <AccountField
                     type="text"
-                    title={"Présent dans le marché de support"}
+                    title={t("present in support contract")}
                     helperText={
                         <>
-                            En savoir plus sur le{" "}
+                            {t("learn more about the")}&nbsp;
                             <MuiLink
                                 underline="hover"
                                 href="https://communs.numerique.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
                             >
-                                Marchés interministériels support et expertise à l'usage
-                                des logiciels libres
+                                {t("MISEULL")}
                             </MuiLink>
                         </>
                     }
-                    text={software.isPresentInSupportContract ? "Oui" : "Non"}
+                    text={t(software.isPresentInSupportContract ? "yes" : "no")}
                 />
                 {software.wikidataData?.sourceUrl && (
                     <AccountField
                         type="text"
-                        title={"Dépot de code source"}
+                        title={t("repo")}
                         text={
                             <MuiLink
                                 target="_blank"
                                 underline="hover"
                                 href={software.wikidataData.sourceUrl}
                             >
-                                {software.wikidataData.sourceUrl.replace(
-                                    /^https:\/\//,
-                                    "",
-                                )}
+                                {software.wikidataData.sourceUrl
+                                    .replace(/^https:\/\//, "")
+                                    .replace(/\/$/, "")}
                             </MuiLink>
                         }
                     />
@@ -213,43 +212,42 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                 {software.wikidataData?.websiteUrl && (
                     <AccountField
                         type="text"
-                        title={"Site web du logiciel"}
+                        title={t("website of the software")}
                         text={
                             <MuiLink
                                 target="_blank"
                                 underline="hover"
                                 href={software.wikidataData.websiteUrl}
                             >
-                                {software.wikidataData.websiteUrl.replace(
-                                    /^https:\/\//,
-                                    "",
-                                )}
+                                {software.wikidataData.websiteUrl
+                                    .replace(/^https:\/\//, "")
+                                    .replace(/\/$/, "")}
                             </MuiLink>
                         }
                     />
                 )}
                 <AccountField
                     type="text"
-                    title={"Version minimum requise"}
-                    helperText="Version la plus encienne qu'il est encore acceptable d'avoir en production"
+                    title={t("minimal version")}
+                    helperText={t("minimal version helper")}
                     text={software.versionMin}
                 />
-                <AccountField type="text" title={"Licence"} text={software.license} />
+                <AccountField type="text" title={t("license")} text={software.license} />
                 <AccountField
                     type="text"
-                    title={"Référents"}
-                    helperText="Agents du service publique francais déclarant utiliser le logiciel"
+                    title={t("referents")}
+                    helperText={t("referents helper")}
                     text={
                         <Button onClick={onShowReferentClick} variant="ternary">
-                            Voir les référents
+                            {t("see referents")}
                         </Button>
                     }
                 />
                 {software.parentSoftware?.isKnown && (
                     <AccountField
                         type="text"
-                        title={"Parent software"}
-                        helperText="Ce logiciel est un plugin ou une extention d'un autre logiciel"
+                        title={t("parent software")}
+                        helperText={t("parent software helper")}
                         text={
                             <MuiLink
                                 {...openLinkBySoftwareId[
@@ -266,11 +264,102 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         }
                     />
                 )}
-                {(() => {
-                    const { comptoirDuLibreSoftware, ...rest } = software;
+                {software.alikeSoftwares.length !== 0 && (
+                    <AccountField
+                        type="text"
+                        title={t("alike softwares")}
+                        helperText={t("alike softwares helper")}
+                        text={software.alikeSoftwares.map((softwareRef, i) => (
+                            <Fragment key={i}>
+                                {softwareRef.isKnown ? (
+                                    <MuiLink
+                                        {...openLinkBySoftwareId[softwareRef.softwareId]}
+                                        underline="hover"
+                                    >
+                                        {softwareNameBySoftwareId[softwareRef.softwareId]}
+                                    </MuiLink>
+                                ) : (
+                                    softwareRef.softwareName
+                                )}{" "}
+                                &nbsp;
+                            </Fragment>
+                        ))}
+                    />
+                )}
+                <AccountField
+                    type="text"
+                    title={t("workstation")}
+                    helperText={t("workstation helper")}
+                    text={software.agentWorkstation ? "Oui" : "Non"}
+                />
+                {!!software.wikidataData?.developers.length && (
+                    <AccountField
+                        type="text"
+                        title={t("authors")}
+                        helperText={t("authors helper")}
+                        text={software.wikidataData.developers.map(developer => (
+                            <Fragment key={developer.id}>
+                                <MuiLink
+                                    key={developer.id}
+                                    href={`https://www.wikidata.org/wiki/${developer.id}`}
+                                    target="_blank"
+                                    underline="hover"
+                                >
+                                    {developer.name}
+                                </MuiLink>
+                                &nbsp;
+                            </Fragment>
+                        ))}
+                    />
+                )}
 
-                    return <pre>{JSON.stringify(rest, null, 2)}</pre>;
-                })()}
+                {!!software.comptoirDuLibreSoftware?.providers.length && (
+                    <AccountField
+                        type="text"
+                        title={t("service provider")}
+                        helperText={t("service provider helper")}
+                        text={
+                            <MuiLink
+                                href={`https://comptoir-du-libre.org/en/softwares/servicesProviders/${software.comptoirDuLibreSoftware.id}`}
+                                underline="hover"
+                            >
+                                {t("total service provider", {
+                                    "howMany": `${software.comptoirDuLibreSoftware.providers.length}`,
+                                })}
+                            </MuiLink>
+                        }
+                    />
+                )}
+                {software.comptoirDuLibreSoftware !== undefined && (
+                    <AccountField
+                        type="text"
+                        title={t("comptoir page")}
+                        helperText={t("comptoir page helper")}
+                        text={
+                            <MuiLink
+                                href={`https://comptoir-du-libre.org/fr/softwares/${software.comptoirDuLibreSoftware.id}`}
+                                underline="hover"
+                            >
+                                {t("see on comptoir")}
+                            </MuiLink>
+                        }
+                    />
+                )}
+                {software.wikidataData !== undefined && (
+                    <AccountField
+                        type="text"
+                        title={t("wikidata page")}
+                        helperText={t("wikidata page helper")}
+                        text={
+                            <MuiLink
+                                href={`https://www.wikidata.org/wiki/${software.wikidataData.id}`}
+                                underline="hover"
+                            >
+                                {t("see on wikidata")}
+                            </MuiLink>
+                        }
+                    />
+                )}
             </Card>
             <CatalogReferentDialogs
                 referents={referents}
@@ -287,6 +376,42 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
 export namespace CatalogSoftwareDetails {
     export type I18nScheme = {
         "update software information": undefined;
+        "software name": undefined;
+        "software's function": undefined;
+        "sill id": undefined;
+        "sill id helper": undefined;
+        "in sill from date": undefined;
+        "dev by public service": undefined;
+        "present in support contract": undefined;
+        "learn more about the": undefined;
+        "MISEULL": undefined;
+        "yes": undefined;
+        "no": undefined;
+        "repo": undefined;
+        "website of the software": undefined;
+        "minimal version": undefined;
+        "minimal version helper": undefined;
+        "referents": undefined;
+        "referents helper": undefined;
+        "see referents": undefined;
+        "parent software": undefined;
+        "parent software helper": undefined;
+        "alike softwares": undefined;
+        "alike softwares helper": undefined;
+        "workstation": undefined;
+        "workstation helper": undefined;
+        "authors": undefined;
+        "authors helper": undefined;
+        "service provider": undefined;
+        "service provider helper": undefined;
+        "total service provider": { howMany: string };
+        "comptoir page": undefined;
+        "comptoir page helper": undefined;
+        "see on comptoir": undefined;
+        "wikidata page": undefined;
+        "wikidata page helper": undefined;
+        "see on wikidata": undefined;
+        "license": undefined;
     };
 }
 

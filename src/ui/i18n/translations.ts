@@ -223,6 +223,50 @@ export const resources = id<Record<Language, Translations>>({
         },
         "CatalogSoftwareDetails": {
             "update software information": "Update software information",
+            "software name": "Name of the software",
+            "software's function": "Software's function",
+            "sill id": "SILL ID",
+            "sill id helper": "Uniq ID in the SILL's database",
+            "in sill from date": "Date of entry in the SILL",
+            "dev by public service": "Developed by french public service",
+            "present in support contract": "Present in the support contract",
+            "learn more about the": "Learn more about",
+            "MISEULL": "inter administration support contract",
+            "yes": "Yes",
+            "no": "No",
+            "repo": "Source code repository",
+            "website of the software": "Software's website",
+            "minimal version": "Minimal acceptable version",
+            "minimal version helper":
+                "Older version that it's still ok to have in production",
+            "referents": "Referents",
+            "referents helper":
+                "Public service agent that declares that this software is being used in their administrations",
+            "see referents": "See referents",
+            "parent software": "Parent software",
+            "parent software helper":
+                "The software is a plugin or an extension for another software",
+            "alike softwares": "Alike softwares",
+            "alike softwares helper": "Known alternatives to this software",
+            "workstation": "Agent workstation",
+            "workstation helper":
+                "Is the software meant to be installed directly onto the agent computer, example: LibreOffice, contre example Wordpress",
+            "authors": "Authors",
+            "authors helper":
+                "Authors, physical or moral entity behind the development of this software",
+            "service provider": "Service provider",
+            "service provider helper": "Company offering support for this software",
+            "total service provider":
+                "{{howMany}} in total, see them on le-comptoir-du-libre.org",
+            "comptoir page": "Le Comptoir du Libre's page",
+            "comptoir page helper":
+                "The Comptoir du libre is a catalog much like the SILL",
+            "see on comptoir": "Consult the page on comptoir-du-libre.org",
+            "wikidata page": "WikiData.org page",
+            "wikidata page helper":
+                "Wikidata is a public database from which we collect most of the information we display",
+            "see on wikidata": "Consult WikiData.org page",
+            "license": "License",
         },
     },
     "fr": {
@@ -384,6 +428,53 @@ export const resources = id<Record<Language, Translations>>({
         },
         "CatalogSoftwareDetails": {
             "update software information": "Mettre à jour les informations du logiciel",
+            "software name": "Nom du logiciel",
+            "software's function": "Fonction du logiciel",
+            "sill id": "Identifiant SILL",
+            "sill id helper":
+                "Identifiant unique dans la base de donnée de logiciel du SILL.",
+            "in sill from date": "Date d'entré dans le sill",
+            "dev by public service": "Développer par le service publique",
+            "present in support contract": "Présent dans le marché de support",
+            "learn more about the": "En savoir plus sur le",
+            "MISEULL":
+                "Marchés interministériels support et expertise à l'usage des logiciels libres",
+            "yes": "Oui",
+            "no": "Non",
+            "repo": "Dépot de code source",
+            "website of the software": "Site web du logiciel",
+            "minimal version": "Version minimum requise",
+            "minimal version helper":
+                "Version la plus encienne qu'il est encore acceptable d'avoir en production",
+            "referents": "Référents",
+            "referents helper":
+                "Agents du service publique francais déclarant utiliser le logiciel",
+            "see referents": "Voir les référents",
+            "parent software": "Logiciel parent",
+            "parent software helper":
+                "Ce logiciel est un plugin ou une extention d'un autre logiciel",
+            "alike softwares": "Logiciels similaires",
+            "alike softwares helper": "Alternative identifié a ce logiciel",
+            "workstation": "Poste agent",
+            "workstation helper":
+                "Es qu'il s'agit d'un logiciell s'installant directement sur le poste de l'agent, example: LibreOffice, contre example: WordPress)",
+            "authors": "Auteurs",
+            "authors helper":
+                "Auteurs, personne phisique ou morale, à l'orrigine du développement du logiciel",
+            "service provider": "Préstataire de service",
+            "service provider helper":
+                "Entreprise proposant des préstation pour ce logiciel logiciel",
+            "total service provider":
+                "{{howMany}} au total, les consulter sur le comptoir du libre",
+            "comptoir page": "Fiche sur le Comptoir du Libre",
+            "comptoir page helper":
+                "Le comptoir du libre est un catalogue de logiciel libre homologue au SILL",
+            "see on comptoir": "Consulter la fiche comptoir-du-libre.org",
+            "wikidata page": "Fiche WikiData.org",
+            "wikidata page helper":
+                "WikiData est une base de connaissance publique. La plus part des information afficher sont colécter sur WikiData.org",
+            "see on wikidata": "Consulter la fiche WikiData.org",
+            "license": "Lisence",
         },
         /* spell-checker: enable */
     },
