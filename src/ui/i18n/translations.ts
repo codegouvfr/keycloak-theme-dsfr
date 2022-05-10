@@ -292,6 +292,11 @@ export const resources = id<Record<Language, Translations>>({
             "test url helper":
                 "If you are a french public agent you are entitled to test this software in your browser",
             "launch": "Launch 🚀",
+            "workshop": "Workshop n°{{n}}",
+            "use cases": "Use cases",
+            "use cases helper":
+                "Documented use cases of the software in the french public services",
+            "use case": "Card n°{{n}}",
         },
     },
     "fr": {
@@ -525,6 +530,11 @@ export const resources = id<Record<Language, Translations>>({
             "test url helper":
                 "Si vous êtes agent publique, vous avez le droit de tester ce logiciel dans votre navigateur",
             "launch": "Launch 🚀",
+            "workshop": "Attelier n°{{n}}",
+            "use cases": "Cas d'usages",
+            "use cases helper":
+                "Cas d'usages documenter d'utilisation faite de ce logiciel au sein de l'administration.",
+            "use case": "Fiche n°{{n}}",
         },
         /* spell-checker: enable */
     },

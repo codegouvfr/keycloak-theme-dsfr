@@ -406,7 +406,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                                 </MuiLink>
                             </>
                         }
-                        text={software.workshopUrls.map(url => (
+                        text={software.workshopUrls.map((url, i) => (
                             <Fragment key={url}>
                                 <MuiLink
                                     key={url}
@@ -414,7 +414,27 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                                     target="_blank"
                                     underline="hover"
                                 >
-                                    {url}
+                                    {t("workshop", { "n": `${i + 1}` })}
+                                </MuiLink>
+                                &nbsp;
+                            </Fragment>
+                        ))}
+                    />
+                )}
+                {software.useCaseUrls.length !== 0 && (
+                    <DescriptiveField
+                        type="text"
+                        title={t("use cases")}
+                        helperText={t("use cases helper")}
+                        text={software.useCaseUrls.map((url, i) => (
+                            <Fragment key={url}>
+                                <MuiLink
+                                    key={url}
+                                    href={url}
+                                    target="_blank"
+                                    underline="hover"
+                                >
+                                    {t("use case", { "n": `${i + 1}` })}
                                 </MuiLink>
                                 &nbsp;
                             </Fragment>
@@ -479,6 +499,10 @@ export namespace CatalogSoftwareDetails {
         "test url": undefined;
         "test url helper": undefined;
         "launch": undefined;
+        "workshop": { n: string };
+        "use cases": undefined;
+        "use cases helper": undefined;
+        "use case": { n: string };
     };
 }
 
