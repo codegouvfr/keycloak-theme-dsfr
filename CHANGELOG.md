@@ -1,3 +1,7 @@
+### **0.9.5** (2022-05-10)  
+  
+- :lipstick:  Scroll to top on software details    
+  
 ### **0.9.4** (2022-05-10)  
   
 - :lipstick:  Small UI fix    
