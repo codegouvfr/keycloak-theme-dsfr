@@ -1,3 +1,16 @@
+## **0.9.0** (2022-05-10)  
+  
+- :bug:  Use tooling from i18nifty  
+- :sparkles:  Ask for use case description when creating referent
+
+Closes #9, closes #13  
+- :sparkles:  Add missing field comptoirDuLibreId and contract support
+
+Closes #11  
+- :sparkles:  Add contextual informations in the form  
+- :recycle:  Rename AccountField -> DescriptiveField and move it to shared  
+- :sparkles:  Add workshop url in software view    
+  
 ## **0.8.0** (2022-05-09)  
   
 - :sparkles:  Fully featured detail page    
