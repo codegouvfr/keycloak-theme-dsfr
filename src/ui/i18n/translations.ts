@@ -303,7 +303,7 @@ export const resources = id<Record<Language, Translations>>({
         /* spell-checker: disable */
         "Account": {
             "infos": "Information du compte",
-            "user-interface": "Mode d'interface",
+            "user-interface": "Interface",
             "text1": "Mon compte",
             "text2": "Accédez aux informations de votre compte.",
             "text3":
@@ -320,7 +320,7 @@ export const resources = id<Record<Language, Translations>>({
             "agency name": "Nom du service de ratachement",
         },
         "AccountUserInterfaceTab": {
-            "title": "Configurer le mode d'interface",
+            "title": "Configurer l'interface",
             "enable dark mode": "Activer le mode sombre",
             "dark mode helper":
                 "Thème de l'interface à faible luminosité avec un fond de couleur sombre.",
