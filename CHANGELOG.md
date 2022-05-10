@@ -1,3 +1,12 @@
+### **0.9.6** (2022-05-10)  
+  
+- package.json: Bump version to 0.9.6  
+- src/ui/i18n/translations.ts: Fix typos  
+- src/ui/i18n/translations.ts: Fix typos  
+- package.json: Update homepage  
+- README.md: Add "License" section  
+- LICENSE: Fix copyright years    
+  
 ### **0.9.5** (2022-05-10)  
   
 - :lipstick:  Scroll to top on software details    
