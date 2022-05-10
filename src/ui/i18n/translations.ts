@@ -232,10 +232,10 @@ export const resources = id<Record<Language, Translations>>({
             "title edit": "Edit software",
             "help title add": "Declare that this software is in use in your agency",
             "help title edit": "Edit this software's information",
-            "help": `Most information are automatically collected from Wikidata.org
-            It is important that you first fill in the WikiData ID, the other fields will
+            "help": `Most information are automatically collected from wikidata.org
+            It is important that you first fill in the Wikidata ID, the other fields will
             be filled automatically.  
-            If the software do not exist yet in WikiData you are more than welcome to 
+            If the software do not exist yet in Wikidata you are more than welcome to 
             create an entry for it.
             `,
         },
@@ -278,12 +278,12 @@ export const resources = id<Record<Language, Translations>>({
                 "{{howMany}} in total, see them on le-comptoir-du-libre.org",
             "comptoir page": "Le Comptoir du Libre's page",
             "comptoir page helper":
-                "The Comptoir du libre is a catalog much like the SILL",
+                "The Comptoir du Libre is a catalog much like the SILL",
             "see on comptoir": "Consult the page on comptoir-du-libre.org",
-            "wikidata page": "WikiData.org page",
+            "wikidata page": "Wikidata.org page",
             "wikidata page helper":
                 "Wikidata is a public database from which we collect most of the information we display",
-            "see on wikidata": "Consult WikiData.org page",
+            "see on wikidata": "Consult wikidata.org page",
             "license": "License",
             "workshops replay": "Workshop replays",
             "workshops replay helper": "Replays of workshop about this software",
@@ -303,18 +303,18 @@ export const resources = id<Record<Language, Translations>>({
         /* spell-checker: disable */
         "Account": {
             "infos": "Information du compte",
-            "user-interface": "Modes d'interface",
+            "user-interface": "Mode d'interface",
             "text1": "Mon compte",
-            "text2": "Accèdez à vos différentes informations de compte.",
+            "text2": "Accédez aux informations de votre compte.",
             "text3":
-                "Configurez vos identifiants, e-mails, mots de passe et jetons d'accès personnels directement connectés à vos services.",
+                "Configurez vos identifiant, courriel, mot de passe et jetons d'accès personnels directement connectés à vos services.",
             "personal tokens tooltip": 'Ou en anglais "token".',
         },
         "AccountInfoTab": {
             "general information": "Informations générales",
             "user id": "Identifiant (IDEP)",
             "full name": "Nom complet",
-            "email": "Adresse mail",
+            "email": "Adresse de courriel",
             "change account info":
                 "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
             "agency name": "Nom du service de ratachement",
@@ -326,7 +326,7 @@ export const resources = id<Record<Language, Translations>>({
                 "Thème de l'interface à faible luminosité avec un fond de couleur sombre.",
         },
         "DescriptiveField": {
-            "copy tooltip": "Copier dans le press papier",
+            "copy tooltip": "Copier dans le presse-papier",
             "language": "Changer la langue",
             "s3 scripts": "Script d'initialisation",
             "service password": "Mot de passe pour vos services",
@@ -336,11 +336,11 @@ export const resources = id<Record<Language, Translations>>({
             "reset helper dialogs": "Réinitialiser les fenêtres d'instructions",
             "reset": "Réinitialiser",
             "reset helper dialogs helper text":
-                "Réinitialiser les fenêtres de messages que vous avez demandé de ne plus afficher",
+                "Réinitialiser les fenêtres de messages que vous ne voulez plus afficher",
         },
         "RegisterUserProfile": {
             "allowed email domains": "Domaines autorisés",
-            "minimum length": "Longueur minimum {{n}}",
+            "minimum length": "Longueur minimale {{n}}",
             "must be different from email": "Ne peut pas être le courriel",
             "password mismatch": "Les deux mots de passe ne correspondent pas",
             "go back": "Retour",
@@ -415,9 +415,9 @@ export const resources = id<Record<Language, Translations>>({
         "Catalog": {
             "header text1": "Catalogue de logiciel",
             "header text2":
-                "Le catalogue des logiciels libres utilisé et recommandé pour les administrations",
+                "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
             "header text3":
-                "Vous êtes Agen publique et souhaitez recommander un logiciel libre? Cliquez ici.",
+                "Vous êtes agent public et souhaitez recommander un logiciel libre? Cliquez ici.",
         },
         "Footer": {
             "contribute": "Contribuer au projet",
@@ -433,45 +433,45 @@ export const resources = id<Record<Language, Translations>>({
         },
         "Form": {
             "agentWorkstation": "Ordinateur de l'agent",
-            "agentWorkstation helper": "S'install sur le poste de travail de l'agent?",
+            "agentWorkstation helper": "S'installe sur le poste de travail de l'agent?",
             "cancel": "Annuler",
-            "comptoirDuLibreId": "Comptoir du Libre ID",
+            "comptoirDuLibreId": "Identifiant dans le Comptoir du Libre",
             "comptoirDuLibreId helper":
-                "ID du logiciel sur comptoir-du-libre.org (Visible dans l'URL, ex 67 for Gimp)",
+                "Identifiant du logiciel sur comptoir-du-libre.org (visible dans l'URL)",
             "function": "Fonction du logicel",
             "function helper":
-                "Fonction du logiciel (ex: éditeur de texte, éditeur de vidéo, etc.)",
-            "invalid wikidata id": "Wikidata ID invalide",
+                "Fonction du logiciel (éditeur de texte, éditeur de vidéo, etc.)",
+            "invalid wikidata id": "Entité Wikidata invalide",
             "isFromFrenchPublicService": "Viens de l'administration 🇫🇷?",
             "isFromFrenchPublicService helper":
-                "Est-ce que le logicel est développé par le service publique francais?",
-            "should be an integer": "Devrias être un identifiant numérique",
-            "isPresentInSupportContract": "Couvert par le marché de support",
+                "Est-ce que le logicel est développé par le service public francais?",
+            "should be an integer": "Devrait être un identifiant numérique",
+            "isPresentInSupportContract": "Couvert par le marché de support logiciels libres",
             "isPresentInSupportContract helper":
-                "Est présent dans le marché de support, dans le doute, laisser à faux",
+                "Est présent dans le marché de support - dans le doute, laisser à faux",
             "license": "Licence",
-            "license helper": "Licence du logiciel (ex: GPL, BSD, etc.)",
+            "license helper": "Licence du logiciel (GNU GPL, BSD, etc.)",
             "mandatory field": "Ce champ est obligatoire",
             "name": "Nom du logiciel",
-            "name helper": "Non du logiciel (ex: Gimp, Inkscape, etc.)",
+            "name helper": "Non du logiciel (GIMP, Inkscape, etc.)",
             "send": "Envoyer",
             "versionMin": "Version minimale",
             "versionMin helper":
-                "Quelle est la version minimal acceptable pour le logiciel?",
-            "wikidata id already exists": "Un logiciel avec cet ID existe déjà",
-            "wikidataId": "Wikidata ID",
+                "Quelle est la version minimale acceptable pour le logiciel?",
+            "wikidata id already exists": "Un logiciel avec cet identifiant existe déjà",
+            "wikidataId": "Entité Wikidata",
             "wikidataId helper":
-                "Quelle est l'identifiant Wikidata du logiciel, example: Q8038 for Gimp",
+                "Quelle est l'entité Wikidata du logiciel, par exemple Q8038 pour GIMP",
             "name already exists": "Il existe déjà un logiciel avec ce nom",
-            "title add": "Recenser un nouveau logiciel",
+            "title add": "Référencer un nouveau logiciel",
             "title edit": "Editer une fiche",
             "help title add":
                 "Déclarez que ce logiciel est utilisé au sein de votre administration.",
             "help title edit": "Mettre à jour la fiche SILL de ce logiciel",
-            "help": `La plupart des informations sont collectées automatiquement depuis Wikidata.org
-            Il est important de renseigner l'ID WikiData en premier, les autres champs 
-            seront près remplis en fonction.  
-            Si le logiciel n'a pas encore de fiche WikiData, vous êtes bienvenu pour en créer une!`,
+            "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org
+            Il est important de renseigner l'entité Wikidata en premier, les autres champs 
+            seront préremplis en fonction.  
+            Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
         },
         "CatalogSoftwareDetails": {
             "update software information": "Mettre à jour les informations du logiciel",
@@ -479,61 +479,61 @@ export const resources = id<Record<Language, Translations>>({
             "software's function": "Fonction du logiciel",
             "sill id": "Identifiant SILL",
             "sill id helper":
-                "Identifiant unique dans la base de donnée de logiciel du SILL.",
-            "in sill from date": "Date d'entré dans le sill",
-            "dev by public service": "Développer par le service publique",
+                "Identifiant unique dans la base de donnée des logiciels du SILL.",
+            "in sill from date": "Date d'entrée dans le sill",
+            "dev by public service": "Développé par le service public",
             "present in support contract": "Présent dans le marché de support",
             "learn more about the": "En savoir plus sur le",
             "MISEULL":
                 "Marchés interministériels support et expertise à l'usage des logiciels libres",
             "yes": "Oui",
             "no": "Non",
-            "repo": "Dépot de code source",
+            "repo": "Dépôt de code source",
             "website of the software": "Site web du logiciel",
-            "minimal version": "Version minimum requise",
+            "minimal version": "Version minimale requise",
             "minimal version helper":
-                "Version la plus encienne qu'il est encore acceptable d'avoir en production",
+                "Version la plus ancienne qu'il est encore acceptable d'avoir en production",
             "referents": "Référents",
             "referents helper":
-                "Agents du service publique francais déclarant utiliser le logiciel",
+                "Agents du service public francais déclarant utiliser le logiciel",
             "see referents": "Voir les référents",
             "parent software": "Logiciel parent",
             "parent software helper":
-                "Ce logiciel est un plugin ou une extention d'un autre logiciel",
+                "Ce logiciel est un module ou une extention d'un autre logiciel",
             "alike softwares": "Logiciels similaires",
-            "alike softwares helper": "Alternative identifié a ce logiciel",
+            "alike softwares helper": "Alternative identifiée à ce logiciel",
             "workstation": "Poste agent",
             "workstation helper":
-                "Es qu'il s'agit d'un logiciell s'installant directement sur le poste de l'agent, example: LibreOffice, contre example: WordPress)",
+                "S'agit-il d'un logiciel s'installant directement sur le poste de l'agent (exemple: LibreOffice, contre-exemple: WordPress)",
             "authors": "Auteurs",
             "authors helper":
-                "Auteurs, personne phisique ou morale, à l'orrigine du développement du logiciel",
-            "service provider": "Préstataire de service",
+                "Auteurs, personne physique ou morale, à l'origine du développement du logiciel",
+            "service provider": "Prestataire de service",
             "service provider helper":
-                "Entreprise proposant des préstation pour ce logiciel logiciel",
+                "Entreprise proposant des prestations pour ce logiciel",
             "total service provider":
-                "{{howMany}} au total, les consulter sur le comptoir du libre",
+                "{{howMany}} au total, les consulter sur le Comptoir du Libre",
             "comptoir page": "Fiche sur le Comptoir du Libre",
             "comptoir page helper":
-                "Le comptoir du libre est un catalogue de logiciel libre homologue au SILL",
+                "Le Comptoir du Libre est un catalogue de logiciels libres publié par l'ADULLACT",
             "see on comptoir": "Consulter la fiche comptoir-du-libre.org",
-            "wikidata page": "Fiche WikiData.org",
+            "wikidata page": "Fiche wikidata.org",
             "wikidata page helper":
-                "WikiData est une base de connaissance publique. La plus part des information afficher sont colécter sur WikiData.org",
-            "see on wikidata": "Consulter la fiche WikiData.org",
-            "license": "Lisence",
-            "workshops replay": "Replay des atteliers",
+                "Wikidata est une base de connaissance collaborative et libre. La plupart des informations affichées sont collectées depuis wikidata.org",
+            "see on wikidata": "Consulter la fiche wikidata.org",
+            "license": "License",
+            "workshops replay": "Visionnage des ateliers",
             "workshops replay helper":
-                "Rediffustion des atteliers BlueHats sur ce logiciel",
-            "see all workshops": "Voir tous les atteliers et être avertis des prochains",
+                "Rediffusion des ateliers BlueHats sur ce logiciel",
+            "see all workshops": "Voir tous les ateliers et être averti des prochains",
             "test url": "Essayer ce logiciel maintenant",
             "test url helper":
-                "Si vous êtes agent publique, vous avez le droit de tester ce logiciel dans votre navigateur",
-            "launch": "Launch 🚀",
-            "workshop": "Attelier n°{{n}}",
-            "use cases": "Cas d'usages",
+                "Si vous êtes agent public, vous pouvez tester ce logiciel dans votre navigateur",
+            "launch": "Démarrer 🚀",
+            "workshop": "Atelier n°{{n}}",
+            "use cases": "Cas d'usage",
             "use cases helper":
-                "Cas d'usages documenter d'utilisation faite de ce logiciel au sein de l'administration.",
+                "Cas d'usage documenté d'une utilisation de ce logiciel au sein de l'administration.",
             "use case": "Fiche n°{{n}}",
         },
         /* spell-checker: enable */
