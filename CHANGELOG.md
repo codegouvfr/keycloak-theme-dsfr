@@ -1,3 +1,9 @@
+### **0.9.7** (2022-05-10)  
+  
+- package.json: Bump version to 0.9.7  
+- public/tos_fr.md: Update  
+- src/ui/i18n/translations.ts: Enhance wording    
+  
 ### **0.9.6** (2022-05-10)  
   
 - package.json: Bump version to 0.9.6  
