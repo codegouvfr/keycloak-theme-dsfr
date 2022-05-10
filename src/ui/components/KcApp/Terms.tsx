@@ -6,7 +6,7 @@ import { Button } from "ui/theme";
 import { makeStyles } from "ui/theme";
 import type { KcContext } from "./kcContext";
 import { thermOfServicesPassedByClient } from "ui/termsOfServices";
-import { createResolveLocalizedString } from "sill-api/tools/LocalizedString";
+import { createResolveLocalizedString } from "i18nifty";
 import type { KcLanguageTag } from "keycloakify";
 import { id } from "tsafe/id";
 import type { fallbackLanguage } from "ui/i18n/translations";

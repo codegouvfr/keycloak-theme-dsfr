@@ -18,7 +18,7 @@ import { typeGuard } from "tsafe/typeGuard";
 import type { fallbackLanguage } from "ui/i18n/translations";
 import { Language } from "sill-api";
 import { id } from "tsafe/id";
-import { createResolveLocalizedString } from "sill-api/tools/LocalizedString";
+import { createResolveLocalizedString } from "i18nifty";
 import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
