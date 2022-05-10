@@ -6,6 +6,7 @@ import { useLng } from "ui/i18n/useLng";
 import { DarkModeSwitch } from "onyxia-ui/DarkModeSwitch";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
+import { Icon } from "ui/theme";
 
 export type Props = {
     className?: string;
@@ -45,7 +46,7 @@ export const Footer = memo(
                 {spacing}
                 <a
                     href={contributeUrl}
-                    className={classes.contribute}
+                    className={classes.contributeAndRssFeed}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -54,6 +55,17 @@ export const Footer = memo(
                     <Text typo="body 2">{t("contribute")}</Text>
                 </a>
                 <div className={classes.sep} />
+                <a
+                    href={"https://sill.etalab.gouv.fr/updates.xml"}
+                    className={classes.contributeAndRssFeed}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Icon iconId="rssFeed" className={classes.icon} />
+                    &nbsp;
+                    <Text typo="body 2">{t("rss feed")}</Text>
+                </a>
+                {spacing}
                 <LanguageSelect
                     language={lng}
                     onLanguageChange={setLng}
@@ -89,6 +101,7 @@ export declare namespace Footer {
         "contribute": undefined;
         "terms of service": undefined;
         "change language": undefined;
+        "rss feed": undefined;
     };
 }
 
@@ -108,7 +121,7 @@ const useStyles = makeStyles<Props>({ "name": { Footer } })(theme => ({
     "icon": {
         "fill": theme.colors.useCases.typography.textPrimary,
     },
-    "contribute": {
+    "contributeAndRssFeed": {
         "display": "flex",
         "alignItems": "center",
     },

@@ -66,6 +66,7 @@ import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRig
 import PeopleIcon from "@mui/icons-material/People";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import AirplayIcon from "@mui/icons-material/Airplay";
+import RssFeedIcon from "@mui/icons-material/RssFeed";
 import type { Param0 } from "tsafe/Param0";
 import type { Language } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
@@ -162,6 +163,7 @@ const createIconParams = {
     "grading": GradingIcon,
     "airplay": AirplayIcon,
     "phonelink": PhonelinkIcon,
+    "rssFeed": RssFeedIcon,
 };
 
 export const iconIds = objectKeys(createIconParams);

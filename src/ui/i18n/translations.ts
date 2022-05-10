@@ -186,6 +186,7 @@ export const resources = id<Record<Language, Translations>>({
             "contribute": "Contribute",
             "terms of service": "Terms of service",
             "change language": "Change language",
+            "rss feed": "RSS Feed",
         },
         "LoginDivider": {
             "or": "or",
@@ -417,6 +418,7 @@ export const resources = id<Record<Language, Translations>>({
             "contribute": "Contribuer au projet",
             "terms of service": "Conditions d'utilisation",
             "change language": "Changer la langue",
+            "rss feed": "Flux RSS",
         },
         "LoginDivider": {
             "or": "ou",
