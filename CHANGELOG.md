@@ -1,3 +1,7 @@
+### **0.9.3** (2022-05-10)  
+  
+- :sparkles:  Display use cases cards in software details    
+  
 ### **0.9.2** (2022-05-10)  
   
 - :bug:  Updat RSS link
