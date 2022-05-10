@@ -112,11 +112,19 @@ export const { name, reducer, actions } = createSlice({
                 firstName: string;
                 familyName: string;
                 isExpert: boolean;
+                useCaseDescription: string;
                 softwareId: number;
             }>,
         ) => {
-            const { agencyName, softwareId, firstName, familyName, isExpert, email } =
-                payload;
+            const {
+                agencyName,
+                softwareId,
+                firstName,
+                familyName,
+                isExpert,
+                email,
+                useCaseDescription,
+            } = payload;
 
             assert(state.stateDescription === "ready");
 
@@ -132,6 +140,7 @@ export const { name, reducer, actions } = createSlice({
                 firstName,
                 familyName,
                 isExpert,
+                useCaseDescription,
             });
 
             referents.userIndex = referents.referents.length - 1;
@@ -292,9 +301,13 @@ export const thunks = {
             return state.search === "" && displayCount < softwares.length;
         },
     "declareUserReferent":
-        (params: { isExpert: boolean; softwareId: number }): ThunkAction =>
+        (params: {
+            isExpert: boolean;
+            useCaseDescription: string;
+            softwareId: number;
+        }): ThunkAction =>
         async (...args) => {
-            const { isExpert, softwareId } = params;
+            const { isExpert, useCaseDescription, softwareId } = params;
 
             const [dispatch, getState, { sillApiClient }] = args;
 
@@ -307,6 +320,7 @@ export const thunks = {
             await sillApiClient.declareUserReferent({
                 isExpert,
                 softwareId,
+                useCaseDescription,
             });
 
             const { agencyName, email } = dispatch(userAuthenticationThunks.getUser());
@@ -319,6 +333,7 @@ export const thunks = {
                     "familyName": "",
                     isExpert,
                     softwareId,
+                    useCaseDescription,
                 }),
             );
         },

@@ -13,7 +13,7 @@ import { AccountInfoTab } from "ui/components/pages/Account/tabs/AccountInfoTab"
 import { AccountUserInterfaceTab } from "ui/components/pages/Account/tabs/AccountUserInterfaceTab";
 import { CatalogCards } from "ui/components/pages/Catalog/CatalogCards/CatalogCards";
 import { CatalogCard } from "ui/components/pages/Catalog/CatalogCards/CatalogCard";
-import { CatalogReferentDialogs } from "ui/components/pages/Catalog/CatalogReferentDialogs";
+import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Footer } from "ui/components/App/Footer";
 import { LoginDivider } from "ui/components/KcApp/Login/LoginDivider";
@@ -48,7 +48,7 @@ const reflectedI18nSchemes = {
     [symToStr({ Login })]: Reflect<Login.I18nScheme>(),
     [symToStr({ Form })]: Reflect<Form.I18nScheme>(),
     [symToStr({ CatalogSoftwareDetails })]: Reflect<CatalogSoftwareDetails.I18nScheme>(),
-    [symToStr({ CatalogReferentDialogs })]: Reflect<CatalogReferentDialogs.I18nScheme>(),
+    [symToStr({ ReferentDialogs })]: Reflect<ReferentDialogs.I18nScheme>(),
 };
 
 export type I18nSchemes = typeof reflectedI18nSchemes;
@@ -145,7 +145,7 @@ export const resources = id<Record<Language, Translations>>({
             "identified developer": "Author",
             "identified developers": "Authors",
         },
-        "CatalogReferentDialogs": {
+        "ReferentDialogs": {
             "close": "Close",
             "expert": "You are technical expert",
             "you": "You",
@@ -155,6 +155,10 @@ export const resources = id<Record<Language, Translations>>({
             "send": "Send",
             "declare oneself referent": "Declare yourself referent",
             "no longer referent": "I am no longer referent",
+            "useCaseDescription": "Use case description",
+            "useCaseDescription helper":
+                "Please describe in what context and to which extend this software is used in your agency",
+            "i am a technical expert": "I am a technical expert",
         },
         "CatalogCards": {
             "show more": "Show more",
@@ -199,7 +203,6 @@ export const resources = id<Record<Language, Translations>>({
                 "ID of the software on comptoir-du-libre.org (It's in the url, ex 67 for Gimp)",
             "function": "Software's function",
             "function helper": "What is the function of the software?",
-            "i am a technical expert": "I am a technical expert",
             "invalid wikidata id": "Invalid wikidata id",
             "isFromFrenchPublicService": "Is 🇫🇷",
             "isFromFrenchPublicService helper":
@@ -373,15 +376,19 @@ export const resources = id<Record<Language, Translations>>({
             "identified developer": "Auteur",
             "identified developers": "Auteurs",
         },
-        "CatalogReferentDialogs": {
+        "ReferentDialogs": {
             "close": "Fermer",
             "expert": "Vous êtes expert technique",
             "you": "Vous",
-            "declare oneself referent of": "Me déclarer référent de {{softwareName}}",
+            "declare oneself referent of": "Me déclarer référent pour {{softwareName}}",
             "cancel": "Annuler",
             "send": "Envoyer",
             "declare oneself referent": "Me déclarer référent",
             "no longer referent": "Je ne suis plus référent",
+            "useCaseDescription": "Déscription du cas d'usage",
+            "useCaseDescription helper":
+                "Décrivez le cas d'usage de ce logiciel dans votre administration.",
+            "i am a technical expert": "Je suis expert technique",
         },
         "CatalogCards": {
             "show more": "Afficher tous",
@@ -427,7 +434,6 @@ export const resources = id<Record<Language, Translations>>({
             "function": "Fonction du logicel",
             "function helper":
                 "Fonction du logiciel (ex: éditeur de texte, éditeur de vidéo, etc.)",
-            "i am a technical expert": "Je suis expert technique",
             "invalid wikidata id": "Wikidata ID invalide",
             "isFromFrenchPublicService": "Viens de l'administration 🇫🇷?",
             "isFromFrenchPublicService helper":

@@ -49,7 +49,11 @@ export type Props = {
     hasMoreToLoad: boolean;
     searchBarWrapperElement: HTMLDivElement;
     onLogin: () => void;
-    onDeclareOneselfReferent: (params: { softwareId: number; isExpert: boolean }) => void;
+    onDeclareReferentAnswer: (params: {
+        softwareId: number;
+        isExpert: boolean;
+        useCaseDescription: string;
+    }) => void;
     onUserNoLongerReferent: (params: { softwareId: number }) => void;
     referenceNewSoftwareLink: Link;
 };
@@ -67,7 +71,7 @@ export const CatalogCards = memo((props: Props) => {
         hasMoreToLoad,
         searchBarWrapperElement,
         onLogin,
-        onDeclareOneselfReferent,
+        onDeclareReferentAnswer,
         onUserNoLongerReferent,
         referenceNewSoftwareLink,
     } = props;
@@ -112,18 +116,18 @@ export const CatalogCards = memo((props: Props) => {
         </div>
     );
 
-    const onDeclareOneselfReferentFactory = useCallbackFactory(
+    const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
             [softwareId]: [number],
-            [params]: [Param0<CatalogCardProps["onDeclareOneselfReferent"]>],
-        ) => {
-            const { isExpert } = params;
-
-            onDeclareOneselfReferent({
+            [{ isExpert, useCaseDescription }]: [
+                Param0<CatalogCardProps["onDeclareReferentAnswer"]>,
+            ],
+        ) =>
+            onDeclareReferentAnswer({
                 softwareId,
                 isExpert,
-            });
-        },
+                useCaseDescription,
+            }),
     );
 
     const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
@@ -153,9 +157,7 @@ export const CatalogCards = memo((props: Props) => {
                     referents={referents}
                     userIndexInReferents={userIndex}
                     onLogin={onLogin}
-                    onDeclareOneselfReferent={onDeclareOneselfReferentFactory(
-                        software.id,
-                    )}
+                    onDeclareReferentAnswer={onDeclareReferentAnswerFactory(software.id)}
                     onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
                 />,
             ]),

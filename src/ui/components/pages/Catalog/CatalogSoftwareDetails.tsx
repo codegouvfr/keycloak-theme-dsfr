@@ -15,11 +15,13 @@ import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
 import MuiLink from "@mui/material/Link";
-import { CatalogReferentDialogs } from "./CatalogReferentDialogs";
+import { ReferentDialogs } from "../../shared/ReferentDialogs";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
+import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
+import type { UnpackEvt } from "evt";
 
 export type Props = {
     className?: string;
@@ -28,7 +30,10 @@ export type Props = {
     editLink: Link | undefined;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
-    onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
+    onDeclareReferentAnswer: (params: {
+        isExpert: boolean;
+        useCaseDescription: string;
+    }) => void;
     onUserNoLongerReferent: () => void;
     onLogin: () => void;
     openLinkBySoftwareId: Record<number, Link>;
@@ -43,7 +48,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
         editLink,
         referents,
         userIndexInReferents,
-        onDeclareOneselfReferent,
+        onDeclareReferentAnswer,
         onUserNoLongerReferent,
         onLogin,
         openLinkBySoftwareId,
@@ -76,7 +81,9 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
         return { imgRef, isBanner, imgWidth };
     })();
 
-    const evtReferentDialogAction = useConst(() => Evt.create<"open">());
+    const evtReferentDialogAction = useConst(() =>
+        Evt.create<UnpackEvt<ReferentDialogsProps["evtAction"]>>(),
+    );
 
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
@@ -415,11 +422,11 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     />
                 )}
             </Card>
-            <CatalogReferentDialogs
+            <ReferentDialogs
                 referents={referents}
                 userIndexInReferents={userIndexInReferents}
                 evtAction={evtReferentDialogAction}
-                onDeclareOneselfReferent={onDeclareOneselfReferent}
+                onAnswer={onDeclareReferentAnswer}
                 onUserNoLongerReferent={onUserNoLongerReferent}
                 softwareName={software.name}
             />

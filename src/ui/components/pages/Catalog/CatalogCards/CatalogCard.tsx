@@ -17,7 +17,9 @@ import { Evt } from "evt";
 import { Icon } from "ui/theme";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import MuiLink from "@mui/material/Link";
-import { CatalogReferentDialogs } from "../CatalogReferentDialogs";
+import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
+import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
+import type { UnpackEvt } from "evt";
 
 export type Props = {
     className?: string;
@@ -25,7 +27,10 @@ export type Props = {
     openLink: Link;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
-    onDeclareOneselfReferent: (params: { isExpert: boolean }) => void;
+    onDeclareReferentAnswer: (params: {
+        isExpert: boolean;
+        useCaseDescription: string;
+    }) => void;
     onUserNoLongerReferent: () => void;
     onLogin: () => void;
 };
@@ -39,7 +44,7 @@ export const CatalogCard = memo((props: Props) => {
         userIndexInReferents,
         onLogin,
         onUserNoLongerReferent,
-        onDeclareOneselfReferent,
+        onDeclareReferentAnswer,
     } = props;
 
     const { classes, cx, css } = useStyles();
@@ -59,7 +64,9 @@ export const CatalogCard = memo((props: Props) => {
 
     const { resolveLocalizedString } = useResolveLocalizedString();
 
-    const evtReferentDialogAction = useConst(() => Evt.create<"open">());
+    const evtReferentDialogAction = useConst(() =>
+        Evt.create<UnpackEvt<ReferentDialogsProps["evtAction"]>>(),
+    );
 
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
@@ -70,10 +77,8 @@ export const CatalogCard = memo((props: Props) => {
         evtReferentDialogAction.post("open");
     });
 
-    const evtDeclareOneselfReferentDialogAction = useConst(() => Evt.create<"open">());
-
     const onOpenDeclareBeingReferent = useConstCallback(() =>
-        evtDeclareOneselfReferentDialogAction.post("open"),
+        evtReferentDialogAction.post("open declare referent"),
     );
 
     return (
@@ -247,11 +252,11 @@ export const CatalogCard = memo((props: Props) => {
                     })()}
                 </div>
             </div>
-            <CatalogReferentDialogs
+            <ReferentDialogs
                 referents={referents}
                 userIndexInReferents={userIndexInReferents}
                 evtAction={evtReferentDialogAction}
-                onDeclareOneselfReferent={onDeclareOneselfReferent}
+                onAnswer={onDeclareReferentAnswer}
                 onUserNoLongerReferent={onUserNoLongerReferent}
                 softwareName={software.name}
             />

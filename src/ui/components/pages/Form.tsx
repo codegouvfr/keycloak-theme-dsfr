@@ -1,13 +1,9 @@
-import { useEffect, useState, memo, Fragment } from "react";
+import { useEffect, Fragment } from "react";
 import { useTranslation } from "ui/i18n/useTranslations";
 import { makeStyles } from "ui/theme";
 import { useThunks, selectors, useSelector, pure } from "ui/coreApi";
 import { Button } from "ui/theme";
 import type { FieldErrorMessageKey, FieldName } from "core/usecases/softwareForm";
-import { Dialog } from "onyxia-ui/Dialog";
-import type { NonPostableEvt, StatefulEvt } from "evt";
-import { useEvt } from "evt/hooks/useEvt";
-import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useConst } from "powerhooks/useConst";
@@ -26,6 +22,7 @@ import { breakpointsValues } from "onyxia-ui";
 import { PageHeader } from "ui/theme";
 import type { Param0 } from "tsafe";
 import type { TextFieldProps } from "onyxia-ui/TextField";
+import { DeclareOneselfReferentDialog } from "ui/components/shared/ReferentDialogs";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -236,7 +233,10 @@ export function Form(props: Props) {
                             if (route.params.softwareId === undefined) {
                                 evtOpenDialogIsExpert.post();
                             } else {
-                                softwareFormThunks.submit({ "isExpert": undefined });
+                                softwareFormThunks.submit({
+                                    "isExpert": undefined,
+                                    "useCaseDescription": undefined,
+                                });
                             }
                         }}
                     >
@@ -244,9 +244,9 @@ export function Form(props: Props) {
                     </Button>
                 </div>
             </div>
-            <DialogIsExpert
+            <DeclareOneselfReferentDialog
                 evtOpen={evtOpenDialogIsExpert}
-                onAnswer={({ isExpert }) => softwareFormThunks.submit({ isExpert })}
+                onAnswer={softwareFormThunks.submit}
             />
         </>
     );
@@ -275,7 +275,6 @@ export declare namespace Form {
     export type I18nScheme = Record<FieldErrorMessageKey, undefined> &
         Record<FieldName, undefined> &
         Record<`${FieldName} helper`, undefined> & {
-            "i am a technical expert": undefined;
             "send": undefined;
             "cancel": undefined;
             "title add": undefined;
@@ -285,77 +284,3 @@ export declare namespace Form {
             "help": undefined;
         };
 }
-
-const { DialogIsExpert } = (() => {
-    type Props = {
-        evtOpen: NonPostableEvt<void>;
-        onAnswer: (params: { isExpert: boolean }) => void;
-    };
-
-    const DialogIsExpert = memo((props: Props) => {
-        const { evtOpen, onAnswer } = props;
-
-        const [isOpen, setIsOpen] = useState(false);
-
-        useEvt(ctx => evtOpen.attach(ctx, () => setIsOpen(true)), [evtOpen]);
-
-        const evtIsExpert = useConst(() => Evt.create(false));
-
-        const { t } = useTranslation({ Form });
-
-        return (
-            <Dialog
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                body={<Body evtIsExpert={evtIsExpert} />}
-                buttons={
-                    <>
-                        <Button variant="secondary" onClick={() => setIsOpen(false)}>
-                            {t("cancel")}
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                setIsOpen(false);
-                                onAnswer({ "isExpert": evtIsExpert.state });
-                            }}
-                        >
-                            {t("send")}
-                        </Button>
-                    </>
-                }
-            />
-        );
-    });
-
-    const { Body } = (() => {
-        type BodyProps = {
-            evtIsExpert: StatefulEvt<boolean>;
-        };
-
-        const Body = memo((props: BodyProps) => {
-            const { evtIsExpert } = props;
-
-            useRerenderOnStateChange(evtIsExpert);
-
-            const { t } = useTranslation({ Form });
-
-            return (
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={evtIsExpert.state}
-                            onChange={(...[, isChecked]) =>
-                                (evtIsExpert.state = isChecked)
-                            }
-                        />
-                    }
-                    label={t("i am a technical expert")}
-                />
-            );
-        });
-
-        return { Body };
-    })();
-
-    return { DialogIsExpert };
-})();

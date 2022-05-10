@@ -229,6 +229,7 @@ export const RegisterUserProfile = memo(
                                                     name={attribute.name}
                                                     defaultValue={value}
                                                     className={cx(props.kcInputClass)}
+                                                    //TODO: Pretty sure this should go
                                                     aria-invalid={
                                                         displayableErrors.length !== 0
                                                     }

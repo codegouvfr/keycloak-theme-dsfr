@@ -98,16 +98,16 @@ export const VueDefault = getStory({
     },
     "search": "",
     "hasMoreToLoad": true,
-    ...logCallbacks([
-        "onSearchChange",
-        "onLoadMore",
-        "onLogin",
-        "onDeclareOneselfReferent",
-        "onUserNoLongerReferent",
-    ]),
     "searchBarWrapperElement": document.createElement("div"),
     "referenceNewSoftwareLink": {
         "href": "https://example.com",
         "onClick": () => {},
     },
+    ...logCallbacks([
+        "onSearchChange",
+        "onLoadMore",
+        "onLogin",
+        "onDeclareReferentAnswer",
+        "onUserNoLongerReferent",
+    ]),
 });

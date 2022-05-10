@@ -162,16 +162,17 @@ export function Catalog(props: Props) {
         routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
     );
 
-    const onDeclareOneselfReferentFactory = useCallbackFactory(
+    const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
             [softwareId]: [number],
-            [{ isExpert }]: [
-                Param0<CatalogSoftwareDetailsProps["onDeclareOneselfReferent"]>,
+            [{ isExpert, useCaseDescription }]: [
+                Param0<CatalogSoftwareDetailsProps["onDeclareReferentAnswer"]>,
             ],
         ) =>
             catalogExplorerThunks.declareUserReferent({
                 isExpert,
                 softwareId,
+                useCaseDescription,
             }),
     );
 
@@ -267,7 +268,7 @@ export function Catalog(props: Props) {
                               hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
                               searchBarWrapperElement={pageHeaderRef.current}
                               onLogin={onLogin}
-                              onDeclareOneselfReferent={
+                              onDeclareReferentAnswer={
                                   catalogExplorerThunks.declareUserReferent
                               }
                               onUserNoLongerReferent={
@@ -304,7 +305,7 @@ export function Catalog(props: Props) {
                                   }
                                   referents={referents}
                                   userIndexInReferents={userIndex}
-                                  onDeclareOneselfReferent={onDeclareOneselfReferentFactory(
+                                  onDeclareReferentAnswer={onDeclareReferentAnswerFactory(
                                       software.id,
                                   )}
                                   onUserNoLongerReferent={onUserNoLongerReferentFactory(

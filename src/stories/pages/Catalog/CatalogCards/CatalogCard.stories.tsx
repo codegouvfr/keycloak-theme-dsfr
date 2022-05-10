@@ -83,5 +83,5 @@ export const VueDefault = getStory({
     },
     "referents": undefined,
     "userIndexInReferents": undefined,
-    ...logCallbacks(["onLogin", "onDeclareOneselfReferent", "onUserNoLongerReferent"]),
+    ...logCallbacks(["onLogin", "onDeclareReferentAnswer", "onUserNoLongerReferent"]),
 });
