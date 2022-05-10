@@ -400,8 +400,11 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         title={t("workshops replay")}
                         helperText={
                             <>
-                                ${t("workshops replay helper")}&nbsp;
-                                <MuiLink href="https://github.com/blue-hats/ateliers">
+                                {t("workshops replay helper")}&nbsp;
+                                <MuiLink
+                                    href="https://github.com/blue-hats/ateliers"
+                                    underline="hover"
+                                >
                                     {t("see all workshops")}
                                 </MuiLink>
                             </>
