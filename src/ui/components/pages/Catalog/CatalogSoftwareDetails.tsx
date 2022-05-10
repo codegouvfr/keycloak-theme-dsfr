@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react";
+import { Fragment, useRef, memo } from "react";
 import { DirectoryHeader } from "onyxia-ui/DirectoryHeader";
 import type { CompiledData } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
@@ -22,6 +22,8 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
 import type { UnpackEvt } from "evt";
+import { getScrollableParent } from "powerhooks/getScrollableParent";
+import { useElementEvt } from "evt/hooks";
 
 export type Props = {
     className?: string;
@@ -96,8 +98,20 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
 
     const { classes, cx, css } = useStyles({ imgWidth });
 
+    const rootRef = useRef(null);
+
+    useElementEvt(
+        ({ element }) =>
+            getScrollableParent({
+                element,
+                "doReturnElementIfScrollable": true,
+            }).scrollTo(0, 0),
+        rootRef,
+        [],
+    );
+
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={cx(classes.root, className)} ref={rootRef}>
             <DirectoryHeader
                 classes={{
                     "imageWrapper": classes.imageWrapper,
