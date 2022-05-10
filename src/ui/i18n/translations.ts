@@ -66,18 +66,18 @@ assert<typeof fallbackLanguage extends Language ? true : false>();
 export const resources = id<Record<Language, Translations>>({
     "en": {
         "Account": {
-            "infos": "Account infos",
+            "infos": "Account information",
             "user-interface": "Interface preferences",
             "text1": "My account",
-            "text2": "Access your different account information.",
+            "text2": "Access your account information.",
             "text3":
-                "Configure your usernames, emails, passwords and personal access tokens directly connected to your services.",
+                "Configure your username, emails, password and personal access tokens directly connected to your services.",
             "personal tokens tooltip":
-                "Password that are generated for you and that have a given validity period",
+                "Password generated for you with a given validity period",
         },
         "AccountInfoTab": {
             "general information": "General information",
-            "user id": "User id (IDEP)",
+            "user id": "User ID (IDEP)",
             "full name": "Full name",
             "email": "Email address",
             "change account info": "Change account information (e.g., password).",
@@ -89,7 +89,7 @@ export const resources = id<Record<Language, Translations>>({
             "dark mode helper": "Low light interface theme with dark colored background.",
         },
         "DescriptiveField": {
-            "copy tooltip": "Copy in clipboard",
+            "copy tooltip": "Copy to clipboard",
             "language": "Change language",
             "s3 scripts": "Init script",
             "service password": "Password for your services",
@@ -104,7 +104,7 @@ export const resources = id<Record<Language, Translations>>({
         "RegisterUserProfile": {
             "allowed email domains": "Allowed domains:",
             "minimum length": "Minimum length: {{n}}",
-            "must be different from email": "Pass can't be the email",
+            "must be different from email": "Password can't be the email",
             "password mismatch": "Passwords mismatch",
             "go back": "Go back",
             "form not filled properly yet":
@@ -197,7 +197,7 @@ export const resources = id<Record<Language, Translations>>({
         "Form": {
             "agentWorkstation": "Agent workstation",
             "agentWorkstation helper":
-                "Is it meant to be installed on the agent workstation?",
+                "Is it meant to be installed on the public agent workstation?",
             "cancel": "Cancel",
             "comptoirDuLibreId": "Comptoir du Libre ID",
             "comptoirDuLibreId helper":
@@ -275,14 +275,14 @@ export const resources = id<Record<Language, Translations>>({
             "service provider": "Service provider",
             "service provider helper": "Company offering support for this software",
             "total service provider":
-                "{{howMany}} in total, see them on le-comptoir-du-libre.org",
+                "{{howMany}} in total, see them on comptoir-du-libre.org",
             "comptoir page": "Le Comptoir du Libre's page",
             "comptoir page helper":
-                "The Comptoir du Libre is a catalog much like the SILL",
+                "The Comptoir du Libre is a catalog published by ADULLACT",
             "see on comptoir": "Consult the page on comptoir-du-libre.org",
             "wikidata page": "Wikidata.org page",
             "wikidata page helper":
-                "Wikidata is a public database from which we collect most of the information we display",
+                "Wikidata is a collaborative CC0 database from which we collect most of the information we display",
             "see on wikidata": "Consult wikidata.org page",
             "license": "License",
             "workshops replay": "Workshop replays",
