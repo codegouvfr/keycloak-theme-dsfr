@@ -56,7 +56,7 @@ export const Footer = memo(
                 </a>
                 <div className={classes.sep} />
                 <a
-                    href={"https://sill.etalab.gouv.fr/updates.xml"}
+                    href={"https://code.gouv.fr/data/latest-sill.xml"}
                     className={classes.contributeAndRssFeed}
                     target="_blank"
                     rel="noreferrer"
