@@ -483,9 +483,9 @@ export const resources = id<Record<Language, Translations>>({
             "in sill from date": "Date d'entrée dans le sill",
             "dev by public service": "Développé par le service public",
             "present in support contract": "Présent dans le marché de support",
-            "learn more about the": "En savoir plus sur le",
+            "learn more about the": "En savoir plus sur les",
             "MISEULL":
-                "Marchés interministériels support et expertise à l'usage des logiciels libres",
+                "marchés interministériels de support et d'expertise à l'usage des logiciels libres",
             "yes": "Oui",
             "no": "Non",
             "repo": "Dépôt de code source",
