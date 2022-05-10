@@ -52,7 +52,7 @@ yarn start #The app is running on http://localhost:3000
 -   [onyxia-ui](https://github.com/InseeFrLab/onyxia-ui)
 -   [cra-env](https://github.com/etalab/cra-env)
 
-You may want to debug theses lib directly in `sill-web`.  
+You may want to debug theses lib directly in `sill-web`.
 To do so simply do (we make an example with keycloakify but replace keycloakify by any of the above)
 
 ```bash
@@ -80,9 +80,9 @@ Update [the package.json version number](https://github.com/etalab/sill-web/blob
 
 ### Backend (sill-api)
 
-Same, update [the package.json version number](https://github.com/etalab/sill-api/blob/77703b6ec2874792ad7d858f29b53109ee590de1/package.json#L3) and push.  
-Don't forget however [to wait](https://github.com/etalab/sill-api/actions) for the latest version [to be published on NPM](https://www.npmjs.com/package/sill-api).  
-And update the version [sill-web's package.json](https://github.com/etalab/sill-web/blob/faeeb89792ee1174fd345717a94ca6677a2adb42/package.json#L48).  
+Same, update [the package.json version number](https://github.com/etalab/sill-api/blob/77703b6ec2874792ad7d858f29b53109ee590de1/package.json#L3) and push.
+Don't forget however [to wait](https://github.com/etalab/sill-api/actions) for the latest version [to be published on NPM](https://www.npmjs.com/package/sill-api).
+And update the version [sill-web's package.json](https://github.com/etalab/sill-web/blob/faeeb89792ee1174fd345717a94ca6677a2adb42/package.json#L48).
 (You'll need to update the package.lock as well by running `yarn` again, you can just run `yarn add sill-api`, it's faster).
 
 ## Screenshots
@@ -96,3 +96,6 @@ https://user-images.githubusercontent.com/6702424/165416253-c4be807d-6fba-4264-9
 ### SSO with the testing platform
 
 https://user-images.githubusercontent.com/6702424/166608626-7c3ee043-09dc-441d-a1da-f615e98d86e0.mov
+# License
+
+[MIT](LICENSE), Direction interministérielle du numérique.
