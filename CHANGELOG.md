@@ -1,3 +1,7 @@
+### **0.9.4** (2022-05-10)  
+  
+- :lipstick:  Small UI fix    
+  
 ### **0.9.3** (2022-05-10)  
   
 - :sparkles:  Display use cases cards in software details    
