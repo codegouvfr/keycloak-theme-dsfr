@@ -24,6 +24,8 @@ import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import FormHelperText from "@mui/material/FormHelperText";
 import { breakpointsValues } from "onyxia-ui";
 import { PageHeader } from "ui/theme";
+import type { Param0 } from "tsafe";
+import type { TextFieldProps } from "onyxia-ui/TextField";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -136,6 +138,7 @@ export function Form(props: Props) {
 
                                     switch (typeof value) {
                                         case "string":
+                                        case "number":
                                             return (
                                                 <TextField
                                                     label={`${t(fieldName)}${
@@ -145,10 +148,33 @@ export function Form(props: Props) {
                                                             ? " *"
                                                             : ""
                                                     }`}
-                                                    defaultValue={value}
-                                                    onValueBeingTypedChange={onValueBeingTypedChangeFactory(
-                                                        fieldName,
-                                                    )}
+                                                    defaultValue={
+                                                        typeof value !== "number"
+                                                            ? value
+                                                            : isNaN(value)
+                                                            ? ""
+                                                            : `${value}`
+                                                    }
+                                                    onValueBeingTypedChange={(() => {
+                                                        const cb =
+                                                            onValueBeingTypedChangeFactory(
+                                                                fieldName,
+                                                            );
+
+                                                        if (typeof value === "number") {
+                                                            return ({
+                                                                value,
+                                                            }: Param0<
+                                                                TextFieldProps["onValueBeingTypedChange"]
+                                                            >) =>
+                                                                cb({
+                                                                    "value":
+                                                                        parseInt(value),
+                                                                });
+                                                        }
+
+                                                        return cb;
+                                                    })()}
                                                     onEscapeKeyDown={onEscapeKeyFactory(
                                                         fieldName,
                                                     )}
@@ -166,8 +192,6 @@ export function Form(props: Props) {
                                                     onBlur={onBlurFactory(fieldName)}
                                                 />
                                             );
-                                        case "number":
-                                            return null;
                                         case "boolean":
                                             return (
                                                 <div>

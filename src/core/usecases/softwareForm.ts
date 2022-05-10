@@ -32,6 +32,7 @@ const fieldNames = [
     "function",
     "name",
     "isFromFrenchPublicService",
+    "isPresentInSupportContract",
     "license",
     "versionMin",
     "agentWorkstation",
@@ -43,7 +44,8 @@ export type FieldErrorMessageKey =
     | "mandatory field"
     | "invalid wikidata id"
     | "wikidata id already exists"
-    | "name already exists";
+    | "name already exists"
+    | "should be an integer";
 
 type FieldError =
     | {
@@ -83,10 +85,11 @@ namespace SoftwareFormState {
 
 const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "wikidataId": "",
-    "comptoirDuLibreId": 0,
+    "comptoirDuLibreId": NaN,
     "function": "",
     "name": "",
     "isFromFrenchPublicService": false,
+    "isPresentInSupportContract": false,
     "license": "",
     "versionMin": "",
     "agentWorkstation": true,
@@ -359,17 +362,18 @@ export const thunks = {
 
                 dispatch(actions.autofillStarted());
 
-                const resultOfFetch = await sillApiClient
-                    .fetchWikiDataData({ "wikidataId": value })
+                const autofillResult = await sillApiClient
+                    .autoFillFormInfo({ "wikidataId": value })
                     .catch(() => undefined);
 
                 dispatch(actions.autoFillCompeted());
 
-                if (resultOfFetch === undefined) {
+                if (autofillResult === undefined) {
                     break autofill_wikidata;
                 }
 
-                const { wikidataData, latestSemVersionedTag } = resultOfFetch;
+                const { wikidataData, latestSemVersionedTag, comptoirDuLibreId } =
+                    autofillResult;
 
                 function_: {
                     const { description } = wikidataData;
@@ -426,6 +430,19 @@ export const thunks = {
                         actions.fieldValueChanged({
                             "fieldName": "versionMin",
                             "value": latestSemVersionedTag,
+                        }),
+                    );
+                }
+
+                comptoir: {
+                    if (comptoirDuLibreId === undefined) {
+                        break comptoir;
+                    }
+
+                    dispatch(
+                        actions.fieldValueChanged({
+                            "fieldName": "comptoirDuLibreId",
+                            "value": comptoirDuLibreId,
                         }),
                     );
                 }
@@ -555,6 +572,17 @@ export const selectors = (() => {
                             "errorMessageKey": "name already exists",
                         };
                     }
+                    break;
+                case "comptoirDuLibreId":
+                    assert(is<ValueByFieldName[typeof fieldName]>(fieldValue));
+
+                    if (isNaN(fieldValue)) {
+                        return {
+                            "hasError": true,
+                            "errorMessageKey": "should be an integer",
+                        };
+                    }
+
                     break;
             }
 

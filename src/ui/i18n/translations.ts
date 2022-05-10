@@ -209,6 +209,10 @@ export const resources = id<Record<Language, Translations>>({
             "mandatory field": "Mandatory field",
             "name": "Software's name",
             "name helper": "What is the name of the software?",
+            "should be an integer": "Should be an integer",
+            "isPresentInSupportContract": "Is present in support contract",
+            "isPresentInSupportContract helper":
+                "Is the software listed in the support contract (if in doubt say no)",
             "send": "Send",
             "versionMin": "Minimal version",
             "versionMin helper":
@@ -428,6 +432,10 @@ export const resources = id<Record<Language, Translations>>({
             "isFromFrenchPublicService": "Viens de l'administration 🇫🇷?",
             "isFromFrenchPublicService helper":
                 "Est-ce que le logicel est développé par le service publique francais?",
+            "should be an integer": "Devrias être un identifiant numérique",
+            "isPresentInSupportContract": "Couvert par le marché de support",
+            "isPresentInSupportContract helper":
+                "Est présent dans le marché de support, dans le doute, laisser à faux",
             "license": "Licence",
             "license helper": "Licence du logiciel (ex: GPL, BSD, etc.)",
             "mandatory field": "Ce champ est obligatoire",
