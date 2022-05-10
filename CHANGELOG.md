@@ -1,3 +1,9 @@
+### **0.9.2** (2022-05-10)  
+  
+- :bug:  Updat RSS link
+
+Closes #8    
+  
 ### **0.9.1** (2022-05-10)  
   
 - :sparkles:  Add RSS Feed link
