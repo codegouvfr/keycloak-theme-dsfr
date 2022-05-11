@@ -410,7 +410,7 @@ export const resources = id<Record<Language, Translations>>({
             "alike software": "Logiciels similaires",
             "other similar software":
                 "Autres logiciels similaires qui ne sont pas dans le catalogue",
-            "reference a new software": "Reférencer un nouveau logiciel",
+            "reference a new software": "Référencer un nouveau logiciel",
         },
         "Catalog": {
             "header text1": "Catalogue de logiciel",
