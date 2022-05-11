@@ -83,7 +83,7 @@ export const Footer = memo(
                     </>
                 )}
                 <a
-                    href={`https://github.com/InseeFrLab/onyxia-web/tree/v${packageJsonVersion}`}
+                    href={`https://github.com/etalab/sill-web/releases/tag/v${packageJsonVersion}`}
                     target="_blank"
                     rel="noreferrer"
                 >

@@ -470,8 +470,8 @@ export const {
                 "software's function": "Fonction du logiciel",
                 "sill id": "Identifiant SILL",
                 "sill id helper":
-                    "Identifiant unique dans la base de donnée des logiciels du SILL.",
-                "in sill from date": "Date d'entrée dans le sill",
+                    "Identifiant unique dans la base de données des logiciels du SILL",
+                "in sill from date": "Date d'entrée dans le SILL",
                 "dev by public service": "Développé par le service public",
                 "present in support contract": "Présent dans le marché de support",
                 "learn more about the": "En savoir plus sur les",
@@ -495,7 +495,7 @@ export const {
                 "alike softwares helper": "Alternative identifiée à ce logiciel",
                 "workstation": "Poste agent",
                 "workstation helper":
-                    "S'agit-il d'un logiciel s'installant directement sur le poste de l'agent (exemple: LibreOffice, contre-exemple: WordPress)",
+                    "S'agit-il d'un logiciel s'installant directement sur le poste de l'agent (exemple: LibreOffice, contre-exemple: WordPress)?",
                 "authors": "Auteurs",
                 "authors helper":
                     "Auteurs, personne physique ou morale, à l'origine du développement du logiciel",
@@ -510,9 +510,9 @@ export const {
                 "see on comptoir": "Consulter la fiche comptoir-du-libre.org",
                 "wikidata page": "Fiche wikidata.org",
                 "wikidata page helper":
-                    "Wikidata est une base de connaissance collaborative et libre. La plupart des informations affichées sont collectées depuis wikidata.org",
+                    "Wikidata est une base de connaissances collaborative et libre. La plupart des informations affichées sont collectées depuis wikidata.org",
                 "see on wikidata": "Consulter la fiche wikidata.org",
-                "license": "License",
+                "license": "Licence",
                 "workshops replay": "Visionnage des ateliers",
                 "workshops replay helper":
                     "Rediffusion des ateliers BlueHats sur ce logiciel",

@@ -1,3 +1,11 @@
+### **0.9.15** (2022-05-11)  
+  
+- package.json: Bump version to 0.9.15  
+- src/ui/components/App/Footer.tsx: Fix link to the repository version  
+- src/ui/i18n.tsx: Fix typos
+
+Fix https://github.com/etalab/sill-web/issues/20#issuecomment-1124202059    
+  
 ### **0.9.14** (2022-05-11)  
   
 - Fix bug unsubmitable form    
