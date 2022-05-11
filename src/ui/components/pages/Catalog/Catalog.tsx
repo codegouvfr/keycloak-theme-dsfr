@@ -249,7 +249,7 @@ export function Catalog(props: Props) {
                     mainIcon="catalog"
                     title={t("header text1")}
                     helpTitle={t("header text2")}
-                    helpContent={t("header text3")}
+                    helpContent={t("header text3", { "link": routes.form().link })}
                     helpIcon="sentimentSatisfied"
                     titleCollapseParams={titleCollapseParams}
                     helpCollapseParams={helpCollapseParams}
@@ -323,7 +323,7 @@ export function Catalog(props: Props) {
     );
 }
 export const { i18n } = declareComponentKeys<
-    "header text1" | "header text2" | "header text3"
+    "header text1" | "header text2" | ["header text3", { link: Link }]
 >()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({

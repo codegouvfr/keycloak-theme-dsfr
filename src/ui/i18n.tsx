@@ -1,3 +1,4 @@
+import MuiLink from "@mui/material/Link";
 import { createI18nApi } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
@@ -154,8 +155,12 @@ export const {
                 "header text1": "Recommended Free Software catalog",
                 "header text2":
                     "Catalog of used and recommended free and open source software for administrative public services.",
-                "header text3":
-                    "You are a public agent and you want to recommend a free software? Click here.",
+                "header text3": ({ link }) => (
+                    <>
+                        You are a public agent and you want to recommend a free
+                        software?&nbsp;<MuiLink {...link}>Click here</MuiLink>.
+                    </>
+                ),
             },
             "Footer": {
                 "contribute": "Contribute",
@@ -394,8 +399,12 @@ export const {
                 "header text1": "Catalogue des logiciels libres du SILL",
                 "header text2":
                     "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
-                "header text3":
-                    "Vous êtes agent public et souhaitez recommander un logiciel libre? Cliquez ici.",
+                "header text3": ({ link }) => (
+                    <>
+                        Vous êtes agent public et souhaitez recommander un logiciel
+                        libre?&nbsp;<MuiLink {...link}>Cliquez ici</MuiLink>.
+                    </>
+                ),
             },
             "Footer": {
                 "contribute": "Contribuer au projet",
