@@ -149,7 +149,7 @@ export function Form(props: Props) {
                                                     defaultValue={
                                                         typeof value !== "number"
                                                             ? value
-                                                            : value === -1 && isNaN(value)
+                                                            : value === -1 || isNaN(value)
                                                             ? ""
                                                             : `${value}`
                                                     }
@@ -167,7 +167,11 @@ export function Form(props: Props) {
                                                             >) =>
                                                                 cb({
                                                                     "value":
-                                                                        parseInt(value),
+                                                                        value === ""
+                                                                            ? -1
+                                                                            : parseInt(
+                                                                                  value,
+                                                                              ),
                                                                 });
                                                         }
 

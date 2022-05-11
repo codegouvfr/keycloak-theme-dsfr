@@ -12,7 +12,6 @@ import type { Param0, Equals, PickOptionals } from "tsafe";
 import { is } from "tsafe/is";
 import { objectKeys } from "tsafe/objectKeys";
 import { typeGuard } from "tsafe/typeGuard";
-import { same } from "evt/tools/inDepth/same";
 import { thunks as catalogExplorerThunks } from "./catalogExplorer";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
@@ -134,6 +133,7 @@ export const { name, reducer, actions } = createSlice({
         },
         "autofillStarted": state => {
             assert(state.stateDescription === "form ready");
+
             state.isAutofillInProgress = true;
         },
         "autoFillCompeted": state => {
@@ -333,22 +333,23 @@ export const thunks = {
                     break autofill_wikidata;
                 }
 
-                {
-                    const state = getState().softwareForm;
+                const state = getState().softwareForm;
 
-                    assert(state.stateDescription === "form ready");
+                assert(state.stateDescription === "form ready");
 
-                    if (state.softwareId !== undefined) {
-                        //NOTE: We don't autofill wikidataId if we are updating an existing software.
-                        break autofill_wikidata;
-                    }
+                if (state.softwareId !== undefined) {
+                    //NOTE: We don't autofill wikidataId if we are updating an existing software.
+                    break autofill_wikidata;
                 }
 
                 const fieldErrorByFieldName = selectors.fieldErrorByFieldName(getState());
 
                 assert(fieldErrorByFieldName !== undefined);
 
-                if (fieldErrorByFieldName.wikidataId.hasError) {
+                if (
+                    value === state.defaultValueByFieldName[fieldName] ||
+                    fieldErrorByFieldName.wikidataId.hasError
+                ) {
                     break autofill_wikidata;
                 }
 
@@ -535,6 +536,11 @@ export const selectors = (() => {
                     "errorMessageKey": "mandatory field",
                 };
             }
+            if (fieldValue === newSoftwareDefaultValueByFieldName[fieldName]) {
+                return {
+                    "hasError": false,
+                };
+            }
 
             switch (fieldName) {
                 case "wikidataId": {
@@ -651,17 +657,10 @@ export const selectors = (() => {
     );
 
     const isSubmittable = createSelector(
-        readyState,
         fieldErrorByFieldName,
-        (state, fieldErrorByFieldName): boolean | undefined => {
-            if (state === undefined) {
+        (fieldErrorByFieldName): boolean | undefined => {
+            if (fieldErrorByFieldName === undefined) {
                 return undefined;
-            }
-
-            assert(fieldErrorByFieldName !== undefined);
-
-            if (same(state.defaultValueByFieldName, state.valueByFieldName)) {
-                return false;
             }
 
             if (
