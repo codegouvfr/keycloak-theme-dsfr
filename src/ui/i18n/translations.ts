@@ -205,7 +205,7 @@ export const resources = id<Record<Language, Translations>>({
             "function": "Software's function",
             "function helper": "What is the function of the software?",
             "invalid wikidata id": "Invalid wikidata id",
-            "isFromFrenchPublicService": "Is 🇫🇷",
+            "isFromFrenchPublicService": "🇫🇷 Is developed by a French administration?",
             "isFromFrenchPublicService helper":
                 "Is the software developed by a French public service?",
             "license": "License",
@@ -442,7 +442,7 @@ export const resources = id<Record<Language, Translations>>({
             "function helper":
                 "Fonction du logiciel (éditeur de texte, éditeur de vidéo, etc.)",
             "invalid wikidata id": "Entité Wikidata invalide",
-            "isFromFrenchPublicService": "Viens de l'administration 🇫🇷?",
+            "isFromFrenchPublicService": "🇫🇷 Développé par l'administration?",
             "isFromFrenchPublicService helper":
                 "Est-ce que le logicel est développé par le service public francais?",
             "should be an integer": "Devrait être un identifiant numérique",
