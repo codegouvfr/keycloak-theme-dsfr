@@ -11,13 +11,14 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { useResolveLocalizedString } from "ui/i18n";
 import { getEnv } from "env";
+import type { Link } from "type-route";
 
 export type Props = Props.LoginPages | Props.UserNotLoggedIn | Props.UserLoggedIn;
 export declare namespace Props {
     export type Common = {
         className?: string;
         logoContainerWidth: number;
-        onLogoClick(): void;
+        logoLink: Link;
     };
 
     export type LoginPages = Common & {
@@ -41,11 +42,10 @@ const breakpoint = 450;
 
 export const Header = memo(
     forwardRef<any, Props>((props, ref) => {
-        const { className, logoContainerWidth, onLogoClick } = props;
+        const { className, logoContainerWidth, logoLink } = props;
 
         const rest = (() => {
-            const { className, logoContainerWidth, onLogoClick, children, ...rest } =
-                props;
+            const { className, logoContainerWidth, logoLink, children, ...rest } = props;
 
             assert(!children);
 
@@ -79,7 +79,7 @@ export const Header = memo(
 
         return (
             <header className={cx(classes.root, className)} ref={ref} {...rest}>
-                <div onClick={onLogoClick} className={classes.logoContainer}>
+                <a {...logoLink} className={classes.logoContainer}>
                     <img
                         src={
                             theme.isDarkModeEnabled
@@ -89,8 +89,8 @@ export const Header = memo(
                         alt=""
                         className={classes.svg}
                     />
-                </div>
-                <div onClick={onLogoClick} className={classes.mainTextContainer}>
+                </a>
+                <a {...logoLink} className={classes.mainTextContainer}>
                     {HEADER_ORGANIZATION && (
                         <Text
                             typo="section heading"
@@ -114,7 +114,7 @@ export const Header = memo(
                             {HEADER_USECASE_DESCRIPTION}
                         </Text>
                     )}
-                </div>
+                </a>
                 <div className={classes.rightEndActionsContainer}>
                     {props.useCase === "core app" && (
                         <>
@@ -174,7 +174,7 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             ...theme.spacing.topBottom("padding", 2),
         },
         "logoContainer": {
-            "cursor": "pointer",
+            "textDecoration": "none",
             "width": logoContainerWidth,
             "textAlign": "center",
             "display": "flex",
@@ -182,7 +182,8 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             "justifyContent": "center",
         },
         "mainTextContainer": {
-            "cursor": "pointer",
+            "textDecoration": "none",
+            "display": "block",
             "& > *": {
                 "display": "inline",
             },

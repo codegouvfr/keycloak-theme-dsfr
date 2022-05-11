@@ -75,8 +75,6 @@ export const App = memo((props: Props) => {
 
     const route = useRoute();
 
-    const onHeaderLogoClick = useConstCallback(() => routes.home().push());
-
     const { userAuthenticationThunks } = useThunks();
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
@@ -135,7 +133,7 @@ export const App = memo((props: Props) => {
                     "className": classes.header,
                     "useCase": "core app",
                     logoContainerWidth,
-                    "onLogoClick": onHeaderLogoClick,
+                    "logoLink": routes.home().link,
                     "ref": headerRef,
                 } as const;
 
