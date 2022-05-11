@@ -81,6 +81,7 @@
         "tsafe": "^0.10.0",
         "tss-react": "^3.6.2",
         "type-route": "^0.7.1",
+        "unorm": "^1.6.0",
         "url-join-ts": "^1.0.5"
     },
     "resolutions": {

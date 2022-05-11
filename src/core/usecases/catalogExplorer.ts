@@ -489,9 +489,15 @@ export const selectors = (() => {
                           ]
                               .map(e => (!!e ? e : undefined))
                               .filter(exclude(undefined))
-                              .map(str =>
-                                  str.toLowerCase().includes(search.toLowerCase()),
-                              )
+                              .map(str => {
+                                  const format = (str: string) =>
+                                      str
+                                          .normalize("NFD")
+                                          .replace(/[\u0300-\u036f]/g, "")
+                                          .toLowerCase();
+
+                                  return format(str).includes(format(search));
+                              })
                               .indexOf(true) >= 0,
             );
     });

@@ -1,3 +1,4 @@
+import "unorm";
 import * as reactDom from "react-dom";
 import { I18nProvider } from "./i18n/I18nProvider";
 import { RouteProvider } from "./routes";
