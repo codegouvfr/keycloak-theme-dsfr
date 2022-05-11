@@ -85,7 +85,7 @@ namespace SoftwareFormState {
 
 const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "wikidataId": "",
-    "comptoirDuLibreId": NaN,
+    "comptoirDuLibreId": -1,
     "function": "",
     "name": "",
     "isFromFrenchPublicService": false,

@@ -149,7 +149,7 @@ export function Form(props: Props) {
                                                     defaultValue={
                                                         typeof value !== "number"
                                                             ? value
-                                                            : isNaN(value)
+                                                            : value === -1 && isNaN(value)
                                                             ? ""
                                                             : `${value}`
                                                     }
