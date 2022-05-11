@@ -46,7 +46,7 @@ namespace CatalogExplorerState {
 }
 
 export const { name, reducer, actions } = createSlice({
-    "name": "catalogExplorer",
+    "name": "catalog",
     "initialState": id<CatalogExplorerState>(
         id<CatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
@@ -292,7 +292,7 @@ export const thunks = {
         (...args) => {
             const [, getState] = args;
 
-            const state = getState().catalogExplorer;
+            const state = getState().catalog;
 
             assert(state.stateDescription === "ready");
 
@@ -311,7 +311,7 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState().catalogExplorer;
+            const state = getState().catalog;
 
             assert(state.stateDescription === "ready");
 
@@ -344,7 +344,7 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState().catalogExplorer;
+            const state = getState().catalog;
 
             assert(state.stateDescription === "ready");
 
@@ -396,7 +396,7 @@ export const selectors = (() => {
     );
 
     const readyState = (rootState: RootState): CatalogExplorerState.Ready | undefined => {
-        const state = rootState.catalogExplorer;
+        const state = rootState.catalog;
         switch (state.stateDescription) {
             case "ready":
                 return state;
