@@ -1,3 +1,7 @@
+### **0.10.3** (2022-05-11)  
+  
+- Restore search when comming back to catalog    
+  
 ### **0.10.2** (2022-05-11)  
   
 - Bump version  
