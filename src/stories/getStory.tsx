@@ -16,11 +16,10 @@ import "onyxia-ui/assets/fonts/WorkSans/font.css";
 import { GlobalStyles } from "tss-react/compat";
 import { objectKeys } from "tsafe/objectKeys";
 import { CoreProvider } from "ui/coreApi/CoreProvider";
-import { I18nProvider } from "ui/i18n/I18nProvider";
 import type { Language } from "sill-api";
 import { languages } from "sill-api";
 import { RouteProvider } from "ui/routes";
-import { useLng } from "ui/i18n/useLng";
+import { useLng } from "ui/i18n";
 
 export function getStoryFactory<Props>(params: {
     sectionName: string;
@@ -141,11 +140,9 @@ export function getStoryFactory<Props>(params: {
                         }}
                     >
                         <StoreProviderOrFragment>
-                            <I18nProvider>
-                                <RouteProvider>
-                                    <Component {...(props as any)} />
-                                </RouteProvider>
-                            </I18nProvider>
+                            <RouteProvider>
+                                <Component {...(props as any)} />
+                            </RouteProvider>
                         </StoreProviderOrFragment>
                     </div>
                 </ThemeProvider>

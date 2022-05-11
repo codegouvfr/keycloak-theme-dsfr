@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { makeStyles } from "ui/theme";
-
 import { ReactComponent as AgentConnectLightSvg } from "ui/assets/svg/agentConnectLight.svg";
 import { ReactComponent as AgentConnectDarkSvg } from "ui/assets/svg/agentConnectDark.svg";
 import { useIsDarkModeEnabled } from "onyxia-ui";

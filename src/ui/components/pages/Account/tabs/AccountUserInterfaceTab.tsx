@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { AccountSectionHeader } from "../AccountSectionHeader";
 import { DescriptiveField } from "../../../shared/DescriptiveField";
 import { useIsDarkModeEnabled } from "onyxia-ui";
@@ -36,10 +37,6 @@ export const AccountUserInterfaceTab = memo((props: Props) => {
     );
 });
 
-export declare namespace AccountUserInterfaceTab {
-    export type I18nScheme = {
-        "title": undefined;
-        "enable dark mode": undefined;
-        "dark mode helper": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    "title" | "enable dark mode" | "dark mode helper"
+>()({ AccountUserInterfaceTab });

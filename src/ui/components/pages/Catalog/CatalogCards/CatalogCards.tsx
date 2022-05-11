@@ -4,7 +4,8 @@ import { createPortal } from "react-dom";
 import { makeStyles, Text, Button, isViewPortAdapterEnabled } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
 import type { Props as CatalogCardProps } from "./CatalogCard";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import MuiLink from "@mui/material/Link";
 import { ReactComponent as ServiceNotFoundSvg } from "ui/assets/svg/ServiceNotFound.svg";
@@ -244,22 +245,20 @@ export const CatalogCards = memo((props: Props) => {
     );
 });
 
-export declare namespace CatalogCards {
-    export type I18nScheme = {
-        "main services": undefined;
-        "all software": undefined;
-        "search results": undefined;
-        "show more": undefined;
-        "no service found": undefined;
-        "no result found": { forWhat: string };
-        "check spelling": undefined;
-        "go back": undefined;
-        "search": undefined;
-        "alike software": undefined;
-        "other similar software": undefined;
-        "reference a new software": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    | "main services"
+    | "all software"
+    | "search results"
+    | "show more"
+    | "no service found"
+    | ["no result found", { forWhat: string }]
+    | "check spelling"
+    | "go back"
+    | "search"
+    | "alike software"
+    | "other similar software"
+    | "reference a new software"
+>()({ CatalogCards });
 
 const useStyles = makeStyles<{
     filteredCardCount: number;

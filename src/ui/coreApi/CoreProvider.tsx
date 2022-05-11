@@ -10,7 +10,7 @@ import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 import type { ReturnType } from "tsafe";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks";
-import { evtLng } from "ui/i18n/useLng";
+import { evtLng } from "ui/i18n";
 
 type Props = {
     children: ReactNode;

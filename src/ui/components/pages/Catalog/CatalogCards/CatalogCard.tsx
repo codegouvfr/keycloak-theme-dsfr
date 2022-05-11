@@ -1,14 +1,15 @@
 import { memo } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { capitalize } from "tsafe/capitalize";
 import { CompiledData } from "sill-api";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "ui/tools/Markdown";
 import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
-import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
+import { useResolveLocalizedString } from "ui/i18n";
 import { Tag } from "onyxia-ui/Tag";
 import { assert } from "tsafe/assert";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -264,24 +265,22 @@ export const CatalogCard = memo((props: Props) => {
     );
 });
 
-export declare namespace CatalogCard {
-    export type I18nScheme = {
-        "learn more": undefined;
-        "try it": undefined;
-        "you are referent": undefined;
-        "you are the referent": undefined;
-        "show the others referents": undefined;
-        "show referents": undefined;
-        "show the referent": undefined;
-        "declare oneself referent": undefined;
-        "this software has no referent": undefined;
-        "no longer referent": undefined;
-        "to install on the computer of the agent": undefined;
-        //TODO: Use i18nifty for this
-        "identified developers": undefined;
-        "identified developer": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    | "learn more"
+    | "try it"
+    | "you are referent"
+    | "you are the referent"
+    | "show the others referents"
+    | "show referents"
+    | "show the referent"
+    | "declare oneself referent"
+    | "this software has no referent"
+    | "no longer referent"
+    | "to install on the computer of the agent"
+    //TODO i18nifty: now play!
+    | "identified developers"
+    | "identified developer"
+>()({ CatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
     "name": { CatalogCard },

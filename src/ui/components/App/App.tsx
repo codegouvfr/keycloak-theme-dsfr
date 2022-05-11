@@ -2,9 +2,8 @@ import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
-import { useLng } from "ui/i18n/useLng";
+import { useLng, fallbackLanguage, evtLng, useTranslation } from "ui/i18n";
 import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
 import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useRoute, routes } from "ui/routes";
@@ -15,7 +14,6 @@ import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Form } from "ui/components/pages/Form";
 import { typeGuard } from "tsafe/typeGuard";
-import type { fallbackLanguage } from "ui/i18n/translations";
 import { Language } from "sill-api";
 import { id } from "tsafe/id";
 import { createResolveLocalizedString } from "i18nifty";
@@ -23,8 +21,8 @@ import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
-import { evtLng } from "ui/i18n/useLng";
 import { languages } from "sill-api";
+import { declareComponentKeys } from "i18nifty";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -188,9 +186,7 @@ export const App = memo((props: Props) => {
     );
 });
 
-export declare namespace App {
-    export type I18nScheme = Record<"reduce" | "account" | "catalog", undefined>;
-}
+export const { i18n } = declareComponentKeys<"reduce" | "account" | "catalog">()({ App });
 
 const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
     "name": { App },

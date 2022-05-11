@@ -5,7 +5,8 @@ import type { KcContextBase } from "keycloakify";
 import { getMsg } from "keycloakify";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { useFormValidationSlice } from "keycloakify";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { Button, makeStyles } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tooltip } from "onyxia-ui/Tooltip";
@@ -409,19 +410,17 @@ export const RegisterUserProfile = memo(
     },
 );
 
-export declare namespace RegisterUserProfile {
-    export type I18nScheme = {
-        "allowed email domains": undefined;
-        "minimum length": { n: string };
-        "must be different from email": undefined;
-        "password mismatch": undefined;
-        "go back": undefined;
-        "form not filled properly yet": undefined;
-        "must respect the pattern": undefined;
-        "your domain isn't listed yet?": undefined;
-        "contact us at": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    | "allowed email domains"
+    | ["minimum length", { n: string }]
+    | "must be different from email"
+    | "password mismatch"
+    | "go back"
+    | "form not filled properly yet"
+    | "must respect the pattern"
+    | "your domain isn't listed yet?"
+    | "contact us at"
+>()({ RegisterUserProfile });
 
 const { getHardCodedFieldWeight } = (() => {
     const orderedFields = ["agencyName", "email", "password", "password-confirm"].map(

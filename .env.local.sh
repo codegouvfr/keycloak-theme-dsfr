@@ -10,7 +10,7 @@ export REACT_APP_CONFIGURATION=$(cat << EOF
 	//"apiUrl": "https://sill.lab.sspcloud.fr/api",
 	"apiUrl": "http://localhost:8080/api",
 	/*
-	"apiUrl": "https://code.gouv.fr/data/sill2.json",
+	"apiUrl": "https://code.gouv.fr/data/sill-data.json",
 	"mockAuthentication": {
 		"isUserInitiallyLoggedIn": false,
 		"user": {

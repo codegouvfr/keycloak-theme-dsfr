@@ -1,5 +1,6 @@
 import { useEffect, Fragment } from "react";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { makeStyles } from "ui/theme";
 import { useThunks, selectors, useSelector, pure } from "ui/coreApi";
 import { Button } from "ui/theme";
@@ -271,16 +272,15 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
     },
 }));
 
-export declare namespace Form {
-    export type I18nScheme = Record<FieldErrorMessageKey, undefined> &
-        Record<FieldName, undefined> &
-        Record<`${FieldName} helper`, undefined> & {
-            "send": undefined;
-            "cancel": undefined;
-            "title add": undefined;
-            "title edit": undefined;
-            "help title add": undefined;
-            "help title edit": undefined;
-            "help": undefined;
-        };
-}
+export const { i18n } = declareComponentKeys<
+    | FieldErrorMessageKey
+    | FieldName
+    | `${FieldName} helper`
+    | "send"
+    | "cancel"
+    | "title add"
+    | "title edit"
+    | "help title add"
+    | "help title edit"
+    | "help"
+>()({ Form });

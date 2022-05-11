@@ -1,7 +1,8 @@
 import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { makeStyles, PageHeader, isViewPortAdapterEnabled } from "ui/theme";
 import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
@@ -321,13 +322,9 @@ export function Catalog(props: Props) {
         </div>
     );
 }
-export declare namespace Catalog {
-    export type I18nScheme = {
-        "header text1": undefined;
-        "header text2": undefined;
-        "header text3": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    "header text1" | "header text2" | "header text3"
+>()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },

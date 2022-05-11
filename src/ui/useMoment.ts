@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useReducer } from "react";
 import moment from "moment";
 import "moment/locale/fr";
-import { useLng } from "./useLng";
+import { useLng } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import type { Language } from "sill-api";
 import { capitalize } from "tsafe/capitalize";

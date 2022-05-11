@@ -1,6 +1,7 @@
 import { memo, forwardRef } from "react";
 import { Button, ButtonBarButton } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { makeStyles, Text } from "ui/theme";
 import marianneRoundUrl from "ui/assets/img/marianne_round.png";
 import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
@@ -8,7 +9,7 @@ import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOv
 import { getConfiguration } from "configuration";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
-import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
+import { useResolveLocalizedString } from "ui/i18n";
 import { getEnv } from "env";
 
 export type Props = Props.LoginPages | Props.UserNotLoggedIn | Props.UserLoggedIn;
@@ -159,15 +160,9 @@ export const Header = memo(
     }),
 );
 
-export declare namespace Header {
-    export type I18nScheme = {
-        logout: undefined;
-        login: undefined;
-        project: undefined;
-        trainings: undefined;
-        documentation: undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    "logout" | "login" | "project" | "trainings" | "documentation"
+>()({ Header });
 
 const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header } })(
     (theme, { logoContainerWidth }) => ({

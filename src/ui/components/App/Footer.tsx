@@ -1,12 +1,12 @@
 import { memo, forwardRef } from "react";
 import { makeStyles, Text, LanguageSelect } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
 import { ReactComponent as GitHubSvg } from "ui/assets/svg/GitHub.svg";
-import { useLng } from "ui/i18n/useLng";
+import { useLng, useTranslation } from "ui/i18n";
 import { DarkModeSwitch } from "onyxia-ui/DarkModeSwitch";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Icon } from "ui/theme";
+import { declareComponentKeys } from "i18nifty";
 
 export type Props = {
     className?: string;
@@ -96,14 +96,9 @@ export const Footer = memo(
     }),
 );
 
-export declare namespace Footer {
-    export type I18nScheme = {
-        "contribute": undefined;
-        "terms of service": undefined;
-        "change language": undefined;
-        "rss feed": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    "contribute" | "terms of service" | "change language" | "rss feed"
+>()({ Footer });
 
 const useStyles = makeStyles<Props>({ "name": { Footer } })(theme => ({
     "root": {

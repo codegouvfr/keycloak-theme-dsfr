@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { AccountSectionHeader } from "../AccountSectionHeader";
 import { DescriptiveField } from "../../../shared/DescriptiveField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
@@ -60,16 +61,14 @@ export const AccountInfoTab = memo((props: Props) => {
     );
 });
 
-export declare namespace AccountInfoTab {
-    export type I18nScheme = {
-        "general information": undefined;
-        "user id": undefined;
-        "full name": undefined;
-        "email": undefined;
-        "change account info": undefined;
-        "agency name": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    | "general information"
+    | "user id"
+    | "full name"
+    | "email"
+    | "change account info"
+    | "agency name"
+>()({ AccountInfoTab });
 
 const useStyles = makeStyles({ "name": { AccountInfoTab } })(theme => ({
     "divider": {

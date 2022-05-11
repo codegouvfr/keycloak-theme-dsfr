@@ -9,12 +9,11 @@ import { RegisterUserProfile } from "./RegisterUserProfile";
 import { getBrowser } from "ui/tools/getBrowser";
 import type { KcContext } from "./kcContext";
 import { KcApp as KcAppBase } from "keycloakify/lib/components/KcApp";
-import { useLng } from "ui/i18n/useLng";
+import { useLng } from "ui/i18n";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
 import { typeGuard } from "tsafe/typeGuard";
 import { id } from "tsafe/id";
-
 import { getCurrentKcLanguageTag } from "keycloakify";
 
 export type Props = {

@@ -7,9 +7,7 @@ import { makeStyles } from "ui/theme";
 import type { KcContext } from "./kcContext";
 import { thermOfServicesPassedByClient } from "ui/termsOfServices";
 import { createResolveLocalizedString } from "i18nifty";
-import type { KcLanguageTag } from "keycloakify";
-import { id } from "tsafe/id";
-import type { fallbackLanguage } from "ui/i18n/translations";
+import { fallbackLanguage } from "ui/i18n";
 
 type KcContext_Terms = Extract<KcContext, { pageId: "terms.ftl" }>;
 
@@ -29,11 +27,10 @@ export const Terms = memo(
                         return undefined;
                     }
 
-                    const { resolveLocalizedString } =
-                        createResolveLocalizedString<KcLanguageTag>({
-                            "currentLanguage": currentKcLanguageTag,
-                            "fallbackLanguage": id<typeof fallbackLanguage>("en"),
-                        });
+                    const { resolveLocalizedString } = createResolveLocalizedString({
+                        "currentLanguage": currentKcLanguageTag,
+                        fallbackLanguage,
+                    });
 
                     return resolveLocalizedString(termsOfServices);
                 })();

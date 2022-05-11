@@ -4,13 +4,14 @@ import type { CompiledData } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
 import { Card } from "onyxia-ui/Card";
 import { Button } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { Link } from "type-route";
 import { DescriptiveField } from "ui/components/shared/DescriptiveField";
-import { useResolveLocalizedString } from "ui/i18n/useResolveLocalizedString";
+import { useResolveLocalizedString } from "ui/i18n";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
-import { useFormattedDate } from "ui/i18n/useMoment";
+import { useFormattedDate } from "ui/useMoment";
 import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
@@ -471,58 +472,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
     );
 });
 
-export namespace CatalogSoftwareDetails {
-    export type I18nScheme = {
-        "update software information": undefined;
-        "software name": undefined;
-        "software's function": undefined;
-        "sill id": undefined;
-        "sill id helper": undefined;
-        "in sill from date": undefined;
-        "dev by public service": undefined;
-        "present in support contract": undefined;
-        "learn more about the": undefined;
-        "MISEULL": undefined;
-        "yes": undefined;
-        "no": undefined;
-        "repo": undefined;
-        "website of the software": undefined;
-        "minimal version": undefined;
-        "minimal version helper": undefined;
-        "referents": undefined;
-        "referents helper": undefined;
-        "see referents": undefined;
-        "parent software": undefined;
-        "parent software helper": undefined;
-        "alike softwares": undefined;
-        "alike softwares helper": undefined;
-        "workstation": undefined;
-        "workstation helper": undefined;
-        "authors": undefined;
-        "authors helper": undefined;
-        "service provider": undefined;
-        "service provider helper": undefined;
-        "total service provider": { howMany: string };
-        "comptoir page": undefined;
-        "comptoir page helper": undefined;
-        "see on comptoir": undefined;
-        "wikidata page": undefined;
-        "wikidata page helper": undefined;
-        "see on wikidata": undefined;
-        "license": undefined;
-        "workshops replay": undefined;
-        "workshops replay helper": undefined;
-        "see all workshops": undefined;
-        "test url": undefined;
-        "test url helper": undefined;
-        "launch": undefined;
-        "workshop": { n: string };
-        "use cases": undefined;
-        "use cases helper": undefined;
-        "use case": { n: string };
-    };
-}
-
 const useStyles = makeStyles<{ imgWidth: number }>({
     "name": { CatalogSoftwareDetails },
 })((theme, { imgWidth }) => ({
@@ -543,3 +492,53 @@ const useStyles = makeStyles<{ imgWidth: number }>({
         "width": imgWidth,
     },
 }));
+
+export const { i18n } = declareComponentKeys<
+    | "update software information"
+    | "software name"
+    | "software's function"
+    | "sill id"
+    | "sill id helper"
+    | "in sill from date"
+    | "dev by public service"
+    | "present in support contract"
+    | "learn more about the"
+    | "MISEULL"
+    | "yes"
+    | "no"
+    | "repo"
+    | "website of the software"
+    | "minimal version"
+    | "minimal version helper"
+    | "referents"
+    | "referents helper"
+    | "see referents"
+    | "parent software"
+    | "parent software helper"
+    | "alike softwares"
+    | "alike softwares helper"
+    | "workstation"
+    | "workstation helper"
+    | "authors"
+    | "authors helper"
+    | "service provider"
+    | "service provider helper"
+    | ["total service provider", { howMany: string }]
+    | "comptoir page"
+    | "comptoir page helper"
+    | "see on comptoir"
+    | "wikidata page"
+    | "wikidata page helper"
+    | "see on wikidata"
+    | "license"
+    | "workshops replay"
+    | "workshops replay helper"
+    | "see all workshops"
+    | "test url"
+    | "test url helper"
+    | "launch"
+    | ["workshop", { n: string }]
+    | "use cases"
+    | "use cases helper"
+    | ["use case", { n: string }]
+>()({ CatalogSoftwareDetails });

@@ -17,11 +17,12 @@ import type { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Switch from "@mui/material/Switch";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Button } from "ui/theme";
-import { useLng } from "ui/i18n/useLng";
+import { useLng } from "ui/i18n";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 
 export type Props<T extends string = string> =
@@ -546,19 +547,6 @@ export const DescriptiveField = memo(
     },
 );
 
-export declare namespace DescriptiveField {
-    export type I18nScheme = Record<
-        Exclude<Props["type"], "text" | "editable text" | "toggle">,
-        undefined
-    > & {
-        "copy tooltip": undefined;
-        "service password helper text": undefined;
-        "not yet defined": undefined;
-        "reset helper dialogs helper text": undefined;
-        "reset": undefined;
-    };
-}
-
 const useStyles = makeStyles<{ isFlashing: boolean }>({ "name": { DescriptiveField } })(
     (theme, { isFlashing }) => ({
         "root": {
@@ -599,3 +587,12 @@ const useStyles = makeStyles<{ isFlashing: boolean }>({ "name": { DescriptiveFie
         },
     }),
 );
+
+export const { i18n } = declareComponentKeys<
+    | Exclude<Props["type"], "text" | "editable text" | "toggle">
+    | "copy tooltip"
+    | "service password helper text"
+    | "not yet defined"
+    | "reset helper dialogs helper text"
+    | "reset"
+>()({ DescriptiveField });

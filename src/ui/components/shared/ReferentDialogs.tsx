@@ -1,6 +1,7 @@
 import { useState, memo } from "react";
 import { Button } from "ui/theme";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { CompiledData } from "sill-api";
 import { Markdown } from "ui/tools/Markdown";
 import { Dialog } from "onyxia-ui/Dialog";
@@ -315,18 +316,16 @@ export const { DeclareOneselfReferentDialog } = (() => {
     return { DeclareOneselfReferentDialog };
 })();
 
-export declare namespace ReferentDialogs {
-    export type I18nScheme = {
-        "expert": undefined;
-        "you": undefined;
-        "close": undefined;
-        "declare oneself referent": undefined;
-        "declare oneself referent of": { softwareName: string };
-        "cancel": undefined;
-        "send": undefined;
-        "no longer referent": undefined;
-        "useCaseDescription": undefined;
-        "useCaseDescription helper": undefined;
-        "i am a technical expert": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    | "expert"
+    | "you"
+    | "close"
+    | "declare oneself referent"
+    | ["declare oneself referent of", { softwareName: string }]
+    | "cancel"
+    | "send"
+    | "no longer referent"
+    | "useCaseDescription"
+    | "useCaseDescription helper"
+    | "i am a technical expert"
+>()({ ReferentDialogs });

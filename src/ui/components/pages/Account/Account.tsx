@@ -5,7 +5,8 @@ import { createGroup } from "type-route";
 import { routes } from "ui/routes";
 import { accountTabIds } from "./accountTabIds";
 import type { AccountTabId } from "./accountTabIds";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { AccountUserInterfaceTab } from "./tabs/AccountUserInterfaceTab";
 import { PageHeader } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -66,14 +67,9 @@ export function Account(props: Props) {
     );
 }
 
-export declare namespace Account {
-    export type I18nScheme = Record<AccountTabId, undefined> & {
-        text1: undefined;
-        text2: undefined;
-        text3: undefined;
-        "personal tokens tooltip": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<
+    "text1" | "text2" | "text3" | "personal tokens tooltip" | AccountTabId
+>()({ Account });
 
 const useStyles = makeStyles({ "name": { Account } })(theme => ({
     "root": {

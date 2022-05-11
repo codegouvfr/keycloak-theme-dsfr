@@ -32,39 +32,6 @@ export type TemplateProps = {
     onClickCross?(): void;
 } & { kcContext: KcContext } & KcTemplateProps;
 
-const useStyles = makeStyles<{
-    windowInnerWidth: number;
-    aspectRatio: number;
-    windowInnerHeight: number;
-}>()(theme => ({
-    "root": {
-        "height": "100vh",
-        "display": "flex",
-        "flexDirection": "column",
-        "backgroundColor": theme.colors.useCases.surfaces.background,
-    },
-
-    "header": {
-        "width": "100%",
-        "paddingRight": "2%",
-        "height": 64,
-    },
-    "betweenHeaderAndFooter": {
-        "flex": 1,
-        "overflow": "hidden",
-        "backgroundSize": "auto 90%",
-        "backgroundPosition": "center",
-        "backgroundRepeat": "no-repeat",
-    },
-    "page": {
-        "height": "100%",
-        "overflow": "auto",
-    },
-    "footer": {
-        "height": 34,
-    },
-}));
-
 export const Template = memo((props: TemplateProps) => {
     const { kcContext, className, doFetchDefaultThemeResources, onClickCross } = props;
 
@@ -173,6 +140,39 @@ export const Template = memo((props: TemplateProps) => {
         </div>
     );
 });
+
+const useStyles = makeStyles<{
+    windowInnerWidth: number;
+    aspectRatio: number;
+    windowInnerHeight: number;
+}>({ "name": { Template } })(theme => ({
+    "root": {
+        "height": "100vh",
+        "display": "flex",
+        "flexDirection": "column",
+        "backgroundColor": theme.colors.useCases.surfaces.background,
+    },
+
+    "header": {
+        "width": "100%",
+        "paddingRight": "2%",
+        "height": 64,
+    },
+    "betweenHeaderAndFooter": {
+        "flex": 1,
+        "overflow": "hidden",
+        "backgroundSize": "auto 90%",
+        "backgroundPosition": "center",
+        "backgroundRepeat": "no-repeat",
+    },
+    "page": {
+        "height": "100%",
+        "overflow": "auto",
+    },
+    "footer": {
+        "height": 34,
+    },
+}));
 
 const { Page } = (() => {
     type Props = {

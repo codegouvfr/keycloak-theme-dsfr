@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { useTranslation } from "ui/i18n/useTranslations";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
 import { makeStyles, Text } from "ui/theme";
 
 export type Props = {
@@ -30,8 +31,4 @@ const useStyles = makeStyles({ "name": { FourOhFour } })(theme => ({
     },
 }));
 
-export declare namespace FourOhFour {
-    export type I18nScheme = {
-        "not found": undefined;
-    };
-}
+export const { i18n } = declareComponentKeys<"not found">()({ FourOhFour });
