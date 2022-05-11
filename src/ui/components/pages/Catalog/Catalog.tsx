@@ -13,15 +13,11 @@ import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
-import { CatalogSoftwareDetails } from "./CatalogSoftwareDetails";
-import type { Props as CatalogSoftwareDetailsProps } from "./CatalogSoftwareDetails";
 import type { Link } from "type-route";
 import { useStateRef } from "powerhooks/useStateRef";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import memoize from "memoizee";
 import { useConst } from "powerhooks/useConst";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
-import type { Param0 } from "tsafe";
 
 Catalog.routeGroup = createGroup([routes.catalog]);
 
@@ -143,8 +139,7 @@ export function Catalog(props: Props) {
         const openLinkBySoftwareId: Record<number, Link> = {};
 
         Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
-            openLinkBySoftwareId[parseInt(id)] = routes.catalog({
-                "search": route.params.search || undefined,
+            openLinkBySoftwareId[parseInt(id)] = routes.card({
                 "software": name,
             }).link;
         });
@@ -157,76 +152,9 @@ export function Catalog(props: Props) {
         userAuthenticationThunks.login();
     });
 
-    const onGoBack = useConstCallback(() =>
-        routes.catalog({ "search": route.params.search || undefined }).push(),
-    );
-
-    const onDeclareReferentAnswerFactory = useCallbackFactory(
-        (
-            [softwareId]: [number],
-            [{ isExpert, useCaseDescription }]: [
-                Param0<CatalogSoftwareDetailsProps["onDeclareReferentAnswer"]>,
-            ],
-        ) =>
-            catalogThunks.declareUserReferent({
-                isExpert,
-                softwareId,
-                useCaseDescription,
-            }),
-    );
-
-    const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
-        catalogThunks.userNoLongerReferent({ softwareId }),
-    );
-
     const getFormLink = useConst(() =>
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
     );
-
-    const softwareNameOrSoftwareId = (() => {
-        const { software: softwareNameOrSoftwareIdAsString } = route.params;
-
-        if (softwareNameOrSoftwareIdAsString === undefined) {
-            return undefined;
-        }
-
-        const n = parseInt(softwareNameOrSoftwareIdAsString);
-
-        return isNaN(n) ? softwareNameOrSoftwareIdAsString : n;
-    })();
-
-    useEffect(() => {
-        if (typeof softwareNameOrSoftwareId !== "number") {
-            return;
-        }
-
-        if (softwares === undefined) {
-            return;
-        }
-
-        const software = softwares.find(
-            ({ name, id }) =>
-                softwareNameOrSoftwareId ===
-                (typeof softwareNameOrSoftwareId === "number" ? id : name),
-        );
-
-        if (software === undefined) {
-            routes.fourOhFour().replace();
-            return;
-        }
-
-        routes
-            .catalog({
-                "software": software.name,
-            })
-            .replace();
-    }, [softwareNameOrSoftwareId, softwares]);
-
-    //NOTE: We expect the route param to be the name of the software, if
-    //it's the id we replace in the above effect.
-    if (typeof softwareNameOrSoftwareId === "number") {
-        return null;
-    }
 
     if (catalogState.stateDescription !== "ready") {
         return null;
@@ -240,78 +168,35 @@ export function Catalog(props: Props) {
 
     return (
         <div className={cx(classes.root, className)}>
-            {route.params.software === undefined && (
-                <PageHeader
-                    ref={pageHeaderRef}
-                    className={classes.pageHeader}
-                    mainIcon="catalog"
-                    title={t("header text1")}
-                    helpTitle={t("header text2")}
-                    helpContent={t("header text3", { "link": routes.form().link })}
-                    helpIcon="sentimentSatisfied"
-                    titleCollapseParams={titleCollapseParams}
-                    helpCollapseParams={helpCollapseParams}
-                />
-            )}
+            <PageHeader
+                ref={pageHeaderRef}
+                className={classes.pageHeader}
+                mainIcon="catalog"
+                title={t("header text1")}
+                helpTitle={t("header text2")}
+                helpContent={t("header text3", { "link": routes.form().link })}
+                helpIcon="sentimentSatisfied"
+                titleCollapseParams={titleCollapseParams}
+                helpCollapseParams={helpCollapseParams}
+            />
             <div className={classes.contentWrapper}>
-                {softwareNameOrSoftwareId === undefined
-                    ? pageHeaderRef.current !== null && (
-                          <CatalogCards
-                              search={route.params.search}
-                              onSearchChange={onSearchChange}
-                              filteredSoftwares={filteredSoftwares}
-                              alikeSoftwares={alikeSoftwares}
-                              referentsBySoftwareId={referentsBySoftwareId}
-                              openLinkBySoftwareId={openLinkBySoftwareId}
-                              onLoadMore={catalogThunks.loadMore}
-                              hasMoreToLoad={catalogThunks.getHasMoreToLoad()}
-                              searchBarWrapperElement={pageHeaderRef.current}
-                              onLogin={onLogin}
-                              onDeclareReferentAnswer={catalogThunks.declareUserReferent}
-                              onUserNoLongerReferent={catalogThunks.userNoLongerReferent}
-                              referenceNewSoftwareLink={getFormLink(undefined)}
-                          />
-                      )
-                    : (() => {
-                          const software = softwares.find(
-                              ({ name }) => softwareNameOrSoftwareId === name,
-                          );
-
-                          if (software === undefined) {
-                              routes.fourOhFour().replace();
-                              return null;
-                          }
-
-                          const { referents, userIndex } =
-                              referentsBySoftwareId?.[software.id] ?? {};
-
-                          return (
-                              <CatalogSoftwareDetails
-                                  className={classes.softwareDetails}
-                                  software={software}
-                                  onGoBack={onGoBack}
-                                  editLink={
-                                      referentsBySoftwareId === undefined
-                                          ? undefined
-                                          : referentsBySoftwareId[software.id]
-                                                .userIndex !== undefined
-                                          ? getFormLink(software.id)
-                                          : undefined
-                                  }
-                                  referents={referents}
-                                  userIndexInReferents={userIndex}
-                                  onDeclareReferentAnswer={onDeclareReferentAnswerFactory(
-                                      software.id,
-                                  )}
-                                  onUserNoLongerReferent={onUserNoLongerReferentFactory(
-                                      software.id,
-                                  )}
-                                  onLogin={onLogin}
-                                  openLinkBySoftwareId={openLinkBySoftwareId}
-                                  softwareNameBySoftwareId={softwareNameBySoftwareId}
-                              />
-                          );
-                      })()}
+                {pageHeaderRef.current !== null && (
+                    <CatalogCards
+                        search={route.params.search}
+                        onSearchChange={onSearchChange}
+                        filteredSoftwares={filteredSoftwares}
+                        alikeSoftwares={alikeSoftwares}
+                        referentsBySoftwareId={referentsBySoftwareId}
+                        openLinkBySoftwareId={openLinkBySoftwareId}
+                        onLoadMore={catalogThunks.loadMore}
+                        hasMoreToLoad={catalogThunks.getHasMoreToLoad()}
+                        searchBarWrapperElement={pageHeaderRef.current}
+                        onLogin={onLogin}
+                        onDeclareReferentAnswer={catalogThunks.declareUserReferent}
+                        onUserNoLongerReferent={catalogThunks.userNoLongerReferent}
+                        referenceNewSoftwareLink={getFormLink(undefined)}
+                    />
+                )}
             </div>
         </div>
     );
