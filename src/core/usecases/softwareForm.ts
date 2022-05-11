@@ -12,7 +12,7 @@ import type { Param0, Equals, PickOptionals } from "tsafe";
 import { is } from "tsafe/is";
 import { objectKeys } from "tsafe/objectKeys";
 import { typeGuard } from "tsafe/typeGuard";
-import { thunks as catalogExplorerThunks } from "./catalogExplorer";
+import { thunks as catalogThunks } from "./catalog";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
@@ -199,23 +199,23 @@ export const thunks = {
             //NOTE: We need have the catalog fetched even if we don't use software here
             //(we check errors)
             const { softwares } = await (async () => {
-                let catalogExplorerState = getState().catalogExplorer;
+                let catalogState = getState().catalog;
 
-                if (catalogExplorerState.stateDescription === "not fetched") {
-                    dispatch(catalogExplorerThunks.fetchCatalog());
+                if (catalogState.stateDescription === "not fetched") {
+                    dispatch(catalogThunks.fetchCatalog());
 
                     await evtAction.waitFor(
                         action =>
-                            action.sliceName === "catalogExplorer" &&
+                            action.sliceName === "catalog" &&
                             action.actionName === "catalogsFetched",
                     );
 
-                    catalogExplorerState = getState().catalogExplorer;
+                    catalogState = getState().catalog;
 
-                    assert(catalogExplorerState.stateDescription === "ready");
+                    assert(catalogState.stateDescription === "ready");
                 }
 
-                const { softwares } = catalogExplorerState["~internal"];
+                const { softwares } = catalogState["~internal"];
 
                 return { softwares };
             })();
@@ -608,9 +608,9 @@ export const selectors = (() => {
                 return undefined;
             }
 
-            const catalogExplorerState = rootState.catalogExplorer;
+            const catalogState = rootState.catalog;
 
-            assert(catalogExplorerState.stateDescription === "ready");
+            assert(catalogState.stateDescription === "ready");
 
             return Object.fromEntries(
                 fieldNames.map(fieldName => [
@@ -619,7 +619,7 @@ export const selectors = (() => {
                         getFieldError({
                             fieldName,
                             "fieldValue": state.valueByFieldName[fieldName],
-                            "softwares": catalogExplorerState["~internal"].softwares,
+                            "softwares": catalogState["~internal"].softwares,
                             "isCreation": state.softwareId === undefined,
                         }))(),
                 ]),

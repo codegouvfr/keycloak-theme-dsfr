@@ -23,7 +23,7 @@ import { useConst } from "powerhooks/useConst";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
 
-Catalog.routeGroup = createGroup([routes.catalogExplorer]);
+Catalog.routeGroup = createGroup([routes.catalog]);
 
 type PageRoute = Route<typeof Catalog.routeGroup>;
 
@@ -73,27 +73,27 @@ export function Catalog(props: Props) {
         };
     }, []);
 
-    const catalogExplorerState = useSelector(state => state.catalogExplorer);
+    const catalogState = useSelector(state => state.catalog);
 
-    const { catalogExplorerThunks, userAuthenticationThunks } = useThunks();
+    const { catalogThunks, userAuthenticationThunks } = useThunks();
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
-        switch (catalogExplorerState.stateDescription) {
+        switch (catalogState.stateDescription) {
             case "not fetched":
-                if (!catalogExplorerState.isFetching) {
+                if (!catalogState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
-                    catalogExplorerThunks.fetchCatalog();
+                    catalogThunks.fetchCatalog();
                 }
                 break;
             case "ready":
                 hideSplashScreen();
                 break;
         }
-    }, [catalogExplorerState.stateDescription]);
+    }, [catalogState.stateDescription]);
 
-    const { isProcessing } = useSelector(selectors.catalogExplorer.isProcessing);
+    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
 
     useEffect(() => {
         if (isProcessing === undefined) {
@@ -112,29 +112,27 @@ export function Catalog(props: Props) {
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
-                .catalogExplorer({
+                .catalog({
                     "search": search || undefined,
                 })
                 .replace(),
     );
 
     useEffect(() => {
-        catalogExplorerThunks.setSearch({ "search": route.params.search });
+        catalogThunks.setSearch({ "search": route.params.search });
     }, [route.params.search]);
 
-    const { filteredSoftwares } = useSelector(
-        selectors.catalogExplorer.filteredSoftwares,
-    );
+    const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
 
-    const { alikeSoftwares } = useSelector(selectors.catalogExplorer.alikeSoftwares);
+    const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
     const { referentsBySoftwareId } = useSelector(
-        selectors.catalogExplorer.referentsBySoftwareId,
+        selectors.catalog.referentsBySoftwareId,
     );
 
-    const { softwares } = useSelector(selectors.catalogExplorer.softwares);
+    const { softwares } = useSelector(selectors.catalog.softwares);
 
     const { softwareNameBySoftwareId } = useSelector(
-        selectors.catalogExplorer.softwareNameBySoftwareId,
+        selectors.catalog.softwareNameBySoftwareId,
     );
 
     const openLinkBySoftwareId = useMemo(() => {
@@ -145,7 +143,7 @@ export function Catalog(props: Props) {
         const openLinkBySoftwareId: Record<number, Link> = {};
 
         Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
-            openLinkBySoftwareId[parseInt(id)] = routes.catalogExplorer({
+            openLinkBySoftwareId[parseInt(id)] = routes.catalog({
                 "search": route.params.search || undefined,
                 "software": name,
             }).link;
@@ -160,7 +158,7 @@ export function Catalog(props: Props) {
     });
 
     const onGoBack = useConstCallback(() =>
-        routes.catalogExplorer({ "search": route.params.search || undefined }).push(),
+        routes.catalog({ "search": route.params.search || undefined }).push(),
     );
 
     const onDeclareReferentAnswerFactory = useCallbackFactory(
@@ -170,7 +168,7 @@ export function Catalog(props: Props) {
                 Param0<CatalogSoftwareDetailsProps["onDeclareReferentAnswer"]>,
             ],
         ) =>
-            catalogExplorerThunks.declareUserReferent({
+            catalogThunks.declareUserReferent({
                 isExpert,
                 softwareId,
                 useCaseDescription,
@@ -178,7 +176,7 @@ export function Catalog(props: Props) {
     );
 
     const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
-        catalogExplorerThunks.userNoLongerReferent({ softwareId }),
+        catalogThunks.userNoLongerReferent({ softwareId }),
     );
 
     const getFormLink = useConst(() =>
@@ -218,7 +216,7 @@ export function Catalog(props: Props) {
         }
 
         routes
-            .catalogExplorer({
+            .catalog({
                 "software": software.name,
             })
             .replace();
@@ -230,7 +228,7 @@ export function Catalog(props: Props) {
         return null;
     }
 
-    if (catalogExplorerState.stateDescription !== "ready") {
+    if (catalogState.stateDescription !== "ready") {
         return null;
     }
 
@@ -265,16 +263,12 @@ export function Catalog(props: Props) {
                               alikeSoftwares={alikeSoftwares}
                               referentsBySoftwareId={referentsBySoftwareId}
                               openLinkBySoftwareId={openLinkBySoftwareId}
-                              onLoadMore={catalogExplorerThunks.loadMore}
-                              hasMoreToLoad={catalogExplorerThunks.getHasMoreToLoad()}
+                              onLoadMore={catalogThunks.loadMore}
+                              hasMoreToLoad={catalogThunks.getHasMoreToLoad()}
                               searchBarWrapperElement={pageHeaderRef.current}
                               onLogin={onLogin}
-                              onDeclareReferentAnswer={
-                                  catalogExplorerThunks.declareUserReferent
-                              }
-                              onUserNoLongerReferent={
-                                  catalogExplorerThunks.userNoLongerReferent
-                              }
+                              onDeclareReferentAnswer={catalogThunks.declareUserReferent}
+                              onUserNoLongerReferent={catalogThunks.userNoLongerReferent}
                               referenceNewSoftwareLink={getFormLink(undefined)}
                           />
                       )

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Action, ThunkAction as GenericThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
-import * as catalogExplorerUsecase from "./usecases/catalogExplorer";
+import * as catalogUsecase from "./usecases/catalog";
 import * as userAuthenticationUsecase from "./usecases/userAuthentication";
 import * as softwareFormUsecase from "./usecases/softwareForm";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
@@ -62,11 +62,7 @@ assert<
     >
 >();
 
-export const usecases = [
-    catalogExplorerUsecase,
-    userAuthenticationUsecase,
-    softwareFormUsecase,
-];
+export const usecases = [catalogUsecase, userAuthenticationUsecase, softwareFormUsecase];
 
 const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
 
@@ -171,7 +167,7 @@ export async function createStore(params: CreateStoreParams) {
 
     await store.dispatch(userAuthenticationUsecase.privateThunks.initialize());
 
-    store.dispatch(catalogExplorerUsecase.privateThunks.initialize());
+    store.dispatch(catalogUsecase.privateThunks.initialize());
 
     return store;
 }

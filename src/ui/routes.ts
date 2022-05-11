@@ -24,7 +24,7 @@ const routeDefs = {
         },
         () => `/compte`,
     ),
-    "catalogExplorer": defineRoute(
+    "catalog": defineRoute(
         {
             "search": param.query.optional.string.default(""),
             /** Can be the software name (string) or it's `${id}`  */

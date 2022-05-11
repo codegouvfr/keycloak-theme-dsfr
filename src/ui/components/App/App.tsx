@@ -120,7 +120,7 @@ export const App = memo((props: Props) => {
                 "catalog": {
                     "iconId": "catalog",
                     "label": t("catalog"),
-                    "link": routes.catalogExplorer().link,
+                    "link": routes.catalog().link,
                 },
             } as const),
         [t, lang],
@@ -162,7 +162,7 @@ export const App = memo((props: Props) => {
                         switch (route.name) {
                             case "account":
                                 return "account";
-                            case "catalogExplorer":
+                            case "catalog":
                                 return "catalog";
                         }
                     })()}
@@ -253,7 +253,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     useEffect(() => {
         switch (route.name) {
             case "home":
-                routes.catalogExplorer().replace();
+                routes.catalog().replace();
                 break;
             case "legacyRoute":
                 {
@@ -272,7 +272,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
                     const { id: softwareId } = route.params;
 
                     routes
-                        .catalogExplorer({
+                        .catalog({
                             "software":
                                 softwareId === undefined ? undefined : `${softwareId}`,
                         })
