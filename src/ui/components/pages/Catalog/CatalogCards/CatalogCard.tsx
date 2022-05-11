@@ -178,7 +178,6 @@ export const CatalogCard = memo((props: Props) => {
                                 {developers.map(({ id, name }, i) => (
                                     <span key={id}>
                                         <MuiLink
-                                            underline="hover"
                                             target="_blank"
                                             href={`https://www.wikidata.org/wiki/${id}`}
                                         >

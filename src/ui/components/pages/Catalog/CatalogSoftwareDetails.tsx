@@ -227,10 +227,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                     helperText={
                         <>
                             {t("learn more about the")}&nbsp;
-                            <MuiLink
-                                underline="hover"
-                                href="https://communs.numerique.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
-                            >
+                            <MuiLink href="https://communs.numerique.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/">
                                 {t("MISEULL")}
                             </MuiLink>
                         </>
@@ -244,7 +241,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         text={
                             <MuiLink
                                 target="_blank"
-                                underline="hover"
                                 href={software.wikidataData.sourceUrl}
                             >
                                 {software.wikidataData.sourceUrl
@@ -261,7 +257,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         text={
                             <MuiLink
                                 target="_blank"
-                                underline="hover"
                                 href={software.wikidataData.websiteUrl}
                             >
                                 {software.wikidataData.websiteUrl
@@ -302,7 +297,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                                 {...openLinkBySoftwareId[
                                     software.parentSoftware.softwareId
                                 ]}
-                                underline="hover"
                             >
                                 {
                                     softwareNameBySoftwareId[
@@ -323,7 +317,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                                 {softwareRef.isKnown ? (
                                     <MuiLink
                                         {...openLinkBySoftwareId[softwareRef.softwareId]}
-                                        underline="hover"
                                     >
                                         {softwareNameBySoftwareId[softwareRef.softwareId]}
                                     </MuiLink>
@@ -352,7 +345,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                                     key={developer.id}
                                     href={`https://www.wikidata.org/wiki/${developer.id}`}
                                     target="_blank"
-                                    underline="hover"
                                 >
                                     {developer.name}
                                 </MuiLink>
@@ -370,7 +362,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         text={
                             <MuiLink
                                 href={`https://comptoir-du-libre.org/fr/softwares/servicesProviders/${software.comptoirDuLibreSoftware.id}`}
-                                underline="hover"
                             >
                                 {t("total service provider", {
                                     "howMany": `${software.comptoirDuLibreSoftware.providers.length}`,
@@ -387,7 +378,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         text={
                             <MuiLink
                                 href={`https://comptoir-du-libre.org/fr/softwares/${software.comptoirDuLibreSoftware.id}`}
-                                underline="hover"
                             >
                                 {t("see on comptoir")}
                             </MuiLink>
@@ -402,7 +392,6 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         text={
                             <MuiLink
                                 href={`https://www.wikidata.org/wiki/${software.wikidataData.id}`}
-                                underline="hover"
                             >
                                 {t("see on wikidata")}
                             </MuiLink>
@@ -416,22 +405,14 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         helperText={
                             <>
                                 {t("workshops replay helper")}&nbsp;
-                                <MuiLink
-                                    href="https://github.com/blue-hats/ateliers"
-                                    underline="hover"
-                                >
+                                <MuiLink href="https://github.com/blue-hats/ateliers">
                                     {t("see all workshops")}
                                 </MuiLink>
                             </>
                         }
                         text={software.workshopUrls.map((url, i) => (
                             <Fragment key={url}>
-                                <MuiLink
-                                    key={url}
-                                    href={url}
-                                    target="_blank"
-                                    underline="hover"
-                                >
+                                <MuiLink key={url} href={url} target="_blank">
                                     {t("workshop", { "n": `${i + 1}` })}
                                 </MuiLink>
                                 &nbsp;
@@ -446,12 +427,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         helperText={t("use cases helper")}
                         text={software.useCaseUrls.map((url, i) => (
                             <Fragment key={url}>
-                                <MuiLink
-                                    key={url}
-                                    href={url}
-                                    target="_blank"
-                                    underline="hover"
-                                >
+                                <MuiLink key={url} href={url} target="_blank">
                                     {t("use case", { "n": `${i + 1}` })}
                                 </MuiLink>
                                 &nbsp;
