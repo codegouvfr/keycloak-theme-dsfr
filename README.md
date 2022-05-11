@@ -48,7 +48,7 @@ yarn start #The app is running on http://localhost:3000
 -   [tsafe](https://tsafe.dev)
 -   [keycloakify](https://keycloakify.dev)
 -   [evt](https://evt.land)
--   [tsi18n](https://github.com/garronej/tsi18n)
+-   [i18nifty](https://github.com/garronej/i18nifty)
 -   [onyxia-ui](https://github.com/InseeFrLab/onyxia-ui)
 -   [cra-env](https://github.com/etalab/cra-env)
 
