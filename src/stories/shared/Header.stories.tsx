@@ -27,7 +27,10 @@ export default meta;
 const propsCommon = {
     "className": css({ "height": 64, "paddingRight": (defaultContainerWidth * 2) / 100 }),
     "logoContainerWidth": (defaultContainerWidth * 4) / 100,
-    ...logCallbacks(["onLogoClick"]),
+    "logoLink": {
+        "href": "https://example.com",
+        "onClick": () => {},
+    },
 };
 
 const propCoreAppCommon = {

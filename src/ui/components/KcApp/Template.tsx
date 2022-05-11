@@ -57,8 +57,6 @@ export const Template = memo((props: TemplateProps) => {
         windowInnerHeight,
     });
 
-    const onHeaderLogoClick = useConstCallback(() => routes.home().push());
-
     const [isExtraCssLoaded, setExtraCssLoaded] = useReducer(() => true, false);
 
     useEffect(() => {
@@ -131,7 +129,7 @@ export const Template = memo((props: TemplateProps) => {
                     useCase="login pages"
                     className={classes.header}
                     logoContainerWidth={logoContainerWidth}
-                    onLogoClick={onHeaderLogoClick}
+                    logoLink={routes.home().link}
                 />
             )}
             <section className={classes.betweenHeaderAndFooter}>
