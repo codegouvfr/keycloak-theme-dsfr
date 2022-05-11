@@ -1,3 +1,8 @@
+### **0.10.1** (2022-05-11)  
+  
+- Bump version  
+- Register: Go back actually goes back    
+  
 ## **0.10.0** (2022-05-11)  
   
 - Update README.md  
