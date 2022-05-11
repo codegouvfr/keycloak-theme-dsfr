@@ -85,6 +85,12 @@ export function Catalog(props: Props) {
                 break;
             case "ready":
                 hideSplashScreen();
+
+                //NOTE: Restore previous search
+                if (route.params.search === "" && catalogState.search !== "") {
+                    routes.catalog({ "search": catalogState.search }).replace();
+                }
+
                 break;
         }
     }, [catalogState.stateDescription]);
