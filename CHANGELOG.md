@@ -1,3 +1,10 @@
+### **0.10.2** (2022-05-11)  
+  
+- Bump version  
+- Separate page for software details, new url too /fiche  
+- Rename catalogExplorer -> catalog  
+- Make the the header a link to home    
+  
 ### **0.10.1** (2022-05-11)  
   
 - Bump version  
