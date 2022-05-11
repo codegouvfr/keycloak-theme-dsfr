@@ -1,3 +1,10 @@
+### **0.9.11** (2022-05-11)  
+  
+- Remove deploy github pages  
+- Remove comitizen  
+- :recycle:  Move to i18nifty  
+- :sparkles:  Add telemetry    
+  
 ### **0.9.9** (2022-05-11)  
   
 - :lipstick:  UI left bar closed by default    
