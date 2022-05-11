@@ -1,3 +1,12 @@
+### **0.9.13** (2022-05-11)  
+  
+- Fix bug unsubmitable field  
+- Homepage mendatory for external asset  
+- package.json: Bump version to 0.9.12  
+- src/ui/components/pages/Catalog/CatalogSoftwareDetails.tsx: Fix language code
+
+Thanks to Fabrice Gangler for reporting this.    
+  
 ### **0.9.11** (2022-05-11)  
   
 - Remove deploy github pages  
