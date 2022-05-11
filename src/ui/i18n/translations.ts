@@ -123,7 +123,7 @@ export const resources = id<Record<Language, Translations>>({
         "App": {
             "reduce": "Reduce",
             "account": "My account",
-            "catalog": "Software catalog",
+            "catalog": "Recommended Free Software catalog",
         },
         "FourOhFour": {
             "not found": "Page not found",
@@ -176,7 +176,7 @@ export const resources = id<Record<Language, Translations>>({
             "reference a new software": "Reference a new software",
         },
         "Catalog": {
-            "header text1": "Software catalog",
+            "header text1": "Recommended Free Software catalog",
             "header text2":
                 "Catalog of used and recommended free and open source software for administrative public services.",
             "header text3":
@@ -361,7 +361,7 @@ export const resources = id<Record<Language, Translations>>({
         "App": {
             "reduce": "Réduire",
             "account": "Mon compte",
-            "catalog": "Catalogue de logiciel",
+            "catalog": "Catalogue des logiciels libres du SILL",
         },
         "FourOhFour": {
             "not found": "Page non trouvée",
@@ -413,7 +413,7 @@ export const resources = id<Record<Language, Translations>>({
             "reference a new software": "Référencer un nouveau logiciel",
         },
         "Catalog": {
-            "header text1": "Catalogue de logiciel",
+            "header text1": "Catalogue des logiciels libres du SILL",
             "header text2":
                 "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
             "header text3":
