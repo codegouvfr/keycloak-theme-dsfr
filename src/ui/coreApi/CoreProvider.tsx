@@ -10,7 +10,7 @@ import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 import type { ReturnType } from "tsafe";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks";
-import { evtLng } from "ui/i18n";
+import { evtLang } from "ui/i18n";
 
 type Props = {
     children: ReactNode;
@@ -41,7 +41,7 @@ export function CoreProvider(props: Props) {
                             addParamToUrl({
                                 url,
                                 "name": "ui_locales",
-                                "value": evtLng.state,
+                                "value": evtLang.state,
                             }).newUrl,
                     )
                     .map(url => injectTosInSearchParams({ url, termsOfServices }))[0],

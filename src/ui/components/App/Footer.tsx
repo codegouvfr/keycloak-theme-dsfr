@@ -1,7 +1,7 @@
 import { memo, forwardRef } from "react";
 import { makeStyles, Text, LanguageSelect } from "ui/theme";
 import { ReactComponent as GitHubSvg } from "ui/assets/svg/GitHub.svg";
-import { useLng, useTranslation } from "ui/i18n";
+import { useLang, useTranslation } from "ui/i18n";
 import { DarkModeSwitch } from "onyxia-ui/DarkModeSwitch";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
@@ -36,7 +36,7 @@ export const Footer = memo(
 
         const { t } = useTranslation({ Footer });
 
-        const { lng, setLng } = useLng();
+        const { lang, setLang } = useLang();
 
         const spacing = <div className={classes.spacing} />;
 
@@ -67,8 +67,8 @@ export const Footer = memo(
                 </a>
                 {spacing}
                 <LanguageSelect
-                    language={lng}
-                    onLanguageChange={setLng}
+                    language={lang}
+                    onLanguageChange={setLang}
                     variant="small"
                     changeLanguageText={t("change language")}
                 />

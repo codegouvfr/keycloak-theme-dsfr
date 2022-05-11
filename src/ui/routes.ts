@@ -40,10 +40,10 @@ const routeDefs = {
     ),
     "legacyRoute": defineRoute(
         {
-            "lng": param.path.string,
+            "lang": param.path.string,
             "id": param.query.optional.number,
         },
-        ({ lng }) => `/${lng}/software`,
+        ({ lang }) => `/${lang}/software`,
     ),
     "fourOhFour": defineRoute("/404"),
 };

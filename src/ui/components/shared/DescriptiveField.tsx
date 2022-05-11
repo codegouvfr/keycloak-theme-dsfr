@@ -22,7 +22,7 @@ import { useTranslation } from "ui/i18n";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Button } from "ui/theme";
-import { useLng } from "ui/i18n";
+import { useLang } from "ui/i18n";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 
 export type Props<T extends string = string> =
@@ -364,7 +364,7 @@ export const DescriptiveField = memo(
             props.onResetHelperDialogsClick();
         });
 
-        const { lng, setLng } = useLng();
+        const { lang, setLang } = useLang();
 
         return (
             <div className={cx(classes.root, className)}>
@@ -400,8 +400,8 @@ export const DescriptiveField = memo(
                                         <LanguageSelect
                                             doShowIcon={false}
                                             variant="big"
-                                            language={lng}
-                                            onLanguageChange={setLng}
+                                            language={lang}
+                                            onLanguageChange={setLang}
                                         />
                                     );
                                 case "toggle":

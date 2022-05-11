@@ -2,7 +2,7 @@ import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
-import { useLng, fallbackLanguage, evtLng, useTranslation } from "ui/i18n";
+import { useLang, fallbackLanguage, evtLang, useTranslation } from "ui/i18n";
 import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
 import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -88,7 +88,7 @@ export const App = memo((props: Props) => {
     );
 
     const tosUrl = (function useClosure() {
-        const { lng } = useLng();
+        const { lang } = useLang();
         const termsOfServices = useConst(() =>
             userAuthenticationThunks.getTermsOfServices(),
         );
@@ -100,15 +100,15 @@ export const App = memo((props: Props) => {
 
             const { resolveLocalizedString } =
                 createResolveLocalizedString<KcLanguageTag>({
-                    "currentLanguage": lng,
+                    "currentLanguage": lang,
                     "fallbackLanguage": id<typeof fallbackLanguage>("en"),
                 });
 
             return resolveLocalizedString(termsOfServices);
-        }, [lng]);
+        }, [lang]);
     })();
 
-    const { lng } = useLng();
+    const { lang } = useLang();
 
     const leftBarItems = useMemo(
         () =>
@@ -125,7 +125,7 @@ export const App = memo((props: Props) => {
                     "link": routes.catalogExplorer().link,
                 },
             } as const),
-        [t, lng],
+        [t, lang],
     );
 
     return (
@@ -260,15 +260,15 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
             case "legacyRoute":
                 {
                     {
-                        const { lng } = route.params;
+                        const { lang } = route.params;
 
                         if (
                             typeGuard<Language>(
-                                lng,
-                                id<readonly string[]>(languages).includes(lng),
+                                lang,
+                                id<readonly string[]>(languages).includes(lang),
                             )
                         ) {
-                            evtLng.state = lng;
+                            evtLang.state = lang;
                         }
                     }
                     const { id: softwareId } = route.params;
@@ -341,7 +341,7 @@ function useApplyLanguageSelectedAtLogin() {
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
 
-    const { setLng } = useLng();
+    const { setLang } = useLang();
 
     useEffect(() => {
         if (!isUserLoggedIn) {
@@ -364,6 +364,6 @@ function useApplyLanguageSelectedAtLogin() {
             return;
         }
 
-        setLng(locale);
+        setLang(locale);
     }, []);
 }

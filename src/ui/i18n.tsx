@@ -11,8 +11,8 @@ export const fallbackLanguage = "en";
 export const {
     useTranslation,
     resolveLocalizedString,
-    useLng,
-    evtLng,
+    useLang,
+    evtLang,
     useResolveLocalizedString,
 } = createI18nApi<
     | typeof import("ui/components/shared/Header").i18n

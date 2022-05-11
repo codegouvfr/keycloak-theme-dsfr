@@ -322,27 +322,27 @@ export const getConfiguration = memoize(
                             ),
                         );
 
-                        languages.forEach(lng =>
+                        languages.forEach(lang =>
                             assert(
-                                id<readonly string[]>(supportedLanguage).includes(lng),
+                                id<readonly string[]>(supportedLanguage).includes(lang),
                                 m_1(
                                     `${symToStr({
                                         label,
-                                    })}: ${lng} is not a supported languages, supported languages are: ${supportedLanguage.join(
+                                    })}: ${lang} is not a supported languages, supported languages are: ${supportedLanguage.join(
                                         ", ",
                                     )}`,
                                 ),
                             ),
                         );
 
-                        languages.forEach(lng => {
-                            const url = label[lng];
+                        languages.forEach(lang => {
+                            const url = label[lang];
                             assert(
                                 typeof url === "string",
                                 m_1(
                                     `${symToStr({
                                         label,
-                                    })} malformed (${lng}). It is supposed to be a string`,
+                                    })} malformed (${lang}). It is supposed to be a string`,
                                 ),
                             );
                         });

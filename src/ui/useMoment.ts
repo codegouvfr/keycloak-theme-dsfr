@@ -1,28 +1,28 @@
 import { useMemo, useEffect, useReducer } from "react";
 import moment from "moment";
 import "moment/locale/fr";
-import { useLng } from "ui/i18n";
+import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import type { Language } from "sill-api";
 import { capitalize } from "tsafe/capitalize";
 
 export const { getFormattedDate } = (() => {
-    const getFormatByLng = (isSameYear: boolean) => ({
+    const getFormatByLang = (isSameYear: boolean) => ({
         /* spell-checker: disable */
         "fr": `dddd Do MMMM${isSameYear ? "" : " YYYY"} à H[h]mm`,
         "en": `dddd, MMMM Do${isSameYear ? "" : " YYYY"}, h:mm a`,
         /* spell-checker: enable */
     });
 
-    function getFormattedDate(params: { time: number; lng: Language }): string {
-        const { time, lng } = params;
+    function getFormattedDate(params: { time: number; lang: Language }): string {
+        const { time, lang } = params;
 
         const date = new Date(time);
 
         const isSameYear = date.getFullYear() === new Date().getFullYear();
 
         return capitalize(
-            moment(date).locale(lng).format(getFormatByLng(isSameYear)[lng]),
+            moment(date).locale(lang).format(getFormatByLang(isSameYear)[lang]),
         );
     }
 
@@ -32,25 +32,25 @@ export const { getFormattedDate } = (() => {
 export function useFormattedDate(params: { time: number }): string {
     const { time } = params;
 
-    const { lng } = useLng();
+    const { lang } = useLang();
 
-    return useMemo(() => getFormattedDate({ time, lng }), [time, lng]);
+    return useMemo(() => getFormattedDate({ time, lang }), [time, lang]);
 }
 
 export function useValidUntil(params: { millisecondsLeft: number }): string {
     const { millisecondsLeft } = params;
 
-    const { lng } = useLng();
+    const { lang } = useLang();
 
     const validUntil = useMemo(
         () =>
             moment()
-                .locale(lng)
+                .locale(lang)
                 .add(millisecondsLeft, "milliseconds")
                 .calendar()
                 .toLowerCase(),
 
-        [lng, millisecondsLeft],
+        [lang, millisecondsLeft],
     );
 
     return validUntil;
@@ -75,8 +75,8 @@ export const { fromNow } = (() => {
             futureN: string;
         };
 
-        function getUnits(params: { lng: Language }): Unit[] {
-            const { lng } = params;
+        function getUnits(params: { lang: Language }): Unit[] {
+            const { lang } = params;
 
             return [
                 {
@@ -84,7 +84,7 @@ export const { fromNow } = (() => {
                     "divisor": 1,
                     ...(() => {
                         const text = (() => {
-                            switch (lng) {
+                            switch (lang) {
                                 case "en":
                                     return "just now";
                                 case "fr":
@@ -105,7 +105,7 @@ export const { fromNow } = (() => {
                     "max": MINUTE,
                     "divisor": SECOND,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "a second ago",
@@ -129,7 +129,7 @@ export const { fromNow } = (() => {
                     "max": HOUR,
                     "divisor": MINUTE,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "a minute ago",
@@ -153,7 +153,7 @@ export const { fromNow } = (() => {
                     "max": DAY,
                     "divisor": HOUR,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "an hour ago",
@@ -177,7 +177,7 @@ export const { fromNow } = (() => {
                     "max": WEEK,
                     "divisor": DAY,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "yesterday",
@@ -201,7 +201,7 @@ export const { fromNow } = (() => {
                     "max": 4 * WEEK,
                     "divisor": WEEK,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "last week",
@@ -225,7 +225,7 @@ export const { fromNow } = (() => {
                     "max": YEAR,
                     "divisor": MONTH,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "last month",
@@ -249,7 +249,7 @@ export const { fromNow } = (() => {
                     "max": 100 * YEAR,
                     "divisor": YEAR,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "last year",
@@ -273,7 +273,7 @@ export const { fromNow } = (() => {
                     "max": 1000 * YEAR,
                     "divisor": 100 * YEAR,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "last century",
@@ -297,7 +297,7 @@ export const { fromNow } = (() => {
                     "max": Infinity,
                     "divisor": 1000 * YEAR,
                     ...(() => {
-                        switch (lng) {
+                        switch (lang) {
                             case "en":
                                 return {
                                     "past1": "last millennium",
@@ -323,12 +323,12 @@ export const { fromNow } = (() => {
         return { getUnits };
     })();
 
-    function fromNow(params: { dateTime: number; lng: Language }): string {
-        const { dateTime, lng } = params;
+    function fromNow(params: { dateTime: number; lang: Language }): string {
+        const { dateTime, lang } = params;
 
         const diff = Date.now() - dateTime;
         const diffAbs = Math.abs(diff);
-        for (const unit of getUnits({ lng })) {
+        for (const unit of getUnits({ lang })) {
             if (diffAbs < unit.max) {
                 const isFuture = diff < 0;
                 const x = Math.round(Math.abs(diff) / unit.divisor);
@@ -356,12 +356,12 @@ export const { useFromNow } = (() => {
             };
         }, []);
 
-        const { lng } = useLng();
+        const { lang } = useLang();
 
         const fromNowText = useMemo(
-            () => fromNow({ dateTime, lng }),
+            () => fromNow({ dateTime, lang }),
 
-            [lng, trigger, dateTime],
+            [lang, trigger, dateTime],
         );
 
         return { fromNowText };

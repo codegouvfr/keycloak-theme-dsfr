@@ -19,7 +19,7 @@ import { CoreProvider } from "ui/coreApi/CoreProvider";
 import type { Language } from "sill-api";
 import { languages } from "sill-api";
 import { RouteProvider } from "ui/routes";
-import { useLng } from "ui/i18n";
+import { useLang } from "ui/i18n";
 
 export function getStoryFactory<Props>(params: {
     sectionName: string;
@@ -81,14 +81,14 @@ export function getStoryFactory<Props>(params: {
             containerWidth: number;
             chromeFontSize: ChromeFontSize;
             targetWindowInnerWidth: number;
-            lng: Language;
+            lang: Language;
         }
     > = ({
         darkMode,
         containerWidth,
         targetWindowInnerWidth,
         chromeFontSize,
-        lng,
+        lang,
         ...props
     }) => {
         const { setIsDarkModeEnabled } = useIsDarkModeEnabled();
@@ -97,11 +97,11 @@ export function getStoryFactory<Props>(params: {
             setIsDarkModeEnabled(darkMode);
         }, [darkMode]);
 
-        const { setLng } = useLng();
+        const { setLang } = useLang();
 
         useEffect(() => {
-            setLng(lng);
-        }, [lng]);
+            setLang(lang);
+        }, [lang]);
 
         const getViewPortConfig = useCallback<
             NonNullable<ThemeProviderProps["getViewPortConfig"]>
@@ -158,7 +158,7 @@ export function getStoryFactory<Props>(params: {
             "containerWidth": defaultContainerWidth ?? 0,
             "targetWindowInnerWidth": 0,
             "chromeFontSize": "Medium (Recommended)",
-            "lng": id<Language>("en"),
+            "lang": id<Language>("en"),
             ...props,
         };
 
@@ -190,7 +190,7 @@ export function getStoryFactory<Props>(params: {
                     "options": objectKeys(chromeFontSizesFactors),
                     "control": { "type": "select" },
                 },
-                "lng": {
+                "lang": {
                     "options": languages,
                     "control": {
                         "type": "inline-radio",

@@ -8461,6 +8461,15 @@ i18nifty@^0.1.0:
     powerhooks "^0.16.3"
     tsafe "^0.10.0"
 
+i18nifty@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-0.2.3.tgz#d2c3a7691b50013d09fd9076ad6360dedb054985"
+  integrity sha512-z2M7zFrgKpi4fNP2LJLUJcnSx/+hNBMWB+t3Dt3HQ+4j3aQ9aZtmayan/PixkfaI3Xpu9ROYLhOX49HneM6liw==
+  dependencies:
+    evt "2.0.0-beta.39"
+    powerhooks "^0.16.3"
+    tsafe "^0.10.0"
+
 iconv-lite@0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
@@ -10999,10 +11008,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.35.0:
-  version "0.35.0"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.35.0.tgz#a06f27fa2ee587bf050d42d3eb79f246f7b3857d"
-  integrity sha512-nh6GrYwm623KQfPjXLT+wShTiyZCHnS+LpEG3WiqBzreRfCP6t5HDxBF8bPOJmAnUY7IAA3Pb2suP8I7JHDZLA==
+onyxia-ui@^0.35.1:
+  version "0.35.1"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.35.1.tgz#c96efbc54333e1c1ff3097b97be0349033fb1b84"
+  integrity sha512-uuwZQUei71YXC1krJV5BzMIySykSE4+3YZsDEnbNsQiBBPcfHy5ths99kIebBgoPGs/8kvTbRMM7Q6rqK7mIQA==
   dependencies:
     "@mui/icons-material" "^5.0.3"
     color "3.1.3"

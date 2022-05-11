@@ -9,7 +9,7 @@ import { RegisterUserProfile } from "./RegisterUserProfile";
 import { getBrowser } from "ui/tools/getBrowser";
 import type { KcContext } from "./kcContext";
 import { KcApp as KcAppBase } from "keycloakify/lib/components/KcApp";
-import { useLng } from "ui/i18n";
+import { useLang } from "ui/i18n";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
 import { typeGuard } from "tsafe/typeGuard";
@@ -23,7 +23,7 @@ export type Props = {
 export const KcApp = memo((props: Props) => {
     const { kcContext } = props;
 
-    const { setLng } = useLng();
+    const { setLang } = useLang();
 
     useEffect(() => {
         const currentKcLanguageTag = getCurrentKcLanguageTag(kcContext);
@@ -37,7 +37,7 @@ export const KcApp = memo((props: Props) => {
             return;
         }
 
-        setLng(currentKcLanguageTag);
+        setLang(currentKcLanguageTag);
     }, []);
 
     const { hideRootSplashScreen } = useSplashScreen({
