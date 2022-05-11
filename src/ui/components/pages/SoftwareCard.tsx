@@ -1,76 +1,93 @@
-import { Fragment, useRef, memo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { DirectoryHeader } from "onyxia-ui/DirectoryHeader";
-import type { CompiledData } from "sill-api";
 import { Icon, makeStyles } from "ui/theme";
 import { Card } from "onyxia-ui/Card";
 import { Button } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui/i18n";
+import { useTranslation, useLang } from "ui/i18n";
 import { Link } from "type-route";
 import { DescriptiveField } from "ui/components/shared/DescriptiveField";
 import { useResolveLocalizedString } from "ui/i18n";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
-import { useFormattedDate } from "ui/useMoment";
+import { getFormattedDate } from "ui/useMoment";
 import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
 import MuiLink from "@mui/material/Link";
-import { ReferentDialogs } from "../../shared/ReferentDialogs";
+import { ReferentDialogs } from "../shared/ReferentDialogs";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
 import type { UnpackEvt } from "evt";
-import { getScrollableParent } from "powerhooks/getScrollableParent";
-import { useElementEvt } from "evt/hooks";
+import { useSelector, useThunks, selectors } from "ui/coreApi";
+import type { Route } from "type-route";
+import { createGroup } from "type-route";
+import { routes } from "ui/routes";
+import { useSplashScreen } from "onyxia-ui";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import type { Param0 } from "tsafe";
+import memoize from "memoizee";
+
+//TODO: We should have a dedicated usecase for this page.
+
+SoftwareCard.routeGroup = createGroup([routes.card]);
+
+type PageRoute = Route<typeof SoftwareCard.routeGroup>;
+
+SoftwareCard.getDoRequireUserLoggedIn = () => false;
 
 export type Props = {
     className?: string;
-    software: CompiledData.Software;
-    onGoBack: () => void;
-    editLink: Link | undefined;
-    referents: CompiledData.Software.WithReferent["referents"] | undefined;
-    userIndexInReferents: number | undefined;
-    onDeclareReferentAnswer: (params: {
-        isExpert: boolean;
-        useCaseDescription: string;
-    }) => void;
-    onUserNoLongerReferent: () => void;
-    onLogin: () => void;
-    openLinkBySoftwareId: Record<number, Link>;
-    softwareNameBySoftwareId: Record<number, string>;
+    route: PageRoute;
 };
 
-export const CatalogSoftwareDetails = memo((props: Props) => {
-    const {
-        className,
-        software,
-        onGoBack,
-        editLink,
-        referents,
-        userIndexInReferents,
-        onDeclareReferentAnswer,
-        onUserNoLongerReferent,
-        onLogin,
-        openLinkBySoftwareId,
-        softwareNameBySoftwareId,
-    } = props;
+export function SoftwareCard(props: Props) {
+    const { className, route } = props;
 
-    const { t } = useTranslation({ CatalogSoftwareDetails });
+    const { t } = useTranslation({ SoftwareCard });
 
     const { resolveLocalizedString } = useResolveLocalizedString();
 
-    const referencedSincePrettyPrint = useFormattedDate({
-        "time": software.referencedSinceTime,
-    });
+    const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
-    const softwareFunction = capitalize(
-        [software.wikidataData?.description]
-            .filter(exclude(undefined))
-            .map(resolveLocalizedString)[0] ?? software.function,
-    );
+    const catalogState = useSelector(state => state.catalog);
+
+    const { catalogThunks, userAuthenticationThunks } = useThunks();
+
+    useEffect(() => {
+        switch (catalogState.stateDescription) {
+            case "not fetched":
+                if (!catalogState.isFetching) {
+                    showSplashScreen({ "enableTransparency": true });
+                    catalogThunks.fetchCatalog();
+                }
+                break;
+            case "ready":
+                hideSplashScreen();
+                break;
+        }
+    }, [catalogState.stateDescription]);
+
+    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
+
+    useEffect(() => {
+        if (isProcessing === undefined) {
+            return;
+        }
+
+        if (isProcessing) {
+            showSplashScreen({
+                "enableTransparency": true,
+            });
+        } else {
+            hideSplashScreen();
+        }
+    }, [isProcessing]);
+
+    const onGoBack = useConstCallback(() => routes.catalog().push());
 
     const { imgRef, isBanner, imgWidth } = (function useClosure() {
         const {
@@ -90,7 +107,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
 
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
-            onLogin();
+            userAuthenticationThunks.login();
             return;
         }
 
@@ -99,20 +116,135 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
 
     const { classes, cx, css } = useStyles({ imgWidth });
 
-    const rootRef = useRef(null);
-
-    useElementEvt(
-        ({ element }) =>
-            getScrollableParent({
-                element,
-                "doReturnElementIfScrollable": true,
-            }).scrollTo(0, 0),
-        rootRef,
-        [],
+    const { softwares } = useSelector(selectors.catalog.softwares);
+    const { referentsBySoftwareId } = useSelector(
+        selectors.catalog.referentsBySoftwareId,
     );
 
+    const softwareNameOrSoftwareId = (() => {
+        const { software: softwareNameOrSoftwareIdAsString } = route.params;
+
+        if (softwareNameOrSoftwareIdAsString === undefined) {
+            return undefined;
+        }
+
+        const n = parseInt(softwareNameOrSoftwareIdAsString);
+
+        return isNaN(n) ? softwareNameOrSoftwareIdAsString : n;
+    })();
+
+    useEffect(() => {
+        if (typeof softwareNameOrSoftwareId !== "number") {
+            return;
+        }
+
+        if (softwares === undefined) {
+            return;
+        }
+
+        const software = softwares.find(
+            ({ name, id }) =>
+                softwareNameOrSoftwareId ===
+                (typeof softwareNameOrSoftwareId === "number" ? id : name),
+        );
+
+        if (software === undefined) {
+            routes.fourOhFour().replace();
+            return;
+        }
+
+        routes.card({ "software": software.name }).replace();
+    }, [softwareNameOrSoftwareId, softwares]);
+
+    const getFormLink = useConst(() =>
+        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
+    );
+
+    const { softwareNameBySoftwareId } = useSelector(
+        selectors.catalog.softwareNameBySoftwareId,
+    );
+
+    const openLinkBySoftwareId = useMemo(() => {
+        if (softwareNameBySoftwareId === undefined) {
+            return undefined;
+        }
+
+        const openLinkBySoftwareId: Record<number, Link> = {};
+
+        Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
+            openLinkBySoftwareId[parseInt(id)] = routes.card({
+                "software": name,
+            }).link;
+        });
+
+        return openLinkBySoftwareId;
+    }, [softwareNameBySoftwareId]);
+
+    const onDeclareReferentAnswerFactory = useCallbackFactory(
+        (
+            [softwareId]: [number],
+            [{ isExpert, useCaseDescription }]: [
+                Param0<ReferentDialogsProps["onAnswer"]>,
+            ],
+        ) =>
+            catalogThunks.declareUserReferent({
+                isExpert,
+                softwareId,
+                useCaseDescription,
+            }),
+    );
+
+    const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
+        catalogThunks.userNoLongerReferent({
+            softwareId,
+        }),
+    );
+
+    const { lang } = useLang();
+
+    //NOTE: We expect the route param to be the name of the software, if
+    //it's the id we replace in the above effect.
+    if (typeof softwareNameOrSoftwareId === "number") {
+        return null;
+    }
+
+    if (catalogState.stateDescription !== "ready") {
+        return null;
+    }
+
+    assert(softwares !== undefined);
+    assert(openLinkBySoftwareId !== undefined);
+    assert(softwareNameBySoftwareId !== undefined);
+
+    const software = softwares.find(({ name }) => softwareNameOrSoftwareId === name);
+
+    if (software === undefined) {
+        routes.fourOhFour().replace();
+        return null;
+    }
+
+    const { referents, userIndex } = referentsBySoftwareId?.[software.id] ?? {};
+
+    const softwareFunction = capitalize(
+        [software.wikidataData?.description]
+            .filter(exclude(undefined))
+            .map(resolveLocalizedString)[0] ?? software.function,
+    );
+
+    const referencedSincePrettyPrint = getFormattedDate({
+        "time": software.referencedSinceTime,
+        lang,
+    });
+
+    const editLink =
+        referentsBySoftwareId === undefined
+            ? undefined
+            : referentsBySoftwareId[software.id].userIndex !== undefined
+            ? getFormLink(software.id)
+            : undefined;
+
     return (
-        <div className={cx(classes.root, className)} ref={rootRef}>
+        <div className={cx(classes.root, className)}>
             <DirectoryHeader
                 classes={{
                     "imageWrapper": classes.imageWrapper,
@@ -438,20 +570,22 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
             </Card>
             <ReferentDialogs
                 referents={referents}
-                userIndexInReferents={userIndexInReferents}
+                userIndexInReferents={userIndex}
                 evtAction={evtReferentDialogAction}
-                onAnswer={onDeclareReferentAnswer}
-                onUserNoLongerReferent={onUserNoLongerReferent}
+                onAnswer={onDeclareReferentAnswerFactory(software.id)}
+                onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
                 softwareName={software.name}
             />
         </div>
     );
-});
+}
 
 const useStyles = makeStyles<{ imgWidth: number }>({
-    "name": { CatalogSoftwareDetails },
+    "name": { SoftwareCard },
 })((theme, { imgWidth }) => ({
-    "root": {},
+    "root": {
+        "marginBottom": theme.spacing(3),
+    },
     "card": {
         "paddingTop": theme.spacing(2),
     },
@@ -517,4 +651,4 @@ export const { i18n } = declareComponentKeys<
     | "use cases"
     | "use cases helper"
     | ["use case", { n: string }]
->()({ CatalogSoftwareDetails });
+>()({ SoftwareCard });

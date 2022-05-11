@@ -21,7 +21,7 @@ export const {
     | typeof import("ui/components/App/App").i18n
     | typeof import("ui/components/pages/FourOhFour").i18n
     | typeof import("ui/components/pages/Form").i18n
-    | typeof import("ui/components/pages/Catalog/CatalogSoftwareDetails").i18n
+    | typeof import("ui/components/pages/SoftwareCard").i18n
     | typeof import("ui/components/pages/Account/Account").i18n
     | typeof import("ui/components/pages/Account/tabs/AccountInfoTab").i18n
     | typeof import("ui/components/pages/Account/tabs/AccountUserInterfaceTab").i18n
@@ -220,7 +220,7 @@ export const {
             create an entry for it.
             `,
             },
-            "CatalogSoftwareDetails": {
+            "SoftwareCard": {
                 "update software information": "Update software information",
                 "software name": "Name of the software",
                 "software's function": "Software's function",
@@ -463,7 +463,7 @@ export const {
             seront préremplis en fonction.  
             Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
             },
-            "CatalogSoftwareDetails": {
+            "SoftwareCard": {
                 "update software information":
                     "Mettre à jour les informations du logiciel",
                 "software name": "Nom du logiciel",

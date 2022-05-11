@@ -63,7 +63,7 @@ export function Form(props: Props) {
                 hideSplashScreen();
                 softwareFormThunks.initialize({ "softwareId": undefined });
                 routes
-                    .catalog({
+                    .card({
                         "software": state.softwareName,
                     })
                     .push();

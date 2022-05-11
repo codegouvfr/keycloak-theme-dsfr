@@ -13,6 +13,7 @@ import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Form } from "ui/components/pages/Form";
+import { SoftwareCard } from "ui/components/pages/SoftwareCard";
 import { typeGuard } from "tsafe/typeGuard";
 import { Language } from "sill-api";
 import { id } from "tsafe/id";
@@ -271,12 +272,10 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
                     }
                     const { id: softwareId } = route.params;
 
-                    routes
-                        .catalog({
-                            "software":
-                                softwareId === undefined ? undefined : `${softwareId}`,
-                        })
-                        .replace();
+                    (softwareId === undefined
+                        ? routes.catalog()
+                        : routes.card({ "software": `${softwareId}` })
+                    ).replace();
                 }
                 break;
         }
@@ -301,6 +300,19 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     {
         const Page = Account;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login();
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = SoftwareCard;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
