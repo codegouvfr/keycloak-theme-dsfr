@@ -369,7 +369,7 @@ export const CatalogSoftwareDetails = memo((props: Props) => {
                         helperText={t("service provider helper")}
                         text={
                             <MuiLink
-                                href={`https://comptoir-du-libre.org/en/softwares/servicesProviders/${software.comptoirDuLibreSoftware.id}`}
+                                href={`https://comptoir-du-libre.org/fr/softwares/servicesProviders/${software.comptoirDuLibreSoftware.id}`}
                                 underline="hover"
                             >
                                 {t("total service provider", {
