@@ -1,3 +1,13 @@
+## **0.10.0** (2022-05-11)  
+  
+- Update README.md  
+- We do not need a default html lang attribute, it could be missleading  
+- Update i18n for dynamically changing html lang attribute  
+- Merge pull request #28 from Erwan-le-Gall/Erwan-le-Gall-patch-main-language-code
+
+[accessibility] change default language of page to French  
+- Fix click here in the header of the catalog    
+  
 ### **0.9.15** (2022-05-11)  
   
 - package.json: Bump version to 0.9.15  
