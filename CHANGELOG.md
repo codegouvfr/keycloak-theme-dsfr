@@ -1,3 +1,11 @@
+### **0.9.8** (2022-05-11)  
+  
+- :sparkles:  Improving search, ignoring accents  
+- src/ui/i18n/translations.ts: Minor enhancement  
+- src/ui/i18n/translations.ts: Wording enhancements  
+- src/ui/i18n/translations.ts: Fix typo  
+- src/ui/i18n/translations.ts: Small wording enhancement    
+  
 ### **0.9.7** (2022-05-10)  
   
 - package.json: Bump version to 0.9.7  
