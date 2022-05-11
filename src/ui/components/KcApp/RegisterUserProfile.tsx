@@ -39,9 +39,7 @@ export const RegisterUserProfile = memo(
 
         const { t } = useTranslation({ RegisterUserProfile });
 
-        const redirectToLogin = useConstCallback(
-            () => (window.location.href = url.loginUrl),
-        );
+        const onGoBackClick = useConstCallback(() => global.history.back());
 
         const passwordValidators = useMemo(
             () => ({
@@ -377,7 +375,7 @@ export const RegisterUserProfile = memo(
                         <div className={classes.buttonsWrapper}>
                             <Button
                                 variant="secondary"
-                                onClick={redirectToLogin}
+                                onClick={onGoBackClick}
                                 tabIndex={-1}
                             >
                                 {t("go back")}
