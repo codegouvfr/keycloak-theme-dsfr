@@ -111,6 +111,7 @@ export const Header = memo(
                             className={css({ "fontWeight": 500 })}
                             color="focus"
                         >
+                            &nbsp;
                             {HEADER_USECASE_DESCRIPTION}
                         </Text>
                     )}
