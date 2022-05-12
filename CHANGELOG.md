@@ -1,3 +1,7 @@
+### **0.10.4** (2022-05-12)  
+  
+- Remove etalab in header    
+  
 ### **0.10.3** (2022-05-11)  
   
 - Restore search when comming back to catalog    
