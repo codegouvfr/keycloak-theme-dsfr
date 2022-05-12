@@ -258,7 +258,7 @@ export function SoftwareCard(props: Props) {
                                 &nbsp; &nbsp;
                                 <Tag
                                     className={classes.warningTag}
-                                    text={"En observations"}
+                                    text={"En observation"}
                                 />
                             </>
                         )}
@@ -266,7 +266,7 @@ export function SoftwareCard(props: Props) {
                             <>
                                 &nbsp; &nbsp;
                                 <Tooltip
-                                    title={"Développer par le service publique français"}
+                                    title={"Développé par le service public français"}
                                 >
                                     <span>🐓</span>
                                 </Tooltip>
@@ -312,14 +312,14 @@ export function SoftwareCard(props: Props) {
                 />
                 <DescriptiveField
                     type="text"
-                    title={t("software's function")}
+                    title={t("software function")}
                     text={softwareFunction}
                 />
                 {software.testUrls.length !== 0 && (
                     <DescriptiveField
                         type="text"
                         title={t("test url")}
-                        helperText={t("test url helper")}
+                        helperText={t("test URL helper")}
                         text={
                             <Button
                                 href={
