@@ -1,3 +1,30 @@
+### **0.10.5** (2022-05-12)  
+  
+- Fix build  
+- Patch for restoring scroll  
+- src/ui/components/pages/SoftwareCard.tsx: Fix typos  
+- Remove etalab in header  
+- Restore search when comming back to catalog  
+- Bump version  
+- Separate page for software details, new url too /fiche  
+- Rename catalogExplorer -> catalog  
+- Make the the header a link to home  
+- Bump version  
+- Register: Go back actually goes back  
+- Update README.md  
+- We do not need a default html lang attribute, it could be missleading  
+- [accessibility] change default language of page
+
+change default language of page as screenreaders are directly impacted.
+modification de la langue par défaut de la page car cela impacte directement la voix localisée utilisée par la synthèse vocale (personnes aveugles, malvoyantes, dyslexiques…).  
+- package.json: Bump version to 0.9.15  
+- src/ui/components/App/Footer.tsx: Fix link to the repository version  
+- src/ui/i18n.tsx: Fix typos
+
+Fix https://github.com/etalab/sill-web/issues/20#issuecomment-1124202059  
+- Patch for restoring scroll  
+- src/ui/components/pages/SoftwareCard.tsx: Fix typos    
+  
 ### **0.10.4** (2022-05-12)  
   
 - Remove etalab in header    
