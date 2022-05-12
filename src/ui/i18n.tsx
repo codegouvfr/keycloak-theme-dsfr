@@ -223,7 +223,7 @@ export const {
             "SoftwareCard": {
                 "update software information": "Update software information",
                 "software name": "Name of the software",
-                "software's function": "Software's function",
+                "software function": "Software's function",
                 "sill id": "SILL ID",
                 "sill id helper": "Uniq ID in the SILL's database",
                 "in sill from date": "Date of entry in the SILL",
@@ -467,7 +467,7 @@ export const {
                 "update software information":
                     "Mettre à jour les informations du logiciel",
                 "software name": "Nom du logiciel",
-                "software's function": "Fonction du logiciel",
+                "software function": "Fonction du logiciel",
                 "sill id": "Identifiant SILL",
                 "sill id helper":
                     "Identifiant unique dans la base de données des logiciels du SILL",

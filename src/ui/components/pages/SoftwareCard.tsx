@@ -319,7 +319,7 @@ export function SoftwareCard(props: Props) {
                     <DescriptiveField
                         type="text"
                         title={t("test url")}
-                        helperText={t("test URL helper")}
+                        helperText={t("test url helper")}
                         text={
                             <Button
                                 href={
@@ -606,7 +606,7 @@ const useStyles = makeStyles<{ imgWidth: number }>({
 export const { i18n } = declareComponentKeys<
     | "update software information"
     | "software name"
-    | "software's function"
+    | "software function"
     | "sill id"
     | "sill id helper"
     | "in sill from date"
