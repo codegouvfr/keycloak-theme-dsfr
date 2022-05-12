@@ -382,7 +382,7 @@ export const privateThunks = {
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
     return {
         "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
-        "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 220 })
+        "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 })
             .waitForDebounce,
         "prevSearch": "",
     };
