@@ -1,3 +1,4 @@
+import type { RefObject } from "react";
 import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
@@ -24,6 +25,9 @@ import { useStickyTop } from "powerhooks/useStickyTop";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import { languages } from "sill-api";
 import { declareComponentKeys } from "i18nifty";
+import { useElementEvt } from "evt/hooks/useElementEvt";
+import { getScrollableParent } from "powerhooks/getScrollableParent";
+import { Evt } from "evt";
 
 export const logoContainerWidthInPercent = 4;
 
@@ -126,6 +130,8 @@ export const App = memo((props: Props) => {
             } as const),
         [t, lang],
     );
+
+    useRestoreScroll({ route, rootRef });
 
     return (
         <div ref={rootRef} className={cx(classes.root, className)}>
@@ -376,4 +382,52 @@ function useApplyLanguageSelectedAtLogin() {
 
         setLang(locale);
     }, []);
+}
+
+function useRestoreScroll(params: {
+    route: ReturnType<typeof useRoute>;
+    rootRef: RefObject<any>;
+}) {
+    const { route, rootRef } = params;
+
+    const scrollTopByPageName = useConst((): Record<string, number> => ({}));
+
+    useElementEvt(
+        ({ ctx, element, registerSideEffect }) => {
+            if (route.name === false) {
+                return;
+            }
+
+            const scrollableElement = getScrollableParent({
+                "doReturnElementIfScrollable": true,
+                element,
+            });
+
+            //scrollableElement.style.scrollBehavior ="smooth";
+
+            registerSideEffect(() => {
+                const scrollTop = scrollTopByPageName[route.name] ?? 0;
+
+                (async function callee(count: number) {
+                    if (count === 0) {
+                        return;
+                    }
+
+                    if (scrollableElement.scrollHeight < scrollTop) {
+                        await new Promise(resolve => setTimeout(resolve, 150));
+                        callee(count - 1);
+                        return;
+                    }
+
+                    scrollableElement.scrollTo(0, scrollTop);
+                })(4);
+            });
+
+            Evt.from(ctx, scrollableElement, "scroll").attach(() => {
+                scrollTopByPageName[route.name] = scrollableElement.scrollTop;
+            });
+        },
+        rootRef,
+        [route.name],
+    );
 }
