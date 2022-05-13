@@ -141,7 +141,7 @@ const emailDomains = [
     "latmos.ipsl.fr",
     "uvsq.fr",
     "conseiller-numerique.fr",
-];
+].map(domain => domain.toLowerCase());
 
 const regExpStr = emailDomainsToRegExpStr(emailDomains);
 
