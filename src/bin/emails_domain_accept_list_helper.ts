@@ -128,6 +128,19 @@ const emailDomains = [
     "ehess.fr",
     "univ-lyon1.fr",
     "crtc.ccomptes.fr",
+    "utc.fr",
+    "centralesupelec.fr",
+    "univ-lyon2.fr",
+    "cnrs.fr",
+    "universite-paris-saclay.fr",
+    "inrae.fr",
+    "inserm.fr",
+    "univ-angers.fr",
+    "univ-st-etienne.fr",
+    "mipih.fr",
+    "latmos.ipsl.fr",
+    "uvsq.fr",
+    "conseiller-numerique.fr",
 ];
 
 const regExpStr = emailDomainsToRegExpStr(emailDomains);
