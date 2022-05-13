@@ -137,7 +137,7 @@ export const {
             },
             "CatalogCards": {
                 "show more": "Show more",
-                "no service found": "No service found",
+                "no service found": "No software found",
                 "no result found": ({ forWhat }) => `No result found for ${forWhat}`,
                 "check spelling":
                     "Please check your spelling or try widening your search.",
@@ -380,7 +380,7 @@ export const {
             },
             "CatalogCards": {
                 "show more": "Afficher tous",
-                "no service found": "Service non trouvé",
+                "no service found": "Logiciel non trouvé",
                 "no result found": ({ forWhat }) =>
                     `Aucun résultat trouvé pour ${forWhat}`,
                 "check spelling": `Vérifiez que le nom du service est correctement 
