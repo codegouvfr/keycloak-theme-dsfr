@@ -128,9 +128,9 @@ export function SoftwareCard(props: Props) {
             return undefined;
         }
 
-        const n = parseInt(softwareNameOrSoftwareIdAsString);
-
-        return isNaN(n) ? softwareNameOrSoftwareIdAsString : n;
+        return /^[0-9]+$/.test(softwareNameOrSoftwareIdAsString)
+            ? parseInt(softwareNameOrSoftwareIdAsString)
+            : softwareNameOrSoftwareIdAsString;
     })();
 
     useEffect(() => {
