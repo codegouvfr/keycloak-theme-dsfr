@@ -1,3 +1,8 @@
+### **0.10.6** (2022-05-13)  
+  
+- Put the accepted domains at the bottom of the tooltip #32  
+- update domain name accept list generator script    
+  
 ### **0.10.5** (2022-05-12)  
   
 - Fix build  
