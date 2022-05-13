@@ -458,7 +458,7 @@ export const {
                 "help title add":
                     "Déclarez que ce logiciel est utilisé au sein de votre administration.",
                 "help title edit": "Mettre à jour la fiche SILL de ce logiciel",
-                "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org
+                "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org.
             Il est important de renseigner l'entité Wikidata en premier, les autres champs 
             seront préremplis en fonction.  
             Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
