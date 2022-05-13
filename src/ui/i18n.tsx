@@ -137,7 +137,7 @@ export const {
             },
             "CatalogCards": {
                 "show more": "Show more",
-                "no service found": "No service found",
+                "no service found": "No software found",
                 "no result found": ({ forWhat }) => `No result found for ${forWhat}`,
                 "check spelling":
                     "Please check your spelling or try widening your search.",
@@ -373,14 +373,14 @@ export const {
                 "send": "Envoyer",
                 "declare oneself referent": "Me déclarer référent",
                 "no longer referent": "Je ne suis plus référent",
-                "useCaseDescription": "Déscription du cas d'usage",
+                "useCaseDescription": "Description du cas d'usage",
                 "useCaseDescription helper":
                     "Décrivez le cas d'usage de ce logiciel dans votre administration.",
                 "i am a technical expert": "Je suis expert technique",
             },
             "CatalogCards": {
                 "show more": "Afficher tous",
-                "no service found": "Service non trouvé",
+                "no service found": "Logiciel non trouvé",
                 "no result found": ({ forWhat }) =>
                     `Aucun résultat trouvé pour ${forWhat}`,
                 "check spelling": `Vérifiez que le nom du service est correctement 
@@ -458,7 +458,7 @@ export const {
                 "help title add":
                     "Déclarez que ce logiciel est utilisé au sein de votre administration.",
                 "help title edit": "Mettre à jour la fiche SILL de ce logiciel",
-                "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org
+                "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org.
             Il est important de renseigner l'entité Wikidata en premier, les autres champs 
             seront préremplis en fonction.  
             Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
