@@ -326,11 +326,6 @@ export const RegisterUserProfile = memo(
                                                             undefined ? undefined : attribute.name ===
                                                           "email" ? (
                                                             <>
-                                                                {formatEmailPattern(
-                                                                    pattern,
-                                                                )}
-                                                                <br />
-                                                                <br />
                                                                 <b>
                                                                     {t(
                                                                         "your domain isn't listed yet?",
@@ -341,6 +336,11 @@ export const RegisterUserProfile = memo(
                                                                 <b>
                                                                     logiciels-libres@data.gouv.fr
                                                                 </b>
+                                                                <br />
+                                                                <br />
+                                                                {formatEmailPattern(
+                                                                    pattern,
+                                                                )}
                                                             </>
                                                         ) : fieldStateByAttributeName[
                                                               attribute.name
