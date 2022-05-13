@@ -162,6 +162,8 @@ export function Catalog(props: Props) {
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
     );
 
+    const { searchResultCount } = useSelector(selectors.catalog.searchResultCount);
+
     if (catalogState.stateDescription !== "ready") {
         return null;
     }
@@ -171,6 +173,7 @@ export function Catalog(props: Props) {
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
     assert(softwareNameBySoftwareId !== undefined);
+    assert(searchResultCount !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -188,6 +191,7 @@ export function Catalog(props: Props) {
             <div className={classes.contentWrapper}>
                 {pageHeaderRef.current !== null && (
                     <CatalogCards
+                        searchResultCount={searchResultCount}
                         search={route.params.search}
                         onSearchChange={onSearchChange}
                         filteredSoftwares={filteredSoftwares}

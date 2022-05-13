@@ -26,6 +26,7 @@ import type { Param0 } from "tsafe";
 
 export type Props = {
     className?: string;
+    searchResultCount: number;
     filteredSoftwares: CompiledData.Software[];
     alikeSoftwares: (
         | SoftwareRef.Unknown
@@ -62,6 +63,7 @@ export type Props = {
 export const CatalogCards = memo((props: Props) => {
     const {
         className,
+        searchResultCount,
         filteredSoftwares,
         alikeSoftwares,
         referentsBySoftwareId,
@@ -172,7 +174,7 @@ export const CatalogCards = memo((props: Props) => {
                 {!doRenderSearchBarInHeader && searchBarNode}
                 {filteredSoftwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
-                        {t(search !== "" ? "search results" : "all software")}
+                        {t("search results", { count: searchResultCount })}
                         &nbsp;
                         <Button
                             {...referenceNewSoftwareLink}
@@ -247,8 +249,7 @@ export const CatalogCards = memo((props: Props) => {
 
 export const { i18n } = declareComponentKeys<
     | "main services"
-    | "all software"
-    | "search results"
+    | ["search results", { count: number }]
     | "show more"
     | "no service found"
     | ["no result found", { forWhat: string }]

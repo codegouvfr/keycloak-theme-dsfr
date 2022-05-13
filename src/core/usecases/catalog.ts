@@ -530,6 +530,24 @@ export const selectors = (() => {
         return softwares;
     });
 
+    const searchResultCount = createSelector(
+        readyState,
+        softwares,
+        filteredSoftwares,
+        (state, softwares, filteredSoftwares) => {
+            if (state === undefined) {
+                return undefined;
+            }
+
+            assert(softwares !== undefined);
+            assert(filteredSoftwares !== undefined);
+
+            const { search } = state;
+
+            return search !== "" ? filteredSoftwares.length : softwares.length;
+        },
+    );
+
     const alikeSoftwares = createSelector(
         readyState,
         filteredSoftwares,
@@ -578,5 +596,6 @@ export const selectors = (() => {
         isProcessing,
         softwareNameBySoftwareId,
         softwares,
+        searchResultCount,
     };
 })();

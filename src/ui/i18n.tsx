@@ -144,7 +144,7 @@ export const {
                 "go back": "Back to main services",
                 "main services": "Main services",
                 "all software": "All software",
-                "search results": "Search result",
+                "search results": ({ count }) => `${count} Free software`,
                 "search": "Search",
                 "alike software": "Alike software",
                 "other similar software":
@@ -387,8 +387,8 @@ export const {
             orthographié ou essayez d'élargir votre recherche.`,
                 "go back": "Retourner aux principaux services",
                 "main services": "Principaux services",
-                "all software": "Tous les logiciels",
-                "search results": "Résultats de la recherche",
+                "search results": ({ count }) =>
+                    `${count} Logiciel libre${count === 1 ? "" : "s"}`,
                 "search": "Rechercher",
                 "alike software": "Logiciels similaires",
                 "other similar software":

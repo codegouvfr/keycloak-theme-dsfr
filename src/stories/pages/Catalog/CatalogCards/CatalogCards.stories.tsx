@@ -83,6 +83,7 @@ const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
 export const VueDefault = getStory({
     className,
     filteredSoftwares,
+    "searchResultCount": 44,
     "alikeSoftwares": [],
     "referentsBySoftwareId": {
         "233": {
