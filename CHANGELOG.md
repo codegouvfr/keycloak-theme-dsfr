@@ -1,3 +1,15 @@
+### **0.10.7** (2022-05-13)  
+  
+- #34  
+- Add domains to acceptlist  
+- src/ui/i18n.tsx: Fix UI string and its translation
+
+Perhaps "no service found" should be renamed too?  
+- src/ui/i18n.tsx: Fix typo  
+- src/ui/i18n.tsx: Fix typo  
+- https://github.com/etalab/sill/issues/1  
+- Add many domains    
+  
 ### **0.10.6** (2022-05-13)  
   
 - Put the accepted domains at the bottom of the tooltip #32  
