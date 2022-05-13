@@ -373,7 +373,7 @@ export const {
                 "send": "Envoyer",
                 "declare oneself referent": "Me déclarer référent",
                 "no longer referent": "Je ne suis plus référent",
-                "useCaseDescription": "Déscription du cas d'usage",
+                "useCaseDescription": "Description du cas d'usage",
                 "useCaseDescription helper":
                     "Décrivez le cas d'usage de ce logiciel dans votre administration.",
                 "i am a technical expert": "Je suis expert technique",
