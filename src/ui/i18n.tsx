@@ -388,7 +388,7 @@ export const {
                 "go back": "Retourner aux principaux services",
                 "main services": "Principaux services",
                 "search results": ({ count }) =>
-                    `${count} Logiciel libre${count === 1 ? "" : "s"}`,
+                    `${count} logiciel libre${count === 1 ? "" : "s"}`,
                 "search": "Rechercher",
                 "alike software": "Logiciels similaires",
                 "other similar software":
