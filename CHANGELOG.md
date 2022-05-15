@@ -1,3 +1,10 @@
+### **0.10.9** (2022-05-15)  
+  
+- Fix dialog display on small screen  
+- src/ui/i18n.tsx: Fix typo
+
+Use lower case when not at the beginning of a sentence.    
+  
 ### **0.10.8** (2022-05-13)  
   
 - Fix parsing of numeric software ID    
