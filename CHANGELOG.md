@@ -1,3 +1,7 @@
+### **0.10.11** (2022-05-16)  
+  
+- Do not count the unlisted softwares    
+  
 ### **0.10.10** (2022-05-16)  
   
 - Add contextual link to understand what is the SILL    
