@@ -1,3 +1,11 @@
+### **0.11.1** (2022-05-16)  
+  
+- package.json: Bump version to 0.11.1  
+- src/ui/i18n.tsx: Fix typo  
+- Add domain names  
+- Update email domain acceptlist  
+- Update email domain acceptlist    
+  
 ## **0.11.0** (2022-05-16)  
   
 - Do not display the full list but make it easyer to sent a mail    
