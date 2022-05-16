@@ -1,3 +1,7 @@
+### **0.10.10** (2022-05-16)  
+  
+- Add contextual link to understand what is the SILL    
+  
 ### **0.10.9** (2022-05-15)  
   
 - Fix dialog display on small screen  
