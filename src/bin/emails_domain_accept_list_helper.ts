@@ -35,6 +35,7 @@ console.log(emailDomains);
             .reduce(
                 (acc, curr) => [...acc, curr],
                 [
+                    "gouv.fr",
                     "insee.fr",
                     "montreuil.fr",
                     "inserm.fr",
@@ -53,7 +54,6 @@ console.log(emailDomains);
                     "telecom-paris.fr",
                     "st-etienne.archi.fr",
                     "amue.fr",
-                    "hceres.gouv.fr",
                     "hceres.fr",
                     "renater.fr",
                     "reseau-canope.fr",
@@ -77,6 +77,7 @@ console.log(emailDomains);
                     "shom.fr",
                     "univ-grenoble-alpes.fr",
                     "clermont-auvergne-inp.fr",
+                    "ensea.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
