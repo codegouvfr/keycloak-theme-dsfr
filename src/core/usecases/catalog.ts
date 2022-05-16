@@ -544,7 +544,10 @@ export const selectors = (() => {
 
             const { search } = state;
 
-            return search !== "" ? filteredSoftwares.length : softwares.length;
+            return search !== ""
+                ? filteredSoftwares.length
+                : softwares.filter(software => software.dereferencing === undefined)
+                      .length;
         },
     );
 
