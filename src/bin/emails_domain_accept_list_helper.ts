@@ -76,6 +76,7 @@ console.log(emailDomains);
                     "conseiller-numerique.fr",
                     "shom.fr",
                     "univ-grenoble-alpes.fr",
+                    "clermont-auvergne-inp.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
