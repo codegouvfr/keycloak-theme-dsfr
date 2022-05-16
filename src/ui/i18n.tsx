@@ -155,10 +155,13 @@ export const {
                 "header text1": "Recommended Free Software catalog",
                 "header text2":
                     "Catalog of used and recommended free and open source software for administrative public services.",
-                "header text3": ({ link }) => (
+                "what is the SILL": ({ href }) => (
                     <>
-                        You are a public agent and you want to recommend a free
-                        software?&nbsp;<MuiLink {...link}>Click here</MuiLink>.
+                        {" "}
+                        <MuiLink href={href} target="_blank">
+                            Click here
+                        </MuiLink>{" "}
+                        to learn more about what is the SILL.{" "}
                     </>
                 ),
             },
@@ -399,10 +402,14 @@ export const {
                 "header text1": "Catalogue des logiciels libres du SILL",
                 "header text2":
                     "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
-                "header text3": ({ link }) => (
+                "what is the SILL": ({ href }) => (
                     <>
-                        Vous êtes agent public et souhaitez recommander un logiciel
-                        libre?&nbsp;<MuiLink {...link}>Cliquez ici</MuiLink>.
+                        {" "}
+                        <MuiLink href={href} target="_blank">
+                            Clickez ici
+                        </MuiLink>
+                        &nbsp;pour comprendre ce qu'est le SILL et quelles sont ses
+                        missions
                     </>
                 ),
             },

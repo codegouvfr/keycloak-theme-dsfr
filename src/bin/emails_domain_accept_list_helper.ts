@@ -142,6 +142,7 @@ const emailDomains = [
     "uvsq.fr",
     "conseiller-numerique.fr",
     "shom.fr",
+    "univ-rennes2.fr",
 ].map(domain => domain.toLowerCase());
 
 const regExpStr = emailDomainsToRegExpStr(emailDomains);
@@ -149,3 +150,44 @@ const regExpStr = emailDomainsToRegExpStr(emailDomains);
 console.log(regExpStr);
 
 export {};
+
+/*
+
+import { parse as csvParseSync } from "csv-parse/sync";
+import { id } from "tsafe/id";
+import * as fetch from "node-fetch";
+
+//ts-node --skip-project src/bin/wip.ts
+
+function rawCsvFileToRawCsvRows(params: {
+	rawCsvFile: string;
+}): Record<string, string>[] {
+	const { rawCsvFile } = params;
+	return csvParseSync(rawCsvFile, {
+		"columns": true,
+		"skip_empty_lines": true,
+	});
+}
+
+(async () => {
+
+	const rawCsvFile = await fetch.default("https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/domains.csv")
+		.then(resp => resp.text());
+
+	const rawCsvRows = rawCsvFileToRawCsvRows({ rawCsvFile });
+
+	const x = rawCsvRows
+		.map(({ name }) => name)
+		.filter(name => !name.startsWith("www"))
+		.reduce((acc, curr)=> {
+
+		}, id<string[]>([]) );
+
+
+	console.log(x);
+
+
+})();
+
+
+*/
