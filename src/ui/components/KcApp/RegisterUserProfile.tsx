@@ -11,9 +11,10 @@ import { Button, makeStyles } from "ui/theme";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { TextField } from "onyxia-ui/TextField";
-import { regExpStrToEmailDomains } from "./emailDomainAcceptListHelper";
 import MuiTextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+
+const contactEmail = "logiciels-libres@data.gouv.fr";
 
 export const RegisterUserProfile = memo(
     ({
@@ -244,21 +245,15 @@ export const RegisterUserProfile = memo(
                                                     inputProps_spellCheck={false}
                                                     label={label}
                                                     helperText={(() => {
-                                                        const displayableErrors =
+                                                        const { displayableErrors } =
                                                             fieldStateByAttributeName[
                                                                 attribute.name
-                                                            ].displayableErrors.filter(
-                                                                ({ validatorName }) =>
-                                                                    !(
-                                                                        validatorName ===
-                                                                            "pattern" &&
-                                                                        attribute.name ===
-                                                                            "email"
-                                                                    ),
-                                                            );
+                                                            ];
 
                                                         if (
-                                                            displayableErrors.length !== 0
+                                                            displayableErrors.length !==
+                                                                0 &&
+                                                            attribute.name !== "email"
                                                         ) {
                                                             return displayableErrors.map(
                                                                 ({ errorMessage }, i) => (
@@ -272,9 +267,26 @@ export const RegisterUserProfile = memo(
 
                                                         switch (attribute.name) {
                                                             case "email":
-                                                                return t(
-                                                                    "allowed email domains",
-                                                                );
+                                                                return displayableErrors.length ===
+                                                                    0
+                                                                    ? t(
+                                                                          "use your administrative email",
+                                                                      )
+                                                                    : t(
+                                                                          "you domain isn't allowed yet",
+                                                                          {
+                                                                              "mailtoHref": `mailto:${contactEmail}?subject=${encodeURIComponent(
+                                                                                  t(
+                                                                                      "mail subject",
+                                                                                  ),
+                                                                              )}&body=${encodeURIComponent(
+                                                                                  t(
+                                                                                      "mail body",
+                                                                                  ),
+                                                                              )}`,
+                                                                              contactEmail,
+                                                                          },
+                                                                      );
                                                             case "password": {
                                                                 const { min } =
                                                                     attribute.validators
@@ -322,32 +334,16 @@ export const RegisterUserProfile = memo(
                                                             attribute.validators
                                                                 .pattern ?? {};
 
-                                                        return pattern ===
-                                                            undefined ? undefined : attribute.name ===
-                                                          "email" ? (
-                                                            <>
-                                                                <b>
-                                                                    {t(
-                                                                        "your domain isn't listed yet?",
-                                                                    )}
-                                                                </b>
-                                                                <br />
-                                                                {t("contact us at")}&nbsp;
-                                                                <b>
-                                                                    logiciels-libres@data.gouv.fr
-                                                                </b>
-                                                                <br />
-                                                                <br />
-                                                                {formatEmailPattern(
-                                                                    pattern,
-                                                                )}
-                                                            </>
-                                                        ) : fieldStateByAttributeName[
-                                                              attribute.name
-                                                          ].displayableErrors.length ===
-                                                          0 ? (
-                                                            pattern
-                                                        ) : undefined;
+                                                        return pattern === undefined
+                                                            ? undefined
+                                                            : attribute.name === "email"
+                                                            ? undefined
+                                                            : fieldStateByAttributeName[
+                                                                  attribute.name
+                                                              ].displayableErrors
+                                                                  .length === 0
+                                                            ? pattern
+                                                            : undefined;
                                                     })()}
                                                     inputProps_aria-invalid={
                                                         fieldStateByAttributeName[
@@ -409,15 +405,16 @@ export const RegisterUserProfile = memo(
 );
 
 export const { i18n } = declareComponentKeys<
-    | "allowed email domains"
     | ["minimum length", { n: string }]
     | "must be different from email"
     | "password mismatch"
     | "go back"
     | "form not filled properly yet"
     | "must respect the pattern"
-    | "your domain isn't listed yet?"
-    | "contact us at"
+    | "use your administrative email"
+    | ["you domain isn't allowed yet", { mailtoHref: string; contactEmail: string }]
+    | "mail subject"
+    | "mail body"
 >()({ RegisterUserProfile });
 
 const { getHardCodedFieldWeight } = (() => {
@@ -437,14 +434,6 @@ const { getHardCodedFieldWeight } = (() => {
 
     return { getHardCodedFieldWeight };
 })();
-
-function formatEmailPattern(pattern: string) {
-    try {
-        return regExpStrToEmailDomains(pattern).join(", ");
-    } catch {
-        return pattern;
-    }
-}
 
 const useStyles = makeStyles({ "name": { RegisterUserProfile } })(theme => ({
     "root": {

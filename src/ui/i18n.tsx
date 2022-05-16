@@ -33,10 +33,7 @@ export const {
     | typeof import("ui/components/KcApp/Login").i18n
     | typeof import("ui/components/KcApp/RegisterUserProfile").i18n
 >()(
-    {
-        languages,
-        fallbackLanguage,
-    },
+    { languages, fallbackLanguage },
     {
         "en": {
             "Account": {
@@ -77,7 +74,6 @@ export const {
                     "Reset message windows that have been requested not to be shown again",
             },
             "RegisterUserProfile": {
-                "allowed email domains": "Allowed domains:",
                 "minimum length": ({ n }) => `Minimum length: ${n}`,
                 "must be different from email": "Password can't be the email",
                 "password mismatch": "Passwords mismatch",
@@ -85,8 +81,20 @@ export const {
                 "form not filled properly yet":
                     "Please make sure the form is properly filled out",
                 "must respect the pattern": "Must respect the pattern",
-                "your domain isn't listed yet?": "Your domain isn't listed yet?",
-                "contact us at": "Contact us at:",
+                "mail subject": "[SILL] Adding new mail domain to the accept list",
+                "mail body": `
+            Hello, 
+            Would you, assuming it's granted, add my domain to the accept list.  
+
+            Best regards,
+            `,
+                "use your administrative email": "Your administrative email",
+                "you domain isn't allowed yet": ({ contactEmail, mailtoHref }) => (
+                    <>
+                        Your email domain isn't allowed yet. Contact us at{" "}
+                        <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+                    </>
+                ),
             },
             "Header": {
                 "login": "Login",
@@ -143,7 +151,6 @@ export const {
                     "Please check your spelling or try widening your search.",
                 "go back": "Back to main services",
                 "main services": "Main services",
-                "all software": "All software",
                 "search results": ({ count }) => `${count} Free software`,
                 "search": "Search",
                 "alike software": "Alike software",
@@ -323,7 +330,6 @@ export const {
                     "Réinitialiser les fenêtres de messages que vous ne voulez plus afficher",
             },
             "RegisterUserProfile": {
-                "allowed email domains": "Domaines autorisés",
                 "minimum length": ({ n }) => `Longueur minimale ${n}`,
                 "must be different from email": "Ne peut pas être le courriel",
                 "password mismatch": "Les deux mots de passe ne correspondent pas",
@@ -331,9 +337,21 @@ export const {
                 "form not filled properly yet":
                     "Veuillez vérifier que vous avez bien rempli le formulaire",
                 "must respect the pattern": "Dois respecter le format",
-                "your domain isn't listed yet?":
-                    "Votre domaine n'est pas encore dans la liste?",
-                "contact us at": "Contactez-nous à:",
+                "mail subject": "[SILL] Autorisation d'un nouveau domaine",
+                "mail body": `
+            Bonjour, 
+            Veuillez, sous réserve qu'il soit éligible, avoir l'amabilité de bien vouloir ajouter mon nom de domaine
+            a la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.  
+
+            Cordialement,
+            `,
+                "use your administrative email": "Votre email lié a la fonction publique",
+                "you domain isn't allowed yet": ({ contactEmail, mailtoHref }) => (
+                    <>
+                        Votre domaine n'est pas encore autorisé. Contactez-nous à{" "}
+                        <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+                    </>
+                ),
             },
             "Header": {
                 "login": "Connexion",

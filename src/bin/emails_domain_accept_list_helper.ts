@@ -10,6 +10,8 @@ import {
     emailDomainsToRegExpStr,
     //regExpStrToEmailDomains,
 } from "../ui/components/KcApp/emailDomainAcceptListHelper";
+import { id } from "tsafe/id";
+import * as fetch from "node-fetch";
 
 /*
 const emailDomains = regExpStrToEmailDomains(
@@ -19,175 +21,81 @@ const emailDomains = regExpStrToEmailDomains(
 console.log(emailDomains);
 */
 
-const emailDomains = [
-    "gouv.fr",
-    "sorbonne-universite.fr",
-    "ac-dijon.fr",
-    "insee.fr",
-    "montreuil.fr",
-    "ac-versailles.fr",
-    "inserm.fr",
-    "cnafmail.fr",
-    "ac-grenoble.fr",
-    "univ-lille.fr",
-    "univ-nantes.fr",
-    "obspm.fr",
-    "ac-orleans-tours.fr",
-    "ac-rennes.fr",
-    "adullact.org",
-    "ac-toulouse.fr",
-    "ac-paris.fr",
-    "pole-emploi.fr",
-    "unistra.fr",
-    "cea.fr",
-    "telecom-st-etienne.fr",
-    "assurance-maladie.fr",
-    "diderot.org",
-    "recia.fr",
-    "inha.fr",
-    "imt.fr",
-    "telecom-paris.fr",
-    "st-etienne.archi.fr",
-    "amue.fr",
-    "ac-clermont.fr",
-    "Ac-grenoble.fr",
-    "Ac-lyon.fr",
-    "Ac-Besancon.fr",
-    "Ac-dijon.fr",
-    "Ac-rennes.fr",
-    "Ac-nantes.fr",
-    "ac-orleans-tours.fr",
-    "Ac-montpellier.fr",
-    "Ac-toulouse.fr",
-    "ac-nancy-metz.fr",
-    "Ac-strasbourg.fr",
-    "Ac-reims.fr",
-    "Ac-bordeaux.fr",
-    "Ac-poitiers.fr",
-    "Ac-limoges.fr",
-    "Ac-spm.fr",
-    "Ac-lille.fr",
-    "Ac-amiens.fr",
-    "Ac-caen.fr",
-    "Ac-rouen.fr",
-    "ac-noumea.nc",
-    "ac-polynesie.pf",
-    "Ac-wf.wf",
-    "Ac-corse.fr",
-    "ac-guadeloupe.fr",
-    "Ac-guyane.fr",
-    "Ac-paris.fr",
-    "Ac-creteil.fr",
-    "Ac-versailles.fr",
-    "ac-reunion.fr",
-    "ac-martinique.fr",
-    "Ac-mayotte.fr",
-    "Ac-Aix-Marseille.fr",
-    "Ac-nice.fr",
-    "Ac-normandie",
-    "région académique",
-    "region-academique-aura.fr",
-    "region-academique-auvergne-rhone-alpes.fr",
-    "region-academique-bfc.fr",
-    "region-academique-bourgogne-franche-comte.fr",
-    "region-academique-bretagne.fr",
-    "region-academique-centre-val-de-loire.fr",
-    "region-academique-corse.fr",
-    "region-academique-grand-est.fr",
-    "region-academique-guadeloupe.fr",
-    "region-academique-guyane.fr",
-    "region-academique-hauts-de-france.fr",
-    "region-academique-idf.fr",
-    "region-academique-ile-de-france.fr",
-    "region-academique-martinique.fr",
-    "region-academique-mayotte.fr",
-    "region-academique-normandie.fr",
-    "region-academique-nouvelle-aquitaine.fr",
-    "region-academique-occitanie.fr",
-    "region-academique-paca.fr",
-    "region-academique-pays-de-la-loire.fr",
-    "region-academique-provence-alpes-cote-dazur.fr",
-    "region-academique-reunion.fr",
-    "hceres.gouv.fr",
-    "hceres.fr",
-    "renater.fr",
-    "reseau-canope.fr",
-    "cned.fr",
-    "ac-cned.fr",
-    "education.gouv.fr",
-    "igesr.gouv.fr",
-    "recherche.gouv.fr",
-    "enseignementsup.gouv.fr",
-    "onisep.fr",
-    "ih2ef.gouv.fr",
-    "sports.gouv.fr",
-    "jeunesse-sports.gouv.fr",
-    "service-civique.gouv.fr",
-    "diges.gouv.fr",
-    "unilim.fr",
-    "ehess.fr",
-    "univ-lyon1.fr",
-    "crtc.ccomptes.fr",
-    "utc.fr",
-    "centralesupelec.fr",
-    "univ-lyon2.fr",
-    "cnrs.fr",
-    "universite-paris-saclay.fr",
-    "inrae.fr",
-    "inserm.fr",
-    "univ-angers.fr",
-    "univ-st-etienne.fr",
-    "mipih.fr",
-    "latmos.ipsl.fr",
-    "uvsq.fr",
-    "conseiller-numerique.fr",
-    "shom.fr",
-    "univ-rennes2.fr",
-].map(domain => domain.toLowerCase());
-
-const regExpStr = emailDomainsToRegExpStr(emailDomains);
-
-console.log(regExpStr);
-
-export {};
-
-/*
-
-import { parse as csvParseSync } from "csv-parse/sync";
-import { id } from "tsafe/id";
-import * as fetch from "node-fetch";
-
-//ts-node --skip-project src/bin/wip.ts
-
-function rawCsvFileToRawCsvRows(params: {
-	rawCsvFile: string;
-}): Record<string, string>[] {
-	const { rawCsvFile } = params;
-	return csvParseSync(rawCsvFile, {
-		"columns": true,
-		"skip_empty_lines": true,
-	});
-}
-
 (async () => {
+    const emailDomains = await Promise.all(
+        [
+            "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/academies.txt",
+            "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/universites.txt",
+            "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/aphp.txt",
+        ].map(url => fetch.default(url).then(resp => resp.text())),
+    ).then(rawFiles =>
+        rawFiles
+            .map(rawFile => rawFile.split(/\r?\n/).filter(domain => domain !== ""))
+            .reduce((acc, curr) => [...acc, ...curr], [])
+            .reduce(
+                (acc, curr) => [...acc, curr],
+                [
+                    "insee.fr",
+                    "montreuil.fr",
+                    "inserm.fr",
+                    "cnafmail.fr",
+                    "obspm.fr",
+                    "adullact.org",
+                    "pole-emploi.fr",
+                    "unistra.fr",
+                    "cea.fr",
+                    "telecom-st-etienne.fr",
+                    "assurance-maladie.fr",
+                    "diderot.org",
+                    "recia.fr",
+                    "inha.fr",
+                    "imt.fr",
+                    "telecom-paris.fr",
+                    "st-etienne.archi.fr",
+                    "amue.fr",
+                    "hceres.gouv.fr",
+                    "hceres.fr",
+                    "renater.fr",
+                    "reseau-canope.fr",
+                    "cned.fr",
+                    "ac-cned.fr",
+                    "onisep.fr",
+                    "unilim.fr",
+                    "ehess.fr",
+                    "crtc.ccomptes.fr",
+                    "utc.fr",
+                    "centralesupelec.fr",
+                    "cnrs.fr",
+                    "inrae.fr",
+                    "inserm.fr",
+                    "univ-angers.fr",
+                    "univ-st-etienne.fr",
+                    "mipih.fr",
+                    "latmos.ipsl.fr",
+                    "uvsq.fr",
+                    "conseiller-numerique.fr",
+                    "shom.fr",
+                ],
+            )
+            .map(domain => domain.toLowerCase())
+            .reduce((domains, domain) => {
+                const toLvl2 = (domain: string) => domain.split(".").splice(-2).join(".");
 
-	const rawCsvFile = await fetch.default("https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/domains.csv")
-		.then(resp => resp.text());
+                if (domains.map(toLvl2).includes(toLvl2(domain))) {
+                    return domains;
+                }
 
-	const rawCsvRows = rawCsvFileToRawCsvRows({ rawCsvFile });
+                return [...domains, domain];
+            }, id<string[]>([])),
+    );
 
-	const x = rawCsvRows
-		.map(({ name }) => name)
-		.filter(name => !name.startsWith("www"))
-		.reduce((acc, curr)=> {
+    console.log(JSON.stringify(emailDomains, null, 2));
 
-		}, id<string[]>([]) );
+    console.log(`${emailDomains.length} domain names in total`);
 
+    const regExpStr = emailDomainsToRegExpStr(emailDomains);
 
-	console.log(x);
-
-
+    console.log(regExpStr);
 })();
 
-
-*/
+export {};
