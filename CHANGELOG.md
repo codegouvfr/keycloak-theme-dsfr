@@ -1,3 +1,7 @@
+## **0.11.0** (2022-05-16)  
+  
+- Do not display the full list but make it easyer to sent a mail    
+  
 ### **0.10.11** (2022-05-16)  
   
 - Do not count the unlisted softwares    
