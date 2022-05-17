@@ -299,8 +299,8 @@ export const { DeclareOneselfReferentDialog } = (() => {
                 (event: ChangeEvent<HTMLInputElement>) => {
                     evtAnswer.state = {
                         ...evtAnswer.state,
-                        "isPersonalUse": (event.target as HTMLInputElement)
-                            .value as any as boolean,
+                        "isPersonalUse":
+                            (event.target as HTMLInputElement).value === "true",
                     };
                 },
             );
@@ -327,16 +327,16 @@ export const { DeclareOneselfReferentDialog } = (() => {
                                 </FormLabel>
                                 <RadioGroup
                                     aria-labelledby={id}
-                                    value={evtAnswer.state.isPersonalUse}
+                                    value={`${evtAnswer.state.isPersonalUse}`}
                                     onChange={onRadioGroupChange}
                                 >
                                     <FormControlLabel
-                                        value={true}
+                                        value="true"
                                         control={<Radio />}
                                         label={t("on my own behalf")}
                                     />
                                     <FormControlLabel
-                                        value={false}
+                                        value="false"
                                         control={<Radio />}
                                         label={t("on my establishment behalf")}
                                     />
