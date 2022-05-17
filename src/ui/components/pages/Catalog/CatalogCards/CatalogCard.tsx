@@ -31,6 +31,7 @@ export type Props = {
     onDeclareReferentAnswer: (params: {
         isExpert: boolean;
         useCaseDescription: string;
+        isPersonalUse: boolean;
     }) => void;
     onUserNoLongerReferent: () => void;
     onLogin: () => void;

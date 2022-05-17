@@ -451,11 +451,16 @@ export const thunks = {
         },
     "submit":
         (params: {
-            isExpert: boolean | undefined;
-            useCaseDescription: string | undefined;
+            createReferentParams:
+                | {
+                      isExpert: boolean;
+                      useCaseDescription: string;
+                      isPersonalUse: boolean;
+                  }
+                | undefined;
         }): ThunkAction =>
         async (...args) => {
-            const { isExpert, useCaseDescription } = params;
+            const { createReferentParams } = params;
 
             const [dispatch, getState, { sillApiClient }] = args;
 
@@ -486,12 +491,16 @@ export const thunks = {
                 const { softwareId } = state;
 
                 if (softwareId === undefined) {
-                    assert(isExpert !== undefined && useCaseDescription !== undefined);
+                    assert(createReferentParams !== undefined);
+
+                    const { isExpert, isPersonalUse, useCaseDescription } =
+                        createReferentParams;
 
                     return sillApiClient.addSoftware({
                         partialSoftwareRow,
                         isExpert,
                         useCaseDescription,
+                        isPersonalUse,
                     });
                 } else {
                     return sillApiClient.updateSoftware({

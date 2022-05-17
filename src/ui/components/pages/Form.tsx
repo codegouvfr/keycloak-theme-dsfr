@@ -24,6 +24,8 @@ import { PageHeader } from "ui/theme";
 import type { Param0 } from "tsafe";
 import type { TextFieldProps } from "onyxia-ui/TextField";
 import { DeclareOneselfReferentDialog } from "ui/components/shared/ReferentDialogs";
+import type { DeclareOneselfReferentDialogProps } from "ui/components/shared/ReferentDialogs";
+import { useConstCallback } from "powerhooks/useConstCallback";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -98,6 +100,10 @@ export function Form(props: Props) {
     const onBlurFactory = useCallbackFactory(([fieldName]: [FieldName]) =>
         softwareFormThunks.focusLost({ fieldName }),
     );
+
+    const onDeclareOneselfReferentDialogAnswer = useConstCallback<
+        DeclareOneselfReferentDialogProps["onAnswer"]
+    >(createReferentParams => softwareFormThunks.submit({ createReferentParams }));
 
     if (state.stateDescription !== "form ready") {
         return null;
@@ -239,8 +245,7 @@ export function Form(props: Props) {
                                 evtOpenDialogIsExpert.post();
                             } else {
                                 softwareFormThunks.submit({
-                                    "isExpert": undefined,
-                                    "useCaseDescription": undefined,
+                                    "createReferentParams": undefined,
                                 });
                             }
                         }}
@@ -251,7 +256,7 @@ export function Form(props: Props) {
             </div>
             <DeclareOneselfReferentDialog
                 evtOpen={evtOpenDialogIsExpert}
-                onAnswer={softwareFormThunks.submit}
+                onAnswer={onDeclareOneselfReferentDialogAnswer}
             />
         </>
     );

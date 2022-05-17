@@ -1,4 +1,5 @@
 import { useState, memo } from "react";
+import type { ChangeEvent } from "react";
 import { Button } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
@@ -16,13 +17,23 @@ import { useStyles } from "ui/theme";
 import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
 import type { TextFieldProps } from "onyxia-ui/TextField";
 import { TextField } from "onyxia-ui/TextField";
+import type { Param0 } from "tsafe";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import { makeStyles } from "ui/theme";
 
 export type ReferentDialogsProps = {
     evtAction: NonPostableEvt<"open" | "open declare referent">;
     softwareName: string;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
-    onAnswer: (params: { isExpert: boolean; useCaseDescription: string }) => void;
+    onAnswer: (params: {
+        isExpert: boolean;
+        useCaseDescription: string;
+        isPersonalUse: boolean;
+    }) => void;
     onUserNoLongerReferent: () => void;
 };
 
@@ -166,61 +177,71 @@ const { ReferentDialog } = (() => {
     return { ReferentDialog };
 })();
 
+export type DeclareOneselfReferentDialogProps = {
+    softwareName?: string;
+    evtOpen: NonPostableEvt<void>;
+    onAnswer: (params: {
+        isExpert: boolean;
+        useCaseDescription: string;
+        isPersonalUse: boolean;
+    }) => void;
+};
+
 export const { DeclareOneselfReferentDialog } = (() => {
-    type Props = {
-        softwareName?: string;
-        evtOpen: NonPostableEvt<void>;
-        onAnswer: (params: { isExpert: boolean; useCaseDescription: string }) => void;
-    };
+    const DeclareOneselfReferentDialog = memo(
+        (props: DeclareOneselfReferentDialogProps) => {
+            const { evtOpen, onAnswer, softwareName } = props;
 
-    const DeclareOneselfReferentDialog = memo((props: Props) => {
-        const { evtOpen, onAnswer, softwareName } = props;
+            const [isOpen, setIsOpen] = useState(false);
 
-        const [isOpen, setIsOpen] = useState(false);
+            useEvt(ctx => evtOpen.attach(ctx, () => setIsOpen(true)), [evtOpen]);
 
-        useEvt(ctx => evtOpen.attach(ctx, () => setIsOpen(true)), [evtOpen]);
+            const evtAnswer = useConst(() =>
+                Evt.create<Param0<typeof onAnswer>>({
+                    "isExpert": false,
+                    "useCaseDescription": "",
+                    "isPersonalUse": true,
+                }),
+            );
+            const { t } = useTranslation({ ReferentDialogs });
 
-        const evtAnswer = useConst(() =>
-            Evt.create({ "isExpert": false, "useCaseDescription": "" }),
-        );
-        const { t } = useTranslation({ ReferentDialogs });
+            const { css } = useStyles();
 
-        const { css } = useStyles();
-
-        return (
-            <Dialog
-                title={
-                    <span
-                        className={css({
-                            "display": "inline-block",
-                            "minWidth": 500,
-                        })}
-                    >
-                        {softwareName !== undefined
-                            ? t("declare oneself referent of", { softwareName })
-                            : null}
-                    </span>
-                }
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                body={<Body evtAnswer={evtAnswer} />}
-                buttons={
-                    <Buttons
-                        evtAnswer={evtAnswer}
-                        onSubmit={() => {
-                            setIsOpen(false);
-                            onAnswer(evtAnswer.state);
-                        }}
-                        onCancel={() => setIsOpen(false)}
-                    />
-                }
-            />
-        );
-    });
+            return (
+                <Dialog
+                    title={
+                        <span
+                            className={css({
+                                "display": "inline-block",
+                                "minWidth": 500,
+                            })}
+                        >
+                            {softwareName !== undefined
+                                ? t("declare oneself referent of", { softwareName })
+                                : null}
+                        </span>
+                    }
+                    isOpen={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    body={<Body evtAnswer={evtAnswer} />}
+                    buttons={
+                        <Buttons
+                            evtAnswer={evtAnswer}
+                            onSubmit={() => {
+                                setIsOpen(false);
+                                onAnswer(evtAnswer.state);
+                            }}
+                            onCancel={() => setIsOpen(false)}
+                        />
+                    }
+                />
+            );
+        },
+    );
 
     const { Buttons } = (() => {
         type BodyProps = {
-            evtAnswer: StatefulEvt<{ isExpert: boolean; useCaseDescription: string }>;
+            evtAnswer: StatefulEvt<Param0<DeclareOneselfReferentDialogProps["onAnswer"]>>;
             onSubmit: () => void;
             onCancel: () => void;
         };
@@ -252,7 +273,7 @@ export const { DeclareOneselfReferentDialog } = (() => {
 
     const { Body } = (() => {
         type BodyProps = {
-            evtAnswer: StatefulEvt<{ isExpert: boolean; useCaseDescription: string }>;
+            evtAnswer: StatefulEvt<Param0<DeclareOneselfReferentDialogProps["onAnswer"]>>;
         };
 
         const Body = memo((props: BodyProps) => {
@@ -272,19 +293,23 @@ export const { DeclareOneselfReferentDialog } = (() => {
                     }),
             );
 
-            const { css, theme } = useStyles();
+            const { classes } = useStyles();
+
+            const onRadioGroupChange = useConstCallback(
+                (event: ChangeEvent<HTMLInputElement>) => {
+                    evtAnswer.state = {
+                        ...evtAnswer.state,
+                        "isPersonalUse": (event.target as HTMLInputElement)
+                            .value as any as boolean,
+                    };
+                },
+            );
 
             return (
                 <>
                     <TextField
                         type="text"
-                        className={css({
-                            "display": "block",
-                            ...theme.spacing.topBottom("margin", 5),
-                            "& textarea": {
-                                "minWidth": 460,
-                            },
-                        })}
+                        className={classes.textField}
                         doRenderAsTextArea={true}
                         defaultValue={evtAnswer.state.useCaseDescription}
                         onValueBeingTypedChange={onValueBeingTypedChange}
@@ -292,6 +317,34 @@ export const { DeclareOneselfReferentDialog } = (() => {
                         label={t("useCaseDescription")}
                         helperText={t("useCaseDescription helper")}
                     />
+                    {(() => {
+                        const id = "referent-level";
+
+                        return (
+                            <FormControl className={classes.radio}>
+                                <FormLabel id={id}>
+                                    {t("on behalf of who are you referent")}
+                                </FormLabel>
+                                <RadioGroup
+                                    aria-labelledby={id}
+                                    value={evtAnswer.state.isPersonalUse}
+                                    onChange={onRadioGroupChange}
+                                >
+                                    <FormControlLabel
+                                        value={true}
+                                        control={<Radio />}
+                                        label={t("on my own behalf")}
+                                    />
+                                    <FormControlLabel
+                                        value={false}
+                                        control={<Radio />}
+                                        label={t("on my establishment behalf")}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        );
+                    })()}
+
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -309,6 +362,22 @@ export const { DeclareOneselfReferentDialog } = (() => {
                 </>
             );
         });
+
+        const useStyles = makeStyles()(theme => ({
+            "textField": {
+                "marginTop": theme.spacing(3),
+
+                "display": "block",
+                "& textarea": {
+                    "minWidth": 460,
+                },
+            },
+            "radio": {
+                "display": "block",
+                "marginTop": theme.spacing(6),
+                "marginBottom": theme.spacing(4),
+            },
+        }));
 
         return { Body };
     })();
@@ -328,4 +397,7 @@ export const { i18n } = declareComponentKeys<
     | "useCaseDescription"
     | "useCaseDescription helper"
     | "i am a technical expert"
+    | "on behalf of who are you referent"
+    | "on my own behalf"
+    | "on my establishment behalf"
 >()({ ReferentDialogs });

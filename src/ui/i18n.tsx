@@ -142,6 +142,9 @@ export const {
                 "useCaseDescription helper":
                     "Please describe in what context and to which extend this software is used in your agency",
                 "i am a technical expert": "I am a technical expert",
+                "on behalf of who are you referent": "On behalf of who are you referent?",
+                "on my own behalf": "Only on my own behalf",
+                "on my establishment behalf": "On my establishment's behalf",
             },
             "CatalogCards": {
                 "show more": "Show more",
@@ -398,6 +401,10 @@ export const {
                 "useCaseDescription helper":
                     "Décrivez le cas d'usage de ce logiciel dans votre administration.",
                 "i am a technical expert": "Je suis expert technique",
+                "on behalf of who are you referent":
+                    "Au nom de qui vous déclarez-vous référent?",
+                "on my own behalf": "En mon nom propre",
+                "on my establishment behalf": "Au nom de mon établissement",
             },
             "CatalogCards": {
                 "show more": "Afficher tous",

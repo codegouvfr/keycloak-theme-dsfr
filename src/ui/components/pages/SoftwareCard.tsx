@@ -183,7 +183,7 @@ export function SoftwareCard(props: Props) {
     const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
             [softwareId]: [number],
-            [{ isExpert, useCaseDescription }]: [
+            [{ isExpert, useCaseDescription, isPersonalUse }]: [
                 Param0<ReferentDialogsProps["onAnswer"]>,
             ],
         ) =>
@@ -191,6 +191,7 @@ export function SoftwareCard(props: Props) {
                 isExpert,
                 softwareId,
                 useCaseDescription,
+                isPersonalUse,
             }),
     );
 

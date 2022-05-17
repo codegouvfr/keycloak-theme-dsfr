@@ -304,10 +304,11 @@ export const thunks = {
         (params: {
             isExpert: boolean;
             useCaseDescription: string;
+            isPersonalUse: boolean;
             softwareId: number;
         }): ThunkAction =>
         async (...args) => {
-            const { isExpert, useCaseDescription, softwareId } = params;
+            const { isExpert, useCaseDescription, isPersonalUse, softwareId } = params;
 
             const [dispatch, getState, { sillApiClient }] = args;
 
@@ -321,6 +322,7 @@ export const thunks = {
                 isExpert,
                 softwareId,
                 useCaseDescription,
+                isPersonalUse,
             });
 
             const { agencyName, email } = dispatch(userAuthenticationThunks.getUser());

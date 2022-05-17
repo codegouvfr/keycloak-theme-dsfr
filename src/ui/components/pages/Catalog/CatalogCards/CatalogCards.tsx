@@ -55,6 +55,7 @@ export type Props = {
         softwareId: number;
         isExpert: boolean;
         useCaseDescription: string;
+        isPersonalUse: boolean;
     }) => void;
     onUserNoLongerReferent: (params: { softwareId: number }) => void;
     referenceNewSoftwareLink: Link;
@@ -122,7 +123,7 @@ export const CatalogCards = memo((props: Props) => {
     const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
             [softwareId]: [number],
-            [{ isExpert, useCaseDescription }]: [
+            [{ isExpert, useCaseDescription, isPersonalUse }]: [
                 Param0<CatalogCardProps["onDeclareReferentAnswer"]>,
             ],
         ) =>
@@ -130,6 +131,7 @@ export const CatalogCards = memo((props: Props) => {
                 softwareId,
                 isExpert,
                 useCaseDescription,
+                isPersonalUse,
             }),
     );
 
