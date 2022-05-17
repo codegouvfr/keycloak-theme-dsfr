@@ -431,7 +431,7 @@ export const {
                     <>
                         {" "}
                         <MuiLink href={href} target="_blank">
-                            Clickez ici
+                            Cliquez ici
                         </MuiLink>
                         &nbsp;pour comprendre ce qu'est le SILL et quelles sont ses
                         missions
