@@ -1,3 +1,7 @@
+### **0.12.1** (2022-05-17)  
+  
+- Fix type problem with isPersonalUse    
+  
 ## **0.12.0** (2022-05-17)  
   
 - #33    
