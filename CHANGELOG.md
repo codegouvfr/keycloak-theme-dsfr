@@ -1,3 +1,10 @@
+### **0.12.2** (2022-05-18)  
+  
+- package.json: Bump version to 0.12.2  
+- src/ui/i18n.tsx: Fix typos
+
+Also, let's use "courriel" consistently across UI strings.    
+  
 ### **0.12.1** (2022-05-17)  
   
 - Fix type problem with isPersonalUse    
