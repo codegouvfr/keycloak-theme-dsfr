@@ -353,15 +353,17 @@ export const {
                 "form not filled properly yet":
                     "Veuillez vérifier que vous avez bien rempli le formulaire",
                 "must respect the pattern": "Dois respecter le format",
-                "mail subject": "[SILL] Autorisation d'un nouveau domaine",
+                "mail subject":
+                    "[SILL] Autorisation d'un nouveau domaine pour l'inscription",
                 "mail body": `
             Bonjour, 
-            Veuillez, sous réserve qu'il soit éligible, avoir l'amabilité de bien vouloir ajouter mon nom de domaine
-            a la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.  
+
+            veuillez, sous réserve qu'il soit éligible, ajouter mon nom de domaine
+            à la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.  
 
             Cordialement,
             `,
-                "use your administrative email": "Votre email lié a la fonction publique",
+                "use your administrative email": "Votre courriel en tant qu'agent public",
                 "you domain isn't allowed yet": ({ contactEmail, mailtoHref }) => (
                     <>
                         Votre domaine n'est pas encore autorisé. Contactez-nous à{" "}
