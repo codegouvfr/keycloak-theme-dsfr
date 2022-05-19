@@ -113,6 +113,7 @@ export const { name, reducer, actions } = createSlice({
                 familyName: string;
                 isExpert: boolean;
                 useCaseDescription: string;
+                isPersonalUse: boolean;
                 softwareId: number;
             }>,
         ) => {
@@ -124,6 +125,7 @@ export const { name, reducer, actions } = createSlice({
                 isExpert,
                 email,
                 useCaseDescription,
+                isPersonalUse,
             } = payload;
 
             assert(state.stateDescription === "ready");
@@ -141,6 +143,7 @@ export const { name, reducer, actions } = createSlice({
                 familyName,
                 isExpert,
                 useCaseDescription,
+                isPersonalUse,
             });
 
             referents.userIndex = referents.referents.length - 1;
@@ -336,6 +339,7 @@ export const thunks = {
                     isExpert,
                     softwareId,
                     useCaseDescription,
+                    isPersonalUse,
                 }),
             );
         },

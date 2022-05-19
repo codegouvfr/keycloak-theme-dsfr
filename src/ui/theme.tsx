@@ -182,7 +182,7 @@ export const splashScreen: ThemeProviderProps["splashScreen"] = {
     "minimumDisplayDuration": 0,
 };
 
-export const isViewPortAdapterEnabled = !getIsPortraitOrientation({
+export let isViewPortAdapterEnabled = !getIsPortraitOrientation({
     "windowInnerWidth": window.innerWidth,
     "windowInnerHeight": window.innerHeight,
 });

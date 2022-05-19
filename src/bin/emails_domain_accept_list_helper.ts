@@ -78,6 +78,8 @@ console.log(emailDomains);
                     "univ-grenoble-alpes.fr",
                     "clermont-auvergne-inp.fr",
                     "ensea.fr",
+                    "cerema.fr",
+                    "cnnumerique.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())

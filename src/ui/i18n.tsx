@@ -130,21 +130,34 @@ export const {
             },
             "ReferentDialogs": {
                 "close": "Close",
-                "expert": "You are technical expert",
-                "you": "You",
                 "declare oneself referent of": ({ softwareName }) =>
                     `Declare yourself referent of ${softwareName}`,
                 "cancel": "Cancel",
                 "send": "Send",
                 "declare oneself referent": "Declare yourself referent",
                 "no longer referent": "I am no longer referent",
-                "useCaseDescription": "Use case description",
-                "useCaseDescription helper":
+                "use case description": "Use case description",
+                "use case description helper":
                     "Please describe in what context and to which extend this software is used in your agency",
                 "i am a technical expert": "I am a technical expert",
                 "on behalf of who are you referent": "On behalf of who are you referent?",
                 "on my own behalf": "Only on my own behalf",
                 "on my establishment behalf": "On my establishment's behalf",
+                "yes": "Yes",
+                "no": "No",
+                "email": "Email",
+                "establishment": "Establishment",
+                "expert": "Technical expert",
+                "institutional referent": "Institutional referent",
+                "institutional referent help":
+                    "Is the person referent in he's own name or in the name of it's establshment",
+                "mail subject": ({ softwareName }) =>
+                    `Initial contact for ${softwareName}`,
+                "mail body": ({ softwareName }) => `
+                Hello,
+                I got your contact from sill.etalab.gouv.fr, you are referent fro ${softwareName}.  
+                [...]
+                `,
             },
             "CatalogCards": {
                 "show more": "Show more",
@@ -389,22 +402,35 @@ export const {
             },
             "ReferentDialogs": {
                 "close": "Fermer",
-                "expert": "Vous êtes expert technique",
-                "you": "Vous",
                 "declare oneself referent of": ({ softwareName }) =>
                     `Me déclarer référent pour ${softwareName}`,
                 "cancel": "Annuler",
                 "send": "Envoyer",
                 "declare oneself referent": "Me déclarer référent",
                 "no longer referent": "Je ne suis plus référent",
-                "useCaseDescription": "Description du cas d'usage",
-                "useCaseDescription helper":
+                "use case description": "Description du cas d'usage",
+                "use case description helper":
                     "Décrivez le cas d'usage de ce logiciel dans votre administration.",
                 "i am a technical expert": "Je suis expert technique",
                 "on behalf of who are you referent":
                     "Au nom de qui vous déclarez-vous référent?",
                 "on my own behalf": "En mon nom propre",
                 "on my establishment behalf": "Au nom de mon établissement",
+                "yes": "Oui",
+                "no": "Non",
+                "email": "Couriel",
+                "establishment": "Établissement",
+                "expert": "Expert technique",
+                "institutional referent": "Rérérent institutionelle",
+                "institutional referent help": `Un référent institutionnel est référent au nom de l'établissement au quelle il est
+                rattaché, les autres référents le son a titre personnel.`,
+                "mail subject": ({ softwareName }) =>
+                    `Prise de contacte relative à ${softwareName}`,
+                "mail body": ({ softwareName }) => `
+                Bonjour,
+                J'ai obtenu votre contacte via sill.etalab.gouv.fr, vous êtes référent pour ${softwareName}.  
+                [...]
+                `,
             },
             "CatalogCards": {
                 "show more": "Afficher tous",

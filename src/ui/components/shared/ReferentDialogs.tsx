@@ -1,10 +1,10 @@
 import { useState, memo } from "react";
+import { Fragment } from "react";
 import type { ChangeEvent } from "react";
 import { Button } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { CompiledData } from "sill-api";
-import { Markdown } from "ui/tools/Markdown";
 import { Dialog } from "onyxia-ui/Dialog";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { NonPostableEvt, StatefulEvt } from "evt";
@@ -23,6 +23,24 @@ import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import { makeStyles } from "ui/theme";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import Box from "@mui/material/Box";
+import { capitalize } from "tsafe/capitalize";
+import { Tooltip } from "onyxia-ui/Tooltip";
+import MuiLink from "@mui/material/Link";
+import { Text } from "ui/theme";
+import { Icon } from "ui/theme";
 
 export type ReferentDialogsProps = {
     evtAction: NonPostableEvt<"open" | "open declare referent">;
@@ -64,6 +82,7 @@ export const ReferentDialogs = memo((props: ReferentDialogsProps) => {
     return (
         <>
             <ReferentDialog
+                softwareName={softwareName}
                 referents={referents}
                 userIndexInReferents={userIndexInReferents}
                 evtAction={evtReferentDialogAction}
@@ -81,6 +100,7 @@ export const ReferentDialogs = memo((props: ReferentDialogsProps) => {
 
 const { ReferentDialog } = (() => {
     type Props = {
+        softwareName: string;
         evtAction: NonPostableEvt<void>;
         referents: CompiledData.Software.WithReferent["referents"] | undefined;
         userIndexInReferents: number | undefined;
@@ -90,6 +110,7 @@ const { ReferentDialog } = (() => {
 
     const ReferentDialog = memo((props: Props) => {
         const {
+            softwareName,
             evtAction,
             referents,
             userIndexInReferents,
@@ -105,7 +126,7 @@ const { ReferentDialog } = (() => {
 
         useEvt(ctx => evtAction.attach(ctx, () => setIsOpen(true)), [evtAction]);
 
-        const { css, theme } = useStyles();
+        const { css } = useStyles();
 
         const onDeclareOneselfReferentClick = useConstCallback(() => {
             onClose();
@@ -119,38 +140,161 @@ const { ReferentDialog } = (() => {
             onUserNoLongerReferent_prop();
         });
 
+        const { isOpenByEmail, toggleIsOpenFactory } = (function useClosure() {
+            const [isOpenByEmail, setIsOpenByEmail] = useState<Record<string, boolean>>(
+                {},
+            );
+
+            const toggleIsOpenFactory = useCallbackFactory(([email]: [string]) =>
+                setIsOpenByEmail({
+                    ...isOpenByEmail,
+                    [email]: !isOpenByEmail[email],
+                }),
+            );
+
+            return { isOpenByEmail, toggleIsOpenFactory };
+        })();
+
         if (referents === undefined) {
             return null;
         }
 
         return (
             <Dialog
+                className={css({
+                    "maxWidth": "unset",
+                })}
                 body={
-                    <Markdown
-                        className={css({
-                            "dialogBody": {
-                                "& ul": {
-                                    "paddingInlineStart": 0,
-                                },
-                                "margin": theme.spacing(4),
-                            },
-                        })}
-                    >
-                        {referents
-                            .map(
-                                ({ email, agencyName, isExpert }, i) =>
-                                    "- " +
-                                    [
-                                        `**${email}**`,
+                    <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell>{t("email")}</TableCell>
+                                    <TableCell align="right">
+                                        {t("establishment")}
+                                    </TableCell>
+                                    <TableCell align="right">{t("expert")}</TableCell>
+                                    <TableCell align="right">
+                                        {t("institutional referent")}
+                                        <Tooltip title={t("institutional referent help")}>
+                                            <Icon
+                                                className={css({
+                                                    "fontSize": "inherit",
+                                                    ...(() => {
+                                                        const factor = 1;
+
+                                                        return {
+                                                            "width": `${factor}em`,
+                                                            "height": `${factor}em`,
+                                                        };
+                                                    })(),
+                                                })}
+                                                iconId="help"
+                                            />
+                                        </Tooltip>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {referents.map(
+                                    ({
+                                        email,
                                         agencyName,
-                                        ...(!isExpert ? [] : [`*${t("expert")}*`]),
-                                        ...(i !== userIndexInReferents
-                                            ? []
-                                            : [`(${t("you")})`]),
-                                    ].join(" - "),
-                            )
-                            .join("\n  ")}
-                    </Markdown>
+                                        isExpert,
+                                        useCaseDescription,
+                                        isPersonalUse,
+                                    }) => (
+                                        <Fragment key={email}>
+                                            <TableRow
+                                                sx={{
+                                                    "& > *": { "borderBottom": "unset" },
+                                                }}
+                                            >
+                                                <TableCell>
+                                                    {useCaseDescription !== "" && (
+                                                        <IconButton
+                                                            aria-label="expand row"
+                                                            size="small"
+                                                            onClick={toggleIsOpenFactory(
+                                                                email,
+                                                            )}
+                                                        >
+                                                            {isOpenByEmail[email] ? (
+                                                                <KeyboardArrowUpIcon />
+                                                            ) : (
+                                                                <KeyboardArrowDownIcon />
+                                                            )}
+                                                        </IconButton>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    <MuiLink
+                                                        href={`mailto:${email}?subject=${encodeURIComponent(
+                                                            t("mail subject", {
+                                                                softwareName,
+                                                            }),
+                                                        )}&body=${encodeURIComponent(
+                                                            t("mail body", {
+                                                                softwareName,
+                                                            }),
+                                                        )}`}
+                                                    >
+                                                        {email}
+                                                    </MuiLink>
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    {capitalize(agencyName)}
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    {t(isExpert ? "yes" : "no")}
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    {t(isPersonalUse ? "no" : "yes")}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell
+                                                    style={{
+                                                        "paddingBottom": 0,
+                                                        "paddingTop": 0,
+                                                    }}
+                                                    colSpan={6}
+                                                >
+                                                    <Collapse
+                                                        in={isOpenByEmail[email]}
+                                                        timeout="auto"
+                                                        unmountOnExit
+                                                    >
+                                                        <Box
+                                                            sx={{
+                                                                "margin": 1,
+                                                                "& > *": {
+                                                                    "display": "inline",
+                                                                },
+                                                            }}
+                                                        >
+                                                            <Text typo="label 2">
+                                                                {t(
+                                                                    "use case description",
+                                                                )}
+                                                                :
+                                                            </Text>
+                                                            &nbsp;
+                                                            <Text typo="body 3">
+                                                                {" "}
+                                                                {useCaseDescription}{" "}
+                                                            </Text>
+                                                        </Box>
+                                                    </Collapse>
+                                                </TableCell>
+                                            </TableRow>
+                                        </Fragment>
+                                    ),
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 }
                 buttons={
                     <>
@@ -205,21 +349,12 @@ export const { DeclareOneselfReferentDialog } = (() => {
             );
             const { t } = useTranslation({ ReferentDialogs });
 
-            const { css } = useStyles();
-
             return (
                 <Dialog
                     title={
-                        <span
-                            className={css({
-                                "display": "inline-block",
-                                "minWidth": 500,
-                            })}
-                        >
-                            {softwareName !== undefined
-                                ? t("declare oneself referent of", { softwareName })
-                                : null}
-                        </span>
+                        softwareName !== undefined
+                            ? t("declare oneself referent of", { softwareName })
+                            : undefined
                     }
                     isOpen={isOpen}
                     onClose={() => setIsOpen(false)}
@@ -314,8 +449,8 @@ export const { DeclareOneselfReferentDialog } = (() => {
                         defaultValue={evtAnswer.state.useCaseDescription}
                         onValueBeingTypedChange={onValueBeingTypedChange}
                         inputProps_spellCheck={false}
-                        label={t("useCaseDescription")}
-                        helperText={t("useCaseDescription helper")}
+                        label={t("use case description")}
+                        helperText={t("use case description helper")}
                     />
                     {(() => {
                         const id = "referent-level";
@@ -386,18 +521,25 @@ export const { DeclareOneselfReferentDialog } = (() => {
 })();
 
 export const { i18n } = declareComponentKeys<
-    | "expert"
-    | "you"
     | "close"
     | "declare oneself referent"
     | ["declare oneself referent of", { softwareName: string }]
     | "cancel"
     | "send"
     | "no longer referent"
-    | "useCaseDescription"
-    | "useCaseDescription helper"
+    | "use case description"
+    | "use case description helper"
     | "i am a technical expert"
     | "on behalf of who are you referent"
     | "on my own behalf"
     | "on my establishment behalf"
+    | "yes"
+    | "no"
+    | "email"
+    | "establishment"
+    | "expert"
+    | "institutional referent"
+    | "institutional referent help"
+    | ["mail subject", { softwareName: string }]
+    | ["mail body", { softwareName: string }]
 >()({ ReferentDialogs });
