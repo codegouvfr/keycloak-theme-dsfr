@@ -80,6 +80,11 @@ console.log(emailDomains);
                     "ensea.fr",
                     "cerema.fr",
                     "cnnumerique.fr",
+                    "vaucluse.fr",
+                    "justice.fr",
+                    "cc-aps.fr",
+                    "nantesmetropole.fr",
+                    "departement86.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
