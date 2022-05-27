@@ -1,4 +1,5 @@
 export type User = {
+    id: string;
     email: string;
     agencyName: string;
     locale?: string;

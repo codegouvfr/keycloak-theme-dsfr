@@ -45,6 +45,7 @@ assert<
             mockAuthentication?: {
                 isUserInitiallyLoggedIn: boolean;
                 user: {
+                    id: string;
                     email: string;
                     agencyName: string;
                     locale: KcLanguageTag;

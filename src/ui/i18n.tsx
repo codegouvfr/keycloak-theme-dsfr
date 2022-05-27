@@ -53,6 +53,10 @@ export const {
                 "email": "Email address",
                 "change account info": "Change account information (e.g., password).",
                 "agency name": "Agency name",
+                "agency name helper": "Name of your institution, for example DINUM",
+                "not a valid email": "Not a valid email",
+                "email helper":
+                    "You'll use this email to connect to the platform and to be contacted by other users about the software you are referent of",
             },
             "AccountUserInterfaceTab": {
                 "title": "Interface preferences",
@@ -63,15 +67,10 @@ export const {
             "DescriptiveField": {
                 "copy tooltip": "Copy to clipboard",
                 "language": "Change language",
-                "s3 scripts": "Init script",
                 "service password": "Password for your services",
                 "service password helper text": `This password is required to log in to all of your services. 
             It is generated automatically and renews itself regularly.`,
                 "not yet defined": "Not yet defined",
-                "reset helper dialogs": "Reset instructions windows",
-                "reset": "Reset",
-                "reset helper dialogs helper text":
-                    "Reset message windows that have been requested not to be shown again",
             },
             "RegisterUserProfile": {
                 "minimum length": ({ n }) => `Minimum length: ${n}`,
@@ -325,6 +324,10 @@ export const {
                 "change account info":
                     "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
                 "agency name": "Nom du service de ratachement",
+                "agency name helper": "Nom de votre institution, par example DINUM",
+                "not a valid email": "Couriel non valid",
+                "email helper":
+                    "UtiliUtilisé pour la connexion et pour que les utilisateurs puissent vous joindre à propos des logiciels dont vous êtes référentsé pour la connexion et pour que les utilisateurs puissent vous joindre a propos des logiciels dont vous êtes référent",
             },
             "AccountUserInterfaceTab": {
                 "title": "Configurer l'interface",
@@ -335,15 +338,10 @@ export const {
             "DescriptiveField": {
                 "copy tooltip": "Copier dans le presse-papier",
                 "language": "Changer la langue",
-                "s3 scripts": "Script d'initialisation",
                 "service password": "Mot de passe pour vos services",
                 "service password helper text": `Ce mot de passe est nécessaire pour vous connecter à tous vos services. 
             Il est généré automatiquement et se renouvelle régulièrement.`,
                 "not yet defined": "Non définie",
-                "reset helper dialogs": "Réinitialiser les fenêtres d'instructions",
-                "reset": "Réinitialiser",
-                "reset helper dialogs helper text":
-                    "Réinitialiser les fenêtres de messages que vous ne voulez plus afficher",
             },
             "RegisterUserProfile": {
                 "minimum length": ({ n }) => `Longueur minimale ${n}`,

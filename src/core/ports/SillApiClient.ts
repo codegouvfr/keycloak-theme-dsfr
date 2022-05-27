@@ -24,6 +24,12 @@ export type SillApiClient = {
     autoFillFormInfo: (
         params: InferInput<"autoFillFormInfo">,
     ) => Promise<InferOutput<"autoFillFormInfo">>;
+    updateAgencyName: (
+        params: InferInput<"updateAgencyName">,
+    ) => Promise<InferOutput<"updateAgencyName">>;
+    updateEmail: (
+        params: InferInput<"updateEmail">,
+    ) => Promise<InferOutput<"updateEmail">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

@@ -35,5 +35,7 @@ export function createTrpcSillApiClient(params: {
         "addSoftware": params => trpcClient.mutation("addSoftware", params),
         "updateSoftware": params => trpcClient.mutation("updateSoftware", params),
         "autoFillFormInfo": params => trpcClient.query("autoFillFormInfo", params),
+        "updateAgencyName": params => trpcClient.mutation("updateAgencyName", params),
+        "updateEmail": params => trpcClient.mutation("updateEmail", params),
     };
 }

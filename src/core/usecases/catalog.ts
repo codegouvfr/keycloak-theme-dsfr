@@ -10,7 +10,6 @@ import type { ThunksExtraArgument, RootState } from "../setup";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
-import { thunks as userAuthenticationThunks } from "./userAuthentication";
 import { createResolveLocalizedString } from "i18nifty";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
@@ -207,6 +206,63 @@ export const { name, reducer, actions } = createSlice({
                 };
             }
         },
+        "userAgencyNameUpdated": (
+            state,
+            { payload }: PayloadAction<{ agencyName: string }>,
+        ) => {
+            if (state.stateDescription !== "ready") {
+                return;
+            }
+
+            const { agencyName } = payload;
+
+            const { referentsBySoftwareId } = state["~internal"];
+
+            assert(referentsBySoftwareId !== undefined);
+
+            Object.values(referentsBySoftwareId).forEach(({ referents, userIndex }) => {
+                if (userIndex === undefined) {
+                    return;
+                }
+
+                referents[userIndex].agencyName = agencyName;
+            });
+        },
+        "userEmailUpdated": (state, { payload }: PayloadAction<{ email: string }>) => {
+            if (state.stateDescription !== "ready") {
+                return;
+            }
+
+            const { email } = payload;
+
+            const { referentsBySoftwareId } = state["~internal"];
+
+            assert(referentsBySoftwareId !== undefined);
+
+            Object.values(referentsBySoftwareId).forEach(({ referents, userIndex }) => {
+                if (userIndex === undefined) {
+                    return;
+                }
+
+                referents[userIndex].email = email;
+            });
+
+            Object.values(referentsBySoftwareId).forEach(wrap => {
+                if (wrap.userIndex !== undefined) {
+                    return;
+                }
+
+                const index = wrap.referents.findIndex(
+                    referent => referent.email === email,
+                );
+
+                if (index === -1) {
+                    return;
+                }
+
+                wrap.userIndex = index;
+            });
+        },
     },
 });
 
@@ -214,7 +270,7 @@ export const thunks = {
     "fetchCatalog":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , { sillApiClient, oidcClient }] = args;
+            const [dispatch, getState, { sillApiClient, oidcClient }] = args;
 
             dispatch(actions.catalogsFetching());
 
@@ -224,9 +280,7 @@ export const thunks = {
                     "referentsBySoftwareId": !oidcClient.isUserLoggedIn
                         ? undefined
                         : await (async () => {
-                              const { email } = dispatch(
-                                  userAuthenticationThunks.getUser(),
-                              );
+                              const email = getState().userAuthentication.email.value;
 
                               return Object.fromEntries(
                                   Object.entries(
@@ -328,7 +382,10 @@ export const thunks = {
                 isPersonalUse,
             });
 
-            const { agencyName, email } = dispatch(userAuthenticationThunks.getUser());
+            const {
+                agencyName: { value: agencyName },
+                email: { value: email },
+            } = getState().userAuthentication;
 
             dispatch(
                 actions.userDeclaredReferent({
@@ -381,6 +438,27 @@ export const privateThunks = {
                         ? [action.payload.software]
                         : null,
                 software => dispatch(actions.softwareAddedOrUpdated({ software })),
+            );
+
+            evtAction.$attach(
+                action =>
+                    action.sliceName === "userAuthentication" &&
+                    action.actionName === "updateFieldStarted"
+                        ? [action.payload]
+                        : null,
+                ({ fieldName, value }) =>
+                    dispatch(
+                        (() => {
+                            switch (fieldName) {
+                                case "agencyName":
+                                    return actions.userAgencyNameUpdated({
+                                        "agencyName": value,
+                                    });
+                                case "email":
+                                    return actions.userEmailUpdated({ "email": value });
+                            }
+                        })(),
+                    ),
             );
         },
 };

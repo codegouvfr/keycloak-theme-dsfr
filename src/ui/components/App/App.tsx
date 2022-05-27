@@ -364,7 +364,7 @@ function useApplyLanguageSelectedAtLogin() {
             return;
         }
 
-        const { locale } = userAuthenticationThunks.getUser();
+        const { locale } = userAuthenticationThunks.getImmutableUserFields();
 
         if (
             !typeGuard<Language>(

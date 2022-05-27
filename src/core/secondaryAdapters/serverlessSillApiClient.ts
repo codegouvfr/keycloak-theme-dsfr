@@ -13,9 +13,10 @@ export function createServerlessSillApiClient(params: {
                 Promise.resolve({
                     "keycloakParams": undefined,
                     "jwtClaims": {
-                        "email": "a",
-                        "agencyName": "b",
-                        "locale": "c",
+                        "id": "a",
+                        "email": "b",
+                        "agencyName": "c",
+                        "locale": "d",
                     },
                 }),
             { "promise": true },
@@ -33,5 +34,7 @@ export function createServerlessSillApiClient(params: {
         "addSoftware": () => Promise.reject(new Error("not implemented")),
         "updateSoftware": () => Promise.reject(new Error("not implemented")),
         "autoFillFormInfo": () => Promise.reject(new Error("not implemented")),
+        "updateAgencyName": () => Promise.reject(new Error("not implemented")),
+        "updateEmail": () => Promise.reject(new Error("not implemented")),
     };
 }

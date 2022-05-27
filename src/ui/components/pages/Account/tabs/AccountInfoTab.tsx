@@ -3,11 +3,13 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { AccountSectionHeader } from "../AccountSectionHeader";
 import { DescriptiveField } from "../../../shared/DescriptiveField";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
-import { copyToClipboard } from "ui/tools/copyToClipboard";
+import type { Props as DescriptiveFieldProps } from "../../../shared/DescriptiveField";
 import Link from "@mui/material/Link";
 import { makeStyles } from "ui/theme";
-import { useThunks } from "ui/coreApi";
+import { useThunks, useSelector } from "ui/coreApi";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import { useConstCallback } from "powerhooks/useConstCallback";
+import { z } from "zod";
 
 export type Props = {
     className?: string;
@@ -20,33 +22,58 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const { userAuthenticationThunks } = useThunks();
 
-    const onRequestCopyFactory = useCallbackFactory(([textToCopy]: [string]) =>
-        copyToClipboard(textToCopy),
+    const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useSelector(
+        state => state.userAuthentication.agencyName,
     );
-
-    const user = userAuthenticationThunks.getUser();
+    const { value: email, isBeingUpdated: isEmailBeingUpdated } = useSelector(
+        state => state.userAuthentication.email,
+    );
 
     const keycloakAccountConfigurationUrl =
         userAuthenticationThunks.getKeycloakAccountConfigurationUrl();
 
     const { classes } = useStyles();
 
+    const onRequestUpdateFieldFactory = useCallbackFactory(
+        ([fieldName]: ["agencyName" | "email"], [value]: [string]) =>
+            userAuthenticationThunks.updateField({ fieldName, value }),
+    );
+
+    const getIsValidEmailValue = useConstCallback<
+        DescriptiveFieldProps.EditableText["getIsValidValue"]
+    >(value => {
+        try {
+            z.string().email().parse(value);
+        } catch {
+            return {
+                "isValidValue": false,
+                "message": t("not a valid email"),
+            };
+        }
+
+        return { "isValidValue": true };
+    });
+
     return (
         <div className={className}>
             <AccountSectionHeader title={t("general information")} />
             <DescriptiveField
-                type="text"
+                type="editable text"
                 title={t("email")}
-                text={user.email}
-                onRequestCopy={onRequestCopyFactory(user.email)}
+                helperText={t("email helper")}
+                text={email}
+                onRequestEdit={onRequestUpdateFieldFactory("email")}
+                isLocked={isEmailBeingUpdated}
+                getIsValidValue={getIsValidEmailValue}
             />
             <DescriptiveField
-                type="text"
+                type="editable text"
                 title={t("agency name")}
-                text={user.agencyName}
-                onRequestCopy={onRequestCopyFactory(user.agencyName)}
+                helperText={t("agency name helper")}
+                text={agencyName}
+                onRequestEdit={onRequestUpdateFieldFactory("agencyName")}
+                isLocked={isAgencyNameBeingUpdated}
             />
-
             {keycloakAccountConfigurationUrl !== undefined && (
                 <Link
                     className={classes.link}
@@ -66,8 +93,11 @@ export const { i18n } = declareComponentKeys<
     | "user id"
     | "full name"
     | "email"
+    | "email helper"
     | "change account info"
     | "agency name"
+    | "agency name helper"
+    | "not a valid email"
 >()({ AccountInfoTab });
 
 const useStyles = makeStyles({ "name": { AccountInfoTab } })(theme => ({

@@ -3,22 +3,98 @@ import type { User } from "../ports/UserApiClient";
 import type { ThunkAction, ThunksExtraArgument } from "../setup";
 import type { KcLanguageTag } from "keycloakify";
 import { urlJoin } from "url-join-ts";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+    createObjectThatThrowsIfAccessed,
+    isPropertyAccessedByReduxOrStorybook,
+} from "../tools/createObjectThatThrowsIfAccessed";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-export const name = "userAuthentication";
+type UserAuthenticationState = {
+    agencyName: {
+        value: string;
+        isBeingUpdated: boolean;
+    };
+    email: {
+        value: string;
+        isBeingUpdated: boolean;
+    };
+};
 
-export const reducer = null;
+export const { name, reducer, actions } = createSlice({
+    "name": "userAuthentication",
+    "initialState": createObjectThatThrowsIfAccessed<UserAuthenticationState>({
+        "isPropertyWhitelisted": isPropertyAccessedByReduxOrStorybook,
+        "debugMessage": "Slice not initialized",
+    }),
+    "reducers": {
+        "initialized": (
+            _state,
+            {
+                payload,
+            }: PayloadAction<{
+                agencyName: string;
+                email: string;
+            }>,
+        ) => {
+            const { agencyName, email } = payload;
+
+            return {
+                "agencyName": {
+                    "value": agencyName,
+                    "isBeingUpdated": false,
+                },
+                "email": {
+                    "value": email,
+                    "isBeingUpdated": false,
+                },
+            };
+        },
+        "updateFieldStarted": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                fieldName: "agencyName" | "email";
+                value: string;
+            }>,
+        ) => {
+            const { fieldName, value } = payload;
+
+            state[fieldName] = {
+                value,
+                "isBeingUpdated": true,
+            };
+        },
+        "updateFieldCompleted": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                fieldName: "agencyName" | "email";
+            }>,
+        ) => {
+            const { fieldName } = payload;
+
+            state[fieldName].isBeingUpdated = false;
+        },
+    },
+});
 
 export const thunks = {
-    "getUser":
-        (): ThunkAction<User> =>
+    "getImmutableUserFields":
+        (): ThunkAction<Omit<User, "agencyName" | "email">> =>
         (...args) => {
             const [, , extraArg] = args;
 
-            const { user } = getSliceContexts(extraArg);
+            const { immutableUserFields } = getSliceContexts(extraArg);
 
-            assert(user !== undefined, "Can't use getUser when not authenticated");
+            assert(
+                immutableUserFields !== undefined,
+                "Can't use getUser when not authenticated",
+            );
 
-            return user;
+            return immutableUserFields;
         },
     "getIsUserLoggedIn":
         (): ThunkAction<boolean> =>
@@ -61,16 +137,46 @@ export const thunks = {
 
             return getSliceContexts(extraArgs).keycloakAccountConfigurationUrl;
         },
+    "updateField":
+        (params: { fieldName: "agencyName" | "email"; value: string }): ThunkAction =>
+        async (...args) => {
+            const { fieldName, value } = params;
+            const [dispatch, , { sillApiClient }] = args;
+
+            dispatch(actions.updateFieldStarted({ fieldName, value }));
+
+            switch (fieldName) {
+                case "agencyName":
+                    await sillApiClient.updateAgencyName({ "newAgencyName": value });
+                    break;
+                case "email":
+                    await sillApiClient.updateEmail({ "newEmail": value });
+                    break;
+            }
+
+            dispatch(actions.updateFieldCompleted({ fieldName }));
+        },
 };
 
 export const privateThunks = {
     "initialize":
         (): ThunkAction =>
-        async (...[, , extraArg]) =>
+        async (...[dispatch, , extraArg]) => {
+            const user = !extraArg.oidcClient.isUserLoggedIn
+                ? undefined
+                : await extraArg.userApiClient.getUser();
+
+            if (user !== undefined) {
+                dispatch(
+                    actions.initialized({
+                        "agencyName": user.agencyName,
+                        "email": user.email,
+                    }),
+                );
+            }
+
             setSliceContext(extraArg, {
-                "user": !extraArg.oidcClient.isUserLoggedIn
-                    ? undefined
-                    : await extraArg.userApiClient.getUser(),
+                "immutableUserFields": user,
                 ...(await (async () => {
                     const { keycloakParams } =
                         await extraArg.sillApiClient.getOidcParams();
@@ -88,12 +194,13 @@ export const privateThunks = {
                                   ),
                     };
                 })()),
-            }),
+            });
+        },
 };
 
 type SliceContext = {
     /** undefined when not authenticated */
-    user: User | undefined;
+    immutableUserFields: Omit<User, "agencyName" | "email"> | undefined;
     thermsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
     /** Undefined it authentication is not keycloak */
     keycloakAccountConfigurationUrl: string | undefined;

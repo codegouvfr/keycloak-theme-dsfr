@@ -7,7 +7,7 @@ import * as JSONC from "comment-json";
 import { getEnv } from "./env";
 import type { KcLanguageTag } from "keycloakify";
 import { kcLanguageTags } from "keycloakify";
-import { id } from "tsafe/id";
+import { id as tsafeId } from "tsafe/id";
 import { languages as supportedLanguage } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
 import { IconId } from "ui/theme";
@@ -28,6 +28,7 @@ export type Configuration = {
     mockAuthentication?: {
         isUserInitiallyLoggedIn: boolean;
         user: {
+            id: string;
             email: string;
             agencyName: string;
             /** example: 'en' 'fr' ... */
@@ -166,12 +167,13 @@ export const getConfiguration = memoize(
             );
 
             {
-                const { email, agencyName, locale } = user;
+                const { id, email, agencyName, locale } = user;
 
                 const m_2 = (reason: string) => m_1(`${symToStr({ user })}: ${reason}`);
 
                 {
                     const propertiesNames = [
+                        symToStr({ id }),
                         symToStr({ email }),
                         symToStr({ agencyName }),
                         symToStr({ locale }),
@@ -197,6 +199,7 @@ export const getConfiguration = memoize(
                 }
 
                 for (const [propertyName, propertyValue] of [
+                    [symToStr({ id }), id],
                     [symToStr({ email }), email],
                     [symToStr({ agencyName }), agencyName],
                 ] as const) {
@@ -213,7 +216,7 @@ export const getConfiguration = memoize(
 
                 assert(locale !== undefined, m_1(`${symToStr({ locale })} missing`));
                 assert(
-                    id<readonly string[]>(kcLanguageTags).indexOf(locale) >= 0,
+                    tsafeId<readonly string[]>(kcLanguageTags).indexOf(locale) >= 0,
                     m_1(
                         `${symToStr({ locale })} must be one of: ${kcLanguageTags.join(
                             ", ",
@@ -286,7 +289,7 @@ export const getConfiguration = memoize(
                 }
 
                 assert(
-                    id<readonly string[]>(iconIds).includes(iconId),
+                    tsafeId<readonly string[]>(iconIds).includes(iconId),
                     m_1(
                         `${symToStr({
                             iconId,
@@ -324,7 +327,9 @@ export const getConfiguration = memoize(
 
                         languages.forEach(lang =>
                             assert(
-                                id<readonly string[]>(supportedLanguage).includes(lang),
+                                tsafeId<readonly string[]>(supportedLanguage).includes(
+                                    lang,
+                                ),
                                 m_1(
                                     `${symToStr({
                                         label,

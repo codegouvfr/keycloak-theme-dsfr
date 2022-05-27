@@ -85,6 +85,13 @@ console.log(emailDomains);
                     "cc-aps.fr",
                     "nantesmetropole.fr",
                     "departement86.fr",
+                    "chu-lyon.fr",
+                    "ille-et-vilaine.fr",
+                    "vandoeuvre.fr",
+                    "cdg47.fr",
+                    "haute-marne.fr",
+                    "chu-rouen.fr",
+                    "lecnam.net",
                 ],
             )
             .map(domain => domain.toLowerCase())
