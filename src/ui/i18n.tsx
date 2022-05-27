@@ -421,7 +421,7 @@ export const {
                 "email": "Couriel",
                 "establishment": "Établissement",
                 "expert": "Expert technique",
-                "institutional referent": "Rérérent institutionelle",
+                "institutional referent": "Référent institutionnel",
                 "institutional referent help": `Un référent institutionnel est référent au nom de l'établissement au quelle il est
                 rattaché, les autres référents le son a titre personnel.`,
                 "mail subject": ({ softwareName }) =>

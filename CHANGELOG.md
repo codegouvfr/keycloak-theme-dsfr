@@ -1,3 +1,17 @@
+### **0.13.2** (2022-05-24)  
+  
+- package.json: Bump version to 0.13.2  
+- src/ui/i18n.tsx: Fix typo    
+  
+### **0.13.1** (2022-05-20)  
+  
+- package.json: Bump version to 0.13.1  
+- public/index.html: Remove AT Internet tracking
+
+Fix https://github.com/etalab/sill-web/issues/42  
+- Update keycloakify  
+- Update emails    
+  
 ## **0.13.0** (2022-05-19)  
   
 - New vue for refertents  
