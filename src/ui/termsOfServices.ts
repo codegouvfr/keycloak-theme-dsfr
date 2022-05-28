@@ -25,7 +25,7 @@ export function injectTosInSearchParams(params: {
     if (termsOfServices !== undefined) {
         newUrl = addParamToUrl({
             url,
-            "name": "THERMS_OF_SERVICES",
+            "name": thermOfServicesUrlParamName,
             "value": JSON.stringify(termsOfServices),
         }).newUrl;
     }
