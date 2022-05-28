@@ -1,3 +1,8 @@
+## **0.14.0** (2022-05-28)  
+  
+- Frontend input validation updating email  
+- Ability to update agencyName and email #3    
+  
 ### **0.13.2** (2022-05-24)  
   
 - package.json: Bump version to 0.13.2  
