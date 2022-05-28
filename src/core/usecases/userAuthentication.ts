@@ -163,8 +163,6 @@ export const thunks = {
 
             const allowedEmailRegexpString = await sillApiClient.getAllowedEmailRegexp();
 
-            console.log(allowedEmailRegexpString);
-
             return new RegExp(allowedEmailRegexpString);
         },
 };
