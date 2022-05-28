@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { AccountSectionHeader } from "../AccountSectionHeader";
@@ -9,6 +9,8 @@ import { makeStyles } from "ui/theme";
 import { useThunks, useSelector } from "ui/coreApi";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { useConstCallback } from "powerhooks/useConstCallback";
+import { useEmailDomainNotAllowedErrorMessage } from "ui/components/KcApp/RegisterUserProfile";
+import { assert } from "tsafe/assert";
 import { z } from "zod";
 
 export type Props = {
@@ -21,6 +23,18 @@ export const AccountInfoTab = memo((props: Props) => {
     const { t } = useTranslation({ AccountInfoTab });
 
     const { userAuthenticationThunks } = useThunks();
+
+    const { allowedEmailRegexp } = (function useClosure() {
+        const [allowedEmailRegexp, setAllowedEmailRegexp] = useState<RegExp | undefined>(
+            undefined,
+        );
+
+        useEffect(() => {
+            userAuthenticationThunks.getAllowedEmailRegexp().then(setAllowedEmailRegexp);
+        }, []);
+
+        return { allowedEmailRegexp };
+    })();
 
     const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useSelector(
         state => state.userAuthentication.agencyName,
@@ -39,9 +53,13 @@ export const AccountInfoTab = memo((props: Props) => {
             userAuthenticationThunks.updateField({ fieldName, value }),
     );
 
+    const emailDomainNotAllowedErrorMessage = useEmailDomainNotAllowedErrorMessage();
+
     const getIsValidEmailValue = useConstCallback<
         DescriptiveFieldProps.EditableText["getIsValidValue"]
     >(value => {
+        assert(allowedEmailRegexp !== undefined);
+
         try {
             z.string().email().parse(value);
         } catch {
@@ -51,8 +69,19 @@ export const AccountInfoTab = memo((props: Props) => {
             };
         }
 
+        if (!allowedEmailRegexp.test(value)) {
+            return {
+                "isValidValue": false,
+                "message": emailDomainNotAllowedErrorMessage,
+            };
+        }
+
         return { "isValidValue": true };
     });
+
+    if (allowedEmailRegexp === undefined) {
+        return null;
+    }
 
     return (
         <div className={className}>

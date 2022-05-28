@@ -36,5 +36,6 @@ export function createServerlessSillApiClient(params: {
         "autoFillFormInfo": () => Promise.reject(new Error("not implemented")),
         "updateAgencyName": () => Promise.reject(new Error("not implemented")),
         "updateEmail": () => Promise.reject(new Error("not implemented")),
+        "getAllowedEmailRegexp": () => Promise.reject(new Error("not implemented")),
     };
 }

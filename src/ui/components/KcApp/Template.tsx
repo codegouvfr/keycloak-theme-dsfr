@@ -6,7 +6,6 @@ import { getMsg } from "keycloakify";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { KcTemplateProps } from "keycloakify";
 import { Header } from "ui/components/shared/Header";
-import { logoContainerWidthInPercent } from "ui/components/App";
 import { makeStyles, IconButton, Text } from "ui/theme";
 import { useDomRect, useWindowInnerSize } from "onyxia-ui";
 import { Card } from "onyxia-ui/Card";
@@ -45,7 +44,9 @@ export const Template = memo((props: TemplateProps) => {
     } = useDomRect();
 
     const logoContainerWidth = Math.max(
-        Math.floor((Math.min(rootWidth, 1920) * logoContainerWidthInPercent) / 100),
+        Math.floor(
+            (Math.min(rootWidth, 1920) * 4) /*logo container width percent*/ / 100,
+        ),
         45,
     );
 

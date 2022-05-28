@@ -103,8 +103,6 @@ export const DescriptiveField = memo((props: Props) => {
         props.onRequestCopy();
     });
 
-    const { classes, cx } = useStyles({ isFlashing });
-
     const { TextWd, toggleIsTextHidden, isTextHidden, isSensitiveInformation } =
         (function useClosure() {
             const isSensitiveInformation = (() => {
@@ -295,6 +293,11 @@ export const DescriptiveField = memo((props: Props) => {
 
     const { lang, setLang } = useLang();
 
+    const { classes, cx } = useStyles({
+        isFlashing,
+        "isHelperTextVisible": !isInEditingState,
+    });
+
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.mainLine}>
@@ -344,6 +347,7 @@ export const DescriptiveField = memo((props: Props) => {
                                         inputProps_autoFocus={true}
                                         selectAllTextOnFocus={true}
                                         inputProps_spellCheck={false}
+                                        helperText={helperText}
                                     />
                                 );
                         }
@@ -427,51 +431,57 @@ export const DescriptiveField = memo((props: Props) => {
                     })()}
                 </div>
             </div>
-            {helperText !== undefined && <Text typo="caption"> {helperText} </Text>}
+            {helperText !== undefined && (
+                <Text typo="caption" className={classes.helperText}>
+                    {" "}
+                    {helperText}{" "}
+                </Text>
+            )}
         </div>
     );
 });
 
-const useStyles = makeStyles<{ isFlashing: boolean }>({ "name": { DescriptiveField } })(
-    (theme, { isFlashing }) => ({
-        "root": {
-            "marginBottom": theme.spacing(3),
-        },
-        "mainLine": {
+const useStyles = makeStyles<{ isFlashing: boolean; isHelperTextVisible: boolean }>({
+    "name": { DescriptiveField },
+})((theme, { isFlashing, isHelperTextVisible }) => ({
+    "root": {
+        "marginBottom": theme.spacing(3),
+    },
+    "mainLine": {
+        "display": "flex",
+        "& > div": {
             "display": "flex",
-            "& > div": {
-                "display": "flex",
-                "alignItems": "center",
-            },
-            "marginBottom": theme.spacing(2),
+            "alignItems": "center",
         },
-        "cellTitle": {
-            "width": 360,
-        },
-        "cellMiddle": {
-            "flex": 1,
+        "marginBottom": theme.spacing(2),
+    },
+    "cellTitle": {
+        "width": 360,
+    },
+    "cellMiddle": {
+        "flex": 1,
+        "overflow": "visible",
+        "& .MuiTypography-root": {
             "overflow": "hidden",
-            "& .MuiTypography-root": {
-                "overflow": "hidden",
-                "whiteSpace": "nowrap",
-                "textOverflow": "ellipsis",
-                "color": !isFlashing
-                    ? undefined
-                    : theme.colors.useCases.buttons.actionActive,
-            },
-            "& .MuiTextField-root": {
-                "width": "100%",
-                "top": 2,
-            },
+            "whiteSpace": "nowrap",
+            "textOverflow": "ellipsis",
+            "color": !isFlashing ? undefined : theme.colors.useCases.buttons.actionActive,
         },
-        "cellActions": {
-            "marginRight": theme.spacing(2),
+        "& .MuiTextField-root": {
+            "width": "100%",
+            "top": 2,
         },
-        "noText": {
-            "color": theme.colors.useCases.typography.textDisabled,
-        },
-    }),
-);
+    },
+    "cellActions": {
+        "marginRight": theme.spacing(2),
+    },
+    "noText": {
+        "color": theme.colors.useCases.typography.textDisabled,
+    },
+    "helperText": {
+        "opacity": isHelperTextVisible ? undefined : 0,
+    },
+}));
 
 export const { i18n } = declareComponentKeys<
     | Exclude<Props["type"], "text" | "editable text" | "toggle">

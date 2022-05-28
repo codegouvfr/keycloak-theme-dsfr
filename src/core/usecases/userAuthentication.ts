@@ -156,6 +156,17 @@ export const thunks = {
 
             dispatch(actions.updateFieldCompleted({ fieldName }));
         },
+    "getAllowedEmailRegexp":
+        (): ThunkAction<Promise<RegExp>> =>
+        async (...args) => {
+            const [, , { sillApiClient }] = args;
+
+            const allowedEmailRegexpString = await sillApiClient.getAllowedEmailRegexp();
+
+            console.log(allowedEmailRegexpString);
+
+            return new RegExp(allowedEmailRegexpString);
+        },
 };
 
 export const privateThunks = {

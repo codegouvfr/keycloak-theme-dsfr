@@ -30,6 +30,9 @@ export type SillApiClient = {
     updateEmail: (
         params: InferInput<"updateEmail">,
     ) => Promise<InferOutput<"updateEmail">>;
+    getAllowedEmailRegexp: (
+        params: InferInput<"getAllowedEmailRegexp">,
+    ) => Promise<InferOutput<"getAllowedEmailRegexp">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

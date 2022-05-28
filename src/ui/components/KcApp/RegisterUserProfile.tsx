@@ -40,6 +40,8 @@ export const RegisterUserProfile = memo(
 
         const { t } = useTranslation({ RegisterUserProfile });
 
+        const emailDomainNotAllowedErrorMessage = useEmailDomainNotAllowedErrorMessage();
+
         const onGoBackClick = useConstCallback(() => global.history.back());
 
         const passwordValidators = useMemo(
@@ -272,21 +274,7 @@ export const RegisterUserProfile = memo(
                                                                     ? t(
                                                                           "use your administrative email",
                                                                       )
-                                                                    : t(
-                                                                          "you domain isn't allowed yet",
-                                                                          {
-                                                                              "mailtoHref": `mailto:${contactEmail}?subject=${encodeURIComponent(
-                                                                                  t(
-                                                                                      "mail subject",
-                                                                                  ),
-                                                                              )}&body=${encodeURIComponent(
-                                                                                  t(
-                                                                                      "mail body",
-                                                                                  ),
-                                                                              )}`,
-                                                                              contactEmail,
-                                                                          },
-                                                                      );
+                                                                    : emailDomainNotAllowedErrorMessage;
                                                             case "password": {
                                                                 const { min } =
                                                                     attribute.validators
@@ -451,3 +439,14 @@ const useStyles = makeStyles({ "name": { RegisterUserProfile } })(theme => ({
         "marginLeft": theme.spacing(2),
     },
 }));
+
+export function useEmailDomainNotAllowedErrorMessage() {
+    const { t } = useTranslation({ RegisterUserProfile });
+
+    return t("you domain isn't allowed yet", {
+        "mailtoHref": `mailto:${contactEmail}?subject=${encodeURIComponent(
+            t("mail subject"),
+        )}&body=${encodeURIComponent(t("mail body"))}`,
+        contactEmail,
+    });
+}

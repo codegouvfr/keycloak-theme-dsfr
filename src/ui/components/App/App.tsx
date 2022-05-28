@@ -29,8 +29,6 @@ import { useElementEvt } from "evt/hooks/useElementEvt";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
 import { Evt } from "evt";
 
-export const logoContainerWidthInPercent = 4;
-
 export type Props = {
     className?: string;
 };
@@ -74,7 +72,9 @@ export const App = memo((props: Props) => {
     });
 
     const logoContainerWidth = Math.max(
-        Math.floor((Math.min(rootWidth, 1920) * logoContainerWidthInPercent) / 100),
+        Math.floor(
+            (Math.min(rootWidth, 1920) * 4) /* logo container with in percent */ / 100,
+        ),
         45,
     );
 
