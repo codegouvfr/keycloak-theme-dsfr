@@ -79,6 +79,11 @@ export async function createKeycloakOidcClient(params: {
 
             return new Promise<never>(() => {});
         },
+        "updateTokenInfo": async () => {
+            await keycloakInstance.updateToken(-1);
+
+            oidcClient.accessToken = keycloakInstance.token!;
+        },
     });
 
     (function callee() {

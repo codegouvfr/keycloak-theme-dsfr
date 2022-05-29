@@ -11,5 +11,6 @@ export declare namespace OidcClient {
         //NOTE: It changes when renewed, don't store it.
         accessToken: string;
         logout: (params: { redirectTo: "home" | "current page" }) => Promise<never>;
+        updateTokenInfo: () => Promise<void>;
     };
 }

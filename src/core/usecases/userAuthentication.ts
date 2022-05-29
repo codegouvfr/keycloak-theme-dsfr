@@ -141,7 +141,7 @@ export const thunks = {
         (params: { fieldName: "agencyName" | "email"; value: string }): ThunkAction =>
         async (...args) => {
             const { fieldName, value } = params;
-            const [dispatch, , { sillApiClient }] = args;
+            const [dispatch, , { sillApiClient, oidcClient }] = args;
 
             dispatch(actions.updateFieldStarted({ fieldName, value }));
 
@@ -153,6 +153,10 @@ export const thunks = {
                     await sillApiClient.updateEmail({ "newEmail": value });
                     break;
             }
+
+            assert(oidcClient.isUserLoggedIn);
+
+            await oidcClient.updateTokenInfo();
 
             dispatch(actions.updateFieldCompleted({ fieldName }));
         },

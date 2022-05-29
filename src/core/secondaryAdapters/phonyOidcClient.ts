@@ -64,6 +64,7 @@ export function createPhonyOidcClient(params: {
 
             return new Promise<never>(() => {});
         },
+        "updateTokenInfo": () => Promise.reject("Not implemented"),
     });
 }
 
