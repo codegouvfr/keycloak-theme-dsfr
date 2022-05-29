@@ -1,3 +1,7 @@
+### **0.14.1** (2022-05-29)  
+  
+- Refresh access token after updating info with kc api    
+  
 ## **0.14.0** (2022-05-28)  
   
 - Frontend input validation updating email  
