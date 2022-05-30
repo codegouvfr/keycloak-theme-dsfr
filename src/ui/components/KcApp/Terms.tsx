@@ -5,7 +5,7 @@ import { useDownloadTerms, getMsg } from "keycloakify";
 import { Button } from "ui/theme";
 import { makeStyles } from "ui/theme";
 import type { KcContext } from "./kcContext";
-import { thermOfServicesPassedByClient } from "ui/termsOfServices";
+import { thermOfServicesPassedByClient } from "ui/valuesCarriedOverToKc/termsOfServices";
 import { createResolveLocalizedString } from "i18nifty";
 import { fallbackLanguage } from "ui/i18n";
 

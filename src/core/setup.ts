@@ -26,10 +26,12 @@ import { id } from "tsafe/id";
 import type { NonPostableEvt } from "evt";
 
 export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
-    Pick<
-        Param0<typeof createKeycloakOidcClient>,
-        "transformUrlBeforeRedirectToLogin" | "evtUserActivity"
-    >;
+    Pick<Param0<typeof createKeycloakOidcClient>, "evtUserActivity"> & {
+        transformUrlBeforeRedirectToLogin: (params: {
+            url: string;
+            termsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
+        }) => string;
+    };
 
 // All these assert<Equals<...>> are just here to help visualize what the type
 // actually is. It's hard to tell just by looking at the definition
@@ -127,7 +129,11 @@ export async function createStore(params: CreateStoreParams) {
               ),
               {
                   ...keycloakParams,
-                  transformUrlBeforeRedirectToLogin,
+                  "transformUrlBeforeRedirect": url =>
+                      transformUrlBeforeRedirectToLogin({
+                          url,
+                          "termsOfServices": keycloakParams.termsOfServices,
+                      }),
                   evtUserActivity,
               }),
           ));

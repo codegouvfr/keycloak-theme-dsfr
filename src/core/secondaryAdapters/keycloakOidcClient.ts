@@ -4,29 +4,17 @@ import { id } from "tsafe/id";
 import { createKeycloakAdapter } from "keycloakify";
 import type { NonPostableEvt } from "evt";
 import * as jwtSimple from "jwt-simple";
-import type { KcLanguageTag } from "keycloakify";
 
 export async function createKeycloakOidcClient(params: {
     url: string;
     realm: string;
     clientId: string;
-    termsOfServices?: string | Partial<Record<KcLanguageTag, string>>;
-    transformUrlBeforeRedirectToLogin: (params: {
-        url: string;
-        termsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
-    }) => string;
+    transformUrlBeforeRedirect: (url: string) => string;
     evtUserActivity: NonPostableEvt<void>;
     log?: typeof console.log;
 }): Promise<OidcClient> {
-    const {
-        url,
-        realm,
-        clientId,
-        termsOfServices,
-        transformUrlBeforeRedirectToLogin,
-        evtUserActivity,
-        log,
-    } = params;
+    const { url, realm, clientId, transformUrlBeforeRedirect, evtUserActivity, log } =
+        params;
 
     const keycloakInstance = keycloak_js({ url, realm, clientId });
 
@@ -37,8 +25,7 @@ export async function createKeycloakOidcClient(params: {
             "responseMode": "query",
             "checkLoginIframe": false,
             "adapter": createKeycloakAdapter({
-                "transformUrlBeforeRedirect": url =>
-                    transformUrlBeforeRedirectToLogin({ url, termsOfServices }),
+                transformUrlBeforeRedirect,
                 keycloakInstance,
             }),
         })

@@ -10,8 +10,8 @@ import { kcLanguageTags } from "keycloakify";
 import { id as tsafeId } from "tsafe/id";
 import { languages as supportedLanguage } from "sill-api";
 import { objectKeys } from "tsafe/objectKeys";
-import { IconId } from "ui/theme";
-import { iconIds } from "ui/theme";
+import type { IconId } from "ui/theme";
+import { iconIds } from "ui/theme/icons";
 
 export type Configuration = {
     /**

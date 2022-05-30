@@ -13,6 +13,19 @@ import { Tooltip } from "onyxia-ui/Tooltip";
 import { TextField } from "onyxia-ui/TextField";
 import MuiTextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { API_URL } from "ui/valuesCarriedOverToKc/env";
+import { createTrpcSillApiClient } from "core/secondaryAdapters/trpcSillApiClient";
+import { Evt } from "evt";
+import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
+
+const evtAgencyName = Evt.create<string[]>([]);
+
+createTrpcSillApiClient({
+    "refOidcAccessToken": { "current": undefined },
+    "url": API_URL,
+})
+    .getAgencyNames()
+    .then(agencyNames => (evtAgencyName.state = agencyNames));
 
 const contactEmail = "logiciels-libres@data.gouv.fr";
 
@@ -22,6 +35,8 @@ export const RegisterUserProfile = memo(
         ...props_
     }: { kcContext: KcContextBase.RegisterUserProfile } & KcProps) => {
         const { url, messagesPerField, recaptchaRequired, recaptchaSiteKey } = kcContext;
+
+        useRerenderOnStateChange(evtAgencyName);
 
         const { msg, msgStr, advancedMsg } = getMsg(kcContext);
 
@@ -218,6 +233,11 @@ export const RegisterUserProfile = memo(
 
                                             return (
                                                 <TextField
+                                                    options={
+                                                        attribute.name === "agencyName"
+                                                            ? evtAgencyName.state
+                                                            : undefined
+                                                    }
                                                     type={(() => {
                                                         switch (attribute.name) {
                                                             case "password-confirm":

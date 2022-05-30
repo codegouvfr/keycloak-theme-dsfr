@@ -15,10 +15,19 @@ import { assert } from "tsafe/assert";
 import { typeGuard } from "tsafe/typeGuard";
 import { id } from "tsafe/id";
 import { getTransferableEnv } from "ui/tools/getTransferableEnv";
+import { getConfiguration } from "configuration";
 
 const paletteIds = ["onyxia", "france", "ultraviolet"] as const;
 
 export type PaletteId = typeof paletteIds[number];
+
+const { API_URL, injectAPI_URLInSearchParams } = getTransferableEnv({
+    "name": "API_URL" as const,
+    "getSerializedValueFromEnv": () => getConfiguration().apiUrl,
+    "validateAndParseOrGetDefault": (valueStr): string => valueStr,
+});
+
+export { API_URL };
 
 const { THEME_ID, injectTHEME_IDInSearchParams } = getTransferableEnv({
     "name": "THEME_ID" as const,
@@ -68,6 +77,7 @@ export function injectTransferableEnvsInSearchParams(url: string): string {
         injectTHEME_IDInSearchParams,
         injectHEADER_ORGANIZATIONInSearchParams,
         injectHEADER_USECASE_DESCRIPTIONInSearchParams,
+        injectAPI_URLInSearchParams,
     ]) {
         newUrl = inject(newUrl);
     }

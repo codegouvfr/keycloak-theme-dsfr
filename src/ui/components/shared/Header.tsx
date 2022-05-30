@@ -5,7 +5,10 @@ import { useTranslation } from "ui/i18n";
 import { makeStyles, Text } from "ui/theme";
 import marianneRoundUrl from "ui/assets/img/marianne_round.png";
 import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
-import { HEADER_ORGANIZATION, HEADER_USECASE_DESCRIPTION } from "ui/envCarriedOverToKc";
+import {
+    HEADER_ORGANIZATION,
+    HEADER_USECASE_DESCRIPTION,
+} from "ui/valuesCarriedOverToKc/env";
 import { getConfiguration } from "configuration";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
