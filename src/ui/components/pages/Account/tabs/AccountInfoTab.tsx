@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useReducer } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { AccountSectionHeader } from "../AccountSectionHeader";
@@ -30,10 +30,55 @@ export const AccountInfoTab = memo((props: Props) => {
         );
 
         useEffect(() => {
-            userAuthenticationThunks.getAllowedEmailRegexp().then(setAllowedEmailRegexp);
+            let isCleanedUp = false;
+
+            userAuthenticationThunks.getAllowedEmailRegexp().then(allowedEmailRegexp => {
+                if (isCleanedUp) {
+                    return;
+                }
+
+                setAllowedEmailRegexp(allowedEmailRegexp);
+            });
+
+            return () => {
+                isCleanedUp = true;
+            };
         }, []);
 
         return { allowedEmailRegexp };
+    })();
+
+    const { agencyNames, triggerFetchAgencyNames } = (function useClosure() {
+        const [agencyNames, setAgencyNames] = useState<string[] | undefined>(undefined);
+
+        const [isTriggered, triggerFetchAgencyNames] = useReducer(() => true, false);
+
+        useEffect(() => {
+            if (!isTriggered) {
+                return;
+            }
+
+            let isCleanedUp = false;
+
+            userAuthenticationThunks.getAgencyNames().then(agencyNames => {
+                if (isCleanedUp) {
+                    return;
+                }
+
+                //NOTE: Just so that we do not have infinite loading for the first user
+                if (agencyNames.length === 0) {
+                    agencyNames = [""];
+                }
+
+                setAgencyNames(agencyNames);
+            });
+
+            return () => {
+                isCleanedUp = true;
+            };
+        }, [isTriggered]);
+
+        return { agencyNames, triggerFetchAgencyNames };
     })();
 
     const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useSelector(
@@ -102,6 +147,8 @@ export const AccountInfoTab = memo((props: Props) => {
                 text={agencyName}
                 onRequestEdit={onRequestUpdateFieldFactory("agencyName")}
                 isLocked={isAgencyNameBeingUpdated}
+                onStartEdit={triggerFetchAgencyNames}
+                options={agencyNames ?? []}
             />
             {keycloakAccountConfigurationUrl !== undefined && (
                 <Link

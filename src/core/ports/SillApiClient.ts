@@ -33,6 +33,9 @@ export type SillApiClient = {
     getAllowedEmailRegexp: (
         params: InferInput<"getAllowedEmailRegexp">,
     ) => Promise<InferOutput<"getAllowedEmailRegexp">>;
+    getAgencyNames: (
+        params: InferInput<"getAgencyNames">,
+    ) => Promise<InferOutput<"getAgencyNames">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

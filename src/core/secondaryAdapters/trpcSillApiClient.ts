@@ -38,5 +38,6 @@ export function createTrpcSillApiClient(params: {
         "updateAgencyName": params => trpcClient.mutation("updateAgencyName", params),
         "updateEmail": params => trpcClient.mutation("updateEmail", params),
         "getAllowedEmailRegexp": () => trpcClient.query("getAllowedEmailRegexp"),
+        "getAgencyNames": () => trpcClient.query("getAgencyNames"),
     };
 }

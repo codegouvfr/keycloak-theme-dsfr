@@ -169,6 +169,13 @@ export const thunks = {
 
             return new RegExp(allowedEmailRegexpString);
         },
+    "getAgencyNames":
+        (): ThunkAction<Promise<string[]>> =>
+        (...args) => {
+            const [, , { sillApiClient }] = args;
+
+            return sillApiClient.getAgencyNames();
+        },
 };
 
 export const privateThunks = {

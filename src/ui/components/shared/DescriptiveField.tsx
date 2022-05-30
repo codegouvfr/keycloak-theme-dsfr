@@ -65,6 +65,7 @@ export declare namespace Props {
         getIsValidValue?: TextFieldProps["getIsValidValue"];
         isLocked: boolean;
         isSensitiveInformation?: boolean;
+        options?: string[];
     } & ICopyable &
         IGeneric;
 
@@ -336,6 +337,7 @@ export const DescriptiveField = memo((props: Props) => {
                                 ) : (
                                     <TextField
                                         defaultValue={props.text}
+                                        options={props.options}
                                         onEscapeKeyDown={onTextFieldEscapeKeyDown}
                                         onEnterKeyDown={onSubmitButtonClick}
                                         evtAction={evtTextFieldAction}
@@ -470,6 +472,9 @@ const useStyles = makeStyles<{ isFlashing: boolean; isHelperTextVisible: boolean
         "& .MuiTextField-root": {
             "width": "100%",
             "top": 2,
+        },
+        "& .MuiAutocomplete-root": {
+            "min-width": 300,
         },
     },
     "cellActions": {
