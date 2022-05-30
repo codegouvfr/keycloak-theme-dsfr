@@ -1,3 +1,7 @@
+## **0.16.0** (2022-05-30)  
+  
+- Autocomplete agencyName on register page    
+  
 ## **0.15.0** (2022-05-30)  
   
 - Autocomplete of AgencyName    
