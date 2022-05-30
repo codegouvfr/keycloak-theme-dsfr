@@ -1,3 +1,7 @@
+## **0.15.0** (2022-05-30)  
+  
+- Autocomplete of AgencyName    
+  
 ### **0.14.1** (2022-05-29)  
   
 - Refresh access token after updating info with kc api    
