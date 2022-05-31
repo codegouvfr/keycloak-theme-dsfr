@@ -2,6 +2,7 @@ import MuiLink from "@mui/material/Link";
 import { createI18nApi } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
+import { assert } from "tsafe/assert";
 
 export { languages };
 export type { Language };
@@ -113,11 +114,9 @@ export const {
             "CatalogCard": {
                 "learn more": "Learn more",
                 "try it": "Try it 🚀",
-                "you are referent": "You are referent",
+                "you are referent": ({ isOnlyReferent }) =>
+                    `You are${isOnlyReferent ? " the" : ""} referent`,
                 "you are the referent": "You are the referent",
-                "show the referent": "Show the referent",
-                "show referents": "Show referents",
-                "show the others referents": "Show the others referents",
                 "declare oneself referent": "Declare yourself referent",
                 "this software has no referent": "This software has not referent",
                 "no longer referent": "I am no longer referent",
@@ -126,6 +125,21 @@ export const {
                 //TODO: Rename
                 "identified developer": "Author",
                 "identified developers": "Authors",
+                "show referents": ({ isUserReferent, referentCount }) => {
+                    if (isUserReferent) {
+                        if (referentCount >= 3) {
+                            return "see other referents";
+                        }
+
+                        if (referentCount === 2) {
+                            return "see the other referent";
+                        }
+
+                        assert(false);
+                    } else {
+                        return `See referent${referentCount === 1 ? "" : "s"}`;
+                    }
+                },
             },
             "ReferentDialogs": {
                 "close": "Close",
@@ -387,11 +401,8 @@ export const {
             "CatalogCard": {
                 "learn more": "En savoir plus",
                 "try it": "Essayer 🚀",
-                "you are referent": "Vous êtes référent",
-                "you are the referent": "Vous êtes le référent",
-                "show the referent": "Voir le référent",
-                "show referents": "Voir les référents",
-                "show the others referents": "Voir les autres référents",
+                "you are referent": ({ isOnlyReferent }) =>
+                    `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
                 "declare oneself referent": "Me déclarer référent",
                 "this software has no referent": "Pas de référent",
                 "no longer referent": "Je ne suis plus référent",
@@ -399,6 +410,23 @@ export const {
                     "À installer sur le poste de travail de l'agent",
                 "identified developer": "Auteur",
                 "identified developers": "Auteurs",
+                "show referents": ({ isUserReferent, referentCount }) => {
+                    if (isUserReferent) {
+                        if (referentCount >= 3) {
+                            return "voir les autres référents";
+                        }
+
+                        if (referentCount === 2) {
+                            return "voir l'autre référent";
+                        }
+
+                        assert(false);
+                    } else {
+                        return referentCount === 1
+                            ? "voir le référent"
+                            : "voir les référents";
+                    }
+                },
             },
             "ReferentDialogs": {
                 "close": "Fermer",

@@ -122,11 +122,9 @@ export const CatalogCard = memo((props: Props) => {
                     return (
                         <div onClick={onShowReferentClick} className={classes.tagWrapper}>
                             <Tag
-                                text={t(
-                                    referents.length === 1
-                                        ? "you are the referent"
-                                        : "you are referent",
-                                )}
+                                text={t("you are referent", {
+                                    "isOnlyReferent": referents.length === 1,
+                                })}
                             />
                         </div>
                     );
@@ -241,13 +239,10 @@ export const CatalogCard = memo((props: Props) => {
                                 variant="secondary"
                                 onClick={onShowReferentClick}
                             >
-                                {t(
-                                    length === 1
-                                        ? "show the referent"
-                                        : userIndexInReferents === undefined
-                                        ? "show referents"
-                                        : "show the others referents",
-                                )}
+                                {t("show referents", {
+                                    "isUserReferent": userIndexInReferents !== undefined,
+                                    "referentCount": length,
+                                })}
                             </Button>
                         );
                     })()}
@@ -268,11 +263,7 @@ export const CatalogCard = memo((props: Props) => {
 export const { i18n } = declareComponentKeys<
     | "learn more"
     | "try it"
-    | "you are referent"
-    | "you are the referent"
-    | "show the others referents"
-    | "show referents"
-    | "show the referent"
+    | ["you are referent", { isOnlyReferent: boolean }]
     | "declare oneself referent"
     | "this software has no referent"
     | "no longer referent"
@@ -280,6 +271,7 @@ export const { i18n } = declareComponentKeys<
     //TODO i18nifty: now play!
     | "identified developers"
     | "identified developer"
+    | ["show referents", { isUserReferent: boolean; referentCount: number }]
 >()({ CatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
