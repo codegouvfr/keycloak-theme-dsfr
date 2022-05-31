@@ -30,6 +30,12 @@ export type Props = {
     editLink: Link;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
+    parentSoftware:
+        | {
+              name: string;
+              link: Link | undefined;
+          }
+        | undefined;
     onDeclareReferentAnswer: (params: {
         isExpert: boolean;
         useCaseDescription: string;
@@ -47,6 +53,7 @@ export const CatalogCard = memo((props: Props) => {
         editLink,
         referents,
         userIndexInReferents,
+        parentSoftware,
         onLogin,
         onUserNoLongerReferent,
         onDeclareReferentAnswer,
@@ -152,6 +159,9 @@ export const CatalogCard = memo((props: Props) => {
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
+                    {parentSoftware !== undefined && (
+                        <Text typo="label 1"> {t("plugin for", parentSoftware)} </Text>
+                    )}
                     <Markdown>
                         {`${capitalize(software.name)}, ${
                             software.wikidataData?.description === undefined
@@ -263,6 +273,7 @@ export const CatalogCard = memo((props: Props) => {
 });
 
 export const { i18n } = declareComponentKeys<
+    | ["plugin for", { name: string; link: Link | undefined }]
     | "learn more"
     | "try it"
     | ["you are referent", { isOnlyReferent: boolean }]

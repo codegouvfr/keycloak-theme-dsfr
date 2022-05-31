@@ -112,6 +112,12 @@ export const {
                 "not found": "Page not found",
             },
             "CatalogCard": {
+                "plugin for": ({ name, link }) => (
+                    <>
+                        Plugin for{" "}
+                        {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
+                    </>
+                ),
                 "learn more": "Learn more",
                 "try it": "Try it 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
@@ -401,6 +407,12 @@ export const {
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
                 "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
+                "plugin for": ({ name, link }) => (
+                    <>
+                        Plugin pour{" "}
+                        {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
+                    </>
+                ),
                 "declare oneself referent": "Me déclarer référent",
                 "this software has no referent": "Pas de référent",
                 "no longer referent": "Je ne suis plus référent",

@@ -132,28 +132,58 @@ export function Catalog(props: Props) {
     );
 
     const { softwares } = useSelector(selectors.catalog.softwares);
-
     const { softwareNameBySoftwareId } = useSelector(
         selectors.catalog.softwareNameBySoftwareId,
     );
 
-    const { openLinkBySoftwareId, editLinkBySoftwareId } = useMemo(() => {
-        if (softwareNameBySoftwareId === undefined) {
-            return {};
-        }
+    const { openLinkBySoftwareId, editLinkBySoftwareId, parentSoftwareBySoftwareId } =
+        useMemo(() => {
+            if (softwares === undefined || softwareNameBySoftwareId === undefined) {
+                return {};
+            }
 
-        const openLinkBySoftwareId: Record<number, Link> = {};
-        const editLinkBySoftwareId: Record<number, Link> = {};
+            const openLinkBySoftwareId: Record<number, Link> = {};
+            const editLinkBySoftwareId: Record<number, Link> = {};
+            const parentSoftwareBySoftwareId: Record<
+                number,
+                { name: string; link: Link | undefined } | undefined
+            > = {};
 
-        Object.entries(softwareNameBySoftwareId)
-            .map(([idStr, name]) => [parseInt(idStr), name] as const)
-            .forEach(([id, name]) => {
-                openLinkBySoftwareId[id] = routes.card({ name }).link;
-                editLinkBySoftwareId[id] = routes.form({ "softwareId": id }).link;
+            softwares.forEach(software => {
+                openLinkBySoftwareId[software.id] = routes.card({
+                    "name": software.name,
+                }).link;
+                editLinkBySoftwareId[software.id] = routes.form({
+                    "softwareId": software.id,
+                }).link;
+                parentSoftwareBySoftwareId[software.id] =
+                    software.parentSoftware === undefined
+                        ? undefined
+                        : (() => {
+                              const { parentSoftware } = software;
+
+                              let name: string;
+                              let link: Link | undefined;
+
+                              if (parentSoftware.isKnown) {
+                                  name =
+                                      softwareNameBySoftwareId[parentSoftware.softwareId];
+                                  link = routes.card({ name }).link;
+                              } else {
+                                  name = parentSoftware.softwareName;
+                                  link = undefined;
+                              }
+
+                              return { name, link };
+                          })();
             });
 
-        return { openLinkBySoftwareId, editLinkBySoftwareId };
-    }, [softwareNameBySoftwareId]);
+            return {
+                openLinkBySoftwareId,
+                editLinkBySoftwareId,
+                parentSoftwareBySoftwareId,
+            };
+        }, [softwares, softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
         assert(!userAuthenticationThunks.getIsUserLoggedIn());
@@ -175,8 +205,8 @@ export function Catalog(props: Props) {
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
     assert(editLinkBySoftwareId !== undefined);
-    assert(softwareNameBySoftwareId !== undefined);
     assert(searchResultCount !== undefined);
+    assert(parentSoftwareBySoftwareId !== undefined);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -203,6 +233,7 @@ export function Catalog(props: Props) {
                         alikeSoftwares={alikeSoftwares}
                         referentsBySoftwareId={referentsBySoftwareId}
                         openLinkBySoftwareId={openLinkBySoftwareId}
+                        parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
                         editLinkBySoftwareId={editLinkBySoftwareId}
                         onLoadMore={catalogThunks.loadMore}
                         hasMoreToLoad={catalogThunks.getHasMoreToLoad()}

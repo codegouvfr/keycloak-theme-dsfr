@@ -103,6 +103,15 @@ export const VueDefault = getStory({
             "onClick": () => {},
         },
     },
+    "parentSoftwareBySoftwareId": {
+        "233": {
+            "name": "Keycloak",
+            "link": {
+                "href": "https://example.com",
+                "onClick": () => {},
+            },
+        },
+    },
     "search": "",
     "hasMoreToLoad": true,
     "searchBarWrapperElement": document.createElement("div"),

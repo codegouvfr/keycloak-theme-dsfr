@@ -46,6 +46,14 @@ export type Props = {
         | undefined;
     openLinkBySoftwareId: Record<number, Link>;
     editLinkBySoftwareId: Record<number, Link>;
+    parentSoftwareBySoftwareId: Record<
+        number,
+        | {
+              name: string;
+              link: Link | undefined;
+          }
+        | undefined
+    >;
     search: string;
     onSearchChange: (search: string) => void;
     onLoadMore: () => void;
@@ -71,6 +79,7 @@ export const CatalogCards = memo((props: Props) => {
         referentsBySoftwareId,
         openLinkBySoftwareId,
         editLinkBySoftwareId,
+        parentSoftwareBySoftwareId,
         search,
         onSearchChange,
         onLoadMore,
@@ -162,6 +171,7 @@ export const CatalogCards = memo((props: Props) => {
                     software={software}
                     openLink={openLinkBySoftwareId[software.id]!}
                     editLink={editLinkBySoftwareId[software.id]!}
+                    parentSoftware={parentSoftwareBySoftwareId[software.id]}
                     referents={referents}
                     userIndexInReferents={userIndex}
                     onLogin={onLogin}

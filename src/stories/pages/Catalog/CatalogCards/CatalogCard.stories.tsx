@@ -85,6 +85,10 @@ export const VueDefault = getStory({
         "href": "https://example.com",
         "onClick": () => {},
     },
+    "parentSoftware": {
+        "name": "Adobe Phtoshop",
+        "link": undefined,
+    },
     "referents": undefined,
     "userIndexInReferents": undefined,
     ...logCallbacks(["onLogin", "onDeclareReferentAnswer", "onUserNoLongerReferent"]),
