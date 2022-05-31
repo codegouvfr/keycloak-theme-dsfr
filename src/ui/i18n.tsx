@@ -116,15 +116,12 @@ export const {
                 "try it": "Try it 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `You are${isOnlyReferent ? " the" : ""} referent`,
-                "you are the referent": "You are the referent",
                 "declare oneself referent": "Declare yourself referent",
                 "this software has no referent": "This software has not referent",
                 "no longer referent": "I am no longer referent",
                 "to install on the computer of the agent":
                     "To install on the computer of the agent",
-                //TODO: Rename
-                "identified developer": "Author",
-                "identified developers": "Authors",
+                "authors": ({ doUsePlural }) => `Author${doUsePlural ? "s" : ""}`,
                 "show referents": ({ isUserReferent, referentCount }) => {
                     if (isUserReferent) {
                         if (referentCount >= 3) {
@@ -403,13 +400,12 @@ export const {
                 "try it": "Essayer 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
+                "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
                 "declare oneself referent": "Me déclarer référent",
                 "this software has no referent": "Pas de référent",
                 "no longer referent": "Je ne suis plus référent",
                 "to install on the computer of the agent":
                     "À installer sur le poste de travail de l'agent",
-                "identified developer": "Auteur",
-                "identified developers": "Auteurs",
                 "show referents": ({ isUserReferent, referentCount }) => {
                     if (isUserReferent) {
                         if (referentCount >= 3) {

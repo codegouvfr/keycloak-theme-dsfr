@@ -167,11 +167,9 @@ export const CatalogCard = memo((props: Props) => {
                         return (
                             <div className={classes.developers}>
                                 <Text typo="label 1">
-                                    {t(
-                                        developers.length === 1
-                                            ? "identified developer"
-                                            : "identified developers",
-                                    )}
+                                    {t("authors", {
+                                        "doUsePlural": developers.length !== 1,
+                                    })}
                                     :&nbsp;
                                 </Text>
                                 {developers.map(({ id, name }, i) => (
@@ -268,9 +266,7 @@ export const { i18n } = declareComponentKeys<
     | "this software has no referent"
     | "no longer referent"
     | "to install on the computer of the agent"
-    //TODO i18nifty: now play!
-    | "identified developers"
-    | "identified developer"
+    | ["authors", { doUsePlural: boolean }]
     | ["show referents", { isUserReferent: boolean; referentCount: number }]
 >()({ CatalogCard });
 
