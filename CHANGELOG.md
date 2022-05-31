@@ -1,3 +1,9 @@
+## **0.18.0** (2022-05-31)  
+  
+- #39  
+- Rename identified developper -> authors  
+- Correct button wording and i18n    
+  
 ## **0.17.0** (2022-05-31)  
   
 - #41  
