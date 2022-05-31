@@ -92,6 +92,7 @@ console.log(emailDomains);
                     "haute-marne.fr",
                     "chu-rouen.fr",
                     "lecnam.net",
+                    "ampmetropole.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
