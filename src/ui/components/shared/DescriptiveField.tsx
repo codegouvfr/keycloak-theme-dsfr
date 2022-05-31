@@ -474,7 +474,7 @@ const useStyles = makeStyles<{ isFlashing: boolean; isHelperTextVisible: boolean
             "top": 2,
         },
         "& .MuiAutocomplete-root": {
-            "min-width": 300,
+            "minWidth": 300,
         },
     },
     "cellActions": {
