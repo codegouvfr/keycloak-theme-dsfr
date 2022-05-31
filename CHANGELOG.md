@@ -1,3 +1,9 @@
+## **0.17.0** (2022-05-31)  
+  
+- #41  
+- Kebab case for css  
+- Update email    
+  
 ## **0.16.0** (2022-05-30)  
   
 - Autocomplete agencyName on register page    
