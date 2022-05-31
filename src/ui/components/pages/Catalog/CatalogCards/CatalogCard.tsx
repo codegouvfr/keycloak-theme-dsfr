@@ -21,11 +21,13 @@ import MuiLink from "@mui/material/Link";
 import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
 import type { UnpackEvt } from "evt";
+import { IconButton } from "ui/theme";
 
 export type Props = {
     className?: string;
     software: CompiledData.Software;
     openLink: Link;
+    editLink: Link;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
     onDeclareReferentAnswer: (params: {
@@ -42,6 +44,7 @@ export const CatalogCard = memo((props: Props) => {
         className,
         software,
         openLink,
+        editLink,
         referents,
         userIndexInReferents,
         onLogin,
@@ -126,6 +129,7 @@ export const CatalogCard = memo((props: Props) => {
                                     "isOnlyReferent": referents.length === 1,
                                 })}
                             />
+                            <IconButton iconId="edit" {...editLink} />
                         </div>
                     );
                 })()}
@@ -288,6 +292,7 @@ const useStyles = makeStyles<void, "cardButtons">({
     },
     "aboveDivider": {
         "padding": theme.spacing({ "topBottom": 2, "rightLeft": 4 }),
+        "paddingRight": 0,
         "borderBottom": `1px solid ${theme.colors.useCases.typography.textTertiary}`,
         "boxSizing": "border-box",
         "display": "flex",
@@ -333,7 +338,8 @@ const useStyles = makeStyles<void, "cardButtons">({
         },
     },
     "agentWorkstation": {
-        "marginLeft": theme.spacing(2),
+        "marginRight": theme.spacing(3),
+        "marginLeft": theme.spacing(1),
     },
     "developers": {
         "& > *": {

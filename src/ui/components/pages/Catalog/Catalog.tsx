@@ -137,19 +137,22 @@ export function Catalog(props: Props) {
         selectors.catalog.softwareNameBySoftwareId,
     );
 
-    const openLinkBySoftwareId = useMemo(() => {
+    const { openLinkBySoftwareId, editLinkBySoftwareId } = useMemo(() => {
         if (softwareNameBySoftwareId === undefined) {
-            return undefined;
+            return {};
         }
 
         const openLinkBySoftwareId: Record<number, Link> = {};
+        const editLinkBySoftwareId: Record<number, Link> = {};
 
-        Object.entries(softwareNameBySoftwareId).forEach(
-            ([id, name]) =>
-                (openLinkBySoftwareId[parseInt(id)] = routes.card({ name }).link),
-        );
+        Object.entries(softwareNameBySoftwareId)
+            .map(([idStr, name]) => [parseInt(idStr), name] as const)
+            .forEach(([id, name]) => {
+                openLinkBySoftwareId[id] = routes.card({ name }).link;
+                editLinkBySoftwareId[id] = routes.form({ "softwareId": id }).link;
+            });
 
-        return openLinkBySoftwareId;
+        return { openLinkBySoftwareId, editLinkBySoftwareId };
     }, [softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
@@ -171,6 +174,7 @@ export function Catalog(props: Props) {
     assert(alikeSoftwares !== undefined);
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
+    assert(editLinkBySoftwareId !== undefined);
     assert(softwareNameBySoftwareId !== undefined);
     assert(searchResultCount !== undefined);
 
@@ -199,6 +203,7 @@ export function Catalog(props: Props) {
                         alikeSoftwares={alikeSoftwares}
                         referentsBySoftwareId={referentsBySoftwareId}
                         openLinkBySoftwareId={openLinkBySoftwareId}
+                        editLinkBySoftwareId={editLinkBySoftwareId}
                         onLoadMore={catalogThunks.loadMore}
                         hasMoreToLoad={catalogThunks.getHasMoreToLoad()}
                         searchBarWrapperElement={pageHeaderRef.current}

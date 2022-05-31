@@ -81,6 +81,10 @@ export const VueDefault = getStory({
         "href": "https://example.com",
         "onClick": () => {},
     },
+    "editLink": {
+        "href": "https://example.com",
+        "onClick": () => {},
+    },
     "referents": undefined,
     "userIndexInReferents": undefined,
     ...logCallbacks(["onLogin", "onDeclareReferentAnswer", "onUserNoLongerReferent"]),

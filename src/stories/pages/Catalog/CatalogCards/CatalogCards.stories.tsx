@@ -97,6 +97,12 @@ export const VueDefault = getStory({
             "onClick": () => {},
         },
     },
+    "editLinkBySoftwareId": {
+        "233": {
+            "href": "https://example.com",
+            "onClick": () => {},
+        },
+    },
     "search": "",
     "hasMoreToLoad": true,
     "searchBarWrapperElement": document.createElement("div"),
