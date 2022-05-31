@@ -122,7 +122,7 @@ export function SoftwareCard(props: Props) {
     );
 
     const softwareNameOrSoftwareId = (() => {
-        const { software: softwareNameOrSoftwareIdAsString } = route.params;
+        const { name: softwareNameOrSoftwareIdAsString } = route.params;
 
         if (softwareNameOrSoftwareIdAsString === undefined) {
             return undefined;
@@ -153,7 +153,7 @@ export function SoftwareCard(props: Props) {
             return;
         }
 
-        routes.card({ "software": software.name }).replace();
+        routes.card({ "name": software.name }).replace();
     }, [softwareNameOrSoftwareId, softwares]);
 
     const getFormLink = useConst(() =>
@@ -173,7 +173,7 @@ export function SoftwareCard(props: Props) {
 
         Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
             openLinkBySoftwareId[parseInt(id)] = routes.card({
-                "software": name,
+                "name": name,
             }).link;
         });
 

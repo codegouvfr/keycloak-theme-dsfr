@@ -22,26 +22,26 @@ const routeDefs = {
                 )
                 .default(accountTabIds[0]),
         },
-        () => `/compte`,
+        () => `/account`,
     ),
     "catalog": defineRoute(
         {
             "search": param.query.optional.string.default(""),
         },
-        () => `/catalogue`,
+        () => `/software`,
     ),
     "card": defineRoute(
         {
-            /** Can be the software name (string) or it's `${id}`  */
-            "software": param.query.string,
+            /** Can be the software name (string) or it's `${id}` (for legacy route compat)  */
+            "name": param.query.string,
         },
-        () => `/fiche`,
+        () => `/software`,
     ),
     "form": defineRoute(
         {
             "softwareId": param.query.optional.number,
         },
-        () => `/formulaire`,
+        () => `/form`,
     ),
     "legacyRoute": defineRoute(
         {

@@ -280,7 +280,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
                     (softwareId === undefined
                         ? routes.catalog()
-                        : routes.card({ "software": `${softwareId}` })
+                        : routes.card({ "name": `${softwareId}` })
                     ).replace();
                 }
                 break;

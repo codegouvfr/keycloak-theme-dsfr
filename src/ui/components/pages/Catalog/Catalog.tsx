@@ -144,11 +144,10 @@ export function Catalog(props: Props) {
 
         const openLinkBySoftwareId: Record<number, Link> = {};
 
-        Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
-            openLinkBySoftwareId[parseInt(id)] = routes.card({
-                "software": name,
-            }).link;
-        });
+        Object.entries(softwareNameBySoftwareId).forEach(
+            ([id, name]) =>
+                (openLinkBySoftwareId[parseInt(id)] = routes.card({ name }).link),
+        );
 
         return openLinkBySoftwareId;
     }, [softwareNameBySoftwareId]);

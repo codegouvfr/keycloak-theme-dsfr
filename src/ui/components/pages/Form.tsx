@@ -66,7 +66,7 @@ export function Form(props: Props) {
                 softwareFormThunks.initialize({ "softwareId": undefined });
                 routes
                     .card({
-                        "software": state.softwareName,
+                        "name": state.softwareName,
                     })
                     .push();
                 break;
