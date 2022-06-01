@@ -1,3 +1,8 @@
+### **0.19.1** (2022-06-01)  
+  
+- package.json: Bump version to 0.19.1  
+- src/ui/components/pages/SoftwareCard.tsx: Fix link    
+  
 ## **0.19.0** (2022-05-31)  
   
 - #38    
