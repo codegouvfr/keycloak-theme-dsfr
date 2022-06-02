@@ -538,7 +538,7 @@ export function SoftwareCard(props: Props) {
                         helperText={
                             <>
                                 {t("workshops replay helper")}&nbsp;
-                                <MuiLink href="https://github.com/blue-hats/ateliers">
+                                <MuiLink href="https://communs.numerique.gouv.fr/ateliers">
                                     {t("see all workshops")}
                                 </MuiLink>
                             </>
