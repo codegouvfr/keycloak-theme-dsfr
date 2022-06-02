@@ -1,3 +1,7 @@
+### **0.19.3** (2022-06-02)  
+  
+- Fix leftBar bug on Account and remove unused styles    
+  
 ### **0.19.2** (2022-06-02)  
   
 - Update dependencies to be compat with React 18    
