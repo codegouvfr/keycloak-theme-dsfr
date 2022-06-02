@@ -1,3 +1,7 @@
+### **0.19.2** (2022-06-02)  
+  
+- Update dependencies to be compat with React 18    
+  
 ### **0.19.1** (2022-06-01)  
   
 - package.json: Bump version to 0.19.1  
