@@ -204,8 +204,5 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             "justifyContent": "flex-end",
             "alignItems": "center",
         },
-        "projectSelect": {
-            "marginLeft": theme.spacing(2),
-        },
     }),
 );

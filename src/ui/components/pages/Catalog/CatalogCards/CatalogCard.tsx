@@ -327,9 +327,6 @@ const useStyles = makeStyles<void, "cardButtons">({
         //TODO: Commented out for mozilla (longer one always have scroll in a grid)
         //"overflow": "auto"
     },
-    "bodyTypo": {
-        "color": theme.colors.useCases.typography.textSecondary,
-    },
     "buttonsWrapper": {
         "display": "flex",
         "justifyContent": "flex-end",

@@ -48,6 +48,7 @@ export function Account(props: Props) {
             />
             <Tabs
                 className={classes.tabs}
+                classes={{ "tabsWrapper": classes.tabsWrapper }}
                 size="big"
                 tabs={tabs}
                 activeTabId={route.params.tabId}
@@ -80,5 +81,9 @@ const useStyles = makeStyles({ "name": { Account } })(theme => ({
         "borderRadius": 8,
         "overflow": "hidden",
         "boxShadow": theme.shadows[1],
+    },
+    //TODO: See if we can't adapt tab to work without it. Understand why it works with Onyxia and not here
+    "tabsWrapper": {
+        "width": "unset",
     },
 }));

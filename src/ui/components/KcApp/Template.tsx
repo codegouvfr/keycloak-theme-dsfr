@@ -168,9 +168,6 @@ const useStyles = makeStyles<{
         "height": "100%",
         "overflow": "auto",
     },
-    "footer": {
-        "height": 34,
-    },
 }));
 
 const { Page } = (() => {

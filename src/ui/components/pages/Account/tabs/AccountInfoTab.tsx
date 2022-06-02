@@ -177,9 +177,6 @@ export const { i18n } = declareComponentKeys<
 >()({ AccountInfoTab });
 
 const useStyles = makeStyles({ "name": { AccountInfoTab } })(theme => ({
-    "divider": {
-        ...theme.spacing.topBottom("margin", 4),
-    },
     "link": {
         "marginTop": theme.spacing(2),
         "display": "inline-block",

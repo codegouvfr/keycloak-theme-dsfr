@@ -6934,6 +6934,11 @@ eslint-plugin-testing-library@^3.9.2:
   dependencies:
     "@typescript-eslint/experimental-utils" "^3.10.1"
 
+eslint-plugin-tss-unused-classes@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tss-unused-classes/-/eslint-plugin-tss-unused-classes-0.0.3.tgz#b5e6fd8dcee18e16e5ee95cb6d8992b0229da887"
+  integrity sha512-ZnjySyIVUyf3PkzQZ0nnoHzqZDys/ro2etjbxAgbRT3RpN+d5dcJu39bWQHDDg3FSbBv9wwhnKinyuP17E+F4g==
+
 eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
@@ -11022,10 +11027,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.40.0:
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.40.0.tgz#3149c183c695d5d9d359f720a91e4f5e5d5908d5"
-  integrity sha512-BQLesxHOvUkpHbCEE53ayL2TWFmnWedp9A8MfPWJamrPjqdK0kCaD/qF3QDCZizrORewHKnUuXzfThuMlMqc9Q==
+onyxia-ui@^0.41.0:
+  version "0.41.0"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.41.0.tgz#a35c873ed09c90936438710ba47eaf61fa1bd0de"
+  integrity sha512-QjwU3Eit7XkuDEGa/1+knyVGKmfRV1zyT/d6SKxrDQ0MZ0A8YUX05UgEWVwM8TS/xmLIIK2JhnQZRRXLTTmL3g==
   dependencies:
     "@mui/icons-material" "^5.8.2"
     color "3.1.3"

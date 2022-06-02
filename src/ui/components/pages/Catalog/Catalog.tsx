@@ -287,8 +287,5 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             "paddingLeft": spacingLeft,
             "marginBottom": 0,
         },
-        "softwareDetails": {
-            "marginBottom": theme.spacing(3),
-        },
     };
 });
