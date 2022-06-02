@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, memo } from "react";
+import { useState, memo } from "react";
 import type { FormEventHandler } from "react";
 import type { KcProps } from "keycloakify/lib/components/KcProps";
 import { getMsg } from "keycloakify";
@@ -20,6 +20,7 @@ import { AgentConnectButton } from "./AgentConnectButton";
 import type { KcContext } from "../kcContext";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
+import { useStateRef } from "powerhooks/useStateRef";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
@@ -39,9 +40,9 @@ export const Login = memo(
 
         const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
-        const usernameInputRef = useRef<HTMLInputElement>(null);
-        const passwordInputRef = useRef<HTMLInputElement>(null);
-        const submitButtonRef = useRef<HTMLButtonElement>(null);
+        const usernameInputRef = useStateRef<HTMLInputElement>(null);
+        const passwordInputRef = useStateRef<HTMLInputElement>(null);
+        const submitButtonRef = useStateRef<HTMLButtonElement>(null);
 
         const [areTextInputsDisabled, setAreTextInputsDisabled] = useState(
             () => getBrowser() === "safari",
@@ -57,51 +58,41 @@ export const Login = memo(
             },
         });
 
-        //TODO: Export useEvtFromElement to evt
-        {
-            const [passwordInput, setPasswordInput] = useState<HTMLInputElement | null>(
-                null,
-            );
+        useEvt(
+            ctx => {
+                const passwordInput = passwordInputRef.current;
 
-            useEffect(() => {
-                setPasswordInput(passwordInputRef.current);
-            }, [passwordInputRef.current ?? {}]);
+                if (passwordInput === null) {
+                    return;
+                }
 
-            useEvt(
-                ctx => {
-                    if (passwordInput === null) {
-                        return;
-                    }
-
-                    switch (getBrowser()) {
-                        case "chrome":
-                        case "safari":
-                            Evt.from(ctx, passwordInput, "change").attach(
-                                () =>
-                                    usernameInputRef.current?.matches(
-                                        ":-webkit-autofill",
-                                    ) ?? false,
-                                () => {
-                                    switch (getBrowser()) {
-                                        case "chrome":
-                                            //NOTE: Only works after user input
-                                            submitButtonRef.current?.focus();
-                                            break;
-                                        case "safari":
-                                            setTimeout(
-                                                () => submitButtonRef.current?.focus(),
-                                                100,
-                                            );
-                                            break;
-                                    }
-                                },
-                            );
-                            break;
-                    }
-                },
-                [passwordInput],
-            );
-        }
+                switch (getBrowser()) {
+                    case "chrome":
+                    case "safari":
+                        Evt.from(ctx, passwordInput, "change").attach(
+                            () =>
+                                usernameInputRef.current?.matches(":-webkit-autofill") ??
+                                false,
+                            () => {
+                                switch (getBrowser()) {
+                                    case "chrome":
+                                        //NOTE: Only works after user input
+                                        submitButtonRef.current?.focus();
+                                        break;
+                                    case "safari":
+                                        setTimeout(
+                                            () => submitButtonRef.current?.focus(),
+                                            100,
+                                        );
+                                        break;
+                                }
+                            },
+                        );
+                        break;
+                }
+            },
+            [passwordInputRef.current],
+        );
 
         const onSubmit = useConstCallback<FormEventHandler<HTMLFormElement>>(e => {
             e.preventDefault();

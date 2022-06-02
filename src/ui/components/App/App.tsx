@@ -25,7 +25,7 @@ import { useStickyTop } from "powerhooks/useStickyTop";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import { languages } from "sill-api";
 import { declareComponentKeys } from "i18nifty";
-import { useElementEvt } from "evt/hooks/useElementEvt";
+import { useEvt } from "evt/hooks";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
 import { Evt } from "evt";
 
@@ -386,14 +386,20 @@ function useApplyLanguageSelectedAtLogin() {
 
 function useRestoreScroll(params: {
     route: ReturnType<typeof useRoute>;
-    rootRef: RefObject<any>;
+    rootRef: RefObject<HTMLDivElement>;
 }) {
     const { route, rootRef } = params;
 
     const scrollTopByPageName = useConst((): Record<string, number> => ({}));
 
-    useElementEvt(
-        ({ ctx, element, registerSideEffect }) => {
+    useEvt(
+        ctx => {
+            const element = rootRef.current;
+
+            if (element === null) {
+                return;
+            }
+
             if (route.name === false) {
                 return;
             }
@@ -403,9 +409,7 @@ function useRestoreScroll(params: {
                 element,
             });
 
-            //scrollableElement.style.scrollBehavior ="smooth";
-
-            registerSideEffect(() => {
+            {
                 const scrollTop = scrollTopByPageName[route.name] ?? 0;
 
                 (async function callee(count: number) {
@@ -421,13 +425,12 @@ function useRestoreScroll(params: {
 
                     scrollableElement.scrollTo(0, scrollTop);
                 })(4);
-            });
+            }
 
-            Evt.from(ctx, scrollableElement, "scroll").attach(() => {
-                scrollTopByPageName[route.name] = scrollableElement.scrollTop;
-            });
+            Evt.from(ctx, scrollableElement, "scroll").attach(
+                () => (scrollTopByPageName[route.name] = scrollableElement.scrollTop),
+            );
         },
-        rootRef,
-        [route.name],
+        [rootRef.current, route.name],
     );
 }

@@ -1,5 +1,5 @@
 import "minimal-polyfills/Object.fromEntries";
-import { useRef, memo } from "react";
+import { memo } from "react";
 import { createPortal } from "react-dom";
 import { makeStyles, Text, Button, isViewPortAdapterEnabled } from "ui/theme";
 import { CatalogCard } from "./CatalogCard";
@@ -23,6 +23,7 @@ import { capitalize } from "tsafe/capitalize";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
+import { useStateRef } from "powerhooks/useStateRef";
 
 export type Props = {
     className?: string;
@@ -99,7 +100,7 @@ export const CatalogCards = memo((props: Props) => {
 
     const onGoBackClick = useConstCallback(() => evtSearchBarAction.post("CLEAR SEARCH"));
 
-    const loadingDivRef = useRef<HTMLDivElement>(null);
+    const loadingDivRef = useStateRef<HTMLDivElement>(null);
 
     useOnLoadMore({
         loadingDivRef,

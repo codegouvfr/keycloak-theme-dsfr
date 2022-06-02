@@ -1,4 +1,4 @@
-import { useMemo, memo, Fragment } from "react";
+import { useMemo, memo, Fragment, useEffect } from "react";
 import { Template } from "./Template";
 import type { KcProps } from "keycloakify";
 import type { KcContextBase } from "keycloakify";
@@ -17,15 +17,7 @@ import { API_URL } from "ui/valuesCarriedOverToKc/env";
 import { createTrpcSillApiClient } from "core/secondaryAdapters/trpcSillApiClient";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
-
-const evtAgencyName = Evt.create<string[]>([]);
-
-createTrpcSillApiClient({
-    "refOidcAccessToken": { "current": undefined },
-    "url": API_URL,
-})
-    .getAgencyNames()
-    .then(agencyNames => (evtAgencyName.state = agencyNames));
+import { useConst } from "powerhooks/useConst";
 
 const contactEmail = "logiciels-libres@data.gouv.fr";
 
@@ -35,6 +27,17 @@ export const RegisterUserProfile = memo(
         ...props_
     }: { kcContext: KcContextBase.RegisterUserProfile } & KcProps) => {
         const { url, messagesPerField, recaptchaRequired, recaptchaSiteKey } = kcContext;
+
+        const evtAgencyName = useConst(() => Evt.create<string[]>([]));
+
+        useEffect(() => {
+            createTrpcSillApiClient({
+                "refOidcAccessToken": { "current": undefined },
+                "url": API_URL,
+            })
+                .getAgencyNames()
+                .then(agencyNames => (evtAgencyName.state = agencyNames));
+        }, []);
 
         useRerenderOnStateChange(evtAgencyName);
 
