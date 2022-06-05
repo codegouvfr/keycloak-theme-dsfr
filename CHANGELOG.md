@@ -1,3 +1,7 @@
+### **0.19.4** (2022-06-05)  
+  
+- Update i18nifty    
+  
 ### **0.19.3** (2022-06-02)  
   
 - Fix leftBar bug on Account and remove unused styles    
