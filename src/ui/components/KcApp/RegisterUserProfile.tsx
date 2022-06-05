@@ -416,14 +416,18 @@ export const RegisterUserProfile = memo(
 );
 
 export const { i18n } = declareComponentKeys<
-    | ["minimum length", { n: string }]
+    | { K: "minimum length"; P: { n: string } }
     | "must be different from email"
     | "password mismatch"
     | "go back"
     | "form not filled properly yet"
     | "must respect the pattern"
     | "use your administrative email"
-    | ["you domain isn't allowed yet", { mailtoHref: string; contactEmail: string }]
+    | {
+          K: "you domain isn't allowed yet";
+          P: { mailtoHref: string; contactEmail: string };
+          R: JSX.Element;
+      }
     | "mail subject"
     | "mail body"
 >()({ RegisterUserProfile });

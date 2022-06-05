@@ -265,10 +265,10 @@ export const CatalogCards = memo((props: Props) => {
 
 export const { i18n } = declareComponentKeys<
     | "main services"
-    | ["search results", { count: number }]
+    | { K: "search results"; P: { count: number } }
     | "show more"
     | "no service found"
-    | ["no result found", { forWhat: string }]
+    | { K: "no result found"; P: { forWhat: string } }
     | "check spelling"
     | "go back"
     | "search"

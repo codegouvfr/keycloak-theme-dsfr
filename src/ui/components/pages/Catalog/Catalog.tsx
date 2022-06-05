@@ -249,7 +249,9 @@ export function Catalog(props: Props) {
     );
 }
 export const { i18n } = declareComponentKeys<
-    "header text1" | "header text2" | ["what is the SILL", { href: string }]
+    | "header text1"
+    | "header text2"
+    | { K: "what is the SILL"; P: { href: string }; R: JSX.Element }
 >()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({

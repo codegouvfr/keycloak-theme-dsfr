@@ -93,6 +93,7 @@ console.log(emailDomains);
                     "chu-rouen.fr",
                     "lecnam.net",
                     "ampmetropole.fr",
+                    "bulac.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())

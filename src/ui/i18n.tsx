@@ -34,7 +34,7 @@ export const {
     | typeof import("ui/components/KcApp/Login").i18n
     | typeof import("ui/components/KcApp/RegisterUserProfile").i18n
 >()(
-    { languages, fallbackLanguage, "doPersistLanguageInLocalStorage": true },
+    { languages, fallbackLanguage },
     {
         "en": {
             "Account": {

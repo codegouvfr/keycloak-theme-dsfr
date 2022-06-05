@@ -523,7 +523,7 @@ export const { DeclareOneselfReferentDialog } = (() => {
 export const { i18n } = declareComponentKeys<
     | "close"
     | "declare oneself referent"
-    | ["declare oneself referent of", { softwareName: string }]
+    | { K: "declare oneself referent of"; P: { softwareName: string } }
     | "cancel"
     | "send"
     | "no longer referent"
@@ -540,6 +540,6 @@ export const { i18n } = declareComponentKeys<
     | "expert"
     | "institutional referent"
     | "institutional referent help"
-    | ["mail subject", { softwareName: string }]
-    | ["mail body", { softwareName: string }]
+    | { K: "mail subject"; P: { softwareName: string } }
+    | { K: "mail body"; P: { softwareName: string } }
 >()({ ReferentDialogs });

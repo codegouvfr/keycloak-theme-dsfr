@@ -273,16 +273,16 @@ export const CatalogCard = memo((props: Props) => {
 });
 
 export const { i18n } = declareComponentKeys<
-    | ["plugin for", { name: string; link: Link | undefined }]
+    | { K: "plugin for"; P: { name: string; link: Link | undefined }; R: JSX.Element }
     | "learn more"
     | "try it"
-    | ["you are referent", { isOnlyReferent: boolean }]
+    | { K: "you are referent"; P: { isOnlyReferent: boolean } }
     | "declare oneself referent"
     | "this software has no referent"
     | "no longer referent"
     | "to install on the computer of the agent"
-    | ["authors", { doUsePlural: boolean }]
-    | ["show referents", { isUserReferent: boolean; referentCount: number }]
+    | { K: "authors"; P: { doUsePlural: boolean } }
+    | { K: "show referents"; P: { isUserReferent: boolean; referentCount: number } }
 >()({ CatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({

@@ -634,7 +634,7 @@ export const { i18n } = declareComponentKeys<
     | "authors helper"
     | "service provider"
     | "service provider helper"
-    | ["total service provider", { howMany: string }]
+    | { K: "total service provider"; P: { howMany: string } }
     | "comptoir page"
     | "comptoir page helper"
     | "see on comptoir"
@@ -648,8 +648,8 @@ export const { i18n } = declareComponentKeys<
     | "test url"
     | "test url helper"
     | "launch"
-    | ["workshop", { n: string }]
+    | { K: "workshop"; P: { n: string } }
     | "use cases"
     | "use cases helper"
-    | ["use case", { n: string }]
+    | { K: "use case"; P: { n: string } }
 >()({ SoftwareCard });
