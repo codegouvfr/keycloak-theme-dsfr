@@ -1,3 +1,8 @@
+### **0.19.6** (2022-06-05)  
+  
+- Enable gzip ngnix #44  
+- Add bundle size analizer    
+  
 ### **0.19.5** (2022-06-05)  
   
 - Update keycloakify    
