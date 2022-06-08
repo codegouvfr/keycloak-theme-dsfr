@@ -1,3 +1,7 @@
+### **0.19.10** (2022-06-08)  
+  
+- Test if theme applies    
+  
 ### **0.19.9** (2022-06-08)  
   
 - Register autocomplete should be free solo    
