@@ -1,3 +1,7 @@
+### **0.19.11** (2022-06-08)  
+  
+- Fix missing freeSolo register page    
+  
 ### **0.19.10** (2022-06-08)  
   
 - Test if theme applies    
