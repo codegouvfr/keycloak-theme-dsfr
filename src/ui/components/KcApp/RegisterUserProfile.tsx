@@ -214,6 +214,7 @@ export const RegisterUserProfile = memo(
                                                 return (
                                                     <Autocomplete
                                                         disablePortal
+                                                        freeSolo
                                                         value={value || null}
                                                         onChange={(...[, option]) => {
                                                             if (option === null) {

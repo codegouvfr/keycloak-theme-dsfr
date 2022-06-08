@@ -94,6 +94,9 @@ console.log(emailDomains);
                     "lecnam.net",
                     "ampmetropole.fr",
                     "bulac.fr",
+                    "mnhn.fr",
+                    "conciliateurdejustice.fr",
+                    "grandchateaudun.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
