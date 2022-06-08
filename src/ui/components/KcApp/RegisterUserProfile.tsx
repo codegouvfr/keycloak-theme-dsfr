@@ -21,6 +21,8 @@ import { useConst } from "powerhooks/useConst";
 
 const contactEmail = "logiciels-libres@data.gouv.fr";
 
+console.log("up!");
+
 export const RegisterUserProfile = memo(
     ({
         kcContext,
