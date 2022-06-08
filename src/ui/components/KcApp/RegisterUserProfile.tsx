@@ -21,8 +21,6 @@ import { useConst } from "powerhooks/useConst";
 
 const contactEmail = "logiciels-libres@data.gouv.fr";
 
-console.log("up!");
-
 export const RegisterUserProfile = memo(
     ({
         kcContext,
@@ -30,7 +28,7 @@ export const RegisterUserProfile = memo(
     }: { kcContext: KcContextBase.RegisterUserProfile } & KcProps) => {
         const { url, messagesPerField, recaptchaRequired, recaptchaSiteKey } = kcContext;
 
-        const evtAgencyName = useConst(() => Evt.create<string[]>([]));
+        const evtAgencyNames = useConst(() => Evt.create<string[]>([]));
 
         useEffect(() => {
             createTrpcSillApiClient({
@@ -38,10 +36,10 @@ export const RegisterUserProfile = memo(
                 "url": API_URL,
             })
                 .getAgencyNames()
-                .then(agencyNames => (evtAgencyName.state = agencyNames));
+                .then(agencyNames => (evtAgencyNames.state = agencyNames));
         }, []);
 
-        useRerenderOnStateChange(evtAgencyName);
+        useRerenderOnStateChange(evtAgencyNames);
 
         const { msg, msgStr, advancedMsg } = getMsg(kcContext);
 
@@ -239,9 +237,10 @@ export const RegisterUserProfile = memo(
 
                                             return (
                                                 <TextField
+                                                    freeSolo
                                                     options={
                                                         attribute.name === "agencyName"
-                                                            ? evtAgencyName.state
+                                                            ? evtAgencyNames.state
                                                             : undefined
                                                     }
                                                     type={(() => {

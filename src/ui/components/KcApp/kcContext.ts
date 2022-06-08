@@ -57,28 +57,6 @@ export const { kcContext } = getKcContext({
                         "name": "email",
                     },
                     {
-                        "validators": {
-                            "options": {
-                                "options": [
-                                    "DINUM",
-                                    "DINUM/Etalab",
-                                    "MIM",
-                                    "MENJS",
-                                    "ENJS/Rennes",
-                                    "ENJS/Paris",
-                                    "MESRI/RENATER",
-                                    "PIX",
-                                    "ADULLACT",
-                                    "Université de Lorraine",
-                                    "AGEDI",
-                                    "x",
-                                    "xx",
-                                    "xxx",
-                                    "xxxx",
-                                    "xxxxx",
-                                ],
-                            },
-                        },
                         // eslint-disable-next-line no-template-curly-in-string
                         "displayName": "${agencyName}",
                         "annotations": {},
