@@ -1,3 +1,7 @@
+### **0.19.9** (2022-06-08)  
+  
+- Register autocomplete should be free solo    
+  
 ### **0.19.8** (2022-06-06)  
   
 - #44    
