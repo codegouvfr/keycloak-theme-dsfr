@@ -97,6 +97,8 @@ console.log(emailDomains);
                     "mnhn.fr",
                     "conciliateurdejustice.fr",
                     "grandchateaudun.fr",
+                    "ght-atlantique17.fr",
+                    "orleans-metropole.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
