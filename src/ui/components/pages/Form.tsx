@@ -64,11 +64,15 @@ export function Form(props: Props) {
             case "form submitted":
                 hideSplashScreen();
                 softwareFormThunks.initialize({ "softwareId": undefined });
-                routes
-                    .card({
-                        "name": state.softwareName,
-                    })
-                    .push();
+
+                //DODO: Remove delay, push immediately, after we update to react 18
+                queueMicrotask(() =>
+                    routes
+                        .card({
+                            "name": state.softwareName,
+                        })
+                        .push(),
+                );
                 break;
             case "form ready":
                 if (state.isSubmitting) {
