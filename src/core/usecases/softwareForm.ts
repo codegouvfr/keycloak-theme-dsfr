@@ -124,7 +124,14 @@ export const { name, reducer, actions } = createSlice({
                 valueByFieldName,
                 "defaultValueByFieldName": valueByFieldName,
                 "hasLostFocusAtLeastOnceByFieldName": Object.fromEntries(
-                    fieldNames.map(fieldName => [fieldName, false] as const),
+                    fieldNames.map(
+                        fieldName =>
+                            [
+                                fieldName,
+                                fieldName === "wikidataId" ||
+                                    fieldName === "comptoirDuLibreId",
+                            ] as const,
+                    ),
                 ) as Record<FieldName, boolean>,
                 softwareId,
                 "isSubmitting": false,
@@ -139,6 +146,9 @@ export const { name, reducer, actions } = createSlice({
         "autoFillCompeted": state => {
             assert(state.stateDescription === "form ready");
             state.isAutofillInProgress = false;
+            objectKeys(state.hasLostFocusAtLeastOnceByFieldName).forEach(
+                key => (state.hasLostFocusAtLeastOnceByFieldName[key] = true),
+            );
         },
         "focusLost": (state, { payload }: PayloadAction<{ fieldName: FieldName }>) => {
             const { fieldName } = payload;
