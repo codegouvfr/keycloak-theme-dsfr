@@ -1,3 +1,9 @@
+### **0.19.12** (2022-06-10)  
+  
+- Fix 404 after adding a new software  
+- Better feedback for what the form is expecting*  
+- update email accept list    
+  
 ### **0.19.11** (2022-06-08)  
   
 - Fix missing freeSolo register page    
