@@ -56,5 +56,6 @@ export function CoreProvider(props: Props) {
         return null;
     }
 
-    return <ReactReduxProvider store={store}>{children}</ReactReduxProvider>;
+    //TODO: Children should not be any
+    return <ReactReduxProvider store={store}>{children as any}</ReactReduxProvider>;
 }
