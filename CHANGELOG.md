@@ -1,3 +1,7 @@
+### **0.19.13** (2022-06-10)  
+  
+- Fix build    
+  
 ### **0.19.12** (2022-06-10)  
   
 - Fix 404 after adding a new software  
