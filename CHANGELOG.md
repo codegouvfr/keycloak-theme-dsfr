@@ -1,3 +1,12 @@
+## **0.20.0** (2022-06-14)  
+  
+- Fixt i18n error  
+- Search by tags #18  
+- Dispay tags on main cards  
+- Add missing Tags #18  
+- Export Tags into it's own component #18  
+- Update Tags in form #18    
+  
 ### **0.19.13** (2022-06-10)  
   
 - Fix build    
