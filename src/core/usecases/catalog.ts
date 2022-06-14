@@ -532,12 +532,14 @@ export const selectors = (() => {
                           license,
                           comptoirDuLibreSoftware,
                           wikidataData,
+                          tags,
                       }) =>
                           [
                               name,
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
+                              ...tags,
                               ...(["description", "label"] as const)
                                   .map(prop =>
                                       languages
