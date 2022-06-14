@@ -29,7 +29,7 @@ export const Tags = memo((props: Props) => {
 
     const { t } = useTranslation({ Tags });
 
-    const { classes } = useStyles();
+    const { classes, theme } = useStyles();
 
     return (
         <div>
@@ -59,7 +59,7 @@ export const Tags = memo((props: Props) => {
             </Button>
             <GitHubPicker
                 evtAction={evtGitHubPickerAction}
-                getTagColor={tag => getTagColor(tag).color}
+                getTagColor={tag => getTagColor({ tag, theme }).color}
                 t={t}
                 label={t("github picker label")}
             />

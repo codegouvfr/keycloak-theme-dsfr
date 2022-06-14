@@ -25,7 +25,7 @@ import { createIconParams, iconIds } from "./icons";
 
 export { iconIds };
 
-const { ThemeProvider, useTheme } = createThemeProvider({
+export const { ThemeProvider, useTheme } = createThemeProvider({
     "getTypographyDesc": params => ({
         ...defaultGetTypographyDesc(params),
         "fontFamily": `${(() => {
@@ -61,7 +61,7 @@ const { ThemeProvider, useTheme } = createThemeProvider({
     },
 });
 
-export { ThemeProvider };
+export type Theme = ReturnType<typeof useTheme>;
 
 export const { makeStyles, useStyles } = createMakeStyles({ useTheme });
 

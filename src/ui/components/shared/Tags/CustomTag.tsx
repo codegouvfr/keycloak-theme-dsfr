@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Tag } from "onyxia-ui/Tag";
 import { getTagColor } from "./TagColor";
 import type { TagColor } from "./TagColor";
-import { makeStyles } from "ui/theme";
+import { makeStyles, useTheme } from "ui/theme";
 
 export type Props = {
     className?: string;
@@ -12,7 +12,9 @@ export type Props = {
 export const CustomTag = memo((props: Props) => {
     const { tag, className } = props;
 
-    const { classes, cx } = useStyles({ "tagColor": getTagColor(tag) });
+    const theme = useTheme();
+
+    const { classes, cx } = useStyles({ "tagColor": getTagColor({ tag, theme }) });
 
     return <Tag className={cx(classes.root, className)} text={tag} />;
 });

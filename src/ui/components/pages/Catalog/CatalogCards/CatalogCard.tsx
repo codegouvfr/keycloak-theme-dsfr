@@ -22,6 +22,7 @@ import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
 import type { UnpackEvt } from "evt";
 import { IconButton } from "ui/theme";
+import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 
 export type Props = {
     className?: string;
@@ -200,6 +201,10 @@ export const CatalogCard = memo((props: Props) => {
                             </div>
                         );
                     })()}
+
+                    {software.tags.map(tag => (
+                        <CustomTag key={tag} tag={tag} className={classes.softwareTag} />
+                    ))}
                 </div>
                 <div className={classes.buttonsWrapper}>
                     <Button
@@ -353,5 +358,9 @@ const useStyles = makeStyles<void, "cardButtons">({
         "& > *": {
             "display": "inline-block",
         },
+    },
+    "softwareTag": {
+        "marginRight": theme.spacing(1),
+        "marginTop": theme.spacing(3),
     },
 }));
