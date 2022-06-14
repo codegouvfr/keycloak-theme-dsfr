@@ -35,6 +35,7 @@ const fieldNames = [
     "license",
     "versionMin",
     "agentWorkstation",
+    "tags",
 ] as const;
 
 assert<Equals<typeof fieldNames[number], FieldName>>();
@@ -74,6 +75,7 @@ namespace SoftwareFormState {
         softwareId: number | undefined;
         isSubmitting: boolean;
         isAutofillInProgress: boolean;
+        tags: string[];
     };
 
     export type Submitted = {
@@ -92,7 +94,10 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "license": "",
     "versionMin": "",
     "agentWorkstation": true,
+    "tags": [],
 };
+
+console.log("wesh?");
 
 export const { name, reducer, actions } = createSlice({
     "name": "softwareForm",
@@ -115,9 +120,10 @@ export const { name, reducer, actions } = createSlice({
             }: PayloadAction<{
                 valueByFieldName: ValueByFieldName;
                 softwareId: number | undefined;
+                tags: string[];
             }>,
         ) => {
-            const { valueByFieldName, softwareId } = payload;
+            const { valueByFieldName, softwareId, tags } = payload;
 
             return id<SoftwareFormState.Ready>({
                 "stateDescription": "form ready",
@@ -136,6 +142,7 @@ export const { name, reducer, actions } = createSlice({
                 softwareId,
                 "isSubmitting": false,
                 "isAutofillInProgress": false,
+                tags,
             });
         },
         "autofillStarted": state => {
@@ -202,7 +209,7 @@ export const thunks = {
         async (...args) => {
             const { softwareId } = params;
 
-            const [dispatch, getState, { evtAction }] = args;
+            const [dispatch, getState, { evtAction, sillApiClient }] = args;
 
             dispatch(actions.initializationStarted());
 
@@ -229,6 +236,8 @@ export const thunks = {
 
                 return { softwares };
             })();
+
+            const tags = await sillApiClient.getTags();
 
             const software =
                 softwareId === undefined
@@ -296,6 +305,7 @@ export const thunks = {
                                       })(),
                                   ]),
                               ) as ValueByFieldName),
+                    tags,
                 }),
             );
         },

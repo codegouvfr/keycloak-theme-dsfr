@@ -73,6 +73,7 @@ const software: CompiledData.Software = {
     "hasExpertReferent": true,
     "referentCount": 1,
     "agentWorkstation": true,
+    "tags": ["data-science", "docker", "kubernetes", "machine-learning", "python"],
 };
 
 export const VueDefault = getStory({

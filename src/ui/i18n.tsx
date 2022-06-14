@@ -3,17 +3,18 @@ import { createI18nApi } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
 import { assert } from "tsafe/assert";
+import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
 
 export { languages };
 export type { Language };
 
 export const fallbackLanguage = "en";
 
-export const {
+const {
     useTranslation,
     resolveLocalizedString,
     useLang,
-    evtLang,
+    $lang,
     useResolveLocalizedString,
 } = createI18nApi<
     | typeof import("ui/components/shared/Header").i18n
@@ -261,6 +262,10 @@ export const {
             If the software do not exist yet in Wikidata you are more than welcome to 
             create an entry for it.
             `,
+                "tags": "Tags",
+                "tags helper": "Tags to help you find the software",
+                "change tags": ({ selectedTagsCount }) =>
+                    selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
             },
             "SoftwareCard": {
                 "update software information": "Update software information",
@@ -556,6 +561,10 @@ export const {
             Il est important de renseigner l'entité Wikidata en premier, les autres champs 
             seront préremplis en fonction.  
             Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
+                "tags": "Tags",
+                "tags helper": "Tags pour aider a trouver ce logiciel",
+                "change tags": ({ selectedTagsCount }) =>
+                    selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
             },
             "SoftwareCard": {
                 "update software information":
@@ -626,3 +635,9 @@ export const {
         },
     },
 );
+
+export { useTranslation, resolveLocalizedString, useLang, useResolveLocalizedString };
+
+export const evtLang = statefulObservableToStatefulEvt({
+    "statefulObservable": $lang,
+});
