@@ -1,4 +1,4 @@
-import { useEffect, Fragment, memo } from "react";
+import { useEffect, Fragment } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { makeStyles } from "ui/theme";
@@ -26,12 +26,7 @@ import type { TextFieldProps } from "onyxia-ui/TextField";
 import { DeclareOneselfReferentDialog } from "ui/components/shared/ReferentDialogs";
 import type { DeclareOneselfReferentDialogProps } from "ui/components/shared/ReferentDialogs";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import { GitHubPicker } from "onyxia-ui/GitHubPicker";
-import type { GitHubPickerProps } from "onyxia-ui/GitHubPicker";
-import { Tag } from "onyxia-ui/Tag";
-import type { UnpackEvt } from "evt";
-import { useStateRef } from "powerhooks/useStateRef";
-import { Text } from "ui/theme";
+import { Tags } from "ui/components/shared/Tags";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -306,78 +301,6 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
     },
 }));
 
-const { Tags } = (() => {
-    type Props = {
-        tags: string[];
-        selectedTags: string[];
-        onSelectedTags: (selectedTags: string[]) => void;
-    };
-
-    function Tags(props: Props) {
-        const { tags, selectedTags, onSelectedTags } = props;
-
-        const evtGitHubPickerAction = useConst(() =>
-            Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
-        );
-
-        const buttonRef = useStateRef<HTMLButtonElement>(null);
-
-        const { t } = useTranslation({ Form });
-
-        const { classes } = useStyles();
-
-        return (
-            <div>
-                <Text typo="caption" className={classes.caption}>
-                    {t("tags")}
-                </Text>
-                {selectedTags.map(tag => (
-                    <CustomTag key={tag} tag={tag} className={classes.tag} />
-                ))}
-                <Button
-                    className={classes.button}
-                    ref={buttonRef}
-                    startIcon="add"
-                    variant="ternary"
-                    onClick={() =>
-                        evtGitHubPickerAction.post({
-                            "action": "open",
-                            "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
-                            onSelectedTags,
-                            "preSelectedTags": selectedTags,
-                            tags,
-                        })
-                    }
-                >
-                    {t("change tags", { "selectedTagsCount": selectedTags.length })}
-                </Button>
-                <GitHubPicker
-                    evtAction={evtGitHubPickerAction}
-                    getTagColor={tag => getTagColor(tag).color}
-                    //TODO: i18n
-                    t={(_, { tag }) => `Create tag ${tag}`}
-                    label="Software tags"
-                />
-            </div>
-        );
-    }
-
-    const useStyles = makeStyles()(theme => ({
-        "caption": {
-            "marginBottom": theme.spacing(2),
-        },
-        "tag": {
-            "marginRight": theme.spacing(1),
-        },
-        "button": {
-            "marginTop": theme.spacing(2),
-        },
-    }));
-
-    return { Tags };
-})();
-
 export const { i18n } = declareComponentKeys<
     | FieldErrorMessageKey
     | FieldName
@@ -391,110 +314,3 @@ export const { i18n } = declareComponentKeys<
     | "help"
     | { K: "change tags"; P: { selectedTagsCount: number } }
 >()({ Form });
-
-type TagColor = {
-    color: string;
-    isContrastTextWhite: boolean;
-};
-
-const tagColors: TagColor[] = [
-    {
-        "color": "#ee0701",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#84b6eb",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#bfe5bf",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#bcf5db",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#e99695",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#fbca04",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#ff7619",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#0e8a16",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#eeeeee",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#cc317c",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#5319e7",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#d4c5f9",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#b4a8d1",
-        "isContrastTextWhite": false,
-    },
-    {
-        "color": "#000000",
-        "isContrastTextWhite": true,
-    },
-    {
-        "color": "#555555",
-        "isContrastTextWhite": true,
-    },
-];
-
-function getTagColor(tag: string): TagColor {
-    return tagColors[
-        Array.from(tag)
-            .map(char => char.charCodeAt(0))
-            .reduce((p, c) => p + c, 0) % tagColors.length
-    ];
-}
-
-const { CustomTag } = (() => {
-    type Props = {
-        className?: string;
-        tag: string;
-    };
-
-    const CustomTag = memo((props: Props) => {
-        const { tag, className } = props;
-
-        const { classes, cx } = useStyles({ "tagColor": getTagColor(tag) });
-
-        return <Tag className={cx(classes.root, className)} text={tag} />;
-    });
-
-    const useStyles = makeStyles<{ tagColor: TagColor }>({ "name": { CustomTag } })(
-        (theme, { tagColor }) => ({
-            "root": {
-                "backgroundColor": tagColor.color,
-                "& > *": {
-                    "color":
-                        theme.colors.palette[
-                            tagColor.isContrastTextWhite ? "light" : "dark"
-                        ].main,
-                },
-            },
-        }),
-    );
-
-    return { CustomTag };
-})();

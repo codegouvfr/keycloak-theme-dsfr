@@ -1,9 +1,10 @@
 import MuiLink from "@mui/material/Link";
-import { createI18nApi } from "i18nifty";
+import { createI18nApi, declareComponentKeys } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
 import { assert } from "tsafe/assert";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
+export { declareComponentKeys };
 
 export { languages };
 export type { Language };
@@ -34,6 +35,7 @@ const {
     | typeof import("ui/components/KcApp/Login/LoginDivider").i18n
     | typeof import("ui/components/KcApp/Login").i18n
     | typeof import("ui/components/KcApp/RegisterUserProfile").i18n
+    | typeof import("ui/components/shared/Tags/Tags").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -325,6 +327,13 @@ const {
                 "use cases helper":
                     "Documented use cases of the software in the french public services",
                 "use case": ({ n }) => `Card n°${n}`,
+            },
+            "Tags": {
+                "change tags": ({ isThereTagsAlready }) =>
+                    isThereTagsAlready ? "Add tags" : "Add or remove tags",
+                "create tag": ({ tag }) => `Create the "${tag} tag`,
+                "github picker label": "Software tags",
+                "tags": "Tags",
             },
         },
         "fr": {
@@ -630,6 +639,15 @@ const {
                 "use cases helper":
                     "Cas d'usage documenté d'une utilisation de ce logiciel au sein de l'administration.",
                 "use case": ({ n }) => `Fiche n°${n}`,
+            },
+            "Tags": {
+                "change tags": ({ isThereTagsAlready }) =>
+                    isThereTagsAlready
+                        ? "Ajouter des tags"
+                        : "Ajouter ou modifier les tags",
+                "create tag": ({ tag }) => `Crée le tag "${tag}`,
+                "github picker label": "Tags du logiciel",
+                "tags": "Tags",
             },
             /* spell-checker: enable */
         },
