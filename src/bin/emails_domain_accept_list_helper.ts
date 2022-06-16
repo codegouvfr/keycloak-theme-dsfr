@@ -99,6 +99,7 @@ console.log(emailDomains);
                     "grandchateaudun.fr",
                     "ght-atlantique17.fr",
                     "orleans-metropole.fr",
+                    "villejuif.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
