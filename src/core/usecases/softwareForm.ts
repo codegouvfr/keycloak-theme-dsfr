@@ -98,8 +98,6 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "tags": [],
 };
 
-console.log("wesh?");
-
 export const { name, reducer, actions } = createSlice({
     "name": "softwareForm",
     "initialState": id<SoftwareFormState>(
