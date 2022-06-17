@@ -100,6 +100,7 @@ console.log(emailDomains);
                     "ght-atlantique17.fr",
                     "orleans-metropole.fr",
                     "villejuif.fr",
+                    "montpellier.archi.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
