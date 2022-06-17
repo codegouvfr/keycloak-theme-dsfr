@@ -1,3 +1,7 @@
+### **0.20.5** (2022-06-17)  
+  
+- Update onyxia-ui for corecting contrast    
+  
 ### **0.20.4** (2022-06-17)  
   
 - Add tags in software details  
