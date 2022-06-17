@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.etalab.gouv.fr",
     "name": "sill-web",
-    "version": "0.20.4",
+    "version": "0.20.5",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
