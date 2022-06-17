@@ -30,6 +30,7 @@ import { useSplashScreen } from "onyxia-ui";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
 import memoize from "memoizee";
+import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 
 //TODO: We should have a dedicated usecase for this page.
 
@@ -344,6 +345,16 @@ export function SoftwareCard(props: Props) {
                     helperText={t("sill id helper")}
                     text={`${software.id}`}
                 />
+                {software.tags.length !== 0 && (
+                    <DescriptiveField
+                        type="text"
+                        title={t("tags")}
+                        helperText={t("tags helper")}
+                        text={software.tags.map(tag => (
+                            <CustomTag className={classes.tag} tag={tag} />
+                        ))}
+                    />
+                )}
                 <DescriptiveField
                     type="text"
                     title={t("in sill from date")}
@@ -602,6 +613,9 @@ const useStyles = makeStyles<{ imgWidth: number }>({
     "imageWrapper": {
         "width": imgWidth,
     },
+    "tag": {
+        "marginRight": theme.spacing(1),
+    },
 }));
 
 export const { i18n } = declareComponentKeys<
@@ -652,4 +666,6 @@ export const { i18n } = declareComponentKeys<
     | "use cases"
     | "use cases helper"
     | { K: "use case"; P: { n: string } }
+    | "tags"
+    | "tags helper"
 >()({ SoftwareCard });

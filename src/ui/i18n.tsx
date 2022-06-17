@@ -329,6 +329,8 @@ const {
                 "use cases helper":
                     "Documented use cases of the software in the french public services",
                 "use case": ({ n }) => `Card n°${n}`,
+                "tags": "Tags",
+                "tags helper": "Tags that help find the software",
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -645,6 +647,8 @@ const {
                 "use cases helper":
                     "Cas d'usage documenté d'une utilisation de ce logiciel au sein de l'administration.",
                 "use case": ({ n }) => `Fiche n°${n}`,
+                "tags": "Tags",
+                "tags helper": "Tags aidant à trouver le logiciel",
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
