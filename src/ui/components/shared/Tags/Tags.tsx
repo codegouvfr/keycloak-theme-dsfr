@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { useEffect, useState, memo } from "react";
 import { CustomTag } from "./CustomTag";
 import { makeStyles } from "ui/theme";
 import { Evt } from "evt";
@@ -11,6 +11,7 @@ import { useTranslation, declareComponentKeys } from "ui/i18n";
 import { Button, Text } from "ui/theme";
 import { assert } from "tsafe/assert";
 import { getTagColor } from "./TagColor";
+import { useConstCallback } from "powerhooks/useConstCallback";
 
 type Props = {
     tags: string[];
@@ -19,7 +20,17 @@ type Props = {
 };
 
 export const Tags = memo((props: Props) => {
-    const { tags, selectedTags, onSelectedTags } = props;
+    const {
+        tags: tags_props,
+        selectedTags,
+        onSelectedTags: onSelectedTags_props,
+    } = props;
+
+    const [tags, setTags] = useState(tags_props);
+
+    useEffect(() => {
+        setTags(tags_props);
+    }, [tags_props]);
 
     const evtGitHubPickerAction = useConst(() =>
         Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
@@ -31,6 +42,20 @@ export const Tags = memo((props: Props) => {
 
     const { classes, theme } = useStyles();
 
+    const onSelectedTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
+        params => {
+            if (params.isSelect && params.isNewTag) {
+                setTags([params.tag, ...tags]);
+            }
+
+            onSelectedTags_props(
+                params.isSelect
+                    ? [...selectedTags, params.tag]
+                    : selectedTags.filter(tag => tag !== params.tag),
+            );
+        },
+    );
+
     return (
         <div>
             <Text typo="caption" className={classes.caption}>
@@ -39,6 +64,7 @@ export const Tags = memo((props: Props) => {
             {selectedTags.map(tag => (
                 <CustomTag key={tag} tag={tag} className={classes.tag} />
             ))}
+            <br />
             <Button
                 className={classes.button}
                 ref={buttonRef}
@@ -49,9 +75,6 @@ export const Tags = memo((props: Props) => {
                         "action": "open",
                         "anchorEl":
                             (assert(buttonRef.current !== null), buttonRef.current),
-                        onSelectedTags,
-                        "preSelectedTags": selectedTags,
-                        tags,
                     })
                 }
             >
@@ -61,7 +84,9 @@ export const Tags = memo((props: Props) => {
                 evtAction={evtGitHubPickerAction}
                 getTagColor={tag => getTagColor({ tag, theme }).color}
                 t={t}
-                label={t("github picker label")}
+                tags={tags}
+                selectedTags={selectedTags}
+                onSelectedTags={onSelectedTags}
             />
         </div>
     );
@@ -71,6 +96,8 @@ export const { i18n } = declareComponentKeys<
     | { K: "change tags"; P: { isThereTagsAlready: boolean } }
     | { K: "create tag"; P: { tag: string } }
     | "github picker label"
+    | { K: "github picker create tag"; P: { tag: string } }
+    | "github picker done"
     | "tags"
 >()({ Tags });
 
