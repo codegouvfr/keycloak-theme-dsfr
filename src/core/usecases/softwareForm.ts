@@ -16,6 +16,7 @@ import { thunks as catalogThunks } from "./catalog";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
+import { same } from "evt/tools/inDepth/same";
 
 type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
 
@@ -686,10 +687,17 @@ export const selectors = (() => {
     );
 
     const isSubmittable = createSelector(
+        readyState,
         fieldErrorByFieldName,
-        (fieldErrorByFieldName): boolean | undefined => {
-            if (fieldErrorByFieldName === undefined) {
+        (state, fieldErrorByFieldName): boolean | undefined => {
+            if (state === undefined) {
                 return undefined;
+            }
+
+            assert(fieldErrorByFieldName !== undefined);
+
+            if (same(state.defaultValueByFieldName, state.valueByFieldName)) {
+                return false;
             }
 
             if (
