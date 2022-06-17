@@ -270,7 +270,11 @@ export function Form(props: Props) {
                             }
                         }}
                     >
-                        {t("send")}
+                        {t(
+                            route.params.softwareId === undefined
+                                ? "create software"
+                                : "update software",
+                        )}
                     </Button>
                 </div>
             </div>
@@ -305,7 +309,8 @@ export const { i18n } = declareComponentKeys<
     | FieldErrorMessageKey
     | FieldName
     | `${FieldName} helper`
-    | "send"
+    | "update software"
+    | "create software"
     | "cancel"
     | "title add"
     | "title edit"
@@ -313,4 +318,5 @@ export const { i18n } = declareComponentKeys<
     | "help title edit"
     | "help"
     | { K: "change tags"; P: { selectedTagsCount: number } }
+    | "confirm give up"
 >()({ Form });

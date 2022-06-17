@@ -243,7 +243,8 @@ const {
                 "isPresentInSupportContract": "Is present in support contract",
                 "isPresentInSupportContract helper":
                     "Is the software listed in the support contract (if in doubt say no)",
-                "send": "Send",
+                "create software": "Done",
+                "update software": "Update software info",
                 "versionMin": "Minimal version",
                 "versionMin helper":
                     "What is the minimal acceptable version of the software?",
@@ -268,6 +269,7 @@ const {
                 "tags helper": "Tags to help you find the software",
                 "change tags": ({ selectedTagsCount }) =>
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
+                "confirm give up": "The software haven't been updated yet, confirm quit?",
             },
             "SoftwareCard": {
                 "update software information": "Update software information",
@@ -552,7 +554,8 @@ const {
                 "mandatory field": "Ce champ est obligatoire",
                 "name": "Nom du logiciel",
                 "name helper": "Non du logiciel (GIMP, Inkscape, etc.)",
-                "send": "Envoyer",
+                "create software": "Terminer",
+                "update software": "Mettre à jour les informations",
                 "versionMin": "Version minimale",
                 "versionMin helper":
                     "Quelle est la version minimale acceptable pour le logiciel?",
@@ -575,6 +578,8 @@ const {
                 "tags helper": "Tags pour aider a trouver ce logiciel",
                 "change tags": ({ selectedTagsCount }) =>
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
+                "confirm give up":
+                    "Le logiciel n'a pas été mis à jour, confirmer l'abandon?",
             },
             "SoftwareCard": {
                 "update software information":
