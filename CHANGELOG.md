@@ -1,3 +1,8 @@
+### **0.20.3** (2022-06-17)  
+  
+- Fix i18n  
+- Picker with a done button    
+  
 ### **0.20.1** (2022-06-14)  
   
 - Fix typo    
