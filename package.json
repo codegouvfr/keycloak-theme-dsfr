@@ -67,7 +67,7 @@
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",
-        "onyxia-ui": "^0.44.0",
+        "onyxia-ui": "^0.44.1",
         "path": "^0.12.7",
         "powerhooks": "^0.20.1",
         "react": "^17.0.2",
