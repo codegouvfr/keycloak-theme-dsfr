@@ -94,7 +94,6 @@ export const Tags = memo((props: Props) => {
 
 export const { i18n } = declareComponentKeys<
     | { K: "change tags"; P: { isThereTagsAlready: boolean } }
-    | { K: "create tag"; P: { tag: string } }
     | "github picker label"
     | { K: "github picker create tag"; P: { tag: string } }
     | "github picker done"

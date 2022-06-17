@@ -331,7 +331,6 @@ const {
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
                     isThereTagsAlready ? "Add or remove tags" : "Add tags",
-                "create tag": ({ tag }) => `Create the "${tag}" tag`,
                 "github picker label": "Software tags",
                 "github picker create tag": ({ tag }) => `Create the "${tag}" tag`,
                 "github picker done": "Done",
@@ -647,10 +646,9 @@ const {
                     isThereTagsAlready
                         ? "Ajouter ou modifier les tags"
                         : "Ajouter des tags",
-                "create tag": ({ tag }) => `Crée le tag "${tag}"`,
                 "github picker label": "Tags du logiciel",
-                "github picker create tag": ({ tag }) => `Create the "${tag}" tag`,
-                "github picker done": "Done",
+                "github picker create tag": ({ tag }) => `Crée le tag "${tag}"`,
+                "github picker done": "Ok",
                 "tags": "Tags",
             },
             /* spell-checker: enable */
