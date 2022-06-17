@@ -1,3 +1,11 @@
+### **0.20.4** (2022-06-17)  
+  
+- Add tags in software details  
+- Update wording on form  
+- Avoid reflow when creating first tag  
+- Form only submitable when changed  
+- Update domains    
+  
 ### **0.20.3** (2022-06-17)  
   
 - Fix i18n  
