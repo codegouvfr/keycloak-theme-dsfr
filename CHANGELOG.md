@@ -1,3 +1,7 @@
+### **0.20.6** (2022-06-19)  
+  
+- Update keycloakify    
+  
 ### **0.20.5** (2022-06-17)  
   
 - Update onyxia-ui for corecting contrast    
