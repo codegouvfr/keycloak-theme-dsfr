@@ -102,6 +102,7 @@ console.log(emailDomains);
                     "villejuif.fr",
                     "montpellier.archi.fr",
                     "sante.fr",
+                    "ecrins-parcnational.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
