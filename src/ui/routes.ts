@@ -26,7 +26,7 @@ const routeDefs = {
     ),
     "catalog": defineRoute(
         {
-            "queryString": param.query.optional.string.default(""),
+            "q": param.query.optional.string.default(""),
         },
         () => `/software`,
     ),

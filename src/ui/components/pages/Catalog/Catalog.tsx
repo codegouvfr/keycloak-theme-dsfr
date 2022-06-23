@@ -96,8 +96,8 @@ export function Catalog(props: Props) {
                 hideSplashScreen();
 
                 //NOTE: Restore previous search
-                if (route.params.queryString === "" && catalogState.queryString !== "") {
-                    routes.catalog({ "queryString": catalogState.queryString }).replace();
+                if (route.params.q === "" && catalogState.queryString !== "") {
+                    routes.catalog({ "q": catalogState.queryString }).replace();
                 }
 
                 break;
@@ -124,19 +124,18 @@ export function Catalog(props: Props) {
         search =>
             routes
                 .catalog({
-                    "queryString":
+                    "q":
                         pure.catalog.stringifyQuery({
                             search,
-                            "tags": pure.catalog.parseQuery(route.params.queryString)
-                                .tags,
+                            "tags": pure.catalog.parseQuery(route.params.q).tags,
                         }) || undefined,
                 })
                 .replace(),
     );
 
     useEffect(() => {
-        catalogThunks.setQueryString({ "queryString": route.params.queryString });
-    }, [route.params.queryString]);
+        catalogThunks.setQueryString({ "queryString": route.params.q });
+    }, [route.params.q]);
 
     const { openLinkBySoftwareId, editLinkBySoftwareId, parentSoftwareBySoftwareId } =
         useMemo(() => {
@@ -203,7 +202,7 @@ export function Catalog(props: Props) {
     >(tags =>
         routes
             .catalog({
-                "queryString":
+                "q":
                     pure.catalog.stringifyQuery({
                         search,
                         tags,
@@ -223,9 +222,7 @@ export function Catalog(props: Props) {
     assert(searchResultCount !== undefined);
     assert(parentSoftwareBySoftwareId !== undefined);
 
-    const { search, tags: selectedTags } = pure.catalog.parseQuery(
-        route.params.queryString,
-    );
+    const { search, tags: selectedTags } = pure.catalog.parseQuery(route.params.q);
 
     return (
         <div className={cx(classes.root, className)}>
