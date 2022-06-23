@@ -24,6 +24,12 @@ import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { Param0 } from "tsafe";
 import { useStateRef } from "powerhooks/useStateRef";
+import { GitHubPicker } from "onyxia-ui/GitHubPicker";
+import type { GitHubPickerProps } from "onyxia-ui/GitHubPicker";
+import { getTagColor } from "ui/components/shared/Tags/TagColor";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks";
+import { assert } from "tsafe/assert";
 
 export type Props = {
     className?: string;
@@ -57,6 +63,9 @@ export type Props = {
     >;
     search: string;
     onSearchChange: (search: string) => void;
+    tags: string[];
+    selectedTags: string[];
+    onSelectedTagsChange: (selectedTags: string[]) => void;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
     searchBarWrapperElement: HTMLDivElement;
@@ -83,6 +92,9 @@ export const CatalogCards = memo((props: Props) => {
         parentSoftwareBySoftwareId,
         search,
         onSearchChange,
+        tags,
+        selectedTags,
+        onSelectedTagsChange,
         onLoadMore,
         hasMoreToLoad,
         searchBarWrapperElement,
@@ -93,12 +105,6 @@ export const CatalogCards = memo((props: Props) => {
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
-
-    const evtSearchBarAction = useConst(() =>
-        Evt.create<UnpackEvt<SearchBarProps["evtAction"]>>(),
-    );
-
-    const onGoBackClick = useConstCallback(() => evtSearchBarAction.post("CLEAR SEARCH"));
 
     const loadingDivRef = useStateRef<HTMLDivElement>(null);
 
@@ -120,17 +126,6 @@ export const CatalogCards = memo((props: Props) => {
         hasMoreToLoad,
         doRenderSearchBarInHeader,
     });
-
-    const searchBarNode = (
-        <div className={classes.searchBarWrapper}>
-            <SearchBar
-                search={search}
-                evtAction={evtSearchBarAction}
-                onSearchChange={onSearchChange}
-                placeholder={t("search")}
-            />
-        </div>
-    );
 
     const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
@@ -182,12 +177,32 @@ export const CatalogCards = memo((props: Props) => {
             ]),
     );
 
+    const evtCatalogSearchAreaAction = useConst(() =>
+        Evt.create<UnpackEvt<CatalogSearchAreaProps["evtAction"]>>(),
+    );
+
+    const onGoBackClick = useConstCallback(() =>
+        evtCatalogSearchAreaAction.post("CLEAR SEARCH"),
+    );
+
+    const catalogSearchAreaNode = (
+        <CatalogSearchArea
+            className={classes.searchBarWrapper}
+            evtAction={evtCatalogSearchAreaAction}
+            tags={tags}
+            selectedTags={selectedTags}
+            onSelectedTagsChange={onSelectedTagsChange}
+            search={search}
+            onSearchChange={onSearchChange}
+        />
+    );
+
     return (
         <>
             {doRenderSearchBarInHeader &&
-                createPortal(searchBarNode, searchBarWrapperElement)}
+                createPortal(catalogSearchAreaNode, searchBarWrapperElement)}
             <div className={className}>
-                {!doRenderSearchBarInHeader && searchBarNode}
+                {!doRenderSearchBarInHeader && catalogSearchAreaNode}
                 {filteredSoftwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t("search results", { count: searchResultCount })}
@@ -275,6 +290,7 @@ export const { i18n } = declareComponentKeys<
     | "alike software"
     | "other similar software"
     | "reference a new software"
+    | "filter by tags"
 >()({ CatalogCards });
 
 const useStyles = makeStyles<{
@@ -391,4 +407,105 @@ const { NoMatches } = (() => {
     });
 
     return { NoMatches };
+})();
+
+type CatalogSearchAreaProps = {
+    className?: string;
+    evtAction: NonPostableEvt<"CLEAR SEARCH">;
+    tags: string[];
+    selectedTags: string[];
+    onSelectedTagsChange: (selectedTags: string[]) => void;
+    search: string;
+    onSearchChange: (search: string) => void;
+};
+
+const { CatalogSearchArea } = (() => {
+    const CatalogSearchArea = memo((props: CatalogSearchAreaProps) => {
+        const {
+            className,
+            evtAction,
+            tags,
+            selectedTags,
+            onSelectedTagsChange,
+            search,
+            onSearchChange,
+        } = props;
+
+        const evtSearchBarAction = useConst(() =>
+            Evt.create<UnpackEvt<SearchBarProps["evtAction"]>>(),
+        );
+
+        const evtGitHubPickerAction = useConst(() =>
+            Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
+        );
+
+        useEvt(
+            ctx =>
+                evtAction.attach(
+                    data => data === "CLEAR SEARCH",
+                    ctx,
+                    () => evtSearchBarAction.post("CLEAR SEARCH"),
+                ),
+            [evtAction],
+        );
+
+        const buttonRef = useStateRef<HTMLButtonElement>(null);
+
+        const { classes, theme } = useStyles();
+
+        const onSelectedTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
+            params => {
+                onSelectedTagsChange(
+                    params.isSelect
+                        ? [...selectedTags, params.tag]
+                        : selectedTags.filter(tag => tag !== params.tag),
+                );
+
+                evtGitHubPickerAction.post({
+                    "action": "close",
+                });
+            },
+        );
+
+        const { t } = useTranslation({ CatalogCards });
+
+        return (
+            <div className={className}>
+                <SearchBar
+                    search={search}
+                    evtAction={evtSearchBarAction}
+                    onSearchChange={onSearchChange}
+                    placeholder={t("search")}
+                />
+                <Button
+                    className={classes.button}
+                    ref={buttonRef}
+                    startIcon="add"
+                    variant="ternary"
+                    onClick={() =>
+                        evtGitHubPickerAction.post({
+                            "action": "open",
+                            "anchorEl":
+                                (assert(buttonRef.current !== null), buttonRef.current),
+                        })
+                    }
+                >
+                    {t("filter by tags")}
+                </Button>
+                <GitHubPicker
+                    evtAction={evtGitHubPickerAction}
+                    getTagColor={tag => getTagColor({ tag, theme }).color}
+                    tags={tags}
+                    selectedTags={selectedTags}
+                    onSelectedTags={onSelectedTags}
+                />
+            </div>
+        );
+    });
+
+    const useStyles = makeStyles({ "name": { CatalogSearchArea } })({
+        "button": {},
+    });
+
+    return { CatalogSearchArea };
 })();

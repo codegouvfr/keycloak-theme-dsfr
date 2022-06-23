@@ -12,12 +12,14 @@ import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { createResolveLocalizedString } from "i18nifty";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
+import { same } from "evt/tools/inDepth/same";
+import { arrDiff } from "evt/tools/reducers/diff";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
 namespace CatalogExplorerState {
     export type Common = {
-        search: string;
+        queryString: string;
     };
 
     export type NotFetched = Common & {
@@ -27,19 +29,20 @@ namespace CatalogExplorerState {
 
     export type Ready = Common & {
         stateDescription: "ready";
+        softwares: CompiledData.Software<"without referents">[];
+        tags: string[];
+        referentsBySoftwareId:
+            | undefined
+            | Record<
+                  string,
+                  {
+                      referents: CompiledData.Software.WithReferent["referents"];
+                      userIndex: number | undefined;
+                  }
+              >;
+        isProcessing: boolean;
         "~internal": {
-            softwares: CompiledData.Software<"without referents">[];
-            referentsBySoftwareId:
-                | undefined
-                | Record<
-                      string,
-                      {
-                          referents: CompiledData.Software.WithReferent["referents"];
-                          userIndex: number | undefined;
-                      }
-                  >;
             displayCount: number;
-            isProcessing: boolean;
         };
     };
 }
@@ -50,7 +53,7 @@ export const { name, reducer, actions } = createSlice({
         id<CatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
             "isFetching": false,
-            "search": "",
+            "queryString": "",
         }),
     ),
     "reducers": {
@@ -64,30 +67,34 @@ export const { name, reducer, actions } = createSlice({
                 payload,
             }: PayloadAction<
                 Pick<
-                    CatalogExplorerState.Ready["~internal"],
-                    "softwares" | "referentsBySoftwareId"
+                    CatalogExplorerState.Ready,
+                    "softwares" | "referentsBySoftwareId" | "tags"
                 >
             >,
         ) => {
-            const { softwares, referentsBySoftwareId } = payload;
+            const { softwares, referentsBySoftwareId, tags } = payload;
 
             return id<CatalogExplorerState.Ready>({
                 "stateDescription": "ready",
+                softwares,
+                referentsBySoftwareId,
+                "isProcessing": false,
+                tags,
                 "~internal": {
-                    softwares,
-                    referentsBySoftwareId,
                     "displayCount": 24,
-                    "isProcessing": false,
                 },
-                "search": state.search,
+                "queryString": state.queryString,
             });
         },
-        "setSearch": (state, { payload }: PayloadAction<{ search: string }>) => {
-            const { search } = payload;
+        "setQueryString": (
+            state,
+            { payload }: PayloadAction<{ queryString: string }>,
+        ) => {
+            const { queryString } = payload;
 
-            state.search = search;
+            state.queryString = queryString;
 
-            if (search === "" && state.stateDescription === "ready") {
+            if (queryString === "" && state.stateDescription === "ready") {
                 state["~internal"].displayCount = 24;
             }
         },
@@ -99,7 +106,14 @@ export const { name, reducer, actions } = createSlice({
         "processingStarted": state => {
             assert(state.stateDescription === "ready");
 
-            state["~internal"].isProcessing = true;
+            state.isProcessing = true;
+        },
+        "tagCreated": (state, { payload }: PayloadAction<{ tag: string }>) => {
+            const { tag } = payload;
+
+            assert(state.stateDescription === "ready");
+
+            state.tags.push(tag);
         },
         "userDeclaredReferent": (
             state,
@@ -129,7 +143,7 @@ export const { name, reducer, actions } = createSlice({
 
             assert(state.stateDescription === "ready");
 
-            const { referentsBySoftwareId } = state["~internal"];
+            const { referentsBySoftwareId } = state;
 
             assert(referentsBySoftwareId !== undefined);
 
@@ -147,7 +161,7 @@ export const { name, reducer, actions } = createSlice({
 
             referents.userIndex = referents.referents.length - 1;
 
-            state["~internal"].isProcessing = false;
+            state.isProcessing = false;
         },
         "userNoLongerReferent": (
             state,
@@ -161,7 +175,7 @@ export const { name, reducer, actions } = createSlice({
 
             assert(state.stateDescription === "ready");
 
-            const { referentsBySoftwareId } = state["~internal"];
+            const { referentsBySoftwareId } = state;
 
             assert(referentsBySoftwareId !== undefined);
 
@@ -175,7 +189,7 @@ export const { name, reducer, actions } = createSlice({
 
             referents.userIndex = undefined;
 
-            state["~internal"].isProcessing = false;
+            state.isProcessing = false;
         },
         "softwareAddedOrUpdated": (
             state,
@@ -189,7 +203,7 @@ export const { name, reducer, actions } = createSlice({
                 return;
             }
 
-            const { softwares, referentsBySoftwareId } = state["~internal"];
+            const { softwares, referentsBySoftwareId } = state;
 
             const oldSoftware = softwares.find(({ id }) => id === software.id);
 
@@ -216,7 +230,7 @@ export const { name, reducer, actions } = createSlice({
 
             const { agencyName } = payload;
 
-            const { referentsBySoftwareId } = state["~internal"];
+            const { referentsBySoftwareId } = state;
 
             assert(referentsBySoftwareId !== undefined);
 
@@ -235,7 +249,7 @@ export const { name, reducer, actions } = createSlice({
 
             const { email } = payload;
 
-            const { referentsBySoftwareId } = state["~internal"];
+            const { referentsBySoftwareId } = state;
 
             assert(referentsBySoftwareId !== undefined);
 
@@ -302,36 +316,58 @@ export const thunks = {
                                   ]),
                               );
                           })(),
+                    "tags": await sillApiClient.getTags(),
                 }),
             );
         },
-    "setSearch":
-        (params: { search: string }): ThunkAction =>
+    "setQueryString":
+        (params: { queryString: string }): ThunkAction =>
         async (...args) => {
-            const { search } = params;
+            const { queryString } = params;
             const [dispatch, , extra] = args;
 
             const sliceContext = getSliceContext(extra);
 
-            const { prevSearch, waitForSearchDebounce } = sliceContext;
+            const { prevQueryString, waitForSearchDebounce } = sliceContext;
 
-            sliceContext.prevSearch = search;
+            const prevQuery = pure.parseQuery(prevQueryString);
+            const query = pure.parseQuery(queryString);
 
-            //NOTE: At least 3 character to trigger search
-            if (search !== "" && search.length <= 2) {
+            sliceContext.prevQueryString = queryString;
+
+            update_tags: {
+                if (same(prevQuery.tags, query.tags)) {
+                    break update_tags;
+                }
+
+                dispatch(actions.setQueryString({ queryString }));
+
                 return;
             }
 
-            debounce: {
-                //NOTE: We do note debounce if we detect that the search was restored from url or pasted.
-                if (Math.abs(search.length - prevSearch.length) > 1) {
-                    break debounce;
+            update_search: {
+                if (prevQuery.search === query.search) {
+                    break update_search;
                 }
 
-                await waitForSearchDebounce();
-            }
+                const { search } = query;
 
-            dispatch(actions.setSearch({ search }));
+                //NOTE: At least 3 character to trigger search
+                if (queryString !== "" && search.length <= 2) {
+                    break update_search;
+                }
+
+                debounce: {
+                    //NOTE: We do note debounce if we detect that the search was restored from url or pasted.
+                    if (Math.abs(search.length - prevQueryString.length) > 1) {
+                        break debounce;
+                    }
+
+                    await waitForSearchDebounce();
+                }
+
+                dispatch(actions.setQueryString({ queryString }));
+            }
         },
     "loadMore":
         (): ThunkAction =>
@@ -353,9 +389,12 @@ export const thunks = {
 
             assert(state.stateDescription === "ready");
 
-            const { displayCount, softwares } = state["~internal"];
+            const {
+                "~internal": { displayCount },
+                softwares,
+            } = state;
 
-            return state.search === "" && displayCount < softwares.length;
+            return state.queryString === "" && displayCount < softwares.length;
         },
     "declareUserReferent":
         (params: {
@@ -460,6 +499,14 @@ export const privateThunks = {
                         })(),
                     ),
             );
+
+            evtAction.$attach(
+                action =>
+                    action.sliceName === "catalog" && action.actionName === "tagCreated"
+                        ? [action.payload]
+                        : null,
+                ({ tag }) => dispatch(actions.tagCreated({ tag })),
+            );
         },
 };
 
@@ -468,7 +515,7 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
         "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
         "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 })
             .waitForDebounce,
-        "prevSearch": "",
+        "prevQueryString": "",
     };
 });
 
@@ -489,22 +536,19 @@ export const selectors = (() => {
         }
     };
 
-    const referentsBySoftwareId = createSelector(readyState, state => {
-        if (state === undefined) {
-            return undefined;
-        }
-        return state["~internal"].referentsBySoftwareId;
-    });
-
     const filteredSoftwares = createSelector(readyState, state => {
         if (state === undefined) {
             return undefined;
         }
 
         const {
-            search,
-            "~internal": { softwares, displayCount, referentsBySoftwareId },
+            queryString,
+            softwares,
+            referentsBySoftwareId,
+            "~internal": { displayCount },
         } = state;
+
+        const query = pure.parseQuery(queryString);
 
         return [...softwares]
             .map(software => ({
@@ -516,14 +560,15 @@ export const selectors = (() => {
             .sort((a, b) =>
                 a.isUserReferent === b.isUserReferent ? 0 : a.isUserReferent ? -1 : 1,
             )
-            .slice(0, search === "" ? displayCount : softwares.length)
+            .slice(0, queryString === "" ? displayCount : softwares.length)
             .map(({ software }) => software)
             .map(software =>
                 software.dereferencing !== undefined ? undefined : software,
             )
             .filter(exclude(undefined))
+            .filter(({ tags }) => arrDiff(tags, query.tags).added.length === 0)
             .filter(
-                search === ""
+                queryString === ""
                     ? () => true
                     : ({
                           id,
@@ -582,7 +627,7 @@ export const selectors = (() => {
                                           .replace(/[\u0300-\u036f]/g, "")
                                           .toLowerCase();
 
-                                  return format(str).includes(format(search));
+                                  return format(str).includes(format(query.search));
                               })
                               .indexOf(true) >= 0,
             );
@@ -593,9 +638,7 @@ export const selectors = (() => {
             return undefined;
         }
 
-        const {
-            "~internal": { softwares },
-        } = state;
+        const { softwares } = state;
 
         const softwareNameBySoftwareId: Record<number, string> = {};
 
@@ -604,35 +647,21 @@ export const selectors = (() => {
         return softwareNameBySoftwareId;
     });
 
-    const softwares = createSelector(readyState, state => {
-        if (state === undefined) {
-            return undefined;
-        }
-
-        const {
-            "~internal": { softwares },
-        } = state;
-
-        return softwares;
-    });
-
     const searchResultCount = createSelector(
         readyState,
-        softwares,
         filteredSoftwares,
-        (state, softwares, filteredSoftwares) => {
+        (state, filteredSoftwares) => {
             if (state === undefined) {
                 return undefined;
             }
 
-            assert(softwares !== undefined);
             assert(filteredSoftwares !== undefined);
 
-            const { search } = state;
+            const { queryString } = state;
 
-            return search !== ""
+            return queryString !== ""
                 ? filteredSoftwares.length
-                : softwares.filter(software => software.dereferencing === undefined)
+                : state.softwares.filter(software => software.dereferencing === undefined)
                       .length;
         },
     );
@@ -659,7 +688,7 @@ export const selectors = (() => {
                     alikeSoftwares.map(softwareRef =>
                         softwareRef.isKnown
                             ? {
-                                  "software": state["~internal"].softwares.find(
+                                  "software": state.softwares.find(
                                       s => s.id === softwareRef.softwareId,
                                   )!,
                                   "isKnown": true as const,
@@ -671,20 +700,36 @@ export const selectors = (() => {
         },
     );
 
-    const isProcessing = createSelector(readyState, state => {
-        if (state === undefined) {
-            return undefined;
-        }
-        return state["~internal"].isProcessing;
-    });
-
     return {
         filteredSoftwares,
         alikeSoftwares,
-        referentsBySoftwareId,
-        isProcessing,
         softwareNameBySoftwareId,
-        softwares,
         searchResultCount,
     };
+})();
+
+export type Query = {
+    search: string;
+    tags: string[];
+};
+
+export const pure = (() => {
+    function parseQuery(queryString: string): Query {
+        if (queryString === "") {
+            return {
+                "search": "",
+                "tags": [],
+            };
+        }
+        return JSON.parse(queryString);
+    }
+
+    function stringifyQuery(query: Query) {
+        if (query.search === "" && query.tags.length === 0) {
+            return "";
+        }
+        return JSON.stringify(query);
+    }
+
+    return { stringifyQuery, parseQuery };
 })();

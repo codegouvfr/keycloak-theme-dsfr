@@ -192,6 +192,7 @@ const {
                 "other similar software":
                     "Others similar software that are not in the catalog",
                 "reference a new software": "Reference a new software",
+                "filter by tags": "Filter by tags",
             },
             "Catalog": {
                 "header text1": "Recommended Free Software catalog",
@@ -503,6 +504,7 @@ const {
                 "other similar software":
                     "Autres logiciels similaires qui ne sont pas dans le catalogue",
                 "reference a new software": "Référencer un nouveau logiciel",
+                "filter by tags": "Filtrer par tags",
             },
             "Catalog": {
                 "header text1": "Catalogue des logiciels libres du SILL",

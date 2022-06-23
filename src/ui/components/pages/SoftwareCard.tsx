@@ -56,6 +56,9 @@ export function SoftwareCard(props: Props) {
 
     const catalogState = useSelector(state => state.catalog);
 
+    const readyState =
+        catalogState.stateDescription === "ready" ? catalogState : undefined;
+
     const { catalogThunks, userAuthenticationThunks } = useThunks();
 
     useEffect(() => {
@@ -72,9 +75,9 @@ export function SoftwareCard(props: Props) {
         }
     }, [catalogState.stateDescription]);
 
-    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
-
     useEffect(() => {
+        const { isProcessing } = readyState ?? {};
+
         if (isProcessing === undefined) {
             return;
         }
@@ -86,7 +89,7 @@ export function SoftwareCard(props: Props) {
         } else {
             hideSplashScreen();
         }
-    }, [isProcessing]);
+    }, [readyState?.isProcessing]);
 
     const onGoBack = useConstCallback(() => routes.catalog().push());
 
@@ -117,11 +120,6 @@ export function SoftwareCard(props: Props) {
 
     const { classes, cx, css } = useStyles({ imgWidth });
 
-    const { softwares } = useSelector(selectors.catalog.softwares);
-    const { referentsBySoftwareId } = useSelector(
-        selectors.catalog.referentsBySoftwareId,
-    );
-
     const softwareNameOrSoftwareId = (() => {
         const { name: softwareNameOrSoftwareIdAsString } = route.params;
 
@@ -139,6 +137,8 @@ export function SoftwareCard(props: Props) {
             return;
         }
 
+        const { softwares } = readyState ?? {};
+
         if (softwares === undefined) {
             return;
         }
@@ -155,7 +155,7 @@ export function SoftwareCard(props: Props) {
         }
 
         routes.card({ "name": software.name }).replace();
-    }, [softwareNameOrSoftwareId, softwares]);
+    }, [softwareNameOrSoftwareId, readyState?.softwares]);
 
     const getFormLink = useConst(() =>
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
@@ -210,22 +210,24 @@ export function SoftwareCard(props: Props) {
         return null;
     }
 
-    if (catalogState.stateDescription !== "ready") {
+    if (readyState === undefined) {
         return null;
     }
 
-    assert(softwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
     assert(softwareNameBySoftwareId !== undefined);
 
-    const software = softwares.find(({ name }) => softwareNameOrSoftwareId === name);
+    const software = readyState.softwares.find(
+        ({ name }) => softwareNameOrSoftwareId === name,
+    );
 
     if (software === undefined) {
         routes.fourOhFour().replace();
         return null;
     }
 
-    const { referents, userIndex } = referentsBySoftwareId?.[software.id] ?? {};
+    const { referents, userIndex } =
+        readyState.referentsBySoftwareId?.[software.id] ?? {};
 
     const softwareFunction = capitalize(
         [software.wikidataData?.description]
@@ -239,9 +241,9 @@ export function SoftwareCard(props: Props) {
     });
 
     const editLink =
-        referentsBySoftwareId === undefined
+        readyState.referentsBySoftwareId === undefined
             ? undefined
-            : referentsBySoftwareId[software.id].userIndex !== undefined
+            : readyState.referentsBySoftwareId[software.id].userIndex !== undefined
             ? getFormLink(software.id)
             : undefined;
 

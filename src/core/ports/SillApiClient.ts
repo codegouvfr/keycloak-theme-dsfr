@@ -36,7 +36,10 @@ export type SillApiClient = {
     getAgencyNames: (
         params: InferInput<"getAgencyNames">,
     ) => Promise<InferOutput<"getAgencyNames">>;
-    getTags: (params: InferInput<"getTags">) => Promise<InferOutput<"getTags">>;
+    getTags: {
+        (params: InferInput<"getTags">): Promise<InferOutput<"getTags">>;
+        clear: () => void;
+    };
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

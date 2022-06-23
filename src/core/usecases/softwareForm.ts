@@ -199,6 +199,13 @@ export const { name, reducer, actions } = createSlice({
 
             (state.valueByFieldName as any)[fieldName] = value;
         },
+        "tagCreated": (state, { payload }: PayloadAction<{ tag: string }>) => {
+            const { tag } = payload;
+
+            assert(state.stateDescription === "form ready");
+
+            state.tags.push(tag);
+        },
     },
 });
 
@@ -231,7 +238,7 @@ export const thunks = {
                     assert(catalogState.stateDescription === "ready");
                 }
 
-                const { softwares } = catalogState["~internal"];
+                const { softwares } = catalogState;
 
                 return { softwares };
             })();
@@ -316,6 +323,15 @@ export const thunks = {
             const [dispatch] = args;
 
             dispatch(actions.focusLost({ fieldName }));
+        },
+    "createTag":
+        (params: { tag: string }): ThunkAction<void> =>
+        (...args) => {
+            const { tag } = params;
+
+            const [dispatch] = args;
+
+            dispatch(actions.tagCreated({ tag }));
         },
     "restoreFieldDefaultValue":
         (params: { fieldName: FieldName }): ThunkAction<void> =>
@@ -647,7 +663,7 @@ export const selectors = (() => {
                         getFieldError({
                             fieldName,
                             "fieldValue": state.valueByFieldName[fieldName],
-                            "softwares": catalogState["~internal"].softwares,
+                            "softwares": catalogState.softwares,
                             "isCreation": state.softwareId === undefined,
                         }))(),
                 ]),

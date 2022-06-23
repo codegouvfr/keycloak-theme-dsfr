@@ -114,6 +114,8 @@ export const VueDefault = getStory({
         },
     },
     "search": "",
+    "tags": ["data-science", "container", "docker", "kubernetes", "devops"],
+    "selectedTags": [],
     "hasMoreToLoad": true,
     "searchBarWrapperElement": document.createElement("div"),
     "referenceNewSoftwareLink": {
@@ -126,5 +128,6 @@ export const VueDefault = getStory({
         "onLogin",
         "onDeclareReferentAnswer",
         "onUserNoLongerReferent",
+        "onSelectedTagsChange",
     ]),
 });

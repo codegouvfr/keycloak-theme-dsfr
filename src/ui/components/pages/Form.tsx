@@ -239,6 +239,11 @@ export function Form(props: Props) {
                                                 <Tags
                                                     tags={state.tags}
                                                     selectedTags={value}
+                                                    onCreateNewTag={tag =>
+                                                        softwareFormThunks.createTag({
+                                                            tag,
+                                                        })
+                                                    }
                                                     onSelectedTags={selectedTags =>
                                                         softwareFormThunks.changeFieldValue(
                                                             {

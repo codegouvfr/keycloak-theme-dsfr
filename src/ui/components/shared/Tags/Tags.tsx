@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from "react";
+import { memo } from "react";
 import { CustomTag } from "./CustomTag";
 import { makeStyles } from "ui/theme";
 import { Evt } from "evt";
@@ -17,20 +17,16 @@ type Props = {
     tags: string[];
     selectedTags: string[];
     onSelectedTags: (selectedTags: string[]) => void;
+    onCreateNewTag: (tag: string) => void;
 };
 
 export const Tags = memo((props: Props) => {
     const {
-        tags: tags_props,
+        tags,
         selectedTags,
         onSelectedTags: onSelectedTags_props,
+        onCreateNewTag,
     } = props;
-
-    const [tags, setTags] = useState(tags_props);
-
-    useEffect(() => {
-        setTags(tags_props);
-    }, [tags_props]);
 
     const evtGitHubPickerAction = useConst(() =>
         Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
@@ -45,7 +41,7 @@ export const Tags = memo((props: Props) => {
     const onSelectedTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
         params => {
             if (params.isSelect && params.isNewTag) {
-                setTags([params.tag, ...tags]);
+                onCreateNewTag(params.tag);
             }
 
             onSelectedTags_props(
@@ -84,7 +80,11 @@ export const Tags = memo((props: Props) => {
             <GitHubPicker
                 evtAction={evtGitHubPickerAction}
                 getTagColor={tag => getTagColor({ tag, theme }).color}
-                t={t}
+                texts={{
+                    "label": t("github picker label"),
+                    "create tag": ({ tag }) => t("github picker create tag", { tag }),
+                    "done": t("github picker done"),
+                }}
                 tags={tags}
                 selectedTags={selectedTags}
                 onSelectedTags={onSelectedTags}

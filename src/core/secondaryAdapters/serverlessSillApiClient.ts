@@ -38,6 +38,8 @@ export function createServerlessSillApiClient(params: {
         "updateEmail": () => Promise.reject(new Error("not implemented")),
         "getAllowedEmailRegexp": () => Promise.reject(new Error("not implemented")),
         "getAgencyNames": () => Promise.reject(new Error("not implemented")),
-        "getTags": () => Promise.reject(new Error("not implemented")),
+        "getTags": memoize(() => Promise.reject(new Error("not implemented")), {
+            "promise": true,
+        }),
     };
 }

@@ -8,11 +8,12 @@ import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
-import { useSelector, useThunks, selectors } from "ui/coreApi";
+import { useSelector, useThunks, selectors, pure } from "ui/coreApi";
 import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { CatalogCards } from "./CatalogCards";
+import { Props as CatalogCardsProps } from "./CatalogCards";
 import type { Link } from "type-route";
 import { useStateRef } from "powerhooks/useStateRef";
 import { useStickyTop } from "powerhooks/useStickyTop";
@@ -70,6 +71,14 @@ export function Catalog(props: Props) {
     }, []);
 
     const catalogState = useSelector(state => state.catalog);
+    const readyState =
+        catalogState.stateDescription === "ready" ? catalogState : undefined;
+    const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
+    const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
+    const { softwareNameBySoftwareId } = useSelector(
+        selectors.catalog.softwareNameBySoftwareId,
+    );
+    const { searchResultCount } = useSelector(selectors.catalog.searchResultCount);
 
     const { catalogThunks, userAuthenticationThunks } = useThunks();
 
@@ -87,17 +96,17 @@ export function Catalog(props: Props) {
                 hideSplashScreen();
 
                 //NOTE: Restore previous search
-                if (route.params.search === "" && catalogState.search !== "") {
-                    routes.catalog({ "search": catalogState.search }).replace();
+                if (route.params.queryString === "" && catalogState.queryString !== "") {
+                    routes.catalog({ "queryString": catalogState.queryString }).replace();
                 }
 
                 break;
         }
     }, [catalogState.stateDescription]);
 
-    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
-
     useEffect(() => {
+        const { isProcessing } = readyState ?? {};
+
         if (isProcessing === undefined) {
             return;
         }
@@ -109,35 +118,30 @@ export function Catalog(props: Props) {
         } else {
             hideSplashScreen();
         }
-    }, [isProcessing]);
+    }, [readyState?.isProcessing]);
 
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
                 .catalog({
-                    "search": search || undefined,
+                    "queryString":
+                        pure.catalog.stringifyQuery({
+                            search,
+                            "tags": pure.catalog.parseQuery(route.params.queryString)
+                                .tags,
+                        }) || undefined,
                 })
                 .replace(),
     );
 
     useEffect(() => {
-        catalogThunks.setSearch({ "search": route.params.search });
-    }, [route.params.search]);
-
-    const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
-
-    const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
-    const { referentsBySoftwareId } = useSelector(
-        selectors.catalog.referentsBySoftwareId,
-    );
-
-    const { softwares } = useSelector(selectors.catalog.softwares);
-    const { softwareNameBySoftwareId } = useSelector(
-        selectors.catalog.softwareNameBySoftwareId,
-    );
+        catalogThunks.setQueryString({ "queryString": route.params.queryString });
+    }, [route.params.queryString]);
 
     const { openLinkBySoftwareId, editLinkBySoftwareId, parentSoftwareBySoftwareId } =
         useMemo(() => {
+            const { softwares } = readyState ?? {};
+
             if (softwares === undefined || softwareNameBySoftwareId === undefined) {
                 return {};
             }
@@ -183,7 +187,7 @@ export function Catalog(props: Props) {
                 editLinkBySoftwareId,
                 parentSoftwareBySoftwareId,
             };
-        }, [softwares, softwareNameBySoftwareId]);
+        }, [readyState?.softwares, softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
         assert(!userAuthenticationThunks.getIsUserLoggedIn());
@@ -194,19 +198,31 @@ export function Catalog(props: Props) {
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
     );
 
-    const { searchResultCount } = useSelector(selectors.catalog.searchResultCount);
+    const onSelectedTagsChange = useConstCallback<
+        CatalogCardsProps["onSelectedTagsChange"]
+    >(tags =>
+        routes.catalog({
+            "queryString": pure.catalog.stringifyQuery({
+                search,
+                tags,
+            }),
+        }),
+    );
 
-    if (catalogState.stateDescription !== "ready") {
+    if (readyState === undefined) {
         return null;
     }
 
-    assert(softwares !== undefined);
     assert(alikeSoftwares !== undefined);
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
     assert(editLinkBySoftwareId !== undefined);
     assert(searchResultCount !== undefined);
     assert(parentSoftwareBySoftwareId !== undefined);
+
+    const { search, tags: selectedTags } = pure.catalog.parseQuery(
+        route.params.queryString,
+    );
 
     return (
         <div className={cx(classes.root, className)}>
@@ -227,11 +243,14 @@ export function Catalog(props: Props) {
                 {pageHeaderRef.current !== null && (
                     <CatalogCards
                         searchResultCount={searchResultCount}
-                        search={route.params.search}
+                        search={search}
+                        selectedTags={selectedTags}
+                        tags={readyState.tags}
                         onSearchChange={onSearchChange}
+                        onSelectedTagsChange={onSelectedTagsChange}
                         filteredSoftwares={filteredSoftwares}
                         alikeSoftwares={alikeSoftwares}
-                        referentsBySoftwareId={referentsBySoftwareId}
+                        referentsBySoftwareId={readyState.referentsBySoftwareId}
                         openLinkBySoftwareId={openLinkBySoftwareId}
                         parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
                         editLinkBySoftwareId={editLinkBySoftwareId}
