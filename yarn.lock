@@ -11347,10 +11347,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.45.0:
-  version "0.45.0"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.45.0.tgz#afe7a30d3b80852daee1da6ef7cee1913dfe97f7"
-  integrity sha512-ChT2UqLSlv/uT+AifBnnq6/pNLbg5lyfnPgJbe1Qt8QiTnoJP+LYN7CH1W0Y/ei1IXxC4YIgmqWtAx1FxlqhBA==
+onyxia-ui@^0.45.1:
+  version "0.45.1"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.45.1.tgz#c33e836c74621209f68c45994e191c9d09a490fa"
+  integrity sha512-hM3bC7sQBIFo0NaP17NKchON3EDDVMM1tVKW28uNb9OqyE7Eqz0uo9uYIc6MlD0PE6lqv0dgQLIEK7+S36Ujxw==
   dependencies:
     "@mui/icons-material" "^5.8.2"
     color "3.1.3"

@@ -27,6 +27,7 @@ import { useStateRef } from "powerhooks/useStateRef";
 import { GitHubPicker } from "onyxia-ui/GitHubPicker";
 import type { GitHubPickerProps } from "onyxia-ui/GitHubPicker";
 import { getTagColor } from "ui/components/shared/Tags/TagColor";
+import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
@@ -451,7 +452,7 @@ const { CatalogSearchArea } = (() => {
 
         const buttonRef = useStateRef<HTMLButtonElement>(null);
 
-        const { classes, theme } = useStyles();
+        const { classes, cx, theme } = useStyles();
 
         const onSelectedTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
             params => {
@@ -470,18 +471,32 @@ const { CatalogSearchArea } = (() => {
         const { t } = useTranslation({ CatalogCards });
 
         return (
-            <div className={className}>
+            <div className={cx(classes.root, className)}>
                 <SearchBar
+                    className={classes.searchBar}
                     search={search}
                     evtAction={evtSearchBarAction}
                     onSearchChange={onSearchChange}
                     placeholder={t("search")}
                 />
+                {selectedTags.map(tag => (
+                    <CustomTag
+                        className={classes.tag}
+                        tag={tag}
+                        key={tag}
+                        onRemove={() =>
+                            onSelectedTags({
+                                "isSelect": false,
+                                tag,
+                            })
+                        }
+                    />
+                ))}
                 <Button
-                    className={classes.button}
                     ref={buttonRef}
+                    className={classes.tagButton}
                     startIcon="add"
-                    variant="ternary"
+                    variant="secondary"
                     onClick={() =>
                         evtGitHubPickerAction.post({
                             "action": "open",
@@ -503,9 +518,20 @@ const { CatalogSearchArea } = (() => {
         );
     });
 
-    const useStyles = makeStyles({ "name": { CatalogSearchArea } })({
-        "button": {},
-    });
+    const useStyles = makeStyles({ "name": { CatalogSearchArea } })(theme => ({
+        "root": {
+            "display": "flex",
+        },
+        "searchBar": {
+            "flex": 1,
+        },
+        "tag": {
+            "marginLeft": theme.spacing(2),
+        },
+        "tagButton": {
+            "marginLeft": theme.spacing(2),
+        },
+    }));
 
     return { CatalogSearchArea };
 })();

@@ -201,12 +201,14 @@ export function Catalog(props: Props) {
     const onSelectedTagsChange = useConstCallback<
         CatalogCardsProps["onSelectedTagsChange"]
     >(tags =>
-        routes.catalog({
-            "queryString": pure.catalog.stringifyQuery({
-                search,
-                tags,
-            }),
-        }),
+        routes
+            .catalog({
+                "queryString": pure.catalog.stringifyQuery({
+                    search,
+                    tags,
+                }),
+            })
+            .push(),
     );
 
     if (readyState === undefined) {

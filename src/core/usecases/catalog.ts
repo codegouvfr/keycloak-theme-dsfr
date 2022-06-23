@@ -578,12 +578,18 @@ export const selectors = (() => {
                           comptoirDuLibreSoftware,
                           wikidataData,
                           tags,
+                          parentSoftware,
                       }) =>
                           [
                               name,
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
+                              ...(parentSoftware !== undefined
+                                  ? parentSoftware.isKnown
+                                      ? []
+                                      : [parentSoftware.softwareName]
+                                  : []),
                               ...tags,
                               ...(["description", "label"] as const)
                                   .map(prop =>

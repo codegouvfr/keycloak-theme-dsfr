@@ -12,6 +12,7 @@ import { Button, Text } from "ui/theme";
 import { assert } from "tsafe/assert";
 import { getTagColor } from "./TagColor";
 import { useConstCallback } from "powerhooks/useConstCallback";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 
 type Props = {
     tags: string[];
@@ -52,13 +53,25 @@ export const Tags = memo((props: Props) => {
         },
     );
 
+    const onRemoveFactory = useCallbackFactory(([tag]: [string]) =>
+        onSelectedTags({
+            "isSelect": false,
+            tag,
+        }),
+    );
+
     return (
         <div>
             <Text typo="caption" className={classes.caption}>
                 {t("tags")}
             </Text>
             {selectedTags.map(tag => (
-                <CustomTag key={tag} tag={tag} className={classes.tag} />
+                <CustomTag
+                    key={tag}
+                    tag={tag}
+                    className={classes.tag}
+                    onRemove={onRemoveFactory(tag)}
+                />
             ))}
             <CustomTag tag={"x"} className={css({ "opacity": 0 })} />
             <br />
@@ -66,7 +79,7 @@ export const Tags = memo((props: Props) => {
                 className={classes.button}
                 ref={buttonRef}
                 startIcon="add"
-                variant="ternary"
+                variant="secondary"
                 onClick={() =>
                     evtGitHubPickerAction.post({
                         "action": "open",
@@ -107,6 +120,7 @@ const useStyles = makeStyles()(theme => ({
     },
     "tag": {
         "marginRight": theme.spacing(1),
+        "marginBottom": theme.spacing(1),
     },
     "button": {
         "marginTop": theme.spacing(2),
