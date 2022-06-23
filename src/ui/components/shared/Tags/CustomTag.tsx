@@ -4,6 +4,7 @@ import { getTagColor } from "./TagColor";
 import type { TagColor } from "./TagColor";
 import { makeStyles, useTheme } from "ui/theme";
 import { IconButton } from "ui/theme";
+import { Text } from "ui/theme";
 
 export type Props = {
     className?: string;
@@ -24,12 +25,11 @@ export const CustomTag = memo((props: Props) => {
     return (
         <Tag
             className={cx(classes.root, className)}
-            classes={{
-                "text": classes.text,
-            }}
             text={
-                <>
-                    {tag}
+                <div className={classes.bodyWrapper}>
+                    <Text className={classes.text} typo="body 3">
+                        {tag}
+                    </Text>
                     {onRemove !== undefined && (
                         <IconButton
                             className={classes.icon}
@@ -38,7 +38,7 @@ export const CustomTag = memo((props: Props) => {
                             onClick={onRemove}
                         />
                     )}
-                </>
+                </div>
             }
         />
     );
@@ -61,5 +61,9 @@ const useStyles = makeStyles<{ tagColor: TagColor; hasOnRemove: boolean }>({
                 theme.colors.palette[tagColor.isContrastTextWhite ? "light" : "dark"]
                     .greyVariant2,
         },
+    },
+    "bodyWrapper": {
+        "display": "flex",
+        "alignItems": "center",
     },
 }));

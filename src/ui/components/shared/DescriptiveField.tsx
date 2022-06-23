@@ -324,7 +324,11 @@ export const DescriptiveField = memo((props: Props) => {
                             case "service password":
                                 return <TextWd>{props.servicePassword}</TextWd>;
                             case "text":
-                                return <TextWd>{props.text}</TextWd>;
+                                return typeof props.text !== "string" ? (
+                                    props.text
+                                ) : (
+                                    <TextWd>{props.text}</TextWd>
+                                );
                             case "editable text":
                                 return !isInEditingState ? (
                                     props.text === undefined ? (

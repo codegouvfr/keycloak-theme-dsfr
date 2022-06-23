@@ -353,7 +353,7 @@ export function SoftwareCard(props: Props) {
                         title={t("tags")}
                         helperText={t("tags helper")}
                         text={software.tags.map(tag => (
-                            <CustomTag className={classes.tag} tag={tag} />
+                            <CustomTag key={tag} className={classes.tag} tag={tag} />
                         ))}
                     />
                 )}
