@@ -161,7 +161,10 @@ export const CatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     {parentSoftware !== undefined && (
-                        <Text typo="label 1"> {t("plugin for", parentSoftware)} </Text>
+                        <Text typo="label 1">
+                            {" "}
+                            {t("parent software", parentSoftware)}{" "}
+                        </Text>
                     )}
                     <Markdown>
                         {`${capitalize(software.name)}, ${
@@ -278,7 +281,11 @@ export const CatalogCard = memo((props: Props) => {
 });
 
 export const { i18n } = declareComponentKeys<
-    | { K: "plugin for"; P: { name: string; link: Link | undefined }; R: JSX.Element }
+    | {
+          K: "parent software";
+          P: { name: string; link: Link | undefined };
+          R: JSX.Element;
+      }
     | "learn more"
     | "try it"
     | { K: "you are referent"; P: { isOnlyReferent: boolean } }

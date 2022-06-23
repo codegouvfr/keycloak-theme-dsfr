@@ -115,9 +115,9 @@ const {
                 "not found": "Page not found",
             },
             "CatalogCard": {
-                "plugin for": ({ name, link }) => (
+                "parent software": ({ name, link }) => (
                     <>
-                        Plugin for{" "}
+                        Plugin or distribution of{" "}
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
@@ -296,7 +296,7 @@ const {
                 "see referents": "See referents",
                 "parent software": "Parent software",
                 "parent software helper":
-                    "The software is a plugin or an extension for another software",
+                    "The software is a plugin, or a distribution of another software",
                 "alike softwares": "Alike softwares",
                 "alike softwares helper": "Known alternatives to this software",
                 "workstation": "Agent workstation",
@@ -427,9 +427,9 @@ const {
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
                 "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
-                "plugin for": ({ name, link }) => (
+                "parent software": ({ name, link }) => (
                     <>
-                        Plugin pour{" "}
+                        Plugin ou distribution de{" "}
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
@@ -612,7 +612,7 @@ const {
                 "see referents": "Voir les référents",
                 "parent software": "Logiciel parent",
                 "parent software helper":
-                    "Ce logiciel est un module ou une extention d'un autre logiciel",
+                    "Ce logiciel est un module ou une distribution d'un autre logiciel",
                 "alike softwares": "Logiciels similaires",
                 "alike softwares helper": "Alternative identifiée à ce logiciel",
                 "workstation": "Poste agent",
