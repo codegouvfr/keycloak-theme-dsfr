@@ -721,12 +721,13 @@ export type Query = {
 
 export const pure = (() => {
     function parseQuery(queryString: string): Query {
-        if (queryString === "") {
+        if (!queryString.startsWith("{")) {
             return {
-                "search": "",
+                "search": queryString,
                 "tags": [],
             };
         }
+
         return JSON.parse(queryString);
     }
 
@@ -734,6 +735,11 @@ export const pure = (() => {
         if (query.search === "" && query.tags.length === 0) {
             return "";
         }
+
+        if (query.tags.length === 0) {
+            return query.search;
+        }
+
         return JSON.stringify(query);
     }
 
