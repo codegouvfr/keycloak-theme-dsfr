@@ -203,10 +203,11 @@ export function Catalog(props: Props) {
     >(tags =>
         routes
             .catalog({
-                "queryString": pure.catalog.stringifyQuery({
-                    search,
-                    tags,
-                }),
+                "queryString":
+                    pure.catalog.stringifyQuery({
+                        search,
+                        tags,
+                    }) || undefined,
             })
             .push(),
     );
