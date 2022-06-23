@@ -1,3 +1,8 @@
+### **0.21.1** (2022-06-23)  
+  
+- Fix layour warnings  
+- Update phrasing    
+  
 ## **0.21.0** (2022-06-23)  
   
 - Nicer search param  
