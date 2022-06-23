@@ -1,3 +1,13 @@
+## **0.21.0** (2022-06-23)  
+  
+- Nicer search param  
+- Rename querryString route param into q  
+- No empty search param  
+- Filter by tag  
+- Filter by tags  
+- update authorized emails  
+- update emails    
+  
 ### **0.20.6** (2022-06-19)  
   
 - Update keycloakify    
