@@ -23,6 +23,7 @@ import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs"
 import type { UnpackEvt } from "evt";
 import { IconButton } from "ui/theme";
 import { CustomTag } from "ui/components/shared/Tags/CustomTag";
+import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 
 export type Props = {
     className?: string;
@@ -44,6 +45,7 @@ export type Props = {
     }) => void;
     onUserNoLongerReferent: () => void;
     onLogin: () => void;
+    onTagClick: (tag: string) => void;
 };
 
 export const CatalogCard = memo((props: Props) => {
@@ -58,6 +60,7 @@ export const CatalogCard = memo((props: Props) => {
         onLogin,
         onUserNoLongerReferent,
         onDeclareReferentAnswer,
+        onTagClick,
     } = props;
 
     const { classes, cx, css } = useStyles();
@@ -93,6 +96,8 @@ export const CatalogCard = memo((props: Props) => {
     const onOpenDeclareBeingReferent = useConstCallback(() =>
         evtReferentDialogAction.post("open declare referent"),
     );
+
+    const onTagClickFactory = useCallbackFactory(([tag]: [string]) => onTagClick(tag));
 
     return (
         <div className={cx(classes.root, className)}>
@@ -206,7 +211,12 @@ export const CatalogCard = memo((props: Props) => {
                     })()}
 
                     {software.tags.map(tag => (
-                        <CustomTag key={tag} tag={tag} className={classes.softwareTag} />
+                        <CustomTag
+                            key={tag}
+                            tag={tag}
+                            className={classes.softwareTag}
+                            onClick={onTagClickFactory(tag)}
+                        />
                     ))}
                 </div>
                 <div className={classes.buttonsWrapper}>

@@ -10,10 +10,11 @@ export type Props = {
     className?: string;
     tag: string;
     onRemove?: () => void;
+    onClick?: () => void;
 };
 
 export const CustomTag = memo((props: Props) => {
-    const { tag, className, onRemove } = props;
+    const { tag, className, onRemove, onClick } = props;
 
     const theme = useTheme();
 
@@ -25,6 +26,7 @@ export const CustomTag = memo((props: Props) => {
     return (
         <Tag
             className={cx(classes.root, className)}
+            onClick={onClick}
             text={
                 <div className={classes.bodyWrapper}>
                     <Text className={classes.text} typo="body 3">

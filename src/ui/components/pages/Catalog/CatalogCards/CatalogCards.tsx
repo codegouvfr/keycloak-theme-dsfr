@@ -147,6 +147,10 @@ export const CatalogCards = memo((props: Props) => {
         onUserNoLongerReferent({ softwareId }),
     );
 
+    const onTagClick = useConstCallback<CatalogCardProps["onTagClick"]>(tag =>
+        onSelectedTagsChange([tag, ...selectedTags]),
+    );
+
     const catalogCardBySoftwareId = Object.fromEntries(
         [
             ...filteredSoftwares,
@@ -174,6 +178,7 @@ export const CatalogCards = memo((props: Props) => {
                     onLogin={onLogin}
                     onDeclareReferentAnswer={onDeclareReferentAnswerFactory(software.id)}
                     onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
+                    onTagClick={onTagClick}
                 />,
             ]),
     );
