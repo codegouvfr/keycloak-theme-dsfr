@@ -1,3 +1,7 @@
+### **0.21.2** (2022-06-27)  
+  
+- Make tags clickable    
+  
 ### **0.21.1** (2022-06-23)  
   
 - Fix layour warnings  
