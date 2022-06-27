@@ -360,7 +360,7 @@ const {
                 "email": "Adresse de courriel",
                 "change account info":
                     "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
-                "agency name": "Nom du service de ratachement",
+                "agency name": "Nom de l'établissement de rattachement",
                 "agency name helper": "Nom de votre institution, par example DINUM",
                 "not a valid email": "Couriel non valid",
                 "email helper":
