@@ -24,6 +24,7 @@ import type { UnpackEvt } from "evt";
 import { IconButton } from "ui/theme";
 import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
+import { useLang } from "ui/i18n";
 
 export type Props = {
     className?: string;
@@ -99,6 +100,8 @@ export const CatalogCard = memo((props: Props) => {
 
     const onTagClickFactory = useCallbackFactory(([tag]: [string]) => onTagClick(tag));
 
+    const { lang } = useLang();
+
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
@@ -173,6 +176,7 @@ export const CatalogCard = memo((props: Props) => {
                     )}
                     <Markdown>
                         {`${capitalize(software.name)}, ${
+                            lang === "fr" ||
                             software.wikidataData?.description === undefined
                                 ? software.function
                                 : resolveLocalizedString(

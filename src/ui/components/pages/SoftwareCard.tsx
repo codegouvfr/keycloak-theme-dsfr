@@ -230,7 +230,7 @@ export function SoftwareCard(props: Props) {
         readyState.referentsBySoftwareId?.[software.id] ?? {};
 
     const softwareFunction = capitalize(
-        [software.wikidataData?.description]
+        [lang === "fr" ? undefined : software.wikidataData?.description]
             .filter(exclude(undefined))
             .map(resolveLocalizedString)[0] ?? software.function,
     );
