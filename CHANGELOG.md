@@ -1,3 +1,7 @@
+### **0.21.3** (2022-06-27)  
+  
+- Use user description of software instead of wiki data (in french)    
+  
 ### **0.21.2** (2022-06-27)  
   
 - Make tags clickable    
