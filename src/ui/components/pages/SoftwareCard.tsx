@@ -111,7 +111,7 @@ export function SoftwareCard(props: Props) {
 
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
-            userAuthenticationThunks.login();
+            userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false });
             return;
         }
 

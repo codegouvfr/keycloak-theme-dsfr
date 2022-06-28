@@ -63,7 +63,7 @@
         "i18nifty": "^1.2.0",
         "jwt-simple": "^0.5.6",
         "keycloak-js": "^18.0.0",
-        "keycloakify": "^5.4.7",
+        "keycloakify": "^5.5.0",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",

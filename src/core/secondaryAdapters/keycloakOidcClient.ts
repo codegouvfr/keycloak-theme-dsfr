@@ -4,6 +4,7 @@ import { id } from "tsafe/id";
 import { createKeycloakAdapter } from "keycloakify";
 import type { NonPostableEvt } from "evt";
 import * as jwtSimple from "jwt-simple";
+import type { Param0, ReturnType } from "tsafe";
 
 export async function createKeycloakOidcClient(params: {
     url: string;
@@ -18,6 +19,10 @@ export async function createKeycloakOidcClient(params: {
 
     const keycloakInstance = keycloak_js({ url, realm, clientId });
 
+    let redirectMethod: ReturnType<
+        Param0<typeof createKeycloakAdapter>["getRedirectMethod"]
+    > = "overwrite location.href";
+
     const isAuthenticated = await keycloakInstance
         .init({
             "onLoad": "check-sso",
@@ -27,6 +32,7 @@ export async function createKeycloakOidcClient(params: {
             "adapter": createKeycloakAdapter({
                 transformUrlBeforeRedirect,
                 keycloakInstance,
+                "getRedirectMethod": () => redirectMethod,
             }),
         })
         .catch((error: Error) => error);
@@ -36,7 +42,13 @@ export async function createKeycloakOidcClient(params: {
         throw isAuthenticated;
     }
 
-    const login: OidcClient.NotLoggedIn["login"] = async () => {
+    const login: OidcClient.NotLoggedIn["login"] = async ({
+        doesCurrentHrefRequiresAuth,
+    }) => {
+        if (doesCurrentHrefRequiresAuth) {
+            redirectMethod = "location.replace";
+        }
+
         await keycloakInstance.login({ "redirectUri": window.location.href });
 
         return new Promise<never>(() => {});
@@ -94,7 +106,7 @@ export async function createKeycloakOidcClient(params: {
             if (error) {
                 log?.("Can't refresh OIDC access token, getting a new one");
                 //NOTE: Never resolves
-                await login();
+                await login({ "doesCurrentHrefRequiresAuth": true });
             }
 
             oidcClient.accessToken = keycloakInstance.token!;

@@ -190,7 +190,7 @@ export function Catalog(props: Props) {
 
     const onLogin = useConstCallback(() => {
         assert(!userAuthenticationThunks.getIsUserLoggedIn());
-        userAuthenticationThunks.login();
+        userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false });
     });
 
     const getFormLink = useConst(() =>
