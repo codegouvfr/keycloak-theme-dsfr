@@ -41,7 +41,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CodeIcon from "@mui/icons-material/Code";
 import LinkIcon from "@mui/icons-material/Link";
-import PhonelinkIcon from "@mui/icons-material/Phonelink";
+import ComputerIcon from "@mui/icons-material/Computer";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
@@ -99,7 +99,7 @@ export const createIconParams = {
     "assuredWorkload": AssuredWorkloadIcon,
     "grading": GradingIcon,
     "airplay": AirplayIcon,
-    "phonelink": PhonelinkIcon,
+    "computer": ComputerIcon,
     "rssFeed": RssFeedIcon,
 };
 

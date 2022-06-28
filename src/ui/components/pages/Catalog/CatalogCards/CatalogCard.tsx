@@ -162,7 +162,7 @@ export const CatalogCard = memo((props: Props) => {
                 )}
                 {software.agentWorkstation && (
                     <Tooltip title={t("to install on the computer of the agent")}>
-                        <Icon iconId="phonelink" className={classes.agentWorkstation} />
+                        <Icon iconId="computer" className={classes.agentWorkstation} />
                     </Tooltip>
                 )}
             </div>
