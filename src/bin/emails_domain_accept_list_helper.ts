@@ -104,6 +104,7 @@ console.log(emailDomains);
                     "sante.fr",
                     "ecrins-parcnational.fr",
                     "asp-public.fr",
+                    "mairiedefigari.corsica",
                 ],
             )
             .map(domain => domain.toLowerCase())
