@@ -1,3 +1,8 @@
+### **0.21.5** (2022-06-28)  
+  
+- #49: Fix canceling auth bug  
+- Update onyxia-ui    
+  
 ### **0.21.4** (2022-06-27)  
   
 - package.json: Bump version to 0.21.4  
