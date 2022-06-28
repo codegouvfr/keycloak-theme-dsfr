@@ -103,6 +103,7 @@ console.log(emailDomains);
                     "montpellier.archi.fr",
                     "sante.fr",
                     "ecrins-parcnational.fr",
+                    "asp-public.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
