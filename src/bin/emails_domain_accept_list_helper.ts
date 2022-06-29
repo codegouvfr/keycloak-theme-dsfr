@@ -105,6 +105,7 @@ console.log(emailDomains);
                     "ecrins-parcnational.fr",
                     "asp-public.fr",
                     "mairiedefigari.corsica",
+                    "polytechnique.edu",
                 ],
             )
             .map(domain => domain.toLowerCase())
