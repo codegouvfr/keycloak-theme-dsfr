@@ -1,3 +1,11 @@
+## **0.22.0** (2022-07-04)  
+  
+- Update inhouse dependencies  
+- Search by alike software that are not in the SILL  
+- update domain name  
+- update emails  
+- Update domains    
+  
 ### **0.21.6** (2022-06-28)  
   
   
