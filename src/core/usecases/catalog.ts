@@ -579,12 +579,20 @@ export const selectors = (() => {
                           wikidataData,
                           tags,
                           parentSoftware,
+                          alikeSoftwares,
                       }) =>
                           [
                               name,
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
+                              ...alikeSoftwares
+                                  .map(alikeSoftware =>
+                                      alikeSoftware.isKnown
+                                          ? undefined
+                                          : alikeSoftware.softwareName,
+                                  )
+                                  .filter(exclude(undefined)),
                               ...(parentSoftware !== undefined
                                   ? parentSoftware.isKnown
                                       ? []
