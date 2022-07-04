@@ -7392,10 +7392,10 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-evt@*, evt@2.0.0-beta.44:
-  version "2.0.0-beta.44"
-  resolved "https://registry.yarnpkg.com/evt/-/evt-2.0.0-beta.44.tgz#7b936e65b3a8c2536e21f1c2af9e85fb95cc32ec"
-  integrity sha512-2XKKP3UhwLY1jOe8Ta0iL44ZZCy8iG1fGRHeyuU8W/aRcpcKy0PFi/FkVhaaI3tkWjqqfNJQ0wRgDovNP6N3KQ==
+evt@*, evt@2.0.0-beta.45:
+  version "2.0.0-beta.45"
+  resolved "https://registry.yarnpkg.com/evt/-/evt-2.0.0-beta.45.tgz#8b1a81e1376f6eba254f4ec9865531b2ed118a3e"
+  integrity sha512-Me2/YMCjxLgz4y0aWKIxykyJth2LHKqxc91XnsIN39IRksknObBR9Pjmxwpnhmd1lNCR6mPFv/vBt46iQWtI9g==
   dependencies:
     minimal-polyfills "^2.2.1"
     run-exclusive "^2.2.14"
@@ -8753,6 +8753,14 @@ i18nifty@^1.2.0:
   integrity sha512-6yHX3xjy5aq+rAOKnnDQcuLXHGifFxlU/ZHdWzJSwjwhMsB4qZwqVkjCcaaMgjR7woqFHe2WHmRTiLZ7LTDD8Q==
   dependencies:
     powerhooks "^0.20.0"
+    tsafe "^0.10.0"
+
+i18nifty@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.3.tgz#f7ce4f08ae4f8b50c4dbff82823003f170940796"
+  integrity sha512-XGoSAQ3VwVDXB/0ha37aHaQJ/8j1uILhZEf87dUkPAoWU1Hmu/X/cg6DpKnTNC+KO/fay/g8ZLkiYH8pGcI1PQ==
+  dependencies:
+    powerhooks "^0.20.3"
     tsafe "^0.10.0"
 
 iconv-lite@0.4.24:
@@ -10126,19 +10134,19 @@ keycloak-js@^18.0.0:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
 
-keycloakify@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-5.5.0.tgz#5d50e9f8c6a3728e79d76d9e3b32069651b63df8"
-  integrity sha512-EGAf8Mu+hxM7WKrhjzbS7dsBukXiE21poSsat4VLJRQzPFvmZSyNfWEPBQyTSeZv594HULRiGepZDHemwpGErw==
+keycloakify@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-5.6.3.tgz#a299dc32251f56ccd0d0b6dea524527de670a3ff"
+  integrity sha512-+ambdRv4zFxkOdPdKVDQ7uyjiRXBRtRy/fjZfgrVpQlHrNMyjWGVzAM8qow8Ci6ntsrThngFeEFYqpq/ViDYZw==
   dependencies:
     "@octokit/rest" "^18.12.0"
     cheerio "^1.0.0-rc.5"
     cli-select "^1.1.2"
-    evt "2.0.0-beta.44"
+    evt "2.0.0-beta.45"
     memoizee "^0.4.15"
     minimal-polyfills "^2.2.1"
     path-browserify "^1.0.1"
-    powerhooks "^0.20.1"
+    powerhooks "^0.20.3"
     react-markdown "^5.0.3"
     scripting-tools "^0.19.13"
     tsafe "^0.10.0"
@@ -11347,18 +11355,18 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.45.6:
-  version "0.45.6"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.45.6.tgz#22c08f30095b2e66dd6ceca1b9290a94e2f99b66"
-  integrity sha512-in+86d8p3zbFU7mIb0jiexDB8YyK+kflkReE3NwX5ZFpIfX2HlK98P0mknlM5V8lOJt81xxhTyF5+NPCBOqbdg==
+onyxia-ui@^0.45.8:
+  version "0.45.8"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.45.8.tgz#2ee2170d14214661d1342d564bb27d09407560c5"
+  integrity sha512-ltF8aXbGt4DHiWAxhEpjla+0KFSAQwLFLlEvADAeSQK0gRKTv4YxQ6AOx4pMJ+Hj+Pw/Ct9S9AN88qUjYasrRQ==
   dependencies:
     "@mui/icons-material" "^5.8.2"
     color "3.1.3"
-    evt "2.0.0-beta.44"
+    evt "2.0.0-beta.45"
     material-design-icons "^3.0.1"
     memoizee "^0.4.15"
     minimal-polyfills "^2.2.1"
-    powerhooks "^0.20.1"
+    powerhooks "^0.20.3"
     run-exclusive "^2.2.14"
     tsafe "^0.10.0"
     tss-react "^3.7.0"
@@ -12580,12 +12588,12 @@ postcss@^8.1.0:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-powerhooks@0.20.1, powerhooks@^0.20.0, powerhooks@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.1.tgz#54e3b391c6037bc39baa9bbf6e94dd8ebbe54126"
-  integrity sha512-f8TmfKEUqpmcS4xsWPGeKuF3ybXR4eHjiOki1Ww/JFiCn1nLr3YkpGKvdF7+WkStv796WqSOi4kqeRN71mLt5g==
+powerhooks@0.20.3, powerhooks@^0.20.0, powerhooks@^0.20.3:
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.3.tgz#0a2bb6ac3d6bae527df5889e107f76c7ccca8104"
+  integrity sha512-SrcDdt+Lo+TGtJHRLyrWS6glN3bfjBZETU+LIWWD5ohvwR8ofBcMiPML/sqecPhF+9sRzAdOrimHcQSQxetvSg==
   dependencies:
-    evt "2.0.0-beta.44"
+    evt "2.0.0-beta.45"
     memoizee "^0.4.15"
     resize-observer-polyfill "^1.5.1"
     tsafe "^0.10.0"
@@ -14097,10 +14105,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.18.0.tgz#1b5fb14a931c38f929a065f70d02041ef2e1e85b"
-  integrity sha512-W4cnZH6CMt5w06TYP5BshCQ1zLdSJ/obbWvsVzgmXov53UZ/zttt7i/Pis3tg11Ykh8FohseoqYkYV0gjH9YIQ==
+sill-api@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.18.1.tgz#ceab70aad9f8c5262b638aee15c275ce9eff90a8"
+  integrity sha512-tqqGN27Ut7bZfw/D+6TKCtioTjDXJ9XRNUhl7EgW/8gEHLglm9lZRGJMyA+QlIwWCtivhDl12EIQcR/qL0Bauw==
   dependencies:
     "@trpc/server" "^9.24.0"
     compression "^1.7.4"

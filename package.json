@@ -45,7 +45,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.18.0",
+        "sill-api": "^0.18.1",
         "source-map-explorer": "^2.5.2",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2"
@@ -59,17 +59,17 @@
         "@trpc/client": "^9.24.0",
         "comment-json": "^3.0.0",
         "cra-envs": "^1.2.1",
-        "evt": "2.0.0-beta.44",
-        "i18nifty": "^1.2.0",
+        "evt": "2.0.0-beta.45",
+        "i18nifty": "^1.3.3",
         "jwt-simple": "^0.5.6",
         "keycloak-js": "^18.0.0",
-        "keycloakify": "^5.5.0",
+        "keycloakify": "^5.6.3",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",
-        "onyxia-ui": "^0.45.6",
+        "onyxia-ui": "^0.45.8",
         "path": "^0.12.7",
-        "powerhooks": "^0.20.1",
+        "powerhooks": "^0.20.3",
         "react": "^17.0.2",
         "react-async-hook": "^3.6.1",
         "react-dom": "^17.0.2",
@@ -87,9 +87,9 @@
     },
     "resolutions": {
         "babel-loader": "8.1.0",
-        "evt": "2.0.0-beta.44",
+        "evt": "2.0.0-beta.45",
         "tss-react": "3.7.0",
-        "powerhooks": "0.20.1"
+        "powerhooks": "0.20.3"
     },
     "eslintConfig": {
         "plugins": [
