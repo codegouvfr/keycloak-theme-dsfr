@@ -1,3 +1,7 @@
+### **0.22.2** (2022-07-05)  
+  
+- Fix problems with GitHubPicker    
+  
 ### **0.22.1** (2022-07-05)  
   
 - Display relevent message when email already exists    
