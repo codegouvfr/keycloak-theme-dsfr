@@ -1,3 +1,7 @@
+### **0.22.1** (2022-07-05)  
+  
+- Display relevent message when email already exists    
+  
 ## **0.22.0** (2022-07-04)  
   
 - Update inhouse dependencies  
