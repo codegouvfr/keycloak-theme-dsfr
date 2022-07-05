@@ -107,6 +107,7 @@ console.log(emailDomains);
                     "mairiedefigari.corsica",
                     "polytechnique.edu",
                     "cdg01.fr",
+                    "strasbourg.eu",
                 ],
             )
             .map(domain => domain.toLowerCase())
