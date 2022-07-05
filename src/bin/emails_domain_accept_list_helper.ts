@@ -106,6 +106,7 @@ console.log(emailDomains);
                     "asp-public.fr",
                     "mairiedefigari.corsica",
                     "polytechnique.edu",
+                    "cdg01.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
