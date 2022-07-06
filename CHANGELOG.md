@@ -1,3 +1,7 @@
+### **0.22.3** (2022-07-06)  
+  
+- Fix email validation page    
+  
 ### **0.22.2** (2022-07-05)  
   
 - Fix problems with GitHubPicker    
