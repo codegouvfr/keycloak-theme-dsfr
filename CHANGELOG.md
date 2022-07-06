@@ -1,3 +1,7 @@
+### **0.22.4** (2022-07-06)  
+  
+- Add play icon    
+  
 ### **0.22.3** (2022-07-06)  
   
 - Fix email validation page    
