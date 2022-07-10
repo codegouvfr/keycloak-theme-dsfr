@@ -1,3 +1,27 @@
+### **0.22.4** (2022-07-06)  
+  
+- Add play icon    
+  
+### **0.22.3** (2022-07-06)  
+  
+- Fix email validation page    
+  
+### **0.22.2** (2022-07-05)  
+  
+- Fix problems with GitHubPicker    
+  
+### **0.22.1** (2022-07-05)  
+  
+- Display relevent message when email already exists    
+  
+## **0.22.0** (2022-07-04)  
+  
+- Update inhouse dependencies  
+- Search by alike software that are not in the SILL  
+- update domain name  
+- update emails  
+- Update domains    
+  
 ### **0.21.6** (2022-06-28)  
   
   

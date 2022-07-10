@@ -63,7 +63,7 @@ export const Tags = memo((props: Props) => {
     return (
         <div>
             <Text typo="caption" className={classes.caption}>
-                {t("tags")}
+                {t("tags")} *
             </Text>
             {selectedTags.map(tag => (
                 <CustomTag

@@ -280,7 +280,12 @@ export const RegisterUserProfile = memo(
                                                         if (
                                                             displayableErrors.length !==
                                                                 0 &&
-                                                            attribute.name !== "email"
+                                                            (attribute.name !== "email" ||
+                                                                displayableErrors.find(
+                                                                    ({ validatorName }) =>
+                                                                        validatorName !==
+                                                                        "pattern",
+                                                                ) !== undefined)
                                                         ) {
                                                             return displayableErrors.map(
                                                                 ({ errorMessage }, i) => (
