@@ -14,6 +14,7 @@ import { createResolveLocalizedString } from "i18nifty";
 import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { same } from "evt/tools/inDepth/same";
 import { arrDiff } from "evt/tools/reducers/diff";
+import type { SoftwareRef } from "sill-api";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -285,6 +286,14 @@ export const thunks = {
         (): ThunkAction =>
         async (...args) => {
             const [dispatch, getState, { sillApiClient, oidcClient }] = args;
+
+            {
+                const state = getState().catalog;
+
+                if (state.stateDescription === "ready" || state.isFetching) {
+                    return;
+                }
+            }
 
             dispatch(actions.catalogsFetching());
 
@@ -714,11 +723,33 @@ export const selectors = (() => {
         },
     );
 
+    const softwareRefs = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+
+        const { softwares } = state;
+
+        return [
+            ...softwares.map(
+                ({ id }): SoftwareRef.Known => ({
+                    "isKnown": true,
+                    "softwareId": id,
+                }),
+            ),
+            ...softwares
+                .map(({ parentSoftware }) => parentSoftware)
+                .filter(exclude(undefined)),
+            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares).flat(),
+        ].reduce(...removeDuplicates<SoftwareRef>(same));
+    });
+
     return {
         filteredSoftwares,
         alikeSoftwares,
         softwareNameBySoftwareId,
         searchResultCount,
+        softwareRefs,
     };
 })();
 

@@ -241,9 +241,6 @@ const {
                 "name": "Software's name",
                 "name helper": "What is the name of the software?",
                 "should be an integer": "Should be an integer",
-                "isPresentInSupportContract": "Is present in support contract",
-                "isPresentInSupportContract helper":
-                    "Is the software listed in the support contract (if in doubt say no)",
                 "create software": "Done",
                 "update software": "Update software info",
                 "versionMin": "Minimal version",
@@ -549,10 +546,6 @@ const {
                 "isFromFrenchPublicService helper":
                     "Est-ce que le logicel est développé par le service public francais?",
                 "should be an integer": "Devrait être un identifiant numérique",
-                "isPresentInSupportContract":
-                    "Couvert par le marché de support logiciels libres",
-                "isPresentInSupportContract helper":
-                    "Est présent dans le marché de support - dans le doute, laisser à faux",
                 "license": "Licence",
                 "license helper": "Licence du logiciel (GNU GPL, BSD, etc.)",
                 "mandatory field": "Ce champ est obligatoire",

@@ -45,7 +45,7 @@ import * as fs from "fs";
 
 const webAppProjectRootDirPath = pathJoin(__dirname, "..", "..");
 
-const inHouseModulePeerDepNames = ["powerhooks", "tss-react"];
+const inHouseModulePeerDepNames: string[] = ["onyxia-ui"];
 
 const inHouseModuleNames = (() => {
     const inHouseModuleNamesFromArgv = process.argv.slice(2);
@@ -54,13 +54,15 @@ const inHouseModuleNames = (() => {
         ? inHouseModuleNamesFromArgv
         : [
               ...inHouseModulePeerDepNames,
-              "onyxia-ui",
               "keycloakify",
               "evt",
               "tsafe",
               "cra-envs",
               "redux-clean-architecture",
               "github-pages-plugin-for-type-route",
+              "powerhooks",
+              "tss-react",
+              "i18nifty",
           ];
 })();
 

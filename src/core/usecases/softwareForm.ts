@@ -32,11 +32,11 @@ const fieldNames = [
     "function",
     "name",
     "isFromFrenchPublicService",
-    "isPresentInSupportContract",
     "license",
     "versionMin",
     "agentWorkstation",
     "tags",
+    "alikeSoftwares",
 ] as const;
 
 assert<Equals<typeof fieldNames[number], FieldName>>();
@@ -91,11 +91,11 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "function": "",
     "name": "",
     "isFromFrenchPublicService": false,
-    "isPresentInSupportContract": false,
     "license": "",
     "versionMin": "",
     "agentWorkstation": true,
     "tags": [],
+    "alikeSoftwares": [],
 };
 
 export const { name, reducer, actions } = createSlice({

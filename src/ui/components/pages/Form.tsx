@@ -1,4 +1,4 @@
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, memo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { makeStyles } from "ui/theme";
@@ -15,7 +15,6 @@ import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
 import { useSplashScreen } from "onyxia-ui";
 import { objectKeys } from "tsafe/objectKeys";
-import { Equals } from "tsafe";
 import { TextField } from "onyxia-ui/TextField";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -27,6 +26,11 @@ import { DeclareOneselfReferentDialog } from "ui/components/shared/ReferentDialo
 import type { DeclareOneselfReferentDialogProps } from "ui/components/shared/ReferentDialogs";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Tags } from "ui/components/shared/Tags";
+import type { SoftwareRef } from "sill-api";
+import { exclude } from "tsafe/exclude";
+import type { Link } from "type-route";
+import MuiLink from "@mui/material/Link";
+import { Text } from "ui/theme";
 
 Form.routeGroup = createGroup([routes.form]);
 
@@ -44,18 +48,23 @@ export function Form(props: Props) {
 
     const { t } = useTranslation({ Form });
 
-    const { softwareFormThunks } = useThunks();
+    const { softwareFormThunks, catalogThunks } = useThunks();
 
     const { isSubmittable } = useSelector(selectors.softwareForm.isSubmittable);
     const { displayableFieldErrorByFieldName } = useSelector(
         selectors.softwareForm.displayableFieldErrorByFieldName,
     );
     const state = useSelector(state => state.softwareForm);
+    const { softwareRefs } = useSelector(selectors.catalog.softwareRefs);
+    const { softwareNameBySoftwareId } = useSelector(
+        selectors.catalog.softwareNameBySoftwareId,
+    );
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
         softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
+        catalogThunks.fetchCatalog();
     }, [route.params.softwareId]);
 
     useEffect(() => {
@@ -110,12 +119,13 @@ export function Form(props: Props) {
         DeclareOneselfReferentDialogProps["onAnswer"]
     >(createReferentParams => softwareFormThunks.submit({ createReferentParams }));
 
-    if (state.stateDescription !== "form ready") {
+    if (state.stateDescription !== "form ready" || softwareRefs === undefined) {
         return null;
     }
 
     assert(isSubmittable !== undefined);
     assert(displayableFieldErrorByFieldName !== undefined);
+    assert(softwareNameBySoftwareId !== undefined);
 
     return (
         <>
@@ -144,6 +154,52 @@ export function Form(props: Props) {
                             <Fragment key={fieldName}>
                                 {(() => {
                                     const value = state.valueByFieldName[fieldName];
+
+                                    if (fieldName === "tags") {
+                                        const tags = state.valueByFieldName[fieldName];
+
+                                        return (
+                                            <Tags
+                                                tags={state.tags}
+                                                selectedTags={tags}
+                                                onCreateNewTag={tag =>
+                                                    softwareFormThunks.createTag({
+                                                        tag,
+                                                    })
+                                                }
+                                                onSelectedTags={selectedTags =>
+                                                    softwareFormThunks.changeFieldValue({
+                                                        "fieldName": "tags",
+                                                        "value": selectedTags,
+                                                    })
+                                                }
+                                            />
+                                        );
+                                    }
+                                    if (fieldName === "alikeSoftwares") {
+                                        const alikeSoftwares =
+                                            state.valueByFieldName[fieldName];
+
+                                        return (
+                                            <AlikeSoftwares
+                                                alikeSoftwares={alikeSoftwares}
+                                                onAlikeSoftwaresChange={alikeSoftwares =>
+                                                    softwareFormThunks.changeFieldValue({
+                                                        "fieldName": "alikeSoftwares",
+                                                        "value": alikeSoftwares,
+                                                    })
+                                                }
+                                                softwareRefs={softwareRefs}
+                                                softwareNameBySoftwareId={
+                                                    softwareNameBySoftwareId
+                                                }
+                                                getLinkToSoftwareCard={softwareName =>
+                                                    routes.card({ name: softwareName })
+                                                        .link
+                                                }
+                                            />
+                                        );
+                                    }
 
                                     switch (typeof value) {
                                         case "string":
@@ -234,29 +290,9 @@ export function Form(props: Props) {
                                                     </FormHelperText>
                                                 </div>
                                             );
-                                        case "object":
-                                            return (
-                                                <Tags
-                                                    tags={state.tags}
-                                                    selectedTags={value}
-                                                    onCreateNewTag={tag =>
-                                                        softwareFormThunks.createTag({
-                                                            tag,
-                                                        })
-                                                    }
-                                                    onSelectedTags={selectedTags =>
-                                                        softwareFormThunks.changeFieldValue(
-                                                            {
-                                                                "fieldName": "tags",
-                                                                "value": selectedTags,
-                                                            },
-                                                        )
-                                                    }
-                                                />
-                                            );
                                     }
 
-                                    assert<Equals<typeof value, never>>();
+                                    throw new Error("never");
                                 })()}
                             </Fragment>
                         ))}
@@ -310,10 +346,63 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
     },
 }));
 
+const { AlikeSoftwares } = (() => {
+    type Props = {
+        alikeSoftwares: SoftwareRef[];
+        onAlikeSoftwaresChange: (alikeSoftwares: SoftwareRef[]) => void;
+        softwareRefs: SoftwareRef[];
+        softwareNameBySoftwareId: Record<number, string>;
+        getLinkToSoftwareCard: (softwareName: string) => Link;
+    };
+
+    const AlikeSoftwares = memo((props: Props) => {
+        const {
+            alikeSoftwares,
+            /*onAlikeSoftwaresChange, softwares,*/ getLinkToSoftwareCard,
+            softwareNameBySoftwareId,
+        } = props;
+
+        return (
+            <div>
+                <div>
+                    <Text typo="label 2">Similar to</Text>
+                    {alikeSoftwares
+                        .map(software => (software.isKnown ? software : undefined))
+                        .filter(exclude(undefined))
+                        .map(({ softwareId }) => (
+                            <MuiLink
+                                key={softwareId}
+                                target="_blank"
+                                {...getLinkToSoftwareCard(
+                                    softwareNameBySoftwareId[softwareId],
+                                )}
+                            >
+                                {softwareNameBySoftwareId[softwareId]}
+                            </MuiLink>
+                        ))}
+                </div>
+                <div>
+                    <Text typo="label 2">Alternative to</Text>
+                    {alikeSoftwares
+                        .map(software => (software.isKnown ? undefined : software))
+                        .filter(exclude(undefined))
+                        .map(({ softwareName }) => (
+                            <Text key={softwareName} typo="body 1">
+                                {softwareName}
+                            </Text>
+                        ))}
+                </div>
+            </div>
+        );
+    });
+
+    return { AlikeSoftwares };
+})();
+
 export const { i18n } = declareComponentKeys<
     | FieldErrorMessageKey
-    | FieldName
-    | `${FieldName} helper`
+    | Exclude<FieldName, "alikeSoftwares">
+    | `${Exclude<FieldName, "alikeSoftwares">} helper`
     | "update software"
     | "create software"
     | "cancel"
