@@ -575,7 +575,7 @@ export const selectors = (() => {
                 software.dereferencing !== undefined ? undefined : software,
             )
             .filter(exclude(undefined))
-            .filter(({ tags }) => arrDiff(tags, query.tags).added.length === 0)
+            .filter(({ tags }) => arrDiff(tags ?? [], query.tags).added.length === 0)
             .filter(
                 queryString === ""
                     ? () => true
@@ -595,7 +595,7 @@ export const selectors = (() => {
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
-                              ...alikeSoftwares
+                              ...(alikeSoftwares ?? [])
                                   .map(alikeSoftware =>
                                       alikeSoftware.isKnown
                                           ? undefined
@@ -607,7 +607,7 @@ export const selectors = (() => {
                                       ? []
                                       : [parentSoftware.softwareName]
                                   : []),
-                              ...tags,
+                              ...(tags ?? []),
                               ...(["description", "label"] as const)
                                   .map(prop =>
                                       languages
@@ -708,7 +708,7 @@ export const selectors = (() => {
             return filteredSoftwares
                 .slice(0, n)
                 .map(({ alikeSoftwares }) =>
-                    alikeSoftwares.map(softwareRef =>
+                    (alikeSoftwares ?? []).map(softwareRef =>
                         softwareRef.isKnown
                             ? {
                                   "software": state.softwares.find(
@@ -740,7 +740,7 @@ export const selectors = (() => {
             ...softwares
                 .map(({ parentSoftware }) => parentSoftware)
                 .filter(exclude(undefined)),
-            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares).flat(),
+            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares ?? []).flat(),
         ].reduce(...removeDuplicates<SoftwareRef>(same));
     });
 

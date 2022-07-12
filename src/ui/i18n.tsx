@@ -23,7 +23,8 @@ const {
     | typeof import("ui/components/shared/ReferentDialogs").i18n
     | typeof import("ui/components/App/App").i18n
     | typeof import("ui/components/pages/FourOhFour").i18n
-    | typeof import("ui/components/pages/Form").i18n
+    | typeof import("ui/components/pages/Form/Form").i18n
+    | typeof import("ui/components/pages/Form/FormAlikeSoftwares").i18n
     | typeof import("ui/components/pages/SoftwareCard").i18n
     | typeof import("ui/components/pages/Account/Account").i18n
     | typeof import("ui/components/pages/Account/tabs/AccountInfoTab").i18n
@@ -268,6 +269,12 @@ const {
                 "change tags": ({ selectedTagsCount }) =>
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
                 "confirm give up": "The software haven't been updated yet, confirm quit?",
+            },
+            "FormAlikeSoftwares": {
+                "done": "Done",
+                "similar to": "Similar software in the SILL",
+                "add softwares": "Add software",
+                "alternative to": "Alternative to",
             },
             "SoftwareCard": {
                 "update software information": "Update software information",
@@ -577,6 +584,12 @@ const {
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
                 "confirm give up":
                     "Le logiciel n'a pas été mis à jour, confirmer l'abandon?",
+            },
+            "FormAlikeSoftwares": {
+                "done": "OK",
+                "similar to": "Logiciel similaire du SILL",
+                "add softwares": "Ajouter des logiciels",
+                "alternative to": "Alternative à",
             },
             "SoftwareCard": {
                 "update software information":

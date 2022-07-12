@@ -737,7 +737,12 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 
 export const pure = (() => {
     const { getIsOptionalField } = (() => {
-        const optionalFields = ["wikidataId", "comptoirDuLibreId"] as const;
+        const optionalFields = [
+            "wikidataId",
+            "comptoirDuLibreId",
+            "tags",
+            "alikeSoftwares",
+        ] as const;
 
         assert<
             Equals<typeof optionalFields[number], keyof PickOptionals<PartialSoftwareRow>>

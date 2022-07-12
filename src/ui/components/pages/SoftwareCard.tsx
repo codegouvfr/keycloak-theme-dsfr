@@ -347,7 +347,7 @@ export function SoftwareCard(props: Props) {
                     helperText={t("sill id helper")}
                     text={`${software.id}`}
                 />
-                {software.tags.length !== 0 && (
+                {software.tags !== undefined && software.tags.length !== 0 && (
                     <DescriptiveField
                         type="text"
                         title={t("tags")}
@@ -453,27 +453,34 @@ export function SoftwareCard(props: Props) {
                         }
                     />
                 )}
-                {software.alikeSoftwares.length !== 0 && (
-                    <DescriptiveField
-                        type="text"
-                        title={t("alike softwares")}
-                        helperText={t("alike softwares helper")}
-                        text={software.alikeSoftwares.map((softwareRef, i) => (
-                            <Fragment key={i}>
-                                {softwareRef.isKnown ? (
-                                    <MuiLink
-                                        {...openLinkBySoftwareId[softwareRef.softwareId]}
-                                    >
-                                        {softwareNameBySoftwareId[softwareRef.softwareId]}
-                                    </MuiLink>
-                                ) : (
-                                    softwareRef.softwareName
-                                )}{" "}
-                                &nbsp;
-                            </Fragment>
-                        ))}
-                    />
-                )}
+                {software.alikeSoftwares !== undefined &&
+                    software.alikeSoftwares.length !== 0 && (
+                        <DescriptiveField
+                            type="text"
+                            title={t("alike softwares")}
+                            helperText={t("alike softwares helper")}
+                            text={software.alikeSoftwares.map((softwareRef, i) => (
+                                <Fragment key={i}>
+                                    {softwareRef.isKnown ? (
+                                        <MuiLink
+                                            {...openLinkBySoftwareId[
+                                                softwareRef.softwareId
+                                            ]}
+                                        >
+                                            {
+                                                softwareNameBySoftwareId[
+                                                    softwareRef.softwareId
+                                                ]
+                                            }
+                                        </MuiLink>
+                                    ) : (
+                                        softwareRef.softwareName
+                                    )}{" "}
+                                    &nbsp;
+                                </Fragment>
+                            ))}
+                        />
+                    )}
                 <DescriptiveField
                     type="text"
                     title={t("workstation")}

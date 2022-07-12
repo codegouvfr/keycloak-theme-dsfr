@@ -214,7 +214,7 @@ export const CatalogCard = memo((props: Props) => {
                         );
                     })()}
 
-                    {software.tags.map(tag => (
+                    {(software.tags ?? []).map(tag => (
                         <CustomTag
                             key={tag}
                             tag={tag}
