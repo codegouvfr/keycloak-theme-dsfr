@@ -8747,14 +8747,6 @@ husky@^4.3.8:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-i18nifty@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.2.0.tgz#b7c9be6b2e6402c92db4c6f7def4391807745b90"
-  integrity sha512-6yHX3xjy5aq+rAOKnnDQcuLXHGifFxlU/ZHdWzJSwjwhMsB4qZwqVkjCcaaMgjR7woqFHe2WHmRTiLZ7LTDD8Q==
-  dependencies:
-    powerhooks "^0.20.0"
-    tsafe "^0.10.0"
-
 i18nifty@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.3.tgz#f7ce4f08ae4f8b50c4dbff82823003f170940796"
@@ -11355,10 +11347,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.45.11:
-  version "0.45.11"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.45.11.tgz#294c072d19ebcb4d51b64b722508bf39ffcb3e45"
-  integrity sha512-i68PBURx/qLtxk8H6DMQ1l1/M6viQkV5LF1WxUzs+3DO8NnwN+mBUBTlP76M4IW1auEJEmGr2K7PU5ZizbVqkA==
+onyxia-ui@^0.46.0:
+  version "0.46.0"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.46.0.tgz#27f3ec2c5763c5b7f7013e24096fb248ce95643b"
+  integrity sha512-65ZipDrtYxxCcaSSIbVPrnKUuzf/ta+WM4Yst9IgzDrzqk/rtzVfNhDjc2TPVO0B+W3FEe5rwqIB4MqcOVJoAA==
   dependencies:
     "@mui/icons-material" "^5.8.2"
     color "3.1.3"
@@ -12588,7 +12580,7 @@ postcss@^8.1.0:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-powerhooks@0.20.3, powerhooks@^0.20.0, powerhooks@^0.20.3:
+powerhooks@0.20.3, powerhooks@^0.20.3:
   version "0.20.3"
   resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.3.tgz#0a2bb6ac3d6bae527df5889e107f76c7ccca8104"
   integrity sha512-SrcDdt+Lo+TGtJHRLyrWS6glN3bfjBZETU+LIWWD5ohvwR8ofBcMiPML/sqecPhF+9sRzAdOrimHcQSQxetvSg==
@@ -14105,14 +14097,14 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.18.1:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.18.1.tgz#ceab70aad9f8c5262b638aee15c275ce9eff90a8"
-  integrity sha512-tqqGN27Ut7bZfw/D+6TKCtioTjDXJ9XRNUhl7EgW/8gEHLglm9lZRGJMyA+QlIwWCtivhDl12EIQcR/qL0Bauw==
+sill-api@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.19.0.tgz#369de533013a0c0916558f5a435d9cfc65a86acb"
+  integrity sha512-5564isrxE1hJ5c47iE1FUIzk1V6RGfaeAcb3XOC/LqM6iZrXFfiZnvCpjhR33csDMtxReBMSjKNCj2UyNP6O7w==
   dependencies:
     "@trpc/server" "^9.24.0"
     compression "^1.7.4"
-    i18nifty "^1.2.0"
+    i18nifty "^1.3.3"
     jwt-simple "^0.5.6"
     tsafe "^0.10.0"
     zod "^3.17.3"
