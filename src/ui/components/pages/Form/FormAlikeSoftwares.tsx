@@ -39,7 +39,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
         softwareNameBySoftwareId,
     } = props;
 
-    const { cx, classes } = useStyles();
+    const { classes } = useStyles();
 
     const knownAlikeSoftwares = useMemo(
         () =>
@@ -84,7 +84,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
     );
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <Known
                 alikeSoftwares={knownAlikeSoftwares}
                 softwareRefs={knownSoftwareRefs}
@@ -93,6 +93,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
                 getLinkToSoftwareCard={getLinkToSoftwareCard}
             />
             <Unknown
+                className={classes.unknown}
                 alikeSoftwares={unknownAlikeSoftwares}
                 softwareRefs={unknownSoftwareRefs}
                 onAlikeSoftwaresChange={onUnknownAlikeSoftwaresChange}
@@ -101,9 +102,11 @@ export const FormAlikeSoftwares = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles({ "name": { FormAlikeSoftwares } })({
-    "root": {},
-});
+const useStyles = makeStyles({ "name": { FormAlikeSoftwares } })(theme => ({
+    "unknown": {
+        "marginTop": theme.spacing(4),
+    },
+}));
 
 type KnownProps = {
     alikeSoftwares: SoftwareRef.Known[];
@@ -236,6 +239,7 @@ const { Known } = (() => {
 })();
 
 type UnknownProps = {
+    className?: string;
     alikeSoftwares: SoftwareRef.Unknown[];
     onAlikeSoftwaresChange: (alikeSoftwares: SoftwareRef.Unknown[]) => void;
     softwareRefs: SoftwareRef.Unknown[];
@@ -244,6 +248,7 @@ type UnknownProps = {
 const { Unknown } = (() => {
     const Unknown = memo((props: UnknownProps) => {
         const {
+            className,
             alikeSoftwares,
             onAlikeSoftwaresChange,
             softwareRefs: softwareRefs_props,
@@ -309,7 +314,7 @@ const { Unknown } = (() => {
         );
 
         return (
-            <div>
+            <div className={className}>
                 <Text typo="caption" className={classes.caption}>
                     {t("alternative to")}
                 </Text>
