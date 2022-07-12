@@ -134,7 +134,7 @@ const { Known } = (() => {
 
         const { t } = useTranslation({ FormAlikeSoftwares });
 
-        const { classes, css } = useStyles();
+        const { classes, css, cx } = useStyles();
 
         const onSelectOption = useConstCallback<PickerProps["onSelectedOption"]>(params =>
             onAlikeSoftwaresChange(
@@ -187,7 +187,13 @@ const { Known } = (() => {
                             onRemove={onSoftwareTagRemoveFactory(softwareId)}
                         />
                     ))}
-                <CustomTag tag={"x"} className={css({ "opacity": 0 })} />
+                <SoftwareTag
+                    softwareName={"X"}
+                    onRemove={() => {
+                        /*nothing"*/
+                    }}
+                    className={cx(classes.tag, css({ "opacity": 0 }))}
+                />
                 <br />
                 <Button
                     className={classes.button}
@@ -275,7 +281,7 @@ const { Unknown } = (() => {
 
         const { t } = useTranslation({ FormAlikeSoftwares });
 
-        const { classes, css } = useStyles();
+        const { classes, css, cx } = useStyles();
 
         const onSelectOption = useConstCallback<PickerProps["onSelectedOption"]>(
             params => {
@@ -326,7 +332,13 @@ const { Unknown } = (() => {
                         onRemove={onSoftwareTagRemoveFactory(softwareName)}
                     />
                 ))}
-                <CustomTag tag={"x"} className={css({ "opacity": 0 })} />
+                <SoftwareTag
+                    softwareName={"X"}
+                    onRemove={() => {
+                        /*nothing"*/
+                    }}
+                    className={cx(classes.tag, css({ "opacity": 0 }))}
+                />
                 <br />
                 <Button
                     className={classes.button}

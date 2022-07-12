@@ -37,7 +37,7 @@ export const Tags = memo((props: Props) => {
 
     const { t } = useTranslation({ Tags });
 
-    const { classes, theme, css } = useStyles();
+    const { classes, theme, css, cx } = useStyles();
 
     const onSelectedTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
         params => {
@@ -73,7 +73,7 @@ export const Tags = memo((props: Props) => {
                     onRemove={onRemoveFactory(tag)}
                 />
             ))}
-            <CustomTag tag={"x"} className={css({ "opacity": 0 })} />
+            <CustomTag tag={"X"} className={cx(classes.tag, css({ "opacity": 0 }))} />
             <br />
             <Button
                 className={classes.button}
