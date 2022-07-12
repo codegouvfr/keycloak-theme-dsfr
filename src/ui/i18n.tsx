@@ -274,7 +274,7 @@ const {
                 "done": "Done",
                 "similar to": "Similar software in the SILL",
                 "add softwares": "Add software",
-                "alternative to": "Alternative to",
+                "alternative to": "This software is an alternative to",
             },
             "SoftwareCard": {
                 "update software information": "Update software information",
@@ -589,7 +589,7 @@ const {
                 "done": "OK",
                 "similar to": "Logiciel similaire du SILL",
                 "add softwares": "Ajouter des logiciels",
-                "alternative to": "Alternative à",
+                "alternative to": "Ce logiciel est une altérnative à",
             },
             "SoftwareCard": {
                 "update software information":
