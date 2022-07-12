@@ -187,6 +187,15 @@ const { Known } = (() => {
                             onRemove={onSoftwareTagRemoveFactory(softwareId)}
                         />
                     ))}
+                {alikeSoftwares.length === 0 && (
+                    <Text
+                        typo="body 1"
+                        color="disabled"
+                        className={css({ "display": "inline" })}
+                    >
+                        {t("no similar software")}
+                    </Text>
+                )}
                 <SoftwareTag
                     softwareName={"X"}
                     onRemove={() => {
@@ -208,7 +217,7 @@ const { Known } = (() => {
                         })
                     }
                 >
-                    {t("add softwares")}
+                    {t("add")}
                 </Button>
                 <Picker
                     evtAction={evtPickerAction}
@@ -332,6 +341,15 @@ const { Unknown } = (() => {
                         onRemove={onSoftwareTagRemoveFactory(softwareName)}
                     />
                 ))}
+                {alikeSoftwares.length === 0 && (
+                    <Text
+                        typo="body 1"
+                        color="disabled"
+                        className={css({ "display": "inline" })}
+                    >
+                        {t("no alternative")}
+                    </Text>
+                )}
                 <SoftwareTag
                     softwareName={"X"}
                     onRemove={() => {
@@ -353,7 +371,7 @@ const { Unknown } = (() => {
                         })
                     }
                 >
-                    {t("add softwares")}
+                    {t("add")}
                 </Button>
                 <Picker
                     evtAction={evtPickerAction}
@@ -452,5 +470,10 @@ const { SoftwareTag } = (() => {
 })();
 
 export const { i18n } = declareComponentKeys<
-    "done" | "similar to" | "add softwares" | "alternative to" | "add softwares"
+    | "done"
+    | "similar to"
+    | "add"
+    | "alternative to"
+    | "no similar software"
+    | "no alternative"
 >()({ FormAlikeSoftwares });

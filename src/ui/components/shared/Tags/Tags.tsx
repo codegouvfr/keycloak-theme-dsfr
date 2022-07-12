@@ -73,6 +73,15 @@ export const Tags = memo((props: Props) => {
                     onRemove={onRemoveFactory(tag)}
                 />
             ))}
+            {selectedTags.length === 0 && (
+                <Text
+                    typo="body 1"
+                    color="disabled"
+                    className={css({ "display": "inline" })}
+                >
+                    {t("no tags")}
+                </Text>
+            )}
             <CustomTag tag={"X"} className={cx(classes.tag, css({ "opacity": 0 }))} />
             <br />
             <Button
@@ -112,6 +121,7 @@ export const { i18n } = declareComponentKeys<
     | { K: "github picker create tag"; P: { tag: string } }
     | "github picker done"
     | "tags"
+    | "no tags"
 >()({ Tags });
 
 const useStyles = makeStyles()(theme => ({

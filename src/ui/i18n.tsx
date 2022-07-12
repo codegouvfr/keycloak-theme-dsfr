@@ -273,8 +273,10 @@ const {
             "FormAlikeSoftwares": {
                 "done": "Done",
                 "similar to": "Similar software in the SILL",
-                "add softwares": "Add software",
+                "add": "Add",
                 "alternative to": "This software is an alternative to",
+                "no similar software": "There isn't any similar software in the SILL",
+                "no alternative": "Not an alternative to any other software",
             },
             "SoftwareCard": {
                 "update software information": "Update software information",
@@ -344,6 +346,7 @@ const {
                 "github picker create tag": ({ tag }) => `Create the "${tag}" tag`,
                 "github picker done": "Done",
                 "tags": "Tags",
+                "no tags": "No tags",
             },
         },
         "fr": {
@@ -588,8 +591,10 @@ const {
             "FormAlikeSoftwares": {
                 "done": "OK",
                 "similar to": "Logiciel similaire du SILL",
-                "add softwares": "Ajouter des logiciels",
+                "add": "Ajouter",
                 "alternative to": "Ce logiciel est une altérnative à",
+                "no similar software": "Il n'y a pas de logiciel simillaire dans le SILL",
+                "no alternative": "Pas une alternarive",
             },
             "SoftwareCard": {
                 "update software information":
@@ -667,6 +672,7 @@ const {
                 "github picker create tag": ({ tag }) => `Crée le tag "${tag}"`,
                 "github picker done": "Ok",
                 "tags": "Tags",
+                "no tags": "Aucun tag",
             },
             /* spell-checker: enable */
         },
