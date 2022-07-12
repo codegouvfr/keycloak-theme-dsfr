@@ -385,6 +385,8 @@ const { Unknown } = (() => {
                     )}
                     texts={{
                         "done": t("done"),
+                        "create option": ({ optionLabel }) =>
+                            `${t("add")} ${optionLabel}`,
                     }}
                 />
             </div>
