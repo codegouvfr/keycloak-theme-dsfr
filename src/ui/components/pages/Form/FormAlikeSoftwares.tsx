@@ -398,7 +398,10 @@ const { SoftwareTag } = (() => {
                             className={classes.icon}
                             iconId="cancel"
                             size="small"
-                            onClick={onRemove}
+                            onClick={e => {
+                                e.stopPropagation();
+                                onRemove();
+                            }}
                         />
                     </div>
                 }
