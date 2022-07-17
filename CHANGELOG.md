@@ -1,3 +1,15 @@
+## **0.23.0** (2022-07-12)  
+  
+- Alow crearing alternative software  
+- Add text when there is no sellection  
+- Rephrase  
+- Fix moving button  
+- add spacing  
+- Fix link tag remove  
+- Add missing file  
+- Alike software selection implem  
+- Setup things for being able to edit aternative to and similar to    
+  
 ### **0.22.4** (2022-07-06)  
   
 - Add play icon    
