@@ -53,9 +53,7 @@ export function Terms(props: Props) {
     })();
 
     const { data: tos } = useQuery(["tos", tosUrl], () =>
-        tosUrl === undefined
-            ? Promise.resolve(null)
-            : fetch(tosUrl).then(res => res.text()),
+        tosUrl === undefined ? undefined : fetch(tosUrl).then(res => res.text()),
     );
 
     {
@@ -76,7 +74,7 @@ export function Terms(props: Props) {
 
     const { classes, cx } = useStyles();
 
-    if (tos === null) {
+    if (tosUrl === undefined) {
         return <Text typo="display heading">{t("no terms")}</Text>;
     }
 
