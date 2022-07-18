@@ -6,6 +6,9 @@ import { ThemeProvider, splashScreen, getViewPortConfig } from "./theme/theme";
 import { App } from "ui/components/App";
 import { KcApp, kcContext } from "ui/components/KcApp";
 import "./valuesCarriedOverToKc/env";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 reactDom.render(
     <RouteProvider>
@@ -17,7 +20,9 @@ reactDom.render(
                 <KcApp kcContext={kcContext} />
             ) : (
                 <CoreProvider>
-                    <App />
+                    <QueryClientProvider client={queryClient}>
+                        <App />
+                    </QueryClientProvider>
                 </CoreProvider>
             )}
         </ThemeProvider>

@@ -51,6 +51,7 @@ const routeDefs = {
         ({ lang }) => `/${lang}/software`,
     ),
     "fourOhFour": defineRoute("/404"),
+    "terms": defineRoute("/terms"),
 };
 
 export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);

@@ -32,6 +32,7 @@ const {
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCard").i18n
     | typeof import("ui/components/pages/Catalog").i18n
+    | typeof import("ui/components/pages/Terms").i18n
     | typeof import("ui/components/App/Footer").i18n
     | typeof import("ui/components/KcApp/Login/LoginDivider").i18n
     | typeof import("ui/components/KcApp/Login").i18n
@@ -208,6 +209,10 @@ const {
                         to learn more about what is the SILL.{" "}
                     </>
                 ),
+            },
+            "Terms": {
+                "no terms":
+                    "No terms of service document provided for this instance of the SILL",
             },
             "Footer": {
                 "contribute": "Contribute",
@@ -527,6 +532,10 @@ const {
                         missions
                     </>
                 ),
+            },
+            "Terms": {
+                "no terms":
+                    "Pas de document de terms et condition fournis pour cette instance du SILL",
             },
             "Footer": {
                 "contribute": "Contribuer au projet",

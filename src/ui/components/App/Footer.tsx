@@ -7,24 +7,17 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Icon } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
+import type { Link } from "type-route";
 
 export type Props = {
-    className?: string;
     packageJsonVersion: string;
-    contributeUrl: string;
-    tosUrl: string | undefined;
+    className?: string;
+    termsLink: Link;
 };
 
 export const Footer = memo(
     forwardRef<any, Props>((props, ref) => {
-        const {
-            contributeUrl,
-            tosUrl,
-            packageJsonVersion,
-            className,
-            children,
-            ...rest
-        } = props;
+        const { className, children, termsLink, packageJsonVersion, ...rest } = props;
 
         assert(!children);
 
@@ -45,7 +38,7 @@ export const Footer = memo(
                 <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
                 {spacing}
                 <a
-                    href={contributeUrl}
+                    href={"https://github.com/etalab/sill"}
                     className={classes.contributeAndRssFeed}
                     target="_blank"
                     rel="noreferrer"
@@ -73,20 +66,19 @@ export const Footer = memo(
                     changeLanguageText={t("change language")}
                 />
                 {spacing}
-                {tosUrl !== undefined && (
-                    <>
-                        <a href={tosUrl} target="_blank" rel="noreferrer">
-                            {" "}
-                            <Text typo="body 2">{t("terms of service")}</Text>{" "}
-                        </a>
-                        {spacing}
-                    </>
-                )}
+                <>
+                    <a {...termsLink} target="_blank" rel="noreferrer">
+                        {" "}
+                        <Text typo="body 2">{t("terms of service")}</Text>{" "}
+                    </a>
+                    {spacing}
+                </>
                 <a
                     href={`https://github.com/etalab/sill-web/releases/tag/v${packageJsonVersion}`}
                     target="_blank"
                     rel="noreferrer"
                 >
+                    {/*NOTE: Defined in ./config-overrides.js*/}
                     <Text typo="body 2">v{packageJsonVersion} </Text>
                 </a>
                 {spacing}

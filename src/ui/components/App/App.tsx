@@ -3,7 +3,7 @@ import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
-import { useLang, fallbackLanguage, evtLang, useTranslation } from "ui/i18n";
+import { useLang, evtLang, useTranslation } from "ui/i18n";
 import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
 import { useThunks } from "ui/coreApi";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -14,12 +14,11 @@ import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Form } from "ui/components/pages/Form";
+import { Terms } from "ui/components/pages/Terms";
 import { SoftwareCard } from "ui/components/pages/SoftwareCard";
 import { typeGuard } from "tsafe/typeGuard";
 import { Language } from "sill-api";
 import { id } from "tsafe/id";
-import { createResolveLocalizedString } from "i18nifty";
-import type { KcLanguageTag } from "keycloakify";
 import { useConst } from "powerhooks/useConst";
 import { useStickyTop } from "powerhooks/useStickyTop";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
@@ -90,27 +89,6 @@ export const App = memo((props: Props) => {
             : userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }),
     );
 
-    const tosUrl = (function useClosure() {
-        const { lang } = useLang();
-        const termsOfServices = useConst(() =>
-            userAuthenticationThunks.getTermsOfServices(),
-        );
-
-        return useMemo(() => {
-            if (termsOfServices === undefined) {
-                return undefined;
-            }
-
-            const { resolveLocalizedString } =
-                createResolveLocalizedString<KcLanguageTag>({
-                    "currentLanguage": lang,
-                    "fallbackLanguage": id<typeof fallbackLanguage>("en"),
-                });
-
-            return resolveLocalizedString(termsOfServices);
-        }, [lang]);
-    })();
-
     const { lang } = useLang();
 
     const leftBarItems = useMemo(
@@ -130,6 +108,8 @@ export const App = memo((props: Props) => {
             } as const),
         [t, lang],
     );
+
+    const termsLink = useMemo(() => routes.terms().link, []);
 
     useRestoreScroll({ route, rootRef });
 
@@ -181,10 +161,8 @@ export const App = memo((props: Props) => {
             </section>
             <Footer
                 className={classes.footer}
-                //NOTE: Defined in ./config-overrides.js
+                termsLink={termsLink}
                 packageJsonVersion={process.env.VERSION!}
-                contributeUrl={"https://github.com/etalab/sill"}
-                tosUrl={tosUrl}
                 ref={footerRef}
             />
         </div>
@@ -332,6 +310,19 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     {
         const Page = Form;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = Terms;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
