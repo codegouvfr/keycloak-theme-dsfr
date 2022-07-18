@@ -66,13 +66,11 @@ export const Footer = memo(
                     changeLanguageText={t("change language")}
                 />
                 {spacing}
-                <>
-                    <a {...termsLink} target="_blank" rel="noreferrer">
-                        {" "}
-                        <Text typo="body 2">{t("terms of service")}</Text>{" "}
-                    </a>
-                    {spacing}
-                </>
+                <a {...termsLink} target="_blank" rel="noreferrer">
+                    {" "}
+                    <Text typo="body 2">{t("terms of service")}</Text>{" "}
+                </a>
+                {spacing}
                 <a
                     href={`https://github.com/etalab/sill-web/releases/tag/v${packageJsonVersion}`}
                     target="_blank"
