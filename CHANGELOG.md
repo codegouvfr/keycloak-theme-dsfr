@@ -1,3 +1,7 @@
+### **0.25.1** (2022-07-19)  
+  
+- Only referents should be able to dereference softwares    
+  
 ## **0.25.0** (2022-07-19)  
   
 - #47    
