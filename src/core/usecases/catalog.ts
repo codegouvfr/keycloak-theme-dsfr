@@ -278,6 +278,35 @@ export const { name, reducer, actions } = createSlice({
                 wrap.userIndex = index;
             });
         },
+        "softwareDereferenced": (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                softwareId: number;
+                reason: string | undefined;
+                time: number;
+                lastRecommendedVersion: string | undefined;
+            }>,
+        ) => {
+            const { softwareId, reason, time, lastRecommendedVersion } = payload;
+
+            if (state.stateDescription === "not fetched") {
+                return;
+            }
+
+            const software = state.softwares.find(software => software.id === softwareId);
+
+            assert(software !== undefined);
+
+            software.dereferencing = {
+                time,
+                reason,
+                lastRecommendedVersion,
+            };
+
+            state.isProcessing = false;
+        },
     },
 });
 
@@ -445,6 +474,46 @@ export const thunks = {
                     softwareId,
                     useCaseDescription,
                     isPersonalUse,
+                }),
+            );
+        },
+    "dereferenceSoftware":
+        (params: {
+            softwareId: number;
+            reason: string | undefined;
+            lastRecommendedVersion: string | undefined;
+        }): ThunkAction =>
+        async (...args) => {
+            const { softwareId, reason, lastRecommendedVersion } = params;
+
+            const [dispatch, getState, { sillApiClient }] = args;
+
+            const state = getState().catalog;
+
+            assert(state.stateDescription === "ready");
+
+            const software = state.softwares.find(software => software.id === softwareId);
+
+            assert(software !== undefined);
+
+            dispatch(actions.processingStarted());
+
+            const time = Date.now();
+
+            await sillApiClient.dereferenceSoftware({
+                softwareId,
+                "dereferencing": {
+                    reason,
+                    lastRecommendedVersion,
+                },
+            });
+
+            dispatch(
+                actions.softwareDereferenced({
+                    softwareId,
+                    time,
+                    lastRecommendedVersion,
+                    reason,
                 }),
             );
         },

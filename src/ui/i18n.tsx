@@ -25,7 +25,8 @@ const {
     | typeof import("ui/components/pages/FourOhFour").i18n
     | typeof import("ui/components/pages/Form/Form").i18n
     | typeof import("ui/components/pages/Form/FormAlikeSoftwares").i18n
-    | typeof import("ui/components/pages/SoftwareCard").i18n
+    | typeof import("ui/components/pages/SoftwareCard/SoftwareCard").i18n
+    | typeof import("ui/components/pages/SoftwareCard/DereferenceSoftwareDialog").i18n
     | typeof import("ui/components/pages/Account/Account").i18n
     | typeof import("ui/components/pages/Account/tabs/AccountInfoTab").i18n
     | typeof import("ui/components/pages/Account/tabs/AccountUserInterfaceTab").i18n
@@ -42,6 +43,16 @@ const {
     { languages, fallbackLanguage },
     {
         "en": {
+            "DereferenceSoftwareDialog": {
+                "remove from sill": ({ softwareName }) =>
+                    `Remove ${softwareName} from the SILL`,
+                "cancel": "Cancel",
+                "confirm": "Confirm",
+                "reason": "Reason for dereferencing",
+                "reason helper text":
+                    "Please explain why this software should be removed from the SILL",
+                "last recommended version": "Last recommended version",
+            },
             "Account": {
                 "infos": "Account information",
                 "user-interface": "Interface preferences",
@@ -343,6 +354,18 @@ const {
                 "use case": ({ n }) => `Card n°${n}`,
                 "tags": "Tags",
                 "tags helper": "Tags that help find the software",
+                "remove from SILL": "Remove from SILL...",
+                "software dereferenced": ({
+                    lastRecommendedVersion,
+                    reason,
+                }) => `This software is no longer recommended${
+                    reason === undefined ? "" : `, ${reason}`
+                }}.
+                ${
+                    lastRecommendedVersion === undefined
+                        ? ""
+                        : `Last acceptable version: ${lastRecommendedVersion}`
+                }`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -356,6 +379,16 @@ const {
         },
         "fr": {
             /* spell-checker: disable */
+            "DereferenceSoftwareDialog": {
+                "remove from sill": ({ softwareName }) =>
+                    `Retirer ${softwareName} du SILL`,
+                "cancel": "Annuler",
+                "confirm": "Confirmer",
+                "reason": "Réson du déréférencement",
+                "reason helper text":
+                    "Expliquez pourquoi le logiciel doit être retiré du SILL",
+                "last recommended version": "Dernière version recommandable",
+            },
             "Account": {
                 "infos": "Information du compte",
                 "user-interface": "Interface",
@@ -671,6 +704,18 @@ const {
                 "use case": ({ n }) => `Fiche n°${n}`,
                 "tags": "Tags",
                 "tags helper": "Tags aidant à trouver le logiciel",
+                "remove from SILL": "Supprimer du SILL...",
+                "software dereferenced": ({
+                    lastRecommendedVersion,
+                    reason,
+                }) => `Ce logiciel n'es plus recommender${
+                    reason === undefined ? "" : `, ${reason}`
+                }.
+                ${
+                    lastRecommendedVersion === undefined
+                        ? ""
+                        : `Dernière version acceptable: ${lastRecommendedVersion}`
+                }`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>

@@ -45,7 +45,7 @@
         "minimal-polyfills": "^2.2.1",
         "prettier": "^2.3.0",
         "react-app-rewired": "^2.1.8",
-        "sill-api": "^0.19.1",
+        "sill-api": "^0.21.0",
         "source-map-explorer": "^2.5.2",
         "ts-node": "^10.2.1",
         "typescript": "4.2.2"

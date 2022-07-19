@@ -18,7 +18,10 @@ import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
 import { same } from "evt/tools/inDepth/same";
 
-type PartialSoftwareRow = Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"];
+type PartialSoftwareRow = Omit<
+    Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"],
+    "dereferencing"
+>;
 
 type ValueByFieldName = {
     [K in keyof PartialSoftwareRow]-?: PartialSoftwareRow[K];

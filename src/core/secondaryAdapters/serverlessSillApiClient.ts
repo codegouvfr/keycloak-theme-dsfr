@@ -41,5 +41,6 @@ export function createServerlessSillApiClient(params: {
         "getTags": memoize(() => Promise.reject(new Error("not implemented")), {
             "promise": true,
         }),
+        "dereferenceSoftware": () => Promise.reject(new Error("not implemented")),
     };
 }

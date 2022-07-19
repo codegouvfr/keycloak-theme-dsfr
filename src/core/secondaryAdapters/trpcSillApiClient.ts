@@ -40,5 +40,7 @@ export function createTrpcSillApiClient(params: {
         "getAllowedEmailRegexp": () => trpcClient.query("getAllowedEmailRegexp"),
         "getAgencyNames": () => trpcClient.query("getAgencyNames"),
         "getTags": memoize(() => trpcClient.query("getTags"), { "promise": true }),
+        "dereferenceSoftware": params =>
+            trpcClient.mutation("dereferenceSoftware", params),
     };
 }

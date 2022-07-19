@@ -40,6 +40,9 @@ export type SillApiClient = {
         (params: InferInput<"getTags">): Promise<InferOutput<"getTags">>;
         clear: () => void;
     };
+    dereferenceSoftware: (
+        params: InferInput<"dereferenceSoftware">,
+    ) => Promise<InferOutput<"dereferenceSoftware">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

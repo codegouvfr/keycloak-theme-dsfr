@@ -15,7 +15,7 @@ import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
 import MuiLink from "@mui/material/Link";
-import { ReferentDialogs } from "../shared/ReferentDialogs";
+import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -27,10 +27,11 @@ import type { Route } from "type-route";
 import { createGroup } from "type-route";
 import { routes } from "ui/routes";
 import { useSplashScreen } from "onyxia-ui";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
-import type { Param0 } from "tsafe";
 import memoize from "memoizee";
 import { CustomTag } from "ui/components/shared/Tags/CustomTag";
+import { DereferenceSoftwareDialog } from "./DereferenceSoftwareDialog";
+import type { DereferenceSoftwareDialogProps } from "./DereferenceSoftwareDialog";
+import { Text } from "ui/theme";
 
 //TODO: We should have a dedicated usecase for this page.
 
@@ -109,6 +110,8 @@ export function SoftwareCard(props: Props) {
         Evt.create<UnpackEvt<ReferentDialogsProps["evtAction"]>>(),
     );
 
+    const evtDereferenceSoftwareDialogOpen = useConst(() => Evt.create<void>());
+
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
             userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false });
@@ -181,26 +184,36 @@ export function SoftwareCard(props: Props) {
         return openLinkBySoftwareId;
     }, [softwareNameBySoftwareId]);
 
-    const onDeclareReferentAnswerFactory = useCallbackFactory(
-        (
-            [softwareId]: [number],
-            [{ isExpert, useCaseDescription, isPersonalUse }]: [
-                Param0<ReferentDialogsProps["onAnswer"]>,
-            ],
-        ) =>
+    const onDeclareReferentAnswer = useConstCallback<ReferentDialogsProps["onAnswer"]>(
+        ({ isExpert, useCaseDescription, isPersonalUse }) => {
+            assert(software !== undefined);
             catalogThunks.declareUserReferent({
                 isExpert,
-                softwareId,
+                "softwareId": software.id,
                 useCaseDescription,
                 isPersonalUse,
-            }),
+            });
+        },
     );
 
-    const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
+    const onUserNoLongerReferent = useConstCallback(() => {
+        assert(software !== undefined);
         catalogThunks.userNoLongerReferent({
-            softwareId,
-        }),
-    );
+            "softwareId": software.id,
+        });
+    });
+
+    const onDereferenceSoftware = useConstCallback<
+        DereferenceSoftwareDialogProps["onAnswer"]
+    >(({ reason, lastRecommendedVersion }) => {
+        assert(software !== undefined);
+
+        catalogThunks.dereferenceSoftware({
+            "softwareId": software.id,
+            reason,
+            lastRecommendedVersion,
+        });
+    });
 
     const { lang } = useLang();
 
@@ -276,6 +289,14 @@ export function SoftwareCard(props: Props) {
                                 </Tooltip>
                             </>
                         )}
+                        {software.dereferencing !== undefined && (
+                            <>
+                                &nbsp; &nbsp;
+                                <Text typo="body 1" className={classes.dereferencedText}>
+                                    {t("software dereferenced", software.dereferencing)}
+                                </Text>
+                            </>
+                        )}
                     </>
                 }
                 subtitle={!isBanner && softwareFunction}
@@ -304,6 +325,19 @@ export function SoftwareCard(props: Props) {
                     {t("update software information")}
                 </Button>
             )}
+            <Button
+                startIcon="delete"
+                className={classes.dereferenceButton}
+                variant="secondary"
+                onClick={() => evtDereferenceSoftwareDialogOpen.post()}
+            >
+                {t("remove from SILL")}
+            </Button>
+            <DereferenceSoftwareDialog
+                evtOpen={evtDereferenceSoftwareDialogOpen}
+                softwareName={software.name}
+                onAnswer={onDereferenceSoftware}
+            />
             <Card className={classes.card}>
                 <DescriptiveField
                     type="text"
@@ -593,8 +627,8 @@ export function SoftwareCard(props: Props) {
                 referents={referents}
                 userIndexInReferents={userIndex}
                 evtAction={evtReferentDialogAction}
-                onAnswer={onDeclareReferentAnswerFactory(software.id)}
-                onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
+                onAnswer={onDeclareReferentAnswer}
+                onUserNoLongerReferent={onUserNoLongerReferent}
                 softwareName={software.name}
             />
         </div>
@@ -624,6 +658,12 @@ const useStyles = makeStyles<{ imgWidth: number }>({
     },
     "tag": {
         "marginRight": theme.spacing(1),
+    },
+    "dereferenceButton": {
+        "marginLeft": theme.spacing(3),
+    },
+    "dereferencedText": {
+        "color": theme.colors.useCases.alertSeverity.error.main,
     },
 }));
 
@@ -677,4 +717,9 @@ export const { i18n } = declareComponentKeys<
     | { K: "use case"; P: { n: string } }
     | "tags"
     | "tags helper"
+    | "remove from SILL"
+    | {
+          K: "software dereferenced";
+          P: { lastRecommendedVersion?: string; reason?: string };
+      }
 >()({ SoftwareCard });
