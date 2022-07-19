@@ -325,14 +325,16 @@ export function SoftwareCard(props: Props) {
                     {t("update software information")}
                 </Button>
             )}
-            <Button
-                startIcon="delete"
-                className={classes.dereferenceButton}
-                variant="secondary"
-                onClick={() => evtDereferenceSoftwareDialogOpen.post()}
-            >
-                {t("remove from SILL")}
-            </Button>
+            {userIndex !== undefined && (
+                <Button
+                    startIcon="delete"
+                    className={classes.dereferenceButton}
+                    variant="secondary"
+                    onClick={() => evtDereferenceSoftwareDialogOpen.post()}
+                >
+                    {t("remove from SILL")}
+                </Button>
+            )}
             <DereferenceSoftwareDialog
                 evtOpen={evtDereferenceSoftwareDialogOpen}
                 softwareName={software.name}
