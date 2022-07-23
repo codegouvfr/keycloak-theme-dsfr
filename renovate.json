@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "rangeStrategy": "bump",
+  "ignorePaths": [".github/**"],
+  "bumpVersion": "patch",
+  "packageRules": [
+    {
+      "packagePatterns": ["*"],
+      "excludePackagePatterns": ["sill-api", "cra-envs", "evt", "i18nifty", "keycloakify", "onyxia-ui", "powerhooks", "tss-react"],
+      "enabled": false
+    },
+    {
+      "packagePatterns": ["sill-api", "cra-envs", "evt", "i18nifty", "keycloakify", "onyxia-ui", "powerhooks", "tss-react"],
+      "groupName": "homegrown",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ]
+}
