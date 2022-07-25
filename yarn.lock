@@ -8782,14 +8782,6 @@ husky@^4.3.8:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-i18nifty@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.4.tgz#27e353e21510cd00e8408e8f2185603e8ed4bebf"
-  integrity sha512-FPEa6vBNarywwBk7oXFfzwPO4rWFiPUnhDUDogNsWZ5a7mAtXsghzk2QknCkI1ThBKKmqWGAwUs0vPOoMgGuqQ==
-  dependencies:
-    powerhooks "^0.20.4"
-    tsafe "^0.10.0"
-
 i18nifty@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.5.tgz#3e0403eed061a1bb43525d87bbfa3c768b4b414c"
@@ -14203,15 +14195,19 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.1:
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.1.tgz#7ae45fc86e187a77a25638e432bf40418f272eec"
-  integrity sha512-XPSZBGjifmIUeFEqk43PUPm5p9B0nFLim6yw9djWtJfIZ9BOJ35WBIQer1aaV6tEcGgc5K5bOwzaK0bC0yiHmQ==
+sill-api@^0.21.2:
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.2.tgz#57df02a74911989b5cfd6bee4a51745da74cc803"
+  integrity sha512-NLQHDrflB0IOryOTGXzhX22UulDrLQuaCQsXbO8Ddl2+mgTB84YPHi3IWN6+F7MsPeeIm2+SYqfx8ndHsxAPUw==
   dependencies:
     "@trpc/server" "^9.24.0"
+    cheerio "^1.0.0-rc.5"
     compression "^1.7.4"
-    i18nifty "^1.3.4"
+    evt "^2.2.2"
+    i18nifty "^1.3.5"
     jwt-simple "^0.5.6"
+    memoizee "^0.4.15"
+    run-exclusive "^2.2.15"
     tsafe "^0.10.0"
     zod "^3.17.3"
 
