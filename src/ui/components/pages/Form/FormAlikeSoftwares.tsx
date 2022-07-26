@@ -11,7 +11,6 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import type { SoftwareRef } from "sill-api";
 import { exclude } from "tsafe/exclude";
 import type { Link } from "type-route";
-import type { UnpackEvt } from "evt";
 import { Picker } from "onyxia-ui/Picker";
 import type { PickerProps } from "onyxia-ui/Picker";
 import { useStateRef } from "powerhooks/useStateRef";
@@ -126,9 +125,7 @@ const { Known } = (() => {
             getLinkToSoftwareCard,
         } = props;
 
-        const evtPickerAction = useConst(() =>
-            Evt.create<UnpackEvt<PickerProps["evtAction"]>>(),
-        );
+        const evtPickerAction = useConst(() => Evt.create<PickerProps["evtAction"]>());
 
         const buttonRef = useStateRef<HTMLButtonElement>(null);
 
@@ -282,9 +279,7 @@ const { Unknown } = (() => {
             [softwareRefs_props, createdSoftwareNames],
         );
 
-        const evtPickerAction = useConst(() =>
-            Evt.create<UnpackEvt<PickerProps["evtAction"]>>(),
-        );
+        const evtPickerAction = useConst(() => Evt.create<PickerProps["evtAction"]>());
 
         const buttonRef = useStateRef<HTMLButtonElement>(null);
 

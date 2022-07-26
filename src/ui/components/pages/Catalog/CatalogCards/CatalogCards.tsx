@@ -11,7 +11,6 @@ import MuiLink from "@mui/material/Link";
 import { ReactComponent as ServiceNotFoundSvg } from "ui/assets/svg/ServiceNotFound.svg";
 import { SearchBar } from "onyxia-ui/SearchBar";
 import type { SearchBarProps } from "onyxia-ui/SearchBar";
-import type { UnpackEvt } from "evt";
 import { Evt } from "evt";
 import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
@@ -184,7 +183,7 @@ export const CatalogCards = memo((props: Props) => {
     );
 
     const evtCatalogSearchAreaAction = useConst(() =>
-        Evt.create<UnpackEvt<CatalogSearchAreaProps["evtAction"]>>(),
+        Evt.create<CatalogSearchAreaProps["evtAction"]>(),
     );
 
     const onGoBackClick = useConstCallback(() =>
@@ -438,11 +437,11 @@ const { CatalogSearchArea } = (() => {
         } = props;
 
         const evtSearchBarAction = useConst(() =>
-            Evt.create<UnpackEvt<SearchBarProps["evtAction"]>>(),
+            Evt.create<SearchBarProps["evtAction"]>(),
         );
 
         const evtGitHubPickerAction = useConst(() =>
-            Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
+            Evt.create<GitHubPickerProps["evtAction"]>(),
         );
 
         useEvt(

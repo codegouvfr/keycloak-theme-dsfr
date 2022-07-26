@@ -20,7 +20,6 @@ import { Tooltip } from "onyxia-ui/Tooltip";
 import MuiLink from "@mui/material/Link";
 import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
-import type { UnpackEvt } from "evt";
 import { IconButton } from "ui/theme";
 import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
@@ -82,7 +81,7 @@ export const CatalogCard = memo((props: Props) => {
     const { resolveLocalizedString } = useResolveLocalizedString();
 
     const evtReferentDialogAction = useConst(() =>
-        Evt.create<UnpackEvt<ReferentDialogsProps["evtAction"]>>(),
+        Evt.create<ReferentDialogsProps["evtAction"]>(),
     );
 
     const onShowReferentClick = useConstCallback(async () => {

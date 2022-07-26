@@ -21,7 +21,6 @@ import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
-import type { UnpackEvt } from "evt";
 import { useSelector, useThunks, selectors } from "ui/coreApi";
 import type { Route } from "type-route";
 import { createGroup } from "type-route";
@@ -107,7 +106,7 @@ export function SoftwareCard(props: Props) {
     })();
 
     const evtReferentDialogAction = useConst(() =>
-        Evt.create<UnpackEvt<ReferentDialogsProps["evtAction"]>>(),
+        Evt.create<ReferentDialogsProps["evtAction"]>(),
     );
 
     const evtDereferenceSoftwareDialogOpen = useConst(() => Evt.create<void>());

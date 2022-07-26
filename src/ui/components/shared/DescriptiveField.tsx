@@ -179,7 +179,7 @@ export const DescriptiveField = memo((props: Props) => {
         const [isInEditingState, setIsInEditingState] = useState(false);
 
         const [evtTextFieldAction] = useState(() =>
-            Evt.create<UnpackEvt<NonNullable<TextFieldProps["evtAction"]>>>(),
+            Evt.create<UnpackEvt<TextFieldProps["evtAction"]>>(),
         );
 
         useEvt(

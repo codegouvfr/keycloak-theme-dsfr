@@ -2,7 +2,6 @@ import { memo } from "react";
 import { CustomTag } from "./CustomTag";
 import { makeStyles } from "ui/theme";
 import { Evt } from "evt";
-import type { UnpackEvt } from "evt";
 import { useConst } from "powerhooks/useConst";
 import type { GitHubPickerProps } from "onyxia-ui/GitHubPicker";
 import { GitHubPicker } from "onyxia-ui/GitHubPicker";
@@ -30,7 +29,7 @@ export const Tags = memo((props: Props) => {
     } = props;
 
     const evtGitHubPickerAction = useConst(() =>
-        Evt.create<UnpackEvt<GitHubPickerProps["evtAction"]>>(),
+        Evt.create<GitHubPickerProps["evtAction"]>(),
     );
 
     const buttonRef = useStateRef<HTMLButtonElement>(null);
