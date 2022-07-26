@@ -14195,10 +14195,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.7:
-  version "0.21.7"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.7.tgz#73619afa21f6b835f4302f2eccb568a635ace939"
-  integrity sha512-tJjDQy/kaPEff0JOmIIf6Ev7BfA7b/eq//Tz1+qy9darphQWTc8TxpcatpENXp3087M7FtdSuNnGC3AsQFXqOQ==
+sill-api@^0.21.8:
+  version "0.21.8"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.8.tgz#881daaac283ff130ba990ffe729b34d9cbe919a5"
+  integrity sha512-qr5p7G6DjAIzM2kDUMphNnPErs6CYByNWeL1wrJL7vpBxpp7QotloB6DXMCyzETieUOhJvcdluhdSUH9asEuOQ==
   dependencies:
     "@trpc/server" "^9.24.0"
     cheerio "^1.0.0-rc.5"
