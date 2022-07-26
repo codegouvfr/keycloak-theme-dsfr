@@ -8791,14 +8791,6 @@ husky@^4.3.8:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-i18nifty@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.5.tgz#3e0403eed061a1bb43525d87bbfa3c768b4b414c"
-  integrity sha512-n2fuWjSTcxsiiDBLU1fyBPXbomd/t/1GF/yv2CJRUudUy9K66CnV4ZsBt+qe3abQgkJKDg4ZD+C5cv1W3jGFrg==
-  dependencies:
-    powerhooks "^0.20.7"
-    tsafe "^0.10.0"
-
 i18nifty@^1.3.6:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.6.tgz#0dbc7fca6bee73d532299a3a9822c907ab7dce5e"
@@ -8806,6 +8798,14 @@ i18nifty@^1.3.6:
   dependencies:
     powerhooks "^0.20.8"
     tsafe "^0.10.0"
+
+i18nifty@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.7.tgz#9031f55b374f9aa491b014bfeec038ca165f587e"
+  integrity sha512-404u6eWYuLfjdnvLxxiK5SjHQ7xnXlmH8ldgFrmzTDCMsV8FlrhYLknWwsWRttgBiEhGF+oyzuwArCmViPiXVg==
+  dependencies:
+    powerhooks "^0.20.9"
+    tsafe "^0.10.1"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -12672,16 +12672,6 @@ powerhooks@^0.20.4:
     resize-observer-polyfill "^1.5.1"
     tsafe "^0.10.0"
 
-powerhooks@^0.20.7:
-  version "0.20.7"
-  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.7.tgz#02e8816f93f00f692fc7d23b11ef4ca43b6709d9"
-  integrity sha512-m179An2lh90CNwvMMtGLHmmMrvG/c5kJVK1hNrCC0VjkrY6YAPDSazqKlLwZfb3nKhF+E88Uo20D4UhBgUFViQ==
-  dependencies:
-    evt "^2.2.1"
-    memoizee "^0.4.15"
-    resize-observer-polyfill "^1.5.1"
-    tsafe "^0.10.0"
-
 powerhooks@^0.20.8:
   version "0.20.8"
   resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.8.tgz#ed26e5e8341fdcb77df5569ce7d7281e03d01e2a"
@@ -12691,6 +12681,16 @@ powerhooks@^0.20.8:
     memoizee "^0.4.15"
     resize-observer-polyfill "^1.5.1"
     tsafe "^0.10.0"
+
+powerhooks@^0.20.9:
+  version "0.20.9"
+  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.9.tgz#a1364d813eebde55745f02d56a1fa0f51feff2a3"
+  integrity sha512-xAUfqjBEOqTYkDgBx1S1AP2I84U/ltnh4OOqUmZKuHatWOlVh8rnPt5GJZNQ6BACvkpldw5TzTtw+lAiQP7DRQ==
+  dependencies:
+    evt "^2.3.0"
+    memoizee "^0.4.15"
+    resize-observer-polyfill "^1.5.1"
+    tsafe "^0.10.1"
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -13399,12 +13399,12 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-clean-architecture@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/redux-clean-architecture/-/redux-clean-architecture-1.2.3.tgz#ce891e99b604fe4cc20014dd8e9811d34ca43c80"
-  integrity sha512-DCHqOOIzIytMUYAlxtRON6DSstKE3G6lXJwTgNXD+lBdW4kYZuSK7mZxM/w8AZNMVMCFK6MDuuGXU0C4LEMjkg==
+redux-clean-architecture@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/redux-clean-architecture/-/redux-clean-architecture-1.2.4.tgz#fd1dcc1a4b38648108dc2841e6f864cdd99dd4be"
+  integrity sha512-FXRbh5BVPJgZzk4mucsqnXFzdkrvg+fxbKTaQawFyrEFTCgWnNFodB+ccvR1Zv0M0NDGvqCEe4gss9PSajWBFA==
   dependencies:
-    evt "^2.2.0"
+    evt "^2.2.1"
     minimal-polyfills "^2.2.1"
     tsafe "^0.10.0"
 
@@ -13866,6 +13866,13 @@ run-exclusive@^2.2.15:
   dependencies:
     minimal-polyfills "^2.2.1"
 
+run-exclusive@^2.2.16:
+  version "2.2.16"
+  resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.16.tgz#8fa30a23037760af296c47872a5f6b38f25accf0"
+  integrity sha512-cdYv2LDvaBCRnrqXrwDFs1SgzGTx0EIsiEReTpsprEDR6hRUVlSyjoMYu+rez4S1gpz6YbOQxcmYFMXJQknVnQ==
+  dependencies:
+    minimal-polyfills "^2.2.1"
+
 run-parallel@^1.1.9:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.2.0.tgz#66d1368da7bdf921eb9d95bd1a9229e7f21a43ee"
@@ -14222,20 +14229,20 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.4:
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.4.tgz#d0706ced192f88b69943f7e52d760e71f117feb3"
-  integrity sha512-nQtzYkOI71KUd59LsHcMIss/sGq688WP6cnv+oC89bkZHp5oTuEKWKirpRhfr68FpRhNf9RC72HxsLK7j7TXDA==
+sill-api@^0.21.5:
+  version "0.21.5"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.5.tgz#bbdd99b878db825bb1405bf8103be0b07f9217e4"
+  integrity sha512-eZxn0sAy3tvoF93MY880OWqzlA/a3IOwCrpXaKUnbFn7LltmjOREcW6OCliQQvPAL31TGvg0NDmXo59VVAJNRQ==
   dependencies:
     "@trpc/server" "^9.24.0"
     cheerio "^1.0.0-rc.5"
     compression "^1.7.4"
     evt "^2.3.0"
-    i18nifty "^1.3.5"
+    i18nifty "^1.3.6"
     jwt-simple "^0.5.6"
     memoizee "^0.4.15"
     run-exclusive "^2.2.15"
-    tsafe "^0.10.0"
+    tsafe "^0.10.1"
     zod "^3.17.3"
 
 simple-swizzle@^0.2.2:
@@ -15219,6 +15226,11 @@ tsafe@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/tsafe/-/tsafe-0.10.0.tgz#c4fba365a49467ea6167e8c9482ddb94ee51b795"
   integrity sha512-CFfa1uJKfU0DDRbuB8bf2mfXjkOqiTsrltexzMMLxq5gjd1LttFECNGsO8dYUALJDbShb6+f3CwAppW/wf9BrA==
+
+tsafe@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/tsafe/-/tsafe-0.10.1.tgz#8f100b901e4467c43c0484f56a063f4276683ce0"
+  integrity sha512-S+LrpSjoH5Pah201KS0MxtJn88HVtKf4ZxUoQuW/Hnl4IK6ALu9Qwjed7RbohDeHn+iMuug4c5Mk/z1Cq2G3nw==
 
 tsconfig-paths@^3.14.1:
   version "3.14.1"
