@@ -7427,15 +7427,6 @@ evt@^2.2.0:
     run-exclusive "^2.2.14"
     tsafe "^0.10.0"
 
-evt@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/evt/-/evt-2.3.0.tgz#709456803f79a125371f709fb32c0989a948a9f8"
-  integrity sha512-Tkv4vM4BrIiW9p+YM7DiWNGcxrajtSaNMsJl6C43gbk/pY5xhN7RNQ9j3wyXNgKrkudNYMTO4dTE+v3JGdJqTQ==
-  dependencies:
-    minimal-polyfills "^2.2.1"
-    run-exclusive "^2.2.15"
-    tsafe "^0.10.0"
-
 evt@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/evt/-/evt-2.3.1.tgz#988fc6fc255db8999240e918afe63ba6c325db99"
@@ -8791,12 +8782,12 @@ husky@^4.3.8:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-i18nifty@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.7.tgz#9031f55b374f9aa491b014bfeec038ca165f587e"
-  integrity sha512-404u6eWYuLfjdnvLxxiK5SjHQ7xnXlmH8ldgFrmzTDCMsV8FlrhYLknWwsWRttgBiEhGF+oyzuwArCmViPiXVg==
+i18nifty@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/i18nifty/-/i18nifty-1.3.8.tgz#b7c4ff1f488382c3a1d158ed81aa14362e1ccb7c"
+  integrity sha512-B1MX17NFDrvCeks2yuJ01JavAbP4IvB1lJd8SzVIuy08ED8fzF368wcBFZw1Xi+Rm2lISrg6MWUzB3yTMsqYNQ==
   dependencies:
-    powerhooks "^0.20.9"
+    powerhooks "^0.20.10"
     tsafe "^0.10.1"
 
 iconv-lite@0.4.24:
@@ -11421,18 +11412,18 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-onyxia-ui@^0.46.8:
-  version "0.46.8"
-  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.46.8.tgz#9cb3112693e881a78e1adb140b301700bcff7c56"
-  integrity sha512-srXIPJkNNyYDPYplnD37jjZrqJWQ878e5EGC5X0BmyHxDdVeAtAOF6WGqvYR3z658m2zqI8qA2f5mbiLDMbXiw==
+onyxia-ui@^0.46.9:
+  version "0.46.9"
+  resolved "https://registry.yarnpkg.com/onyxia-ui/-/onyxia-ui-0.46.9.tgz#05b9c48886aa4a9d06db38616a8e6930151ba0b5"
+  integrity sha512-o1OBd0T7VXdsZ8QlwaJ1C1s1mayaU6TG+tziJRsmtZVa9Uxp6pSldehEoZVUDT7mQqKTPrnnIoRbpo7itJX5bg==
   dependencies:
     "@mui/icons-material" "^5.8.2"
     color "3.1.3"
-    evt "^2.3.0"
+    evt "^2.3.1"
     material-design-icons "^3.0.1"
     memoizee "^0.4.15"
     minimal-polyfills "^2.2.1"
-    powerhooks "^0.20.9"
+    powerhooks "^0.20.10"
     run-exclusive "^2.2.16"
     tsafe "^0.10.1"
     tss-react "^3.7.1"
@@ -12674,16 +12665,6 @@ powerhooks@^0.20.4:
     resize-observer-polyfill "^1.5.1"
     tsafe "^0.10.0"
 
-powerhooks@^0.20.9:
-  version "0.20.9"
-  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.20.9.tgz#a1364d813eebde55745f02d56a1fa0f51feff2a3"
-  integrity sha512-xAUfqjBEOqTYkDgBx1S1AP2I84U/ltnh4OOqUmZKuHatWOlVh8rnPt5GJZNQ6BACvkpldw5TzTtw+lAiQP7DRQ==
-  dependencies:
-    evt "^2.3.0"
-    memoizee "^0.4.15"
-    resize-observer-polyfill "^1.5.1"
-    tsafe "^0.10.1"
-
 prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
@@ -13851,13 +13832,6 @@ run-exclusive@^2.2.14:
   dependencies:
     minimal-polyfills "^2.1.5"
 
-run-exclusive@^2.2.15:
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.15.tgz#8e311a741cb8def53ececf2e9d921e47abf15117"
-  integrity sha512-MpQTHZspu8Qcl/WtJXGn7ClQitwk8m9iQwVPqFhhYSJQF/YcEu0Btn7h1UfPXHAgcDClZsHBzg0HVGYRt8Txaw==
-  dependencies:
-    minimal-polyfills "^2.2.1"
-
 run-exclusive@^2.2.16:
   version "2.2.16"
   resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.16.tgz#8fa30a23037760af296c47872a5f6b38f25accf0"
@@ -14221,16 +14195,16 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.6:
-  version "0.21.6"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.6.tgz#b834887675d2bbcc821233069139062544fb9116"
-  integrity sha512-wDyLQ2pQYYohFvOFqs8ZsoMY8kqmaTW/v9M64viuVXLH62mQ9rPYfFN88FtSGGZoHum4I679FEs6LqxcxTPHvQ==
+sill-api@^0.21.7:
+  version "0.21.7"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.7.tgz#73619afa21f6b835f4302f2eccb568a635ace939"
+  integrity sha512-tJjDQy/kaPEff0JOmIIf6Ev7BfA7b/eq//Tz1+qy9darphQWTc8TxpcatpENXp3087M7FtdSuNnGC3AsQFXqOQ==
   dependencies:
     "@trpc/server" "^9.24.0"
     cheerio "^1.0.0-rc.5"
     compression "^1.7.4"
     evt "^2.3.1"
-    i18nifty "^1.3.7"
+    i18nifty "^1.3.8"
     jwt-simple "^0.5.6"
     memoizee "^0.4.15"
     run-exclusive "^2.2.16"
