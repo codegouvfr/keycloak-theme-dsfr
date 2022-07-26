@@ -7427,7 +7427,7 @@ evt@^2.2.0:
     run-exclusive "^2.2.14"
     tsafe "^0.10.0"
 
-evt@^2.2.1, evt@^2.2.2:
+evt@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/evt/-/evt-2.2.2.tgz#36dbc7ada08ae4c73798b072470a681f3695ec50"
   integrity sha512-QBt/OEGIChEBHKaWJrQ2f7CtiWkeXbYOzeGEJbGq3ilnJI5AotgIc2jCsMqb2X6B0IqJdN6GD4ZFscfVUSh7ww==
@@ -14222,15 +14222,15 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.3:
-  version "0.21.3"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.3.tgz#919e6b8ad286f2aa2ca6a492b7304441c28c4a13"
-  integrity sha512-Fba1G7PEPDtCSOgW9fix1UeV1PfjcaUt7VaQyagZELOEAkJ9rWZMHp6YoybAz0EWbvsT+KyVPnLD8eQYuV8C8A==
+sill-api@^0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.4.tgz#d0706ced192f88b69943f7e52d760e71f117feb3"
+  integrity sha512-nQtzYkOI71KUd59LsHcMIss/sGq688WP6cnv+oC89bkZHp5oTuEKWKirpRhfr68FpRhNf9RC72HxsLK7j7TXDA==
   dependencies:
     "@trpc/server" "^9.24.0"
     cheerio "^1.0.0-rc.5"
     compression "^1.7.4"
-    evt "^2.2.2"
+    evt "^2.3.0"
     i18nifty "^1.3.5"
     jwt-simple "^0.5.6"
     memoizee "^0.4.15"
