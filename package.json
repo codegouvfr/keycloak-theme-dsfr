@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.etalab.gouv.fr",
     "name": "sill-web",
-    "version": "0.25.14",
+    "version": "0.25.15",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
@@ -63,7 +63,7 @@
         "i18nifty": "^1.3.8",
         "jwt-simple": "^0.5.6",
         "keycloak-js": "^18.0.0",
-        "keycloakify": "^5.8.0",
+        "keycloakify": "^5.8.1",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",
