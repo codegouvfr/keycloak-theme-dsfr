@@ -10171,10 +10171,10 @@ keycloak-js@^18.0.0:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
 
-keycloakify@^5.7.3:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-5.7.3.tgz#3d54054ecc2a4ff15de0146eae10878650092d30"
-  integrity sha512-34Q1mW6J39XQQtbiFLUf+VEAvF81Bu1iRXe0J2zftlKzzJvKC2E6C7F4fZDo552x/O7CD+MKE1glvcsjvMJ+BA==
+keycloakify@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-5.8.0.tgz#986e47eeab76214883dc285533bf9a5fac1450ac"
+  integrity sha512-HE8D0CiIyDYEvzl5qBtTI3fZ/d5HPdPs3z0x6jwI4FARfsUUvVJXSt2jwyEAZtCLWmU19kxBe04STzpgsUWqpA==
   dependencies:
     "@octokit/rest" "^18.12.0"
     cheerio "^1.0.0-rc.5"
@@ -14200,10 +14200,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@^0.21.14:
-  version "0.21.14"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.14.tgz#7ea1bb2ff787405d51b6495d9500750e9d84e3ce"
-  integrity sha512-IUC7HpdOcw/ZcR0/P1AeqCVUz+zsDFbLAVizDxQcr/FSwtawDRQB2xiZHNE/QiXqqZ3QWq91d5djBbpLc0Lm0Q==
+sill-api@^0.21.15:
+  version "0.21.15"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.21.15.tgz#af58b65dacd768f66858ba3ead16e4d76db8b91a"
+  integrity sha512-1HFzywnMzvqRtV4+/Cxl63ubz5pwDjXWbnL5msAcMubUHf36tFqYVYUIC2ko/1dNtkRz8KHrQkUwB1h2aj9g9g==
   dependencies:
     "@trpc/server" "^9.24.0"
     "@ungap/structured-clone" "^0.3.4"
