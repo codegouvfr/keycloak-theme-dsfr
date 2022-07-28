@@ -23,6 +23,7 @@ export function createTrpcSillApiClient(params: {
     });
 
     return {
+        "getVersion": memoize(() => trpcClient.query("getVersion"), { "promise": true }),
         "getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
             "promise": true,
         }),

@@ -8,6 +8,7 @@ export function createServerlessSillApiClient(params: {
     const { jsonUrl } = params;
 
     return {
+        "getVersion": memoize(() => Promise.resolve("no api"), { "promise": true }),
         "getOidcParams": memoize(
             () =>
                 Promise.resolve({

@@ -27,6 +27,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useEvt } from "evt/hooks";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
 import { Evt } from "evt";
+import { getConfiguration } from "configuration";
 
 export type Props = {
     className?: string;
@@ -79,7 +80,7 @@ export const App = memo((props: Props) => {
 
     const route = useRoute();
 
-    const { userAuthenticationThunks } = useThunks();
+    const { userAuthenticationThunks, apiInfoThunks } = useThunks();
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
 
@@ -164,6 +165,8 @@ export const App = memo((props: Props) => {
                 termsLink={termsLink}
                 packageJsonVersion={process.env.VERSION!}
                 ref={footerRef}
+                apiPackageJsonVersion={apiInfoThunks.getApiVersion()}
+                sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
         </div>
     );

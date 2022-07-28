@@ -50,6 +50,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import AirplayIcon from "@mui/icons-material/Airplay";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import StorageIcon from "@mui/icons-material/Storage";
 
 export const createIconParams = {
     "delete": DeleteIcon,
@@ -103,6 +104,7 @@ export const createIconParams = {
     "computer": ComputerIcon,
     "rssFeed": RssFeedIcon,
     "playCircleFilledWhite": PlayCircleFilledWhiteIcon,
+    "storage": StorageIcon,
 };
 
 export const iconIds = objectKeys(createIconParams);

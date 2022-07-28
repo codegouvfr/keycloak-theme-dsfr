@@ -3,6 +3,10 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 
 export type SillApiClient = {
+    getVersion: {
+        (): Promise<InferOutput<"getVersion">>;
+        clear: () => void;
+    };
     getOidcParams: {
         (): Promise<InferOutput<"getOidcParams">>;
         clear: () => void;

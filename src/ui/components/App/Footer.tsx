@@ -11,13 +11,23 @@ import type { Link } from "type-route";
 
 export type Props = {
     packageJsonVersion: string;
+    apiPackageJsonVersion: string;
     className?: string;
     termsLink: Link;
+    sillJsonHref: string;
 };
 
 export const Footer = memo(
     forwardRef<any, Props>((props, ref) => {
-        const { className, children, termsLink, packageJsonVersion, ...rest } = props;
+        const {
+            className,
+            children,
+            termsLink,
+            packageJsonVersion,
+            apiPackageJsonVersion,
+            sillJsonHref,
+            ...rest
+        } = props;
 
         assert(!children);
 
@@ -39,7 +49,7 @@ export const Footer = memo(
                 {spacing}
                 <a
                     href={"https://github.com/etalab/sill"}
-                    className={classes.contributeAndRssFeed}
+                    className={classes.linkWithIcon}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -50,13 +60,24 @@ export const Footer = memo(
                 <div className={classes.sep} />
                 <a
                     href={"https://code.gouv.fr/data/latest-sill.xml"}
-                    className={classes.contributeAndRssFeed}
+                    className={classes.linkWithIcon}
                     target="_blank"
                     rel="noreferrer"
                 >
                     <Icon iconId="rssFeed" className={classes.icon} />
                     &nbsp;
                     <Text typo="body 2">{t("rss feed")}</Text>
+                </a>
+                {spacing}
+                <a
+                    href={sillJsonHref}
+                    className={classes.linkWithIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Icon iconId="storage" className={classes.icon} />
+                    &nbsp;
+                    <Text typo="body 2">sill.json</Text>
                 </a>
                 {spacing}
                 <LanguageSelect
@@ -77,7 +98,15 @@ export const Footer = memo(
                     rel="noreferrer"
                 >
                     {/*NOTE: Defined in ./config-overrides.js*/}
-                    <Text typo="body 2">v{packageJsonVersion} </Text>
+                    <Text typo="body 2">sill-web: v{packageJsonVersion} </Text>
+                </a>
+                {spacing}
+                <a
+                    href={`https://github.com/etalab/sill-api/releases/tag/v${apiPackageJsonVersion}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">sill-api: v{apiPackageJsonVersion} </Text>
                 </a>
                 {spacing}
                 <DarkModeSwitch size="extra small" className={classes.darkModeSwitch} />
@@ -106,7 +135,7 @@ const useStyles = makeStyles<Props>({ "name": { Footer } })(theme => ({
     "icon": {
         "fill": theme.colors.useCases.typography.textPrimary,
     },
-    "contributeAndRssFeed": {
+    "linkWithIcon": {
         "display": "flex",
         "alignItems": "center",
     },

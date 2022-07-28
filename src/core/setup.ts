@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import * as catalogUsecase from "./usecases/catalog";
 import * as userAuthenticationUsecase from "./usecases/userAuthentication";
 import * as softwareFormUsecase from "./usecases/softwareForm";
+import * as apiInfo from "./usecases/apiInfo";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
 import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
@@ -65,7 +66,12 @@ assert<
     >
 >();
 
-export const usecases = [catalogUsecase, userAuthenticationUsecase, softwareFormUsecase];
+export const usecases = [
+    catalogUsecase,
+    userAuthenticationUsecase,
+    softwareFormUsecase,
+    apiInfo,
+];
 
 const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
 
@@ -173,6 +179,8 @@ export async function createStore(params: CreateStoreParams) {
     });
 
     await store.dispatch(userAuthenticationUsecase.privateThunks.initialize());
+
+    await store.dispatch(apiInfo.privateThunks.initialize());
 
     store.dispatch(catalogUsecase.privateThunks.initialize());
 

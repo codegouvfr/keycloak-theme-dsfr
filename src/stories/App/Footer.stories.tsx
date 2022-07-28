@@ -12,8 +12,10 @@ export default meta;
 
 export const Vue1 = getStory({
     "packageJsonVersion": "0.9.3",
+    "apiPackageJsonVersion": "1.0.0",
     "termsLink": {
         "href": "https://example.com",
         "onClick": () => {},
     },
+    "sillJsonHref": "https://sill.etalab.gouv.fr/api/sill.json",
 });
