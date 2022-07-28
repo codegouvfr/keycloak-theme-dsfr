@@ -109,6 +109,7 @@ console.log(emailDomains);
                     "cdg01.fr",
                     "strasbourg.eu",
                     "sdis30.fr",
+                    "abbeville.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
