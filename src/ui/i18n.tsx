@@ -354,7 +354,7 @@ const {
                 "use case": ({ n }) => `Card n°${n}`,
                 "tags": "Tags",
                 "tags helper": "Tags that help find the software",
-                "remove from SILL": "Remove from SILL...",
+                "dereference from SILL": "Dereference from SILL...",
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
@@ -704,7 +704,7 @@ const {
                 "use case": ({ n }) => `Fiche n°${n}`,
                 "tags": "Tags",
                 "tags helper": "Tags aidant à trouver le logiciel",
-                "remove from SILL": "Supprimer du SILL...",
+                "dereference from SILL": "Déréférencer du SILL...",
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,

@@ -331,7 +331,7 @@ export function SoftwareCard(props: Props) {
                     variant="secondary"
                     onClick={() => evtDereferenceSoftwareDialogOpen.post()}
                 >
-                    {t("remove from SILL")}
+                    {t("dereference from SILL")}
                 </Button>
             )}
             <DereferenceSoftwareDialog
@@ -718,7 +718,7 @@ export const { i18n } = declareComponentKeys<
     | { K: "use case"; P: { n: string } }
     | "tags"
     | "tags helper"
-    | "remove from SILL"
+    | "dereference from SILL"
     | {
           K: "software dereferenced";
           P: { lastRecommendedVersion?: string; reason?: string };
