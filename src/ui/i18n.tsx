@@ -708,13 +708,13 @@ const {
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
-                }) => `Ce logiciel n'es plus recommender${
-                    reason === undefined ? "" : `, ${reason}`
+                }) => `Ce logiciel n'est plus recommandé${
+                    reason === undefined ? "" : ` : « ${reason} »`
                 }.
                 ${
                     lastRecommendedVersion === undefined
                         ? ""
-                        : `Dernière version acceptable: ${lastRecommendedVersion}`
+                        : `Dernière version acceptable : ${lastRecommendedVersion}`
                 }`,
             },
             "Tags": {
