@@ -384,10 +384,10 @@ const {
                     `Retirer ${softwareName} du SILL`,
                 "cancel": "Annuler",
                 "confirm": "Confirmer",
-                "reason": "Réson du déréférencement",
+                "reason": "Raison du déréférencement",
                 "reason helper text":
-                    "Expliquez pourquoi le logiciel doit être retiré du SILL",
-                "last recommended version": "Dernière version recommandable",
+                    "Expliquez pourquoi le logiciel doit être déréférencé du SILL",
+                "last recommended version": "Dernière version recommandée",
             },
             "Account": {
                 "infos": "Information du compte",
