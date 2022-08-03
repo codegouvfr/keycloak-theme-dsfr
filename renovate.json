@@ -45,9 +45,9 @@
                 "tss-react"
             ],
             "matchUpdateTypes": ["minor", "patch"],
-            "automerge": true,
+            "automerge": false,
             "automergeType": "pr",
-            "platformAutomerge": true,
+            "platformAutomerge": false,
             "groupName": "garronej_modules_update"
         }
     ]
