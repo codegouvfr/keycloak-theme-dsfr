@@ -172,17 +172,17 @@ export function Form(props: Props) {
                                             />
                                         );
                                     }
-                                    if (fieldName === "alikeSoftware") {
-                                        const alikeSoftware =
+                                    if (fieldName === "alikeSoftwares") {
+                                        const alikeSoftwares =
                                             state.valueByFieldName[fieldName];
 
                                         return (
                                             <FormAlikeSoftwares
-                                                alikeSoftware={alikeSoftware}
-                                                onAlikeSoftwaresChange={alikeSoftware =>
+                                                alikeSoftwares={alikeSoftwares}
+                                                onAlikeSoftwaresChange={alikeSoftwares =>
                                                     softwareFormThunks.changeFieldValue({
-                                                        "fieldName": "alikeSoftware",
-                                                        "value": alikeSoftware,
+                                                        "fieldName": "alikeSoftwares",
+                                                        "value": alikeSoftwares,
                                                     })
                                                 }
                                                 softwareRefs={softwareRefs}
@@ -344,8 +344,8 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
 
 export const { i18n } = declareComponentKeys<
     | FieldErrorMessageKey
-    | Exclude<FieldName, "alikeSoftware">
-    | `${Exclude<FieldName, "alikeSoftware">} helper`
+    | Exclude<FieldName, "alikeSoftwares">
+    | `${Exclude<FieldName, "alikeSoftwares">} helper`
     | "update software"
     | "create software"
     | "cancel"

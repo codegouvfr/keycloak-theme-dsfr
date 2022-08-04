@@ -24,7 +24,7 @@ const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
         "isStillInObservation": false,
         "isFromFrenchPublicService": true,
         "isPresentInSupportContract": false,
-        "alikeSoftware": [
+        "alikeSoftwares": [
             {
                 "isKnown": false,
                 "softwareName": "AWS,GoogleCloudPlatform,MicrosoftAzure",
@@ -85,7 +85,7 @@ export const VueDefault = getStory({
     className,
     filteredSoftwares,
     "searchResultCount": 44,
-    "alikeSoftware": [],
+    "alikeSoftwares": [],
     "referentsBySoftwareId": {
         "233": {
             "referents": [],

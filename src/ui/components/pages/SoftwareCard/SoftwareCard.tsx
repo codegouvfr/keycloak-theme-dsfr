@@ -488,13 +488,13 @@ export function SoftwareCard(props: Props) {
                         }
                     />
                 )}
-                {software.alikeSoftware !== undefined &&
-                    software.alikeSoftware.length !== 0 && (
+                {software.alikeSoftwares !== undefined &&
+                    software.alikeSoftwares.length !== 0 && (
                         <DescriptiveField
                             type="text"
                             title={t("alike softwares")}
                             helperText={t("alike softwares helper")}
-                            text={software.alikeSoftware.map((softwareRef, i) => (
+                            text={software.alikeSoftwares.map((softwareRef, i) => (
                                 <Fragment key={i}>
                                     {softwareRef.isKnown ? (
                                         <MuiLink

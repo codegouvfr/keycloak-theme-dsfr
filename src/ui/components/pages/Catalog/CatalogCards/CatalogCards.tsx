@@ -35,7 +35,7 @@ export type Props = {
     className?: string;
     searchResultCount: number;
     filteredSoftwares: CompiledData.Software[];
-    alikeSoftware: (
+    alikeSoftwares: (
         | SoftwareRef.Unknown
         | {
               software: CompiledData.Software.WithoutReferent;
@@ -85,7 +85,7 @@ export const CatalogCards = memo((props: Props) => {
         className,
         searchResultCount,
         filteredSoftwares,
-        alikeSoftware,
+        alikeSoftwares,
         referentsBySoftwareId,
         openLinkBySoftwareId,
         editLinkBySoftwareId,
@@ -153,7 +153,7 @@ export const CatalogCards = memo((props: Props) => {
     const catalogCardBySoftwareId = Object.fromEntries(
         [
             ...filteredSoftwares,
-            ...alikeSoftware
+            ...alikeSoftwares
                 .map(o => (o.isKnown ? o.software : undefined))
                 .filter(exclude(undefined)),
         ]
@@ -231,14 +231,14 @@ export const CatalogCards = memo((props: Props) => {
                     )}
                 </div>
                 {(() => {
-                    if (alikeSoftware.length === 0) {
+                    if (alikeSoftwares.length === 0) {
                         return null;
                     }
 
                     const softwares: CompiledData.Software[] = [];
                     const otherSoftwareNames: string[] = [];
 
-                    alikeSoftware.forEach(alikeSoftware => {
+                    alikeSoftwares.forEach(alikeSoftware => {
                         if (alikeSoftware.isKnown) {
                             softwares.push(alikeSoftware.software);
                         } else {
@@ -264,7 +264,7 @@ export const CatalogCards = memo((props: Props) => {
                             {otherSoftwareNames.length !== 0 && (
                                 <Text typo="label 1">
                                     {capitalize(t("other similar software"))} :
-                                    {alikeSoftware
+                                    {alikeSoftwares
                                         .map(o =>
                                             o.isKnown ? undefined : o.softwareName,
                                         )

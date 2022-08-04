@@ -20,7 +20,7 @@ const software: CompiledData.Software = {
     "isStillInObservation": false,
     "isFromFrenchPublicService": true,
     "isPresentInSupportContract": false,
-    "alikeSoftware": [
+    "alikeSoftwares": [
         {
             "isKnown": false,
             "softwareName": "AWS,GoogleCloudPlatform,MicrosoftAzure",

@@ -657,14 +657,14 @@ export const selectors = (() => {
                           wikidataData,
                           tags,
                           parentSoftware,
-                          alikeSoftware,
+                          alikeSoftwares,
                       }) =>
                           [
                               name,
                               fn,
                               license,
                               comptoirDuLibreSoftware?.name,
-                              ...(alikeSoftware ?? [])
+                              ...(alikeSoftwares ?? [])
                                   .map(alikeSoftware =>
                                       alikeSoftware.isKnown
                                           ? undefined
@@ -758,7 +758,7 @@ export const selectors = (() => {
         },
     );
 
-    const alikeSoftware = createSelector(
+    const alikeSoftwares = createSelector(
         readyState,
         filteredSoftwares,
         (state, filteredSoftwares) => {
@@ -776,8 +776,8 @@ export const selectors = (() => {
 
             return filteredSoftwares
                 .slice(0, n)
-                .map(({ alikeSoftware }) =>
-                    (alikeSoftware ?? []).map(softwareRef =>
+                .map(({ alikeSoftwares }) =>
+                    (alikeSoftwares ?? []).map(softwareRef =>
                         softwareRef.isKnown
                             ? {
                                   "software": state.softwares.find(
@@ -809,13 +809,13 @@ export const selectors = (() => {
             ...softwares
                 .map(({ parentSoftware }) => parentSoftware)
                 .filter(exclude(undefined)),
-            ...softwares.map(({ alikeSoftware }) => alikeSoftware ?? []).flat(),
+            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares ?? []).flat(),
         ].reduce(...removeDuplicates<SoftwareRef>(same));
     });
 
     return {
         filteredSoftwares,
-        alikeSoftware,
+        alikeSoftwares,
         softwareNameBySoftwareId,
         searchResultCount,
         softwareRefs,
