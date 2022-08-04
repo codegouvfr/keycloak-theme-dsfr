@@ -39,7 +39,7 @@ const fieldNames = [
     "versionMin",
     "agentWorkstation",
     "tags",
-    "alikeSoftwares",
+    "alikeSoftware",
 ] as const;
 
 assert<Equals<typeof fieldNames[number], FieldName>>();
@@ -98,7 +98,7 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "versionMin": "",
     "agentWorkstation": true,
     "tags": [],
-    "alikeSoftwares": [],
+    "alikeSoftware": [],
 };
 
 export const { name, reducer, actions } = createSlice({
@@ -744,7 +744,7 @@ export const pure = (() => {
             "wikidataId",
             "comptoirDuLibreId",
             "tags",
-            "alikeSoftwares",
+            "alikeSoftware",
         ] as const;
 
         assert<

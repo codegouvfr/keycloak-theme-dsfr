@@ -21,8 +21,8 @@ import { IconButton } from "ui/theme";
 
 export type Props = {
     className?: string;
-    alikeSoftwares: SoftwareRef[];
-    onAlikeSoftwaresChange: (alikeSoftwares: SoftwareRef[]) => void;
+    alikeSoftware: SoftwareRef[];
+    onAlikeSoftwaresChange: (alikeSoftware: SoftwareRef[]) => void;
     softwareRefs: SoftwareRef[];
     softwareNameBySoftwareId: Record<number, string>;
     getLinkToSoftwareCard: (softwareName: string) => Link;
@@ -31,7 +31,7 @@ export type Props = {
 export const FormAlikeSoftwares = memo((props: Props) => {
     const {
         className,
-        alikeSoftwares,
+        alikeSoftware,
         onAlikeSoftwaresChange,
         softwareRefs,
         getLinkToSoftwareCard,
@@ -42,17 +42,17 @@ export const FormAlikeSoftwares = memo((props: Props) => {
 
     const knownAlikeSoftwares = useMemo(
         () =>
-            alikeSoftwares
+            alikeSoftware
                 .map(softwareRef => (softwareRef.isKnown ? softwareRef : undefined))
                 .filter(exclude(undefined)),
-        [alikeSoftwares],
+        [alikeSoftware],
     );
     const unknownAlikeSoftwares = useMemo(
         () =>
-            alikeSoftwares
+            alikeSoftware
                 .map(softwareRef => (softwareRef.isKnown ? undefined : softwareRef))
                 .filter(exclude(undefined)),
-        [alikeSoftwares],
+        [alikeSoftware],
     );
 
     const knownSoftwareRefs = useMemo(
@@ -85,7 +85,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
     return (
         <div className={className}>
             <Known
-                alikeSoftwares={knownAlikeSoftwares}
+                alikeSoftware={knownAlikeSoftwares}
                 softwareRefs={knownSoftwareRefs}
                 onAlikeSoftwaresChange={onKnownAlikeSoftwaresChange}
                 softwareNameBySoftwareId={softwareNameBySoftwareId}
@@ -93,7 +93,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
             />
             <Unknown
                 className={classes.unknown}
-                alikeSoftwares={unknownAlikeSoftwares}
+                alikeSoftware={unknownAlikeSoftwares}
                 softwareRefs={unknownSoftwareRefs}
                 onAlikeSoftwaresChange={onUnknownAlikeSoftwaresChange}
             />
@@ -108,8 +108,8 @@ const useStyles = makeStyles({ "name": { FormAlikeSoftwares } })(theme => ({
 }));
 
 type KnownProps = {
-    alikeSoftwares: SoftwareRef.Known[];
-    onAlikeSoftwaresChange: (alikeSoftwares: SoftwareRef.Known[]) => void;
+    alikeSoftware: SoftwareRef.Known[];
+    onAlikeSoftwaresChange: (alikeSoftware: SoftwareRef.Known[]) => void;
     softwareRefs: SoftwareRef.Known[];
     softwareNameBySoftwareId: Record<number, string>;
     getLinkToSoftwareCard: (softwareName: string) => Link;
@@ -118,7 +118,7 @@ type KnownProps = {
 const { Known } = (() => {
     const Known = memo((props: KnownProps) => {
         const {
-            alikeSoftwares,
+            alikeSoftware,
             onAlikeSoftwaresChange,
             softwareRefs,
             softwareNameBySoftwareId,
@@ -137,7 +137,7 @@ const { Known } = (() => {
             onAlikeSoftwaresChange(
                 params.isSelect
                     ? [
-                          ...alikeSoftwares,
+                          ...alikeSoftware,
                           {
                               "isKnown": true,
                               "softwareId":
@@ -145,7 +145,7 @@ const { Known } = (() => {
                                   parseInt(params.optionId)),
                           },
                       ]
-                    : alikeSoftwares.filter(
+                    : alikeSoftware.filter(
                           softwareRef =>
                               softwareRef.softwareId !== parseInt(params.optionId),
                       ),
@@ -154,7 +154,7 @@ const { Known } = (() => {
 
         const onSoftwareTagRemoveFactory = useCallbackFactory(([softwareId]: [number]) =>
             onAlikeSoftwaresChange(
-                alikeSoftwares.filter(
+                alikeSoftware.filter(
                     softwareRef => softwareRef.softwareId !== softwareId,
                 ),
             ),
@@ -172,7 +172,7 @@ const { Known } = (() => {
                 <Text typo="caption" className={classes.caption}>
                     {t("similar to")}
                 </Text>
-                {alikeSoftwares
+                {alikeSoftware
                     .map(softwareRef => (softwareRef.isKnown ? softwareRef : undefined))
                     .filter(exclude(undefined))
                     .map(({ softwareId }) => (
@@ -184,7 +184,7 @@ const { Known } = (() => {
                             onRemove={onSoftwareTagRemoveFactory(softwareId)}
                         />
                     ))}
-                {alikeSoftwares.length === 0 && (
+                {alikeSoftware.length === 0 && (
                     <Text
                         typo="body 1"
                         color="disabled"
@@ -223,7 +223,7 @@ const { Known } = (() => {
                         "id": `${softwareId}`,
                         "label": softwareNameBySoftwareId[softwareId],
                     }))}
-                    selectedOptionIds={alikeSoftwares.map(
+                    selectedOptionIds={alikeSoftware.map(
                         ({ softwareId }) => `${softwareId}`,
                     )}
                     texts={{
@@ -252,8 +252,8 @@ const { Known } = (() => {
 
 type UnknownProps = {
     className?: string;
-    alikeSoftwares: SoftwareRef.Unknown[];
-    onAlikeSoftwaresChange: (alikeSoftwares: SoftwareRef.Unknown[]) => void;
+    alikeSoftware: SoftwareRef.Unknown[];
+    onAlikeSoftwaresChange: (alikeSoftware: SoftwareRef.Unknown[]) => void;
     softwareRefs: SoftwareRef.Unknown[];
 };
 
@@ -261,7 +261,7 @@ const { Unknown } = (() => {
     const Unknown = memo((props: UnknownProps) => {
         const {
             className,
-            alikeSoftwares,
+            alikeSoftware,
             onAlikeSoftwaresChange,
             softwareRefs: softwareRefs_props,
         } = props;
@@ -299,7 +299,7 @@ const { Unknown } = (() => {
                 onAlikeSoftwaresChange(
                     params.isSelect
                         ? [
-                              ...alikeSoftwares,
+                              ...alikeSoftware,
                               {
                                   "isKnown": false,
                                   "softwareName": params.isNewOption
@@ -307,7 +307,7 @@ const { Unknown } = (() => {
                                       : params.optionId,
                               },
                           ]
-                        : alikeSoftwares.filter(
+                        : alikeSoftware.filter(
                               softwareRef => softwareRef.softwareName !== params.optionId,
                           ),
                 );
@@ -317,7 +317,7 @@ const { Unknown } = (() => {
         const onSoftwareTagRemoveFactory = useCallbackFactory(
             ([softwareName]: [string]) =>
                 onAlikeSoftwaresChange(
-                    alikeSoftwares.filter(
+                    alikeSoftware.filter(
                         softwareRef => softwareRef.softwareName !== softwareName,
                     ),
                 ),
@@ -328,7 +328,7 @@ const { Unknown } = (() => {
                 <Text typo="caption" className={classes.caption}>
                     {t("alternative to")}
                 </Text>
-                {alikeSoftwares.map(({ softwareName }) => (
+                {alikeSoftware.map(({ softwareName }) => (
                     <SoftwareTag
                         className={classes.tag}
                         key={softwareName}
@@ -336,7 +336,7 @@ const { Unknown } = (() => {
                         onRemove={onSoftwareTagRemoveFactory(softwareName)}
                     />
                 ))}
-                {alikeSoftwares.length === 0 && (
+                {alikeSoftware.length === 0 && (
                     <Text
                         typo="body 1"
                         color="disabled"
@@ -375,7 +375,7 @@ const { Unknown } = (() => {
                         "id": softwareName,
                         "label": softwareName,
                     }))}
-                    selectedOptionIds={alikeSoftwares.map(
+                    selectedOptionIds={alikeSoftware.map(
                         ({ softwareName }) => softwareName,
                     )}
                     texts={{

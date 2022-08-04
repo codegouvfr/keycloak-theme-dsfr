@@ -74,7 +74,7 @@ export function Catalog(props: Props) {
     const readyState =
         catalogState.stateDescription === "ready" ? catalogState : undefined;
     const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
-    const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
+    const { alikeSoftware } = useSelector(selectors.catalog.alikeSoftware);
     const { softwareNameBySoftwareId } = useSelector(
         selectors.catalog.softwareNameBySoftwareId,
     );
@@ -215,7 +215,7 @@ export function Catalog(props: Props) {
         return null;
     }
 
-    assert(alikeSoftwares !== undefined);
+    assert(alikeSoftware !== undefined);
     assert(filteredSoftwares !== undefined);
     assert(openLinkBySoftwareId !== undefined);
     assert(editLinkBySoftwareId !== undefined);
@@ -249,7 +249,7 @@ export function Catalog(props: Props) {
                         onSearchChange={onSearchChange}
                         onSelectedTagsChange={onSelectedTagsChange}
                         filteredSoftwares={filteredSoftwares}
-                        alikeSoftwares={alikeSoftwares}
+                        alikeSoftware={alikeSoftware}
                         referentsBySoftwareId={readyState.referentsBySoftwareId}
                         openLinkBySoftwareId={openLinkBySoftwareId}
                         parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
