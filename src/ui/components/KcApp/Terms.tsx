@@ -38,8 +38,8 @@ export const Terms = memo(
                 return url === undefined
                     ? Promise.resolve(
                           [
-                              "There was no therms of service provided in the Onyxia-web configuration.",
-                              "Provide it or disable therms as required action in Keycloak",
+                              "There was no terms of service provided in the configuration.",
+                              "Provide it or disable terms as required action in Keycloak",
                           ].join(" "),
                       )
                     : fetch(url).then(response => response.text());
