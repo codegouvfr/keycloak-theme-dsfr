@@ -407,9 +407,9 @@ const {
                     "Modifier les informations du compte (comme, par exemple, votre mot de passe)",
                 "agency name": "Nom de l'établissement de rattachement",
                 "agency name helper": "Nom de votre institution, par example DINUM",
-                "not a valid email": "Couriel non valid",
+                "not a valid email": "Courriel non valide",
                 "email helper":
-                    "UtiliUtilisé pour la connexion et pour que les utilisateurs puissent vous joindre à propos des logiciels dont vous êtes référentsé pour la connexion et pour que les utilisateurs puissent vous joindre a propos des logiciels dont vous êtes référent",
+                    "Utilisé pour la connexion et pour que les utilisateurs puissent vous joindre à propos des logiciels dont vous êtes référent",
             },
             "AccountUserInterfaceTab": {
                 "title": "Configurer l'interface",
@@ -514,22 +514,22 @@ const {
                     "Décrivez le cas d'usage de ce logiciel dans votre administration.",
                 "i am a technical expert": "Je suis expert technique",
                 "on behalf of who are you referent":
-                    "Au nom de qui vous déclarez-vous référent?",
+                    "Au nom de qui vous déclarez-vous référent ?",
                 "on my own behalf": "En mon nom propre",
                 "on my establishment behalf": "Au nom de mon établissement",
                 "yes": "Oui",
                 "no": "Non",
-                "email": "Couriel",
+                "email": "Courriel",
                 "establishment": "Établissement",
                 "expert": "Expert technique",
                 "institutional referent": "Référent institutionnel",
-                "institutional referent help": `Un référent institutionnel est référent au nom de l'établissement au quelle il est
-                rattaché, les autres référents le son a titre personnel.`,
+                "institutional referent help": `Un référent institutionnel est référent au nom de l'établissement auquel il est
+                rattaché, les autres référents le sont à titre personnel.`,
                 "mail subject": ({ softwareName }) =>
-                    `Prise de contacte relative à ${softwareName}`,
+                    `Prise de contact relative à ${softwareName}`,
                 "mail body": ({ softwareName }) => `
                 Bonjour,
-                J'ai obtenu votre contacte via sill.etalab.gouv.fr, vous êtes référent pour ${softwareName}.  
+                J'ai obtenu votre contact via sill.etalab.gouv.fr, vous êtes référent pour ${softwareName}.  
                 [...]
                 `,
             },
@@ -585,7 +585,7 @@ const {
             "Form": {
                 "agentWorkstation": "Ordinateur de l'agent",
                 "agentWorkstation helper":
-                    "S'installe sur le poste de travail de l'agent?",
+                    "S'installe sur le poste de travail de l'agent ?",
                 "cancel": "Annuler",
                 "comptoirDuLibreId": "Identifiant dans le Comptoir du Libre",
                 "comptoirDuLibreId helper":
@@ -594,9 +594,9 @@ const {
                 "function helper":
                     "Fonction du logiciel (éditeur de texte, éditeur de vidéo, etc.)",
                 "invalid wikidata id": "Entité Wikidata invalide",
-                "isFromFrenchPublicService": "🇫🇷 Développé par l'administration?",
+                "isFromFrenchPublicService": "🇫🇷 Développé par l'administration ?",
                 "isFromFrenchPublicService helper":
-                    "Est-ce que le logicel est développé par le service public francais?",
+                    "Est-ce que le logicel est développé par le service public francais ?",
                 "should be an integer": "Devrait être un identifiant numérique",
                 "license": "Licence",
                 "license helper": "Licence du logiciel (GNU GPL, BSD, etc.)",
@@ -607,7 +607,7 @@ const {
                 "update software": "Mettre à jour les informations",
                 "versionMin": "Version minimale",
                 "versionMin helper":
-                    "Quelle est la version minimale acceptable pour le logiciel?",
+                    "Quelle est la version minimale acceptable pour le logiciel ?",
                 "wikidata id already exists":
                     "Un logiciel avec cet identifiant existe déjà",
                 "wikidataId": "Entité Wikidata",
@@ -622,21 +622,21 @@ const {
                 "help": `La plupart des informations sont collectées automatiquement depuis wikidata.org.
             Il est important de renseigner l'entité Wikidata en premier, les autres champs 
             seront préremplis en fonction.  
-            Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une!`,
+            Si le logiciel n'a pas encore de fiche Wikidata, nous vous invitons à en créer une !`,
                 "tags": "Tags",
                 "tags helper": "Tags pour aider a trouver ce logiciel",
                 "change tags": ({ selectedTagsCount }) =>
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
                 "confirm give up":
-                    "Le logiciel n'a pas été mis à jour, confirmer l'abandon?",
+                    "Le logiciel n'a pas été mis à jour, confirmer l'abandon ?",
             },
             "FormAlikeSoftwares": {
                 "done": "OK",
                 "similar to": "Logiciel similaire du SILL",
                 "add": "Ajouter",
                 "alternative to": "Ce logiciel est une altérnative à",
-                "no similar software": "Il n'y a pas de logiciel simillaire dans le SILL",
-                "no alternative": "Pas une alternarive",
+                "no similar software": "Il n'y a pas de logiciel similaire dans le SILL",
+                "no alternative": "Pas une alternative",
             },
             "SoftwareCard": {
                 "update software information":
@@ -670,7 +670,7 @@ const {
                 "alike softwares helper": "Alternative identifiée à ce logiciel",
                 "workstation": "Poste agent",
                 "workstation helper":
-                    "S'agit-il d'un logiciel s'installant directement sur le poste de l'agent (exemple: LibreOffice, contre-exemple: WordPress)?",
+                    "S'agit-il d'un logiciel s'installant directement sur le poste de l'agent (exemple: LibreOffice, contre-exemple: WordPress) ?",
                 "authors": "Auteurs",
                 "authors helper":
                     "Auteurs, personne physique ou morale, à l'origine du développement du logiciel",
