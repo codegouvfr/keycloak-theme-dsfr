@@ -112,7 +112,9 @@ console.log(emailDomains);
                     "abbeville.fr",
                     "lepuyenvelay.fr",
                     "mairie-lyon.fr",
+                    "hautstolosans.fr"
                 ],
+
             )
             .map(domain => domain.toLowerCase())
             .reduce((domains, domain) => {
