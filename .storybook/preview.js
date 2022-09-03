@@ -45,7 +45,7 @@ export const parameters = {
         },
       },
       "pcINSEE": {
-        "name": "PC Agent INSEE",
+        "name": "PC Agent",
         "styles": {
           "width": "960px",
           "height": "540px"

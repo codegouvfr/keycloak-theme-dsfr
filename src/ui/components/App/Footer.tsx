@@ -21,15 +21,12 @@ export const Footer = memo(
     forwardRef<any, Props>((props, ref) => {
         const {
             className,
-            children,
             termsLink,
             packageJsonVersion,
             apiPackageJsonVersion,
             sillJsonHref,
             ...rest
         } = props;
-
-        assert(!children);
 
         //For the forwarding, rest should be empty (typewise),
         // eslint-disable-next-line @typescript-eslint/ban-types

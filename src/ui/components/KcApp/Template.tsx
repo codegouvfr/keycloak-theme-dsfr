@@ -11,7 +11,7 @@ import { useDomRect, useWindowInnerSize } from "onyxia-ui";
 import { Card } from "onyxia-ui/Card";
 import { Alert } from "onyxia-ui/Alert";
 import { headInsert } from "keycloakify/lib/tools/headInsert";
-import { join as pathJoin } from "path";
+import { pathJoin } from "ui/tools/pathJoin";
 import type { KcContext } from "./kcContext";
 import { symToStr } from "tsafe/symToStr";
 import { routes } from "ui/routes";

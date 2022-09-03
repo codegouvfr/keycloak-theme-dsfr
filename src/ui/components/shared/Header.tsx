@@ -48,9 +48,7 @@ export const Header = memo(
         const { className, logoContainerWidth, logoLink } = props;
 
         const rest = (() => {
-            const { className, logoContainerWidth, logoLink, children, ...rest } = props;
-
-            assert(!children);
+            const { className, logoContainerWidth, logoLink, ...rest } = props;
 
             switch (rest.useCase) {
                 case "login pages": {

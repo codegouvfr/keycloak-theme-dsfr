@@ -2,6 +2,7 @@
 import type { Meta, Story } from "@storybook/react";
 import type { ArgType } from "@storybook/addons";
 import { useEffect, useCallback, useMemo } from "react";
+import type { ReactNode } from "react";
 import { symToStr } from "tsafe/symToStr";
 import {
     useIsDarkModeEnabled,
@@ -71,9 +72,10 @@ export function getStoryFactory<Props>(params: {
         );
     }
 
-    const StoreProviderOrFragment: React.ComponentType = !doUseLib
-        ? ({ children }) => <>{children}</>
-        : ({ children }) => <CoreProvider>{children}</CoreProvider>;
+    const StoreProviderOrFragment: React.ComponentType<{ children: ReactNode }> =
+        !doUseLib
+            ? ({ children }) => <>{children}</>
+            : ({ children }) => <CoreProvider>{children}</CoreProvider>;
 
     const Template: Story<
         Props & {

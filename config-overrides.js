@@ -11,6 +11,13 @@ const { DefinePlugin } = require("webpack");
 
 module.exports = function override(config) {
 
+    if( !config.resolve.fallback ){
+        config.resolve.fallback= {};
+    }
+
+    //jwt-simple imports it but don't use it
+    config.resolve.fallback["crypto"]= false;
+
     if (!config.plugins) {
         config.plugins = [];
     }
