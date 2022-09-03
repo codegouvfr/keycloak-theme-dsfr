@@ -1,4 +1,5 @@
-import { objectKeys } from "tsafe/objectKeys";
+import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
 import { ReactComponent as TourSvg } from "./../assets/svg/Tour.svg";
 import { ReactComponent as ServicesSvg } from "./../assets/svg/Services.svg";
 import { ReactComponent as SecretsSvg } from "./../assets/svg/Secrets.svg";
@@ -107,4 +108,59 @@ export const createIconParams = {
     "storage": StorageIcon,
 };
 
-export const iconIds = objectKeys(createIconParams);
+export const iconIds = [
+    "delete",
+    "edit",
+    "add",
+    "filterNone",
+    "check",
+    "expandMore",
+    "attachMoney",
+    "chevronLeft",
+    "cached",
+    "close",
+    "infoOutlined",
+    "brightness7",
+    "brightness4",
+    "translate",
+    "visibility",
+    "visibilityOff",
+    "getApp",
+    "replay",
+    "help",
+    "search",
+    "cancel",
+    "bookmark",
+    "bookmarkBorder",
+    "code",
+    "link",
+    "subdirectoryArrowRight",
+    "accessTime",
+    "equalizer",
+    "moreVert",
+    "public",
+    "sentimentSatisfied",
+    "tour",
+    "services",
+    "secrets",
+    "account",
+    "home",
+    "files",
+    "collaborationTools",
+    "bash",
+    "catalog",
+    "key",
+    "language",
+    "training",
+    "people",
+    "errorOutline",
+    "assuredWorkload",
+    "grading",
+    "airplay",
+    "computer",
+    "rssFeed",
+    "playCircleFilledWhite",
+    "storage",
+] as const;
+
+assert<Equals<typeof iconIds[number], keyof typeof createIconParams>>();
