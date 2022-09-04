@@ -112,9 +112,21 @@ console.log(emailDomains);
                     "abbeville.fr",
                     "lepuyenvelay.fr",
                     "mairie-lyon.fr",
-                    "hautstolosans.fr"
+                    "hautstolosans.fr",
+                    "rennesmetropole.fr",
+                    "agrosupdijon.fr",
+                    "psl.eu",
+                    "mairie-aixenprovence.fr",
+                    "montpellier3m.fr",
+                    "morbihan-energies.fr",
+                    "angersloiremetropole.fr",
+                    "mairiedefigari.corsica",
+                    "mairie-colombes.fr",
+                    "saint-hippolyte-du-fort.com",
+                    "laregion.fr",
+                    "mairie-mandelieu.fr",
+                    "femto-st.fr",
                 ],
-
             )
             .map(domain => domain.toLowerCase())
             .reduce((domains, domain) => {
