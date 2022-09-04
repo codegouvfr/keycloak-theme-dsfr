@@ -7,10 +7,8 @@ import { createGroup } from "type-route";
 import { routes } from "ui/routes";
 import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
-import { id } from "tsafe/id";
 import { useQuery } from "react-query";
 import { createResolveLocalizedString } from "i18nifty";
-import type { KcLanguageTag } from "keycloakify";
 import { useLang, fallbackLanguage, useTranslation } from "ui/i18n";
 import { Text } from "ui/theme";
 import { makeStyles } from "ui/theme";
@@ -42,11 +40,10 @@ export function Terms(props: Props) {
                 return undefined;
             }
 
-            const { resolveLocalizedString } =
-                createResolveLocalizedString<KcLanguageTag>({
-                    "currentLanguage": lang,
-                    "fallbackLanguage": id<typeof fallbackLanguage>("en"),
-                });
+            const { resolveLocalizedString } = createResolveLocalizedString({
+                "currentLanguage": lang,
+                fallbackLanguage,
+            });
 
             return resolveLocalizedString(termsOfServices);
         }, [lang]);

@@ -3,13 +3,18 @@ import { createI18nApi, declareComponentKeys } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
 import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
-export { declareComponentKeys };
+import { z } from "zod";
+import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
 
+export { declareComponentKeys };
 export { languages };
 export type { Language };
 
 export const fallbackLanguage = "en";
+
+export type LocalizedString = Parameters<typeof resolveLocalizedString>[0];
 
 const {
     useTranslation,
@@ -738,3 +743,15 @@ export { useTranslation, resolveLocalizedString, useLang, useResolveLocalizedStr
 export const evtLang = statefulObservableToStatefulEvt({
     "statefulObservable": $lang,
 });
+
+export const zLocalizedString = z.union([
+    z.string(),
+    z.record(createUnionSchema(languages), z.string()),
+]);
+
+{
+    type Got = ReturnType<typeof zLocalizedString["parse"]>;
+    type Expected = LocalizedString;
+
+    assert<Equals<Got, Expected>>();
+}

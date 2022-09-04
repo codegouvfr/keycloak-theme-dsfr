@@ -4,12 +4,12 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import * as JSONC from "comment-json";
 import { getEnv } from "./env";
-import type { KcLanguageTag } from "keycloakify";
-import { kcLanguageTags } from "keycloakify";
 import type { IconId } from "ui/theme";
 import { iconIds } from "ui/theme/icons";
 import { z } from "zod";
 import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
+import type { LocalizedString } from "ui/i18n";
+import { zLocalizedString } from "ui/i18n";
 
 export type Configuration = {
     /**
@@ -30,17 +30,15 @@ export type Configuration = {
             email: string;
             agencyName: string;
             /** example: 'en' 'fr' ... */
-            locale: KcLanguageTag;
+            locale: string;
         };
     };
     headerLinks?: {
         iconId: IconId;
-        label: string | Partial<Record<KcLanguageTag, string>>;
+        label: LocalizedString;
         url: string;
     }[];
 };
-
-const zKcLanguageTags = createUnionSchema(kcLanguageTags);
 
 const zConfiguration = z.object({
     "apiUrl": z.string().optional(),
@@ -51,7 +49,7 @@ const zConfiguration = z.object({
                 "id": z.string(),
                 "email": z.string(),
                 "agencyName": z.string(),
-                "locale": zKcLanguageTags,
+                "locale": z.string(),
             }),
         })
         .optional(),
@@ -59,7 +57,7 @@ const zConfiguration = z.object({
         .array(
             z.object({
                 "iconId": createUnionSchema(iconIds),
-                "label": z.union([z.string(), z.record(zKcLanguageTags, z.string())]),
+                "label": zLocalizedString,
                 "url": z.string(),
             }),
         )

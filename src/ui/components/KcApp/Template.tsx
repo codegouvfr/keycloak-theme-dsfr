@@ -2,7 +2,6 @@
 
 import { useReducer, useEffect, memo } from "react";
 import type { ReactNode } from "react";
-import { getMsg } from "keycloakify";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { KcTemplateProps } from "keycloakify";
 import { Header } from "ui/components/shared/Header";
@@ -15,6 +14,7 @@ import { pathJoin } from "ui/tools/pathJoin";
 import type { KcContext } from "./kcContext";
 import { symToStr } from "tsafe/symToStr";
 import { routes } from "ui/routes";
+import type { I18n } from "./i18n";
 
 export type TemplateProps = {
     doFetchDefaultThemeResources: boolean;
@@ -29,6 +29,7 @@ export type TemplateProps = {
     formNode: ReactNode;
     infoNode?: ReactNode;
     onClickCross?(): void;
+    i18n: I18n;
 } & { kcContext: KcContext } & KcTemplateProps;
 
 export const Template = memo((props: TemplateProps) => {
@@ -183,6 +184,7 @@ const { Page } = (() => {
         formNode: ReactNode;
         infoNode?: ReactNode;
         onClickCross: (() => void) | undefined;
+        i18n: I18n;
     } & { kcContext: KcContext } & KcTemplateProps;
 
     const Page = memo((props: Props) => {
@@ -199,6 +201,7 @@ const { Page } = (() => {
             infoNode = null,
             kcContext,
             onClickCross,
+            i18n,
             ...kcProps
         } = props;
 
@@ -229,6 +232,7 @@ const { Page } = (() => {
                         displayRequiredFields={displayRequiredFields}
                         headerNode={headerNode}
                         showUsernameNode={showUsernameNode}
+                        i18n={i18n}
                     />
                     <Main
                         {...{ kcContext, ...kcProps }}
@@ -238,6 +242,7 @@ const { Page } = (() => {
                         displayWide={displayWide}
                         displayInfo={displayInfo}
                         infoNode={infoNode}
+                        i18n={i18n}
                     />
                 </Card>
             </div>
@@ -272,6 +277,7 @@ const { Page } = (() => {
             displayRequiredFields: boolean;
             headerNode: ReactNode;
             showUsernameNode?: ReactNode;
+            i18n: I18n;
         } & { kcContext: KcContext } & KcTemplateProps;
 
         const Head = memo((props: Props) => {
@@ -280,10 +286,9 @@ const { Page } = (() => {
                 displayRequiredFields,
                 headerNode,
                 showUsernameNode,
+                i18n: { msg },
                 ...kcProps
             } = props;
-
-            const { msg } = getMsg(kcContext);
 
             const { classes, cx } = useStyles();
 
@@ -402,6 +407,7 @@ const { Page } = (() => {
             displayWide?: boolean;
             displayInfo?: boolean;
             infoNode?: ReactNode;
+            i18n: I18n;
         } & { kcContext: KcContext } & KcTemplateProps;
 
         const Main = memo((props: Props) => {
@@ -413,6 +419,7 @@ const { Page } = (() => {
                 kcContext,
                 formNode,
                 infoNode,
+                i18n: { msg },
                 ...kcProps
             } = props;
 
@@ -420,8 +427,6 @@ const { Page } = (() => {
                 document.forms["kc-select-try-another-way-form" as never].submit();
                 return false;
             });
-
-            const { msg } = getMsg(kcContext);
 
             const { classes, cx } = useStyles();
 

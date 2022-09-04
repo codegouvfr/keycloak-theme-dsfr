@@ -1,7 +1,6 @@
 import { assert } from "tsafe/assert";
 import type { User } from "../ports/UserApiClient";
 import type { ThunkAction, ThunksExtraArgument } from "../setup";
-import type { KcLanguageTag } from "keycloakify";
 import { urlJoin } from "url-join-ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
@@ -9,6 +8,8 @@ import {
     isPropertyAccessedByReduxOrStorybook,
 } from "../tools/createObjectThatThrowsIfAccessed";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Language } from "sill-api";
+import type { LocalizedString } from "i18nifty";
 
 type UserAuthenticationState = {
     agencyName: {
@@ -128,7 +129,7 @@ export const thunks = {
             return oidcClient.logout({ redirectTo });
         },
     "getTermsOfServices":
-        (): ThunkAction<string | Partial<Record<KcLanguageTag, string>> | undefined> =>
+        (): ThunkAction<LocalizedString<Language> | undefined> =>
         (...args) => {
             const [, , extraArgs] = args;
 
@@ -225,7 +226,7 @@ export const privateThunks = {
 type SliceContext = {
     /** undefined when not authenticated */
     immutableUserFields: Omit<User, "agencyName" | "email"> | undefined;
-    thermsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
+    thermsOfServices: LocalizedString<Language> | undefined;
     /** Undefined it authentication is not keycloak */
     keycloakAccountConfigurationUrl: string | undefined;
 };

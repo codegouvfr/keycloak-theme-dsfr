@@ -1,25 +1,30 @@
 import { memo } from "react";
 import { Template } from "./Template";
 import type { KcProps } from "keycloakify";
-import { useDownloadTerms, getMsg } from "keycloakify";
+import { useDownloadTerms } from "keycloakify";
 import { Button } from "ui/theme";
 import { makeStyles } from "ui/theme";
 import type { KcContext } from "./kcContext";
 import { thermOfServicesPassedByClient } from "ui/valuesCarriedOverToKc/termsOfServices";
 import { createResolveLocalizedString } from "i18nifty";
 import { fallbackLanguage } from "ui/i18n";
+import type { I18n } from "./i18n";
 
 type KcContext_Terms = Extract<KcContext, { pageId: "terms.ftl" }>;
 
-export const Terms = memo(
-    ({ kcContext, ...props }: { kcContext: KcContext_Terms } & KcProps) => {
-        const { msg, msgStr } = getMsg(kcContext);
-
+const Terms = memo(
+    ({
+        kcContext,
+        i18n,
+        ...props
+    }: { kcContext: KcContext_Terms; i18n: I18n } & KcProps) => {
         const { url } = kcContext;
+
+        const { msg, msgStr } = i18n;
 
         useDownloadTerms({
             kcContext,
-            "downloadTermMarkdown": ({ currentKcLanguageTag }) => {
+            "downloadTermMarkdown": ({ currentLanguageTag }) => {
                 const url = (() => {
                     const termsOfServices = thermOfServicesPassedByClient;
 
@@ -28,7 +33,7 @@ export const Terms = memo(
                     }
 
                     const { resolveLocalizedString } = createResolveLocalizedString({
-                        "currentLanguage": currentKcLanguageTag,
+                        "currentLanguage": currentLanguageTag,
                         fallbackLanguage,
                     });
 
@@ -54,6 +59,7 @@ export const Terms = memo(
                 doFetchDefaultThemeResources={false}
                 displayMessage={false}
                 headerNode={null}
+                i18n={i18n}
                 formNode={
                     <>
                         <div className={classes.markdownWrapper}>{msg("termsText")}</div>
@@ -84,6 +90,8 @@ export const Terms = memo(
         );
     },
 );
+
+export default Terms;
 
 const useStyles = makeStyles({ "name": { Terms } })(theme => ({
     "buttonsWrapper": {

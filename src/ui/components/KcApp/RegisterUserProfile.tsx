@@ -1,8 +1,7 @@
 import { useMemo, memo, Fragment, useEffect } from "react";
 import { Template } from "./Template";
 import type { KcProps } from "keycloakify";
-import type { KcContextBase } from "keycloakify";
-import { getMsg } from "keycloakify";
+import type { KcContext } from "./kcContext";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { useFormValidationSlice } from "keycloakify";
 import { declareComponentKeys } from "i18nifty";
@@ -18,15 +17,23 @@ import { createTrpcSillApiClient } from "core/secondaryAdapters/trpcSillApiClien
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
 import { useConst } from "powerhooks/useConst";
+import { I18n } from "./i18n";
 
 const contactEmail = "logiciels-libres@data.gouv.fr";
 
-export const RegisterUserProfile = memo(
+type KcContext_RegisterUserProfile = Extract<
+    KcContext,
+    { pageId: "register-user-profile.ftl" }
+>;
+
+const RegisterUserProfile = memo(
     ({
         kcContext,
+        i18n,
         ...props_
-    }: { kcContext: KcContextBase.RegisterUserProfile } & KcProps) => {
+    }: { kcContext: KcContext_RegisterUserProfile; i18n: I18n } & KcProps) => {
         const { url, messagesPerField, recaptchaRequired, recaptchaSiteKey } = kcContext;
+        const { msg, advancedMsg, msgStr } = i18n;
 
         const evtAgencyNames = useConst(() => Evt.create<string[]>([]));
 
@@ -40,8 +47,6 @@ export const RegisterUserProfile = memo(
         }, []);
 
         useRerenderOnStateChange(evtAgencyNames);
-
-        const { msg, msgStr, advancedMsg } = getMsg(kcContext);
 
         const { classes, cx, css } = useStyles();
 
@@ -85,6 +90,7 @@ export const RegisterUserProfile = memo(
         } = useFormValidationSlice({
             kcContext,
             passwordValidators,
+            i18n,
         });
 
         const attributesWithPassword = useMemo(
@@ -131,6 +137,7 @@ export const RegisterUserProfile = memo(
                 displayRequiredFields={false}
                 doFetchDefaultThemeResources={false}
                 headerNode={msg("registerTitle")}
+                i18n={i18n}
                 formNode={
                     <form
                         className={classes.root}
@@ -421,6 +428,8 @@ export const RegisterUserProfile = memo(
         );
     },
 );
+
+export default RegisterUserProfile;
 
 export const { i18n } = declareComponentKeys<
     | { K: "minimum length"; P: { n: string } }

@@ -22,15 +22,16 @@ import { usecasesToReducer } from "redux-clean-architecture";
 import { createMiddlewareEvtActionFactory } from "redux-clean-architecture/middlewareEvtAction";
 import type { getConfiguration } from "../configuration";
 import type { Param0 } from "tsafe";
-import type { KcLanguageTag } from "keycloakify";
 import { id } from "tsafe/id";
 import type { NonPostableEvt } from "evt";
+import type { Language } from "sill-api";
+import type { LocalizedString } from "i18nifty";
 
 export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
     Pick<Param0<typeof createKeycloakOidcClient>, "evtUserActivity"> & {
         transformUrlBeforeRedirectToLogin: (params: {
             url: string;
-            termsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
+            termsOfServices: LocalizedString<Language> | undefined;
         }) => string;
     };
 
@@ -51,15 +52,12 @@ assert<
                     id: string;
                     email: string;
                     agencyName: string;
-                    locale: KcLanguageTag;
+                    locale: string;
                 };
             };
             transformUrlBeforeRedirectToLogin: (params: {
                 url: string;
-                termsOfServices:
-                    | string
-                    | Partial<Record<KcLanguageTag, string>>
-                    | undefined;
+                termsOfServices: LocalizedString<Language> | undefined;
             }) => string;
             evtUserActivity: NonPostableEvt<void>;
         }

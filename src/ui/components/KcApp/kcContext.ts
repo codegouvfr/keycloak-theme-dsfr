@@ -1,8 +1,4 @@
-import "minimal-polyfills/Object.fromEntries";
-import { getKcContext } from "keycloakify";
-import { kcMessages } from "keycloakify";
-import type { KcLanguageTag } from "keycloakify";
-import { id } from "tsafe/id";
+import { getKcContext } from "keycloakify/lib/getKcContext";
 
 /** It's the Keycloak context, it is undefined unless we are on Keycloak, rendering the login pages. */
 export const { kcContext } = getKcContext({
@@ -72,38 +68,3 @@ export const { kcContext } = getKcContext({
 });
 
 export type KcContext = NonNullable<typeof kcContext>;
-
-{
-    const extraKeys: Record<string, Partial<Record<KcLanguageTag, string>>> = {
-        "alphanumericalCharsOnly": {
-            "en": "Only alphanumerical characters",
-            /* spell-checker: disable */
-            "fr": "Caractère alphanumérique uniquement",
-            /* spell-checker: enable */
-        },
-        "administrativeEmail": {
-            "en": "Administrative Email",
-            /* spell-checker: disable */
-            "fr": "Email administratif",
-            /* spell-checker: enable */
-        },
-        "agencyName": {
-            "en": "Agency Name",
-            /* spell-checker: disable */
-            "fr": "Nom du service de rattachement",
-            /* spell-checker: enable */
-        },
-    };
-
-    id<KcLanguageTag[]>(["fr", "en"]).forEach(kcLanguageTag =>
-        Object.assign(
-            kcMessages[kcLanguageTag],
-            Object.fromEntries(
-                Object.entries(extraKeys).map(([key, wrap]) => [
-                    key,
-                    wrap[kcLanguageTag],
-                ]),
-            ),
-        ),
-    );
-}

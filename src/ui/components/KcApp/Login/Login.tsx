@@ -1,7 +1,6 @@
 import { useState, memo } from "react";
 import type { FormEventHandler } from "react";
 import type { KcProps } from "keycloakify/lib/components/KcProps";
-import { getMsg } from "keycloakify";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Template } from "../Template";
 import { Button } from "ui/theme";
@@ -21,13 +20,16 @@ import type { KcContext } from "../kcContext";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { useStateRef } from "powerhooks/useStateRef";
+import type { I18n } from "../i18n";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
-export const Login = memo(
-    ({ kcContext, ...props }: { kcContext: KcContext_Login } & KcProps) => {
-        const { msg, msgStr } = getMsg(kcContext);
-
+const Login = memo(
+    ({
+        kcContext,
+        i18n,
+        ...props
+    }: { kcContext: KcContext_Login; i18n: I18n } & KcProps) => {
         const {
             social,
             realm,
@@ -37,6 +39,8 @@ export const Login = memo(
             auth,
             registrationDisabled,
         } = kcContext;
+
+        const { msg, msgStr } = i18n;
 
         const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
@@ -148,6 +152,7 @@ export const Login = memo(
                 displayInfo={social.displayInfo}
                 displayWide={realm.password && social.providers !== undefined}
                 headerNode={msg("doLogIn")}
+                i18n={i18n}
                 formNode={
                     <div className={classes.root}>
                         {realm.password && social.providers !== undefined && (
@@ -371,3 +376,5 @@ const useStyles = makeStyles({ "name": { Login } })(theme => ({
         "padding": 0,
     },
 }));
+
+export default Login;

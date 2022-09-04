@@ -1,6 +1,6 @@
-import type { KcLanguageTag } from "keycloakify";
 import { readSerializedValue } from "ui/tools/getTransferableEnv";
 import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
+import type { LocalizedString } from "ui/i18n";
 
 const thermOfServicesUrlParamName = "THERMS_OF_SERVICES";
 
@@ -11,12 +11,12 @@ export const thermOfServicesPassedByClient = (() => {
         return undefined;
     }
 
-    return JSON.parse(serializedValue) as string | Partial<Record<KcLanguageTag, string>>;
+    return JSON.parse(serializedValue) as LocalizedString;
 })();
 
 export function injectTosInSearchParams(params: {
     url: string;
-    termsOfServices: string | Partial<Record<KcLanguageTag, string>> | undefined;
+    termsOfServices: LocalizedString | undefined;
 }): string {
     const { url, termsOfServices } = params;
 

@@ -1,56 +1,72 @@
-import { useEffect, memo } from "react";
-import { useSplashScreen } from "onyxia-ui";
-import { defaultKcProps } from "keycloakify";
-import { makeStyles } from "ui/theme";
-import { Login } from "./Login";
-import { Terms } from "./Terms";
-import { LoginUpdateProfile } from "./LoginUpdateProfile";
-import { RegisterUserProfile } from "./RegisterUserProfile";
-import { getBrowser } from "ui/tools/getBrowser";
+import { useEffect, lazy, Suspense } from "react";
 import type { KcContext } from "./kcContext";
-import { KcApp as KcAppBase } from "keycloakify/lib/components/KcApp";
+import KcAppBase, { defaultKcProps } from "keycloakify";
+import { makeStyles } from "ui/theme";
 import { useLang } from "ui/i18n";
-import { languages } from "sill-api";
-import type { Language } from "sill-api";
 import { typeGuard } from "tsafe/typeGuard";
+import type { Language } from "sill-api";
+import { languages } from "sill-api";
 import { id } from "tsafe/id";
-import { getCurrentKcLanguageTag } from "keycloakify";
+import { useSplashScreen } from "onyxia-ui";
+import { getBrowser } from "ui/tools/getBrowser";
+import { useI18n } from "./i18n";
+
+const Login = lazy(() => import("./Login"));
+const RegisterUserProfile = lazy(() => import("./RegisterUserProfile"));
+const Terms = lazy(() => import("./Terms"));
+const LoginUpdateProfile = lazy(() => import("./LoginUpdateProfile"));
 
 export type Props = {
     kcContext: KcContext;
 };
 
-export const KcApp = memo((props: Props) => {
-    const { kcContext } = props;
+export default function KcApp({ kcContext }: Props) {
+    const i18n = useI18n({ kcContext });
 
-    const { setLang } = useLang();
+    {
+        const { setLang } = useLang();
 
-    useEffect(() => {
-        const currentKcLanguageTag = getCurrentKcLanguageTag(kcContext);
+        useEffect(() => {
+            if (i18n === null) {
+                return;
+            }
 
-        if (
-            !typeGuard<Language>(
-                currentKcLanguageTag,
-                id<readonly string[]>(languages).includes(currentKcLanguageTag),
-            )
-        ) {
-            return;
-        }
+            if (
+                !typeGuard<Language>(
+                    i18n.currentLanguageTag,
+                    id<readonly string[]>(languages).includes(i18n.currentLanguageTag),
+                )
+            ) {
+                return;
+            }
 
-        setLang(currentKcLanguageTag);
-    }, []);
+            setLang(i18n.currentLanguageTag);
+        }, [i18n]);
+    }
 
-    const { hideRootSplashScreen } = useSplashScreen({
-        "fadeOutDuration": getBrowser() === "firefox" ? 0 : undefined,
-    });
+    {
+        const { hideRootSplashScreen } = useSplashScreen({
+            "fadeOutDuration": getBrowser() === "firefox" ? 0 : undefined,
+        });
 
-    useEffect(() => {
-        hideRootSplashScreen();
-    }, []);
+        useEffect(() => {
+            if (i18n === null) {
+                return;
+            }
+
+            hideRootSplashScreen();
+        }, [i18n]);
+    }
 
     const { classes } = useStyles();
 
-    const kcProps = {
+    //NOTE: Locale not yet downloaded
+    if (i18n === null) {
+        return null;
+    }
+
+    const props = {
+        i18n,
         ...defaultKcProps,
         "kcHtmlClass": [...defaultKcProps.kcHtmlClass, classes.kcHtmlClass],
         "kcLoginClass": [...defaultKcProps.kcLoginClass, classes.kcLoginClass],
@@ -62,19 +78,25 @@ export const KcApp = memo((props: Props) => {
         "kcInputClass": [...defaultKcProps.kcInputClass, classes.kcInputClass],
     };
 
-    switch (kcContext.pageId) {
-        case "login.ftl":
-            return <Login {...{ kcContext, ...kcProps }} />;
-        case "terms.ftl":
-            return <Terms {...{ kcContext, ...kcProps }} />;
-        case "login-update-profile.ftl":
-            return <LoginUpdateProfile {...{ kcContext, ...kcProps }} />;
-        case "register-user-profile.ftl":
-            return <RegisterUserProfile {...{ kcContext, ...kcProps }} />;
-        default:
-            return <KcAppBase {...{ kcContext, ...kcProps }} />;
-    }
-});
+    return (
+        <Suspense>
+            {(() => {
+                switch (kcContext.pageId) {
+                    case "login.ftl":
+                        return <Login {...{ kcContext, ...props }} />;
+                    case "terms.ftl":
+                        return <Terms {...{ kcContext, ...props }} />;
+                    case "login-update-profile.ftl":
+                        return <LoginUpdateProfile {...{ kcContext, ...props }} />;
+                    case "register-user-profile.ftl":
+                        return <RegisterUserProfile {...{ kcContext, ...props }} />;
+                    default:
+                        return <KcAppBase {...{ kcContext, ...props }} />;
+                }
+            })()}
+        </Suspense>
+    );
+}
 
 const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
     "kcLoginClass": {

@@ -1,7 +1,7 @@
 import { CatalogCards, Props } from "ui/components/pages/Catalog/CatalogCards";
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "stories/getStory";
-import { css } from "tss-react/@emotion/css";
+import { css } from "@emotion/css";
 import { id } from "tsafe/id";
 
 const { meta, getStory } = getStoryFactory({
