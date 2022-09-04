@@ -21,8 +21,10 @@ type UserAuthenticationState = {
     };
 };
 
-export const { name, reducer, actions } = createSlice({
-    "name": "userAuthentication",
+export const name = "userAuthentication" as const;
+
+export const { reducer, actions } = createSlice({
+    name,
     "initialState": createObjectThatThrowsIfAccessed<UserAuthenticationState>({
         "isPropertyWhitelisted": isPropertyAccessedByReduxOrStorybook,
         "debugMessage": "Slice not initialized",

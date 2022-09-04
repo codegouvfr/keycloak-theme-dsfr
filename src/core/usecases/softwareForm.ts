@@ -101,8 +101,10 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "alikeSoftwares": [],
 };
 
-export const { name, reducer, actions } = createSlice({
-    "name": "softwareForm",
+export const name = "softwareForm";
+
+export const { reducer, actions } = createSlice({
+    name,
     "initialState": id<SoftwareFormState>(
         id<SoftwareFormState.NotInitialized>({
             "stateDescription": "not initialized",

@@ -48,8 +48,10 @@ namespace CatalogExplorerState {
     };
 }
 
-export const { name, reducer, actions } = createSlice({
-    "name": "catalog",
+export const name = "catalog";
+
+export const { reducer, actions } = createSlice({
+    name,
     "initialState": id<CatalogExplorerState>(
         id<CatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
