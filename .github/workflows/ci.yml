@@ -21,7 +21,7 @@ jobs:
         node-version: '14'
     - uses: bahmutov/npm-install@v1
     - run: yarn build
-    - run: npx build-keycloak-theme --external-assets
+    - run: npx keycloakify --external-assets
     - uses: actions/upload-artifact@v2
       with:
         name: keycloak_theme
