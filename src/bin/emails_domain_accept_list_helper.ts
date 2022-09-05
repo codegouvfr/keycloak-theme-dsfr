@@ -126,6 +126,7 @@ console.log(emailDomains);
                     "laregion.fr",
                     "mairie-mandelieu.fr",
                     "femto-st.fr",
+                    "institutcancer.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
