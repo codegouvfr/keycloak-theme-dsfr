@@ -639,9 +639,9 @@ const {
                 "done": "OK",
                 "similar to": "Logiciel similaire du SILL",
                 "add": "Ajouter",
-                "alternative to": "Ce logiciel est une altérnative à",
-                "no similar software": "Il n'y a pas de logiciel similaire dans le SILL",
-                "no alternative": "Pas une alternative",
+                "alternative to": "Ce logiciel est une alternative à",
+                "no similar software": "Pas d'autre logiciels similaires dans le SILL",
+                "no alternative": "Pas d'alternative renseignée",
             },
             "SoftwareCard": {
                 "update software information":
