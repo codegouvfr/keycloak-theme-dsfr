@@ -9,6 +9,8 @@ import { thermOfServicesPassedByClient } from "ui/valuesCarriedOverToKc/termsOfS
 import { createResolveLocalizedString } from "i18nifty";
 import { fallbackLanguage } from "ui/i18n";
 import type { I18n } from "./i18n";
+import { evtTermMarkdown } from "keycloakify/lib/components/Terms";
+import { useRerenderOnStateChange } from "evt/hooks";
 
 type KcContext_Terms = Extract<KcContext, { pageId: "terms.ftl" }>;
 
@@ -20,15 +22,13 @@ const Terms = memo(
     }: { kcContext: KcContext_Terms; i18n: I18n } & KcProps) => {
         const { url } = kcContext;
 
-        const { msg, msgStr } = i18n;
+        const { msgStr } = i18n;
 
         useDownloadTerms({
             kcContext,
             "downloadTermMarkdown": ({ currentLanguageTag }) => {
                 const url = (() => {
-                    const termsOfServices = thermOfServicesPassedByClient;
-
-                    if (termsOfServices === undefined) {
+                    if (thermOfServicesPassedByClient === undefined) {
                         return undefined;
                     }
 
@@ -37,7 +37,7 @@ const Terms = memo(
                         fallbackLanguage,
                     });
 
-                    return resolveLocalizedString(termsOfServices);
+                    return resolveLocalizedString(thermOfServicesPassedByClient);
                 })();
 
                 return url === undefined
@@ -51,7 +51,13 @@ const Terms = memo(
             },
         });
 
+        useRerenderOnStateChange(evtTermMarkdown);
+
         const { classes } = useStyles();
+
+        if (evtTermMarkdown.state === undefined) {
+            return null;
+        }
 
         return (
             <Template
@@ -62,8 +68,9 @@ const Terms = memo(
                 i18n={i18n}
                 formNode={
                     <>
-                        <div className={classes.markdownWrapper}>{msg("termsText")}</div>
-
+                        <div className={classes.markdownWrapper}>
+                            {evtTermMarkdown.state}
+                        </div>
                         <form
                             className="form-actions"
                             action={url.loginAction}
