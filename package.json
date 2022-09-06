@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.etalab.gouv.fr",
     "name": "sill-web",
-    "version": "0.25.30",
+    "version": "0.25.31",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
@@ -83,7 +83,7 @@
         "run-exclusive": "^2.2.16",
         "sill-api": "0.22.3",
         "tsafe": "^0.10.1",
-        "tss-react": "^3.7.1",
+        "tss-react": "^4.1.1",
         "type-route": "^0.7.1",
         "unorm": "^1.6.0",
         "url-join-ts": "^1.0.5",
