@@ -11309,10 +11309,10 @@ keycloak-js@^18.0.0:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
 
-keycloakify@6.0.0-beta.13:
-  version "6.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-6.0.0-beta.13.tgz#93ad7ffa13632dbdafa7b39625642285ebb00827"
-  integrity sha512-GQ1rknmclB1h7AjRL2KhW61LGpAZ1slB9E8fupUzpLgqjvsn5pzXhBy01ZpIADP9D1CtakvUYX9Z5nprn6TyLg==
+keycloakify@6.0.0-beta.14:
+  version "6.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-6.0.0-beta.14.tgz#5f6aa60e53db7f8918cf6235d7304eaa89e909f5"
+  integrity sha512-vafGz2H0dK2kNIBIijQ3vOhritKaINWMlUR+pInaQ9Lg+blf/FDIBwwD4Ok9myRSyJzjfhtbSTHl5ahJKt4Dfw==
   dependencies:
     "@octokit/rest" "^18.12.0"
     cheerio "^1.0.0-rc.5"
@@ -11325,7 +11325,7 @@ keycloakify@6.0.0-beta.13:
     react-markdown "^5.0.3"
     scripting-tools "^0.19.13"
     tsafe "^1.0.1"
-    tss-react "^4.0.0"
+    tss-react "^4.1.1"
     zod "^3.17.10"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
@@ -16131,10 +16131,10 @@ tss-react@^3.7.1:
     "@emotion/serialize" "*"
     "@emotion/utils" "*"
 
-tss-react@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-4.1.0.tgz#f4ce5b1ed174d279af5b1f946ab8a47d417fd2a5"
-  integrity sha512-uo6/YTlADv7LA4cpz3GMQvtbFxM30D/1H5SQSz63+rMMh3ijQfQEq08DLNyg+LMfcC/7PJeH2Cer+DshjGJVDg==
+tss-react@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-4.1.1.tgz#207220417e4b2f8eb26d8280ab9cdeb385063069"
+  integrity sha512-K1U2s/GGw+XycUjJGztJsLUhwm8KJWz5afL5WZU3SwMeQsA+gbETM6bSxVk2/DXBdw9uYLL9jkSYPAXh0tfYBw==
   dependencies:
     "@emotion/cache" "*"
     "@emotion/serialize" "*"
