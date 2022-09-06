@@ -263,7 +263,7 @@ export const CatalogCards = memo((props: Props) => {
                             </div>
                             {otherSoftwareNames.length !== 0 && (
                                 <Text typo="label 1">
-                                    {capitalize(t("other similar software"))} :
+                                    {capitalize(t("other similar software"))} : 
                                     {alikeSoftwares
                                         .map(o =>
                                             o.isKnown ? undefined : o.softwareName,
