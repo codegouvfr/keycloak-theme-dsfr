@@ -121,8 +121,6 @@ export const CatalogCards = memo((props: Props) => {
         return false;
     })();
 
-    console.log({ hasMoreToLoad });
-
     const { classes, css, theme } = useStyles({
         "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
