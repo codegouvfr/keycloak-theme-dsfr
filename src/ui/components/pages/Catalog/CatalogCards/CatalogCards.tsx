@@ -121,6 +121,8 @@ export const CatalogCards = memo((props: Props) => {
         return false;
     })();
 
+    console.log({ hasMoreToLoad });
+
     const { classes, css, theme } = useStyles({
         "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
@@ -263,7 +265,7 @@ export const CatalogCards = memo((props: Props) => {
                             </div>
                             {otherSoftwareNames.length !== 0 && (
                                 <Text typo="label 1">
-                                    {capitalize(t("other similar software"))} : 
+                                    {capitalize(t("other similar software"))} :
                                     {alikeSoftwares
                                         .map(o =>
                                             o.isKnown ? undefined : o.softwareName,
@@ -276,7 +278,10 @@ export const CatalogCards = memo((props: Props) => {
                     );
                 })()}
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
-                    <CircularProgress color="textPrimary" />
+                    <CircularProgress
+                        className={classes.moreToLoadProgress}
+                        color="textPrimary"
+                    />
                 </div>
             </div>
         </>
@@ -298,12 +303,19 @@ export const { i18n } = declareComponentKeys<
     | "filter by tags"
 >()({ CatalogCards });
 
-const useStyles = makeStyles<{
-    filteredCardCount: number;
-    hasMoreToLoad: boolean;
-    doRenderSearchBarInHeader: boolean;
-}>({ "name": { CatalogCards } })(
-    (theme, { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader }) => ({
+const useStyles = makeStyles<
+    {
+        filteredCardCount: number;
+        hasMoreToLoad: boolean;
+        doRenderSearchBarInHeader: boolean;
+    },
+    "moreToLoadProgress"
+>({ "name": { CatalogCards } })(
+    (
+        theme,
+        { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader },
+        classes,
+    ) => ({
         "searchBarWrapper": {
             "paddingBottom": theme.spacing(4),
             ...(doRenderSearchBarInHeader
@@ -339,12 +351,13 @@ const useStyles = makeStyles<{
                       ...theme.spacing.topBottom("padding", 3),
                   }
                 : {
-                      "& > *": {
+                      [`& .${classes.moreToLoadProgress}`]: {
                           "display": "none",
                       },
                       "height": theme.spacing(3),
                   }),
         },
+        "moreToLoadProgress": {},
         "formLinkButton": {
             "marginLeft": theme.spacing(3),
         },
