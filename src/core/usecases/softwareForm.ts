@@ -281,7 +281,12 @@ export const thunks = {
                                           if (
                                               typeGuard<
                                                   keyof typeof software & typeof fieldName
-                                              >(fieldName, fieldName in software)
+                                              >(
+                                                  fieldName,
+                                                  id<readonly string[]>(
+                                                      softwareKeys,
+                                                  ).includes(fieldName),
+                                              )
                                           ) {
                                               const value = software[fieldName];
 
@@ -769,3 +774,34 @@ const { resolveLocalizedString } = createResolveLocalizedString({
     "currentLanguage": "fr",
     "fallbackLanguage": "en",
 });
+
+const softwareKeys = [
+    "id",
+    "name",
+    "function",
+    "referencedSinceTime",
+    "dereferencing",
+    "isStillInObservation",
+    "parentSoftware",
+    "isFromFrenchPublicService",
+    "isPresentInSupportContract",
+    "alikeSoftwares",
+    "license",
+    "contextOfUse",
+    "catalogNumeriqueGouvFrId",
+    "mimGroup",
+    "versionMin",
+    "workshopUrls",
+    "testUrls",
+    "useCaseUrls",
+    "agentWorkstation",
+    "tags",
+    "referentCount",
+    "hasExpertReferent",
+    "wikidataData",
+    "comptoirDuLibreSoftware",
+] as const;
+
+assert<
+    Equals<typeof softwareKeys[number], keyof CompiledData.Software.WithoutReferent>
+>();
