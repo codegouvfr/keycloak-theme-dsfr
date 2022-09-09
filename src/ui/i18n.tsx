@@ -451,7 +451,7 @@ const {
                 "use your administrative email": "Votre courriel en tant qu'agent public",
                 "you domain isn't allowed yet": ({ contactEmail }) => (
                     <>
-                        Votre domaine n'est pas encore autorisé. Si vous êtes agent public, contactez-nous à {contactEmail}
+                        Votre domaine n'est pas encore autorisé. Contactez-nous à {contactEmail}
                     </>
                 ),
             },
