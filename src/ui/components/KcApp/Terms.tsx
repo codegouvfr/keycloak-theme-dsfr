@@ -11,6 +11,7 @@ import { fallbackLanguage } from "ui/i18n";
 import type { I18n } from "./i18n";
 import { evtTermMarkdown } from "keycloakify/lib/components/Terms";
 import { useRerenderOnStateChange } from "evt/hooks";
+import { Markdown } from "keycloakify/lib/tools/Markdown";
 
 type KcContext_Terms = Extract<KcContext, { pageId: "terms.ftl" }>;
 
@@ -69,7 +70,9 @@ const Terms = memo(
                 formNode={
                     <>
                         <div className={classes.markdownWrapper}>
-                            {evtTermMarkdown.state}
+                            {evtTermMarkdown.state && (
+                                <Markdown>{evtTermMarkdown.state}</Markdown>
+                            )}
                         </div>
                         <form
                             className="form-actions"
