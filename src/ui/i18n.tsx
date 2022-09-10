@@ -449,10 +449,10 @@ const {
             Cordialement,
             `,
                 "use your administrative email": "Votre courriel en tant qu'agent public",
-                "you domain isn't allowed yet": ({ contactEmail, mailtoHref }) => (
+                "you domain isn't allowed yet": ({ contactEmail }) => (
                     <>
                         Votre domaine n'est pas encore autorisé. Contactez-nous à{" "}
-                        <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+                        {contactEmail}
                     </>
                 ),
             },
