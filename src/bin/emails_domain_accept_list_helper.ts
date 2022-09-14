@@ -128,6 +128,8 @@ console.log(emailDomains);
                     "femto-st.fr",
                     "institutcancer.fr",
                     "cdg57.fr",
+                    "paris.fr",
+                    "parc-haut-jura.fr",
                 ],
             )
             .map(domain => domain.toLowerCase())
