@@ -27,6 +27,9 @@ export const { kcContext } = getKcContext({
         },
         {
             "pageId": "register-user-profile.ftl",
+            "locale": {
+                "currentLanguageTag": "fr",
+            },
             "profile": {
                 "attributes": [
                     {
