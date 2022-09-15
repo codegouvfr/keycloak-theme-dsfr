@@ -130,6 +130,7 @@ console.log(emailDomains);
                     "cdg57.fr",
                     "paris.fr",
                     "parc-haut-jura.fr",
+                    "cefedem-aura.org",
                 ],
             )
             .map(domain => domain.toLowerCase())
