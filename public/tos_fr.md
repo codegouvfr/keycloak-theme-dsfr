@@ -2,7 +2,7 @@
 
 *Mises à jour le 9 Mai 2022.*
 
-## Présentation / Fonctionnalités
+## Présentation et fonctionnalités
 
 [Le site du SILL](https://sill.etalab.gouv.fr) et [la platfome
 "Embarquement immédiat"](https://test.sill.etalab.gouv.fr) qui lui est
@@ -46,16 +46,23 @@ Nous nous réservons le droit de partager avec l'Insee la liste des
 comptes ouverts sur [sill.etalab.gouv.fr](https://sill.etalab.gouv.fr)
 si une activité frauduleuse est suspectée.
 
-## La création de comptes sur le SSP Cloud
+## La création de comptes
 
-L'accès au SSP Cloud nécessite une inscription préalable et une
+L'accès au SILL nécessite une inscription préalable et une
 authentification.  L'inscription et l'authentification peuvent être
 réalisées grâce au service AgentConnect.  Seul les agents publics ont
 accès au services.  Si vous êtes agent public et que votre email n'est
-pas accepté dans le formulaire d'inscription vous pouvez nous
-écrire à [logiciels-libres@data.gouv.fr](mailto:logiciels-libres@data.gouv.fr).
+pas accepté dans le formulaire d'inscription vous pouvez nous écrire à
+[logiciels-libres@data.gouv.fr](mailto:logiciels-libres@data.gouv.fr).
 
 ## Propriété intellectuelle
+
+### Licence des données du SILL
+
+Les données du SILL sont
+[téléchargeables](https://sill.etalab.gouv.fr/api/sill.json) au format
+`json` et sont publiées sous [licence Ouverte
+2.0](https://github.com/etalab/licence-ouverte/blob/master/LO.md).
 
 ### Droits de propriété intellectuelle afférents à la plateforme
 
@@ -117,7 +124,7 @@ Service immédiatement supprimé.
 
 L'Insee se réserve la liberté de faire évoluer, de modifier ou de
 suspendre, sans préavis, le Service pour des raisons de maintenance ou
-pour tout autre motif jugé nécessaire. L'information est alors
+pour tout autre motif jugé nécessaire.  L'information est alors
 communiquée aux utilisateurs via Tchap. Les termes des présentes
 conditions d'utilisation peuvent être modifiés ou complétés à tout
 moment, sans préavis, en fonction des modifications apportées au
@@ -134,11 +141,6 @@ soumis à la législation française. En cas de litige, les tribunaux
 français seront compétents.
 
 ## Contact
-
-Pour les problèmes techniques et/ou fonctionnels rencontrés sur la
-plateforme, il est conseillé, dans un premier temps de solliciter les
-communautés de pairs dans les espaces collaboratifs prévus à cet effet
-sur Tchap et Rocket Chat-MIM Libre.
 
 Pour toute question sur les logiciels libres en général, vous pouvez
 contacter le pôle logiciels libres d'Etalab à la DINUM via l'adresse
