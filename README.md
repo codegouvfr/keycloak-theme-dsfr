@@ -1,5 +1,3 @@
-# SILL WEB
-
 <p align="center">
     <i>sill.etalab.gouv.fr frontend</i>
     <br>
@@ -10,6 +8,7 @@
     <a href="https://github.com/etalab/sill-web/blob/main/LICENSE">
       <img src="https://img.shields.io/npm/l/sill-api">
     </a>
+    </br>
     <a href="https://etalab-2.gitbook.io/sill/">Documentation</a>
 </p>
 
