@@ -1,5 +1,5 @@
 <p align="center">
-    <i>sill.etalab.gouv.fr frontend</i>
+    <i><a href="https://sill.etalab.gouv.fr">sill.etalab.gouv.fr</a> frontend</i>
     <br>
     <br>
     <a href="https://github.com/etalab/sill-web/actions">
