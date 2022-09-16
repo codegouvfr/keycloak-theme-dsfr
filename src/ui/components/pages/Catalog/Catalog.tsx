@@ -233,7 +233,7 @@ export function Catalog(props: Props) {
                 title={t("header text1")}
                 helpTitle={t("header text2")}
                 helpContent={t("what is the SILL", {
-                    "href": "https://man.sr.ht/~etalab/logiciels-libres/sill.md",
+                    "href": "https://etalab-2.gitbook.io/sill/",
                 })}
                 helpIcon="sentimentSatisfied"
                 titleCollapseParams={titleCollapseParams}
