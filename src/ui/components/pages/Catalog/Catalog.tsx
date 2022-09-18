@@ -233,7 +233,7 @@ export function Catalog(props: Props) {
                 title={t("header text1")}
                 helpTitle={t("header text2")}
                 helpContent={t("what is the SILL", {
-                    "href": "https://etalab-2.gitbook.io/sill/",
+                    "link": routes.readme().link,
                 })}
                 helpIcon="sentimentSatisfied"
                 titleCollapseParams={titleCollapseParams}
@@ -270,7 +270,7 @@ export function Catalog(props: Props) {
 export const { i18n } = declareComponentKeys<
     | "header text1"
     | "header text2"
-    | { K: "what is the SILL"; P: { href: string }; R: JSX.Element }
+    | { K: "what is the SILL"; P: { link: Link }; R: JSX.Element }
 >()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({

@@ -15,6 +15,7 @@ import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
 import { Form } from "ui/components/pages/Form";
 import { Terms } from "ui/components/pages/Terms";
+import { Readme } from "ui/components/pages/Readme";
 import { SoftwareCard } from "ui/components/pages/SoftwareCard";
 import { typeGuard } from "tsafe/typeGuard";
 import { Language } from "sill-api";
@@ -326,6 +327,19 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     {
         const Page = Terms;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = Readme;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {

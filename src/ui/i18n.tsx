@@ -216,13 +216,11 @@ const {
                 "header text1": "Recommended Free Software catalog",
                 "header text2":
                     "Catalog of used and recommended free and open source software for administrative public services.",
-                "what is the SILL": ({ href }) => (
+                "what is the SILL": ({ link }) => (
                     <>
                         {" "}
-                        <MuiLink href={href} target="_blank">
-                            Click here
-                        </MuiLink>{" "}
-                        to learn more about what is the SILL.{" "}
+                        <MuiLink {...link}>Click here</MuiLink> to learn more about what
+                        is the SILL.{" "}
                     </>
                 ),
             },
@@ -560,12 +558,10 @@ const {
                 "header text1": "Catalogue des logiciels libres du SILL",
                 "header text2":
                     "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
-                "what is the SILL": ({ href }) => (
+                "what is the SILL": ({ link }) => (
                     <>
                         {" "}
-                        <MuiLink href={href} target="_blank">
-                            Cliquez ici
-                        </MuiLink>
+                        <MuiLink {...link}>Cliquez ici</MuiLink>
                         &nbsp;pour comprendre ce qu'est le SILL et quelles sont ses
                         missions
                     </>

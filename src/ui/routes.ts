@@ -52,6 +52,7 @@ const routeDefs = {
     ),
     "fourOhFour": defineRoute("/404"),
     "terms": defineRoute("/terms"),
+    "readme": defineRoute("/readme"),
 };
 
 export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);
