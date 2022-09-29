@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.etalab.gouv.fr",
     "name": "sill-web",
-    "version": "0.25.44",
+    "version": "0.25.45",
     "license": "MIT",
     "scripts": {
         "start": "./.env.local.sh react-app-rewired start",
@@ -69,7 +69,7 @@
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "node-fetch": "^2.6.1",
-        "onyxia-ui": "^0.46.28",
+        "onyxia-ui": "^0.46.29",
         "path": "^0.12.7",
         "powerhooks": "^0.20.17",
         "react": "^18.2.0",
