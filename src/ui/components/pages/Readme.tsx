@@ -6,8 +6,8 @@ import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
 import { useQuery } from "react-query";
 import { makeStyles } from "ui/theme";
-import readmeUrl from "ui/assets/md/readme.md";
-//const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
+import { useThunks } from "ui/coreApi";
+const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
 
 Readme.routeGroup = createGroup([routes.readme]);
 
@@ -23,8 +23,10 @@ export type Props = {
 export function Readme(props: Props) {
     const { className } = props;
 
+    const { fetchProxyThunks } = useThunks();
+
     const { data: readme } = useQuery(["readme", readmeUrl], () =>
-        fetch(readmeUrl).then(res => res.text()),
+        fetchProxyThunks.downloadCoreProtectedTextFile(readmeUrl),
     );
 
     {

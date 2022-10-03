@@ -47,6 +47,9 @@ export type SillApiClient = {
     dereferenceSoftware: (
         params: InferInput<"dereferenceSoftware">,
     ) => Promise<InferOutput<"dereferenceSoftware">>;
+    downloadCorsProtectedTextFile: (
+        params: InferInput<"downloadCorsProtectedTextFile">,
+    ) => Promise<InferOutput<"downloadCorsProtectedTextFile">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery

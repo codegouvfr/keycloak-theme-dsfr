@@ -43,5 +43,7 @@ export function createServerlessSillApiClient(params: {
             "promise": true,
         }),
         "dereferenceSoftware": () => Promise.reject(new Error("not implemented")),
+        "downloadCorsProtectedTextFile": () =>
+            Promise.reject(new Error("not implemented")),
     };
 }

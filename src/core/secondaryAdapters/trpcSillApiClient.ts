@@ -43,5 +43,7 @@ export function createTrpcSillApiClient(params: {
         "getTags": memoize(() => trpcClient.query("getTags"), { "promise": true }),
         "dereferenceSoftware": params =>
             trpcClient.mutation("dereferenceSoftware", params),
+        "downloadCorsProtectedTextFile": params =>
+            trpcClient.query("downloadCorsProtectedTextFile", params),
     };
 }
