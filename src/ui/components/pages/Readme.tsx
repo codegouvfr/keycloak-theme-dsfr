@@ -25,8 +25,12 @@ export function Readme(props: Props) {
 
     const { fetchProxyThunks } = useThunks();
 
-    const { data: readme } = useQuery(["readme", readmeUrl], () =>
-        fetchProxyThunks.downloadCoreProtectedTextFile(readmeUrl),
+    const { data: readme } = useQuery(
+        ["readme", readmeUrl],
+        () =>
+            fetchProxyThunks
+                .downloadCoreProtectedTextFile(readmeUrl)
+                .then(text => text.split("---").reverse()[0]), // Remove title that isn't standard Markdown
     );
 
     {
