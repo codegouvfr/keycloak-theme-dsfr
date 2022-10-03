@@ -212,6 +212,11 @@ export function Form(props: Props) {
                                                     doRenderAsTextArea={
                                                         fieldName === "generalInfoMd"
                                                     }
+                                                    rows={
+                                                        fieldName === "generalInfoMd"
+                                                            ? 5
+                                                            : undefined
+                                                    }
                                                     label={`${t(fieldName)}${
                                                         !pure.softwareForm.getIsOptionalField(
                                                             fieldName,
