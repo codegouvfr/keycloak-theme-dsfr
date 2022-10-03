@@ -91,7 +91,7 @@ export function Form(props: Props) {
         state.stateDescription === "form ready" && state.isSubmitting,
     ]);
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
 
     const evtOpenDialogIsExpert = useConst(() => Evt.create());
 
@@ -202,6 +202,16 @@ export function Form(props: Props) {
                                         case "number":
                                             return (
                                                 <TextField
+                                                    {...(fieldName !== "generalInfoMd"
+                                                        ? undefined
+                                                        : {
+                                                              "className": css({
+                                                                  "gridColumn": "span 2",
+                                                              }),
+                                                          })}
+                                                    doRenderAsTextArea={
+                                                        fieldName === "generalInfoMd"
+                                                    }
                                                     label={`${t(fieldName)}${
                                                         !pure.softwareForm.getIsOptionalField(
                                                             fieldName,

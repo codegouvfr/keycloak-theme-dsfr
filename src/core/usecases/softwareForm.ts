@@ -38,6 +38,7 @@ const fieldNames = [
     "license",
     "versionMin",
     "agentWorkstation",
+    "generalInfoMd",
     "tags",
     "alikeSoftwares",
 ] as const;
@@ -97,6 +98,7 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "license": "",
     "versionMin": "",
     "agentWorkstation": true,
+    "generalInfoMd": "",
     "tags": [],
     "alikeSoftwares": [],
 };
@@ -752,6 +754,7 @@ export const pure = (() => {
             "comptoirDuLibreId",
             "tags",
             "alikeSoftwares",
+            "generalInfoMd",
         ] as const;
 
         assert<
@@ -800,6 +803,7 @@ const softwareKeys = [
     "hasExpertReferent",
     "wikidataData",
     "comptoirDuLibreSoftware",
+    "generalInfoMd",
 ] as const;
 
 assert<

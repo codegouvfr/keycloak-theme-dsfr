@@ -1,18 +1,15 @@
 import { memo } from "react";
 import { makeStyles, Text } from "ui/theme";
-import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui/i18n";
 
 export type Props = {
     className?: string;
+    text: string;
 };
 
-export const LoginDivider = memo((props: Props) => {
-    const { className } = props;
+export const DividerWithText = memo((props: Props) => {
+    const { className, text } = props;
 
     const { classes, cx } = useStyles();
-
-    const { t } = useTranslation({ LoginDivider });
 
     const separator = <div role="separator" className={classes.separator} />;
 
@@ -20,16 +17,14 @@ export const LoginDivider = memo((props: Props) => {
         <div className={cx(classes.root, className)}>
             {separator}
             <Text typo="body 2" color="secondary" className={classes.text}>
-                {t("or")}
+                {text}
             </Text>
             {separator}
         </div>
     );
 });
 
-export const { i18n } = declareComponentKeys<"or">()({ LoginDivider });
-
-const useStyles = makeStyles({ "name": { LoginDivider } })(theme => ({
+const useStyles = makeStyles({ "name": { DividerWithText } })(theme => ({
     "root": {
         "display": "flex",
         "alignItems": "center",

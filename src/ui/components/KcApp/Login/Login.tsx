@@ -14,7 +14,7 @@ import { useSplashScreen } from "onyxia-ui";
 import { getBrowser } from "ui/tools/getBrowser";
 import { useEvt } from "evt/hooks";
 import { Evt } from "evt";
-import { LoginDivider } from "./LoginDivider";
+import { DividerWithText } from "ui/components/shared/DividerWithText";
 import { AgentConnectButton } from "./AgentConnectButton";
 import type { KcContext } from "../kcContext";
 import { declareComponentKeys } from "i18nifty";
@@ -177,7 +177,10 @@ const Login = memo(
                                         ))}
                                     </ul>
                                 </div>
-                                <LoginDivider className={classes.divider} />
+                                <DividerWithText
+                                    className={classes.divider}
+                                    text={t("or")}
+                                />
                             </>
                         )}
                         <div>
@@ -331,7 +334,7 @@ const Login = memo(
     },
 );
 
-export const { i18n } = declareComponentKeys<"doRegister">()({ Login });
+export const { i18n } = declareComponentKeys<"doRegister" | "or">()({ Login });
 
 const useStyles = makeStyles({ "name": { Login } })(theme => ({
     "root": {

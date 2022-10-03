@@ -40,7 +40,6 @@ const {
     | typeof import("ui/components/pages/Catalog").i18n
     | typeof import("ui/components/pages/Terms").i18n
     | typeof import("ui/components/App/Footer").i18n
-    | typeof import("ui/components/KcApp/Login/LoginDivider").i18n
     | typeof import("ui/components/KcApp/Login").i18n
     | typeof import("ui/components/KcApp/RegisterUserProfile").i18n
     | typeof import("ui/components/shared/Tags/Tags").i18n
@@ -234,11 +233,9 @@ const {
                 "change language": "Change language",
                 "rss feed": "RSS Feed",
             },
-            "LoginDivider": {
-                "or": "or",
-            },
             "Login": {
                 "doRegister": "Create an account",
+                "or": "or",
             },
             "Form": {
                 "agentWorkstation": "Agent workstation",
@@ -288,6 +285,9 @@ const {
                 "change tags": ({ selectedTagsCount }) =>
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
                 "confirm give up": "The software haven't been updated yet, confirm quit?",
+                "generalInfoMd": "General information",
+                "generalInfoMd helper":
+                    "A multiline Markdown text where you can includes extra information about the software",
             },
             "FormAlikeSoftwares": {
                 "done": "Done",
@@ -369,6 +369,7 @@ const {
                         ? ""
                         : `Last acceptable version: ${lastRecommendedVersion}`
                 }`,
+                "general info": "General information",
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -577,11 +578,9 @@ const {
                 "change language": "Changer la langue",
                 "rss feed": "Flux RSS",
             },
-            "LoginDivider": {
-                "or": "ou",
-            },
             "Login": {
                 "doRegister": "Créer un compte",
+                "or": "ou",
             },
             "Form": {
                 "agentWorkstation": "Ordinateur de l'agent",
@@ -630,6 +629,9 @@ const {
                     selectedTagsCount === 0 ? "Add tags" : "Add or remove tags",
                 "confirm give up":
                     "Le logiciel n'a pas été mis à jour, confirmer l'abandon ?",
+                "generalInfoMd": "Information générale",
+                "generalInfoMd helper":
+                    "Un texte en Markdown multiligne où vous pouvez spécifier des information que vous jugerez pertinente a propos du logiciel",
             },
             "FormAlikeSoftwares": {
                 "done": "OK",
@@ -710,13 +712,14 @@ const {
                     lastRecommendedVersion,
                     reason,
                 }) => `Ce logiciel n'est plus recommandé${
-                    reason === undefined ? "" : ` : « ${reason} »`
+                    reason === undefined ? "" : ` : « ${reason} »`
                 }.
                 ${
                     lastRecommendedVersion === undefined
                         ? ""
-                        : `Dernière version acceptable : ${lastRecommendedVersion}`
+                        : `Dernière version acceptable : ${lastRecommendedVersion}`
                 }`,
+                "general info": "Information general",
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>

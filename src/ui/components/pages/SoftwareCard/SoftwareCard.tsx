@@ -31,6 +31,8 @@ import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 import { DereferenceSoftwareDialog } from "./DereferenceSoftwareDialog";
 import type { DereferenceSoftwareDialogProps } from "./DereferenceSoftwareDialog";
 import { Text } from "ui/theme";
+import { Markdown } from "onyxia-ui/Markdown";
+import { DividerWithText } from "ui/components/shared/DividerWithText";
 
 //TODO: We should have a dedicated usecase for this page.
 
@@ -340,20 +342,6 @@ export function SoftwareCard(props: Props) {
                 onAnswer={onDereferenceSoftware}
             />
             <Card className={classes.card}>
-                <DescriptiveField
-                    type="text"
-                    title={t("software name")}
-                    text={capitalize(
-                        [software.wikidataData?.label]
-                            .filter(exclude(undefined))
-                            .map(resolveLocalizedString)[0] ?? software.name,
-                    )}
-                />
-                <DescriptiveField
-                    type="text"
-                    title={t("software function")}
-                    text={softwareFunction}
-                />
                 {software.testUrls.length !== 0 && (
                     <DescriptiveField
                         type="text"
@@ -623,6 +611,14 @@ export function SoftwareCard(props: Props) {
                         ))}
                     />
                 )}
+                {software.generalInfoMd !== undefined && (
+                    <>
+                        <DividerWithText text={t("general info")} />
+                        <Markdown className={classes.generalInfo}>
+                            {software.generalInfoMd}
+                        </Markdown>
+                    </>
+                )}
             </Card>
             <ReferentDialogs
                 referents={referents}
@@ -665,6 +661,13 @@ const useStyles = makeStyles<{ imgWidth: number }>({
     },
     "dereferencedText": {
         "color": theme.colors.useCases.alertSeverity.error.main,
+    },
+    "generalInfo": {
+        /*
+        "borderTop": `1px solid ${theme.colors.useCases.typography.textSecondary}`,
+        "marginTop": theme.spacing(4),
+        "paddingTop": theme.spacing(4)
+        */
     },
 }));
 
@@ -723,4 +726,5 @@ export const { i18n } = declareComponentKeys<
           K: "software dereferenced";
           P: { lastRecommendedVersion?: string; reason?: string };
       }
+    | "general info"
 >()({ SoftwareCard });
