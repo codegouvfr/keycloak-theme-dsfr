@@ -429,6 +429,23 @@ export function SoftwareCard(props: Props) {
                         }
                     />
                 )}
+                {software.catalogNumeriqueGouvFrId !== undefined && (
+                    <DescriptiveField
+                        type="text"
+                        title={t("GouvTech Catalog")}
+                        helperText={t("GouvTech Catalog helper")}
+                        text={
+                            <MuiLink
+                                target="_blank"
+                                href={`https://catalogue.numerique.gouv.fr/solutions/${software.catalogNumeriqueGouvFrId}`}
+                            >
+                                {t("consult on GouvTech", {
+                                    "gouvTechDomain": "catalogue.numerique.gouv.fr",
+                                })}
+                            </MuiLink>
+                        }
+                    />
+                )}
                 <DescriptiveField
                     type="text"
                     title={t("minimal version")}
@@ -727,4 +744,10 @@ export const { i18n } = declareComponentKeys<
           P: { lastRecommendedVersion?: string; reason?: string };
       }
     | "general info"
+    | "GouvTech Catalog"
+    | "GouvTech Catalog helper"
+    | {
+          K: "consult on GouvTech";
+          P: { gouvTechDomain: string };
+      }
 >()({ SoftwareCard });

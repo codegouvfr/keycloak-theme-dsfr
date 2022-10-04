@@ -370,6 +370,11 @@ const {
                         : `Last acceptable version: ${lastRecommendedVersion}`
                 }`,
                 "general info": "General information",
+                "GouvTech Catalog": "GouvTech Catalog",
+                "GouvTech Catalog helper":
+                    "Digital solutions offered by companies to public services.",
+                "consult on GouvTech": ({ gouvTechDomain }) =>
+                    `Consult on ${gouvTechDomain}`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -720,6 +725,11 @@ const {
                         : `Dernière version acceptable : ${lastRecommendedVersion}`
                 }`,
                 "general info": "Information general",
+                "GouvTech Catalog": "Catalogue GouvTech",
+                "GouvTech Catalog helper":
+                    "Catalogue des solutions numériques proposées par les entreprises aux services publics.",
+                "consult on GouvTech": ({ gouvTechDomain }) =>
+                    `Consulter sur ${gouvTechDomain}`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
