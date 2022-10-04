@@ -364,12 +364,6 @@ export function SoftwareCard(props: Props) {
                         }
                     />
                 )}
-                <DescriptiveField
-                    type="text"
-                    title={t("sill id")}
-                    helperText={t("sill id helper")}
-                    text={`${software.id}`}
-                />
                 {software.tags !== undefined && software.tags.length !== 0 && (
                     <DescriptiveField
                         type="text"
@@ -611,6 +605,12 @@ export function SoftwareCard(props: Props) {
                         ))}
                     />
                 )}
+                <DescriptiveField
+                    type="text"
+                    title={t("sill id")}
+                    helperText={t("sill id helper")}
+                    text={`${software.id}`}
+                />
                 {software.generalInfoMd !== undefined && (
                     <>
                         <DividerWithText text={t("general info")} />
