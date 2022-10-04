@@ -90,7 +90,8 @@
         "zod": "^3.17.3"
     },
     "resolutions": {
-        "babel-loader": "8.1.0"
+        "babel-loader": "8.1.0",
+        "powerhooks": "0.20.20"
     },
     "eslintConfig": {
         "plugins": [
