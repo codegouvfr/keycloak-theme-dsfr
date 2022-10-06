@@ -816,6 +816,7 @@ export const selectors = (() => {
     });
 
     return {
+        readyState,
         filteredSoftwares,
         alikeSoftwares,
         softwareNameBySoftwareId,

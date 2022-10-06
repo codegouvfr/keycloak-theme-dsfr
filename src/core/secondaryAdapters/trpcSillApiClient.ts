@@ -45,5 +45,6 @@ export function createTrpcSillApiClient(params: {
             trpcClient.mutation("dereferenceSoftware", params),
         "downloadCorsProtectedTextFile": params =>
             trpcClient.query("downloadCorsProtectedTextFile", params),
+        "dereferenceService": params => trpcClient.mutation("dereferenceService", params),
     };
 }

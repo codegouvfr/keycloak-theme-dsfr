@@ -2,6 +2,7 @@
 import type { Action, ThunkAction as GenericThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import * as catalogUsecase from "./usecases/catalog";
+import * as serviceCatalogUsecase from "./usecases/serviceCatalog";
 import * as userAuthenticationUsecase from "./usecases/userAuthentication";
 import * as softwareFormUsecase from "./usecases/softwareForm";
 import * as apiInfo from "./usecases/apiInfo";
@@ -71,6 +72,7 @@ export const usecases = [
     softwareFormUsecase,
     apiInfo,
     fetchProxy,
+    serviceCatalogUsecase,
 ];
 
 const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
@@ -183,6 +185,7 @@ export async function createStore(params: CreateStoreParams) {
     await store.dispatch(apiInfo.privateThunks.initialize());
 
     store.dispatch(catalogUsecase.privateThunks.initialize());
+    store.dispatch(serviceCatalogUsecase.privateThunks.initialize());
 
     return store;
 }
