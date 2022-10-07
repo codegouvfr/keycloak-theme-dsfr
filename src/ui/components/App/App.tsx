@@ -159,6 +159,8 @@ export const App = memo((props: Props) => {
                                 return "account";
                             case "catalog":
                                 return "catalog";
+                            case "servicesCatalog":
+                                return "serviceCatalog";
                         }
                     })()}
                 />
