@@ -392,6 +392,11 @@ export const selectors = (() => {
             return [...services].map(
                 (service): ServiceWithSoftwareInfo => ({
                     ...service,
+                    //TODO: Avoid having to overwrite this
+                    "description": `${service.serviceName}, ${service.description}`,
+                    "serviceName": `${
+                        service.serviceUrl.replace(/^https?:\/\//, "").split("/")[0]
+                    } - ${service.agencyName}`,
                     "deployedSoftware":
                         service.softwareSillId === undefined
                             ? {
