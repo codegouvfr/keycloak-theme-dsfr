@@ -22,7 +22,6 @@ import { useDomRect } from "powerhooks/useDomRect";
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
 export namespace Props {
-
     export type Common = {
         className?: string;
         service: ServiceWithSoftwareInfo;
@@ -39,84 +38,71 @@ export namespace Props {
         isUserLoggedIn: false;
         onLogin: () => void;
     };
-
 }
 
-
 export const ServiceCatalogCard = memo((props: Props) => {
-    const {
-        className,
-        service,
-        editLink,
-        sillSoftwareLink,
-        ...propsRest
-    } = props;
+    const { className, service, editLink, sillSoftwareLink, ...propsRest } = props;
 
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ ServiceCatalogCard });
 
-
-    const evtConfirmDereferenceServiceDialogAction = useConst(() => Evt.create<ConfirmDereferenceServiceDialogProps["evtAction"]>());
-
-    const onOpenConfirmDereferenceServiceDialog = useConstCallback(
-        () => {
-
-            if (!propsRest.isUserLoggedIn) {
-                propsRest.onLogin();
-                return;
-            }
-
-            evtConfirmDereferenceServiceDialogAction.post("open");
-        }
+    const evtConfirmDereferenceServiceDialogAction = useConst(() =>
+        Evt.create<ConfirmDereferenceServiceDialogProps["evtAction"]>(),
     );
 
-    const onConfirmDereferenceServiceDialogAnswer = useConstCallback<ConfirmDereferenceServiceDialogProps["onAnswer"]>(
-        ({ doProceedToDereferencingTheService }) => {
-
-            if (!doProceedToDereferencingTheService) {
-                return;
-            }
-
-            assert(propsRest.isUserLoggedIn);
-
-            propsRest.onRequestDelete();
+    const onOpenConfirmDereferenceServiceDialog = useConstCallback(() => {
+        if (!propsRest.isUserLoggedIn) {
+            propsRest.onLogin();
+            return;
         }
-    );
 
+        evtConfirmDereferenceServiceDialogAction.post("open");
+    });
 
-    const softwareLink = useMemo(() =>
-        sillSoftwareLink ??
-        (
-            (assert(!service.deployedSoftware.isInSill), service.deployedSoftware.comptoirDuLibreId === undefined) ? undefined : {
-                "href": `https://comptoir-du-libre.org/softwares/${service.deployedSoftware.comptoirDuLibreId
-                    }`,
-                "onClick": () => { /* nothing */ },
-                "_target": "blank" as const
-            }),
-        [service.deployedSoftware, sillSoftwareLink]
+    const onConfirmDereferenceServiceDialogAnswer = useConstCallback<
+        ConfirmDereferenceServiceDialogProps["onAnswer"]
+    >(({ doProceedToDereferencingTheService }) => {
+        if (!doProceedToDereferencingTheService) {
+            return;
+        }
+
+        assert(propsRest.isUserLoggedIn);
+
+        propsRest.onRequestDelete();
+    });
+
+    const softwareLink = useMemo(
+        () =>
+            sillSoftwareLink ??
+            ((assert(!service.deployedSoftware.isInSill),
+            service.deployedSoftware.comptoirDuLibreId === undefined)
+                ? undefined
+                : {
+                      "href": `https://comptoir-du-libre.org/softwares/${service.deployedSoftware.comptoirDuLibreId}`,
+                      "onClick": () => {
+                          /* nothing */
+                      },
+                      "_target": "blank" as const,
+                  }),
+        [service.deployedSoftware, sillSoftwareLink],
     );
 
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
-
                 <Text className={classes.title} typo="object heading">
                     {smartTrim({
                         "maxLength": 35,
                         "minCharAtTheEnd": 0,
-                        "text": service.serviceName
+                        "text": service.serviceName,
                     })}
                 </Text>
 
                 <div style={{ "flex": 1 }} />
 
                 {/* TODO */}
-                <IconButton
-                    iconId="edit"
-                    href="#"
-                    disabled={true}
-                />
+                <IconButton iconId="edit" href="#" disabled={true} />
                 <IconButton
                     iconId="delete"
                     onClick={onOpenConfirmDereferenceServiceDialog}
@@ -126,7 +112,11 @@ export const ServiceCatalogCard = memo((props: Props) => {
                 <div className={classes.body}>
                     <Text typo="label 1">{service.description} </Text>
                     <Software
-                        logoUrl={!service.deployedSoftware.isInSill ? undefined : service.deployedSoftware.logoUrl}
+                        logoUrl={
+                            !service.deployedSoftware.isInSill
+                                ? undefined
+                                : service.deployedSoftware.logoUrl
+                        }
                         name={service.deployedSoftware.softwareName}
                         link={softwareLink}
                     />
@@ -153,7 +143,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
 export const { i18n } = declareComponentKeys<
     | "confirm"
     | "abort"
-    | { K: "confirm unregister service"; P: { serviceName: string; } }
+    | { K: "confirm unregister service"; P: { serviceName: string } }
     | "access service"
 >()({ ServiceCatalogCard });
 
@@ -177,8 +167,7 @@ const useStyles = makeStyles<void, "cardButtons">({
         "marginLeft": theme.spacing(3),
     },
     "aboveDivider": {
-        "padding": theme.spacing({ "topBottom": 2, "rightLeft": 4 }),
-        "paddingRight": 0,
+        ...theme.spacing.topBottom("padding", 2),
         "borderBottom": `1px solid ${theme.colors.useCases.typography.textTertiary}`,
         "boxSizing": "border-box",
         "display": "flex",
@@ -210,60 +199,60 @@ const useStyles = makeStyles<void, "cardButtons">({
     },
 }));
 
-
-
 type ConfirmDereferenceServiceDialogProps = {
     evtAction: NonPostableEvt<"open">;
     serviceName: string;
-    onAnswer: (params: { doProceedToDereferencingTheService: boolean; }) => void;
+    onAnswer: (params: { doProceedToDereferencingTheService: boolean }) => void;
 };
 
-const ConfirmDereferenceServiceDialog = memo((props: ConfirmDereferenceServiceDialogProps) => {
-    const {
-        evtAction,
-        serviceName,
-        onAnswer
-    } = props;
+const ConfirmDereferenceServiceDialog = memo(
+    (props: ConfirmDereferenceServiceDialogProps) => {
+        const { evtAction, serviceName, onAnswer } = props;
 
-    const [isOpen, setIsOpen] = useState(false);
+        const [isOpen, setIsOpen] = useState(false);
 
-    const onClose = useConstCallback(() => setIsOpen(false));
+        const onClose = useConstCallback(() => setIsOpen(false));
 
-    const { t } = useTranslation({ ServiceCatalogCard });
+        const { t } = useTranslation({ ServiceCatalogCard });
 
-    useEvt(ctx => evtAction.attach(action => action === "open", ctx, () => setIsOpen(true)), [evtAction]);
+        useEvt(
+            ctx =>
+                evtAction.attach(
+                    action => action === "open",
+                    ctx,
+                    () => setIsOpen(true),
+                ),
+            [evtAction],
+        );
 
-    const onAnswerFactory = useCallbackFactory((
-        [doProceedToDereferencingTheService]: [boolean]
-    ) => {
-        onAnswer({ doProceedToDereferencingTheService })
-        onClose();
-    });
+        const onAnswerFactory = useCallbackFactory(
+            ([doProceedToDereferencingTheService]: [boolean]) => {
+                onAnswer({ doProceedToDereferencingTheService });
+                onClose();
+            },
+        );
 
-    return (
-        <Dialog
-            body={t("confirm unregister service", { serviceName })}
-            buttons={
-                <>
-                    <Button onClick={onAnswerFactory(true)} variant="primary">
-                        {t("confirm")}
-                    </Button>
-                    <Button onClick={onAnswerFactory(false)} variant="secondary">
-                        {t("abort")}
-                    </Button>
-                </>
-            }
-            isOpen={isOpen}
-            onClose={onClose}
-        />
-    );
-});
-
-
-
+        return (
+            <Dialog
+                body={t("confirm unregister service", { serviceName })}
+                buttons={
+                    <>
+                        <Button onClick={onAnswerFactory(true)} variant="primary">
+                            {t("confirm")}
+                        </Button>
+                        <Button onClick={onAnswerFactory(false)} variant="secondary">
+                            {t("abort")}
+                        </Button>
+                    </>
+                }
+                isOpen={isOpen}
+                onClose={onClose}
+            />
+        );
+    },
+);
 
 const { Software } = (() => {
-
     type Props = {
         className?: string;
         logoUrl: string | undefined;
@@ -271,54 +260,53 @@ const { Software } = (() => {
         name: string;
     };
 
+    const Software = memo((props: Props) => {
+        const { className, logoUrl, name, link } = props;
 
-    const Software = memo(
-        (props: Props) => {
+        const { imgRef, isBanner } = (function useClosure() {
+            const {
+                ref: imgRef,
+                domRect: { height, width },
+            } = useDomRect();
 
-            const { className, logoUrl, name, link } = props;
+            const isBanner =
+                width === 0 || height === 0 ? undefined : width > height * 1.7;
 
-            const { imgRef, isBanner } = (function useClosure() {
-                const {
-                    ref: imgRef,
-                    domRect: { height, width },
-                } = useDomRect();
+            return { imgRef, isBanner };
+        })();
 
-                const isBanner = width === 0 || height === 0 ? undefined : width > height * 1.7;
+        const { classes, css, cx } = useStyles();
 
-                return { imgRef, isBanner };
-            })();
+        const innerNode = (
+            <>
+                {logoUrl !== undefined && (
+                    <img
+                        ref={imgRef}
+                        src={logoUrl}
+                        alt=""
+                        className={css({ "height": "100%" })}
+                    />
+                )}
+                {(isBanner === false || logoUrl === undefined) && (
+                    <Text className={classes.title} typo="object heading">
+                        {smartTrim({
+                            "maxLength": 23,
+                            "minCharAtTheEnd": 0,
+                            "text": capitalize(name),
+                        })}
+                    </Text>
+                )}
+            </>
+        );
 
-            const { classes, css, cx } = useStyles();
-
-            const innerNode = (
-                <>
-                    {logoUrl !== undefined && (
-                        <img
-                            ref={imgRef}
-                            src={logoUrl}
-                            alt=""
-                            className={css({ "height": "100%" })}
-                        />
-                    )}
-                    {(isBanner === false || logoUrl === undefined) && (
-                        <Text className={classes.title} typo="object heading">
-                            {smartTrim({
-                                "maxLength": 23,
-                                "minCharAtTheEnd": 0,
-                                "text": capitalize(name),
-                            })}
-                        </Text>
-                    )}
-                </>
-            );
-
-            return (
-                link === undefined ?
-                    <div className={className}>{innerNode}</div> :
-                    <a className={cx(classes.root, className)} {...link}>{innerNode}</a>
-            );
-
-        });
+        return link === undefined ? (
+            <div className={className}>{innerNode}</div>
+        ) : (
+            <a className={cx(classes.root, className)} {...link}>
+                {innerNode}
+            </a>
+        );
+    });
 
     const useStyles = makeStyles()(theme => ({
         "root": {
@@ -331,5 +319,4 @@ const { Software } = (() => {
     }));
 
     return { Software };
-
 })();
