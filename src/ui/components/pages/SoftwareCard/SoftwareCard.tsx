@@ -59,8 +59,8 @@ export function SoftwareCard(props: Props) {
     const catalogState = useSelector(state => state.catalog);
     //NOTE: No need to trigger fetching of the catalog since
     // the serviceCatalog slice fetches itself when the software catalog is fetching.
-    const { servicesBySoftwareId } = useSelector(
-        selectors.serviceCatalog.servicesBySoftwareId,
+    const { serviceCountBySoftwareId } = useSelector(
+        selectors.serviceCatalog.serviceCountBySoftwareId,
     );
 
     const readyState =
@@ -235,7 +235,7 @@ export function SoftwareCard(props: Props) {
 
     // NOTE: It's not great to return null here without making sure we have the splash screen
     // enabled until the serviceCatalog slice have been initialized.
-    if (servicesBySoftwareId === undefined) {
+    if (serviceCountBySoftwareId === undefined) {
         return null;
     }
 
@@ -251,9 +251,7 @@ export function SoftwareCard(props: Props) {
         return null;
     }
 
-    const services = servicesBySoftwareId[software.id] ?? [];
-
-    console.log("TODO: Display services", services);
+    const servicesCount = serviceCountBySoftwareId[software.id] ?? 0;
 
     const { referents, userIndex } =
         readyState.referentsBySoftwareId?.[software.id] ?? {};
@@ -357,6 +355,24 @@ export function SoftwareCard(props: Props) {
                 onAnswer={onDereferenceSoftware}
             />
             <Card className={classes.card}>
+                {servicesCount !== 0 && (
+                    <DescriptiveField
+                        type="text"
+                        title={t("public services")}
+                        helperText={t("public services helper")}
+                        text={
+                            <MuiLink
+                                target="_blank"
+                                href={`https://catalogue.numerique.gouv.fr/solutions/${software.catalogNumeriqueGouvFrId}`}
+                            >
+                                {t("consult on GouvTech", {
+                                    "gouvTechDomain": "catalogue.numerique.gouv.fr",
+                                })}
+                            </MuiLink>
+                        }
+                    />
+                )}
+
                 {software.testUrls.length !== 0 && (
                     <DescriptiveField
                         type="text"

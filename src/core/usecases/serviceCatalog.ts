@@ -12,6 +12,23 @@ import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { thunks as catalogThunks, selectors as catalogSelectors } from "./catalog";
 
+export type ServiceWithSoftwareInfo = Omit<
+    CompiledData.Service,
+    "softwareSillId" | "softwareName" | "comptoirDuLibreId"
+> & {
+    deployedSoftware: { softwareName: string } & (
+        | {
+              isInSill: true;
+              softwareId: number;
+              logoUrl: string | undefined;
+          }
+        | {
+              isInSill: false;
+              comptoirDuLibreId: number | undefined;
+          }
+    );
+};
+
 type ServiceCatalogExplorerState =
     | ServiceCatalogExplorerState.NotFetched
     | ServiceCatalogExplorerState.Ready;
@@ -180,7 +197,7 @@ export const thunks = {
             sliceContext.prevQueryString = queryString;
 
             update_softwareId: {
-                if (prevQuery.softwareId === query.softwareId) {
+                if (prevQuery.softwareName === query.softwareName) {
                     break update_softwareId;
                 }
 
@@ -240,7 +257,7 @@ export const thunks = {
 
             return state.queryString === "" && displayCount < services.length;
         },
-    "dereferenceService":
+    "deleteService":
         (params: { serviceId: number }): ThunkAction =>
         async (...args) => {
             const { serviceId } = params;
@@ -257,7 +274,7 @@ export const thunks = {
 
             dispatch(actions.processingStarted());
 
-            await sillApiClient.dereferenceService({
+            await sillApiClient.deleteService({
                 serviceId,
             });
 
@@ -283,15 +300,15 @@ export const privateThunks = {
             );
 
             /*
-                evtAction.$attach(
-                    action =>
-                        action.sliceName === "serviceForm" &&
-                            action.actionName === "serviceAddedOrUpdated"
-                            ? [action.payload.service]
-                            : null,
-                    service => dispatch(actions.serviceAddedOrUpdated({ service })),
-                );
-                */
+                    evtAction.$attach(
+                        action =>
+                            action.sliceName === "serviceForm" &&
+                                action.actionName === "serviceAddedOrUpdated"
+                                ? [action.payload.service]
+                                : null,
+                        service => dispatch(actions.serviceAddedOrUpdated({ service })),
+                    );
+                    */
         },
 };
 
@@ -340,6 +357,27 @@ export const selectors = (() => {
         return servicesBySoftwareId;
     });
 
+    const serviceCountBySoftwareId = createSelector(
+        servicesBySoftwareId,
+        (servicesBySoftwareId): Record<number, number | undefined> | undefined => {
+            if (servicesBySoftwareId === undefined) {
+                return undefined;
+            }
+
+            return Object.fromEntries(
+                Object.entries(servicesBySoftwareId)
+                    .map(([softwareId, services]) =>
+                        services === undefined ? undefined : [softwareId, services],
+                    )
+                    .filter(exclude(undefined))
+                    .map(
+                        ([softwareId, services]) =>
+                            [softwareId, services.length] as const,
+                    ),
+            );
+        },
+    );
+
     const filteredServices = createSelector(
         readyState,
         catalogSelectors.readyState,
@@ -358,22 +396,6 @@ export const selectors = (() => {
                 "~internal": { displayCount },
             } = state;
 
-            type ServiceWithSoftwareName = Omit<
-                CompiledData.Service,
-                "softwareSillId" | "softwareName" | "comptoirDuLibreId"
-            > & {
-                deployedSoftware: { softwareName: string } & (
-                    | {
-                          isInSill: true;
-                          softwareId: number;
-                      }
-                    | {
-                          isInSill: false;
-                          comptoirDuLibreId?: number;
-                      }
-                );
-            };
-
             const query = pure.parseQuery(queryString);
 
             return [...services]
@@ -385,7 +407,7 @@ export const selectors = (() => {
                         service.softwareSillId === query.softwareId,
                 )
                 .map(
-                    (service): ServiceWithSoftwareName => ({
+                    (service): ServiceWithSoftwareInfo => ({
                         ...service,
                         "deployedSoftware":
                             service.softwareSillId === undefined
@@ -397,7 +419,7 @@ export const selectors = (() => {
                                 : {
                                       "isInSill": true,
                                       "softwareId": service.softwareSillId,
-                                      "softwareName": (() => {
+                                      ...(() => {
                                           const software =
                                               softwareCatalogState.softwares.find(
                                                   software => software.id === service.id,
@@ -405,7 +427,10 @@ export const selectors = (() => {
 
                                           assert(software !== undefined);
 
-                                          return software.name;
+                                          return {
+                                              "softwareName": software.name,
+                                              "logoUrl": software.wikidataData?.logoUrl,
+                                          };
                                       })(),
                                   },
                     }),
@@ -475,16 +500,26 @@ export const selectors = (() => {
         },
     );
 
+    const softwareNames = createSelector(filteredServices, filteredServices => {
+        if (filteredServices === undefined) {
+            return undefined;
+        }
+
+        return filteredServices.map(service => service.deployedSoftware.softwareName);
+    });
+
     return {
         filteredServices,
+        serviceCountBySoftwareId,
         searchResultCount,
         servicesBySoftwareId,
+        softwareNames,
     };
 })();
 
 export type Query = {
     search: string;
-    softwareId: number | undefined;
+    softwareName: string | undefined;
 };
 
 export const pure = (() => {
@@ -492,7 +527,7 @@ export const pure = (() => {
         if (!queryString.startsWith("{")) {
             return {
                 "search": queryString,
-                "softwareId": undefined,
+                "softwareName": undefined,
             };
         }
 
@@ -500,11 +535,11 @@ export const pure = (() => {
     }
 
     function stringifyQuery(query: Query) {
-        if (query.search === "" && query.softwareId === undefined) {
+        if (query.search === "" && query.softwareName === undefined) {
             return "";
         }
 
-        if (query.softwareId !== undefined) {
+        if (query.softwareName !== undefined) {
             return query.search;
         }
 

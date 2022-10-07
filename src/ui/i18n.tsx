@@ -43,6 +43,9 @@ const {
     | typeof import("ui/components/KcApp/Login").i18n
     | typeof import("ui/components/KcApp/RegisterUserProfile").i18n
     | typeof import("ui/components/shared/Tags/Tags").i18n
+    | typeof import("ui/components/pages/ServiceCatalog/ServiceCatalogCards/ServiceCatalogCard").i18n
+    | typeof import("ui/components/pages/ServiceCatalog/ServiceCatalogCards/ServiceCatalogCards").i18n
+    | typeof import("ui/components/pages/ServiceCatalog").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -384,6 +387,38 @@ const {
                 "github picker done": "Done",
                 "tags": "Tags",
                 "no tags": "No tags",
+            },
+            "ServiceCatalogCard": {
+                "confirm": "Confirm",
+                "abort": "Abort",
+                "confirm unregister service": ({
+                    serviceName,
+                }) => `${serviceName} will be deleted from the list
+                for everyone to see. Do you confirm?`,
+                "access service": "Access the service 🚀",
+            },
+            "ServiceCatalogCards": {
+                "search results": ({ count }) => `${count} services`,
+                "show more": "Show more",
+                "no service found": "No software found",
+                "no result found": ({ forWhat }) => `No result found for ${forWhat}`,
+                "check spelling":
+                    "Please check your spelling or try widening your search.",
+                "go back": "Back to main services",
+                "search": "Search",
+                "filter by software": "Filter by software",
+            },
+            "ServiceCatalog": {
+                "header text1": "Service catalog",
+                "header text2":
+                    "Catalog of services maintained by the French public sector and powered by free and open source software",
+                "what is the catalog of service": ({ link }) => (
+                    <>
+                        {" "}
+                        <MuiLink {...link}>Click here</MuiLink> to learn more about what
+                        is the catalog of service.{" "}
+                    </>
+                ),
             },
         },
         "fr": {
@@ -741,6 +776,39 @@ const {
                 "github picker done": "Ok",
                 "tags": "Tags",
                 "no tags": "Aucun tag",
+            },
+            "ServiceCatalogCard": {
+                "confirm": "Confirmer",
+                "abort": "Abandoner",
+                "confirm unregister service": ({
+                    serviceName,
+                }) => `${serviceName} va être supprimé pour tout
+                le monde, êtes-vous sûr de vouloir poursuivre?`,
+                "access service": "Accéder au service 🚀",
+            },
+            "ServiceCatalogCards": {
+                "search results": ({ count }) => `${count} services`,
+                "show more": "Montrer plus",
+                "no service found": "Pas de services trouvé",
+                "no result found": ({ forWhat }) =>
+                    `Par de résultat trouvé pour ${forWhat}`,
+                "check spelling":
+                    "Please check your spelling or try widening your search.",
+                "go back": "Back to main services",
+                "search": "Search",
+                "filter by software": "Filter by software",
+            },
+            "ServiceCatalog": {
+                "header text1": "Catalog de service",
+                "header text2":
+                    "Catalogue de service maintenu par le service publique et propulsé par du logiciel libre",
+                "what is the catalog of service": ({ link }) => (
+                    <>
+                        {" "}
+                        <MuiLink {...link}>Cliquez ici</MuiLink> pour en apprendre plus à
+                        propos de ce qu'est le catalogue de service.{" "}
+                    </>
+                ),
             },
             /* spell-checker: enable */
         },

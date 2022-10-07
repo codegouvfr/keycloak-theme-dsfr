@@ -30,6 +30,12 @@ const routeDefs = {
         },
         () => `/software`,
     ),
+    "servicesCatalog": defineRoute(
+        {
+            "q": param.query.optional.string.default(""),
+        },
+        () => `/services`,
+    ),
     "card": defineRoute(
         {
             /** Can be the software name (string) or it's `${id}` (for legacy route compat)  */
