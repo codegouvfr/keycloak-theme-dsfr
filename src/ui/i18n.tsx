@@ -130,6 +130,7 @@ const {
                 "reduce": "Reduce",
                 "account": "My account",
                 "catalog": "Recommended Free Software catalog",
+                "service catalog": "Services",
             },
             "FourOhFour": {
                 "not found": "Page not found",
@@ -378,6 +379,11 @@ const {
                     "Digital solutions offered by companies to public services.",
                 "consult on GouvTech": ({ gouvTechDomain }) =>
                     `Consult on ${gouvTechDomain}`,
+                "public services": "Public services",
+                "public services helper":
+                    "Services maintained by the public sector powered by this software",
+                "see the services": ({ servicesCount }) =>
+                    `See the ${servicesCount} services`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -506,6 +512,7 @@ const {
                 "reduce": "Réduire",
                 "account": "Mon compte",
                 "catalog": "Catalogue des logiciels libres du SILL",
+                "service catalog": "Services",
             },
             "FourOhFour": {
                 "not found": "Page non trouvée",
@@ -765,6 +772,11 @@ const {
                     "Catalogue des solutions numériques proposées par les entreprises aux services publics.",
                 "consult on GouvTech": ({ gouvTechDomain }) =>
                     `Consulter sur ${gouvTechDomain}`,
+                "public services": "Services",
+                "public services helper":
+                    "Services maintenu par le secteur publique qui utilise ce logiciel",
+                "see the services": ({ servicesCount }) =>
+                    `See the ${servicesCount} services`,
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>

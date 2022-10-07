@@ -11,6 +11,7 @@ import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { thunks as catalogThunks, selectors as catalogSelectors } from "./catalog";
+import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 export type ServiceWithSoftwareInfo = Omit<
     CompiledData.Service,
@@ -322,10 +323,6 @@ const getSliceContext = memoize((_: ThunksExtraArgument) => {
 });
 
 export const selectors = (() => {
-    const getServiceWeight = memoize(
-        (service: CompiledData.Service): number => JSON.stringify(service).length,
-    );
-
     const readyState = (
         rootState: RootState,
     ): ServiceCatalogExplorerState.Ready | undefined => {
@@ -378,7 +375,7 @@ export const selectors = (() => {
         },
     );
 
-    const filteredServices = createSelector(
+    const serviceWithSoftwares = createSelector(
         readyState,
         catalogSelectors.readyState,
         (state, softwareCatalogState) => {
@@ -390,6 +387,52 @@ export const selectors = (() => {
                 return undefined;
             }
 
+            const { services } = state;
+
+            return [...services].map(
+                (service): ServiceWithSoftwareInfo => ({
+                    ...service,
+                    "deployedSoftware":
+                        service.softwareSillId === undefined
+                            ? {
+                                  "isInSill": false,
+                                  "softwareName": service.softwareName,
+                                  "comptoirDuLibreId": service.comptoirDuLibreId,
+                              }
+                            : {
+                                  "isInSill": true,
+                                  "softwareId": service.softwareSillId,
+                                  ...(() => {
+                                      const software =
+                                          softwareCatalogState.softwares.find(
+                                              software => software.id === service.id,
+                                          );
+
+                                      assert(software !== undefined);
+
+                                      return {
+                                          "softwareName": software.name,
+                                          "logoUrl": software.wikidataData?.logoUrl,
+                                      };
+                                  })(),
+                              },
+                }),
+            );
+        },
+    );
+
+    const filteredServices = createSelector(
+        readyState,
+        serviceWithSoftwares,
+        (state, serviceWithSoftwares) => {
+            if (state === undefined) {
+                return undefined;
+            }
+
+            if (serviceWithSoftwares === undefined) {
+                return undefined;
+            }
+
             const {
                 queryString,
                 services,
@@ -398,42 +441,13 @@ export const selectors = (() => {
 
             const query = pure.parseQuery(queryString);
 
-            return [...services]
-                .sort((a, b) => getServiceWeight(b) - getServiceWeight(a))
+            return [...serviceWithSoftwares]
+                .sort((a, b) => JSON.stringify(b).length - JSON.stringify(a).length)
                 .slice(0, queryString === "" ? displayCount : services.length)
                 .filter(
                     service =>
-                        query.softwareId === undefined ||
-                        service.softwareSillId === query.softwareId,
-                )
-                .map(
-                    (service): ServiceWithSoftwareInfo => ({
-                        ...service,
-                        "deployedSoftware":
-                            service.softwareSillId === undefined
-                                ? {
-                                      "isInSill": false,
-                                      "softwareName": service.softwareName,
-                                      "comptoirDuLibreId": service.comptoirDuLibreId,
-                                  }
-                                : {
-                                      "isInSill": true,
-                                      "softwareId": service.softwareSillId,
-                                      ...(() => {
-                                          const software =
-                                              softwareCatalogState.softwares.find(
-                                                  software => software.id === service.id,
-                                              );
-
-                                          assert(software !== undefined);
-
-                                          return {
-                                              "softwareName": software.name,
-                                              "logoUrl": software.wikidataData?.logoUrl,
-                                          };
-                                      })(),
-                                  },
-                    }),
+                        query.softwareName === undefined ||
+                        service.deployedSoftware.softwareName === query.softwareName,
                 )
                 .filter(
                     query.search === ""
@@ -500,12 +514,14 @@ export const selectors = (() => {
         },
     );
 
-    const softwareNames = createSelector(filteredServices, filteredServices => {
-        if (filteredServices === undefined) {
+    const softwareNames = createSelector(serviceWithSoftwares, serviceWithSoftwares => {
+        if (serviceWithSoftwares === undefined) {
             return undefined;
         }
 
-        return filteredServices.map(service => service.deployedSoftware.softwareName);
+        return serviceWithSoftwares
+            .map(service => service.deployedSoftware.softwareName)
+            .reduce(...removeDuplicates<string>());
     });
 
     return {

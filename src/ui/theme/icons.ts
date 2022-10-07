@@ -52,8 +52,10 @@ import AirplayIcon from "@mui/icons-material/Airplay";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import StorageIcon from "@mui/icons-material/Storage";
+import HttpIcon from "@mui/icons-material/Http";
 
 export const createIconParams = {
+    "http": HttpIcon,
     "delete": DeleteIcon,
     "edit": EditIcon,
     "add": AddIcon,
@@ -109,6 +111,7 @@ export const createIconParams = {
 };
 
 export const iconIds = [
+    "http",
     "delete",
     "edit",
     "add",

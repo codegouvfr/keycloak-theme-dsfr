@@ -21,7 +21,7 @@ import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
-import { useSelector, useThunks, selectors } from "ui/coreApi";
+import { useSelector, useThunks, selectors, pure } from "ui/coreApi";
 import type { Route } from "type-route";
 import { createGroup } from "type-route";
 import { routes } from "ui/routes";
@@ -362,17 +362,18 @@ export function SoftwareCard(props: Props) {
                         helperText={t("public services helper")}
                         text={
                             <MuiLink
-                                target="_blank"
-                                href={`https://catalogue.numerique.gouv.fr/solutions/${software.catalogNumeriqueGouvFrId}`}
+                                {...routes.servicesCatalog({
+                                    "q": pure.serviceCatalog.stringifyQuery({
+                                        "search": "",
+                                        "softwareName": software.name,
+                                    }),
+                                }).link}
                             >
-                                {t("consult on GouvTech", {
-                                    "gouvTechDomain": "catalogue.numerique.gouv.fr",
-                                })}
+                                {t("see the services", { servicesCount })}
                             </MuiLink>
                         }
                     />
                 )}
-
                 {software.testUrls.length !== 0 && (
                     <DescriptiveField
                         type="text"
@@ -781,4 +782,7 @@ export const { i18n } = declareComponentKeys<
           K: "consult on GouvTech";
           P: { gouvTechDomain: string };
       }
+    | "public services"
+    | "public services helper"
+    | { K: "see the services"; P: { servicesCount: number } }
 >()({ SoftwareCard });
