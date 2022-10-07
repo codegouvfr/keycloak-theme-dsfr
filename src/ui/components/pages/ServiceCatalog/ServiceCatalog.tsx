@@ -71,7 +71,10 @@ export function ServiceCatalog(props: Props) {
     }, []);
 
     const serviceCatalogState = useSelector(state => state.serviceCatalog);
-    const readyState = serviceCatalogState.stateDescription === "ready" ? serviceCatalogState : undefined;
+    const readyState =
+        serviceCatalogState.stateDescription === "ready"
+            ? serviceCatalogState
+            : undefined;
     const { filteredServices } = useSelector(selectors.serviceCatalog.filteredServices);
     const { searchResultCount } = useSelector(selectors.serviceCatalog.searchResultCount);
     const { softwareNames } = useSelector(selectors.serviceCatalog.softwareNames);
@@ -123,22 +126,25 @@ export function ServiceCatalog(props: Props) {
                     "q":
                         pure.serviceCatalog.stringifyQuery({
                             search,
-                            "softwareName": pure.serviceCatalog.parseQuery(route.params.q).softwareName,
+                            "softwareName": pure.serviceCatalog.parseQuery(route.params.q)
+                                .softwareName,
                         }) || undefined,
                 })
-                .replace()
+                .replace(),
     );
 
-    const onSelectedSoftwareChange = useConstCallback<CatalogCardsProps["onSelectedSoftwareChange"]>(softwareName =>
+    const onSelectedSoftwareChange = useConstCallback<
+        CatalogCardsProps["onSelectedSoftwareChange"]
+    >(softwareName =>
         routes
             .catalog({
                 "q":
                     pure.serviceCatalog.stringifyQuery({
                         "search": pure.serviceCatalog.parseQuery(route.params.q).search,
-                        softwareName
+                        softwareName,
                     }) || undefined,
             })
-            .push()
+            .push(),
     );
 
     useEffect(() => {
@@ -146,45 +152,43 @@ export function ServiceCatalog(props: Props) {
     }, [route.params.q]);
 
     const getFormLink = useConst(() =>
-        memoize((serviceId: number | undefined) => { 
+        memoize((serviceId: number | undefined) => {
             //return routes.form({ softwareId }).link;
             console.log(`TODO: Point to Service form ${serviceId}`);
             return {
                 "href": "",
-                "onClick": ()=> { /* nothing */}
+                "onClick": () => {
+                    /* nothing */
+                },
             };
-        })
+        }),
     );
 
-    const { editLinkByServiceId, sillSoftwareLinkByServiceId } =
-        useMemo(() => {
+    const { editLinkByServiceId, sillSoftwareLinkByServiceId } = useMemo(() => {
+        if (filteredServices === undefined) {
+            return {};
+        }
 
-            if (filteredServices === undefined) {
-                return {};
-            }
+        const editLinkByServiceId: Record<number, Link> = {};
+        const sillSoftwareLinkByServiceId: Record<number, Link | undefined> = {};
 
-            const editLinkByServiceId: Record<number, Link> = {};
-            const sillSoftwareLinkByServiceId: Record<number, Link | undefined> = {};
+        filteredServices.forEach(service => {
+            editLinkByServiceId[service.id] = getFormLink(service.id);
 
-            filteredServices.forEach(service => {
+            sillSoftwareLinkByServiceId[service.id] = !service.deployedSoftware.isInSill
+                ? undefined
+                : routes.card({ "name": service.deployedSoftware.softwareName }).link;
+        });
 
-                editLinkByServiceId[service.id] = getFormLink(service.id);
+        return {
+            editLinkByServiceId,
+            sillSoftwareLinkByServiceId,
+        };
+    }, [filteredServices]);
 
-                sillSoftwareLinkByServiceId[service.id] = !service.deployedSoftware.isInSill ?
-                    undefined :
-                    routes.card({ "name": service.deployedSoftware.softwareName }).link;
-
-            });
-
-            return {
-                editLinkByServiceId,
-                sillSoftwareLinkByServiceId
-            };
-        }, [filteredServices]);
-
-    const onLogin = useConstCallback(() => userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }));
-
-
+    const onLogin = useConstCallback(() =>
+        userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }),
+    );
 
     if (readyState === undefined) {
         return null;
@@ -201,7 +205,7 @@ export function ServiceCatalog(props: Props) {
             <PageHeader
                 ref={pageHeaderRef}
                 className={classes.pageHeader}
-                mainIcon="catalog"
+                mainIcon="http"
                 title={t("header text1")}
                 helpTitle={t("header text2")}
                 helpContent={t("what is the catalog of service", {
@@ -222,19 +226,22 @@ export function ServiceCatalog(props: Props) {
                         search={pure.serviceCatalog.parseQuery(route.params.q).search}
                         onSearchChange={onSearchChange}
                         softwareNames={softwareNames}
-                        selectedSoftwareName={pure.serviceCatalog.parseQuery(route.params.q).softwareName}
+                        selectedSoftwareName={
+                            pure.serviceCatalog.parseQuery(route.params.q).softwareName
+                        }
                         onSelectedSoftwareChange={onSelectedSoftwareChange}
                         onLoadMore={serviceCatalogThunks.loadMore}
                         hasMoreToLoad={serviceCatalogThunks.getHasMoreToLoad()}
                         searchBarWrapperElement={pageHeaderRef.current}
-                        {...(userAuthenticationThunks.getIsUserLoggedIn() ? {
-                            "isUserLoggedIn": true,
-                            "onRequestDelete": serviceCatalogThunks.deleteService
-                        } : {
-                            "isUserLoggedIn": false,
-                            onLogin
-                        })}
-
+                        {...(userAuthenticationThunks.getIsUserLoggedIn()
+                            ? {
+                                  "isUserLoggedIn": true,
+                                  "onRequestDelete": serviceCatalogThunks.deleteService,
+                              }
+                            : {
+                                  "isUserLoggedIn": false,
+                                  onLogin,
+                              })}
                     />
                 )}
             </div>
