@@ -617,13 +617,7 @@ export const selectors = (() => {
         return rootState.catalog;
     };
 
-    const query = (rootState: RootState) => {
-        const state = rootState.catalog;
-        return {
-            "string": state.queryString,
-            "parsed": pure.parseQuery(state.queryString),
-        };
-    };
+    const queryString = (rootState: RootState) => rootState.catalog.queryString;
 
     const isProcessing = createSelector(readyState, readyState => {
         if (readyState === undefined) {
@@ -852,7 +846,7 @@ export const selectors = (() => {
     return {
         readyState,
         sliceState,
-        query,
+        queryString,
         isProcessing,
         softwares,
         filteredSoftwares,

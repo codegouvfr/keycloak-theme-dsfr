@@ -71,7 +71,7 @@ export function Catalog(props: Props) {
     }, []);
 
     const { sliceState } = useSelector(selectors.catalog.sliceState);
-    const { query } = useSelector(selectors.catalog.query);
+    const { queryString } = useSelector(selectors.catalog.queryString);
     const { isProcessing } = useSelector(selectors.catalog.isProcessing);
     const { softwares } = useSelector(selectors.catalog.softwares);
     const { tags } = useSelector(selectors.catalog.tags);
@@ -101,8 +101,8 @@ export function Catalog(props: Props) {
                 hideSplashScreen();
 
                 //NOTE: Restore previous search
-                if (route.params.q === "" && query.string !== "") {
-                    routes.catalog({ "q": query.string }).replace();
+                if (route.params.q === "" && queryString !== "") {
+                    routes.catalog({ "q": queryString }).replace();
                 }
 
                 break;
