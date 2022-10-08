@@ -325,7 +325,7 @@ export const selectors = (() => {
     ):
         | { stateDescription: "ready" }
         | { stateDescription: "not fetched"; isFetching: boolean } => {
-        return rootState.catalog;
+        return rootState.serviceCatalog;
     };
 
     const queryString = (rootState: RootState) => rootState.catalog.queryString;
