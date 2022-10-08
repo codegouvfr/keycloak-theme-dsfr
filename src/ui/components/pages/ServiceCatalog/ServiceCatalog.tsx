@@ -94,7 +94,7 @@ export function ServiceCatalog(props: Props) {
 
                 //NOTE: Restore previous search
                 if (route.params.q === "" && queryString !== "") {
-                    routes.catalog({ "q": queryString }).replace();
+                    routes.servicesCatalog({ "q": queryString }).replace();
                 }
 
                 break;
@@ -118,7 +118,7 @@ export function ServiceCatalog(props: Props) {
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
-                .catalog({
+                .servicesCatalog({
                     "q":
                         pure.serviceCatalog.stringifyQuery({
                             search,
@@ -133,7 +133,7 @@ export function ServiceCatalog(props: Props) {
         CatalogCardsProps["onSelectedSoftwareChange"]
     >(softwareName =>
         routes
-            .catalog({
+            .servicesCatalog({
                 "q":
                     pure.serviceCatalog.stringifyQuery({
                         "search": pure.serviceCatalog.parseQuery(route.params.q).search,
