@@ -390,7 +390,10 @@ export const selectors = (() => {
                     //TODO: Avoid having to overwrite this
                     "description": `${service.serviceName}, ${service.description}`,
                     "serviceName": `${
-                        service.serviceUrl.replace(/^https?:\/\//, "").split("/")[0]
+                        service.serviceUrl
+                            .replace(/^https?:\/\//, "")
+                            .replace(/^www\./, "")
+                            .split("/")[0]
                     } - ${service.agencyName}`,
                     "deployedSoftware":
                         service.softwareSillId === undefined
