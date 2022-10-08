@@ -48,9 +48,7 @@ namespace ServiceCatalogExplorerState {
         stateDescription: "ready";
         services: CompiledData.Service[];
         isProcessing: boolean;
-        "~internal": {
-            displayCount: number;
-        };
+        displayCount: number;
     };
 }
 
@@ -82,9 +80,7 @@ export const { reducer, actions } = createSlice({
                 "stateDescription": "ready",
                 services,
                 "isProcessing": false,
-                "~internal": {
-                    "displayCount": 24,
-                },
+                "displayCount": 24,
                 "queryString": state.queryString,
             });
         },
@@ -97,13 +93,13 @@ export const { reducer, actions } = createSlice({
             state.queryString = queryString;
 
             if (queryString === "" && state.stateDescription === "ready") {
-                state["~internal"].displayCount = 24;
+                state.displayCount = 24;
             }
         },
         "moreLoaded": state => {
             assert(state.stateDescription === "ready");
 
-            state["~internal"].displayCount += 24;
+            state.displayCount += 24;
         },
         "processingStarted": state => {
             assert(state.stateDescription === "ready");
@@ -251,10 +247,7 @@ export const thunks = {
 
             assert(state.stateDescription === "ready");
 
-            const {
-                "~internal": { displayCount },
-                services,
-            } = state;
+            const { displayCount, services } = state;
 
             return state.queryString === "" && displayCount < services.length;
         },
@@ -290,16 +283,8 @@ export const thunks = {
 export const privateThunks = {
     "initialize":
         (): ThunkAction<void> =>
-        (...args) => {
-            const [dispatch, , { evtAction }] = args;
-
-            evtAction.attach(
-                action =>
-                    action.sliceName === "catalog" &&
-                    action.actionName === "catalogsFetching",
-                () => dispatch(thunks.fetchCatalog()),
-            );
-
+        (..._args) => {
+            //const [dispatch, , { evtAction }] = args;
             /*
                     evtAction.$attach(
                         action =>
@@ -334,6 +319,16 @@ export const selectors = (() => {
                 return undefined;
         }
     };
+
+    const sliceState = (
+        rootState: RootState,
+    ):
+        | { stateDescription: "ready" }
+        | { stateDescription: "not fetched"; isFetching: boolean } => {
+        return rootState.catalog;
+    };
+
+    const queryString = (rootState: RootState) => rootState.catalog.queryString;
 
     const servicesBySoftwareId = createSelector(readyState, state => {
         if (state === undefined) {
@@ -438,11 +433,7 @@ export const selectors = (() => {
                 return undefined;
             }
 
-            const {
-                queryString,
-                services,
-                "~internal": { displayCount },
-            } = state;
+            const { queryString, services, displayCount } = state;
 
             const query = pure.parseQuery(queryString);
 
@@ -510,8 +501,9 @@ export const selectors = (() => {
             if (state === undefined) {
                 return undefined;
             }
-
-            assert(filteredSoftwares !== undefined);
+            if (filteredSoftwares === undefined) {
+                return undefined;
+            }
 
             const { queryString } = state;
 
@@ -529,12 +521,20 @@ export const selectors = (() => {
             .reduce(...removeDuplicates<string>());
     });
 
+    const isProcessing = createSelector(
+        readyState,
+        readyState => readyState?.isProcessing,
+    );
+
     return {
+        sliceState,
+        queryString,
         filteredServices,
         serviceCountBySoftwareId,
         searchResultCount,
         servicesBySoftwareId,
         softwareNames,
+        isProcessing,
     };
 })();
 

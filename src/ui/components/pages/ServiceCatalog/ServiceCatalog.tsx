@@ -70,11 +70,9 @@ export function ServiceCatalog(props: Props) {
         };
     }, []);
 
-    const serviceCatalogState = useSelector(state => state.serviceCatalog);
-    const readyState =
-        serviceCatalogState.stateDescription === "ready"
-            ? serviceCatalogState
-            : undefined;
+    const { sliceState } = useSelector(selectors.serviceCatalog.sliceState);
+    const { queryString } = useSelector(selectors.serviceCatalog.queryString);
+    const { isProcessing } = useSelector(selectors.serviceCatalog.isProcessing);
     const { filteredServices } = useSelector(selectors.serviceCatalog.filteredServices);
     const { searchResultCount } = useSelector(selectors.serviceCatalog.searchResultCount);
     const { softwareNames } = useSelector(selectors.serviceCatalog.softwareNames);
@@ -84,9 +82,9 @@ export function ServiceCatalog(props: Props) {
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
-        switch (serviceCatalogState.stateDescription) {
+        switch (sliceState.stateDescription) {
             case "not fetched":
-                if (!serviceCatalogState.isFetching) {
+                if (!sliceState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
                     serviceCatalogThunks.fetchCatalog();
                 }
@@ -95,17 +93,15 @@ export function ServiceCatalog(props: Props) {
                 hideSplashScreen();
 
                 //NOTE: Restore previous search
-                if (route.params.q === "" && serviceCatalogState.queryString !== "") {
-                    routes.catalog({ "q": serviceCatalogState.queryString }).replace();
+                if (route.params.q === "" && queryString !== "") {
+                    routes.catalog({ "q": queryString }).replace();
                 }
 
                 break;
         }
-    }, [serviceCatalogState.stateDescription]);
+    }, [sliceState.stateDescription]);
 
     useEffect(() => {
-        const { isProcessing } = readyState ?? {};
-
         if (isProcessing === undefined) {
             return;
         }
@@ -117,7 +113,7 @@ export function ServiceCatalog(props: Props) {
         } else {
             hideSplashScreen();
         }
-    }, [readyState?.isProcessing]);
+    }, [isProcessing]);
 
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
@@ -190,7 +186,7 @@ export function ServiceCatalog(props: Props) {
         userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }),
     );
 
-    if (readyState === undefined) {
+    if (sliceState.stateDescription !== "ready") {
         return null;
     }
 

@@ -54,49 +54,89 @@ export function SoftwareCard(props: Props) {
 
     const { resolveLocalizedString } = useResolveLocalizedString();
 
-    const { showSplashScreen, hideSplashScreen } = useSplashScreen();
+    const { softwares } = useSelector(selectors.catalog.softwares);
+    const { referentsBySoftwareId } = useSelector(
+        selectors.catalog.referentsBySoftwareId,
+    );
 
-    const catalogState = useSelector(state => state.catalog);
-    //NOTE: No need to trigger fetching of the catalog since
+    //NOTE: DODO: fake news, fix! No need to trigger fetching of the catalog since
     // the serviceCatalog slice fetches itself when the software catalog is fetching.
     const { serviceCountBySoftwareId } = useSelector(
         selectors.serviceCatalog.serviceCountBySoftwareId,
     );
 
-    const readyState =
-        catalogState.stateDescription === "ready" ? catalogState : undefined;
-
     const { catalogThunks, userAuthenticationThunks } = useThunks();
 
-    useEffect(() => {
-        switch (catalogState.stateDescription) {
-            case "not fetched":
-                if (!catalogState.isFetching) {
-                    showSplashScreen({ "enableTransparency": true });
-                    catalogThunks.fetchCatalog();
-                }
-                break;
-            case "ready":
+    {
+        const { sliceState } = useSelector(selectors.catalog.sliceState);
+        const { isProcessing } = useSelector(selectors.catalog.isProcessing);
+
+        const { showSplashScreen, hideSplashScreen } = useSplashScreen();
+
+        useEffect(() => {
+            switch (sliceState.stateDescription) {
+                case "not fetched":
+                    if (!sliceState.isFetching) {
+                        showSplashScreen({ "enableTransparency": true });
+                        catalogThunks.fetchCatalog();
+                    }
+                    break;
+                case "ready":
+                    hideSplashScreen();
+                    break;
+            }
+        }, [sliceState.stateDescription]);
+
+        useEffect(() => {
+            if (isProcessing === undefined) {
+                return;
+            }
+
+            if (isProcessing) {
+                showSplashScreen({
+                    "enableTransparency": true,
+                });
+            } else {
                 hideSplashScreen();
-                break;
-        }
-    }, [catalogState.stateDescription]);
+            }
+        }, [isProcessing]);
+    }
 
-    useEffect(() => {
-        const { isProcessing } = readyState ?? {};
+    {
+        const { sliceState } = useSelector(selectors.serviceCatalog.sliceState);
+        const { isProcessing } = useSelector(selectors.serviceCatalog.isProcessing);
+        const { serviceCatalogThunks } = useThunks();
 
-        if (isProcessing === undefined) {
-            return;
-        }
+        const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
-        if (isProcessing) {
-            showSplashScreen({
-                "enableTransparency": true,
-            });
-        } else {
-            hideSplashScreen();
-        }
-    }, [readyState?.isProcessing]);
+        useEffect(() => {
+            switch (sliceState.stateDescription) {
+                case "not fetched":
+                    if (!sliceState.isFetching) {
+                        showSplashScreen({ "enableTransparency": true });
+                        serviceCatalogThunks.fetchCatalog();
+                    }
+                    break;
+                case "ready":
+                    hideSplashScreen();
+                    break;
+            }
+        }, [sliceState.stateDescription]);
+
+        useEffect(() => {
+            if (isProcessing === undefined) {
+                return;
+            }
+
+            if (isProcessing) {
+                showSplashScreen({
+                    "enableTransparency": true,
+                });
+            } else {
+                hideSplashScreen();
+            }
+        }, [isProcessing]);
+    }
 
     const onGoBack = useConstCallback(() => routes.catalog().push());
 
@@ -146,8 +186,6 @@ export function SoftwareCard(props: Props) {
             return;
         }
 
-        const { softwares } = readyState ?? {};
-
         if (softwares === undefined) {
             return;
         }
@@ -164,7 +202,7 @@ export function SoftwareCard(props: Props) {
         }
 
         routes.card({ "name": software.name }).replace();
-    }, [softwareNameOrSoftwareId, readyState?.softwares]);
+    }, [softwareNameOrSoftwareId, softwares]);
 
     const getFormLink = useConst(() =>
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
@@ -229,12 +267,10 @@ export function SoftwareCard(props: Props) {
         return null;
     }
 
-    if (readyState === undefined) {
+    if (softwares === undefined) {
         return null;
     }
 
-    // NOTE: It's not great to return null here without making sure we have the splash screen
-    // enabled until the serviceCatalog slice have been initialized.
     if (serviceCountBySoftwareId === undefined) {
         return null;
     }
@@ -242,9 +278,7 @@ export function SoftwareCard(props: Props) {
     assert(openLinkBySoftwareId !== undefined);
     assert(softwareNameBySoftwareId !== undefined);
 
-    const software = readyState.softwares.find(
-        ({ name }) => softwareNameOrSoftwareId === name,
-    );
+    const software = softwares.find(({ name }) => softwareNameOrSoftwareId === name);
 
     if (software === undefined) {
         routes.fourOhFour().replace();
@@ -253,8 +287,7 @@ export function SoftwareCard(props: Props) {
 
     const servicesCount = serviceCountBySoftwareId[software.id] ?? 0;
 
-    const { referents, userIndex } =
-        readyState.referentsBySoftwareId?.[software.id] ?? {};
+    const { referents, userIndex } = referentsBySoftwareId?.[software.id] ?? {};
 
     const softwareFunction = capitalize(
         [lang === "fr" ? undefined : software.wikidataData?.description]
@@ -268,9 +301,9 @@ export function SoftwareCard(props: Props) {
     });
 
     const editLink =
-        readyState.referentsBySoftwareId === undefined
+        referentsBySoftwareId === undefined
             ? undefined
-            : readyState.referentsBySoftwareId[software.id].userIndex !== undefined
+            : referentsBySoftwareId[software.id].userIndex !== undefined
             ? getFormLink(software.id)
             : undefined;
 

@@ -222,7 +222,6 @@ export function Catalog(props: Props) {
     assert(editLinkBySoftwareId !== undefined);
     assert(searchResultCount !== undefined);
     assert(parentSoftwareBySoftwareId !== undefined);
-    assert(referentsBySoftwareId !== undefined);
     assert(tags !== undefined);
 
     const { search, tags: selectedTags } = pure.catalog.parseQuery(route.params.q);
