@@ -393,7 +393,7 @@ export const selectors = (() => {
                 (service): ServiceWithSoftwareInfo => ({
                     ...service,
                     //TODO: Avoid having to overwrite this
-                    "description": `${service.serviceName}, ${service.description}`,
+                    "description": `${service.serviceName}: ${service.description}`,
                     "serviceName": `${
                         service.serviceUrl
                             .replace(/^https?:\/\//, "")

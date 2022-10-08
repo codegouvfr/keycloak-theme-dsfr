@@ -18,6 +18,7 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks/useEvt";
 import { assert } from "tsafe/assert";
 import { useDomRect } from "powerhooks/useDomRect";
+import { Markdown } from "onyxia-ui/Markdown";
 
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
@@ -110,7 +111,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
-                    <Text typo="label 1">{service.description} </Text>
+                    <Markdown>{service.description}</Markdown>
                     <Software
                         logoUrl={
                             !service.deployedSoftware.isInSill
