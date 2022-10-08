@@ -155,7 +155,7 @@ export const thunks = {
     "fetchCatalog":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApiClient, evtAction }] = args;
 
             {
                 const state = getState().serviceCatalog;
@@ -170,6 +170,12 @@ export const thunks = {
             //NOTE: We need that to be able to display the name of the service
             if (getState().catalog.stateDescription === "not fetched") {
                 dispatch(catalogThunks.fetchCatalog());
+
+                await evtAction.waitFor(
+                    action =>
+                        action.sliceName === "catalog" &&
+                        action.actionName === "catalogsFetched",
+                );
             }
 
             dispatch(
