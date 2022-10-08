@@ -29,7 +29,6 @@ import type { ServiceWithSoftwareInfo } from "core/usecases/serviceCatalog";
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
 export namespace Props {
-
     export type Common = {
         className?: string;
         searchResultCount: number;
@@ -49,7 +48,7 @@ export namespace Props {
 
     export type UserLoggedIn = Common & {
         isUserLoggedIn: true;
-        onRequestDelete: (params: { serviceId: number; }) => void;
+        onRequestDelete: (params: { serviceId: number }) => void;
     };
 
     export type UserNotLoggedIn = Common & {
@@ -77,7 +76,7 @@ export const ServiceCatalogCards = memo((props: Props) => {
         ...propsRest
     } = props;
 
-    const { t } = useTranslation({ CatalogCards: ServiceCatalogCards });
+    const { t } = useTranslation({ ServiceCatalogCards });
 
     const loadingDivRef = useStateRef<HTMLDivElement>(null);
 
@@ -91,12 +90,10 @@ export const ServiceCatalogCards = memo((props: Props) => {
         doRenderSearchBarInHeader,
     });
 
-    const onRequestDeleteFactory = useCallbackFactory(
-        ([serviceId]: [number]) => {
-            assert(propsRest.isUserLoggedIn);
-            propsRest.onRequestDelete({ serviceId });
-        }
-    );
+    const onRequestDeleteFactory = useCallbackFactory(([serviceId]: [number]) => {
+        assert(propsRest.isUserLoggedIn);
+        propsRest.onRequestDelete({ serviceId });
+    });
 
     const evtCatalogSearchAreaAction = useConst(() =>
         Evt.create<SearchAreaProps["evtAction"]>(),
@@ -133,7 +130,7 @@ export const ServiceCatalogCards = memo((props: Props) => {
                             doOpenNewTabIfHref={false}
                             className={classes.formLinkButton}
                         >
-                            {t("reference a new software")}
+                            {t("reference a new service")}
                         </Button>
                     </Text>
                 )}
@@ -141,21 +138,25 @@ export const ServiceCatalogCards = memo((props: Props) => {
                     {filteredServices.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
-                        filteredServices.map(service =>
+                        filteredServices.map(service => (
                             <ServiceCatalogCard
                                 key={service.id}
                                 service={service}
                                 editLink={editLinkByServiceId[service.id]!}
                                 sillSoftwareLink={sillSoftwareLinkByServiceId[service.id]}
-                                {...(propsRest.isUserLoggedIn ? {
-                                    "isUserLoggedIn": true,
-                                    "onRequestDelete": onRequestDeleteFactory(service.id)
-                                } : {
-                                    "isUserLoggedIn": false,
-                                    "onLogin": propsRest.onLogin
-                                })}
+                                {...(propsRest.isUserLoggedIn
+                                    ? {
+                                          "isUserLoggedIn": true,
+                                          "onRequestDelete": onRequestDeleteFactory(
+                                              service.id,
+                                          ),
+                                      }
+                                    : {
+                                          "isUserLoggedIn": false,
+                                          "onLogin": propsRest.onLogin,
+                                      })}
                             />
-                        )
+                        ))
                     )}
                 </div>
                 <div ref={loadingDivRef} className={classes.bottomScrollSpace}>
@@ -168,7 +169,6 @@ export const ServiceCatalogCards = memo((props: Props) => {
         </>
     );
 });
-
 
 const useStyles = makeStyles<
     {
@@ -188,9 +188,9 @@ const useStyles = makeStyles<
             ...(doRenderSearchBarInHeader
                 ? {}
                 : {
-                    "position": "sticky",
-                    "top": theme.spacing(3),
-                }),
+                      "position": "sticky",
+                      "top": theme.spacing(3),
+                  }),
         },
         "contextTypo": {
             "marginBottom": theme.spacing(4),
@@ -199,30 +199,30 @@ const useStyles = makeStyles<
             ...(filteredCardCount === 0
                 ? {}
                 : {
-                    "display": "grid",
-                    "gridTemplateColumns": `repeat(${(() => {
-                        if (isViewPortAdapterEnabled) {
-                            return 3;
-                        }
+                      "display": "grid",
+                      "gridTemplateColumns": `repeat(${(() => {
+                          if (isViewPortAdapterEnabled) {
+                              return 3;
+                          }
 
-                        return 1;
-                    })()},1fr)`,
-                    "gap": theme.spacing(4),
-                }),
+                          return 1;
+                      })()},1fr)`,
+                      "gap": theme.spacing(4),
+                  }),
         },
         "bottomScrollSpace": {
             ...(hasMoreToLoad
                 ? {
-                    "display": "flex",
-                    "justifyContent": "center",
-                    ...theme.spacing.topBottom("padding", 3),
-                }
+                      "display": "flex",
+                      "justifyContent": "center",
+                      ...theme.spacing.topBottom("padding", 3),
+                  }
                 : {
-                    [`& .${classes.moreToLoadProgress}`]: {
-                        "display": "none",
-                    },
-                    "height": theme.spacing(3),
-                }),
+                      [`& .${classes.moreToLoadProgress}`]: {
+                          "display": "none",
+                      },
+                      "height": theme.spacing(3),
+                  }),
         },
         "moreToLoadProgress": {},
         "formLinkButton": {
@@ -338,24 +338,22 @@ const { SearchArea } = (() => {
 
         const { classes, cx, theme } = useStyles();
 
-        const onGitHubPickerSelectTags = useConstCallback<GitHubPickerProps["onSelectedTags"]>(
-            params => {
-                onSelectedSoftwareChange(params.isSelect ? params.tag : undefined);
+        const onGitHubPickerSelectTags = useConstCallback<
+            GitHubPickerProps["onSelectedTags"]
+        >(params => {
+            onSelectedSoftwareChange(params.isSelect ? params.tag : undefined);
 
-                evtGitHubPickerAction.post({
-                    "action": "close",
-                });
-            },
-        );
+            evtGitHubPickerAction.post({
+                "action": "close",
+            });
+        });
 
         const { t } = useTranslation({ ServiceCatalogCards });
 
-
         const githubPickerSelectedTags = useMemo(
-            ()=> selectedSoftwareName === undefined ? [] : [ selectedSoftwareName ],
-            [selectedSoftwareName]
+            () => (selectedSoftwareName === undefined ? [] : [selectedSoftwareName]),
+            [selectedSoftwareName],
         );
-
 
         return (
             <div className={cx(classes.root, className)}>
@@ -366,17 +364,18 @@ const { SearchArea } = (() => {
                     onSearchChange={onSearchChange}
                     placeholder={t("search")}
                 />
-                { selectedSoftwareName !== undefined && 
-                <CustomTag
-                    className={classes.tag}
-                    tag={selectedSoftwareName}
-                    onRemove={() =>
-                        onGitHubPickerSelectTags({
-                            "isSelect": false,
-                            "tag": selectedSoftwareName
-                        })
-                    }
-                />}
+                {selectedSoftwareName !== undefined && (
+                    <CustomTag
+                        className={classes.tag}
+                        tag={selectedSoftwareName}
+                        onRemove={() =>
+                            onGitHubPickerSelectTags({
+                                "isSelect": false,
+                                "tag": selectedSoftwareName,
+                            })
+                        }
+                    />
+                )}
                 <Button
                     ref={buttonRef}
                     className={classes.tagButton}
@@ -421,7 +420,6 @@ const { SearchArea } = (() => {
     return { SearchArea };
 })();
 
-
 export const { i18n } = declareComponentKeys<
     | { K: "search results"; P: { count: number } }
     | "show more"
@@ -431,4 +429,5 @@ export const { i18n } = declareComponentKeys<
     | "go back"
     | "search"
     | "filter by software"
+    | "reference a new service"
 >()({ ServiceCatalogCards });

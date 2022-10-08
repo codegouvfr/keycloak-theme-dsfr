@@ -413,6 +413,7 @@ const {
                 "go back": "Back to main services",
                 "search": "Search",
                 "filter by software": "Filter by software",
+                "reference a new service": "Reference a new service",
             },
             "ServiceCatalog": {
                 "header text1": "Service catalog",
@@ -809,6 +810,7 @@ const {
                 "go back": "Back to main services",
                 "search": "Search",
                 "filter by software": "Filter by software",
+                "reference a new service": "Référencer un nouveau service",
             },
             "ServiceCatalog": {
                 "header text1": "Catalog de service",
