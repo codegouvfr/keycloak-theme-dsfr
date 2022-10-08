@@ -20,7 +20,6 @@ export type ServiceWithSoftwareInfo = Omit<
     deployedSoftware: { softwareName: string } & (
         | {
               isInSill: true;
-              softwareId: number;
               logoUrl: string | undefined;
           }
         | {
@@ -410,11 +409,11 @@ export const selectors = (() => {
                               }
                             : {
                                   "isInSill": true,
-                                  "softwareId": service.softwareSillId,
                                   ...(() => {
                                       const software =
                                           softwareCatalogState.softwares.find(
-                                              software => software.id === service.id,
+                                              software =>
+                                                  software.id === service.softwareSillId,
                                           );
 
                                       assert(software !== undefined);
