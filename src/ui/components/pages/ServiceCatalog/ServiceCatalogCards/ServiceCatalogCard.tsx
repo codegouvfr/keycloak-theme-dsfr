@@ -93,7 +93,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
             <div className={classes.aboveDivider}>
                 <Text className={classes.title} typo="object heading">
                     {smartTrim({
-                        "maxLength": 35,
+                        "maxLength": 50,
                         "minCharAtTheEnd": 0,
                         "text": service.serviceName,
                     })}
