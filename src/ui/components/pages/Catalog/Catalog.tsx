@@ -70,11 +70,16 @@ export function Catalog(props: Props) {
         };
     }, []);
 
-    const catalogState = useSelector(state => state.catalog);
-    const readyState =
-        catalogState.stateDescription === "ready" ? catalogState : undefined;
+    const { sliceState } = useSelector(selectors.catalog.sliceState);
+    const { query } = useSelector(selectors.catalog.query);
+    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
+    const { softwares } = useSelector(selectors.catalog.softwares);
+    const { tags } = useSelector(selectors.catalog.tags);
     const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
     const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
+    const { referentsBySoftwareId } = useSelector(
+        selectors.catalog.referentsBySoftwareId,
+    );
     const { softwareNameBySoftwareId } = useSelector(
         selectors.catalog.softwareNameBySoftwareId,
     );
@@ -85,9 +90,9 @@ export function Catalog(props: Props) {
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
-        switch (catalogState.stateDescription) {
+        switch (sliceState.stateDescription) {
             case "not fetched":
-                if (!catalogState.isFetching) {
+                if (!sliceState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
                     catalogThunks.fetchCatalog();
                 }
@@ -96,17 +101,15 @@ export function Catalog(props: Props) {
                 hideSplashScreen();
 
                 //NOTE: Restore previous search
-                if (route.params.q === "" && catalogState.queryString !== "") {
-                    routes.catalog({ "q": catalogState.queryString }).replace();
+                if (route.params.q === "" && query.string !== "") {
+                    routes.catalog({ "q": query.string }).replace();
                 }
 
                 break;
         }
-    }, [catalogState.stateDescription]);
+    }, [sliceState.stateDescription]);
 
     useEffect(() => {
-        const { isProcessing } = readyState ?? {};
-
         if (isProcessing === undefined) {
             return;
         }
@@ -118,7 +121,7 @@ export function Catalog(props: Props) {
         } else {
             hideSplashScreen();
         }
-    }, [readyState?.isProcessing]);
+    }, [isProcessing]);
 
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
@@ -139,8 +142,6 @@ export function Catalog(props: Props) {
 
     const { openLinkBySoftwareId, editLinkBySoftwareId, parentSoftwareBySoftwareId } =
         useMemo(() => {
-            const { softwares } = readyState ?? {};
-
             if (softwares === undefined || softwareNameBySoftwareId === undefined) {
                 return {};
             }
@@ -186,7 +187,7 @@ export function Catalog(props: Props) {
                 editLinkBySoftwareId,
                 parentSoftwareBySoftwareId,
             };
-        }, [readyState?.softwares, softwareNameBySoftwareId]);
+        }, [softwares, softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
         assert(!userAuthenticationThunks.getIsUserLoggedIn());
@@ -211,7 +212,7 @@ export function Catalog(props: Props) {
             .push(),
     );
 
-    if (readyState === undefined) {
+    if (sliceState.stateDescription !== "ready") {
         return null;
     }
 
@@ -221,6 +222,8 @@ export function Catalog(props: Props) {
     assert(editLinkBySoftwareId !== undefined);
     assert(searchResultCount !== undefined);
     assert(parentSoftwareBySoftwareId !== undefined);
+    assert(referentsBySoftwareId !== undefined);
+    assert(tags !== undefined);
 
     const { search, tags: selectedTags } = pure.catalog.parseQuery(route.params.q);
 
@@ -245,12 +248,12 @@ export function Catalog(props: Props) {
                         searchResultCount={searchResultCount}
                         search={search}
                         selectedTags={selectedTags}
-                        tags={readyState.tags}
+                        tags={tags}
                         onSearchChange={onSearchChange}
                         onSelectedTagsChange={onSelectedTagsChange}
                         filteredSoftwares={filteredSoftwares}
                         alikeSoftwares={alikeSoftwares}
-                        referentsBySoftwareId={readyState.referentsBySoftwareId}
+                        referentsBySoftwareId={referentsBySoftwareId}
                         openLinkBySoftwareId={openLinkBySoftwareId}
                         parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
                         editLinkBySoftwareId={editLinkBySoftwareId}

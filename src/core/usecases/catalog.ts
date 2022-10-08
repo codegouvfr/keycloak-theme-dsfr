@@ -42,9 +42,7 @@ namespace CatalogExplorerState {
                   }
               >;
         isProcessing: boolean;
-        "~internal": {
-            displayCount: number;
-        };
+        displayCount: number;
     };
 }
 
@@ -83,9 +81,7 @@ export const { reducer, actions } = createSlice({
                 referentsBySoftwareId,
                 "isProcessing": false,
                 tags,
-                "~internal": {
-                    "displayCount": 24,
-                },
+                "displayCount": 24,
                 "queryString": state.queryString,
             });
         },
@@ -98,13 +94,13 @@ export const { reducer, actions } = createSlice({
             state.queryString = queryString;
 
             if (queryString === "" && state.stateDescription === "ready") {
-                state["~internal"].displayCount = 24;
+                state.displayCount = 24;
             }
         },
         "moreLoaded": state => {
             assert(state.stateDescription === "ready");
 
-            state["~internal"].displayCount += 24;
+            state.displayCount += 24;
         },
         "processingStarted": state => {
             assert(state.stateDescription === "ready");
@@ -429,10 +425,7 @@ export const thunks = {
 
             assert(state.stateDescription === "ready");
 
-            const {
-                "~internal": { displayCount },
-                softwares,
-            } = state;
+            const { displayCount, softwares } = state;
 
             return state.queryString === "" && displayCount < softwares.length;
         },
@@ -616,17 +609,36 @@ export const selectors = (() => {
         }
     };
 
+    const sliceState = (
+        rootState: RootState,
+    ):
+        | { stateDescription: "ready" }
+        | { stateDescription: "not fetched"; isFetching: boolean } => {
+        return rootState.catalog;
+    };
+
+    const query = (rootState: RootState) => {
+        const state = rootState.catalog;
+        return {
+            "string": state.queryString,
+            "parsed": pure.parseQuery(state.queryString),
+        };
+    };
+
+    const isProcessing = createSelector(readyState, readyState => {
+        if (readyState === undefined) {
+            return undefined;
+        }
+
+        return readyState.isProcessing;
+    });
+
     const filteredSoftwares = createSelector(readyState, state => {
         if (state === undefined) {
             return undefined;
         }
 
-        const {
-            queryString,
-            softwares,
-            referentsBySoftwareId,
-            "~internal": { displayCount },
-        } = state;
+        const { queryString, softwares, referentsBySoftwareId, displayCount } = state;
 
         const query = pure.parseQuery(queryString);
 
@@ -727,6 +739,13 @@ export const selectors = (() => {
             );
     });
 
+    const softwares = createSelector(readyState, readyState => {
+        if (readyState === undefined) {
+            return undefined;
+        }
+        return readyState.softwares;
+    });
+
     const softwareNameBySoftwareId = createSelector(readyState, state => {
         if (state === undefined) {
             return undefined;
@@ -739,6 +758,13 @@ export const selectors = (() => {
         softwares.forEach(({ id, name }) => (softwareNameBySoftwareId[id] = name));
 
         return softwareNameBySoftwareId;
+    });
+
+    const tags = createSelector(readyState, readyState => {
+        if (readyState === undefined) {
+            return undefined;
+        }
+        return readyState.tags;
     });
 
     const searchResultCount = createSelector(
@@ -759,6 +785,14 @@ export const selectors = (() => {
                       .length;
         },
     );
+
+    const referentsBySoftwareId = createSelector(readyState, readyState => {
+        if (readyState === undefined) {
+            return undefined;
+        }
+
+        return readyState.referentsBySoftwareId;
+    });
 
     const alikeSoftwares = createSelector(
         readyState,
@@ -817,9 +851,15 @@ export const selectors = (() => {
 
     return {
         readyState,
+        sliceState,
+        query,
+        isProcessing,
+        softwares,
         filteredSoftwares,
         alikeSoftwares,
         softwareNameBySoftwareId,
+        referentsBySoftwareId,
+        tags,
         searchResultCount,
         softwareRefs,
     };
