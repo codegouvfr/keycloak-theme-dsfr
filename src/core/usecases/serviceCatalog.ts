@@ -334,7 +334,7 @@ export const selectors = (() => {
         return rootState.serviceCatalog;
     };
 
-    const queryString = (rootState: RootState) => rootState.catalog.queryString;
+    const queryString = (rootState: RootState) => rootState.serviceCatalog.queryString;
 
     const servicesBySoftwareId = createSelector(readyState, state => {
         if (state === undefined) {
