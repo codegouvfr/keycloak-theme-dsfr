@@ -582,7 +582,7 @@ export const pure = (() => {
             return "";
         }
 
-        if (query.softwareName !== undefined) {
+        if (query.softwareName === undefined) {
             return query.search;
         }
 

@@ -140,7 +140,7 @@ export function ServiceCatalog(props: Props) {
                         softwareName,
                     }) || undefined,
             })
-            .push(),
+            .replace(),
     );
 
     useEffect(() => {
