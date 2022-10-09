@@ -3,6 +3,7 @@ import { useMemo, memo } from "react";
 import { createPortal } from "react-dom";
 import { makeStyles, Text, Button, isViewPortAdapterEnabled } from "ui/theme";
 import { ServiceCatalogCard } from "./ServiceCatalogCard";
+import type { Props as ServiceCatalogCardProps } from "./ServiceCatalogCard";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -25,6 +26,7 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import type { ServiceWithSoftwareInfo } from "core/usecases/serviceCatalog";
+import type { Param0 } from "tsafe";
 
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
@@ -48,7 +50,7 @@ export namespace Props {
 
     export type UserLoggedIn = Common & {
         isUserLoggedIn: true;
-        onRequestDelete: (params: { serviceId: number }) => void;
+        onRequestDelete: (params: { serviceId: number; reason: string }) => void;
     };
 
     export type UserNotLoggedIn = Common & {
@@ -90,10 +92,17 @@ export const ServiceCatalogCards = memo((props: Props) => {
         doRenderSearchBarInHeader,
     });
 
-    const onRequestDeleteFactory = useCallbackFactory(([serviceId]: [number]) => {
-        assert(propsRest.isUserLoggedIn);
-        propsRest.onRequestDelete({ serviceId });
-    });
+    const onRequestDeleteFactory = useCallbackFactory(
+        (
+            [serviceId]: [number],
+            [{ reason }]: [
+                Param0<ServiceCatalogCardProps.UserLoggedIn["onRequestDelete"]>,
+            ],
+        ) => {
+            assert(propsRest.isUserLoggedIn);
+            propsRest.onRequestDelete({ serviceId, reason });
+        },
+    );
 
     const evtCatalogSearchAreaAction = useConst(() =>
         Evt.create<SearchAreaProps["evtAction"]>(),

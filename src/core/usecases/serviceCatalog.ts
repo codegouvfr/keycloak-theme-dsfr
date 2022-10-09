@@ -256,9 +256,9 @@ export const thunks = {
             return state.queryString === "" && displayCount < services.length;
         },
     "deleteService":
-        (params: { serviceId: number }): ThunkAction =>
+        (params: { serviceId: number; reason: string }): ThunkAction =>
         async (...args) => {
-            const { serviceId } = params;
+            const { serviceId, reason } = params;
 
             const [dispatch, getState, { sillApiClient }] = args;
 
@@ -274,6 +274,7 @@ export const thunks = {
 
             await sillApiClient.deleteService({
                 serviceId,
+                reason,
             });
 
             dispatch(

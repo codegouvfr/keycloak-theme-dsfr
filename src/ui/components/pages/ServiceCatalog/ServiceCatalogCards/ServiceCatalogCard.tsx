@@ -1,4 +1,4 @@
-import { useMemo, memo } from "react";
+import { useMemo, useEffect, memo } from "react";
 import { makeStyles, Text } from "ui/theme";
 import { Button } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
@@ -10,7 +10,6 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { IconButton } from "ui/theme";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import type { ServiceWithSoftwareInfo } from "core/usecases/serviceCatalog";
 import { useState } from "react";
 import { Dialog } from "onyxia-ui/Dialog";
@@ -19,6 +18,10 @@ import { useEvt } from "evt/hooks/useEvt";
 import { assert } from "tsafe/assert";
 import { useDomRect } from "powerhooks/useDomRect";
 import { Markdown } from "onyxia-ui/Markdown";
+import { TextField } from "onyxia-ui/TextField";
+import type { TextFieldProps } from "onyxia-ui/TextField";
+import { useRerenderOnStateChange } from "evt/hooks";
+import type { StatefulReadonlyEvt } from "evt";
 
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
@@ -32,7 +35,7 @@ export namespace Props {
 
     export type UserLoggedIn = Common & {
         isUserLoggedIn: true;
-        onRequestDelete: () => void;
+        onRequestDelete: (params: { reason: string }) => void;
     };
 
     export type UserNotLoggedIn = Common & {
@@ -49,7 +52,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
     const { t } = useTranslation({ ServiceCatalogCard });
 
     const evtConfirmDereferenceServiceDialogAction = useConst(() =>
-        Evt.create<ConfirmDereferenceServiceDialogProps["evtAction"]>(),
+        Evt.create<ConfirmDeleteServiceDialog["evtAction"]>(),
     );
 
     const onOpenConfirmDereferenceServiceDialog = useConstCallback(() => {
@@ -61,16 +64,12 @@ export const ServiceCatalogCard = memo((props: Props) => {
         evtConfirmDereferenceServiceDialogAction.post("open");
     });
 
-    const onConfirmDereferenceServiceDialogAnswer = useConstCallback<
-        ConfirmDereferenceServiceDialogProps["onAnswer"]
-    >(({ doProceedToDereferencingTheService }) => {
-        if (!doProceedToDereferencingTheService) {
-            return;
-        }
-
+    const onConfirmDeleteServiceDialogProceed = useConstCallback<
+        ConfirmDeleteServiceDialog["onProceed"]
+    >(({ reason }) => {
         assert(propsRest.isUserLoggedIn);
 
-        propsRest.onRequestDelete();
+        propsRest.onRequestDelete({ reason });
     });
 
     const softwareLink = useMemo(
@@ -143,19 +142,21 @@ export const ServiceCatalogCard = memo((props: Props) => {
                     </Button>
                 </div>
             </div>
-            <ConfirmDereferenceServiceDialog
+            <ConfirmDeleteServiceDialog
                 evtAction={evtConfirmDereferenceServiceDialogAction}
                 serviceName={service.serviceName}
-                onAnswer={onConfirmDereferenceServiceDialogAnswer}
+                onProceed={onConfirmDeleteServiceDialogProceed}
             />
         </div>
     );
 });
 
 export const { i18n } = declareComponentKeys<
-    | "confirm"
+    | "proceed"
     | "abort"
     | { K: "confirm unregister service"; P: { serviceName: string } }
+    | "provide a reason for deleting the service"
+    | "can't be empty"
     | "access service"
     | "maintained by"
     | "software"
@@ -215,59 +216,6 @@ const useStyles = makeStyles<void, "cardButtons">({
         "visibility": "hidden",
     },
 }));
-
-type ConfirmDereferenceServiceDialogProps = {
-    evtAction: NonPostableEvt<"open">;
-    serviceName: string;
-    onAnswer: (params: { doProceedToDereferencingTheService: boolean }) => void;
-};
-
-const ConfirmDereferenceServiceDialog = memo(
-    (props: ConfirmDereferenceServiceDialogProps) => {
-        const { evtAction, serviceName, onAnswer } = props;
-
-        const [isOpen, setIsOpen] = useState(false);
-
-        const onClose = useConstCallback(() => setIsOpen(false));
-
-        const { t } = useTranslation({ ServiceCatalogCard });
-
-        useEvt(
-            ctx =>
-                evtAction.attach(
-                    action => action === "open",
-                    ctx,
-                    () => setIsOpen(true),
-                ),
-            [evtAction],
-        );
-
-        const onAnswerFactory = useCallbackFactory(
-            ([doProceedToDereferencingTheService]: [boolean]) => {
-                onAnswer({ doProceedToDereferencingTheService });
-                onClose();
-            },
-        );
-
-        return (
-            <Dialog
-                body={t("confirm unregister service", { serviceName })}
-                buttons={
-                    <>
-                        <Button onClick={onAnswerFactory(false)} variant="secondary">
-                            {t("abort")}
-                        </Button>
-                        <Button onClick={onAnswerFactory(true)} variant="primary">
-                            {t("confirm")}
-                        </Button>
-                    </>
-                }
-                isOpen={isOpen}
-                onClose={onClose}
-            />
-        );
-    },
-);
 
 const { Software } = (() => {
     type Props = {
@@ -350,4 +298,181 @@ const { Software } = (() => {
     }));
 
     return { Software };
+})();
+
+type ConfirmDeleteServiceDialog = {
+    evtAction: NonPostableEvt<"open">;
+    serviceName: string;
+    onProceed: (params: { reason: string }) => void;
+};
+
+const { ConfirmDeleteServiceDialog } = (() => {
+    const ConfirmDeleteServiceDialog = memo((props: ConfirmDeleteServiceDialog) => {
+        const { evtAction, serviceName, onProceed } = props;
+
+        useEvt(
+            ctx =>
+                evtAction.attach(
+                    action => action === "open",
+                    ctx,
+                    () => setIsOpen(true),
+                ),
+            [evtAction],
+        );
+
+        const [isOpen, setIsOpen] = useState(false);
+
+        const onClose = useConstCallback(() => setIsOpen(false));
+
+        const evtOnProceedClick = useConst(() =>
+            Evt.create<ButtonsProps["evtOnProceedClick"]>(null),
+        );
+
+        const setOnProceedClick = useConstCallback<BodyProps["setOnProceedClick"]>(
+            ({ onProceedClick }) => (evtOnProceedClick.state = onProceedClick),
+        );
+
+        const { t } = useTranslation({ ServiceCatalogCard });
+
+        return (
+            <Dialog
+                title={t("confirm unregister service", { serviceName })}
+                body={
+                    <Body
+                        onClose={onClose}
+                        onProceed={onProceed}
+                        setOnProceedClick={setOnProceedClick}
+                    />
+                }
+                isOpen={isOpen}
+                onClose={onClose}
+                buttons={
+                    <Buttons onClose={onClose} evtOnProceedClick={evtOnProceedClick} />
+                }
+            />
+        );
+    });
+
+    type BodyProps = {
+        onClose: () => void;
+        onProceed: ConfirmDeleteServiceDialog["onProceed"];
+        setOnProceedClick: (params: { onProceedClick: (() => void) | null }) => void;
+    };
+
+    const Body = memo((props: BodyProps) => {
+        const { onProceed, onClose } = props;
+
+        const { classes } = useStyles();
+
+        const { t } = useTranslation({ ServiceCatalogCard });
+
+        const getIsValidValue = useConstCallback<TextFieldProps["getIsValidValue"]>(
+            text => {
+                if (text === "") {
+                    return {
+                        "isValidValue": false,
+                        "message": t("can't be empty"),
+                    };
+                }
+
+                return {
+                    "isValidValue": true,
+                };
+            },
+        );
+
+        const [{ onProceedClick }, setOnProceedClick] = useState<{
+            onProceedClick: (() => void) | null;
+        }>({
+            "onProceedClick": null,
+        });
+
+        const onValueBeingTypedChange = useConstCallback<
+            TextFieldProps["onValueBeingTypedChange"]
+        >(({ value, isValidValue }) =>
+            setOnProceedClick({
+                "onProceedClick": isValidValue
+                    ? () => {
+                          onProceed({ "reason": value });
+                          onClose();
+                      }
+                    : null,
+            }),
+        );
+
+        useEffect(() => {
+            props.setOnProceedClick({ onProceedClick });
+        }, [onProceedClick]);
+
+        const evtAction = useConst(() => Evt.create<TextFieldProps["evtAction"]>());
+
+        const onEnterKeyDown = useConstCallback<TextFieldProps["onEnterKeyDown"]>(
+            ({ preventDefaultAndStopPropagation }) => {
+                preventDefaultAndStopPropagation();
+                evtAction.post("TRIGGER SUBMIT");
+            },
+        );
+
+        const onSubmit = useConstCallback<TextFieldProps["onSubmit"]>(() => {
+            assert(onProceedClick !== null);
+            onProceedClick();
+        });
+
+        return (
+            <>
+                <Text typo="body 1">
+                    {t("provide a reason for deleting the service")}
+                </Text>
+                <TextField
+                    inputProps_autoFocus={true}
+                    selectAllTextOnFocus={true}
+                    className={classes.textField}
+                    getIsValidValue={getIsValidValue}
+                    onValueBeingTypedChange={onValueBeingTypedChange}
+                    doOnlyValidateInputAfterFistFocusLost={false}
+                    evtAction={evtAction}
+                    onEnterKeyDown={onEnterKeyDown}
+                    onSubmit={onSubmit}
+                />
+            </>
+        );
+    });
+
+    type ButtonsProps = {
+        onClose: () => void;
+        evtOnProceedClick: StatefulReadonlyEvt<(() => void) | null>;
+    };
+
+    const Buttons = memo((props: ButtonsProps) => {
+        const { onClose, evtOnProceedClick } = props;
+
+        const { t } = useTranslation({ ServiceCatalogCard });
+
+        useRerenderOnStateChange(evtOnProceedClick);
+
+        return (
+            <>
+                <Button variant="secondary" onClick={onClose}>
+                    {t("abort")}
+                </Button>
+                <Button
+                    onClick={evtOnProceedClick.state ?? undefined}
+                    disabled={evtOnProceedClick.state === null}
+                >
+                    {t("proceed")}
+                </Button>
+            </>
+        );
+    });
+
+    const useStyles = makeStyles({
+        "name": { CreateS3DirectoryDialog: ConfirmDeleteServiceDialog },
+    })(theme => ({
+        "textField": {
+            "width": 250,
+            "margin": theme.spacing(5),
+        },
+    }));
+
+    return { ConfirmDeleteServiceDialog };
 })();

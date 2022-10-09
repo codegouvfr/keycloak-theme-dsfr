@@ -81,7 +81,7 @@
         "react-scripts": "5.0.1",
         "redux-clean-architecture": "^1.2.12",
         "run-exclusive": "^2.2.16",
-        "sill-api": "0.25.0",
+        "sill-api": "0.26.0",
         "tsafe": "^1.1.1",
         "tss-react": "^4.3.3",
         "type-route": "^0.7.1",

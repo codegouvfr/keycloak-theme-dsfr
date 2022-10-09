@@ -15081,10 +15081,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.25.0.tgz#b86943c4e5e8fd37a20798c50ea031e2f726216c"
-  integrity sha512-Rlii/Bab3diEiD5mM7l/6cS42i78tRAe6ELRjPQt87WshaJxs9GfwEL+8V6cZh1esI3lj1q9MX+OkW9plFZ3IA==
+sill-api@0.26.0:
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.26.0.tgz#43b492c4ea5360af1210c03cd03cd0744730b039"
+  integrity sha512-38QECiYiHokgHBoDtcUSKO0ARL680UQ455jCwDSmNd7mITrOr/a7YQd8nOZBlKsDw648f8mTen5RnsZP8Tvdeg==
   dependencies:
     "@trpc/server" "^9.24.0"
     "@ungap/structured-clone" "^0.3.4"
@@ -15096,7 +15096,7 @@ sill-api@0.25.0:
     memoizee "^0.4.15"
     node-fetch "^2.6.7"
     run-exclusive "^2.2.16"
-    tsafe "^0.10.1"
+    tsafe "^1.1.1"
     zod "^3.17.3"
 
 simple-swizzle@^0.2.2:

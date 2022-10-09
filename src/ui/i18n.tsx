@@ -395,15 +395,16 @@ const {
                 "no tags": "No tags",
             },
             "ServiceCatalogCard": {
-                "confirm": "Confirm",
+                "proceed": "Proceed",
                 "abort": "Abort",
-                "confirm unregister service": ({
-                    serviceName,
-                }) => `${serviceName} will be deleted from the list
-                for everyone to see. Do you confirm?`,
+                "confirm unregister service": ({ serviceName }) =>
+                    `Confirm the deletion of ${serviceName}?`,
                 "access service": "Access the service 🚀",
                 "maintained by": "Maintained by",
                 "software": "Software",
+                "provide a reason for deleting the service":
+                    "Please provide a reason for dereferencing this service.",
+                "can't be empty": "Please provide a reason",
             },
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,
@@ -793,12 +794,13 @@ const {
                 "no tags": "Aucun tag",
             },
             "ServiceCatalogCard": {
-                "confirm": "Confirmer",
+                "proceed": "Confirmer",
                 "abort": "Abandoner",
-                "confirm unregister service": ({
-                    serviceName,
-                }) => `${serviceName} va être supprimé pour tout
-                le monde, êtes-vous sûr de vouloir poursuivre?`,
+                "confirm unregister service": ({ serviceName }) =>
+                    `Confirmer la suppretion de ${serviceName}?`,
+                "provide a reason for deleting the service":
+                    "Veuillez préciser la raison pour laquelle vous déréférencez ce service.",
+                "can't be empty": "Veuiller préciser une raison",
                 "access service": "Accéder au service 🚀",
                 "maintained by": "Maintenu par",
                 "software": "Logiciel",
