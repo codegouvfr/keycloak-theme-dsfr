@@ -124,6 +124,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
                 </div>
                 <div className={classes.buttonsWrapper}>
                     <Button
+                        className={classes.cardButtons}
                         variant="primary"
                         href={service.serviceUrl}
                         doOpenNewTabIfHref={true}
