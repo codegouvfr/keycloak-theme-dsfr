@@ -254,11 +254,11 @@ const ConfirmDereferenceServiceDialog = memo(
                 body={t("confirm unregister service", { serviceName })}
                 buttons={
                     <>
-                        <Button onClick={onAnswerFactory(true)} variant="primary">
-                            {t("confirm")}
-                        </Button>
                         <Button onClick={onAnswerFactory(false)} variant="secondary">
                             {t("abort")}
+                        </Button>
+                        <Button onClick={onAnswerFactory(true)} variant="primary">
+                            {t("confirm")}
                         </Button>
                     </>
                 }
