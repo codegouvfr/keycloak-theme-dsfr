@@ -44,7 +44,7 @@ export namespace Props {
 export const ServiceCatalogCard = memo((props: Props) => {
     const { className, service, editLink, sillSoftwareLink, ...propsRest } = props;
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
 
     const { t } = useTranslation({ ServiceCatalogCard });
 
@@ -111,9 +111,16 @@ export const ServiceCatalogCard = memo((props: Props) => {
             </div>
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
-                    <Markdown>{service.description}</Markdown>
-                    <Text typo="label 1">
-                        {t("maintained by", { "who": service.agencyName })}
+                    <Markdown className={classes.description}>
+                        {service.description}
+                    </Markdown>
+                    <Text typo="label 1" className={css({ "display": "inline" })}>
+                        {" "}
+                        {t("maintained by")} :{" "}
+                    </Text>
+                    <Text typo="body 1" className={css({ "display": "inline" })}>
+                        {" "}
+                        {service.agencyName}{" "}
                     </Text>
                     <Software
                         logoUrl={
@@ -150,7 +157,8 @@ export const { i18n } = declareComponentKeys<
     | "abort"
     | { K: "confirm unregister service"; P: { serviceName: string } }
     | "access service"
-    | { K: "maintained by"; P: { who: string } }
+    | "maintained by"
+    | "software"
 >()({ ServiceCatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
@@ -187,6 +195,9 @@ const useStyles = makeStyles<void, "cardButtons">({
         "display": "flex",
         "flexDirection": "column",
         "overflow": "hidden",
+    },
+    "description": {
+        "marginBottom": theme.spacing(4),
     },
     "body": {
         "margin": 0,
@@ -281,46 +292,60 @@ const { Software } = (() => {
             return { imgRef, isBanner };
         })();
 
-        const { classes, css, cx } = useStyles();
+        const { classes, cx } = useStyles();
+
+        const { t } = useTranslation({ ServiceCatalogCard });
 
         const innerNode = (
-            <>
+            <div className={classes.innerNode}>
+                <Text typo="label 1" className={classes.label}>
+                    {t("software")}:{" "}
+                </Text>
                 {logoUrl !== undefined && (
                     <img
+                        style={{ "height": 30 }}
                         ref={imgRef}
                         src={logoUrl}
                         alt=""
-                        className={css({ "height": "100%" })}
+                        className={classes.image}
                     />
                 )}
                 {(isBanner === false || logoUrl === undefined) && (
-                    <Text className={classes.title} typo="object heading">
-                        {smartTrim({
-                            "maxLength": 23,
-                            "minCharAtTheEnd": 0,
-                            "text": capitalize(name),
-                        })}
+                    <Text className={classes.title} typo="body 1">
+                        {capitalize(name)}
                     </Text>
                 )}
-            </>
+            </div>
         );
 
         return link === undefined ? (
             <div className={className}>{innerNode}</div>
         ) : (
-            <a className={cx(classes.root, className)} {...link}>
+            <a className={cx(classes.rootWhenLink, className)} {...link}>
                 {innerNode}
             </a>
         );
     });
 
     const useStyles = makeStyles()(theme => ({
-        "root": {
+        "rootWhenLink": {
             "all": "unset",
             "display": "block",
+            "cursor": "pointer",
         },
         "title": {
             "marginLeft": theme.spacing(3),
+        },
+        "innerNode": {
+            "display": "flex",
+            "alignItems": "center",
+            "marginTop": theme.spacing(4),
+        },
+        "label": {
+            "marginRight": theme.spacing(4),
+        },
+        "image": {
+            "height": "100%",
         },
     }));
 
