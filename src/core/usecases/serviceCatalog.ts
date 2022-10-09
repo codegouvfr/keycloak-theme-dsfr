@@ -11,7 +11,6 @@ import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
 import { thunks as catalogThunks, selectors as catalogSelectors } from "./catalog";
-import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 
 export type ServiceWithSoftwareInfo = Omit<
     CompiledData.Service,
@@ -522,9 +521,26 @@ export const selectors = (() => {
             return undefined;
         }
 
-        return serviceWithSoftwares
-            .map(service => service.deployedSoftware.softwareName)
-            .reduce(...removeDuplicates<string>());
+        const arr: { name: string; count: number }[] = [];
+
+        serviceWithSoftwares.forEach(service => {
+            let entry = arr.find(
+                ({ name }) => service.deployedSoftware.softwareName === name,
+            );
+
+            if (entry === undefined) {
+                arr.push({
+                    "name": service.deployedSoftware.softwareName,
+                    "count": 1,
+                });
+
+                return;
+            } else {
+                entry.count++;
+            }
+        });
+
+        return arr.sort((a, b) => b.count - a.count).map(({ name }) => name);
     });
 
     const isProcessing = createSelector(
