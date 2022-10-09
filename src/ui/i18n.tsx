@@ -402,6 +402,7 @@ const {
                 }) => `${serviceName} will be deleted from the list
                 for everyone to see. Do you confirm?`,
                 "access service": "Access the service 🚀",
+                "maintained by": ({ who }) => `Maintained by: ${who}`,
             },
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,
@@ -798,6 +799,7 @@ const {
                 }) => `${serviceName} va être supprimé pour tout
                 le monde, êtes-vous sûr de vouloir poursuivre?`,
                 "access service": "Accéder au service 🚀",
+                "maintained by": ({ who }) => `Maintenu par: ${who}`,
             },
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,

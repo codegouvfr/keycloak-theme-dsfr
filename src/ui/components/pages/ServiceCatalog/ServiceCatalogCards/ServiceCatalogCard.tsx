@@ -112,6 +112,9 @@ export const ServiceCatalogCard = memo((props: Props) => {
             <div className={classes.belowDivider}>
                 <div className={classes.body}>
                     <Markdown>{service.description}</Markdown>
+                    <Text typo="label 1">
+                        {t("maintained by", { "who": service.agencyName })}
+                    </Text>
                     <Software
                         logoUrl={
                             !service.deployedSoftware.isInSill
@@ -147,6 +150,7 @@ export const { i18n } = declareComponentKeys<
     | "abort"
     | { K: "confirm unregister service"; P: { serviceName: string } }
     | "access service"
+    | { K: "maintained by"; P: { who: string } }
 >()({ ServiceCatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
