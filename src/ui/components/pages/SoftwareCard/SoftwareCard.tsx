@@ -33,6 +33,7 @@ import type { DereferenceSoftwareDialogProps } from "./DereferenceSoftwareDialog
 import { Text } from "ui/theme";
 import { Markdown } from "onyxia-ui/Markdown";
 import { DividerWithText } from "ui/components/shared/DividerWithText";
+import { getPreviousCatalog } from "ui/components/App/useHistory";
 
 //TODO: We should have a dedicated usecase for this page.
 
@@ -138,7 +139,9 @@ export function SoftwareCard(props: Props) {
         }, [isProcessing]);
     }
 
-    const onGoBack = useConstCallback(() => routes.catalog().push());
+    const onGoBack = useConstCallback(() =>
+        routes[getPreviousCatalog() ?? "catalog"]().push(),
+    );
 
     const { imgRef, isBanner, imgWidth } = (function useClosure() {
         const {
@@ -395,7 +398,7 @@ export function SoftwareCard(props: Props) {
                         helperText={t("public services helper")}
                         text={
                             <MuiLink
-                                {...routes.servicesCatalog({
+                                {...routes.serviceCatalog({
                                     "q": pure.serviceCatalog.stringifyQuery({
                                         "search": "",
                                         "softwareName": software.name,

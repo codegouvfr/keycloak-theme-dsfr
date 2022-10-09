@@ -20,7 +20,7 @@ import { useStickyTop } from "powerhooks/useStickyTop";
 import memoize from "memoizee";
 import { useConst } from "powerhooks/useConst";
 
-ServiceCatalog.routeGroup = createGroup([routes.servicesCatalog]);
+ServiceCatalog.routeGroup = createGroup([routes.serviceCatalog]);
 
 type PageRoute = Route<typeof ServiceCatalog.routeGroup>;
 
@@ -94,7 +94,7 @@ export function ServiceCatalog(props: Props) {
 
                 //NOTE: Restore previous search
                 if (route.params.q === "" && queryString !== "") {
-                    routes.servicesCatalog({ "q": queryString }).replace();
+                    routes.serviceCatalog({ "q": queryString }).replace();
                 }
 
                 break;
@@ -118,7 +118,7 @@ export function ServiceCatalog(props: Props) {
     const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
-                .servicesCatalog({
+                .serviceCatalog({
                     "q":
                         pure.serviceCatalog.stringifyQuery({
                             search,
@@ -133,7 +133,7 @@ export function ServiceCatalog(props: Props) {
         CatalogCardsProps["onSelectedSoftwareChange"]
     >(softwareName =>
         routes
-            .servicesCatalog({
+            .serviceCatalog({
                 "q":
                     pure.serviceCatalog.stringifyQuery({
                         "search": pure.serviceCatalog.parseQuery(route.params.q).search,

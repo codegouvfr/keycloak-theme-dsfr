@@ -30,7 +30,7 @@ const routeDefs = {
         },
         () => `/software`,
     ),
-    "servicesCatalog": defineRoute(
+    "serviceCatalog": defineRoute(
         {
             "q": param.query.optional.string.default(""),
         },

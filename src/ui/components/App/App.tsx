@@ -30,6 +30,7 @@ import { useEvt } from "evt/hooks";
 import { getScrollableParent } from "powerhooks/getScrollableParent";
 import { Evt } from "evt";
 import { getConfiguration } from "configuration";
+import { setPreviousCatalog } from "./useHistory";
 
 export type Props = {
     className?: string;
@@ -37,6 +38,17 @@ export type Props = {
 
 export const App = memo((props: Props) => {
     const { className } = props;
+
+    const route = useRoute();
+
+    useEffect(() => {
+        switch (route.name) {
+            case "serviceCatalog":
+            case "catalog":
+                setPreviousCatalog(route.name);
+                break;
+        }
+    }, [route.name]);
 
     const { t } = useTranslation({ App });
 
@@ -80,8 +92,6 @@ export const App = memo((props: Props) => {
         45,
     );
 
-    const route = useRoute();
-
     const { userAuthenticationThunks, apiInfoThunks } = useThunks();
 
     const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
@@ -111,7 +121,7 @@ export const App = memo((props: Props) => {
                 "serviceCatalog": {
                     "iconId": "http",
                     "label": t("service catalog"),
-                    "link": routes.servicesCatalog().link,
+                    "link": routes.serviceCatalog().link,
                 },
             } as const),
         [t, lang],
@@ -159,7 +169,7 @@ export const App = memo((props: Props) => {
                                 return "account";
                             case "catalog":
                                 return "catalog";
-                            case "servicesCatalog":
+                            case "serviceCatalog":
                                 return "serviceCatalog";
                         }
                     })()}
