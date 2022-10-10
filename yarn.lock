@@ -15081,10 +15081,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-sill-api@0.26.0:
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.26.0.tgz#43b492c4ea5360af1210c03cd03cd0744730b039"
-  integrity sha512-38QECiYiHokgHBoDtcUSKO0ARL680UQ455jCwDSmNd7mITrOr/a7YQd8nOZBlKsDw648f8mTen5RnsZP8Tvdeg==
+sill-api@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/sill-api/-/sill-api-0.27.0.tgz#caa611844d1c2b3c5986ca2206f94c2f0b5e1c05"
+  integrity sha512-4g/f4zISeR6r4qWtMBHCbe2Ygp15o7h6aU0C/xYg1ppjYNzgo650i0ZQcvJmgtm/uYkfebhmwsRA/TI1wPEfuQ==
   dependencies:
     "@trpc/server" "^9.24.0"
     "@ungap/structured-clone" "^0.3.4"
