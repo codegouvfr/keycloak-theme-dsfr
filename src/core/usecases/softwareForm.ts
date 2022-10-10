@@ -18,13 +18,13 @@ import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
 import { same } from "evt/tools/inDepth/same";
 
-type PartialSoftwareRow = Omit<
-    Param0<SillApiClient["addSoftware"]>["partialSoftwareRow"],
+type SoftwareRowEditableByForm = Omit<
+    Param0<SillApiClient["addSoftware"]>["softwareRowEditableByForm"],
     "dereferencing"
 >;
 
 type ValueByFieldName = {
-    [K in keyof PartialSoftwareRow]-?: PartialSoftwareRow[K];
+    [K in keyof SoftwareRowEditableByForm]-?: SoftwareRowEditableByForm[K];
 };
 
 export type FieldName = keyof ValueByFieldName;
@@ -517,7 +517,7 @@ export const thunks = {
 
             const { valueByFieldName, defaultValueByFieldName } = state;
 
-            const partialSoftwareRow = Object.fromEntries(
+            const softwareRowEditableByForm = Object.fromEntries(
                 objectKeys(valueByFieldName)
                     .map(fieldName => [fieldName, valueByFieldName[fieldName]] as const)
                     .map(
@@ -530,7 +530,7 @@ export const thunks = {
                                     : value,
                             ] as const,
                     ),
-            ) as PartialSoftwareRow;
+            ) as SoftwareRowEditableByForm;
 
             dispatch(actions.submissionStarted());
 
@@ -544,14 +544,14 @@ export const thunks = {
                         createReferentParams;
 
                     return sillApiClient.addSoftware({
-                        partialSoftwareRow,
+                        softwareRowEditableByForm,
                         isExpert,
                         useCaseDescription,
                         isPersonalUse,
                     });
                 } else {
                     return sillApiClient.updateSoftware({
-                        partialSoftwareRow,
+                        softwareRowEditableByForm,
                         softwareId,
                     });
                 }
@@ -758,7 +758,10 @@ export const pure = (() => {
         ] as const;
 
         assert<
-            Equals<typeof optionalFields[number], keyof PickOptionals<PartialSoftwareRow>>
+            Equals<
+                typeof optionalFields[number],
+                keyof PickOptionals<SoftwareRowEditableByForm>
+            >
         >();
 
         function getIsOptionalField(fieldName: FieldName): boolean {
