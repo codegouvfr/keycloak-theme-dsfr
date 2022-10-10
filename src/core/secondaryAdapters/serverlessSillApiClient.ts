@@ -46,5 +46,7 @@ export function createServerlessSillApiClient(params: {
         "downloadCorsProtectedTextFile": () =>
             Promise.reject(new Error("not implemented")),
         "deleteService": () => Promise.reject(new Error("not implemented")),
+        "addService": () => Promise.reject(new Error("not implemented")),
+        "updateService": () => Promise.reject(new Error("not implemented")),
     };
 }

@@ -46,5 +46,7 @@ export function createTrpcSillApiClient(params: {
         "downloadCorsProtectedTextFile": params =>
             trpcClient.query("downloadCorsProtectedTextFile", params),
         "deleteService": params => trpcClient.mutation("deleteService", params),
+        "addService": params => trpcClient.mutation("addService", params),
+        "updateService": params => trpcClient.mutation("updateService", params),
     };
 }

@@ -53,6 +53,10 @@ export type SillApiClient = {
     deleteService: (
         params: InferInput<"deleteService">,
     ) => Promise<InferOutput<"deleteService">>;
+    addService: (params: InferInput<"addService">) => Promise<InferOutput<"addService">>;
+    updateService: (
+        params: InferInput<"updateService">,
+    ) => Promise<InferOutput<"updateService">>;
 };
 
 type InferOutput<TRouteKey extends _.TAll> = TRouteKey extends _.TQuery
