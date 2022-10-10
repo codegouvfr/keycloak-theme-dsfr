@@ -124,7 +124,7 @@ export const { reducer, actions } = createSlice({
                 services.push(service);
             }
         },
-        "serviceDereferenced": (
+        "serviceDeleted": (
             state,
             {
                 payload,
@@ -278,7 +278,7 @@ export const thunks = {
             });
 
             dispatch(
-                actions.serviceDereferenced({
+                actions.serviceDeleted({
                     serviceId,
                 }),
             );
