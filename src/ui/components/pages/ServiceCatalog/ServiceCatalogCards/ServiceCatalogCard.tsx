@@ -338,11 +338,13 @@ const { ConfirmDeleteServiceDialog } = (() => {
             <Dialog
                 title={t("confirm unregister service", { serviceName })}
                 body={
-                    <Body
-                        onClose={onClose}
-                        onProceed={onProceed}
-                        setOnProceedClick={setOnProceedClick}
-                    />
+                    isOpen && (
+                        <Body
+                            onClose={onClose}
+                            onProceed={onProceed}
+                            setOnProceedClick={setOnProceedClick}
+                        />
+                    )
                 }
                 isOpen={isOpen}
                 onClose={onClose}
@@ -469,8 +471,12 @@ const { ConfirmDeleteServiceDialog } = (() => {
         "name": { CreateS3DirectoryDialog: ConfirmDeleteServiceDialog },
     })(theme => ({
         "textField": {
-            "width": 250,
+            //"width": 250,
+            "display": "block",
             "margin": theme.spacing(5),
+            "& > div": {
+                "width": "100%",
+            },
         },
     }));
 
