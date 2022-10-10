@@ -90,7 +90,7 @@
         "zod": "^3.17.3"
     },
     "resolutions": {
-        "powerhooks": "0.20.20"
+        "powerhooks": "0.20.21"
     },
     "eslintConfig": {
         "plugins": [
