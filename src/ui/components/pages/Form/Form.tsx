@@ -76,14 +76,7 @@ export function Form(props: Props) {
                 hideSplashScreen();
                 softwareFormThunks.initialize({ "softwareId": undefined });
 
-                //DODO: Remove delay, push immediately, after we update to react 18
-                queueMicrotask(() =>
-                    routes
-                        .card({
-                            "name": sliceState.softwareName,
-                        })
-                        .push(),
-                );
+                routes.card({ "name": sliceState.softwareName }).push();
                 break;
             case "form ready":
                 if (sliceState.isSubmitting) {
