@@ -7,6 +7,7 @@ import * as userAuthenticationUsecase from "./usecases/userAuthentication";
 import * as softwareFormUsecase from "./usecases/softwareForm";
 import * as apiInfo from "./usecases/apiInfo";
 import * as fetchProxy from "./usecases/fetchProxy";
+import * as serviceForm from "./usecases/serviceForm";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
 import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
@@ -73,6 +74,7 @@ export const usecases = [
     apiInfo,
     fetchProxy,
     serviceCatalogUsecase,
+    serviceForm,
 ];
 
 const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
