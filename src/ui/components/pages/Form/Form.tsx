@@ -44,27 +44,32 @@ export function Form(props: Props) {
 
     const { t } = useTranslation({ Form });
 
-    const { softwareFormThunks, catalogThunks } = useThunks();
+    const { softwareFormThunks } = useThunks();
 
+    const { sliceState } = useSelector(selectors.softwareForm.sliceState);
     const { isSubmittable } = useSelector(selectors.softwareForm.isSubmittable);
     const { displayableFieldErrorByFieldName } = useSelector(
         selectors.softwareForm.displayableFieldErrorByFieldName,
     );
-    const state = useSelector(state => state.softwareForm);
-    const { softwareRefs } = useSelector(selectors.catalog.softwareRefs);
+    const { softwareRefs } = useSelector(selectors.softwareForm.softwareRefs);
     const { softwareNameBySoftwareId } = useSelector(
-        selectors.catalog.softwareNameBySoftwareId,
+        selectors.softwareForm.softwareNameBySoftwareId,
+    );
+    const { tags } = useSelector(selectors.softwareForm.tags);
+    const { softwareId } = useSelector(selectors.softwareForm.softwareId);
+    const { valueByFieldName } = useSelector(selectors.softwareForm.valueByFieldName);
+    const { isAutofillInProgress } = useSelector(
+        selectors.softwareForm.isAutofillInProgress,
     );
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
         softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
-        catalogThunks.fetchCatalog();
     }, [route.params.softwareId]);
 
     useEffect(() => {
-        switch (state.stateDescription) {
+        switch (sliceState.stateDescription) {
             case "not initialized":
                 break;
             case "form submitted":
@@ -75,20 +80,20 @@ export function Form(props: Props) {
                 queueMicrotask(() =>
                     routes
                         .card({
-                            "name": state.softwareName,
+                            "name": sliceState.softwareName,
                         })
                         .push(),
                 );
                 break;
             case "form ready":
-                if (state.isSubmitting) {
+                if (sliceState.isSubmitting) {
                     showSplashScreen({ "enableTransparency": true });
                 }
                 break;
         }
     }, [
-        state.stateDescription,
-        state.stateDescription === "form ready" && state.isSubmitting,
+        sliceState.stateDescription,
+        sliceState.stateDescription === "form ready" && sliceState.isSubmitting,
     ]);
 
     const { classes, cx, css } = useStyles();
@@ -115,30 +120,31 @@ export function Form(props: Props) {
         DeclareOneselfReferentDialogProps["onAnswer"]
     >(createReferentParams => softwareFormThunks.submit({ createReferentParams }));
 
-    if (state.stateDescription !== "form ready" || softwareRefs === undefined) {
+    if (sliceState.stateDescription !== "form ready") {
         return null;
     }
 
     assert(isSubmittable !== undefined);
     assert(displayableFieldErrorByFieldName !== undefined);
     assert(softwareNameBySoftwareId !== undefined);
+    assert(tags !== undefined);
+    assert(valueByFieldName !== undefined);
+    assert(softwareRefs !== undefined);
 
     return (
         <>
             <div className={cx(classes.root, className)}>
                 <PageHeader
                     mainIcon="add"
-                    title={t(state.softwareId === undefined ? "title add" : "title edit")}
+                    title={t(softwareId === undefined ? "title add" : "title edit")}
                     helpTitle={t(
-                        state.softwareId === undefined
-                            ? "help title add"
-                            : "help title edit",
+                        softwareId === undefined ? "help title add" : "help title edit",
                     )}
                     helpContent={t("help")}
                     helpIcon="sentimentSatisfied"
                 />
                 <div className={classes.fields}>
-                    {objectKeys(state.valueByFieldName)
+                    {objectKeys(valueByFieldName)
                         .map(
                             fieldName =>
                                 [
@@ -149,15 +155,15 @@ export function Form(props: Props) {
                         .map(([fieldName, fieldError]) => (
                             <Fragment key={fieldName}>
                                 {(() => {
-                                    const value = state.valueByFieldName[fieldName];
+                                    const value = valueByFieldName[fieldName];
 
                                     if (fieldName === "tags") {
-                                        const tags = state.valueByFieldName[fieldName];
+                                        const selectedTags = valueByFieldName[fieldName];
 
                                         return (
                                             <Tags
-                                                tags={state.tags}
-                                                selectedTags={tags}
+                                                tags={tags}
+                                                selectedTags={selectedTags}
                                                 onCreateNewTag={tag =>
                                                     softwareFormThunks.createTag({
                                                         tag,
@@ -174,7 +180,7 @@ export function Form(props: Props) {
                                     }
                                     if (fieldName === "alikeSoftwares") {
                                         const alikeSoftwares =
-                                            state.valueByFieldName[fieldName];
+                                            valueByFieldName[fieldName];
 
                                         return (
                                             <FormAlikeSoftwares
@@ -259,7 +265,7 @@ export function Form(props: Props) {
                                                         fieldName,
                                                     )}
                                                     isCircularProgressShown={
-                                                        state.isAutofillInProgress
+                                                        isAutofillInProgress
                                                     }
                                                     helperText={t(
                                                         fieldError.hasError

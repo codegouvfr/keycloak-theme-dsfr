@@ -552,6 +552,7 @@ export const selectors = (() => {
     return {
         sliceState,
         queryString,
+        serviceWithSoftwares,
         filteredServices,
         serviceCountBySoftwareId,
         searchResultCount,

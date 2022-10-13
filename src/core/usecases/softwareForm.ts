@@ -17,6 +17,7 @@ import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
 import { same } from "evt/tools/inDepth/same";
+import { selectors as catalogSelectors } from "./catalog";
 
 type SoftwareRowEditableByForm = Omit<
     Param0<SillApiClient["addSoftware"]>["softwareRowEditableByForm"],
@@ -572,6 +573,52 @@ export const selectors = (() => {
         }
     };
 
+    const sliceState = (
+        rootState: RootState,
+    ):
+        | {
+              stateDescription: "not initialized";
+              isInitializing: boolean;
+          }
+        | {
+              stateDescription: "form ready";
+              isSubmitting: boolean;
+          }
+        | {
+              stateDescription: "form submitted";
+              softwareName: string;
+          } => {
+        return rootState.softwareForm;
+    };
+
+    const softwareId = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state.softwareId;
+    });
+
+    const valueByFieldName = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state.valueByFieldName;
+    });
+
+    const tags = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state.tags;
+    });
+
+    const isAutofillInProgress = createSelector(readyState, state => {
+        if (state === undefined) {
+            return undefined;
+        }
+        return state.isAutofillInProgress;
+    });
+
     const { fieldErrorByFieldName } = (() => {
         function getFieldError<Field extends keyof ValueByFieldName>(params: {
             softwares: CompiledData.Software[];
@@ -737,7 +784,22 @@ export const selectors = (() => {
         },
     );
 
-    return { displayableFieldErrorByFieldName, isSubmittable, fieldErrorByFieldName };
+    const softwareRefs = catalogSelectors.softwareRefs;
+
+    const softwareNameBySoftwareId = catalogSelectors.softwareNameBySoftwareId;
+
+    return {
+        sliceState,
+        softwareId,
+        valueByFieldName,
+        tags,
+        isAutofillInProgress,
+        displayableFieldErrorByFieldName,
+        isSubmittable,
+        fieldErrorByFieldName,
+        softwareRefs,
+        softwareNameBySoftwareId,
+    };
 })();
 
 const getSliceContext = memoize((_: ThunksExtraArgument) => {
