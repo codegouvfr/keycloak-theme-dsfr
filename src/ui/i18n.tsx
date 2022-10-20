@@ -330,6 +330,7 @@ const {
                 "help": `By referencing services you help establish a landscape of what free software are in production in the french public service.`,
             },
             "SoftwareCard": {
+                "dev by french public service": "Developed by french public service",
                 "update software information": "Update software information",
                 "software name": "Name of the software",
                 "software function": "Software's function",
@@ -756,6 +757,8 @@ const {
                 "help": `En référençant de nouveaux services, vous aider à établir un panorama des logiciels libres mis en production au sein du service public.`,
             },
             "SoftwareCard": {
+                "dev by french public service":
+                    "Développer par le service public français",
                 "update software information":
                     "Mettre à jour les informations du logiciel",
                 "software name": "Nom du logiciel",
@@ -829,7 +832,7 @@ const {
                     reason === undefined ? "" : ` : « ${reason} »`
                 }.
                 ${
-                    lastRecommendedVersion === undefined
+                    !lastRecommendedVersion
                         ? ""
                         : `Dernière version acceptable : ${lastRecommendedVersion}`
                 }`,

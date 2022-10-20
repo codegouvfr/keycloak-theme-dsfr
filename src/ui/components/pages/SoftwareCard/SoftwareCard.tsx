@@ -332,9 +332,7 @@ export function SoftwareCard(props: Props) {
                         {software.isFromFrenchPublicService && (
                             <>
                                 &nbsp; &nbsp;
-                                <Tooltip
-                                    title={"Développé par le service public français"}
-                                >
+                                <Tooltip title={t("dev by french public service")}>
                                     <span>🐓</span>
                                 </Tooltip>
                             </>
@@ -757,6 +755,7 @@ const useStyles = makeStyles<{ imgWidth: number }>({
 }));
 
 export const { i18n } = declareComponentKeys<
+    | "dev by french public service"
     | "update software information"
     | "software name"
     | "software function"
