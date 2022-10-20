@@ -301,6 +301,7 @@ export function SoftwareCard(props: Props) {
     const referencedSincePrettyPrint = getFormattedDate({
         "time": software.referencedSinceTime,
         lang,
+        "doAlwaysShowYear": true,
     });
 
     const editLink =

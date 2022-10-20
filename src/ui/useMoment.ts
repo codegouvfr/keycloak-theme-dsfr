@@ -14,12 +14,18 @@ export const { getFormattedDate } = (() => {
         /* spell-checker: enable */
     });
 
-    function getFormattedDate(params: { time: number; lang: Language }): string {
-        const { time, lang } = params;
+    function getFormattedDate(params: {
+        time: number;
+        lang: Language;
+        doAlwaysShowYear?: boolean;
+    }): string {
+        const { time, lang, doAlwaysShowYear } = params;
 
         const date = new Date(time);
 
-        const isSameYear = date.getFullYear() === new Date().getFullYear();
+        const isSameYear = doAlwaysShowYear
+            ? false
+            : date.getFullYear() === new Date().getFullYear();
 
         return capitalize(
             moment(date).locale(lang).format(getFormatByLang(isSameYear)[lang]),
@@ -29,12 +35,18 @@ export const { getFormattedDate } = (() => {
     return { getFormattedDate };
 })();
 
-export function useFormattedDate(params: { time: number }): string {
-    const { time } = params;
+export function useFormattedDate(params: {
+    time: number;
+    doAlwaysShowYear?: boolean;
+}): string {
+    const { time, doAlwaysShowYear } = params;
 
     const { lang } = useLang();
 
-    return useMemo(() => getFormattedDate({ time, lang }), [time, lang]);
+    return useMemo(
+        () => getFormattedDate({ time, lang, doAlwaysShowYear }),
+        [time, lang],
+    );
 }
 
 export function useValidUntil(params: { millisecondsLeft: number }): string {
