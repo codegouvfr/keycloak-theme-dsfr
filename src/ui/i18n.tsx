@@ -30,6 +30,7 @@ const {
     | typeof import("ui/components/pages/FourOhFour").i18n
     | typeof import("ui/components/pages/Form/Form").i18n
     | typeof import("ui/components/pages/Form/FormAlikeSoftwares").i18n
+    | typeof import("ui/components/pages/ServiceForm/ServiceForm").i18n
     | typeof import("ui/components/pages/SoftwareCard/SoftwareCard").i18n
     | typeof import("ui/components/pages/SoftwareCard/DereferenceSoftwareDialog").i18n
     | typeof import("ui/components/pages/Account/Account").i18n
@@ -46,6 +47,7 @@ const {
     | typeof import("ui/components/pages/ServiceCatalog/ServiceCatalogCards/ServiceCatalogCard").i18n
     | typeof import("ui/components/pages/ServiceCatalog/ServiceCatalogCards/ServiceCatalogCards").i18n
     | typeof import("ui/components/pages/ServiceCatalog").i18n
+    | typeof import("ui/components/pages/ServiceForm/PickSoftware").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -301,6 +303,32 @@ const {
                 "no similar software": "There isn't any similar software in the SILL",
                 "no alternative": "Not an alternative to any other software",
             },
+            "ServiceForm": {
+                "mandatory field": "Mandatory field",
+                "not a valid url": "Not a valid url",
+                "service already referenced": "Service already referenced",
+                "description": "Description",
+                "description helper":
+                    "Please describe this service in a few words, this text can be in MarkDown",
+                "agencyName": "Agency name",
+                "agencyName helper":
+                    "Name of the organizational unit of the french service public that maintain this service",
+                "serviceUrl": "Service URL",
+                "serviceUrl helper":
+                    "The URL of the service (this is the more important)",
+                "softwareName": "Service name",
+                "softwareName helper":
+                    "Name of the main software deployed, it must be free software",
+                "update service": "Update service",
+                "create service": "Create service",
+                "cancel": "Cancel",
+                "title add": "Add new service",
+                "title edit": "Edit service",
+                "help title add":
+                    "Reference a new service powered by free software and maintained by the french public service",
+                "help title edit": "Edit service information",
+                "help": `By referencing services you help establish a landscape of what free software are in production in the french public service.`,
+            },
             "SoftwareCard": {
                 "update software information": "Update software information",
                 "software name": "Name of the software",
@@ -429,6 +457,16 @@ const {
                         is the catalog of service.{" "}
                     </>
                 ),
+            },
+            "PickSoftware": {
+                "validate unknown software name": ({ softwareName }) =>
+                    `Validate "${softwareName}"`,
+                "select the software": "Select the software",
+                "deployed software": "Software deployed",
+                "consider registering this software in the sill": ({
+                    selectedSoftwareName,
+                }) =>
+                    `${selectedSoftwareName} isn't registered in the SILL yet, would you consider adding it?`,
             },
         },
         "fr": {
@@ -692,6 +730,31 @@ const {
                 "no similar software": "Pas d'autre logiciels similaires dans le SILL",
                 "no alternative": "Pas d'alternative renseignée",
             },
+            "ServiceForm": {
+                "mandatory field": "Champ obligatoire",
+                "not a valid url": "Ce n'es pas un URL valide",
+                "service already referenced": "Ce service est déjà référencé",
+                "description": "Description",
+                "description helper":
+                    "Décrivez brièvement l'offre de service, le text peut être en MarkDown",
+                "agencyName": "Administration ou collectivité",
+                "agencyName helper":
+                    "Administration ou collectivité mettant en charge de la maintenance du service",
+                "serviceUrl": "URL du service",
+                "serviceUrl helper":
+                    "Le plus important, l'URL permettant d'accéder au service",
+                "softwareName": "Nom du logiciel",
+                "softwareName helper": "Nom du logiciel libre déployer",
+                "update service": "Mètre à jour",
+                "create service": "Crée",
+                "cancel": "Annuler",
+                "title add": "Référencer un nouveau service",
+                "title edit": "Mettre à jour le service",
+                "help title add":
+                    "Référencer un nouveau service propulsé avec du logiciel libre et maintenu par le service public",
+                "help title edit": "Mètre à jour les informations du service",
+                "help": `En référençant de nouveaux services, vous aider à établir un panorama des logiciels libres mis en production au sein du service public.`,
+            },
             "SoftwareCard": {
                 "update software information":
                     "Mettre à jour les informations du logiciel",
@@ -829,6 +892,16 @@ const {
                         propos de ce qu'est le catalogue de service.{" "}
                     </>
                 ),
+            },
+            "PickSoftware": {
+                "validate unknown software name": ({ softwareName }) =>
+                    `Validé avec "${softwareName}"`,
+                "select the software": "Sélectionner le logiciel",
+                "deployed software": "Logiciel déployer",
+                "consider registering this software in the sill": ({
+                    selectedSoftwareName,
+                }) =>
+                    `${selectedSoftwareName} n'est pas encore dans le SILL, considèreriez-vous de l'ajouter?`,
             },
             /* spell-checker: enable */
         },

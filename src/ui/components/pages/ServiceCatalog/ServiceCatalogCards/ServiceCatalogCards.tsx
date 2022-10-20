@@ -151,7 +151,6 @@ export const ServiceCatalogCards = memo((props: Props) => {
                             <ServiceCatalogCard
                                 key={service.id}
                                 service={service}
-                                editLink={editLinkByServiceId[service.id]!}
                                 sillSoftwareLink={sillSoftwareLinkByServiceId[service.id]}
                                 {...(propsRest.isUserLoggedIn
                                     ? {
@@ -159,6 +158,7 @@ export const ServiceCatalogCards = memo((props: Props) => {
                                           "onRequestDelete": onRequestDeleteFactory(
                                               service.id,
                                           ),
+                                          "editLink": editLinkByServiceId[service.id]!,
                                       }
                                     : {
                                           "isUserLoggedIn": false,
@@ -277,7 +277,7 @@ const { NoMatches } = (() => {
 
         const { classes } = useStyles();
 
-        const { t } = useTranslation({ CatalogCards: ServiceCatalogCards });
+        const { t } = useTranslation({ ServiceCatalogCards });
 
         return (
             <div className={classes.root}>

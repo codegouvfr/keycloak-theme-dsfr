@@ -148,16 +148,9 @@ export function ServiceCatalog(props: Props) {
     }, [route.params.q]);
 
     const getFormLink = useConst(() =>
-        memoize((serviceId: number | undefined) => {
-            //return routes.form({ softwareId }).link;
-            console.log(`TODO: Point to Service form ${serviceId}`);
-            return {
-                "href": "",
-                "onClick": () => {
-                    /* nothing */
-                },
-            };
-        }),
+        memoize(
+            (serviceId: number | undefined) => routes.serviceForm({ serviceId }).link,
+        ),
     );
 
     const { editLinkByServiceId, sillSoftwareLinkByServiceId } = useMemo(() => {

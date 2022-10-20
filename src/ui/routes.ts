@@ -49,6 +49,12 @@ const routeDefs = {
         },
         () => `/form`,
     ),
+    "serviceForm": defineRoute(
+        {
+            "serviceId": param.query.optional.number,
+        },
+        () => `/service-form`,
+    ),
     "legacyRoute": defineRoute(
         {
             "lang": param.path.string,

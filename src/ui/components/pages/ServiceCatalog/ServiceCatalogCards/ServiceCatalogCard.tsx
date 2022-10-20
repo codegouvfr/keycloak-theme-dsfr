@@ -29,13 +29,13 @@ export namespace Props {
     export type Common = {
         className?: string;
         service: ServiceWithSoftwareInfo;
-        editLink: Link;
         sillSoftwareLink?: Link;
     };
 
     export type UserLoggedIn = Common & {
         isUserLoggedIn: true;
         onRequestDelete: (params: { reason: string }) => void;
+        editLink: Link;
     };
 
     export type UserNotLoggedIn = Common & {
@@ -45,7 +45,7 @@ export namespace Props {
 }
 
 export const ServiceCatalogCard = memo((props: Props) => {
-    const { className, service, editLink, sillSoftwareLink, ...propsRest } = props;
+    const { className, service, sillSoftwareLink, ...propsRest } = props;
 
     const { classes, cx, css } = useStyles();
 
@@ -88,6 +88,17 @@ export const ServiceCatalogCard = memo((props: Props) => {
         [service.deployedSoftware, sillSoftwareLink],
     );
 
+    const editLink = useMemo(
+        (): Link =>
+            propsRest.isUserLoggedIn
+                ? propsRest.editLink
+                : {
+                      "href": "#",
+                      "onClick": propsRest.onLogin,
+                  },
+        [propsRest.isUserLoggedIn ? propsRest.editLink : undefined],
+    );
+
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.aboveDivider}>
@@ -102,7 +113,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
                 <div style={{ "flex": 1 }} />
 
                 {/* TODO */}
-                <IconButton iconId="edit" href="#" disabled={true} />
+                <IconButton iconId="edit" {...editLink} />
                 <IconButton
                     iconId="delete"
                     onClick={onOpenConfirmDereferenceServiceDialog}

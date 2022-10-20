@@ -288,18 +288,16 @@ export const thunks = {
 export const privateThunks = {
     "initialize":
         (): ThunkAction<void> =>
-        (..._args) => {
-            //const [dispatch, , { evtAction }] = args;
-            /*
-                    evtAction.$attach(
-                        action =>
-                            action.sliceName === "serviceForm" &&
-                                action.actionName === "serviceAddedOrUpdated"
-                                ? [action.payload.service]
-                                : null,
-                        service => dispatch(actions.serviceAddedOrUpdated({ service })),
-                    );
-                    */
+        (...args) => {
+            const [dispatch, , { evtAction }] = args;
+            evtAction.$attach(
+                action =>
+                    action.sliceName === "serviceForm" &&
+                    action.actionName === "serviceAddedOrUpdated"
+                        ? [action.payload.service]
+                        : null,
+                service => dispatch(actions.serviceAddedOrUpdated({ service })),
+            );
         },
 };
 
@@ -393,7 +391,6 @@ export const selectors = (() => {
                 (service): ServiceWithSoftwareInfo => ({
                     ...service,
                     //TODO: Avoid having to overwrite this
-                    "description": `${service.serviceName}: ${service.description}`,
                     "serviceName": service.serviceUrl
                         .replace(/^https?:\/\//, "")
                         .replace(/^www\./, "")

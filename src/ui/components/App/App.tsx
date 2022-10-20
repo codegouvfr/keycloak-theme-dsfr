@@ -18,6 +18,7 @@ import { Terms } from "ui/components/pages/Terms";
 import { Readme } from "ui/components/pages/Readme";
 import { SoftwareCard } from "ui/components/pages/SoftwareCard";
 import { ServiceCatalog } from "ui/components/pages/ServiceCatalog";
+import { ServiceForm } from "ui/components/pages/ServiceForm";
 import { typeGuard } from "tsafe/typeGuard";
 import { Language } from "sill-api";
 import { id } from "tsafe/id";
@@ -373,6 +374,19 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
     {
         const Page = ServiceCatalog;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = ServiceForm;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
