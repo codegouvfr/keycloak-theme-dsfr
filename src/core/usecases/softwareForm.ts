@@ -98,7 +98,7 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "isFromFrenchPublicService": false,
     "license": "",
     "versionMin": "",
-    "agentWorkstation": true,
+    "agentWorkstation": false,
     "generalInfoMd": "",
     "tags": [],
     "alikeSoftwares": [],
