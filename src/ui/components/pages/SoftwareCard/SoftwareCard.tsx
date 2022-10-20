@@ -10,7 +10,7 @@ import { DescriptiveField } from "ui/components/shared/DescriptiveField";
 import { useResolveLocalizedString } from "ui/i18n";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
-import { getFormattedDate } from "ui/useMoment";
+import { getFormattedDate, fromNow } from "ui/useMoment";
 import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
@@ -341,7 +341,16 @@ export function SoftwareCard(props: Props) {
                             <>
                                 &nbsp; &nbsp;
                                 <Text typo="body 1" className={classes.dereferencedText}>
-                                    {t("software dereferenced", software.dereferencing)}
+                                    {t("software dereferenced", {
+                                        "lastRecommendedVersion":
+                                            software.dereferencing.lastRecommendedVersion,
+                                        "reason": software.dereferencing.reason,
+                                        "fromNowText": fromNow({
+                                            "dateTime":
+                                                software?.dereferencing?.time ?? 0,
+                                            lang,
+                                        }),
+                                    })}
                                 </Text>
                             </>
                         )}
@@ -808,7 +817,7 @@ export const { i18n } = declareComponentKeys<
     | "dereference from SILL"
     | {
           K: "software dereferenced";
-          P: { lastRecommendedVersion?: string; reason?: string };
+          P: { lastRecommendedVersion?: string; reason?: string; fromNowText: string };
       }
     | "general info"
     | "GouvTech Catalog"
