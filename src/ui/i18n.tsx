@@ -61,6 +61,8 @@ const {
                 "reason helper text":
                     "Please explain why this software should be removed from the SILL",
                 "last recommended version": "Last recommended version",
+                "enf of recommendation": "End of recommendation",
+                "complete deletion": "Complete deletion",
             },
             "Account": {
                 "infos": "Account information",
@@ -482,6 +484,8 @@ const {
                 "reason helper text":
                     "Expliquez pourquoi le logiciel doit être déréférencé du SILL",
                 "last recommended version": "Dernière version recommandée",
+                "enf of recommendation": "Fin de recommandations",
+                "complete deletion": "Complètement supprimé du SILL",
             },
             "Account": {
                 "infos": "Information du compte",

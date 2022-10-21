@@ -252,14 +252,23 @@ export function SoftwareCard(props: Props) {
 
     const onDereferenceSoftware = useConstCallback<
         DereferenceSoftwareDialogProps["onAnswer"]
-    >(({ reason, lastRecommendedVersion }) => {
+    >(({ reason, lastRecommendedVersion, isDeletion }) => {
         assert(software !== undefined);
 
-        catalogThunks.dereferenceSoftware({
-            "softwareId": software.id,
-            reason,
-            lastRecommendedVersion,
-        });
+        routes.catalog().replace();
+
+        if (isDeletion) {
+            catalogThunks.deleteSoftware({
+                "softwareId": software.id,
+                reason,
+            });
+        } else {
+            catalogThunks.dereferenceSoftware({
+                "softwareId": software.id,
+                reason,
+                lastRecommendedVersion,
+            });
+        }
     });
 
     const { lang } = useLang();

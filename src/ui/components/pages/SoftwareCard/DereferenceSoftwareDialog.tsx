@@ -13,11 +13,16 @@ import type { TextFieldProps } from "onyxia-ui/TextField";
 import { TextField } from "onyxia-ui/TextField";
 import type { Param0 } from "tsafe";
 import { makeStyles } from "ui/theme";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
 export type DereferenceSoftwareDialogProps = {
     softwareName: string;
     evtOpen: NonPostableEvt<void>;
     onAnswer: (params: {
+        isDeletion: boolean;
         reason: string | undefined;
         lastRecommendedVersion: string | undefined;
     }) => void;
@@ -32,6 +37,7 @@ export const DereferenceSoftwareDialog = memo((props: DereferenceSoftwareDialogP
 
     const evtAnswer = useConst(() =>
         Evt.create<Param0<typeof onAnswer>>({
+            "isDeletion": false,
             "reason": undefined,
             "lastRecommendedVersion": undefined,
         }),
@@ -98,6 +104,14 @@ const { Body } = (() => {
 
         const { t } = useTranslation({ DereferenceSoftwareDialog });
 
+        const onRadioGroupChange = useConstCallback(
+            (event: any) =>
+                (evtAnswer.state = {
+                    ...evtAnswer.state,
+                    "isDeletion": event.target.value === "true",
+                }),
+        );
+
         const onReasonValueBeingTypedChange = useConstCallback<
             TextFieldProps["onValueBeingTypedChange"]
         >(
@@ -118,13 +132,27 @@ const { Body } = (() => {
                 }),
         );
 
-        const { classes } = useStyles();
+        const { classes } = useStyles({ "isDeletion": evtAnswer.state.isDeletion });
 
         return (
             <>
+                <FormControl className={classes.formControl}>
+                    <RadioGroup defaultValue={false} onChange={onRadioGroupChange}>
+                        <FormControlLabel
+                            value={false}
+                            control={<Radio />}
+                            label={t("enf of recommendation")}
+                        />
+                        <FormControlLabel
+                            value={true}
+                            control={<Radio />}
+                            label={t("complete deletion")}
+                        />
+                    </RadioGroup>
+                </FormControl>
                 <TextField
                     type="text"
-                    className={classes.textField}
+                    className={classes.textField1}
                     doRenderAsTextArea={true}
                     defaultValue={evtAnswer.state.reason}
                     onValueBeingTypedChange={onReasonValueBeingTypedChange}
@@ -134,7 +162,7 @@ const { Body } = (() => {
                 />
                 <TextField
                     type="text"
-                    className={classes.textField}
+                    className={classes.textField2}
                     doRenderAsTextArea={false}
                     defaultValue={evtAnswer.state.lastRecommendedVersion}
                     onValueBeingTypedChange={onVersionValueBeingTypedChange}
@@ -145,13 +173,24 @@ const { Body } = (() => {
         );
     });
 
-    const useStyles = makeStyles()(theme => ({
-        "textField": {
+    const useStyles = makeStyles<{ isDeletion: boolean }>()((theme, { isDeletion }) => ({
+        "formControl": {
+            "marginTop": theme.spacing(3),
+        },
+        "textField1": {
+            "marginTop": theme.spacing(3),
+            "display": "block",
+            "& textarea": {
+                "minWidth": 460,
+            },
+        },
+        "textField2": {
             "marginTop": theme.spacing(6),
             "display": "block",
             "& textarea": {
                 "minWidth": 460,
             },
+            "visibility": isDeletion ? "hidden" : "visible",
         },
     }));
 
@@ -165,4 +204,6 @@ export const { i18n } = declareComponentKeys<
     | "reason"
     | "reason helper text"
     | "last recommended version"
+    | "enf of recommendation"
+    | "complete deletion"
 >()({ DereferenceSoftwareDialog });

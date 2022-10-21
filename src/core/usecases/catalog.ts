@@ -276,6 +276,22 @@ export const { reducer, actions } = createSlice({
                 wrap.userIndex = index;
             });
         },
+        "softwareDeleted": (
+            state,
+            { payload }: PayloadAction<{ softwareId: number }>,
+        ) => {
+            const { softwareId } = payload;
+
+            if (state.stateDescription === "not fetched") {
+                return;
+            }
+
+            const software = state.softwares.find(software => software.id === softwareId);
+
+            assert(software !== undefined);
+
+            state.softwares.splice(state.softwares.indexOf(software), 1);
+        },
         "softwareDereferenced": (
             state,
             {
@@ -472,6 +488,31 @@ export const thunks = {
                 }),
             );
         },
+    "deleteSoftware":
+        (params: { softwareId: number; reason: string | undefined }): ThunkAction =>
+        async (...args) => {
+            const { softwareId, reason } = params;
+
+            const [dispatch, getState, { sillApiClient }] = args;
+
+            const state = getState().catalog;
+
+            assert(state.stateDescription === "ready");
+
+            const software = state.softwares.find(software => software.id === softwareId);
+
+            assert(software !== undefined);
+
+            dispatch(actions.softwareDeleted({ softwareId }));
+
+            await sillApiClient.dereferenceSoftware({
+                softwareId,
+                "dereferencing": {
+                    reason,
+                },
+                "isDeletion": true,
+            });
+        },
     "dereferenceSoftware":
         (params: {
             softwareId: number;
@@ -493,20 +534,19 @@ export const thunks = {
 
             dispatch(actions.processingStarted());
 
-            const time = Date.now();
-
             await sillApiClient.dereferenceSoftware({
                 softwareId,
                 "dereferencing": {
                     reason,
                     lastRecommendedVersion,
                 },
+                "isDeletion": false,
             });
 
             dispatch(
                 actions.softwareDereferenced({
                     softwareId,
-                    time,
+                    "time": Date.now(),
                     lastRecommendedVersion,
                     reason,
                 }),
