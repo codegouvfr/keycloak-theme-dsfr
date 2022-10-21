@@ -396,8 +396,8 @@ const {
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
-                    fromNowText,
-                }) => `From ${fromNowText}, this software is no longer recommended${
+                    when,
+                }) => `From ${when}, this software is no longer recommended${
                     reason === undefined ? "" : `, ${reason}`
                 }}.
                 ${
@@ -833,8 +833,8 @@ const {
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
-                    fromNowText,
-                }) => `Depuis ${fromNowText}, ce logiciel n'est plus recommandé ${
+                    when,
+                }) => `Depuis ${when}, ce logiciel n'est plus recommandé ${
                     reason === undefined ? "" : ` : « ${reason} »`
                 }.
                 ${

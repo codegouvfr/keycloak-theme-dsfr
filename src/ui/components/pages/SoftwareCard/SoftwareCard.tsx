@@ -10,7 +10,7 @@ import { DescriptiveField } from "ui/components/shared/DescriptiveField";
 import { useResolveLocalizedString } from "ui/i18n";
 import { exclude } from "tsafe/exclude";
 import { capitalize } from "tsafe/capitalize";
-import { getFormattedDate, fromNow } from "ui/useMoment";
+import { getFormattedDate } from "ui/useMoment";
 import { Tag } from "onyxia-ui/Tag";
 import { Tooltip } from "onyxia-ui/Tooltip";
 import { useDomRect } from "powerhooks/useDomRect";
@@ -255,9 +255,9 @@ export function SoftwareCard(props: Props) {
     >(({ reason, lastRecommendedVersion, isDeletion }) => {
         assert(software !== undefined);
 
-        routes.catalog().replace();
-
         if (isDeletion) {
+            routes.catalog().replace();
+
             catalogThunks.deleteSoftware({
                 "softwareId": software.id,
                 reason,
@@ -355,10 +355,10 @@ export function SoftwareCard(props: Props) {
                                         "lastRecommendedVersion":
                                             software.dereferencing.lastRecommendedVersion,
                                         "reason": software.dereferencing.reason,
-                                        "fromNowText": fromNow({
-                                            "dateTime":
-                                                software?.dereferencing?.time ?? 0,
+                                        "when": getFormattedDate({
+                                            "time": software.dereferencing.time,
                                             lang,
+                                            "doAlwaysShowYear": true,
                                         }),
                                     })}
                                 </Text>
@@ -827,7 +827,7 @@ export const { i18n } = declareComponentKeys<
     | "dereference from SILL"
     | {
           K: "software dereferenced";
-          P: { lastRecommendedVersion?: string; reason?: string; fromNowText: string };
+          P: { lastRecommendedVersion?: string; reason?: string; when: string };
       }
     | "general info"
     | "GouvTech Catalog"
