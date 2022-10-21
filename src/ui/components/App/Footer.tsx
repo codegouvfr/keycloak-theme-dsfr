@@ -76,6 +76,42 @@ export const Footer = memo(
                     &nbsp;
                     <Text typo="body 2">sill.json</Text>
                 </a>
+                &nbsp;
+                <a
+                    href="https://code.gouv.fr/data/sill.tsv"
+                    className={classes.linkWithIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">.tsv</Text>
+                </a>
+                &nbsp;
+                <a
+                    href="https://code.gouv.fr/data/sill.pdf"
+                    className={classes.linkWithIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">.pdf</Text>
+                </a>
+                &nbsp;
+                <a
+                    href="https://code.gouv.fr/data/sill.md"
+                    className={classes.linkWithIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">.md</Text>
+                </a>
+                &nbsp;
+                <a
+                    href="https://code.gouv.fr/data/sill.org"
+                    className={classes.linkWithIcon}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <Text typo="body 2">.org</Text>
+                </a>
                 {spacing}
                 <LanguageSelect
                     language={lang}
