@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import type { Action, ThunkAction as GenericThunkAction } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
+import { createCoreFromUsecases, createUsecasesApi } from "redux-clean-architecture";
+import type { GenericCreateEvt } from "redux-clean-architecture";
+import type { Action, ThunkAction as ReduxGenericThunkAction } from "@reduxjs/toolkit";
 import * as catalogUsecase from "./usecases/catalog";
 import * as serviceCatalogUsecase from "./usecases/serviceCatalog";
 import * as userAuthenticationUsecase from "./usecases/userAuthentication";
@@ -15,14 +15,9 @@ import { createTrpcSillApiClient } from "./secondaryAdapters/trpcSillApiClient";
 import { createServerlessSillApiClient } from "./secondaryAdapters/serverlessSillApiClient";
 import type { UserApiClient } from "./ports/UserApiClient";
 import type { ReturnType } from "tsafe/ReturnType";
-import { Deferred } from "evt/tools/Deferred";
 import { createObjectThatThrowsIfAccessed } from "./tools/createObjectThatThrowsIfAccessed";
-import type { OidcClient } from "./ports/OidcClient";
-import type { SillApiClient } from "./ports/SillApiClient";
 import type { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
-import { usecasesToReducer } from "redux-clean-architecture";
-import { createMiddlewareEvtActionFactory } from "redux-clean-architecture/middlewareEvtAction";
 import type { getConfiguration } from "../configuration";
 import type { Param0 } from "tsafe";
 import { id } from "tsafe/id";
@@ -30,7 +25,19 @@ import type { NonPostableEvt } from "evt";
 import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
 
-export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
+export const usecases = [
+    catalogUsecase,
+    userAuthenticationUsecase,
+    softwareFormUsecase,
+    apiInfo,
+    fetchProxy,
+    serviceCatalogUsecase,
+    serviceForm,
+];
+
+export const usecasesApi = createUsecasesApi(usecases);
+
+export type CoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
     Pick<Param0<typeof createKeycloakOidcClient>, "evtUserActivity"> & {
         transformUrlBeforeRedirectToLogin: (params: {
             url: string;
@@ -46,7 +53,7 @@ export type CreateStoreParams = Omit<ReturnType<typeof getConfiguration>, "heade
 // or else we get red squiggly lines.
 assert<
     Equals<
-        CreateStoreParams,
+        CoreParams,
         {
             apiUrl: string;
             mockAuthentication?: {
@@ -67,38 +74,7 @@ assert<
     >
 >();
 
-export const usecases = [
-    catalogUsecase,
-    userAuthenticationUsecase,
-    softwareFormUsecase,
-    apiInfo,
-    fetchProxy,
-    serviceCatalogUsecase,
-    serviceForm,
-];
-
-const { createMiddlewareEvtAction } = createMiddlewareEvtActionFactory(usecases);
-
-export type ThunksExtraArgument = {
-    createStoreParams: CreateStoreParams;
-    sillApiClient: SillApiClient;
-    userApiClient: UserApiClient;
-    oidcClient: OidcClient;
-    evtAction: ReturnType<typeof createMiddlewareEvtAction>["evtAction"];
-};
-
-createStore.isFirstInvocation = true;
-
-export async function createStore(params: CreateStoreParams) {
-    assert(
-        createStore.isFirstInvocation,
-        "createStore has already been called, " +
-            "only one instance of the store is supposed to" +
-            "be created",
-    );
-
-    createStore.isFirstInvocation = false;
-
+export async function createCore(params: CoreParams) {
     const {
         apiUrl,
         mockAuthentication,
@@ -164,58 +140,36 @@ export async function createStore(params: CreateStoreParams) {
           })
         : createObjectThatThrowsIfAccessed<UserApiClient>();
 
-    const { evtAction, middlewareEvtAction } = createMiddlewareEvtAction();
-
-    const store = configureStore({
-        "reducer": usecasesToReducer(usecases),
-        "middleware": getDefaultMiddleware =>
-            getDefaultMiddleware({
-                "thunk": {
-                    "extraArgument": id<ThunksExtraArgument>({
-                        "createStoreParams": params,
-                        userApiClient,
-                        oidcClient,
-                        sillApiClient,
-                        evtAction,
-                    }),
-                },
-            }).concat(middlewareEvtAction),
+    const core = createCoreFromUsecases({
+        usecases,
+        "thunksExtraArgument": {
+            "coreParams": params,
+            userApiClient,
+            oidcClient,
+            sillApiClient,
+        },
     });
 
-    await store.dispatch(userAuthenticationUsecase.privateThunks.initialize());
+    await core.dispatch(userAuthenticationUsecase.privateThunks.initialize());
 
-    await store.dispatch(apiInfo.privateThunks.initialize());
+    await core.dispatch(apiInfo.privateThunks.initialize());
 
-    store.dispatch(catalogUsecase.privateThunks.initialize());
-    store.dispatch(serviceCatalogUsecase.privateThunks.initialize());
+    core.dispatch(catalogUsecase.privateThunks.initialize());
+    core.dispatch(serviceCatalogUsecase.privateThunks.initialize());
 
-    return store;
+    return core;
 }
 
-export type Store = ReturnType<typeof createStore>;
+type Core = Awaited<ReturnType<typeof createCore>>;
 
-export type RootState = ReturnType<Store["getState"]>;
+export type State = ReturnType<Core["getState"]>;
 
-export type Dispatch = Store["dispatch"];
-
-export type ThunkAction<ReturnType = Promise<void>> = GenericThunkAction<
-    ReturnType,
-    RootState,
-    ThunksExtraArgument,
+/** @deprecated: Use Thunks as soon as we cas use 'satisfy' from TS 4.9 */
+export type ThunkAction<RtnType = Promise<void>> = ReduxGenericThunkAction<
+    RtnType,
+    State,
+    Core["thunksExtraArgument"],
     Action<string>
 >;
 
-const dStoreInstance = new Deferred<Store>();
-
-/**
- * A promise that resolve to the store instance.
- * If createStore isn't called it's pending forever.
- *
- * @deprecated: use "js/react/hooks" to interact with the store.
- */
-export const { pr: prStore } = dStoreInstance;
-
-const dOidcClient = new Deferred<OidcClient>();
-
-/** @deprecated */
-export const { pr: prOidcClient } = dOidcClient;
+export type CreateEvt = GenericCreateEvt<Core>;

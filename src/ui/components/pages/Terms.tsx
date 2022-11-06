@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useConst } from "powerhooks/useConst";
-import { useThunks } from "ui/coreApi";
+import { useCoreFunctions } from "core";
 import type { Route } from "type-route";
 import { createGroup } from "type-route";
 import { routes } from "ui/routes";
@@ -27,13 +27,11 @@ export type Props = {
 export function Terms(props: Props) {
     const { className } = props;
 
-    const { userAuthenticationThunks } = useThunks();
+    const { userAuthentication } = useCoreFunctions();
 
     const tosUrl = (function useClosure() {
         const { lang } = useLang();
-        const termsOfServices = useConst(() =>
-            userAuthenticationThunks.getTermsOfServices(),
-        );
+        const termsOfServices = useConst(() => userAuthentication.getTermsOfServices());
 
         return useMemo(() => {
             if (termsOfServices === undefined) {

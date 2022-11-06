@@ -8,7 +8,7 @@ import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
-import { useSelector, useThunks, selectors, pure } from "ui/coreApi";
+import { useCoreState, useCoreFunctions, selectors } from "core";
 import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
@@ -70,22 +70,22 @@ export function Catalog(props: Props) {
         };
     }, []);
 
-    const { sliceState } = useSelector(selectors.catalog.sliceState);
-    const { queryString } = useSelector(selectors.catalog.queryString);
-    const { isProcessing } = useSelector(selectors.catalog.isProcessing);
-    const { softwares } = useSelector(selectors.catalog.softwares);
-    const { tags } = useSelector(selectors.catalog.tags);
-    const { filteredSoftwares } = useSelector(selectors.catalog.filteredSoftwares);
-    const { alikeSoftwares } = useSelector(selectors.catalog.alikeSoftwares);
-    const { referentsBySoftwareId } = useSelector(
+    const { sliceState } = useCoreState(selectors.catalog.sliceState);
+    const { queryString } = useCoreState(selectors.catalog.queryString);
+    const { isProcessing } = useCoreState(selectors.catalog.isProcessing);
+    const { softwares } = useCoreState(selectors.catalog.softwares);
+    const { tags } = useCoreState(selectors.catalog.tags);
+    const { filteredSoftwares } = useCoreState(selectors.catalog.filteredSoftwares);
+    const { alikeSoftwares } = useCoreState(selectors.catalog.alikeSoftwares);
+    const { referentsBySoftwareId } = useCoreState(
         selectors.catalog.referentsBySoftwareId,
     );
-    const { softwareNameBySoftwareId } = useSelector(
+    const { softwareNameBySoftwareId } = useCoreState(
         selectors.catalog.softwareNameBySoftwareId,
     );
-    const { searchResultCount } = useSelector(selectors.catalog.searchResultCount);
+    const { searchResultCount } = useCoreState(selectors.catalog.searchResultCount);
 
-    const { catalogThunks, userAuthenticationThunks } = useThunks();
+    const { catalog, userAuthentication } = useCoreFunctions();
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
@@ -94,7 +94,7 @@ export function Catalog(props: Props) {
             case "not fetched":
                 if (!sliceState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
-                    catalogThunks.fetchCatalog();
+                    catalog.fetchCatalog();
                 }
                 break;
             case "ready":
@@ -128,16 +128,16 @@ export function Catalog(props: Props) {
             routes
                 .catalog({
                     "q":
-                        pure.catalog.stringifyQuery({
+                        catalog.stringifyQuery({
                             search,
-                            "tags": pure.catalog.parseQuery(route.params.q).tags,
+                            "tags": catalog.parseQuery(route.params.q).tags,
                         }) || undefined,
                 })
                 .replace(),
     );
 
     useEffect(() => {
-        catalogThunks.setQueryString({ "queryString": route.params.q });
+        catalog.setQueryString({ "queryString": route.params.q });
     }, [route.params.q]);
 
     const { openLinkBySoftwareId, editLinkBySoftwareId, parentSoftwareBySoftwareId } =
@@ -190,8 +190,8 @@ export function Catalog(props: Props) {
         }, [softwares, softwareNameBySoftwareId]);
 
     const onLogin = useConstCallback(() => {
-        assert(!userAuthenticationThunks.getIsUserLoggedIn());
-        userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false });
+        assert(!userAuthentication.getIsUserLoggedIn());
+        userAuthentication.login({ "doesCurrentHrefRequiresAuth": false });
     });
 
     const getFormLink = useConst(() =>
@@ -204,7 +204,7 @@ export function Catalog(props: Props) {
         routes
             .catalog({
                 "q":
-                    pure.catalog.stringifyQuery({
+                    catalog.stringifyQuery({
                         search,
                         tags,
                     }) || undefined,
@@ -224,7 +224,7 @@ export function Catalog(props: Props) {
     assert(parentSoftwareBySoftwareId !== undefined);
     assert(tags !== undefined);
 
-    const { search, tags: selectedTags } = pure.catalog.parseQuery(route.params.q);
+    const { search, tags: selectedTags } = catalog.parseQuery(route.params.q);
 
     return (
         <div className={cx(classes.root, className)}>
@@ -256,12 +256,12 @@ export function Catalog(props: Props) {
                         openLinkBySoftwareId={openLinkBySoftwareId}
                         parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
                         editLinkBySoftwareId={editLinkBySoftwareId}
-                        onLoadMore={catalogThunks.loadMore}
-                        hasMoreToLoad={catalogThunks.getHasMoreToLoad()}
+                        onLoadMore={catalog.loadMore}
+                        hasMoreToLoad={catalog.getHasMoreToLoad()}
                         searchBarWrapperElement={pageHeaderRef.current}
                         onLogin={onLogin}
-                        onDeclareReferentAnswer={catalogThunks.declareUserReferent}
-                        onUserNoLongerReferent={catalogThunks.userNoLongerReferent}
+                        onDeclareReferentAnswer={catalog.declareUserReferent}
+                        onUserNoLongerReferent={catalog.userNoLongerReferent}
                         referenceNewSoftwareLink={getFormLink(undefined)}
                     />
                 )}

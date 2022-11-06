@@ -8,7 +8,7 @@ import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./ServiceCatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
-import { useSelector, useThunks, selectors, pure } from "ui/coreApi";
+import { useCoreState, useCoreFunctions, selectors } from "core";
 import { routes } from "ui/routes";
 import type { Route } from "type-route";
 import { assert } from "tsafe/assert";
@@ -70,14 +70,16 @@ export function ServiceCatalog(props: Props) {
         };
     }, []);
 
-    const { sliceState } = useSelector(selectors.serviceCatalog.sliceState);
-    const { queryString } = useSelector(selectors.serviceCatalog.queryString);
-    const { isProcessing } = useSelector(selectors.serviceCatalog.isProcessing);
-    const { filteredServices } = useSelector(selectors.serviceCatalog.filteredServices);
-    const { searchResultCount } = useSelector(selectors.serviceCatalog.searchResultCount);
-    const { softwareNames } = useSelector(selectors.serviceCatalog.softwareNames);
+    const { sliceState } = useCoreState(selectors.serviceCatalog.sliceState);
+    const { queryString } = useCoreState(selectors.serviceCatalog.queryString);
+    const { isProcessing } = useCoreState(selectors.serviceCatalog.isProcessing);
+    const { filteredServices } = useCoreState(selectors.serviceCatalog.filteredServices);
+    const { searchResultCount } = useCoreState(
+        selectors.serviceCatalog.searchResultCount,
+    );
+    const { softwareNames } = useCoreState(selectors.serviceCatalog.softwareNames);
 
-    const { serviceCatalogThunks, userAuthenticationThunks } = useThunks();
+    const { serviceCatalog, userAuthentication } = useCoreFunctions();
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
@@ -86,7 +88,7 @@ export function ServiceCatalog(props: Props) {
             case "not fetched":
                 if (!sliceState.isFetching) {
                     showSplashScreen({ "enableTransparency": true });
-                    serviceCatalogThunks.fetchCatalog();
+                    serviceCatalog.fetchCatalog();
                 }
                 break;
             case "ready":
@@ -120,9 +122,9 @@ export function ServiceCatalog(props: Props) {
             routes
                 .serviceCatalog({
                     "q":
-                        pure.serviceCatalog.stringifyQuery({
+                        serviceCatalog.stringifyQuery({
                             search,
-                            "softwareName": pure.serviceCatalog.parseQuery(route.params.q)
+                            "softwareName": serviceCatalog.parseQuery(route.params.q)
                                 .softwareName,
                         }) || undefined,
                 })
@@ -135,8 +137,8 @@ export function ServiceCatalog(props: Props) {
         routes
             .serviceCatalog({
                 "q":
-                    pure.serviceCatalog.stringifyQuery({
-                        "search": pure.serviceCatalog.parseQuery(route.params.q).search,
+                    serviceCatalog.stringifyQuery({
+                        "search": serviceCatalog.parseQuery(route.params.q).search,
                         softwareName,
                     }) || undefined,
             })
@@ -144,7 +146,7 @@ export function ServiceCatalog(props: Props) {
     );
 
     useEffect(() => {
-        serviceCatalogThunks.setQueryString({ "queryString": route.params.q });
+        serviceCatalog.setQueryString({ "queryString": route.params.q });
     }, [route.params.q]);
 
     const getFormLink = useConst(() =>
@@ -176,7 +178,7 @@ export function ServiceCatalog(props: Props) {
     }, [filteredServices]);
 
     const onLogin = useConstCallback(() =>
-        userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }),
+        userAuthentication.login({ "doesCurrentHrefRequiresAuth": false }),
     );
 
     if (sliceState.stateDescription !== "ready") {
@@ -212,20 +214,20 @@ export function ServiceCatalog(props: Props) {
                         filteredServices={filteredServices}
                         editLinkByServiceId={editLinkByServiceId}
                         sillSoftwareLinkByServiceId={sillSoftwareLinkByServiceId}
-                        search={pure.serviceCatalog.parseQuery(route.params.q).search}
+                        search={serviceCatalog.parseQuery(route.params.q).search}
                         onSearchChange={onSearchChange}
                         softwareNames={softwareNames}
                         selectedSoftwareName={
-                            pure.serviceCatalog.parseQuery(route.params.q).softwareName
+                            serviceCatalog.parseQuery(route.params.q).softwareName
                         }
                         onSelectedSoftwareChange={onSelectedSoftwareChange}
-                        onLoadMore={serviceCatalogThunks.loadMore}
-                        hasMoreToLoad={serviceCatalogThunks.getHasMoreToLoad()}
+                        onLoadMore={serviceCatalog.loadMore}
+                        hasMoreToLoad={serviceCatalog.getHasMoreToLoad()}
                         searchBarWrapperElement={pageHeaderRef.current}
-                        {...(userAuthenticationThunks.getIsUserLoggedIn()
+                        {...(userAuthentication.getIsUserLoggedIn()
                             ? {
                                   "isUserLoggedIn": true,
-                                  "onRequestDelete": serviceCatalogThunks.deleteService,
+                                  "onRequestDelete": serviceCatalog.deleteService,
                               }
                             : {
                                   "isUserLoggedIn": false,

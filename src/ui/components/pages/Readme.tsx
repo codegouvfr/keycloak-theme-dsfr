@@ -6,7 +6,7 @@ import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
 import { useQuery } from "react-query";
 import { makeStyles } from "ui/theme";
-import { useThunks } from "ui/coreApi";
+import { useCoreFunctions } from "core";
 const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
 
 Readme.routeGroup = createGroup([routes.readme]);
@@ -23,12 +23,12 @@ export type Props = {
 export function Readme(props: Props) {
     const { className } = props;
 
-    const { fetchProxyThunks } = useThunks();
+    const { fetchProxy } = useCoreFunctions();
 
     const { data: readme } = useQuery(
         ["readme", readmeUrl],
         () =>
-            fetchProxyThunks
+            fetchProxy
                 .downloadCoreProtectedTextFile(readmeUrl)
                 .then(text => text.split("---").reverse()[0]), // Remove title that isn't standard Markdown
     );

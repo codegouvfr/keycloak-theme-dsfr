@@ -6,15 +6,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { ThunksExtraArgument, RootState } from "../setup";
+import type { State as RootState } from "../setup";
+import { createUsecaseContextApi } from "redux-clean-architecture";
 import type { SillApiClient } from "../ports/SillApiClient";
 import type { Param0, Equals, PickOptionals } from "tsafe";
 import { is } from "tsafe/is";
 import { objectKeys } from "tsafe/objectKeys";
 import { typeGuard } from "tsafe/typeGuard";
-import { thunks as catalogThunks } from "./catalog";
+import { thunks as catalog } from "./catalog";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
-import memoize from "memoizee";
 import { createResolveLocalizedString } from "i18nifty";
 import { same } from "evt/tools/inDepth/same";
 import { selectors as catalogSelectors } from "./catalog";
@@ -233,7 +233,7 @@ export const thunks = {
                 let catalogState = getState().catalog;
 
                 if (catalogState.stateDescription === "not fetched") {
-                    dispatch(catalogThunks.fetchCatalog());
+                    dispatch(catalog.fetchCatalog());
 
                     await evtAction.waitFor(
                         action =>
@@ -403,7 +403,7 @@ export const thunks = {
 
                 assert(typeof value === "string");
 
-                const { fetchWikiDataDebounce } = getSliceContext(extraArg);
+                const { fetchWikiDataDebounce } = getContext(extraArg);
 
                 await fetchWikiDataDebounce();
 
@@ -525,7 +525,7 @@ export const thunks = {
                         ([fieldName, value]) =>
                             [
                                 fieldName,
-                                pure.getIsOptionalField(fieldName) &&
+                                getIsOptionalField(fieldName) &&
                                 value === defaultValueByFieldName[fieldName]
                                     ? undefined
                                     : value,
@@ -560,7 +560,16 @@ export const thunks = {
 
             dispatch(actions.softwareAddedOrUpdated({ software }));
         },
+    /* Pure */
+    "getIsOptionalField":
+        (fieldName: FieldName): ThunkAction<boolean> =>
+        () =>
+            getIsOptionalField(fieldName),
 };
+
+const { getContext } = createUsecaseContextApi(() => ({
+    "fetchWikiDataDebounce": waitForDebounceFactory({ "delay": 300 }).waitForDebounce,
+}));
 
 export const selectors = (() => {
     const readyState = (rootState: RootState): SoftwareFormState.Ready | undefined => {
@@ -630,7 +639,7 @@ export const selectors = (() => {
             const fieldName: keyof ValueByFieldName = params.fieldName;
 
             if (
-                !pure.getIsOptionalField(fieldName) &&
+                !getIsOptionalField(fieldName) &&
                 typeof fieldValue !== "boolean" &&
                 fieldValue === newSoftwareDefaultValueByFieldName[fieldName]
             ) {
@@ -802,42 +811,6 @@ export const selectors = (() => {
     };
 })();
 
-const getSliceContext = memoize((_: ThunksExtraArgument) => {
-    const { waitForDebounce } = waitForDebounceFactory({ "delay": 300 });
-    return {
-        "fetchWikiDataDebounce": waitForDebounce,
-    };
-});
-
-export const pure = (() => {
-    const { getIsOptionalField } = (() => {
-        const optionalFields = [
-            "wikidataId",
-            "comptoirDuLibreId",
-            "tags",
-            "alikeSoftwares",
-            "generalInfoMd",
-        ] as const;
-
-        assert<
-            Equals<
-                typeof optionalFields[number],
-                keyof PickOptionals<SoftwareRowEditableByForm>
-            >
-        >();
-
-        function getIsOptionalField(fieldName: FieldName): boolean {
-            return id<readonly string[]>(optionalFields).indexOf(fieldName) !== -1;
-        }
-
-        return { getIsOptionalField };
-    })();
-
-    return {
-        getIsOptionalField,
-    };
-})();
-
 const { resolveLocalizedString } = createResolveLocalizedString({
     "currentLanguage": "fr",
     "fallbackLanguage": "en",
@@ -874,3 +847,26 @@ const softwareKeys = [
 assert<
     Equals<typeof softwareKeys[number], keyof CompiledData.Software.WithoutReferent>
 >();
+
+const { getIsOptionalField } = (() => {
+    const optionalFields = [
+        "wikidataId",
+        "comptoirDuLibreId",
+        "tags",
+        "alikeSoftwares",
+        "generalInfoMd",
+    ] as const;
+
+    assert<
+        Equals<
+            typeof optionalFields[number],
+            keyof PickOptionals<SoftwareRowEditableByForm>
+        >
+    >();
+
+    function getIsOptionalField(fieldName: FieldName): boolean {
+        return id<readonly string[]>(optionalFields).indexOf(fieldName) !== -1;
+    }
+
+    return { getIsOptionalField };
+})();

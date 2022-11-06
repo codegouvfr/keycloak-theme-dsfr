@@ -2,8 +2,6 @@ import type { ThunkAction } from "../setup";
 
 export const name = "fetchProxy";
 
-export const actions = null;
-
 export const reducer = null;
 
 export const thunks = {

@@ -1,17 +1,15 @@
 import { assert } from "tsafe/assert";
 import type { User } from "../ports/UserApiClient";
-import type { ThunkAction, ThunksExtraArgument } from "../setup";
+import type { ThunkAction } from "../setup";
+import { createUsecaseContextApi } from "redux-clean-architecture";
 import { urlJoin } from "url-join-ts";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-    createObjectThatThrowsIfAccessed,
-    isPropertyAccessedByReduxOrStorybook,
-} from "../tools/createObjectThatThrowsIfAccessed";
+import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
 
-type UserAuthenticationState = {
+export type UserAuthenticationState = {
     agencyName: {
         value: string;
         isBeingUpdated: boolean;
@@ -22,12 +20,11 @@ type UserAuthenticationState = {
     };
 };
 
-export const name = "userAuthentication" as const;
+export const name = "userAuthentication";
 
 export const { reducer, actions } = createSlice({
     name,
     "initialState": createObjectThatThrowsIfAccessed<UserAuthenticationState>({
-        "isPropertyWhitelisted": isPropertyAccessedByReduxOrStorybook,
         "debugMessage": "Slice not initialized",
     }),
     "reducers": {
@@ -90,7 +87,7 @@ export const thunks = {
         (...args) => {
             const [, , extraArg] = args;
 
-            const { immutableUserFields } = getSliceContexts(extraArg);
+            const { immutableUserFields } = getContext(extraArg);
 
             assert(
                 immutableUserFields !== undefined,
@@ -133,14 +130,14 @@ export const thunks = {
         (...args) => {
             const [, , extraArgs] = args;
 
-            return getSliceContexts(extraArgs).thermsOfServices;
+            return getContext(extraArgs).thermsOfServices;
         },
     "getKeycloakAccountConfigurationUrl":
         (): ThunkAction<string | undefined> =>
         (...args) => {
             const [, , extraArgs] = args;
 
-            return getSliceContexts(extraArgs).keycloakAccountConfigurationUrl;
+            return getContext(extraArgs).keycloakAccountConfigurationUrl;
         },
     "updateField":
         (params: { fieldName: "agencyName" | "email"; value: string }): ThunkAction =>
@@ -200,7 +197,7 @@ export const privateThunks = {
                 );
             }
 
-            setSliceContext(extraArg, {
+            setContext(extraArg, {
                 "immutableUserFields": user,
                 ...(await (async () => {
                     const { keycloakParams } =
@@ -223,31 +220,10 @@ export const privateThunks = {
         },
 };
 
-type SliceContext = {
+const { getContext, setContext } = createUsecaseContextApi<{
     /** undefined when not authenticated */
     immutableUserFields: Omit<User, "agencyName" | "email"> | undefined;
     thermsOfServices: LocalizedString<Language> | undefined;
     /** Undefined it authentication is not keycloak */
     keycloakAccountConfigurationUrl: string | undefined;
-};
-
-const { getSliceContexts, setSliceContext } = (() => {
-    const weakMap = new WeakMap<ThunksExtraArgument, SliceContext>();
-
-    function getSliceContexts(extraArg: ThunksExtraArgument): SliceContext {
-        const sliceContext = weakMap.get(extraArg);
-
-        assert(sliceContext !== undefined, "Slice context not initialized");
-
-        return sliceContext;
-    }
-
-    function setSliceContext(
-        extraArg: ThunksExtraArgument,
-        sliceContext: SliceContext,
-    ): void {
-        weakMap.set(extraArg, sliceContext);
-    }
-
-    return { getSliceContexts, setSliceContext };
-})();
+}>();

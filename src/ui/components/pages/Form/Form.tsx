@@ -2,7 +2,7 @@ import { useEffect, Fragment } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { makeStyles } from "ui/theme";
-import { useThunks, selectors, useSelector, pure } from "ui/coreApi";
+import { useCoreFunctions, selectors, useCoreState } from "core";
 import { Button } from "ui/theme";
 import type { FieldErrorMessageKey, FieldName } from "core/usecases/softwareForm";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -44,28 +44,28 @@ export function Form(props: Props) {
 
     const { t } = useTranslation({ Form });
 
-    const { softwareFormThunks } = useThunks();
+    const { softwareForm } = useCoreFunctions();
 
-    const { sliceState } = useSelector(selectors.softwareForm.sliceState);
-    const { isSubmittable } = useSelector(selectors.softwareForm.isSubmittable);
-    const { displayableFieldErrorByFieldName } = useSelector(
+    const { sliceState } = useCoreState(selectors.softwareForm.sliceState);
+    const { isSubmittable } = useCoreState(selectors.softwareForm.isSubmittable);
+    const { displayableFieldErrorByFieldName } = useCoreState(
         selectors.softwareForm.displayableFieldErrorByFieldName,
     );
-    const { softwareRefs } = useSelector(selectors.softwareForm.softwareRefs);
-    const { softwareNameBySoftwareId } = useSelector(
+    const { softwareRefs } = useCoreState(selectors.softwareForm.softwareRefs);
+    const { softwareNameBySoftwareId } = useCoreState(
         selectors.softwareForm.softwareNameBySoftwareId,
     );
-    const { tags } = useSelector(selectors.softwareForm.tags);
-    const { softwareId } = useSelector(selectors.softwareForm.softwareId);
-    const { valueByFieldName } = useSelector(selectors.softwareForm.valueByFieldName);
-    const { isAutofillInProgress } = useSelector(
+    const { tags } = useCoreState(selectors.softwareForm.tags);
+    const { softwareId } = useCoreState(selectors.softwareForm.softwareId);
+    const { valueByFieldName } = useCoreState(selectors.softwareForm.valueByFieldName);
+    const { isAutofillInProgress } = useCoreState(
         selectors.softwareForm.isAutofillInProgress,
     );
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
     useEffect(() => {
-        softwareFormThunks.initialize({ "softwareId": route.params.softwareId });
+        softwareForm.initialize({ "softwareId": route.params.softwareId });
     }, [route.params.softwareId]);
 
     useEffect(() => {
@@ -74,7 +74,7 @@ export function Form(props: Props) {
                 break;
             case "form submitted":
                 hideSplashScreen();
-                softwareFormThunks.initialize({ "softwareId": undefined });
+                softwareForm.initialize({ "softwareId": undefined });
 
                 routes.card({ "name": sliceState.softwareName }).push();
                 break;
@@ -95,23 +95,23 @@ export function Form(props: Props) {
 
     const onValueBeingTypedChangeFactory = useCallbackFactory(
         ([fieldName]: [FieldName], [{ value }]: [{ value: string | number | boolean }]) =>
-            softwareFormThunks.changeFieldValue({
+            softwareForm.changeFieldValue({
                 fieldName,
                 value,
             }),
     );
 
     const onEscapeKeyFactory = useCallbackFactory(([fieldName]: [FieldName]) =>
-        softwareFormThunks.restoreFieldDefaultValue({ fieldName }),
+        softwareForm.restoreFieldDefaultValue({ fieldName }),
     );
 
     const onBlurFactory = useCallbackFactory(([fieldName]: [FieldName]) =>
-        softwareFormThunks.focusLost({ fieldName }),
+        softwareForm.focusLost({ fieldName }),
     );
 
     const onDeclareOneselfReferentDialogAnswer = useConstCallback<
         DeclareOneselfReferentDialogProps["onAnswer"]
-    >(createReferentParams => softwareFormThunks.submit({ createReferentParams }));
+    >(createReferentParams => softwareForm.submit({ createReferentParams }));
 
     if (sliceState.stateDescription !== "form ready") {
         return null;
@@ -158,12 +158,12 @@ export function Form(props: Props) {
                                                 tags={tags}
                                                 selectedTags={selectedTags}
                                                 onCreateNewTag={tag =>
-                                                    softwareFormThunks.createTag({
+                                                    softwareForm.createTag({
                                                         tag,
                                                     })
                                                 }
                                                 onSelectedTags={selectedTags =>
-                                                    softwareFormThunks.changeFieldValue({
+                                                    softwareForm.changeFieldValue({
                                                         "fieldName": "tags",
                                                         "value": selectedTags,
                                                     })
@@ -179,7 +179,7 @@ export function Form(props: Props) {
                                             <FormAlikeSoftwares
                                                 alikeSoftwares={alikeSoftwares}
                                                 onAlikeSoftwaresChange={alikeSoftwares =>
-                                                    softwareFormThunks.changeFieldValue({
+                                                    softwareForm.changeFieldValue({
                                                         "fieldName": "alikeSoftwares",
                                                         "value": alikeSoftwares,
                                                     })
@@ -217,7 +217,7 @@ export function Form(props: Props) {
                                                             : undefined
                                                     }
                                                     label={`${t(fieldName)}${
-                                                        !pure.softwareForm.getIsOptionalField(
+                                                        !softwareForm.getIsOptionalField(
                                                             fieldName,
                                                         )
                                                             ? " *"
@@ -281,7 +281,7 @@ export function Form(props: Props) {
                                                                 onChange={(
                                                                     ...[, isChecked]
                                                                 ) =>
-                                                                    softwareFormThunks.changeFieldValue(
+                                                                    softwareForm.changeFieldValue(
                                                                         {
                                                                             fieldName,
                                                                             "value":
@@ -315,7 +315,7 @@ export function Form(props: Props) {
                             if (route.params.softwareId === undefined) {
                                 evtOpenDialogIsExpert.post();
                             } else {
-                                softwareFormThunks.submit({
+                                softwareForm.submit({
                                     "createReferentParams": undefined,
                                 });
                             }

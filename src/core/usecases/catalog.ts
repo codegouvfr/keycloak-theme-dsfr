@@ -6,7 +6,7 @@ import type { CompiledData } from "sill-api";
 import { removeReferent, languages } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { ThunksExtraArgument, RootState } from "../setup";
+import type { State as RootState } from "../setup";
 import { waitForDebounceFactory } from "core/tools/waitForDebounce";
 import memoize from "memoizee";
 import { exclude } from "tsafe/exclude";
@@ -15,6 +15,7 @@ import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import { same } from "evt/tools/inDepth/same";
 import { arrDiff } from "evt/tools/reducers/diff";
 import type { SoftwareRef } from "sill-api";
+import { createUsecaseContextApi } from "redux-clean-architecture";
 
 type CatalogExplorerState = CatalogExplorerState.NotFetched | CatalogExplorerState.Ready;
 
@@ -46,7 +47,7 @@ namespace CatalogExplorerState {
     };
 }
 
-export const name = "catalog";
+export const name = "catalog" as const;
 
 export const { reducer, actions } = createSlice({
     name,
@@ -378,12 +379,12 @@ export const thunks = {
             const { queryString } = params;
             const [dispatch, , extra] = args;
 
-            const sliceContext = getSliceContext(extra);
+            const sliceContext = getContext(extra);
 
             const { prevQueryString, waitForSearchDebounce } = sliceContext;
 
-            const prevQuery = pure.parseQuery(prevQueryString);
-            const query = pure.parseQuery(queryString);
+            const prevQuery = parseQuery(prevQueryString);
+            const query = parseQuery(queryString);
 
             sliceContext.prevQueryString = queryString;
 
@@ -426,7 +427,7 @@ export const thunks = {
         async (...args) => {
             const [dispatch, , extraArg] = args;
 
-            const { waitForLoadMoreDebounce } = getSliceContext(extraArg);
+            const { waitForLoadMoreDebounce } = getContext(extraArg);
 
             await waitForLoadMoreDebounce();
 
@@ -575,13 +576,25 @@ export const thunks = {
                 }),
             );
         },
+    /* Pure */
+    "parseQuery":
+        (queryString: string): ThunkAction<Query> =>
+        () =>
+            parseQuery(queryString),
+    /** Pure */
+    "stringifyQuery":
+        (query: Query): ThunkAction<string> =>
+        () =>
+            stringifyQuery(query),
 };
 
 export const privateThunks = {
     "initialize":
         (): ThunkAction<void> =>
         (...args) => {
-            const [dispatch, , { evtAction }] = args;
+            const [dispatch, , extraArg] = args;
+
+            const { evtAction } = extraArg;
 
             evtAction.$attach(
                 action =>
@@ -623,14 +636,11 @@ export const privateThunks = {
         },
 };
 
-const getSliceContext = memoize((_: ThunksExtraArgument) => {
-    return {
-        "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
-        "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 })
-            .waitForDebounce,
-        "prevQueryString": "",
-    };
-});
+const { getContext } = createUsecaseContextApi(() => ({
+    "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
+    "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 }).waitForDebounce,
+    "prevQueryString": "",
+}));
 
 export const selectors = (() => {
     const getSoftwareWeight = memoize(
@@ -657,7 +667,7 @@ export const selectors = (() => {
         return rootState.catalog;
     };
 
-    const queryString = (rootState: RootState) => rootState.catalog.queryString;
+    const queryString = (rootState: RootState): string => rootState.catalog.queryString;
 
     const isProcessing = createSelector(readyState, readyState => {
         if (readyState === undefined) {
@@ -674,7 +684,7 @@ export const selectors = (() => {
 
         const { queryString, softwares, referentsBySoftwareId, displayCount } = state;
 
-        const query = pure.parseQuery(queryString);
+        const query = parseQuery(queryString);
 
         return [...softwares]
             .map(software => ({
@@ -903,30 +913,25 @@ export type Query = {
     search: string;
     tags: string[];
 };
-
-export const pure = (() => {
-    function parseQuery(queryString: string): Query {
-        if (!queryString.startsWith("{")) {
-            return {
-                "search": queryString,
-                "tags": [],
-            };
-        }
-
-        return JSON.parse(queryString);
+function parseQuery(queryString: string): Query {
+    if (!queryString.startsWith("{")) {
+        return {
+            "search": queryString,
+            "tags": [],
+        };
     }
 
-    function stringifyQuery(query: Query) {
-        if (query.search === "" && query.tags.length === 0) {
-            return "";
-        }
+    return JSON.parse(queryString);
+}
 
-        if (query.tags.length === 0) {
-            return query.search;
-        }
-
-        return JSON.stringify(query);
+function stringifyQuery(query: Query) {
+    if (query.search === "" && query.tags.length === 0) {
+        return "";
     }
 
-    return { stringifyQuery, parseQuery };
-})();
+    if (query.tags.length === 0) {
+        return query.search;
+    }
+
+    return JSON.stringify(query);
+}

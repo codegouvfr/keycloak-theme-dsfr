@@ -5,7 +5,7 @@ import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
 import { useLang, evtLang, useTranslation } from "ui/i18n";
 import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
-import { useThunks } from "ui/coreApi";
+import { useCoreFunctions } from "core";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useRoute, routes } from "ui/routes";
 import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
@@ -93,14 +93,14 @@ export const App = memo((props: Props) => {
         45,
     );
 
-    const { userAuthenticationThunks, apiInfoThunks } = useThunks();
+    const { userAuthentication, apiInfo } = useCoreFunctions();
 
-    const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
+    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
 
     const onHeaderAuthClick = useConstCallback(() =>
         isUserLoggedIn
-            ? userAuthenticationThunks.logout({ "redirectTo": "home" })
-            : userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false }),
+            ? userAuthentication.logout({ "redirectTo": "home" })
+            : userAuthentication.login({ "doesCurrentHrefRequiresAuth": false }),
     );
 
     const { lang } = useLang();
@@ -185,7 +185,7 @@ export const App = memo((props: Props) => {
                 termsLink={termsLink}
                 packageJsonVersion={process.env.VERSION!}
                 ref={footerRef}
-                apiPackageJsonVersion={apiInfoThunks.getApiVersion()}
+                apiPackageJsonVersion={apiInfo.getApiVersion()}
                 sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
         </div>
@@ -256,9 +256,9 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
 const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
     const { route } = props;
 
-    const { userAuthenticationThunks } = useThunks();
+    const { userAuthentication } = useCoreFunctions();
 
-    const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
+    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
 
     useEffect(() => {
         switch (route.name) {
@@ -299,7 +299,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -312,7 +312,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -325,7 +325,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -338,7 +338,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -351,7 +351,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -364,7 +364,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -377,7 +377,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -390,7 +390,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -408,9 +408,9 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
  * automatically.
  */
 function useApplyLanguageSelectedAtLogin() {
-    const { userAuthenticationThunks } = useThunks();
+    const { userAuthentication } = useCoreFunctions();
 
-    const isUserLoggedIn = userAuthenticationThunks.getIsUserLoggedIn();
+    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
 
     const { setLang } = useLang();
 
@@ -419,7 +419,7 @@ function useApplyLanguageSelectedAtLogin() {
             return;
         }
 
-        const { locale } = userAuthenticationThunks.getImmutableUserFields();
+        const { locale } = userAuthentication.getImmutableUserFields();
 
         if (
             !typeGuard<Language>(

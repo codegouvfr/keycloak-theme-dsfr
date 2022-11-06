@@ -6,7 +6,7 @@ import { DescriptiveField } from "../../../shared/DescriptiveField";
 import type { Props as DescriptiveFieldProps } from "../../../shared/DescriptiveField";
 import Link from "@mui/material/Link";
 import { makeStyles } from "ui/theme";
-import { useThunks, useSelector } from "ui/coreApi";
+import { useCoreFunctions, useCoreState } from "core";
 import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useEmailDomainNotAllowedErrorMessage } from "ui/components/KcApp/RegisterUserProfile";
@@ -22,7 +22,7 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const { t } = useTranslation({ AccountInfoTab });
 
-    const { userAuthenticationThunks } = useThunks();
+    const { userAuthentication } = useCoreFunctions();
 
     const { allowedEmailRegexp } = (function useClosure() {
         const [allowedEmailRegexp, setAllowedEmailRegexp] = useState<RegExp | undefined>(
@@ -32,7 +32,7 @@ export const AccountInfoTab = memo((props: Props) => {
         useEffect(() => {
             let isCleanedUp = false;
 
-            userAuthenticationThunks.getAllowedEmailRegexp().then(allowedEmailRegexp => {
+            userAuthentication.getAllowedEmailRegexp().then(allowedEmailRegexp => {
                 if (isCleanedUp) {
                     return;
                 }
@@ -60,7 +60,7 @@ export const AccountInfoTab = memo((props: Props) => {
 
             let isCleanedUp = false;
 
-            userAuthenticationThunks.getAgencyNames().then(agencyNames => {
+            userAuthentication.getAgencyNames().then(agencyNames => {
                 if (isCleanedUp) {
                     return;
                 }
@@ -81,21 +81,21 @@ export const AccountInfoTab = memo((props: Props) => {
         return { agencyNames, triggerFetchAgencyNames };
     })();
 
-    const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useSelector(
+    const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useCoreState(
         state => state.userAuthentication.agencyName,
     );
-    const { value: email, isBeingUpdated: isEmailBeingUpdated } = useSelector(
+    const { value: email, isBeingUpdated: isEmailBeingUpdated } = useCoreState(
         state => state.userAuthentication.email,
     );
 
     const keycloakAccountConfigurationUrl =
-        userAuthenticationThunks.getKeycloakAccountConfigurationUrl();
+        userAuthentication.getKeycloakAccountConfigurationUrl();
 
     const { classes } = useStyles();
 
     const onRequestUpdateFieldFactory = useCallbackFactory(
         ([fieldName]: ["agencyName" | "email"], [value]: [string]) =>
-            userAuthenticationThunks.updateField({ fieldName, value }),
+            userAuthentication.updateField({ fieldName, value }),
     );
 
     const emailDomainNotAllowedErrorMessage = useEmailDomainNotAllowedErrorMessage();

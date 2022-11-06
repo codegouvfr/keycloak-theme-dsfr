@@ -16,11 +16,27 @@ import { id } from "tsafe/id";
 import "onyxia-ui/assets/fonts/WorkSans/font.css";
 import { GlobalStyles } from "tss-react/compat";
 import { objectKeys } from "tsafe/objectKeys";
-import { CoreProvider } from "ui/coreApi/CoreProvider";
+import { createCoreProvider } from "core";
 import type { Language } from "sill-api";
 import { languages } from "sill-api";
 import { RouteProvider } from "ui/routes";
 import { useLang } from "ui/i18n";
+import { Evt } from "evt";
+
+const { CoreProvider } = createCoreProvider({
+    "apiUrl": "#",
+    "evtUserActivity": new Evt(),
+    "mockAuthentication": {
+        "isUserInitiallyLoggedIn": true,
+        "user": {
+            "agencyName": "etalab",
+            "email": "joseph.garrone@data.gouv.fr",
+            "id": "33222",
+            "locale": "fr",
+        },
+    },
+    "transformUrlBeforeRedirectToLogin": ({ url }) => url,
+});
 
 export function getStoryFactory<Props>(params: {
     sectionName: string;

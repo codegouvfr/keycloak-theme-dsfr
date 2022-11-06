@@ -1,12 +1,18 @@
-import {
-    usecasesToSelectors,
-    usecasesToAutoDispatchThunks,
-    usecasesToPureFunctions,
-} from "redux-clean-architecture";
-import { createStore, usecases } from "./setup";
-export type { Dispatch, RootState } from "./setup";
+/*
+NOTE: Only here do we export the API for a specific framework (here react).
+In the rest of the core directory everything is agnostic to React
+*/
+import { createReactApi } from "redux-clean-architecture/react";
+import { usecasesApi, createCore } from "./setup";
 
-export { createStore };
-export const selectors = usecasesToSelectors(usecases);
-export const { getAutoDispatchThunks } = usecasesToAutoDispatchThunks(usecases);
-export const pure = usecasesToPureFunctions(usecases);
+export const {
+    createCoreProvider,
+    selectors,
+    useCoreEvts,
+    useCoreExtras,
+    useCoreFunctions,
+    useCoreState,
+} = createReactApi({
+    createCore,
+    usecasesApi,
+});

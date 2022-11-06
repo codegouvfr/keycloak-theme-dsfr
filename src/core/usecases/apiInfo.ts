@@ -1,9 +1,7 @@
-import { assert } from "tsafe/assert";
-import type { ThunkAction, ThunksExtraArgument } from "../setup";
+import type { ThunkAction } from "../setup";
+import { createUsecaseContextApi } from "redux-clean-architecture";
 
 export const name = "apiInfo";
-
-export const actions = null;
 
 export const reducer = null;
 
@@ -13,11 +11,13 @@ export const thunks = {
         (...args) => {
             const [, , extraArgs] = args;
 
-            const { apiVersion } = getSliceContexts(extraArgs);
+            const { apiVersion } = getContext(extraArgs);
 
             return apiVersion;
         },
 };
+
+const { getContext, setContext } = createUsecaseContextApi<{ apiVersion: string }>();
 
 export const privateThunks = {
     "initialize":
@@ -27,33 +27,8 @@ export const privateThunks = {
 
             const { sillApiClient } = extraArg;
 
-            setSliceContext(extraArg, {
+            setContext(extraArg, {
                 "apiVersion": await sillApiClient.getVersion(),
             });
         },
 };
-
-type SliceContext = {
-    apiVersion: string;
-};
-
-const { getSliceContexts, setSliceContext } = (() => {
-    const weakMap = new WeakMap<ThunksExtraArgument, SliceContext>();
-
-    function getSliceContexts(extraArg: ThunksExtraArgument): SliceContext {
-        const sliceContext = weakMap.get(extraArg);
-
-        assert(sliceContext !== undefined, "Slice context not initialized");
-
-        return sliceContext;
-    }
-
-    function setSliceContext(
-        extraArg: ThunksExtraArgument,
-        sliceContext: SliceContext,
-    ): void {
-        weakMap.set(extraArg, sliceContext);
-    }
-
-    return { getSliceContexts, setSliceContext };
-})();

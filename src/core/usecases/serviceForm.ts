@@ -6,13 +6,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { CompiledData } from "sill-api";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { RootState } from "../setup";
+import type { State as RootState } from "../setup";
 import { objectKeys } from "tsafe/objectKeys";
 import {
     selectors as serviceCatalogSelectors,
-    thunks as serviceCatalogThunks,
+    thunks as serviceCatalog,
 } from "./serviceCatalog";
-import { selectors as catalogSelector, thunks as catalogThunks } from "./catalog";
+import { selectors as catalogSelector, thunks as catalog } from "./catalog";
 import { same } from "evt/tools/inDepth/same";
 
 export type ServiceFormData = {
@@ -186,7 +186,7 @@ export const thunks = {
             dispatch(actions.initializationStarted());
 
             if (getState().catalog.stateDescription === "not fetched") {
-                dispatch(catalogThunks.fetchCatalog());
+                dispatch(catalog.fetchCatalog());
 
                 await evtAction.waitFor(
                     action =>
@@ -202,7 +202,7 @@ export const thunks = {
             assert(softwareNameBySoftwareId !== undefined);
 
             if (getState().serviceCatalog.stateDescription === "not fetched") {
-                dispatch(serviceCatalogThunks.fetchCatalog());
+                dispatch(serviceCatalog.fetchCatalog());
 
                 await evtAction.waitFor(
                     action =>

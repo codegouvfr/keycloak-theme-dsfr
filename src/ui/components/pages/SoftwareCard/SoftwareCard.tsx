@@ -21,7 +21,7 @@ import { Evt } from "evt";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { assert } from "tsafe/assert";
 import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
-import { useSelector, useThunks, selectors, pure } from "ui/coreApi";
+import { useCoreState, useCoreFunctions, selectors } from "core";
 import type { Route } from "type-route";
 import { createGroup } from "type-route";
 import { routes } from "ui/routes";
@@ -55,22 +55,22 @@ export function SoftwareCard(props: Props) {
 
     const { resolveLocalizedString } = useResolveLocalizedString();
 
-    const { softwares } = useSelector(selectors.catalog.softwares);
-    const { referentsBySoftwareId } = useSelector(
+    const { softwares } = useCoreState(selectors.catalog.softwares);
+    const { referentsBySoftwareId } = useCoreState(
         selectors.catalog.referentsBySoftwareId,
     );
 
     //NOTE: DODO: fake news, fix! No need to trigger fetching of the catalog since
     // the serviceCatalog slice fetches itself when the software catalog is fetching.
-    const { serviceCountBySoftwareId } = useSelector(
+    const { serviceCountBySoftwareId } = useCoreState(
         selectors.serviceCatalog.serviceCountBySoftwareId,
     );
 
-    const { catalogThunks, userAuthenticationThunks } = useThunks();
+    const { catalog, userAuthentication, serviceCatalog } = useCoreFunctions();
 
     {
-        const { sliceState } = useSelector(selectors.catalog.sliceState);
-        const { isProcessing } = useSelector(selectors.catalog.isProcessing);
+        const { sliceState } = useCoreState(selectors.catalog.sliceState);
+        const { isProcessing } = useCoreState(selectors.catalog.isProcessing);
 
         const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
@@ -79,7 +79,7 @@ export function SoftwareCard(props: Props) {
                 case "not fetched":
                     if (!sliceState.isFetching) {
                         showSplashScreen({ "enableTransparency": true });
-                        catalogThunks.fetchCatalog();
+                        catalog.fetchCatalog();
                     }
                     break;
                 case "ready":
@@ -104,9 +104,9 @@ export function SoftwareCard(props: Props) {
     }
 
     {
-        const { sliceState } = useSelector(selectors.serviceCatalog.sliceState);
-        const { isProcessing } = useSelector(selectors.serviceCatalog.isProcessing);
-        const { serviceCatalogThunks } = useThunks();
+        const { sliceState } = useCoreState(selectors.serviceCatalog.sliceState);
+        const { isProcessing } = useCoreState(selectors.serviceCatalog.isProcessing);
+        const { serviceCatalog } = useCoreFunctions();
 
         const { showSplashScreen, hideSplashScreen } = useSplashScreen();
 
@@ -115,7 +115,7 @@ export function SoftwareCard(props: Props) {
                 case "not fetched":
                     if (!sliceState.isFetching) {
                         showSplashScreen({ "enableTransparency": true });
-                        serviceCatalogThunks.fetchCatalog();
+                        serviceCatalog.fetchCatalog();
                     }
                     break;
                 case "ready":
@@ -163,7 +163,7 @@ export function SoftwareCard(props: Props) {
 
     const onShowReferentClick = useConstCallback(async () => {
         if (referents === undefined) {
-            userAuthenticationThunks.login({ "doesCurrentHrefRequiresAuth": false });
+            userAuthentication.login({ "doesCurrentHrefRequiresAuth": false });
             return;
         }
 
@@ -211,7 +211,7 @@ export function SoftwareCard(props: Props) {
         memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
     );
 
-    const { softwareNameBySoftwareId } = useSelector(
+    const { softwareNameBySoftwareId } = useCoreState(
         selectors.catalog.softwareNameBySoftwareId,
     );
 
@@ -234,7 +234,7 @@ export function SoftwareCard(props: Props) {
     const onDeclareReferentAnswer = useConstCallback<ReferentDialogsProps["onAnswer"]>(
         ({ isExpert, useCaseDescription, isPersonalUse }) => {
             assert(software !== undefined);
-            catalogThunks.declareUserReferent({
+            catalog.declareUserReferent({
                 isExpert,
                 "softwareId": software.id,
                 useCaseDescription,
@@ -245,7 +245,7 @@ export function SoftwareCard(props: Props) {
 
     const onUserNoLongerReferent = useConstCallback(() => {
         assert(software !== undefined);
-        catalogThunks.userNoLongerReferent({
+        catalog.userNoLongerReferent({
             "softwareId": software.id,
         });
     });
@@ -258,12 +258,12 @@ export function SoftwareCard(props: Props) {
         if (isDeletion) {
             routes.catalog().replace();
 
-            catalogThunks.deleteSoftware({
+            catalog.deleteSoftware({
                 "softwareId": software.id,
                 reason,
             });
         } else {
-            catalogThunks.dereferenceSoftware({
+            catalog.dereferenceSoftware({
                 "softwareId": software.id,
                 reason,
                 lastRecommendedVersion,
@@ -416,7 +416,7 @@ export function SoftwareCard(props: Props) {
                         text={
                             <MuiLink
                                 {...routes.serviceCatalog({
-                                    "q": pure.serviceCatalog.stringifyQuery({
+                                    "q": serviceCatalog.stringifyQuery({
                                         "search": "",
                                         "softwareName": software.name,
                                     }),

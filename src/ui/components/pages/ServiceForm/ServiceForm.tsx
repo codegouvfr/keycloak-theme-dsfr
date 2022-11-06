@@ -2,7 +2,7 @@ import { useEffect, Fragment } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { makeStyles } from "ui/theme";
-import { useThunks, selectors, useSelector, pure } from "ui/coreApi";
+import { useCoreFunctions, selectors, useCoreState } from "core";
 import { Button } from "ui/theme";
 import type { FieldErrorMessageKey, ServiceFormData } from "core/usecases/serviceForm";
 import { createGroup } from "type-route";
@@ -34,23 +34,23 @@ export function ServiceForm(props: Props) {
 
     const { t } = useTranslation({ ServiceForm });
 
-    const { serviceFormThunks } = useThunks();
+    const { serviceForm, serviceCatalog } = useCoreFunctions();
 
-    const { sliceState } = useSelector(selectors.serviceForm.sliceState);
-    const { serviceId } = useSelector(selectors.serviceForm.serviceId);
-    const { formData } = useSelector(selectors.serviceForm.formData);
-    const { isSubmittable } = useSelector(selectors.serviceForm.isSubmittable);
-    const { displayableFieldErrorByFieldName } = useSelector(
+    const { sliceState } = useCoreState(selectors.serviceForm.sliceState);
+    const { serviceId } = useCoreState(selectors.serviceForm.serviceId);
+    const { formData } = useCoreState(selectors.serviceForm.formData);
+    const { isSubmittable } = useCoreState(selectors.serviceForm.isSubmittable);
+    const { displayableFieldErrorByFieldName } = useCoreState(
         selectors.serviceForm.displayableFieldErrorByFieldName,
     );
-    const { sillSoftwareNames } = useSelector(selectors.serviceForm.sillSoftwareNames);
-    const { agencyNames } = useSelector(selectors.serviceForm.agencyNames);
-    const { shouldSplashScreenBeShown } = useSelector(
+    const { sillSoftwareNames } = useCoreState(selectors.serviceForm.sillSoftwareNames);
+    const { agencyNames } = useCoreState(selectors.serviceForm.agencyNames);
+    const { shouldSplashScreenBeShown } = useCoreState(
         selectors.serviceForm.shouldSplashScreenBeShown,
     );
 
     useEffect(() => {
-        serviceFormThunks.initialize({ "serviceId": route.params.serviceId });
+        serviceForm.initialize({ "serviceId": route.params.serviceId });
     }, [route.params.serviceId]);
 
     {
@@ -72,11 +72,11 @@ export function ServiceForm(props: Props) {
             return;
         }
 
-        serviceFormThunks.initialize({ "serviceId": undefined });
+        serviceForm.initialize({ "serviceId": undefined });
 
         routes
             .serviceCatalog({
-                "q": pure.serviceCatalog.stringifyQuery({
+                "q": serviceCatalog.stringifyQuery({
                     "search": sliceState.queryString,
                     "softwareName": undefined,
                 }),
@@ -88,7 +88,7 @@ export function ServiceForm(props: Props) {
 
     const onValueBeingTypedChangeFactory = useCallbackFactory(
         ([fieldName]: [keyof ServiceFormData], [{ value }]: [{ value: string }]) =>
-            serviceFormThunks.changeFieldValue({
+            serviceForm.changeFieldValue({
                 fieldName,
                 value,
             }),
@@ -96,22 +96,22 @@ export function ServiceForm(props: Props) {
 
     const onEscapeKeyFactory = useCallbackFactory(
         ([fieldName]: [keyof ServiceFormData]) =>
-            serviceFormThunks.restoreFieldDefaultValue({ fieldName }),
+            serviceForm.restoreFieldDefaultValue({ fieldName }),
     );
 
     const onBlurFactory = useCallbackFactory(([fieldName]: [keyof ServiceFormData]) =>
-        serviceFormThunks.focusLost({ fieldName }),
+        serviceForm.focusLost({ fieldName }),
     );
 
     const onTextFieldSelectedSoftware = useConstCallback(
         (softwareName: string | undefined) =>
-            serviceFormThunks.changeFieldValue({
+            serviceForm.changeFieldValue({
                 "fieldName": "softwareName",
                 "value": softwareName ?? "",
             }),
     );
 
-    const onSubmitButtonClick = useConstCallback(() => serviceFormThunks.submit());
+    const onSubmitButtonClick = useConstCallback(() => serviceForm.submit());
 
     if (sliceState.stateDescription !== "form ready") {
         return null;
