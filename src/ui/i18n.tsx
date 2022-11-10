@@ -685,13 +685,13 @@ const {
                 "comptoirDuLibreId": "Identifiant dans le Comptoir du Libre",
                 "comptoirDuLibreId helper":
                     "Identifiant du logiciel sur comptoir-du-libre.org (visible dans l'URL)",
-                "function": "Fonction du logicel",
+                "function": "Fonction du logiciel",
                 "function helper":
                     "Fonction du logiciel (éditeur de texte, éditeur de vidéo, etc.)",
                 "invalid wikidata id": "Entité Wikidata invalide",
-                "isFromFrenchPublicService": "🇫🇷 Développé par l'administration ?",
+                "isFromFrenchPublicService": "🇫🇷 Développé par l'administration ?",
                 "isFromFrenchPublicService helper":
-                    "Est-ce que le logicel est développé par le service public francais ?",
+                    "Est-ce que le logiciel est développé par le service public francais ?",
                 "should be an integer": "Devrait être un identifiant numérique",
                 "license": "Licence",
                 "license helper": "Licence du logiciel (GNU GPL, BSD, etc.)",
@@ -710,7 +710,7 @@ const {
                     "Quelle est l'entité Wikidata du logiciel, par exemple Q8038 pour GIMP",
                 "name already exists": "Il existe déjà un logiciel avec ce nom",
                 "title add": "Référencer un nouveau logiciel",
-                "title edit": "Editer une fiche",
+                "title edit": "Éditer une fiche",
                 "help title add":
                     "Déclarez que ce logiciel est utilisé au sein de votre administration.",
                 "help title edit": "Mettre à jour la fiche SILL de ce logiciel",
@@ -906,11 +906,11 @@ const {
                 "validate unknown software name": ({ softwareName }) =>
                     `Validé avec "${softwareName}"`,
                 "select the software": "Sélectionner le logiciel",
-                "deployed software": "Logiciel déployer",
+                "deployed software": "Logiciel déployé",
                 "consider registering this software in the sill": ({
                     selectedSoftwareName,
                 }) =>
-                    `${selectedSoftwareName} n'est pas encore dans le SILL, considèreriez-vous de l'ajouter?`,
+                    `${selectedSoftwareName} n'est pas encore dans le SILL, considéreriez-vous de l'ajouter ?`,
             },
             /* spell-checker: enable */
         },
