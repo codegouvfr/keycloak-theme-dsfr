@@ -22,7 +22,7 @@ import { Buffer } from "buffer";
 const App = lazy(() => import("./components/App"));
 const KcApp = lazy(() => import("./components/KcApp"));
 
-const { CoreProvider } = createCoreProvider({
+const { CoreProvider } = createCoreProvider(() => ({
     ...getConfiguration(),
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServices }) =>
         [url]
@@ -41,7 +41,7 @@ const { CoreProvider } = createCoreProvider({
         Evt.from(document, "mousemove"),
         Evt.from(document, "keydown"),
     ]).pipe(() => [undefined as void]),
-});
+}));
 
 const queryClient = new QueryClient();
 
