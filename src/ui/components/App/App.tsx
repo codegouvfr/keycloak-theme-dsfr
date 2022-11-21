@@ -191,7 +191,7 @@ export const App = memo((props: Props) => {
                 apiPackageJsonVersion={apiInfo.getApiVersion()}
                 sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
-            {isUserLoggedIn && <SurveyDialog />}
+            {!isUserLoggedIn && <SurveyDialog />}
         </div>
     );
 });
@@ -518,7 +518,7 @@ pour mieux identifier vos besoins et vos attentes** afin de
 vous apporter une solution qui répondra au mieux à vos usages.  
   
 Si vous pouvez prendre 10 minutes afin d’y répondre, **l’équipe du
-Pôle Logiciels Libres d’Etalab** vous sera très reconnaissante."
+Pôle Logiciels Libres d’Etalab** vous sera très reconnaissante.
             `}</Markdown>
             }
             isOpen={isOpen}
