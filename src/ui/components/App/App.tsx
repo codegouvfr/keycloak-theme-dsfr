@@ -191,7 +191,7 @@ export const App = memo((props: Props) => {
                 apiPackageJsonVersion={apiInfo.getApiVersion()}
                 sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
-            {/*!isUserLoggedIn && <SurveyDialog />*/}
+            !isUserLoggedIn && <SurveyDialog />
         </div>
     );
 });
