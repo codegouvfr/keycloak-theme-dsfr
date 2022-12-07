@@ -3,6 +3,7 @@ import { makeStyles } from "ui/theme";
 import { ReactComponent as AgentConnectLightSvg } from "ui/assets/svg/agentConnectLight.svg";
 import { ReactComponent as AgentConnectDarkSvg } from "ui/assets/svg/agentConnectDark.svg";
 import { useIsDarkModeEnabled } from "onyxia-ui";
+import Link from "@mui/material/Link";
 
 export type Props = {
     className?: string;
@@ -21,14 +22,26 @@ export const AgentConnectButton = memo((props: Props) => {
         : AgentConnectLightSvg;
 
     return (
-        <a className={cx(classes.root, className)} href={url}>
-            <AgentConnectSvg className={classes.svg} />
-        </a>
+        <div className={cx(classes.root, className)}>
+            <a className={cx(classes.acButton, className)} href={url}>
+                <AgentConnectSvg className={classes.svg} />
+            </a>
+            <Link
+                className={classes.docLink}
+                href="https://agentconnect.gouv.fr/"
+                target="_blank"
+            >
+                Qu'est-ce qu'AgentConnect?
+            </Link>
+        </div>
     );
 });
 
 const useStyles = makeStyles({ "name": { AgentConnectButton } })(theme => ({
     "root": {
+        "textAlign": "center",
+    },
+    "acButton": {
         ...theme.spacing.topBottom("padding", 2),
         "display": "flex",
         "justifyContent": "center",
@@ -48,6 +61,10 @@ const useStyles = makeStyles({ "name": { AgentConnectButton } })(theme => ({
                 ? theme.colors.palette.agentConnectBlue.light
                 : undefined,
         },
+    },
+    "docLink": {
+        "display": "inline-block",
+        "marginTop": 8,
     },
     "svg": {
         "height": 48,
