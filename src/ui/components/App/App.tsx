@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { useMemo, useEffect, useState, memo } from "react";
+import { useMemo, useEffect, memo } from "react";
 import { Header } from "ui/components/shared/Header";
 import { LeftBar } from "ui/theme";
 import { Footer } from "./Footer";
@@ -32,9 +32,6 @@ import { getScrollableParent } from "powerhooks/getScrollableParent";
 import { Evt } from "evt";
 import { getConfiguration } from "configuration";
 import { setPreviousCatalog } from "./useHistory";
-import { Dialog } from "onyxia-ui/Dialog";
-import { Button } from "ui/theme";
-import { Markdown } from "ui/tools/Markdown";
 
 export type Props = {
     className?: string;
@@ -191,7 +188,6 @@ export const App = memo((props: Props) => {
                 apiPackageJsonVersion={apiInfo.getApiVersion()}
                 sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
-            !isUserLoggedIn && <SurveyDialog />
         </div>
     );
 });
@@ -492,55 +488,4 @@ function useRestoreScroll(params: {
         },
         [rootRef.current, route.name],
     );
-}
-
-const SurveyDialog = memo(() => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setIsOpen(true);
-        }, 2000);
-    }, []);
-
-    const onClose = useConstCallback(() => setIsOpen(false));
-
-    return (
-        <Dialog
-            title={"Enquête sur les usages du SILL"}
-            body={
-                <Markdown>{`
-Bonjour à toutes et à tous,
-
-Dans le cadre d'une **amélioration ergonomique** du site du Socle
-Interministériel de Logiciels Libres, nous réalisons une **courte enquête
-pour mieux identifier vos besoins et vos attentes** afin de
-vous apporter une solution qui répondra au mieux à vos usages.  
-  
-Si vous pouvez prendre 10 minutes afin d’y répondre, **l’équipe du
-Pôle Logiciels Libres d’Etalab** vous sera très reconnaissante.
-            `}</Markdown>
-            }
-            isOpen={isOpen}
-            onClose={onClose}
-            buttons={
-                <>
-                    <Button variant="secondary" onClick={onClose}>
-                        Plus tard
-                    </Button>
-                    <Button
-                        onClick={onClose}
-                        href="https://framaforms.org/enquete-usage-du-catalogue-du-sill-1668767192"
-                        doOpenNewTabIfHref={true}
-                    >
-                        Répondre au questionnaire
-                    </Button>
-                </>
-            }
-        />
-    );
-});
-
-if (Date.now() === 0) {
-    console.log(SurveyDialog);
 }
