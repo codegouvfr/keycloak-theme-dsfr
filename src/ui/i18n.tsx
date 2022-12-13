@@ -840,9 +840,9 @@ const {
                 ${
                     !lastRecommendedVersion
                         ? ""
-                        : `Dernière version acceptable : ${lastRecommendedVersion}`
+                        : `Dernière version recommandée : ${lastRecommendedVersion}`
                 }`,
-                "general info": "Information general",
+                "general info": "Informations générales",
                 "GouvTech Catalog": "Catalogue GouvTech",
                 "GouvTech Catalog helper":
                     "Catalogue des solutions numériques proposées par les entreprises aux services publics.",
@@ -850,7 +850,7 @@ const {
                     `Consulter sur ${gouvTechDomain}`,
                 "public services": "Services",
                 "public services helper":
-                    "Services maintenu par le secteur publique qui utilise ce logiciel",
+                    "Services maintenus par l'organisme public qui utilise ce logiciel",
                 "see the services": ({ servicesCount }) =>
                     `See the ${servicesCount} services`,
             },
@@ -867,9 +867,9 @@ const {
             },
             "ServiceCatalogCard": {
                 "proceed": "Confirmer",
-                "abort": "Abandoner",
+                "abort": "Abandonner",
                 "confirm unregister service": ({ serviceName }) =>
-                    `Confirmer la suppretion de ${serviceName}?`,
+                    `Confirmer la suppression de ${serviceName}?`,
                 "provide a reason for deleting the service":
                     "Veuillez préciser la raison pour laquelle vous déréférencez ce service.",
                 "can't be empty": "Veuiller préciser une raison",
@@ -880,7 +880,7 @@ const {
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,
                 "show more": "Montrer plus",
-                "no service found": "Pas de services trouvé",
+                "no service found": "Pas de service trouvé",
                 "no result found": ({ forWhat }) =>
                     `Par de résultat trouvé pour ${forWhat}`,
                 "check spelling":
@@ -891,14 +891,14 @@ const {
                 "reference a new service": "Référencer un nouveau service",
             },
             "ServiceCatalog": {
-                "header text1": "Catalog de service",
+                "header text1": "Catalogue de service",
                 "header text2":
-                    "Catalogue de service maintenu par le service publique et propulsé par du logiciel libre",
+                    "Catalogue de services maintenus par des organismes publics et propulsés par du logiciel libre",
                 "what is the catalog of service": ({ link }) => (
                     <>
                         {" "}
                         <MuiLink {...link}>Cliquez ici</MuiLink> pour en apprendre plus à
-                        propos de ce qu'est le catalogue de service.{" "}
+                        propos de ce qu'est le catalogue de services.{" "}
                     </>
                 ),
             },
@@ -910,7 +910,7 @@ const {
                 "consider registering this software in the sill": ({
                     selectedSoftwareName,
                 }) =>
-                    `${selectedSoftwareName} n'est pas encore dans le SILL, considéreriez-vous de l'ajouter ?`,
+                    `${selectedSoftwareName} n'est pas encore dans le SILL, envisageriez-vous de l'ajouter ?`,
             },
             /* spell-checker: enable */
         },
