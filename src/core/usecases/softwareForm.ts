@@ -842,6 +842,7 @@ const softwareKeys = [
     "wikidataData",
     "comptoirDuLibreSoftware",
     "generalInfoMd",
+    "annuaireCnllServiceProviders",
 ] as const;
 
 assert<

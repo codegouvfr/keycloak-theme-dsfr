@@ -74,6 +74,7 @@ const software: CompiledData.Software = {
     "referentCount": 1,
     "agentWorkstation": true,
     "tags": ["data-science", "docker", "kubernetes", "machine-learning", "python"],
+    "annuaireCnllServiceProviders": [],
 };
 
 export const VueDefault = getStory({
