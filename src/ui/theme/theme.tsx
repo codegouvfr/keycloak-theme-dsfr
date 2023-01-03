@@ -4,7 +4,6 @@ import {
     francePalette,
     ultravioletPalette,
     defaultGetTypographyDesc,
-    getIsPortraitOrientation,
 } from "onyxia-ui";
 import type { ThemeProviderProps } from "onyxia-ui";
 import { createIcon } from "onyxia-ui/Icon";
@@ -79,12 +78,7 @@ export const splashScreen: ThemeProviderProps["splashScreen"] = {
     "minimumDisplayDuration": 0,
 };
 
-export let isViewPortAdapterEnabled = !getIsPortraitOrientation({
-    "windowInnerWidth": window.innerWidth,
-    "windowInnerHeight": window.innerHeight,
-});
-
-console.log({ isViewPortAdapterEnabled });
+export let isViewPortAdapterEnabled = false;
 
 export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
     !isViewPortAdapterEnabled

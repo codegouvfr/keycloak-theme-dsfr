@@ -1,15 +1,13 @@
 import type { RefObject } from "react";
 import { useMemo, useEffect, memo } from "react";
-import { Header } from "ui/components/shared/Header";
-import { LeftBar } from "ui/theme";
+import { Header } from "@codegouvfr/react-dsfr/Header";
+import { fr } from "@codegouvfr/react-dsfr";
 import { Footer } from "./Footer";
 import { useLang, evtLang, useTranslation } from "ui/i18n";
-import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
+import { makeStyles } from "tss-react/dsfr";
 import { useCoreFunctions } from "core";
-import { useConstCallback } from "powerhooks/useConstCallback";
 import { useRoute, routes } from "ui/routes";
-import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
-import { useDomRect, useSplashScreen } from "onyxia-ui";
+import { useDomRect } from "onyxia-ui";
 import { Account } from "ui/components/pages/Account";
 import { FourOhFour } from "ui/components/pages/FourOhFour";
 import { Catalog } from "ui/components/pages/Catalog";
@@ -51,17 +49,11 @@ export const App = memo((props: Props) => {
         }
     }, [route.name]);
 
-    const { t } = useTranslation({ App });
-
     useApplyLanguageSelectedAtLogin();
 
-    const {
-        domRect: { width: rootWidth },
-        ref: rootRef,
-    } = useDomRect();
+    const { ref: rootRef } = useDomRect();
 
     const {
-        ref: headerRef,
         domRect: { height: headerHeight },
     } = useDomRect();
     const {
@@ -69,15 +61,7 @@ export const App = memo((props: Props) => {
         domRect: { height: footerHeight },
     } = useDomRect();
 
-    {
-        const { hideRootSplashScreen } = useSplashScreen();
-
-        useEffectOnValueChange(() => {
-            hideRootSplashScreen();
-        }, [rootWidth === 0]);
-    }
-
-    const { ref: refSticky, top } = useStickyTop();
+    const { top } = useStickyTop();
 
     const { windowInnerHeight } = useWindowInnerSize();
 
@@ -86,47 +70,15 @@ export const App = memo((props: Props) => {
         "leftBarHeight": windowInnerHeight - headerHeight - footerHeight,
     });
 
-    const logoContainerWidth = Math.max(
-        Math.floor(
-            (Math.min(rootWidth, 1920) * 4) /* logo container with in percent */ / 100,
-        ),
-        45,
-    );
-
     const { userAuthentication, apiInfo } = useCoreFunctions();
 
-    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
+    /*const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();*/
 
-    const onHeaderAuthClick = useConstCallback(() =>
+    /*    const onHeaderAuthClick = useConstCallback(() =>
         isUserLoggedIn
             ? userAuthentication.logout({ "redirectTo": "home" })
             : userAuthentication.login({ "doesCurrentHrefRequiresAuth": false }),
-    );
-
-    const { lang } = useLang();
-
-    const leftBarItems = useMemo(
-        () =>
-            ({
-                "account": {
-                    "iconId": "account",
-                    "label": t("account"),
-                    "link": routes.account().link,
-                    "hasDividerBelow": true,
-                },
-                "catalog": {
-                    "iconId": "catalog",
-                    "label": t("catalog"),
-                    "link": routes.catalog().link,
-                },
-                "serviceCatalog": {
-                    "iconId": "http",
-                    "label": t("service catalog"),
-                    "link": routes.serviceCatalog().link,
-                },
-            } as const),
-        [t, lang],
-    );
+    );*/
 
     const termsLink = useMemo(() => routes.terms().link, []);
 
@@ -134,48 +86,78 @@ export const App = memo((props: Props) => {
 
     return (
         <div ref={rootRef} className={cx(classes.root, className)}>
-            {(() => {
-                const common = {
-                    "className": classes.header,
-                    "useCase": "core app",
-                    logoContainerWidth,
-                    "logoLink": routes.home().link,
-                    "ref": headerRef,
-                } as const;
+            <Header
+                brandTop="SILL"
+                homeLinkProps={{
+                    href: "/",
+                    title: "Accueil - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)",
+                }}
+                navigation={[
+                    {
+                        linkProps: {
+                            href: "#",
+                            target: "_self",
+                        },
+                        text: "Bienvenue sur le SILL",
+                    },
+                    {
+                        isActive: true,
+                        linkProps: {
+                            href: "/catalog",
+                            target: "_self",
+                        },
+                        text: "Catalogue",
+                    },
+                    {
+                        linkProps: {
+                            href: "/form",
+                            target: "_self",
+                        },
+                        text: "Ajouter un logiciel ou une instance",
+                    },
+                    {
+                        linkProps: {
+                            href: "#",
+                            target: "_self",
+                        },
+                        text: "Demande d'accompagnement",
+                    },
+                    {
+                        linkProps: {
+                            href: "#",
+                            target: "_self",
+                        },
+                        text: "À propos du site",
+                    },
+                ]}
+                quickAccessItems={[
+                    {
+                        iconId: "fr-icon-add-circle-line",
+                        linkProps: {
+                            href: "#",
+                        },
+                        text: "Créer un espace",
+                    },
+                    {
+                        iconId: "fr-icon-lock-line",
+                        linkProps: {
+                            href: "#",
+                        },
+                        text: "Se connecter",
+                    },
+                    {
+                        iconId: "fr-icon-account-line",
+                        linkProps: {
+                            href: "#",
+                        },
+                        text: "S’enregistrer",
+                    },
+                ]}
+                serviceTagline="baseline - précisions sur l'organisation"
+                serviceTitle="Nom du site / service"
+            />
 
-                return isUserLoggedIn ? (
-                    <Header
-                        {...common}
-                        isUserLoggedIn={true}
-                        onLogoutClick={onHeaderAuthClick}
-                    />
-                ) : (
-                    <Header
-                        {...common}
-                        isUserLoggedIn={false}
-                        onLoginClick={onHeaderAuthClick}
-                    />
-                );
-            })()}
             <section className={classes.betweenHeaderAndFooter}>
-                <LeftBar
-                    ref={refSticky}
-                    className={classes.leftBar}
-                    collapsedWidth={logoContainerWidth}
-                    reduceText={t("reduce")}
-                    items={leftBarItems}
-                    currentItemId={(() => {
-                        switch (route.name) {
-                            case "account":
-                                return "account";
-                            case "catalog":
-                                return "catalog";
-                            case "serviceCatalog":
-                                return "serviceCatalog";
-                        }
-                    })()}
-                />
-
                 <main className={classes.main}>
                     <PageSelector route={route} />
                 </main>
@@ -198,30 +180,14 @@ export const { i18n } = declareComponentKeys<
 
 const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
     "name": { App },
-})((theme, { leftBarTop, leftBarHeight }) => ({
+})(theme => ({
     "root": {
-        "backgroundColor": theme.colors.useCases.surfaces.background,
-        ...theme.spacing.rightLeft("padding", 4),
+        "backgroundColor": theme.decisions.background.default.grey.default,
+        ...fr.spacing("padding", {
+            "rightLeft": "4v",
+        }),
         "position": "relative",
-        ...(!isViewPortAdapterEnabled
-            ? {}
-            : {
-                  "height": "100%",
-                  "overflow": "auto",
-              }),
-        // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
-        //"overflowAnchor": "none",
     },
-    "header": (() => {
-        if (isViewPortAdapterEnabled) {
-            return {
-                "position": "sticky",
-                "top": 0,
-            } as const;
-        }
-
-        return {};
-    })(),
     "betweenHeaderAndFooter": {
         "display": "flex",
         "alignItems": "start",
@@ -231,23 +197,11 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         "position": "sticky",
         "bottom": 0,
     },
-    "leftBar": {
-        "position": "sticky",
-        "top": leftBarTop,
-        "height": leftBarHeight,
-        "zIndex": 1,
-        "display": (() => {
-            if (isViewPortAdapterEnabled) {
-                return undefined;
-            }
-            return "none";
-        })(),
-    },
     "main": {
         //TODO: See if scroll delegation works if we put auto here instead of "hidden"
         //"paddingLeft": theme.spacing(4),
         "& > *": {
-            "marginLeft": theme.spacing(4),
+            "marginLeft": fr.spacing("4v"),
         },
         "flex": 1,
     },

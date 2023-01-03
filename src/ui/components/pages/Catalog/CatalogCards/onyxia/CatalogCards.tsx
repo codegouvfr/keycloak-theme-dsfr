@@ -68,6 +68,7 @@ export type Props = {
     onSelectedTagsChange: (selectedTags: string[]) => void;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
+    searchBarWrapperElement: HTMLDivElement;
     onLogin: () => void;
     onDeclareReferentAnswer: (params: {
         softwareId: number;
@@ -96,6 +97,7 @@ export const CatalogCards = memo((props: Props) => {
         onSelectedTagsChange,
         onLoadMore,
         hasMoreToLoad,
+        searchBarWrapperElement,
         onLogin,
         onDeclareReferentAnswer,
         onUserNoLongerReferent,
@@ -111,9 +113,14 @@ export const CatalogCards = memo((props: Props) => {
         onLoadMore,
     });
 
+    const doRenderSearchBarInHeader = (() => {
+        return isViewPortAdapterEnabled;
+    })();
+
     const { classes, css, theme } = useStyles({
         "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
+        doRenderSearchBarInHeader,
     });
 
     const onDeclareReferentAnswerFactory = useCallbackFactory(
@@ -179,21 +186,24 @@ export const CatalogCards = memo((props: Props) => {
         evtCatalogSearchAreaAction.post("CLEAR SEARCH"),
     );
 
+    const catalogSearchAreaNode = (
+        <CatalogSearchArea
+            className={classes.searchBarWrapper}
+            evtAction={evtCatalogSearchAreaAction}
+            tags={tags}
+            selectedTags={selectedTags}
+            onSelectedTagsChange={onSelectedTagsChange}
+            search={search}
+            onSearchChange={onSearchChange}
+        />
+    );
+
     return (
         <>
-            <CatalogSearchArea
-                className={classes.searchBarWrapper}
-                evtAction={evtCatalogSearchAreaAction}
-                tags={tags}
-                selectedTags={selectedTags}
-                onSelectedTagsChange={onSelectedTagsChange}
-                search={search}
-                onSearchChange={onSearchChange}
-            />
-
+            {doRenderSearchBarInHeader &&
+                createPortal(catalogSearchAreaNode, searchBarWrapperElement)}
             <div className={className}>
-                {/** TODO : Show results of search */}
-                {/*                {!doRenderSearchBarInHeader && catalogSearchAreaNode}
+                {!doRenderSearchBarInHeader && catalogSearchAreaNode}
                 {filteredSoftwares.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t("search results", { count: searchResultCount })}
@@ -206,8 +216,7 @@ export const CatalogCards = memo((props: Props) => {
                             {t("reference a new software")}
                         </Button>
                     </Text>
-                )}*/}
-                <h6>{t("search results", { count: searchResultCount })}</h6>
+                )}
                 <div className={classes.cards}>
                     {filteredSoftwares.length === 0 ? (
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
@@ -292,12 +301,23 @@ const useStyles = makeStyles<
     {
         filteredCardCount: number;
         hasMoreToLoad: boolean;
+        doRenderSearchBarInHeader: boolean;
     },
     "moreToLoadProgress"
 >({ "name": { CatalogCards } })(
-    (theme, { filteredCardCount, hasMoreToLoad }, classes) => ({
+    (
+        theme,
+        { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader },
+        classes,
+    ) => ({
         "searchBarWrapper": {
             "paddingBottom": theme.spacing(4),
+            ...(doRenderSearchBarInHeader
+                ? {}
+                : {
+                      "position": "sticky",
+                      "top": theme.spacing(3),
+                  }),
         },
         "contextTypo": {
             "marginBottom": theme.spacing(4),
@@ -308,10 +328,13 @@ const useStyles = makeStyles<
                 : {
                       "display": "grid",
                       "gridTemplateColumns": `repeat(${(() => {
-                          return 3;
-                      })()}, 1fr)`,
-                      "gridColumnGap": theme.spacing(4),
-                      "gridRowGap": theme.spacing(3),
+                          if (isViewPortAdapterEnabled) {
+                              return 3;
+                          }
+
+                          return 1;
+                      })()},1fr)`,
+                      "gap": theme.spacing(4),
                   }),
         },
         "bottomScrollSpace": {
@@ -408,7 +431,6 @@ type CatalogSearchAreaProps = {
     onSearchChange: (search: string) => void;
 };
 
-/** Todo : Move to a dedicated file */
 const { CatalogSearchArea } = (() => {
     const CatalogSearchArea = memo((props: CatalogSearchAreaProps) => {
         const {
@@ -461,17 +483,12 @@ const { CatalogSearchArea } = (() => {
 
         return (
             <div className={cx(classes.root, className)}>
-                {/*<SearchBar
+                <SearchBar
                     className={classes.searchBar}
                     search={search}
                     evtAction={evtSearchBarAction}
                     onSearchChange={onSearchChange}
                     placeholder={t("search")}
-                />*/}
-                {/* TODO : i18n */}
-                <input
-                    className={"fr-input"}
-                    placeholder={"Rechercher un logiciel, un mot, une référence..."}
                 />
                 {selectedTags.map(tag => (
                     <CustomTag

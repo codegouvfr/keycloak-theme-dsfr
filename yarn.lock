@@ -1182,6 +1182,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@codegouvfr/react-dsfr@^0.21.0":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.21.1.tgz#2f080e6057ed52fccd9a2334b2d96dc71e8e0e5d"
+  integrity sha512-bVj81rH+TP8OuWt12WxNqjre+h4L9C0xyk3qVWsdqyvmSN1kahtYXE1U4CrXBfgYQulngwHZZg7zoKGBiIbw4A==
+  dependencies:
+    tsafe "^1.4.0"
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
@@ -2226,7 +2233,7 @@
     lodash "^4.17.21"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-docs@6.5.15":
+"@storybook/addon-docs@6.5.15", "@storybook/addon-docs@^6.5.15":
   version "6.5.15"
   resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-6.5.15.tgz#d5f4b991636953f30daea6aa89d5bfdfa97b9116"
   integrity sha512-k3LAu+wVp6pNhfh6B1soCRl6+7sNTNxtqy6WTrIeVJVCGbXbyc5s7gQ48gJ4WAk6meoDEZbypiP4NK1El03YLg==
@@ -14598,7 +14605,7 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tsafe@^1.1.3, tsafe@^1.2.1, tsafe@^1.4.1:
+tsafe@^1.1.3, tsafe@^1.2.1, tsafe@^1.4.0, tsafe@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/tsafe/-/tsafe-1.4.1.tgz#59cdad8ac41babf88e56dcd1a683ae2fb145d059"
   integrity sha512-3IDBalvf6SyvHFS14UiwCWzqdSdo+Q0k2J7DZyJYaHW/iraW9DJpaBKDJpry3yQs3o/t/A+oGaRW3iVt2lKxzA==

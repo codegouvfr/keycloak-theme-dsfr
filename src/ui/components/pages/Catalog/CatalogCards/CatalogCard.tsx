@@ -1,34 +1,20 @@
 import { memo } from "react";
-import { makeStyles, Text } from "ui/theme";
-import { Button } from "ui/theme";
+import { Button } from "@codegouvfr/react-dsfr/Button";
+
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { capitalize } from "tsafe/capitalize";
 import { CompiledData } from "sill-api";
-import { useDomRect } from "powerhooks/useDomRect";
-import { Markdown } from "ui/tools/Markdown";
-import { smartTrim } from "ui/tools/smartTrim";
 import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n";
-import { Tag } from "onyxia-ui/Tag";
-import { assert } from "tsafe/assert";
-import { useConstCallback } from "powerhooks/useConstCallback";
-import { useConst } from "powerhooks/useConst";
-import { Evt } from "evt";
-import { Icon } from "ui/theme";
-import { Tooltip } from "onyxia-ui/Tooltip";
-import MuiLink from "@mui/material/Link";
-import { ReferentDialogs } from "ui/components/shared/ReferentDialogs";
-import type { ReferentDialogsProps } from "ui/components/shared/ReferentDialogs";
-import { IconButton } from "ui/theme";
-import { CustomTag } from "ui/components/shared/Tags/CustomTag";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
 import { useLang } from "ui/i18n";
+import { cx } from "@codegouvfr/react-dsfr/tools/cx";
+import { fr } from "@codegouvfr/react-dsfr";
+import { makeStyles } from "tss-react/dsfr";
 
 export type Props = {
     className?: string;
     software: CompiledData.Software;
-    openLink: Link;
+    declareUserOrReferent: Link;
     editLink: Link;
     referents: CompiledData.Software.WithReferent["referents"] | undefined;
     userIndexInReferents: number | undefined;
@@ -49,249 +35,119 @@ export type Props = {
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const {
-        className,
-        software,
-        openLink,
-        editLink,
-        referents,
-        userIndexInReferents,
-        parentSoftware,
-        onLogin,
-        onUserNoLongerReferent,
-        onDeclareReferentAnswer,
-        onTagClick,
-    } = props;
-
-    const { classes, cx, css } = useStyles();
+    const { className, software, declareUserOrReferent } = props;
 
     const { t } = useTranslation({ CatalogCard });
-
-    const { imgRef, isBanner } = (function useClosure() {
-        const {
-            ref: imgRef,
-            domRect: { height, width },
-        } = useDomRect();
-
-        const isBanner = width === 0 || height === 0 ? undefined : width > height * 1.7;
-
-        return { imgRef, isBanner };
-    })();
-
     const { resolveLocalizedString } = useResolveLocalizedString();
-
-    const evtReferentDialogAction = useConst(() =>
-        Evt.create<ReferentDialogsProps["evtAction"]>(),
-    );
-
-    const onShowReferentClick = useConstCallback(async () => {
-        if (referents === undefined) {
-            onLogin();
-            return;
-        }
-
-        evtReferentDialogAction.post("open");
-    });
-
-    const onOpenDeclareBeingReferent = useConstCallback(() =>
-        evtReferentDialogAction.post("open declare referent"),
-    );
-
-    const onTagClickFactory = useCallbackFactory(([tag]: [string]) => onTagClick(tag));
-
     const { lang } = useLang();
+    const { classes } = useStyles();
 
     return (
-        <div className={cx(classes.root, className)}>
-            <div className={classes.aboveDivider}>
-                {(() => {
-                    const { logoUrl } = software.wikidataData ?? {};
-
-                    return (
-                        <>
-                            {logoUrl !== undefined && (
-                                <img
-                                    ref={imgRef}
-                                    src={logoUrl}
-                                    alt=""
-                                    className={css({ "height": "100%" })}
-                                />
-                            )}
-                            {(isBanner === false || logoUrl === undefined) && (
-                                <Text className={classes.title} typo="object heading">
-                                    {smartTrim({
-                                        "maxLength": 23,
-                                        "minCharAtTheEnd": 0,
-                                        "text": capitalize(software.name),
-                                    })}
-                                </Text>
-                            )}
-                        </>
-                    );
-                })()}
-                <div style={{ "flex": 1 }} />
-                {(() => {
-                    if (userIndexInReferents === undefined) {
-                        return null;
-                    }
-
-                    assert(referents !== undefined);
-
-                    return (
-                        <div onClick={onShowReferentClick} className={classes.tagWrapper}>
-                            <Tag
-                                text={t("you are referent", {
-                                    "isOnlyReferent": referents.length === 1,
-                                })}
-                            />
-                            <IconButton iconId="edit" {...editLink} />
-                        </div>
-                    );
-                })()}
-                {referents !== undefined && referents.length === 0 && (
-                    <div
-                        onClick={onOpenDeclareBeingReferent}
-                        className={classes.tagWrapper}
-                    >
-                        <Tag
-                            className={classes.warningTag}
-                            text={t("this software has no referent")}
+        <div className={cx(fr.cx("fr-card"), className)}>
+            <div className={cx(fr.cx("fr-card__body"))}>
+                <div className={cx(fr.cx("fr-card__content"))}>
+                    <div className={cx(classes.head)}>
+                        <img
+                            className={cx(classes.logo)}
+                            src={software.wikidataData?.logoUrl}
+                            alt=""
                         />
-                    </div>
-                )}
-                {software.agentWorkstation && (
-                    <Tooltip title={t("to install on the computer of the agent")}>
-                        <Icon iconId="computer" className={classes.agentWorkstation} />
-                    </Tooltip>
-                )}
-            </div>
-            <div className={classes.belowDivider}>
-                <div className={classes.body}>
-                    {parentSoftware !== undefined && (
-                        <Text typo="label 1">
-                            {" "}
-                            {t("parent software", parentSoftware)}{" "}
-                        </Text>
-                    )}
-                    <Markdown>
-                        {`${capitalize(software.name)}, ${
-                            lang === "fr" ||
-                            software.wikidataData?.description === undefined
-                                ? software.function
-                                : resolveLocalizedString(
-                                      software.wikidataData?.description,
-                                  )
-                        }`}
-                    </Markdown>
-                    {(() => {
-                        const developers = software.wikidataData?.developers ?? [];
-
-                        if (developers.length === 0) {
-                            return null;
-                        }
-
-                        return (
-                            <div className={classes.developers}>
-                                <Text typo="label 1">
-                                    {t("authors", {
-                                        "doUsePlural": developers.length !== 1,
-                                    })}
-                                    :&nbsp;
-                                </Text>
-                                {developers.map(({ id, name }, i) => (
-                                    <span key={id}>
-                                        <MuiLink
-                                            target="_blank"
-                                            href={`https://www.wikidata.org/wiki/${id}`}
-                                        >
-                                            {name}
-                                        </MuiLink>
-                                        {i !== developers.length - 1 && <>,&nbsp;</>}
-                                    </span>
-                                ))}
+                        <div>
+                            <div className={cx(classes.title)}>
+                                <h3 className={cx(fr.cx("fr-card__title"))}>Titre</h3>
+                                <div>
+                                    <i className={fr.cx("fr-icon-computer-line")} />
+                                    <i className={fr.cx("fr-icon-france-line")} />
+                                    <i className={fr.cx("fr-icon-questionnaire-line")} />
+                                </div>
                             </div>
-                        );
-                    })()}
+                            <div>
+                                <p className={cx(fr.cx("fr-card__detail"))}>
+                                    Dernière version
+                                    <span
+                                        className={cx(
+                                            fr.cx(
+                                                "fr-badge",
+                                                "fr-badge--yellow-tournesol",
+                                                "fr-badge--sm",
+                                            ),
+                                            classes.badgeVersion,
+                                        )}
+                                    >
+                                        25.0.2
+                                    </span>
+                                    en déc. 2022
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                    {(software.tags ?? []).map(tag => (
-                        <CustomTag
-                            key={tag}
-                            tag={tag}
-                            className={classes.softwareTag}
-                            onClick={onTagClickFactory(tag)}
-                        />
-                    ))}
+                    <p className={cx(fr.cx("fr-card__desc"))}>Description</p>
+                    <div className={cx(fr.cx("fr-card__end"))}>
+                        <p
+                            className={cx(
+                                fr.cx("fr-card__detail"),
+                                classes.detailsUsersContainer,
+                            )}
+                        >
+                            <i
+                                className={cx(
+                                    fr.cx("fr-icon-user-line"),
+                                    classes.detailsUsersIcon,
+                                )}
+                            />
+                            <span>13 utilisateurs et 4 référents</span>
+                        </p>
+                    </div>
                 </div>
-                <div className={classes.buttonsWrapper}>
-                    <Button
-                        className={classes.cardButtons}
-                        variant="ternary"
-                        {...openLink}
-                        doOpenNewTabIfHref={false}
+                <div className={cx(fr.cx("fr-card__footer"), classes.footer)}>
+                    <a
+                        className={cx(fr.cx("fr-btn", "fr-btn--secondary"))}
+                        {...declareUserOrReferent}
                     >
-                        {t("learn more")}
-                    </Button>
-                    {(() => {
-                        const url = software.testUrls[0]?.url ?? undefined;
-
-                        return (
-                            url !== undefined && (
-                                <Button
-                                    className={classes.cardButtons}
-                                    href={url}
-                                    variant="ternary"
-                                >
-                                    {t("try it")}
-                                </Button>
-                            )
-                        );
-                    })()}
-                    {(() => {
-                        //NOTE: referents undefined is when user isn't connected
-                        const length = referents?.length ?? -1;
-
-                        if (length === 0) {
-                            return (
-                                <Button
-                                    className={classes.cardButtons}
-                                    variant="primary"
-                                    onClick={onOpenDeclareBeingReferent}
-                                >
-                                    {t("declare oneself referent")}
-                                </Button>
-                            );
-                        }
-
-                        if (length === 1 && userIndexInReferents !== undefined) {
-                            return null;
-                        }
-
-                        return (
-                            <Button
-                                className={classes.cardButtons}
-                                variant="secondary"
-                                onClick={onShowReferentClick}
-                            >
-                                {t("show referents", {
-                                    "isUserReferent": userIndexInReferents !== undefined,
-                                    "referentCount": length,
-                                })}
-                            </Button>
-                        );
-                    })()}
+                        Se déclarer référent / utilisateur
+                    </a>
+                    <i className={fr.cx("fr-icon-play-circle-line")} />
+                    <i className={fr.cx("fr-icon-arrow-right-line")} />
                 </div>
             </div>
-            <ReferentDialogs
-                referents={referents}
-                userIndexInReferents={userIndexInReferents}
-                evtAction={evtReferentDialogAction}
-                onAnswer={onDeclareReferentAnswer}
-                onUserNoLongerReferent={onUserNoLongerReferent}
-                softwareName={software.name}
-            />
         </div>
     );
 });
+
+const useStyles = makeStyles({
+    "name": { CatalogCard },
+})(() => ({
+    "head": {
+        display: "flex",
+        alignItems: "center",
+    },
+    "logo": {
+        width: 40,
+        height: 40,
+        marginRight: fr.spacing("3v"),
+    },
+    "title": {
+        display: "flex",
+        flexDirection: "row-reverse",
+        justifyContent: "space-between",
+    },
+    "badgeVersion": {
+        marginLeft: fr.spacing("1v"),
+        marginRight: fr.spacing("1v"),
+    },
+    "detailsUsersContainer": {
+        display: "flex",
+        alignItems: "center",
+    },
+    "detailsUsersIcon": {
+        marginRight: fr.spacing("2v"),
+    },
+    "footer": {
+        display: "flex",
+        alignItems: "center",
+    },
+}));
 
 export const { i18n } = declareComponentKeys<
     | {
@@ -309,78 +165,3 @@ export const { i18n } = declareComponentKeys<
     | { K: "authors"; P: { doUsePlural: boolean } }
     | { K: "show referents"; P: { isUserReferent: boolean; referentCount: number } }
 >()({ CatalogCard });
-
-const useStyles = makeStyles<void, "cardButtons">({
-    "name": { CatalogCard },
-})((theme, _params, classes) => ({
-    "root": {
-        "borderRadius": 8,
-        "boxShadow": theme.shadows[1],
-        "backgroundColor": theme.colors.useCases.surfaces.surface1,
-        "&:hover": {
-            "boxShadow": theme.shadows[6],
-            [`& .${classes.cardButtons}`]: {
-                "visibility": "visible",
-            },
-        },
-        "display": "flex",
-        "flexDirection": "column",
-    },
-    "aboveDivider": {
-        "padding": theme.spacing({ "topBottom": 2, "rightLeft": 4 }),
-        "paddingRight": 0,
-        "borderBottom": `1px solid ${theme.colors.useCases.typography.textTertiary}`,
-        "boxSizing": "border-box",
-        "display": "flex",
-        "alignItems": "center",
-        "height": 45,
-    },
-    "title": {
-        "marginLeft": theme.spacing(3),
-    },
-    "belowDivider": {
-        "padding": theme.spacing(4),
-        "paddingTop": theme.spacing(3),
-        "flex": 1,
-        "display": "flex",
-        "flexDirection": "column",
-        "overflow": "hidden",
-    },
-    "body": {
-        "margin": 0,
-        "flex": 1,
-        //TODO: Commented out for mozilla (longer one always have scroll in a grid)
-        //"overflow": "auto"
-    },
-    "buttonsWrapper": {
-        "display": "flex",
-        "justifyContent": "flex-end",
-        "marginTop": theme.spacing(4),
-    },
-    "cardButtons": {
-        "marginRight": theme.spacing(2),
-        "visibility": "hidden",
-    },
-    "tagWrapper": {
-        "cursor": "pointer",
-    },
-    "warningTag": {
-        "backgroundColor": theme.colors.useCases.alertSeverity.warning.main,
-        "& > p": {
-            "color": theme.colors.palette.dark.main,
-        },
-    },
-    "agentWorkstation": {
-        "marginRight": theme.spacing(3),
-        "marginLeft": theme.spacing(1),
-    },
-    "developers": {
-        "& > *": {
-            "display": "inline-block",
-        },
-    },
-    "softwareTag": {
-        "marginRight": theme.spacing(1),
-        "marginTop": theme.spacing(3),
-    },
-}));

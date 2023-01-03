@@ -2,9 +2,7 @@ import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui/i18n";
-import { makeStyles, PageHeader, isViewPortAdapterEnabled } from "ui/theme";
-import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
+import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
@@ -33,43 +31,9 @@ export type Props = {
 
 export function Catalog(props: Props) {
     const { className, route } = props;
-
-    const { t } = useTranslation({ Catalog });
-
     const pageHeaderRef = useStateRef<HTMLDivElement>(null);
-
     const { top: pageHeaderStickyTop } = useStickyTop({ "ref": pageHeaderRef });
-
-    const { classes, theme, cx } = useStyles({ pageHeaderStickyTop });
-
-    const titleCollapseParams = useMemo((): CollapseParams => {
-        if (isViewPortAdapterEnabled) {
-            return {
-                "behavior": "collapses on scroll",
-                "scrollTopThreshold": 600,
-            };
-        }
-
-        return {
-            "behavior": "controlled",
-            "isCollapsed": false,
-        };
-    }, [theme.windowInnerWidth]);
-
-    const helpCollapseParams = useMemo((): CollapseParams => {
-        if (isViewPortAdapterEnabled) {
-            return {
-                "behavior": "collapses on scroll",
-                "scrollTopThreshold": 300,
-            };
-        }
-
-        return {
-            "behavior": "controlled",
-            "isCollapsed": false,
-        };
-    }, []);
-
+    const { classes, cx } = useStyles({ pageHeaderStickyTop });
     const { sliceState } = useCoreState(selectors.catalog.sliceState);
     const { queryString } = useCoreState(selectors.catalog.queryString);
     const { isProcessing } = useCoreState(selectors.catalog.isProcessing);
@@ -98,8 +62,6 @@ export function Catalog(props: Props) {
                 }
                 break;
             case "ready":
-                hideSplashScreen();
-
                 //NOTE: Restore previous search
                 if (route.params.q === "" && queryString !== "") {
                     routes.catalog({ "q": queryString }).replace();
@@ -228,51 +190,33 @@ export function Catalog(props: Props) {
 
     return (
         <div className={cx(classes.root, className)}>
-            <PageHeader
-                ref={pageHeaderRef}
-                className={classes.pageHeader}
-                mainIcon="catalog"
-                title={t("header text1")}
-                helpTitle={t("header text2")}
-                helpContent={t("what is the SILL", {
-                    "link": routes.readme().link,
-                })}
-                helpIcon="sentimentSatisfied"
-                titleCollapseParams={titleCollapseParams}
-                helpCollapseParams={helpCollapseParams}
-            />
             <div className={classes.contentWrapper}>
-                {pageHeaderRef.current !== null && (
-                    <CatalogCards
-                        searchResultCount={searchResultCount}
-                        search={search}
-                        selectedTags={selectedTags}
-                        tags={tags}
-                        onSearchChange={onSearchChange}
-                        onSelectedTagsChange={onSelectedTagsChange}
-                        filteredSoftwares={filteredSoftwares}
-                        alikeSoftwares={alikeSoftwares}
-                        referentsBySoftwareId={referentsBySoftwareId}
-                        openLinkBySoftwareId={openLinkBySoftwareId}
-                        parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
-                        editLinkBySoftwareId={editLinkBySoftwareId}
-                        onLoadMore={catalog.loadMore}
-                        hasMoreToLoad={catalog.getHasMoreToLoad()}
-                        searchBarWrapperElement={pageHeaderRef.current}
-                        onLogin={onLogin}
-                        onDeclareReferentAnswer={catalog.declareUserReferent}
-                        onUserNoLongerReferent={catalog.userNoLongerReferent}
-                        referenceNewSoftwareLink={getFormLink(undefined)}
-                    />
-                )}
+                <CatalogCards
+                    searchResultCount={searchResultCount}
+                    search={search}
+                    selectedTags={selectedTags}
+                    tags={tags}
+                    onSearchChange={onSearchChange}
+                    onSelectedTagsChange={onSelectedTagsChange}
+                    filteredSoftwares={filteredSoftwares}
+                    alikeSoftwares={alikeSoftwares}
+                    referentsBySoftwareId={referentsBySoftwareId}
+                    openLinkBySoftwareId={openLinkBySoftwareId}
+                    parentSoftwareBySoftwareId={parentSoftwareBySoftwareId}
+                    editLinkBySoftwareId={editLinkBySoftwareId}
+                    onLoadMore={catalog.loadMore}
+                    hasMoreToLoad={catalog.getHasMoreToLoad()}
+                    onLogin={onLogin}
+                    onDeclareReferentAnswer={catalog.declareUserReferent}
+                    onUserNoLongerReferent={catalog.userNoLongerReferent}
+                    referenceNewSoftwareLink={getFormLink(undefined)}
+                />
             </div>
         </div>
     );
 }
 export const { i18n } = declareComponentKeys<
-    | "header text1"
-    | "header text2"
-    | { K: "what is the SILL"; P: { link: Link }; R: JSX.Element }
+    "header text2" | { K: "what is the SILL"; P: { link: Link }; R: JSX.Element }
 >()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({

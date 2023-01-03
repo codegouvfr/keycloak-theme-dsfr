@@ -157,6 +157,7 @@ const {
                     "To install on the computer of the agent",
                 "authors": ({ doUsePlural }) => `Author${doUsePlural ? "s" : ""}`,
                 "show referents": ({ isUserReferent, referentCount }) => {
+                    /* Usefull plural discrimination ? */
                     if (isUserReferent) {
                         if (referentCount >= 3) {
                             return "see other referents";
@@ -220,7 +221,6 @@ const {
                 "filter by tags": "Filter by tags",
             },
             "Catalog": {
-                "header text1": "Recommended Free Software catalog",
                 "header text2":
                     "Catalog of used and recommended free and open source software for administrative public services.",
                 "what is the SILL": ({ link }) => (
@@ -651,7 +651,6 @@ const {
                 "filter by tags": "Filtrer par tags",
             },
             "Catalog": {
-                "header text1": "Catalogue des logiciels libres du SILL",
                 "header text2":
                     "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
                 "what is the SILL": ({ link }) => (

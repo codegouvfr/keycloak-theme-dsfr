@@ -1,4 +1,4 @@
-import { CatalogCards, Props } from "ui/components/pages/Catalog/CatalogCards";
+import { CatalogCards, Props } from "ui/components/pages/Catalog/CatalogCards/onyxia";
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "stories/getStory";
 import { css } from "@emotion/css";
