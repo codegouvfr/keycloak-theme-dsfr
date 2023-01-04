@@ -1,15 +1,14 @@
 import { memo } from "react";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { CompiledData } from "sill-api";
 import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n";
-import { useLang } from "ui/i18n";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
-import { fr } from "@codegouvfr/react-dsfr";
+import { fr, getColors } from "@codegouvfr/react-dsfr";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { makeStyles } from "tss-react/dsfr";
+import { shortEndMonthDate } from "../../../../useMoment";
 
 export type Props = {
     className?: string;
@@ -35,27 +34,26 @@ export type Props = {
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, declareUserOrReferent } = props;
+    const { className, software, declareUserOrReferent, referents } = props;
 
     const { t } = useTranslation({ CatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
-    const { lang } = useLang();
     const { classes } = useStyles();
 
     return (
-        <div className={cx(fr.cx("fr-card"), className)}>
-            <div className={cx(fr.cx("fr-card__body"))}>
-                <div className={cx(fr.cx("fr-card__content"))}>
-                    <div className={cx(classes.head)}>
+        <div className={cx(fr.cx("fr-card"), classes.container, className)}>
+            <div className={cx()}>
+                <div className={cx()}>
+                    <div className={cx(classes.headerContainer)}>
                         <img
                             className={cx(classes.logo)}
                             src={software.wikidataData?.logoUrl}
                             alt=""
                         />
-                        <div>
-                            <div className={cx(classes.title)}>
-                                <h3 className={cx(fr.cx("fr-card__title"))}>Titre</h3>
-                                <div>
+                        <div className={cx(classes.header)}>
+                            <div className={cx(classes.titleContainer)}>
+                                <h3 className={cx(classes.title)}>{software.name}</h3>
+                                <div className={cx(classes.titleActionsContainer)}>
                                     <i className={fr.cx("fr-icon-computer-line")} />
                                     <i className={fr.cx("fr-icon-france-line")} />
                                     <i className={fr.cx("fr-icon-questionnaire-line")} />
@@ -63,7 +61,7 @@ export const CatalogCard = memo((props: Props) => {
                             </div>
                             <div>
                                 <p className={cx(fr.cx("fr-card__detail"))}>
-                                    Dernière version
+                                    {t("last version")} :
                                     <span
                                         className={cx(
                                             fr.cx(
@@ -76,39 +74,53 @@ export const CatalogCard = memo((props: Props) => {
                                     >
                                         25.0.2
                                     </span>
-                                    en déc. 2022
+                                    {t("last version date", {
+                                        date: shortEndMonthDate({
+                                            time: new Date().getTime(),
+                                        }),
+                                    })}
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <p className={cx(fr.cx("fr-card__desc"))}>Description</p>
-                    <div className={cx(fr.cx("fr-card__end"))}>
-                        <p
+                    <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
+                        {software.wikidataData?.description
+                            ? resolveLocalizedString(software.wikidataData.description)
+                            : software.function}
+                    </p>
+                    <div
+                        className={cx(
+                            fr.cx("fr-card__detail"),
+                            classes.detailsUsersContainer,
+                        )}
+                    >
+                        <i
                             className={cx(
-                                fr.cx("fr-card__detail"),
-                                classes.detailsUsersContainer,
+                                fr.cx("fr-icon-user-line"),
+                                classes.detailsUsersIcon,
                             )}
-                        >
-                            <i
-                                className={cx(
-                                    fr.cx("fr-icon-user-line"),
-                                    classes.detailsUsersIcon,
-                                )}
-                            />
-                            <span>13 utilisateurs et 4 référents</span>
-                        </p>
+                        />
+                        <span>
+                            {t("userAndReferentCount", {
+                                referentCount: referents?.length ?? 0,
+                                userCount: 0,
+                            })}
+                        </span>
+                        <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
                     </div>
                 </div>
-                <div className={cx(fr.cx("fr-card__footer"), classes.footer)}>
+                <div className={cx(classes.footer)}>
                     <a
                         className={cx(fr.cx("fr-btn", "fr-btn--secondary"))}
                         {...declareUserOrReferent}
                     >
-                        Se déclarer référent / utilisateur
+                        {t("declare oneself referent")}
                     </a>
-                    <i className={fr.cx("fr-icon-play-circle-line")} />
-                    <i className={fr.cx("fr-icon-arrow-right-line")} />
+                    <div className={cx(classes.footerActionsContainer)}>
+                        <i className={fr.cx("fr-icon-play-circle-line")} />
+                        <i className={fr.cx("fr-icon-arrow-right-line")} />
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,37 +129,78 @@ export const CatalogCard = memo((props: Props) => {
 
 const useStyles = makeStyles({
     "name": { CatalogCard },
-})(() => ({
-    "head": {
-        display: "flex",
-        alignItems: "center",
-    },
-    "logo": {
-        width: 40,
-        height: 40,
-        marginRight: fr.spacing("3v"),
-    },
-    "title": {
-        display: "flex",
-        flexDirection: "row-reverse",
-        justifyContent: "space-between",
-    },
-    "badgeVersion": {
-        marginLeft: fr.spacing("1v"),
-        marginRight: fr.spacing("1v"),
-    },
-    "detailsUsersContainer": {
-        display: "flex",
-        alignItems: "center",
-    },
-    "detailsUsersIcon": {
-        marginRight: fr.spacing("2v"),
-    },
-    "footer": {
-        display: "flex",
-        alignItems: "center",
-    },
-}));
+})(theme => {
+    console.log(theme.isDark);
+
+    return {
+        "container": {
+            paddingRight: fr.spacing("6v"),
+            paddingLeft: fr.spacing("6v"),
+            paddingTop: fr.spacing("7v"),
+            paddingBottom: fr.spacing("7v"),
+            backgroundColor: getColors(theme.isDark).decisions.background.default.grey
+                .default,
+        },
+        "headerContainer": {
+            display: "flex",
+            alignItems: "center",
+            marginBottom: fr.spacing("4v"),
+        },
+        "header": {
+            width: "100%",
+        },
+        "logo": {
+            width: fr.spacing("10v"),
+            height: fr.spacing("10v"),
+            marginRight: fr.spacing("3v"),
+        },
+        "titleContainer": {
+            display: "flex",
+            justifyContent: "space-between",
+        },
+        "title": {
+            margin: 0,
+        },
+        "titleActionsContainer": {
+            display: "flex",
+            alignItems: "center",
+            gap: fr.spacing("2v"),
+
+            "&>i": {
+                color: getColors(theme.isDark).decisions.text.title.blueFrance.default,
+                "&::before": {
+                    "--icon-size": fr.spacing("4v"),
+                },
+            },
+        },
+        "badgeVersion": {
+            marginLeft: fr.spacing("1v"),
+            marginRight: fr.spacing("1v"),
+        },
+        "description": {
+            marginTop: 0,
+            marginBottom: fr.spacing("3v"),
+        },
+        "detailsUsersContainer": {
+            display: "flex",
+            alignItems: "center",
+            marginBottom: fr.spacing("8v"),
+        },
+        "detailsUsersIcon": {
+            marginRight: fr.spacing("2v"),
+        },
+        "footer": {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+        },
+        "footerActionsContainer": {
+            display: "flex",
+            gap: fr.spacing("4v"),
+            color: getColors(theme.isDark).decisions.text.title.blueFrance.default,
+        },
+    };
+});
 
 export const { i18n } = declareComponentKeys<
     | {
@@ -155,9 +208,10 @@ export const { i18n } = declareComponentKeys<
           P: { name: string; link: Link | undefined };
           R: JSX.Element;
       }
-    | "learn more"
-    | "try it"
     | { K: "you are referent"; P: { isOnlyReferent: boolean } }
+    | "last version"
+    | { K: "last version date"; P: { date: string } }
+    | { K: "userAndReferentCount"; P: { userCount: number; referentCount: number } }
     | "declare oneself referent"
     | "this software has no referent"
     | "no longer referent"

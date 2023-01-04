@@ -7,6 +7,7 @@ import type { Equals } from "tsafe";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
 import { z } from "zod";
 import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
+import { shortEndMonthDate } from "./useMoment";
 
 export { declareComponentKeys };
 export { languages };
@@ -146,11 +147,16 @@ const {
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
-                "learn more": "Learn more",
-                "try it": "Try it 🚀",
+                "last version": "Last version",
+                "last version date": ({ date }) => {
+                    return `the ${date}`;
+                },
+                "userAndReferentCount": ({ userCount, referentCount }) => {
+                    return `${userCount} users and ${referentCount} referent`;
+                },
                 "you are referent": ({ isOnlyReferent }) =>
                     `You are${isOnlyReferent ? " the" : ""} referent`,
-                "declare oneself referent": "Declare yourself referent",
+                "declare oneself referent": "Declare yourself referent / user",
                 "this software has no referent": "This software has not referent",
                 "no longer referent": "I am no longer referent",
                 "to install on the computer of the agent":
@@ -566,8 +572,13 @@ const {
                 "not found": "Page non trouvée",
             },
             "CatalogCard": {
-                "learn more": "En savoir plus",
-                "try it": "Essayer 🚀",
+                "last version": "Dernière version",
+                "last version date": ({ date }) => {
+                    return `en ${date}`;
+                },
+                "userAndReferentCount": ({ userCount, referentCount }) => {
+                    return `${userCount} utilisateurs et ${referentCount} référents`;
+                },
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
                 "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
@@ -577,7 +588,7 @@ const {
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
-                "declare oneself referent": "Me déclarer référent",
+                "declare oneself referent": "Se déclarer référent / utilisateur",
                 "this software has no referent": "Pas de référent",
                 "no longer referent": "Je ne suis plus référent",
                 "to install on the computer of the agent":

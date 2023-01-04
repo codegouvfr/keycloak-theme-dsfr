@@ -30,6 +30,7 @@ import { CustomTag } from "ui/components/shared/Tags/CustomTag";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
+import { routes } from "../../../../routes";
 
 export type Props = {
     className?: string;
@@ -158,7 +159,7 @@ export const CatalogCards = memo((props: Props) => {
                 <CatalogCard
                     key={software.id}
                     software={software}
-                    openLink={openLinkBySoftwareId[software.id]!}
+                    declareUserOrReferent={routes.home().link}
                     editLink={editLinkBySoftwareId[software.id]!}
                     parentSoftware={parentSoftwareBySoftwareId[software.id]}
                     referents={referents}

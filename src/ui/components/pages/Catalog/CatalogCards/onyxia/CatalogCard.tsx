@@ -229,7 +229,7 @@ export const CatalogCard = memo((props: Props) => {
                         {...openLink}
                         doOpenNewTabIfHref={false}
                     >
-                        {t("learn more")}
+                        En savoir plus
                     </Button>
                     {(() => {
                         const url = software.testUrls[0]?.url ?? undefined;
@@ -241,7 +241,7 @@ export const CatalogCard = memo((props: Props) => {
                                     href={url}
                                     variant="ternary"
                                 >
-                                    {t("try it")}
+                                    Essayer
                                 </Button>
                             )
                         );
