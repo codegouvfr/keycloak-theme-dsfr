@@ -55,7 +55,9 @@ export const CatalogCard = memo((props: Props) => {
                                 <h3 className={cx(classes.title)}>{software.name}</h3>
                                 <div className={cx(classes.titleActionsContainer)}>
                                     <i className={fr.cx("fr-icon-computer-line")} />
-                                    <i className={fr.cx("fr-icon-france-line")} />
+                                    {software.isFromFrenchPublicService && (
+                                        <i className={fr.cx("fr-icon-france-line")} />
+                                    )}
                                     <i className={fr.cx("fr-icon-questionnaire-line")} />
                                 </div>
                             </div>
@@ -72,7 +74,7 @@ export const CatalogCard = memo((props: Props) => {
                                             classes.badgeVersion,
                                         )}
                                     >
-                                        25.0.2
+                                        {software.versionMin}
                                     </span>
                                     {t("last version date", {
                                         date: shortEndMonthDate({
@@ -103,7 +105,7 @@ export const CatalogCard = memo((props: Props) => {
                         />
                         <span>
                             {t("userAndReferentCount", {
-                                referentCount: referents?.length ?? 0,
+                                referentCount: software.referentCount ?? 0,
                                 userCount: 0,
                             })}
                         </span>
@@ -130,8 +132,6 @@ export const CatalogCard = memo((props: Props) => {
 const useStyles = makeStyles({
     "name": { CatalogCard },
 })(theme => {
-    console.log(theme.isDark);
-
     return {
         "container": {
             paddingRight: fr.spacing("6v"),
@@ -160,6 +160,7 @@ const useStyles = makeStyles({
         },
         "title": {
             margin: 0,
+            color: getColors(theme.isDark).decisions.text.title.grey.default,
         },
         "titleActionsContainer": {
             display: "flex",
@@ -180,6 +181,7 @@ const useStyles = makeStyles({
         "description": {
             marginTop: 0,
             marginBottom: fr.spacing("3v"),
+            color: getColors(theme.isDark).decisions.text.default.grey.default,
         },
         "detailsUsersContainer": {
             display: "flex",
