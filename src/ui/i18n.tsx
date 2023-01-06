@@ -38,6 +38,7 @@ const {
     | typeof import("ui/components/pages/Account/tabs/AccountUserInterfaceTab").i18n
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCard").i18n
+    | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogSearchArea").i18n
     | typeof import("ui/components/pages/Catalog").i18n
     | typeof import("ui/components/pages/Terms").i18n
     | typeof import("ui/components/App/Footer").i18n
@@ -223,6 +224,8 @@ const {
                 "other similar software":
                     "Others similar software that are not in the catalog",
                 "reference a new software": "Reference a new software",
+            },
+            "CatalogSearchArea": {
                 "filter by tags": "Filter by tags",
             },
             "Catalog": {
@@ -658,6 +661,8 @@ const {
                 "other similar software":
                     "Autres logiciels similaires qui ne sont pas dans le catalogue",
                 "reference a new software": "Référencer un nouveau logiciel",
+            },
+            "CatalogSearchArea": {
                 "filter by tags": "Filtrer par tags",
             },
             "Catalog": {

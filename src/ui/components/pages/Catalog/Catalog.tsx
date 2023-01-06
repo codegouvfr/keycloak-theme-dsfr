@@ -2,7 +2,7 @@ import "minimal-polyfills/Object.fromEntries";
 import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { declareComponentKeys } from "i18nifty";
-import { makeStyles, isViewPortAdapterEnabled } from "ui/theme";
+import { makeStyles } from "ui/theme";
 import type { Props as CatalogExplorerCardsProps } from "./CatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { useSplashScreen } from "onyxia-ui";
@@ -85,7 +85,7 @@ export function Catalog(props: Props) {
         }
     }, [isProcessing]);
 
-    const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
+    /*    const onSearchChange = useConstCallback<CatalogExplorerCardsProps["onSearchChange"]>(
         search =>
             routes
                 .catalog({
@@ -96,7 +96,21 @@ export function Catalog(props: Props) {
                         }) || undefined,
                 })
                 .replace(),
-    );
+    );*/
+
+    const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const search = event.currentTarget.value;
+
+        return routes
+            .catalog({
+                "q":
+                    catalog.stringifyQuery({
+                        search,
+                        "tags": catalog.parseQuery(route.params.q).tags,
+                    }) || undefined,
+            })
+            .replace();
+    };
 
     useEffect(() => {
         catalog.setQueryString({ "queryString": route.params.q });
@@ -190,7 +204,7 @@ export function Catalog(props: Props) {
 
     return (
         <div className={cx(classes.root, className)}>
-            <div className={classes.contentWrapper}>
+            <div>
                 <CatalogCards
                     searchResultCount={searchResultCount}
                     search={search}
@@ -221,37 +235,13 @@ export const { i18n } = declareComponentKeys<
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
-})((theme, { pageHeaderStickyTop }) => {
-    const spacingLeft = theme.spacing(
-        (() => {
-            if (isViewPortAdapterEnabled) {
-                return 4;
-            }
-
-            return 0;
-        })(),
-    );
-
+})(theme => {
     return {
         "root": {
             "marginLeft": "unset",
         },
-        "contentWrapper": {
-            "marginLeft": spacingLeft,
-        },
         "pageHeader": {
-            ...(() => {
-                if (isViewPortAdapterEnabled) {
-                    return {
-                        "position": "sticky",
-                        "top": pageHeaderStickyTop,
-                    } as const;
-                }
-
-                return {};
-            })(),
             "backgroundColor": theme.colors.useCases.surfaces.background,
-            "paddingLeft": spacingLeft,
             "marginBottom": 0,
         },
     };

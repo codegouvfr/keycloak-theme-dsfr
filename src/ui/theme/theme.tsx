@@ -80,13 +80,15 @@ export const splashScreen: ThemeProviderProps["splashScreen"] = {
 
 export let isViewPortAdapterEnabled = false;
 
-export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
+/*export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
     !isViewPortAdapterEnabled
         ? undefined
         : ({ windowInnerWidth }) => ({
               "targetWindowInnerWidth": Math.max(1920, windowInnerWidth),
               "targetBrowserFontSizeFactor": 1,
-          });
+          });*/
+
+export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] = undefined;
 
 export const { PageHeader } = createPageHeader({ Icon });
 

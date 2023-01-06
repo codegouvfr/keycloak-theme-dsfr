@@ -6,7 +6,6 @@ import type { Link } from "type-route";
 import { useResolveLocalizedString } from "ui/i18n";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr, getColors } from "@codegouvfr/react-dsfr";
-import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate } from "../../../../useMoment";
 
@@ -150,8 +149,8 @@ const useStyles = makeStyles({
             width: "100%",
         },
         "logo": {
-            width: fr.spacing("10v"),
             height: fr.spacing("10v"),
+            width: fr.spacing("10v"),
             marginRight: fr.spacing("3v"),
         },
         "titleContainer": {

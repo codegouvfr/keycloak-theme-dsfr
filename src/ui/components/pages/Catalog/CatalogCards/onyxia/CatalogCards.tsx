@@ -294,7 +294,6 @@ export const { i18n } = declareComponentKeys<
     | "alike software"
     | "other similar software"
     | "reference a new software"
-    | "filter by tags"
 >()({ CatalogCards });
 
 const useStyles = makeStyles<
@@ -516,7 +515,7 @@ const { CatalogSearchArea } = (() => {
                         })
                     }
                 >
-                    {t("filter by tags")}
+                    Filtrer par tags
                 </Button>
                 <GitHubPicker
                     evtAction={evtGitHubPickerAction}
