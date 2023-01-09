@@ -53,22 +53,7 @@ export const App = memo((props: Props) => {
 
     const { ref: rootRef } = useDomRect();
 
-    const {
-        domRect: { height: headerHeight },
-    } = useDomRect();
-    const {
-        ref: footerRef,
-        domRect: { height: footerHeight },
-    } = useDomRect();
-
-    const { top } = useStickyTop();
-
-    const { windowInnerHeight } = useWindowInnerSize();
-
-    const { classes, cx } = useStyles({
-        "leftBarTop": top,
-        "leftBarHeight": windowInnerHeight - headerHeight - footerHeight,
-    });
+    const { classes, cx } = useStyles();
 
     const { userAuthentication, apiInfo } = useCoreFunctions();
 
@@ -166,7 +151,6 @@ export const App = memo((props: Props) => {
                 className={classes.footer}
                 termsLink={termsLink}
                 packageJsonVersion={process.env.VERSION!}
-                ref={footerRef}
                 apiPackageJsonVersion={apiInfo.getApiVersion()}
                 sillJsonHref={`${getConfiguration().apiUrl}/sill.json`}
             />
@@ -178,7 +162,7 @@ export const { i18n } = declareComponentKeys<
     "reduce" | "account" | "catalog" | "service catalog"
 >()({ App });
 
-const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
+const useStyles = makeStyles({
     "name": { App },
 })(theme => ({
     "root": {
@@ -187,19 +171,18 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
             "rightLeft": "4v",
         }),
         "position": "relative",
+        "display": "flex",
+        "minHeight": "100vh",
+        "flexDirection": "column",
     },
     "betweenHeaderAndFooter": {
         "display": "flex",
         "alignItems": "start",
     },
     "footer": {
-        "height": 32,
-        "position": "sticky",
-        "bottom": 0,
+        "marginTop": "auto",
     },
     "main": {
-        //TODO: See if scroll delegation works if we put auto here instead of "hidden"
-        //"paddingLeft": theme.spacing(4),
         "& > *": {
             "marginLeft": fr.spacing("4v"),
         },

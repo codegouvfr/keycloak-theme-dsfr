@@ -9,6 +9,16 @@ import { fr, getColors } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate } from "../../../../useMoment";
 
+/*export type Props2 = {
+    className?: string;
+    software: string;
+    softwareDescription: string;
+    userCount: number;
+    referentCount: number;
+    testPlatformLink: Link;
+    isFromFrench: bolean;
+}*/
+
 export type Props = {
     className?: string;
     software: CompiledData.Software;

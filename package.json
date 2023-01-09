@@ -62,6 +62,7 @@
         "@reduxjs/toolkit": "^1.9.0",
         "@storybook/addon-docs": "^6.5.15",
         "@trpc/client": "^9.24.0",
+        "@types/color": "^3.0.3",
         "@types/react-form": "^4.0.2",
         "buffer": "^6.0.3",
         "comment-json": "^3.0.0",
