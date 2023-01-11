@@ -33,39 +33,12 @@ const {
     {
         "en": {
             "CatalogCard": {
-                "parent software": ({ name, link }) => (
-                    <>
-                        Plugin or distribution of{" "}
-                        {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
-                    </>
-                ),
-                "you are referent": ({ isOnlyReferent }) =>
-                    `You are${isOnlyReferent ? " the" : ""} referent`,
                 "last version": "Last version",
-                "last version date": ({ date }) => `Last version (${date})`,
+                "last version date": ({ date }) => `in (${date})`,
                 "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `User ${userCount}, Referents ${referentCount}`,
-                "declare oneself referent": "Declare yourself referent",
-                "this software has no referent": "This software has not referent",
-                "no longer referent": "I am no longer referent",
-                "to install on the computer of the agent":
-                    "To install on the computer of the agent",
-                "authors": ({ doUsePlural }) => `Author${doUsePlural ? "s" : ""}`,
-                "show referents": ({ isUserReferent, referentCount }) => {
-                    if (isUserReferent) {
-                        if (referentCount >= 3) {
-                            return "see other referents";
-                        }
-
-                        if (referentCount === 2) {
-                            return "see the other referent";
-                        }
-
-                        assert(false);
-                    } else {
-                        return `See referent${referentCount === 1 ? "" : "s"}`;
-                    }
-                },
+                    `${userCount} users and ${referentCount} referents`,
+                "declare oneself referent": "Declare yourself referent / user",
+                "isDesktop": "This software can be installed on desktop"
             },
             /*
             "CatalogCards": {
@@ -101,40 +74,12 @@ const {
         "fr": {
             /* spell-checker: disable */
             "CatalogCard": {
-                "you are referent": ({ isOnlyReferent }) =>
-                    `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
-                "last version": undefined,
-                "last version date": undefined,
-                "userAndReferentCount": undefined,
-                "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
-                "parent software": ({ name, link }) => (
-                    <>
-                        Plugin ou distribution de{" "}
-                        {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
-                    </>
-                ),
-                "declare oneself referent": "Me déclarer référent",
-                "this software has no referent": "Pas de référent",
-                "no longer referent": "Je ne suis plus référent",
-                "to install on the computer of the agent":
-                    "À installer sur le poste de travail de l'agent",
-                "show referents": ({ isUserReferent, referentCount }) => {
-                    if (isUserReferent) {
-                        if (referentCount >= 3) {
-                            return "voir les autres référents";
-                        }
-
-                        if (referentCount === 2) {
-                            return "voir l'autre référent";
-                        }
-
-                        assert(false);
-                    } else {
-                        return referentCount === 1
-                            ? "voir le référent"
-                            : "voir les référents";
-                    }
-                },
+                "last version": "Dernière version",
+                "last version date": ({ date }) => `en (${date})`,
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `${userCount} utilisateurs et ${referentCount} referents`,
+                "declare oneself referent": "Se déclarer référent / utilisateur",
+                "isDesktop": "Ce logiciel s'installe sur ordinateur"
             },
             /*
             "CatalogCards": {
@@ -142,7 +87,7 @@ const {
                 "no service found": "Logiciel non trouvé",
                 "no result found": ({ forWhat }) =>
                     `Aucun résultat trouvé pour ${forWhat}`,
-                "check spelling": `Vérifiez que le nom du service est correctement 
+                "check spelling": `Vérifiez que le nom du service est correctement
             orthographié ou essayez d'élargir votre recherche.`,
                 "go back": "Retourner aux principaux services",
                 "main services": "Principaux services",

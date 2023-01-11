@@ -6,6 +6,8 @@ import { id } from "tsafe/id";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { setUseLang } from "@codegouvfr/react-dsfr/spa";
 import { useLang } from "ui-dsfr/i18n";
+import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
+
 
 setUseLang({
     "useLang": () => {
@@ -115,6 +117,15 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         "meta": id<Meta>({
             "title": `${sectionName}/${componentName}`,
             "component": Component,
+            decorators: [
+                Story => (
+                    <>
+                        <MuiDsfrThemeProvider>
+                            <Story />
+                        </MuiDsfrThemeProvider>
+                    </>
+                )
+            ],
             "parameters": {
                 "docs": {
                     "description": {
@@ -142,7 +153,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                     "table": {
                         "disable": disabledProps.includes("containerWidth"),
                     },
-                    "description": `Play with the width of the parent component. Note that this isn't meant for testing the 
+                    "description": `Play with the width of the parent component. Note that this isn't meant for testing the
                     responsiveness of the components. For that you have [the viewports](https://youtu.be/psLbgPfEzZY).`,
                 },
                 "lang": {

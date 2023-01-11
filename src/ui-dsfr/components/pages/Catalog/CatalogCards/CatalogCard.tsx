@@ -3,50 +3,54 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation, useResolveLocalizedString } from "ui-dsfr/i18n";
 import { CompiledData } from "sill-api";
 import type { Link } from "type-route";
-import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr, getColors } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate } from "ui-dsfr/useMoment";
-
-/*export type Props2 = {
-    className?: string;
-    software: string;
-    softwareDescription: string;
-    userCount: number;
-    referentCount: number;
-    testPlatformLink: Link;
-    isFromFrench: bolean;
-}*/
+import { assert } from "tsafe/assert"
+import type { Equals } from "tsafe"
+import Tooltip from '@mui/material/Tooltip';
 
 export type Props = {
     className?: string;
-    software: CompiledData.Software;
+    softwareLogoUrl?: string
+    softwareName: string;
+    isFromFrenchPublicService: boolean;
+    isDesktop: boolean;
+    isPresentInSupportMarket: boolean
+    softwareCurrentVersion: string
+    softwareDateCurrentVersion: number
+    softwareDescription?: string;
+    userCount: number;
+    referentCount: number;
     declareUserOrReferent: Link;
-    editLink: Link;
-    referents: CompiledData.Software.WithReferent["referents"] | undefined;
-    userIndexInReferents: number | undefined;
-    parentSoftware:
-        | {
-              name: string;
-              link: Link | undefined;
-          }
-        | undefined;
-    onDeclareReferentAnswer: (params: {
-        isExpert: boolean;
-        useCaseDescription: string;
-        isPersonalUse: boolean;
-    }) => void;
-    onUserNoLongerReferent: () => void;
-    onLogin: () => void;
-    onTagClick: (tag: string) => void;
-};
+    demoLink: Link;
+    softwareDetailsLink: Link
+}
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, declareUserOrReferent } = props;
+    const {
+        className,
+        softwareLogoUrl,
+        softwareName,
+        isPresentInSupportMarket,
+        isFromFrenchPublicService,
+        isDesktop,
+        softwareCurrentVersion,
+        softwareDateCurrentVersion,
+        softwareDescription,
+        userCount,
+        referentCount,
+        declareUserOrReferent,
+        demoLink,
+        softwareDetailsLink,
+        ...rest
+    } = props;
+
+    assert<Equals<typeof rest, {}>>()
 
     const { t } = useTranslation({ CatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
-    const { classes } = useStyles();
+    const { classes, cx } = useStyles();
 
     return (
         <div className={cx(fr.cx("fr-card"), classes.container, className)}>
@@ -55,18 +59,24 @@ export const CatalogCard = memo((props: Props) => {
                     <div className={cx(classes.headerContainer)}>
                         <img
                             className={cx(classes.logo)}
-                            src={software.wikidataData?.logoUrl}
-                            alt=""
+                            src={softwareLogoUrl}
+                            alt="Logo du logiciel"
                         />
                         <div className={cx(classes.header)}>
                             <div className={cx(classes.titleContainer)}>
-                                <h3 className={cx(classes.title)}>{software.name}</h3>
+                                <h3 className={cx(classes.title)}>{softwareName}</h3>
                                 <div className={cx(classes.titleActionsContainer)}>
-                                    <i className={fr.cx("fr-icon-computer-line")} />
-                                    {software.isFromFrenchPublicService && (
+                                    {isDesktop &&
+                                        <Tooltip title={t("isDesktop")} arrow>
+                                            <i className={fr.cx("fr-icon-computer-line")}/>
+                                        </Tooltip>
+                                    }
+                                    {isFromFrenchPublicService &&
                                         <i className={fr.cx("fr-icon-france-line")} />
-                                    )}
-                                    <i className={fr.cx("fr-icon-questionnaire-line")} />
+                                    }
+                                    {isPresentInSupportMarket &&
+                                        <i className={fr.cx("fr-icon-questionnaire-line")}/>
+                                    }
                                 </div>
                             </div>
                             <div>
@@ -82,11 +92,11 @@ export const CatalogCard = memo((props: Props) => {
                                             classes.badgeVersion,
                                         )}
                                     >
-                                        {software.versionMin}
+                                        {softwareCurrentVersion}
                                     </span>
                                     {t("last version date", {
                                         date: shortEndMonthDate({
-                                            time: new Date().getTime(),
+                                            time: softwareDateCurrentVersion,
                                         }),
                                     })}
                                 </p>
@@ -95,9 +105,9 @@ export const CatalogCard = memo((props: Props) => {
                     </div>
 
                     <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
-                        {software.wikidataData?.description
-                            ? resolveLocalizedString(software.wikidataData.description)
-                            : software.function}
+                        {softwareDescription
+                            ? resolveLocalizedString(softwareDescription)
+                            : 'software.function'}
                     </p>
                     <div
                         className={cx(
@@ -113,7 +123,7 @@ export const CatalogCard = memo((props: Props) => {
                         />
                         <span>
                             {t("userAndReferentCount", {
-                                referentCount: software.referentCount ?? 0,
+                                referentCount: referentCount ?? 0,
                                 userCount: 0,
                             })}
                         </span>
@@ -143,89 +153,83 @@ const useStyles = makeStyles({
     return {
         "container": {
             "paddingRight": fr.spacing("6v"),
-            paddingLeft: fr.spacing("6v"),
-            paddingTop: fr.spacing("7v"),
-            paddingBottom: fr.spacing("7v"),
-            backgroundColor: getColors(theme.isDark).decisions.background.default.grey
+            "paddingLeft": fr.spacing("6v"),
+            "paddingTop": fr.spacing("7v"),
+            "paddingBottom": fr.spacing("7v"),
+            "backgroundColor": getColors(theme.isDark).decisions.background.default.grey
                 .default,
         },
         "headerContainer": {
-            display: "flex",
-            alignItems: "center",
-            marginBottom: fr.spacing("4v"),
+            "display": "flex",
+            "alignItems": "center",
+            "marginBottom": fr.spacing("4v"),
         },
         "header": {
-            width: "100%",
+            "width": "100%",
         },
         "logo": {
-            height: fr.spacing("10v"),
-            width: fr.spacing("10v"),
-            marginRight: fr.spacing("3v"),
+            "height": fr.spacing("10v"),
+            "width": fr.spacing("10v"),
+            "marginRight": fr.spacing("3v"),
         },
         "titleContainer": {
-            display: "flex",
-            justifyContent: "space-between",
+            "display": "flex",
+            "justifyContent": "space-between",
         },
         "title": {
-            margin: 0,
-            color: theme.decisions.text.title.grey.default,
+            "margin": 0,
+            "color": theme.decisions.text.title.grey.default,
         },
         "titleActionsContainer": {
-            display: "flex",
-            alignItems: "center",
-            gap: fr.spacing("2v"),
+            "display": "flex",
+            "alignItems": "center",
+            "gap": fr.spacing("2v"),
 
             "&>i": {
-                color: theme.decisions.text.title.blueFrance.default,
+                "color": theme.decisions.text.title.blueFrance.default,
                 "&::before": {
                     "--icon-size": fr.spacing("4v"),
                 },
             },
         },
         "badgeVersion": {
-            marginLeft: fr.spacing("1v"),
-            marginRight: fr.spacing("1v"),
+            "marginLeft": fr.spacing("1v"),
+            "marginRight": fr.spacing("1v"),
         },
         "description": {
-            marginTop: 0,
-            marginBottom: fr.spacing("3v"),
-            color: getColors(theme.isDark).decisions.text.default.grey.default,
+            "marginTop": 0,
+            "marginBottom": fr.spacing("3v"),
+            "color": getColors(theme.isDark).decisions.text.default.grey.default,
+            "height": fr.spacing('20v'),
+            "overflowY": "auto"
         },
         "detailsUsersContainer": {
-            display: "flex",
-            alignItems: "center",
-            marginBottom: fr.spacing("8v"),
+            "display": "flex",
+            "alignItems": "center",
+            "marginBottom": fr.spacing("8v"),
         },
         "detailsUsersIcon": {
-            marginRight: fr.spacing("2v"),
+            "marginRight": fr.spacing("2v"),
         },
         "footer": {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            "display": "flex",
+            "alignItems": "center",
+            "justifyContent": "space-between",
         },
         "footerActionsContainer": {
-            display: "flex",
-            gap: fr.spacing("4v"),
-            color: getColors(theme.isDark).decisions.text.title.blueFrance.default,
+            "display": "flex",
+            "marginLeft": fr.spacing("4v"),
+            "flex": 1,
+            "justifyContent": "space-between",
+            "color": getColors(theme.isDark).decisions.text.title.blueFrance.default,
         },
     };
 });
 
 export const { i18n } = declareComponentKeys<
-    | {
-          K: "parent software";
-          P: { name: string; link: Link | undefined };
-          R: JSX.Element;
-      }
-    | { K: "you are referent"; P: { isOnlyReferent: boolean } }
     | "last version"
     | { K: "last version date"; P: { date: string } }
     | { K: "userAndReferentCount"; P: { userCount: number; referentCount: number } }
     | "declare oneself referent"
-    | "this software has no referent"
-    | "no longer referent"
-    | "to install on the computer of the agent"
-    | { K: "authors"; P: { doUsePlural: boolean } }
-    | { K: "show referents"; P: { isUserReferent: boolean; referentCount: number } }
+    | "isDesktop"
 >()({ CatalogCard });
