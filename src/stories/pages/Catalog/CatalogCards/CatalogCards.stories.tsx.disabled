@@ -1,4 +1,4 @@
-import { CatalogCards, Props } from "ui/components/pages/Catalog/CatalogCards";
+import { CatalogCards, Props } from "ui-dsfr/components/pages/Catalog/CatalogCards";
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "stories/getStory";
 import { css } from "@emotion/css";
@@ -16,7 +16,7 @@ const className = css({ "height": 700 });
 
 const filteredSoftwares = new Array(20).fill(0).map((...[, _i]) =>
     id<Props["filteredSoftwares"][number]>({
-        "id": 233,
+        "id": _i,
         "name": "Onyxia",
         "function":
             "Lanceur de conteneurs orienté Data science. Mise en commun de ressources matérielles (CPU/GPU/RAM)",
@@ -118,7 +118,6 @@ export const VueDefault = getStory({
     "tags": ["data-science", "container", "docker", "kubernetes", "devops"],
     "selectedTags": [],
     "hasMoreToLoad": true,
-    "searchBarWrapperElement": document.createElement("div"),
     "referenceNewSoftwareLink": {
         "href": "https://example.com",
         "onClick": () => {},

@@ -381,3 +381,12 @@ export const { useFromNow } = (() => {
 
     return { useFromNow };
 })();
+
+export const shortEndMonthDate = (params: { time: number }): string => {
+    const { time } = params;
+
+    const date = new Date(time);
+    const { lang } = useLang();
+
+    return moment(date).locale(lang).format(`MMM YYYY`);
+};

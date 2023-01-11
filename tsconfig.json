@@ -20,5 +20,6 @@
         "noFallthroughCasesInSwitch": true,
         "downlevelIteration": true
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["src/ui-dsfr", "src/stories"]
 }
