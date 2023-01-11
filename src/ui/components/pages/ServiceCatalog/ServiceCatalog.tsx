@@ -3,7 +3,7 @@ import { useMemo, useEffect } from "react";
 import { createGroup } from "type-route";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { makeStyles, PageHeader } from "ui/theme";
+import { makeStyles, PageHeader, isViewPortAdapterEnabled } from "ui/theme";
 import type { CollapseParams } from "onyxia-ui/CollapsibleWrapper";
 import type { Props as CatalogExplorerCardsProps } from "./ServiceCatalogCards";
 import { useConstCallback } from "powerhooks/useConstCallback";
@@ -43,6 +43,13 @@ export function ServiceCatalog(props: Props) {
     const { classes, theme, cx } = useStyles({ pageHeaderStickyTop });
 
     const titleCollapseParams = useMemo((): CollapseParams => {
+        if (isViewPortAdapterEnabled) {
+            return {
+                "behavior": "collapses on scroll",
+                "scrollTopThreshold": 600,
+            };
+        }
+
         return {
             "behavior": "controlled",
             "isCollapsed": false,
@@ -50,6 +57,13 @@ export function ServiceCatalog(props: Props) {
     }, [theme.windowInnerWidth]);
 
     const helpCollapseParams = useMemo((): CollapseParams => {
+        if (isViewPortAdapterEnabled) {
+            return {
+                "behavior": "collapses on scroll",
+                "scrollTopThreshold": 300,
+            };
+        }
+
         return {
             "behavior": "controlled",
             "isCollapsed": false,
@@ -192,7 +206,7 @@ export function ServiceCatalog(props: Props) {
                 titleCollapseParams={titleCollapseParams}
                 helpCollapseParams={helpCollapseParams}
             />
-            <div>
+            <div className={classes.contentWrapper}>
                 {pageHeaderRef.current !== null && (
                     <ServiceCatalogCards
                         searchResultCount={searchResultCount}
@@ -233,13 +247,37 @@ export const { i18n } = declareComponentKeys<
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { ServiceCatalog },
-})(theme => {
+})((theme, { pageHeaderStickyTop }) => {
+    const spacingLeft = theme.spacing(
+        (() => {
+            if (isViewPortAdapterEnabled) {
+                return 4;
+            }
+
+            return 0;
+        })(),
+    );
+
     return {
         "root": {
             "marginLeft": "unset",
         },
+        "contentWrapper": {
+            "marginLeft": spacingLeft,
+        },
         "pageHeader": {
+            ...(() => {
+                if (isViewPortAdapterEnabled) {
+                    return {
+                        "position": "sticky",
+                        "top": pageHeaderStickyTop,
+                    } as const;
+                }
+
+                return {};
+            })(),
             "backgroundColor": theme.colors.useCases.surfaces.background,
+            "paddingLeft": spacingLeft,
             "marginBottom": 0,
         },
     };

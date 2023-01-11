@@ -7,6 +7,8 @@ import { typeGuard } from "tsafe/typeGuard";
 import type { Language } from "sill-api";
 import { languages } from "sill-api";
 import { id } from "tsafe/id";
+import { useSplashScreen } from "onyxia-ui";
+import { getBrowser } from "ui/tools/getBrowser";
 import { useI18n } from "./i18n";
 
 const Login = lazy(() => import("./Login"));
@@ -39,6 +41,20 @@ export default function KcApp({ kcContext }: Props) {
             }
 
             setLang(i18n.currentLanguageTag);
+        }, [i18n]);
+    }
+
+    {
+        const { hideRootSplashScreen } = useSplashScreen({
+            "fadeOutDuration": getBrowser() === "firefox" ? 0 : undefined,
+        });
+
+        useEffect(() => {
+            if (i18n === null) {
+                return;
+            }
+
+            hideRootSplashScreen();
         }, [i18n]);
     }
 

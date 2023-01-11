@@ -4,6 +4,7 @@ import {
     francePalette,
     ultravioletPalette,
     defaultGetTypographyDesc,
+    getIsPortraitOrientation,
 } from "onyxia-ui";
 import type { ThemeProviderProps } from "onyxia-ui";
 import { createIcon } from "onyxia-ui/Icon";
@@ -78,17 +79,20 @@ export const splashScreen: ThemeProviderProps["splashScreen"] = {
     "minimumDisplayDuration": 0,
 };
 
-export let isViewPortAdapterEnabled = false;
+export let isViewPortAdapterEnabled = !getIsPortraitOrientation({
+    "windowInnerWidth": window.innerWidth,
+    "windowInnerHeight": window.innerHeight,
+});
 
-/*export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
+console.log({ isViewPortAdapterEnabled });
+
+export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
     !isViewPortAdapterEnabled
         ? undefined
         : ({ windowInnerWidth }) => ({
               "targetWindowInnerWidth": Math.max(1920, windowInnerWidth),
               "targetBrowserFontSizeFactor": 1,
-          });*/
-
-export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] = undefined;
+          });
 
 export const { PageHeader } = createPageHeader({ Icon });
 

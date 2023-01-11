@@ -38,7 +38,6 @@ const {
     | typeof import("ui/components/pages/Account/tabs/AccountUserInterfaceTab").i18n
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogCard").i18n
-    | typeof import("ui/components/pages/Catalog/CatalogCards/CatalogSearchArea").i18n
     | typeof import("ui/components/pages/Catalog").i18n
     | typeof import("ui/components/pages/Terms").i18n
     | typeof import("ui/components/App/Footer").i18n
@@ -147,23 +146,17 @@ const {
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
-                "last version": "Last version",
-                "last version date": ({ date }) => {
-                    return `the ${date}`;
-                },
-                "userAndReferentCount": ({ userCount, referentCount }) => {
-                    return `${userCount} users and ${referentCount} referent`;
-                },
+                "learn more": "Learn more",
+                "try it": "Try it 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `You are${isOnlyReferent ? " the" : ""} referent`,
-                "declare oneself referent": "Declare yourself referent / user",
+                "declare oneself referent": "Declare yourself referent",
                 "this software has no referent": "This software has not referent",
                 "no longer referent": "I am no longer referent",
                 "to install on the computer of the agent":
                     "To install on the computer of the agent",
                 "authors": ({ doUsePlural }) => `Author${doUsePlural ? "s" : ""}`,
                 "show referents": ({ isUserReferent, referentCount }) => {
-                    /* Usefull plural discrimination ? */
                     if (isUserReferent) {
                         if (referentCount >= 3) {
                             return "see other referents";
@@ -224,11 +217,10 @@ const {
                 "other similar software":
                     "Others similar software that are not in the catalog",
                 "reference a new software": "Reference a new software",
-            },
-            "CatalogSearchArea": {
                 "filter by tags": "Filter by tags",
             },
             "Catalog": {
+                "header text1": "Recommended Free Software catalog",
                 "header text2":
                     "Catalog of used and recommended free and open source software for administrative public services.",
                 "what is the SILL": ({ link }) => (
@@ -574,13 +566,8 @@ const {
                 "not found": "Page non trouvée",
             },
             "CatalogCard": {
-                "last version": "Dernière version",
-                "last version date": ({ date }) => {
-                    return `en ${date}`;
-                },
-                "userAndReferentCount": ({ userCount, referentCount }) => {
-                    return `${userCount} utilisateurs et ${referentCount} référents`;
-                },
+                "learn more": "En savoir plus",
+                "try it": "Essayer 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
                 "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
@@ -590,7 +577,7 @@ const {
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
-                "declare oneself referent": "Se déclarer référent / utilisateur",
+                "declare oneself referent": "Me déclarer référent",
                 "this software has no referent": "Pas de référent",
                 "no longer referent": "Je ne suis plus référent",
                 "to install on the computer of the agent":
@@ -661,11 +648,10 @@ const {
                 "other similar software":
                     "Autres logiciels similaires qui ne sont pas dans le catalogue",
                 "reference a new software": "Référencer un nouveau logiciel",
-            },
-            "CatalogSearchArea": {
                 "filter by tags": "Filtrer par tags",
             },
             "Catalog": {
+                "header text1": "Catalogue des logiciels libres du SILL",
                 "header text2":
                     "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
                 "what is the SILL": ({ link }) => (

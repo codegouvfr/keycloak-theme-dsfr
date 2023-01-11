@@ -1182,10 +1182,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.21.4":
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.21.4.tgz#8669f0f8e21555a2d91f3a2c271b9ae3dd934711"
-  integrity sha512-T8dBJ/jtA74zPsj3f55uI5K88jWzfePyCtjwfeXsOmNDHplIAUwNSPozI6PUm/qMmqz9ZrvhOqJJjZhwjLdMcA==
+"@codegouvfr/react-dsfr@^0.24.0":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.24.0.tgz#f1ad4c513f27b40419f4858a7b45c4afe7ff7738"
+  integrity sha512-5Uos8tZdgUNCWyzgOv8l4UU3F53ffyZZvLeSi3jAsu7DLeLUGQNJhybX7Xg74HcTcB0lEm4Ky4c237HIM3A8Xw==
   dependencies:
     tsafe "^1.4.0"
 
@@ -3596,13 +3596,6 @@
   version "18.0.10"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.10.tgz#3b66dec56aa0f16a6cc26da9e9ca96c35c0b4352"
   integrity sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-form@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@types/react-form/-/react-form-4.0.2.tgz#80111ad1dc7f5501fc646affbf659972c8a0c3da"
-  integrity sha512-NEE2Zn9t5StOBsYTe8I9eu9ys61g1GdfudI4ZAPwoyAEOg6OWukhrh/ZPuz50dadFaQG+9c3p9yq7abRRqZP9g==
   dependencies:
     "@types/react" "*"
 
@@ -12649,11 +12642,6 @@ react-error-overlay@^6.0.11:
   version "6.0.11"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
-
-react-form@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-form/-/react-form-4.0.1.tgz#f442adae7142261a6650a63001c49827e4317ca5"
-  integrity sha512-vhsCuBLZJYjm6vd8TBxIhIWeB/8Jg4mmmiR3Zj+1zIGBM39qJf1CLqekadLp0J9NeW0EsZxUnBtbmEnMeZ/7Pw==
 
 react-inspector@^5.1.0:
   version "5.1.1"

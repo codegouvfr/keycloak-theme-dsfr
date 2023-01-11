@@ -1,8 +1,8 @@
 import "unorm";
 import { createRoot } from "react-dom/client";
 import { RouteProvider } from "./routes";
-import { ThemeProvider, getViewPortConfig } from "./theme";
-import React, { lazy, Suspense } from "react";
+import { ThemeProvider, splashScreen, getViewPortConfig } from "./theme/theme";
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { kcContext } from "./components/KcApp/kcContext";
 import { createCoreProvider } from "core";
@@ -13,7 +13,6 @@ import { injectTosInSearchParams } from "ui/valuesCarriedOverToKc/termsOfService
 import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 import { Evt } from "evt";
 import { evtLang } from "ui/i18n";
-import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 
 import "./valuesCarriedOverToKc/env";
 //For jwt-simple
@@ -46,32 +45,25 @@ const { CoreProvider } = createCoreProvider(() => ({
 
 const queryClient = new QueryClient();
 
-/** TODO: Update doc on https://react-dsfr.etalab.studio/
- * old : startDsfrReact({ defaultColorScheme: "system" });
- * new should be : startReactDsfr({ defaultColorScheme: "system" });
- */
-startReactDsfr({ defaultColorScheme: "system" });
-
 createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <Suspense>
-            <RouteProvider>
-                <ThemeProvider
-                    getViewPortConfig={
-                        kcContext !== undefined ? undefined : getViewPortConfig
-                    }
-                >
-                    {kcContext !== undefined ? (
-                        <KcApp kcContext={kcContext} />
-                    ) : (
-                        <CoreProvider>
-                            <QueryClientProvider client={queryClient}>
-                                <App />
-                            </QueryClientProvider>
-                        </CoreProvider>
-                    )}
-                </ThemeProvider>
-            </RouteProvider>
-        </Suspense>
-    </React.StrictMode>,
+    <Suspense>
+        <RouteProvider>
+            <ThemeProvider
+                splashScreen={splashScreen}
+                getViewPortConfig={
+                    kcContext !== undefined ? undefined : getViewPortConfig
+                }
+            >
+                {kcContext !== undefined ? (
+                    <KcApp kcContext={kcContext} />
+                ) : (
+                    <CoreProvider>
+                        <QueryClientProvider client={queryClient}>
+                            <App />
+                        </QueryClientProvider>
+                    </CoreProvider>
+                )}
+            </ThemeProvider>
+        </RouteProvider>
+    </Suspense>,
 );

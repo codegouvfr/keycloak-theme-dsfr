@@ -1,11 +1,13 @@
 import { memo, forwardRef } from "react";
 import { makeStyles, Text, LanguageSelect } from "ui/theme";
+import { ReactComponent as GitHubSvg } from "ui/assets/svg/GitHub.svg";
 import { useLang, useTranslation } from "ui/i18n";
+import { DarkModeSwitch } from "onyxia-ui/DarkModeSwitch";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
+import { Icon } from "ui/theme";
 import { declareComponentKeys } from "i18nifty";
 import type { Link } from "type-route";
-import { Footer as FooterDsfr } from "@codegouvfr/react-dsfr/Footer";
 
 export type Props = {
     packageJsonVersion: string;
@@ -16,7 +18,7 @@ export type Props = {
 };
 
 export const Footer = memo(
-    forwardRef<any, Props>(props => {
+    forwardRef<any, Props>((props, ref) => {
         const {
             className,
             termsLink,
@@ -39,28 +41,7 @@ export const Footer = memo(
         const spacing = <div className={classes.spacing} />;
 
         return (
-            <FooterDsfr
-                className={cx(className)}
-                brandTop="Sill"
-                accessibility="fully compliant"
-                homeLinkProps={{
-                    "href": "https://github.com/etalab/sill",
-                    "title": "Accueil - Socle interministériel de logiciels libres",
-                }}
-                websiteMapLinkProps={{
-                    href: "#",
-                }}
-                termsLinkProps={{
-                    href: termsLink.href,
-                }}
-                personalDataLinkProps={{
-                    href: "#",
-                }}
-                cookiesManagementLinkProps={{
-                    href: "#",
-                }}
-            />
-            /*        <footer className={cx(classes.root, className)} ref={ref} {...rest}>
+            <footer className={cx(classes.root, className)} ref={ref} {...rest}>
                 <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
                 {spacing}
                 <a
@@ -149,7 +130,7 @@ export const Footer = memo(
                     target="_blank"
                     rel="noreferrer"
                 >
-                    {/!*NOTE: Defined in ./config-overrides.js*!/}
+                    {/*NOTE: Defined in ./config-overrides.js*/}
                     <Text typo="body 2">sill-web: v{packageJsonVersion} </Text>
                 </a>
                 {spacing}
@@ -162,7 +143,7 @@ export const Footer = memo(
                 </a>
                 {spacing}
                 <DarkModeSwitch size="extra small" className={classes.darkModeSwitch} />
-            </footer>*/
+            </footer>
         );
     }),
 );

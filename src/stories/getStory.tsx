@@ -1,118 +1,65 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import type { Meta, Story } from "@storybook/react";
 import type { ArgType } from "@storybook/addons";
-import { useEffect, useCallback, useMemo } from "react";
-import type { ReactNode } from "react";
 import { symToStr } from "tsafe/symToStr";
-import {
-    useIsDarkModeEnabled,
-    chromeFontSizesFactors,
-    breakpointsValues,
-    useWindowInnerSize,
-} from "onyxia-ui";
-import type { ThemeProviderProps, ChromeFontSize } from "onyxia-ui";
-import { ThemeProvider, Text, useStyles } from "ui/theme";
 import { id } from "tsafe/id";
-import "onyxia-ui/assets/fonts/WorkSans/font.css";
-import { GlobalStyles } from "tss-react/compat";
-import { objectKeys } from "tsafe/objectKeys";
-import { createCoreProvider } from "core";
-import type { Language } from "sill-api";
-import { languages } from "sill-api";
-import { RouteProvider } from "ui/routes";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { setUseLang } from "@codegouvfr/react-dsfr/spa";
 import { useLang } from "ui/i18n";
-import { Evt } from "evt";
 
-const { CoreProvider } = createCoreProvider({
-    "apiUrl": "#",
-    "evtUserActivity": new Evt(),
-    "mockAuthentication": {
-        "isUserInitiallyLoggedIn": true,
-        "user": {
-            "agencyName": "etalab",
-            "email": "joseph.garrone@data.gouv.fr",
-            "id": "33222",
-            "locale": "fr",
-        },
+setUseLang({
+    "useLang": () => {
+        const { lang } = useLang();
+        return lang;
     },
-    "transformUrlBeforeRedirectToLogin": ({ url }) => url,
 });
 
-export function getStoryFactory<Props>(params: {
+export function getStoryFactory<Props extends Record<string, unknown>>(params: {
     sectionName: string;
-    wrappedComponent: Record<string, (props: Props) => ReturnType<React.FC>>;
-    doUseLib?: boolean;
+    description?: string;
+    wrappedComponent: Record<string, (props: Props) => JSX.Element | null>;
     /** https://storybook.js.org/docs/react/essentials/controls */
     argTypes?: Partial<Record<keyof Props, ArgType>>;
     defaultContainerWidth?: number;
+    disabledProps?: ("containerWidth" | "lang" | "darkMode")[];
+    /** Default false */
+    doHideImportInstruction?: boolean;
 }) {
     const {
         sectionName,
         wrappedComponent,
+        description,
         argTypes = {},
-        doUseLib,
         defaultContainerWidth,
+        disabledProps = [],
+        doHideImportInstruction = false,
     } = params;
 
-    const Component: React.ComponentType<Props> = Object.entries(wrappedComponent).map(
+    const Component: any = Object.entries(wrappedComponent).map(
         ([, component]) => component,
     )[0];
 
-    function ScreenSize() {
-        const { windowInnerWidth } = useWindowInnerSize();
-
-        const range = useMemo(() => {
-            if (windowInnerWidth >= breakpointsValues["xl"]) {
-                return "xl-∞";
-            }
-
-            if (windowInnerWidth >= breakpointsValues["lg"]) {
-                return "lg-xl";
-            }
-
-            if (windowInnerWidth >= breakpointsValues["md"]) {
-                return "md-lg";
-            }
-
-            if (windowInnerWidth >= breakpointsValues["sm"]) {
-                return "sm-md";
-            }
-
-            return "0-sm";
-        }, [windowInnerWidth]);
-
-        return (
-            <Text typo="body 1">
-                {windowInnerWidth}px width: {range}
-            </Text>
-        );
-    }
-
-    const StoreProviderOrFragment: React.ComponentType<{ children: ReactNode }> =
-        !doUseLib
-            ? ({ children }) => <>{children}</>
-            : ({ children }) => <CoreProvider>{children}</CoreProvider>;
+    document.documentElement.style.overflowY = "scroll";
 
     const Template: Story<
         Props & {
             darkMode: boolean;
             containerWidth: number;
-            chromeFontSize: ChromeFontSize;
-            targetWindowInnerWidth: number;
-            lang: Language;
+            isFirstStory: boolean;
+            lang: "fr" | "en";
         }
-    > = ({
-        darkMode,
-        containerWidth,
-        targetWindowInnerWidth,
-        chromeFontSize,
-        lang,
-        ...props
-    }) => {
-        const { setIsDarkModeEnabled } = useIsDarkModeEnabled();
+    > = ({ darkMode, containerWidth, isFirstStory, lang, ...props }) => {
+        const { setIsDark } = useIsDark();
 
         useEffect(() => {
-            setIsDarkModeEnabled(darkMode);
+            if (disabledProps.includes("darkMode")) {
+                return;
+            }
+            if (!isFirstStory) {
+                return;
+            }
+
+            setIsDark(darkMode);
         }, [darkMode]);
 
         const { setLang } = useLang();
@@ -121,97 +68,103 @@ export function getStoryFactory<Props>(params: {
             setLang(lang);
         }, [lang]);
 
-        const getViewPortConfig = useCallback<
-            NonNullable<ThemeProviderProps["getViewPortConfig"]>
-        >(
-            ({ windowInnerWidth }) => ({
-                "targetBrowserFontSizeFactor": chromeFontSizesFactors[chromeFontSize],
-                "targetWindowInnerWidth": targetWindowInnerWidth || windowInnerWidth,
-            }),
-            [targetWindowInnerWidth, chromeFontSize],
-        );
+        if (containerWidth !== 0 && lang === "fr") {
+            return (
+                <div className="container" style={{ "width": containerWidth }}>
+                    <Component {...props} />
+                </div>
+            );
+        }
 
-        const { theme } = useStyles();
-
-        return (
-            <>
-                {
-                    <GlobalStyles
-                        styles={{
-                            "html": {
-                                "fontSize": "100% !important",
-                            },
-                            "body": {
-                                "padding": `0 !important`,
-                                "backgroundColor": `${theme.colors.useCases.surfaces.surface1} !important`,
-                            },
-                        }}
-                    />
-                }
-                <ThemeProvider getViewPortConfig={getViewPortConfig}>
-                    <ScreenSize />
-                    <div
-                        style={{
-                            "width": containerWidth || undefined,
-                            "border": "1px dotted grey",
-                            "display": "inline-block",
-                        }}
-                    >
-                        <StoreProviderOrFragment>
-                            <RouteProvider>
-                                <Component {...(props as any)} />
-                            </RouteProvider>
-                        </StoreProviderOrFragment>
-                    </div>
-                </ThemeProvider>
-            </>
-        );
+        return <Component {...props} />;
     };
 
-    function getStory(props: Props): typeof Template {
+    let isFirstStory = true;
+
+    function getStory(
+        props: Props,
+        params?: { defaultContainerWidth?: number; description?: string },
+    ): typeof Template {
+        const { defaultContainerWidth: defaultContainerWidthStoryLevel, description } =
+            params ?? {};
+
         const out = Template.bind({});
 
         out.args = {
-            "darkMode": false,
-            "containerWidth": defaultContainerWidth ?? 0,
-            "targetWindowInnerWidth": 0,
-            "chromeFontSize": "Medium (Recommended)",
-            "lang": id<Language>("en"),
+            "darkMode": window.matchMedia("(prefers-color-scheme: dark)").matches,
+            "containerWidth":
+                defaultContainerWidthStoryLevel ?? defaultContainerWidth ?? 0,
+            "lang": "fr",
+            isFirstStory,
             ...props,
+        };
+
+        isFirstStory = false;
+
+        out.parameters = {
+            "docs": {
+                "description": {
+                    "story": description,
+                },
+            },
         };
 
         return out;
     }
 
+    const componentName = symToStr(wrappedComponent);
+
     return {
         "meta": id<Meta>({
-            "title": `${sectionName}/${symToStr(wrappedComponent)}`,
+            "title": `${sectionName}/${componentName}`,
             "component": Component,
+            "parameters": {
+                "docs": {
+                    "description": {
+                        "component": [
+                            ...(doHideImportInstruction
+                                ? []
+                                : [
+                                      `\`import { ${componentName} } from "@codegouvfr/react-dsfr/${componentName}"\``,
+                                  ]),
+                            ...(description === undefined ? [] : [description]),
+                        ].join("  \n"),
+                    },
+                },
+                "viewMode": "docs",
+            },
             "argTypes": {
+                "darkMode": {
+                    "table": {
+                        "disable": disabledProps.includes("darkMode"),
+                    },
+                    "description": "Global color scheme enabled, light or dark",
+                },
                 "containerWidth": {
                     "control": {
                         "type": "range",
                         "min": 0,
                         "max": 1920,
-                        "step": 1,
-                    },
-                },
-                "targetWindowInnerWidth": {
-                    "control": {
-                        "type": "range",
-                        "min": 0,
-                        "max": 2560,
                         "step": 10,
                     },
-                },
-                "chromeFontSize": {
-                    "options": objectKeys(chromeFontSizesFactors),
-                    "control": { "type": "select" },
+                    "table": {
+                        "disable": disabledProps.includes("containerWidth"),
+                    },
+                    "description": `Play with the width of the parent component. Note that this isn't meant for testing the 
+                    responsiveness of the components. For that you have [the viewports](https://youtu.be/psLbgPfEzZY).`,
                 },
                 "lang": {
-                    "options": languages,
+                    "options": ["fr", "en"],
                     "control": {
-                        "type": "inline-radio",
+                        "type": "select",
+                    },
+                    "table": {
+                        "disable": disabledProps.includes("lang"),
+                    },
+                },
+                "isFirstStory": {
+                    "table": {
+                        "disable": true,
                     },
                 },
                 ...argTypes,

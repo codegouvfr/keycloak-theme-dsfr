@@ -1,7 +1,7 @@
 import "minimal-polyfills/Object.fromEntries";
-import { useMemo, memo, ReactNode } from "react";
+import { useMemo, memo } from "react";
 import { createPortal } from "react-dom";
-import { makeStyles, Text, Button } from "ui/theme";
+import { makeStyles, Text, Button, isViewPortAdapterEnabled } from "ui/theme";
 import { ServiceCatalogCard } from "./ServiceCatalogCard";
 import type { Props as ServiceCatalogCardProps } from "./ServiceCatalogCard";
 import { declareComponentKeys } from "i18nifty";
@@ -11,7 +11,7 @@ import MuiLink from "@mui/material/Link";
 import { ReactComponent as ServiceNotFoundSvg } from "ui/assets/svg/ServiceNotFound.svg";
 import { SearchBar } from "onyxia-ui/SearchBar";
 import type { SearchBarProps } from "onyxia-ui/SearchBar";
-import { Evt, NonPostableEvtLike } from "evt";
+import { Evt } from "evt";
 import { useOnLoadMore } from "powerhooks/useOnLoadMore";
 import { CircularProgress } from "onyxia-ui/CircularProgress";
 import type { Link } from "type-route";
@@ -27,7 +27,6 @@ import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import type { ServiceWithSoftwareInfo } from "core/usecases/serviceCatalog";
 import type { Param0 } from "tsafe";
-import { FiltersPickerProps } from "../../Catalog/CatalogCards/FiltersPicker";
 
 export type Props = Props.UserLoggedIn | Props.UserNotLoggedIn;
 
@@ -85,9 +84,12 @@ export const ServiceCatalogCards = memo((props: Props) => {
 
     useOnLoadMore({ loadingDivRef, onLoadMore });
 
+    const doRenderSearchBarInHeader = isViewPortAdapterEnabled;
+
     const { classes } = useStyles({
         "filteredCardCount": filteredServices.length,
         hasMoreToLoad,
+        doRenderSearchBarInHeader,
     });
 
     const onRequestDeleteFactory = useCallbackFactory(
@@ -124,8 +126,10 @@ export const ServiceCatalogCards = memo((props: Props) => {
 
     return (
         <>
+            {doRenderSearchBarInHeader &&
+                createPortal(catalogSearchAreaNode, searchBarWrapperElement)}
             <div className={className}>
-                {catalogSearchAreaNode}
+                {!doRenderSearchBarInHeader && catalogSearchAreaNode}
                 {filteredServices.length !== 0 && (
                     <Text typo="section heading" className={classes.contextTypo}>
                         {t("search results", { "count": searchResultCount })}
@@ -179,16 +183,23 @@ const useStyles = makeStyles<
     {
         filteredCardCount: number;
         hasMoreToLoad: boolean;
+        doRenderSearchBarInHeader: boolean;
     },
     "moreToLoadProgress"
 >({ "name": { ServiceCatalogCards } })(
-    (theme, { filteredCardCount, hasMoreToLoad }, classes) => ({
+    (
+        theme,
+        { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader },
+        classes,
+    ) => ({
         "searchBarWrapper": {
             "paddingBottom": theme.spacing(4),
-            ...{
-                "position": "sticky",
-                "top": theme.spacing(3),
-            },
+            ...(doRenderSearchBarInHeader
+                ? {}
+                : {
+                      "position": "sticky",
+                      "top": theme.spacing(3),
+                  }),
         },
         "contextTypo": {
             "marginBottom": theme.spacing(4),
@@ -198,7 +209,13 @@ const useStyles = makeStyles<
                 ? {}
                 : {
                       "display": "grid",
-                      "gridTemplateColumns": `repeat(1,1fr)`,
+                      "gridTemplateColumns": `repeat(${(() => {
+                          if (isViewPortAdapterEnabled) {
+                              return 3;
+                          }
+
+                          return 1;
+                      })()},1fr)`,
                       "gap": theme.spacing(4),
                   }),
         },
@@ -314,10 +331,6 @@ const { SearchArea } = (() => {
 
         const evtGitHubPickerAction = useConst(() =>
             Evt.create<GitHubPickerProps["evtAction"]>(),
-        );
-
-        const evtFiltersAction = useConst(() =>
-            Evt.create<FiltersPickerProps["evtAction"]>(),
         );
 
         useEvt(
