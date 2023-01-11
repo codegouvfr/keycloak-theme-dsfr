@@ -2,7 +2,7 @@ import "minimal-polyfills/Object.fromEntries";
 import React, { memo } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { CatalogCard } from "./CatalogCard";
-import { CatalogSearchArea } from "./CatalogSearchArea";
+import { CatalogSearchArea } from "./CatalogSearchArea.tsx.disabled";
 import type { Props as CatalogCardProps } from "./CatalogCard";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";

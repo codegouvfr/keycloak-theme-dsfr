@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import { DocsContainer as BaseContainer } from "@storybook/addon-docs";
 import { useDarkMode } from "storybook-dark-mode";
 import { darkTheme, lightTheme } from "./customTheme";
-import "../dist/dsfr/dsfr.css";
-import "../dist/dsfr/utility/icons/icons.min.css";
-import { useIsDark } from "../dist/useIsDark";
-import { startReactDsfr } from "../dist/spa";
-import { useColors } from "../dist/useColors";
+import "@codegouvfr/react-dsfr/dsfr/dsfr.css";
+import "@codegouvfr/react-dsfr/dsfr/utility/icons/icons.min.css";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
+import { useColors } from "@codegouvfr/react-dsfr/useColors";
 
 startReactDsfr({
     "defaultColorScheme": "system",

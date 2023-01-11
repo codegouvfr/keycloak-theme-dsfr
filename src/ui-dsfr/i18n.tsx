@@ -12,6 +12,8 @@ export { declareComponentKeys };
 export { languages };
 export type { Language };
 
+console.log("ui-dsfr!!!!");
+
 export const fallbackLanguage = "en";
 
 export type LocalizedString = Parameters<typeof resolveLocalizedString>[0];
@@ -23,9 +25,9 @@ const {
     $lang,
     useResolveLocalizedString,
 } = createI18nApi<
-    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog").i18n
+    //| typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
+    typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
+    //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -37,10 +39,12 @@ const {
                         {link === undefined ? name : <MuiLink {...link}>{name}</MuiLink>}
                     </>
                 ),
-                "learn more": "Learn more",
-                "try it": "Try it 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `You are${isOnlyReferent ? " the" : ""} referent`,
+                "last version": "Last version",
+                "last version date": ({ date }) => `Last version (${date})`,
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `User ${userCount}, Referents ${referentCount}`,
                 "declare oneself referent": "Declare yourself referent",
                 "this software has no referent": "This software has not referent",
                 "no longer referent": "I am no longer referent",
@@ -63,6 +67,7 @@ const {
                     }
                 },
             },
+            /*
             "CatalogCards": {
                 "show more": "Show more",
                 "no service found": "No software found",
@@ -91,14 +96,16 @@ const {
                     </>
                 ),
             },
+            */
         },
         "fr": {
             /* spell-checker: disable */
             "CatalogCard": {
-                "learn more": "En savoir plus",
-                "try it": "Essayer 🚀",
                 "you are referent": ({ isOnlyReferent }) =>
                     `Vous êtes${isOnlyReferent ? " le" : ""} référent`,
+                "last version": undefined,
+                "last version date": undefined,
+                "userAndReferentCount": undefined,
                 "authors": ({ doUsePlural }) => `Auteur${doUsePlural ? "s" : ""}`,
                 "parent software": ({ name, link }) => (
                     <>
@@ -129,6 +136,7 @@ const {
                     }
                 },
             },
+            /*
             "CatalogCards": {
                 "show more": "Afficher tous",
                 "no service found": "Logiciel non trouvé",
@@ -160,6 +168,7 @@ const {
                     </>
                 ),
             },
+            */
             /* spell-checker: enable */
         },
     },

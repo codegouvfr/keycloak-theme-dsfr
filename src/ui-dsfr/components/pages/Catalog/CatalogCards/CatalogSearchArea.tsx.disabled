@@ -8,7 +8,7 @@ import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr, getColors } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { makeStyles } from "tss-react/dsfr";
-import { FiltersPicker, FiltersPickerProps } from "./FiltersPicker";
+import { FiltersPicker, FiltersPickerProps } from "./FiltersPicker.tsx.disabled";
 
 type CatalogSearchAreaProps = {
     className?: string;

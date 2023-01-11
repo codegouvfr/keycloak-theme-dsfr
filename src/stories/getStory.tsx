@@ -5,7 +5,7 @@ import { symToStr } from "tsafe/symToStr";
 import { id } from "tsafe/id";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { setUseLang } from "@codegouvfr/react-dsfr/spa";
-import { useLang } from "ui/i18n";
+import { useLang } from "ui-dsfr/i18n";
 
 setUseLang({
     "useLang": () => {
@@ -22,8 +22,6 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
     argTypes?: Partial<Record<keyof Props, ArgType>>;
     defaultContainerWidth?: number;
     disabledProps?: ("containerWidth" | "lang" | "darkMode")[];
-    /** Default false */
-    doHideImportInstruction?: boolean;
 }) {
     const {
         sectionName,
@@ -32,7 +30,6 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         argTypes = {},
         defaultContainerWidth,
         disabledProps = [],
-        doHideImportInstruction = false,
     } = params;
 
     const Component: any = Object.entries(wrappedComponent).map(
@@ -68,7 +65,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
             setLang(lang);
         }, [lang]);
 
-        if (containerWidth !== 0 && lang === "fr") {
+        if (containerWidth !== 0) {
             return (
                 <div className="container" style={{ "width": containerWidth }}>
                     <Component {...props} />
@@ -122,11 +119,6 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                 "docs": {
                     "description": {
                         "component": [
-                            ...(doHideImportInstruction
-                                ? []
-                                : [
-                                      `\`import { ${componentName} } from "@codegouvfr/react-dsfr/${componentName}"\``,
-                                  ]),
                             ...(description === undefined ? [] : [description]),
                         ].join("  \n"),
                     },
