@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { CompiledData } from "sill-api";
@@ -43,7 +43,7 @@ export type Props = {
 };
 
 export const CatalogCard = memo((props: Props) => {
-    const { className, software, declareUserOrReferent, referents } = props;
+    const { className, software, declareUserOrReferent } = props;
 
     const { t } = useTranslation({ CatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
