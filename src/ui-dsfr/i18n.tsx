@@ -12,6 +12,8 @@ export { declareComponentKeys };
 export { languages };
 export type { Language };
 
+console.log("ui-dsfr!!!!");
+
 export const fallbackLanguage = "en";
 
 export type LocalizedString = Parameters<typeof resolveLocalizedString>[0];

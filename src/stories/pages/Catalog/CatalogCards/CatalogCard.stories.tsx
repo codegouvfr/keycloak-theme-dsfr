@@ -1,4 +1,5 @@
 import { CatalogCard } from "../../../../ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard";
+//import { CatalogCard } from "../../../../ui/components/pages/Catalog/CatalogCards/CatalogCard";
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "../../../getStory";
 import { CompiledData } from "sill-api";

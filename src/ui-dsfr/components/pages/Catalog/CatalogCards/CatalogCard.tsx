@@ -1,13 +1,12 @@
 import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui-dsfr/i18n";
+import { useTranslation, useResolveLocalizedString } from "ui-dsfr/i18n";
 import { CompiledData } from "sill-api";
 import type { Link } from "type-route";
-import { useResolveLocalizedString } from "ui-dsfr/i18n";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr, getColors } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
-import { shortEndMonthDate } from "ui/useMoment";
+import { shortEndMonthDate } from "ui-dsfr/useMoment";
 
 /*export type Props2 = {
     className?: string;
