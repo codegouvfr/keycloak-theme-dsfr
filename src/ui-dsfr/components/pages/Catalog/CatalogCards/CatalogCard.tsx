@@ -6,26 +6,26 @@ import type { Link } from "type-route";
 import { fr, getColors } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate } from "ui-dsfr/useMoment";
-import { assert } from "tsafe/assert"
-import type { Equals } from "tsafe"
-import Tooltip from '@mui/material/Tooltip';
+import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
+import Tooltip from "@mui/material/Tooltip";
 
 export type Props = {
     className?: string;
-    softwareLogoUrl?: string
+    softwareLogoUrl?: string;
     softwareName: string;
     isFromFrenchPublicService: boolean;
     isDesktop: boolean;
-    isPresentInSupportMarket: boolean
-    softwareCurrentVersion: string
-    softwareDateCurrentVersion: number
+    isPresentInSupportMarket: boolean;
+    softwareCurrentVersion: string;
+    softwareDateCurrentVersion: number;
     softwareDescription?: string;
     userCount: number;
     referentCount: number;
     declareUserOrReferent: Link;
     demoLink: Link;
-    softwareDetailsLink: Link
-}
+    softwareDetailsLink: Link;
+};
 
 export const CatalogCard = memo((props: Props) => {
     const {
@@ -46,7 +46,7 @@ export const CatalogCard = memo((props: Props) => {
         ...rest
     } = props;
 
-    assert<Equals<typeof rest, {}>>()
+    assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ CatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
@@ -66,17 +66,33 @@ export const CatalogCard = memo((props: Props) => {
                             <div className={cx(classes.titleContainer)}>
                                 <h3 className={cx(classes.title)}>{softwareName}</h3>
                                 <div className={cx(classes.titleActionsContainer)}>
-                                    {isDesktop &&
+                                    {isDesktop && (
                                         <Tooltip title={t("isDesktop")} arrow>
-                                            <i className={fr.cx("fr-icon-computer-line")}/>
+                                            <i
+                                                className={fr.cx("fr-icon-computer-line")}
+                                            />
                                         </Tooltip>
-                                    }
-                                    {isFromFrenchPublicService &&
-                                        <i className={fr.cx("fr-icon-france-line")} />
-                                    }
-                                    {isPresentInSupportMarket &&
-                                        <i className={fr.cx("fr-icon-questionnaire-line")}/>
-                                    }
+                                    )}
+                                    {isFromFrenchPublicService && (
+                                        <Tooltip
+                                            title={t("isFromFrenchPublicService")}
+                                            arrow
+                                        >
+                                            <i className={fr.cx("fr-icon-france-line")} />
+                                        </Tooltip>
+                                    )}
+                                    {isPresentInSupportMarket && (
+                                        <Tooltip
+                                            title={t("isPresentInSupportMarket")}
+                                            arrow
+                                        >
+                                            <i
+                                                className={fr.cx(
+                                                    "fr-icon-questionnaire-line",
+                                                )}
+                                            />
+                                        </Tooltip>
+                                    )}
                                 </div>
                             </div>
                             <div>
@@ -107,7 +123,7 @@ export const CatalogCard = memo((props: Props) => {
                     <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
                         {softwareDescription
                             ? resolveLocalizedString(softwareDescription)
-                            : 'software.function'}
+                            : "software.function"}
                     </p>
                     <div
                         className={cx(
@@ -200,8 +216,8 @@ const useStyles = makeStyles({
             "marginTop": 0,
             "marginBottom": fr.spacing("3v"),
             "color": getColors(theme.isDark).decisions.text.default.grey.default,
-            "height": fr.spacing('20v'),
-            "overflowY": "auto"
+            "height": fr.spacing("20v"),
+            "overflowY": "auto",
         },
         "detailsUsersContainer": {
             "display": "flex",
@@ -232,4 +248,6 @@ export const { i18n } = declareComponentKeys<
     | { K: "userAndReferentCount"; P: { userCount: number; referentCount: number } }
     | "declare oneself referent"
     | "isDesktop"
+    | "isPresentInSupportMarket"
+    | "isFromFrenchPublicService"
 >()({ CatalogCard });

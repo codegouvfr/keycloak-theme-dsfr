@@ -38,7 +38,10 @@ const {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} users and ${referentCount} referents`,
                 "declare oneself referent": "Declare yourself referent / user",
-                "isDesktop": "This software can be installed on desktop"
+                "isDesktop": "This software can be installed on desktop",
+                "isFromFrenchPublicService":
+                    "This software is from French public service",
+                "isPresentInSupportMarket": "This software is present in support market",
             },
             /*
             "CatalogCards": {
@@ -79,7 +82,11 @@ const {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} utilisateurs et ${referentCount} referents`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
-                "isDesktop": "Ce logiciel s'installe sur ordinateur"
+                "isDesktop": "Ce logiciel s'installe sur ordinateur",
+                "isFromFrenchPublicService":
+                    "Ce logiciel est originaire du service public français",
+                "isPresentInSupportMarket":
+                    "Ce logiciel est présent dans le marcher de support",
             },
             /*
             "CatalogCards": {
