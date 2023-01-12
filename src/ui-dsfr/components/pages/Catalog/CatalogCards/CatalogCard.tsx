@@ -22,6 +22,7 @@ export type Props = {
     softwareDescription?: string;
     userCount: number;
     referentCount: number;
+    seeUserAndReferent: Link;
     declareUserOrReferent: Link;
     demoLink: Link;
     softwareDetailsLink: Link;
@@ -40,6 +41,7 @@ export const CatalogCard = memo((props: Props) => {
         softwareDescription,
         userCount,
         referentCount,
+        seeUserAndReferent,
         declareUserOrReferent,
         demoLink,
         softwareDetailsLink,
@@ -125,7 +127,8 @@ export const CatalogCard = memo((props: Props) => {
                             ? resolveLocalizedString(softwareDescription)
                             : "software.function"}
                     </p>
-                    <div
+                    <a
+                        {...seeUserAndReferent}
                         className={cx(
                             fr.cx("fr-card__detail"),
                             classes.detailsUsersContainer,
@@ -144,7 +147,7 @@ export const CatalogCard = memo((props: Props) => {
                             })}
                         </span>
                         <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
-                    </div>
+                    </a>
                 </div>
                 <div className={cx(classes.footer)}>
                     <a
@@ -154,8 +157,15 @@ export const CatalogCard = memo((props: Props) => {
                         {t("declare oneself referent")}
                     </a>
                     <div className={cx(classes.footerActionsContainer)}>
-                        <i className={fr.cx("fr-icon-play-circle-line")} />
-                        <i className={fr.cx("fr-icon-arrow-right-line")} />
+                        <a className={cx(classes.footerActionLink)} {...demoLink}>
+                            <i className={fr.cx("fr-icon-play-circle-line")} />
+                        </a>
+                        <a
+                            className={cx(classes.footerActionLink)}
+                            {...softwareDetailsLink}
+                        >
+                            <i className={fr.cx("fr-icon-arrow-right-line")} />
+                        </a>
                     </div>
                 </div>
             </div>
@@ -200,13 +210,15 @@ const useStyles = makeStyles({
             "display": "flex",
             "alignItems": "center",
             "gap": fr.spacing("2v"),
-
             "&>i": {
                 "color": theme.decisions.text.title.blueFrance.default,
                 "&::before": {
                     "--icon-size": fr.spacing("4v"),
                 },
             },
+        },
+        "footerActionLink": {
+            "background": "none",
         },
         "badgeVersion": {
             "marginLeft": fr.spacing("1v"),

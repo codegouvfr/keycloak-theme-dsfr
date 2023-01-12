@@ -3,7 +3,7 @@ import { CatalogCard } from "../../../../ui-dsfr/components/pages/Catalog/Catalo
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "../../../getStory";
 import { CompiledData } from "sill-api";
-import LibreOfficeLogo from "../../../../assets/logo_libreoffice.png"
+import LibreOfficeLogo from "../../../../assets/logo_libreoffice.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
@@ -12,10 +12,10 @@ const { meta, getStory } = getStoryFactory({
     "argTypes": {
         "softwareLogoUrl": {
             "control": {
-                "type": null
-            }
-        }
-    }
+                "type": null,
+            },
+        },
+    },
 });
 
 export default meta;
@@ -26,23 +26,28 @@ export const VueDefault = getStory({
     softwareCurrentVersion: "2.0.1",
     softwareDateCurrentVersion: 1640995200000,
     declareUserOrReferent: {
-        href: '#',
-        onClick:() => {}
+        href: "#",
+        onClick: () => {},
     },
     demoLink: {
-        href: '#',
-        onClick:() => {}
+        href: "#",
+        onClick: () => {},
+    },
+    seeUserAndReferent: {
+        href: "#",
+        onClick: () => {},
     },
     isPresentInSupportMarket: true,
     isDesktop: true,
     isFromFrenchPublicService: true,
-    softwareDescription: "Suite bureautique (logiciel de traitement de texte, tableur, etc.) ",
+    softwareDescription:
+        "Suite bureautique (logiciel de traitement de texte, tableur, etc.) ",
     userCount: 13,
     referentCount: 4,
 
     softwareDetailsLink: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     ...logCallbacks([
         "onLogin",
@@ -58,23 +63,28 @@ export const TooLongDescription = getStory({
     softwareCurrentVersion: "2.0.1",
     softwareDateCurrentVersion: 1640995200000,
     declareUserOrReferent: {
-        href: '#',
-        onClick:() => {}
+        href: "#",
+        onClick: () => {},
+    },
+    seeUserAndReferent: {
+        href: "#",
+        onClick: () => {},
     },
     demoLink: {
-        href: '#',
-        onClick:() => {}
+        href: "#",
+        onClick: () => {},
     },
     isPresentInSupportMarket: false,
     isDesktop: true,
     isFromFrenchPublicService: true,
-    softwareDescription: "Suite bureautique (logiciel de traitement de texte, tableur, etc.). Suite bureautique (logiciel de traitement de texte, tableur, etc.). Suite bureautique (logiciel de traitement de texte, tableur, etc.).",
+    softwareDescription:
+        "Suite bureautique (logiciel de traitement de texte, tableur, etc.). Suite bureautique (logiciel de traitement de texte, tableur, etc.). Suite bureautique (logiciel de traitement de texte, tableur, etc.).",
     userCount: 13,
     referentCount: 4,
 
     softwareDetailsLink: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     ...logCallbacks([
         "onLogin",
