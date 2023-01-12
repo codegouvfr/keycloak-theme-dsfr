@@ -151,7 +151,10 @@ export const CatalogCard = memo((props: Props) => {
                 </div>
                 <div className={cx(classes.footer)}>
                     <a
-                        className={cx(fr.cx("fr-btn", "fr-btn--secondary"))}
+                        className={cx(
+                            fr.cx("fr-btn", "fr-btn--secondary"),
+                            classes.declareReferentOrUserButton,
+                        )}
                         {...declareUserOrReferent}
                     >
                         {t("declare oneself referent")}
@@ -178,12 +181,14 @@ const useStyles = makeStyles({
 })(theme => {
     return {
         "container": {
-            "paddingRight": fr.spacing("6v"),
-            "paddingLeft": fr.spacing("6v"),
-            "paddingTop": fr.spacing("7v"),
-            "paddingBottom": fr.spacing("7v"),
+            ...fr.spacing("padding", { topBottom: "7v" }),
+            ...fr.spacing("padding", { rightLeft: "6v" }),
             "backgroundColor": getColors(theme.isDark).decisions.background.default.grey
                 .default,
+            [fr.breakpoints.down("md")]: {
+                ...fr.spacing("padding", { topBottom: "5v" }),
+                ...fr.spacing("padding", { rightLeft: "3v" }),
+            },
         },
         "headerContainer": {
             "display": "flex",
@@ -217,12 +222,8 @@ const useStyles = makeStyles({
                 },
             },
         },
-        "footerActionLink": {
-            "background": "none",
-        },
         "badgeVersion": {
-            "marginLeft": fr.spacing("1v"),
-            "marginRight": fr.spacing("1v"),
+            ...fr.spacing("margin", { rightLeft: "1v" }),
         },
         "description": {
             "marginTop": 0,
@@ -235,6 +236,7 @@ const useStyles = makeStyles({
             "display": "flex",
             "alignItems": "center",
             "marginBottom": fr.spacing("8v"),
+            "background": "none",
         },
         "detailsUsersIcon": {
             "marginRight": fr.spacing("2v"),
@@ -243,6 +245,17 @@ const useStyles = makeStyles({
             "display": "flex",
             "alignItems": "center",
             "justifyContent": "space-between",
+            [fr.breakpoints.down("md")]: {
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+            },
+        },
+        "declareReferentOrUserButton": {
+            [fr.breakpoints.down("md")]: {
+                width: "100%",
+                justifyContent: "center",
+            },
         },
         "footerActionsContainer": {
             "display": "flex",
@@ -250,6 +263,15 @@ const useStyles = makeStyles({
             "flex": 1,
             "justifyContent": "space-between",
             "color": getColors(theme.isDark).decisions.text.title.blueFrance.default,
+            [fr.breakpoints.down("md")]: {
+                marginLeft: 0,
+                marginTop: fr.spacing("3v"),
+                gap: fr.spacing("4v"),
+                alignSelf: "end",
+            },
+        },
+        "footerActionLink": {
+            "background": "none",
         },
     };
 });
