@@ -5,6 +5,7 @@ import type { AccountTabId } from "ui/components/pages/Account/accountTabIds";
 //NOTE: This import needs to stay relative for github-pages-plugin-for-type-route
 import { accountTabIds } from "./components/pages/Account/accountTabIds";
 import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
+import { createTypeRouteMock } from "ui/tools/typeRouteMock";
 
 const routeDefs = {
     "home": defineRoute("/"),
@@ -67,6 +68,14 @@ const routeDefs = {
     "readme": defineRoute("/readme"),
 };
 
-export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);
+export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
+
+const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
+    "routes": realRoutes,
+});
+
+export { createMockRouteFactory };
+
+export const routes = (window as any)["IS_STORYBOOK"] ? routesProxy : realRoutes;
 
 makeThisModuleAnExecutableRouteLister(routeDefs);

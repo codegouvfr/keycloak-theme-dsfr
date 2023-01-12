@@ -7,12 +7,22 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { setUseLang } from "@codegouvfr/react-dsfr/spa";
 import { useLang } from "ui-dsfr/i18n";
 import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
+import { createMockRouteFactory } from "ui/routes";
+import { Evt } from "evt";
+import { useRerenderOnStateChange } from "evt/hooks";
 
+const evtTriggerReRender = Evt.create(0);
 
 setUseLang({
     "useLang": () => {
         const { lang } = useLang();
         return lang;
+    },
+});
+
+export const { createMockRoute } = createMockRouteFactory({
+    "triggerStoriesReRender": () => {
+        evtTriggerReRender.state++;
     },
 });
 
@@ -49,6 +59,8 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         }
     > = ({ darkMode, containerWidth, isFirstStory, lang, ...props }) => {
         const { setIsDark } = useIsDark();
+
+        useRerenderOnStateChange(evtTriggerReRender);
 
         useEffect(() => {
             if (disabledProps.includes("darkMode")) {
@@ -124,7 +136,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                             <Story />
                         </MuiDsfrThemeProvider>
                     </>
-                )
+                ),
             ],
             "parameters": {
                 "docs": {

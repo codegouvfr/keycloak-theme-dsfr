@@ -1,4 +1,3 @@
-import MuiLink from "@mui/material/Link";
 import { createI18nApi, declareComponentKeys } from "i18nifty";
 import { languages } from "sill-api";
 import type { Language } from "sill-api";
@@ -11,8 +10,6 @@ import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
 export { declareComponentKeys };
 export { languages };
 export type { Language };
-
-console.log("ui-dsfr!!!!");
 
 export const fallbackLanguage = "en";
 
