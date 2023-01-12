@@ -1,5 +1,5 @@
-import { TestComponentForTypeRouteMock } from "../ui-dsfr/components/TestComponentForTypeRouteMock";
-import { getStoryFactory, createMockRoute } from "./getStory";
+import { TestComponentForTypeRouteMock } from "ui-dsfr/components/TestComponentForTypeRouteMock";
+import { getStoryFactory, createMockRoute } from "stories/getStory";
 
 const { meta, getStory } = getStoryFactory({
     "sectionName": "tests",
@@ -9,7 +9,5 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    "route": createMockRoute("catalog", {
-        "q": "This is the default query",
-    }),
+    "route": createMockRoute("catalog", { "q": "This is the default query" }),
 });

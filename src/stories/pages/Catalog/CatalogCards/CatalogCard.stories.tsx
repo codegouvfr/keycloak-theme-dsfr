@@ -1,9 +1,7 @@
-import { CatalogCard } from "../../../../ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard";
-//import { CatalogCard } from "../../../../ui/components/pages/Catalog/CatalogCards/CatalogCard";
+import { CatalogCard } from "ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard";
 import { sectionName } from "./sectionName";
-import { getStoryFactory, logCallbacks } from "../../../getStory";
-import { CompiledData } from "sill-api";
-import LibreOfficeLogo from "../../../../assets/logo_libreoffice.png";
+import { getStoryFactory, logCallbacks } from "stories/getStory";
+import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
