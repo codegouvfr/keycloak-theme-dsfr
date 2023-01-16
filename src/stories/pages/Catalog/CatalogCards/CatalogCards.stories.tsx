@@ -14,11 +14,10 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    softwareList: new Array(20).fill(0).map((...[, _i]) =>
-        id<Props["softwareList"][number]>({
-            softwareId: _i,
+    catalogCardList: new Array(20).fill(0).map((...[, _i]) =>
+        id<Props["catalogCardList"][number]>({
             softwareLogoUrl: LibreOfficeLogo,
-            softwareName: "LibreOffice",
+            softwareName: `LibreOffice-${_i}`,
             softwareCurrentVersion: "2.0.1",
             softwareDateCurrentVersion: 1640995200000,
             declareUserOrReferent: {

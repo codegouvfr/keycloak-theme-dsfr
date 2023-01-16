@@ -24,24 +24,6 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 
-export type Software = {
-    softwareId: number;
-    softwareLogoUrl?: string;
-    softwareName: string;
-    isFromFrenchPublicService: boolean;
-    isDesktop: boolean;
-    isPresentInSupportMarket: boolean;
-    softwareCurrentVersion: string;
-    softwareDateCurrentVersion: number;
-    softwareDescription?: string;
-    userCount: number;
-    referentCount: number;
-    seeUserAndReferent: Link;
-    declareUserOrReferent: Link;
-    demoLink: Link;
-    softwareDetailsLink: Link;
-};
-
 export type Props = {
     className?: string;
     search: string;
@@ -49,7 +31,7 @@ export type Props = {
     searchResultCount: number;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
-    softwareList: Software[];
+    catalogCardList: Omit<CatalogCardProps, "className">[];
 };
 
 export const CatalogCards = memo((props: Props) => {
@@ -60,14 +42,14 @@ export const CatalogCards = memo((props: Props) => {
         onSearchChange,
         onLoadMore,
         hasMoreToLoad,
-        softwareList,
+        catalogCardList,
         ...rest
     } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const { t } = useTranslation({ CatalogCards });
+    /*const { t } = useTranslation({ CatalogCards });*/
 
     const loadingDivRef = useStateRef<HTMLDivElement>(null);
 
@@ -77,51 +59,15 @@ export const CatalogCards = memo((props: Props) => {
     });
 
     const { classes, cx } = useStyles({
-        "softwareListCount": softwareList.length,
+        "softwareListCount": catalogCardList.length,
         hasMoreToLoad,
     });
 
-    const catalogCards = softwareList
-        .reduce(...removeDuplicates<Software>())
-        .map(software => {
-            const {
-                softwareId,
-                softwareName,
-                isPresentInSupportMarket,
-                isFromFrenchPublicService,
-                isDesktop,
-                softwareCurrentVersion,
-                softwareDateCurrentVersion,
-                softwareDescription,
-                userCount,
-                referentCount,
-                seeUserAndReferent,
-                declareUserOrReferent,
-                demoLink,
-                softwareDetailsLink,
-                softwareLogoUrl,
-            } = software;
+    const catalogCards = catalogCardList.map(software => {
+        const { softwareName } = software;
 
-            return (
-                <CatalogCard
-                    key={softwareId}
-                    softwareLogoUrl={softwareLogoUrl}
-                    softwareName={softwareName}
-                    isFromFrenchPublicService={isFromFrenchPublicService}
-                    isDesktop={isDesktop}
-                    isPresentInSupportMarket={isPresentInSupportMarket}
-                    softwareCurrentVersion={softwareCurrentVersion}
-                    softwareDateCurrentVersion={softwareDateCurrentVersion}
-                    softwareDescription={softwareDescription}
-                    userCount={userCount}
-                    referentCount={referentCount}
-                    seeUserAndReferent={seeUserAndReferent}
-                    declareUserOrReferent={declareUserOrReferent}
-                    demoLink={demoLink}
-                    softwareDetailsLink={softwareDetailsLink}
-                />
-            );
-        });
+        return <CatalogCard key={softwareName} {...software} />;
+    });
 
     /*    const evtCatalogSearchAreaAction = useConst(() =>
         Evt.create<CatalogSearchAreaProps["evtAction"]>(),

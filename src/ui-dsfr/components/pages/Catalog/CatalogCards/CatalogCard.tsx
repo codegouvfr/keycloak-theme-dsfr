@@ -56,7 +56,7 @@ export const CatalogCard = memo((props: Props) => {
     const { classes, cx } = useStyles();
 
     return (
-        <div className={cx(fr.cx("fr-card"), classes.container, className)}>
+        <div className={cx(fr.cx("fr-card"), classes.root, className)}>
             <div className={cx()}>
                 <div className={cx()}>
                     <div className={cx(classes.headerContainer)}>
@@ -184,111 +184,113 @@ export const CatalogCard = memo((props: Props) => {
 
 const useStyles = makeStyles({
     "name": { CatalogCard },
-})(theme => {
-    return {
-        "container": {
-            ...fr.spacing("padding", { topBottom: "7v" }),
-            ...fr.spacing("padding", { rightLeft: "6v" }),
-            "backgroundColor": theme.decisions.background.default.grey.default,
-            [fr.breakpoints.down("md")]: {
-                ...fr.spacing("padding", { topBottom: "5v" }),
-                ...fr.spacing("padding", { rightLeft: "3v" }),
-            },
+})(theme => ({
+    "root": {
+        ...fr.spacing("padding", {
+            "topBottom": "7v",
+            "rightLeft": "6v",
+        }),
+        "backgroundColor": theme.decisions.background.default.grey.default,
+        [fr.breakpoints.down("md")]: {
+            ...fr.spacing("padding", {
+                "topBottom": "5v",
+                "rightLeft": "3v",
+            }),
         },
-        "headerContainer": {
-            "display": "flex",
-            "alignItems": "center",
-            "marginBottom": fr.spacing("4v"),
+    },
+    "headerContainer": {
+        "display": "flex",
+        "alignItems": "center",
+        "marginBottom": fr.spacing("4v"),
+    },
+    "header": {
+        "width": "100%",
+    },
+    "logo": {
+        "height": fr.spacing("10v"),
+        "width": fr.spacing("10v"),
+        "marginRight": fr.spacing("3v"),
+        [fr.breakpoints.down("md")]: {
+            "height": fr.spacing("5v"),
+            "width": fr.spacing("5v"),
         },
-        "header": {
-            "width": "100%",
-        },
-        "logo": {
-            "height": fr.spacing("10v"),
-            "width": fr.spacing("10v"),
-            "marginRight": fr.spacing("3v"),
-            [fr.breakpoints.down("md")]: {
-                "height": fr.spacing("5v"),
-                "width": fr.spacing("5v"),
-            },
-        },
-        "titleContainer": {
-            "display": "flex",
-            "justifyContent": "space-between",
-        },
-        "title": {
-            "margin": 0,
-            "color": theme.decisions.text.title.grey.default,
-        },
-        "titleActionsContainer": {
-            "display": "flex",
-            "alignItems": "center",
-            "gap": fr.spacing("2v"),
-            "&>i": {
-                "color": theme.decisions.text.title.blueFrance.default,
-                "&::before": {
-                    "--icon-size": fr.spacing("4v"),
-                },
-            },
-        },
-        "softwareVersionContainer": {
-            [fr.breakpoints.down("md")]: {
-                fontSize: fr.spacing("2v"),
-            },
-        },
-        "badgeVersion": {
-            ...fr.spacing("margin", { rightLeft: "1v" }),
-        },
-        "description": {
-            "marginTop": 0,
-            "marginBottom": fr.spacing("3v"),
-            "color": theme.decisions.text.default.grey.default,
-            "height": fr.spacing("20v"),
-            "overflowY": "auto",
-        },
-        "detailsUsersContainer": {
-            "display": "flex",
-            "alignItems": "center",
-            "marginBottom": fr.spacing("8v"),
-            "background": "none",
-        },
-        "detailsUsersIcon": {
-            "marginRight": fr.spacing("2v"),
-        },
-        "footer": {
-            "display": "flex",
-            "alignItems": "center",
-            "justifyContent": "space-between",
-            [fr.breakpoints.down("md")]: {
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-            },
-        },
-        "declareReferentOrUserButton": {
-            [fr.breakpoints.down("md")]: {
-                width: "100%",
-                justifyContent: "center",
-            },
-        },
-        "footerActionsContainer": {
-            "display": "flex",
-            "marginLeft": fr.spacing("4v"),
-            "flex": 1,
-            "justifyContent": "space-between",
+    },
+    "titleContainer": {
+        "display": "flex",
+        "justifyContent": "space-between",
+    },
+    "title": {
+        "margin": 0,
+        "color": theme.decisions.text.title.grey.default,
+    },
+    "titleActionsContainer": {
+        "display": "flex",
+        "alignItems": "center",
+        "gap": fr.spacing("2v"),
+        "&>i": {
             "color": theme.decisions.text.title.blueFrance.default,
-            [fr.breakpoints.down("md")]: {
-                marginLeft: 0,
-                marginTop: fr.spacing("3v"),
-                gap: fr.spacing("4v"),
-                alignSelf: "end",
+            "&::before": {
+                "--icon-size": fr.spacing("4v"),
             },
         },
-        "footerActionLink": {
-            "background": "none",
+    },
+    "softwareVersionContainer": {
+        [fr.breakpoints.down("md")]: {
+            fontSize: fr.spacing("2v"),
         },
-    };
-});
+    },
+    "badgeVersion": {
+        ...fr.spacing("margin", { rightLeft: "1v" }),
+    },
+    "description": {
+        "marginTop": 0,
+        "marginBottom": fr.spacing("3v"),
+        "color": theme.decisions.text.default.grey.default,
+        "height": fr.spacing("20v"),
+        "overflowY": "auto",
+    },
+    "detailsUsersContainer": {
+        "display": "flex",
+        "alignItems": "center",
+        "marginBottom": fr.spacing("8v"),
+        "background": "none",
+    },
+    "detailsUsersIcon": {
+        "marginRight": fr.spacing("2v"),
+    },
+    "footer": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        [fr.breakpoints.down("md")]: {
+            "flexDirection": "column",
+            "justifyContent": "flex-start",
+            "alignItems": "flex-start",
+        },
+    },
+    "declareReferentOrUserButton": {
+        [fr.breakpoints.down("md")]: {
+            "width": "100%",
+            "justifyContent": "center",
+        },
+    },
+    "footerActionsContainer": {
+        "display": "flex",
+        "marginLeft": fr.spacing("4v"),
+        "flex": 1,
+        "justifyContent": "space-between",
+        "color": theme.decisions.text.title.blueFrance.default,
+        [fr.breakpoints.down("md")]: {
+            "marginLeft": 0,
+            "marginTop": fr.spacing("3v"),
+            "gap": fr.spacing("4v"),
+            "alignSelf": "end",
+        },
+    },
+    "footerActionLink": {
+        "background": "none",
+    },
+}));
 
 export const { i18n } = declareComponentKeys<
     | "last version"
