@@ -48,6 +48,7 @@ export const CatalogCard = memo((props: Props) => {
         ...rest
     } = props;
 
+    /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ CatalogCard });
@@ -98,7 +99,12 @@ export const CatalogCard = memo((props: Props) => {
                                 </div>
                             </div>
                             <div>
-                                <p className={cx(fr.cx("fr-card__detail"))}>
+                                <p
+                                    className={cx(
+                                        fr.cx("fr-card__detail"),
+                                        classes.softwareVersionContainer,
+                                    )}
+                                >
                                     {t("last version")} :
                                     <span
                                         className={cx(
@@ -183,8 +189,7 @@ const useStyles = makeStyles({
         "container": {
             ...fr.spacing("padding", { topBottom: "7v" }),
             ...fr.spacing("padding", { rightLeft: "6v" }),
-            "backgroundColor": getColors(theme.isDark).decisions.background.default.grey
-                .default,
+            "backgroundColor": theme.decisions.background.default.grey.default,
             [fr.breakpoints.down("md")]: {
                 ...fr.spacing("padding", { topBottom: "5v" }),
                 ...fr.spacing("padding", { rightLeft: "3v" }),
@@ -202,6 +207,10 @@ const useStyles = makeStyles({
             "height": fr.spacing("10v"),
             "width": fr.spacing("10v"),
             "marginRight": fr.spacing("3v"),
+            [fr.breakpoints.down("md")]: {
+                "height": fr.spacing("5v"),
+                "width": fr.spacing("5v"),
+            },
         },
         "titleContainer": {
             "display": "flex",
@@ -222,13 +231,18 @@ const useStyles = makeStyles({
                 },
             },
         },
+        "softwareVersionContainer": {
+            [fr.breakpoints.down("md")]: {
+                fontSize: fr.spacing("2v"),
+            },
+        },
         "badgeVersion": {
             ...fr.spacing("margin", { rightLeft: "1v" }),
         },
         "description": {
             "marginTop": 0,
             "marginBottom": fr.spacing("3v"),
-            "color": getColors(theme.isDark).decisions.text.default.grey.default,
+            "color": theme.decisions.text.default.grey.default,
             "height": fr.spacing("20v"),
             "overflowY": "auto",
         },
@@ -262,7 +276,7 @@ const useStyles = makeStyles({
             "marginLeft": fr.spacing("4v"),
             "flex": 1,
             "justifyContent": "space-between",
-            "color": getColors(theme.isDark).decisions.text.title.blueFrance.default,
+            "color": theme.decisions.text.title.blueFrance.default,
             [fr.breakpoints.down("md")]: {
                 marginLeft: 0,
                 marginTop: fr.spacing("3v"),

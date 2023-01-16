@@ -72,7 +72,7 @@ export const TooLongDescription = getStory({
         href: "#",
         onClick: () => {},
     },
-    isPresentInSupportMarket: false,
+    isPresentInSupportMarket: true,
     isDesktop: true,
     isFromFrenchPublicService: true,
     softwareDescription:
