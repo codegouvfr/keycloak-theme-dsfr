@@ -38,9 +38,6 @@ export const DocsContainer = ({ children, context }) => {
                 .docs-story {
                     background-color: ${backgroundColor};
                 }
-                [id^=story--] .container {
-                    border: 1px dashed #e8e8e8;
-                }
 
                 .docblock-argstable-head th:nth-child(3), .docblock-argstable-body tr > td:nth-child(3) {
                     visibility: collapse;
