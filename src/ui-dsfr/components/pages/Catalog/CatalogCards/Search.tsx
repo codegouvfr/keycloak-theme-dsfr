@@ -3,28 +3,28 @@ import { makeStyles } from "tss-react/dsfr";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-import { NonPostableEvt } from "evt";
-import { useEvt } from "evt/hooks";
+import { declareComponentKeys } from "i18nifty";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
+import { useTranslation } from "ui-dsfr/i18n";
 
 export type Props = {
     className?: string;
     search: string;
-    onSearchChange: (search: string) => void;
+    onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     organisations: string[];
-    onOrganisationsChange: (organisation: string | undefined) => void;
+    onOrganisationChange: (organisation: string | undefined) => void;
     selectedOrganisation: string | undefined;
     categories: string[];
     onCategoriesChange: (contextcategory: string | undefined) => void;
-    selectedCategory: string | undefined;
+    selectedCategories: string | undefined;
     contexts: string[];
-    onContextsChange: (context: string | undefined) => void;
+    onContextChange: (context: string | undefined) => void;
     selectedContext: string | undefined;
     prerogatives: string[];
     onPrerogativesChange: (prerogative: string | undefined) => void;
-    selectedPrerogative: string | undefined;
+    selectedPrerogatives: string | undefined;
 };
 
 export function Search(props: Props) {
@@ -33,17 +33,17 @@ export function Search(props: Props) {
         search,
         onSearchChange,
         organisations,
-        onOrganisationsChange,
+        onOrganisationChange,
         selectedOrganisation,
         categories,
         onCategoriesChange,
-        selectedCategory,
+        selectedCategories,
         contexts,
-        onContextsChange,
+        onContextChange,
         selectedContext,
         prerogatives,
         onPrerogativesChange,
-        selectedPrerogative,
+        selectedPrerogatives,
         ...rest
     } = props;
 
@@ -58,6 +58,7 @@ export function Search(props: Props) {
 
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
+    const { t } = useTranslation({ Search });
     const { classes, cx } = useStyles({
         "filterWrapperMaxHeight": areFiltersOpen
             ? filtersWrapperDivElement?.scrollHeight ?? 0
@@ -74,11 +75,11 @@ export function Search(props: Props) {
             >
                 <SearchBar
                     className={classes.searchBar}
-                    label="Filter by color code (e.g. #c9191e), CSS variable name (e.g. --text-active-red-marianne) or something else (e.g. marianne)..."
+                    label={t("placeholder")}
                     nativeInputProps={{
                         "ref": inputElement => setInputElement(inputElement),
                         "value": search,
-                        "onChange": event => onSearchChange(event.target.value),
+                        "onChange": event => onSearchChange(event),
                     }}
                 />
                 <Button
@@ -99,49 +100,49 @@ export function Search(props: Props) {
                 className={classes.filtersWrapper}
             >
                 <Select
-                    label={`Organisation`}
+                    label={t("organisationLabel")}
                     disabled={!organisations.length}
                     nativeSelectProps={{
-                        "onChange": event => onOrganisationsChange(event.target.value),
+                        "onChange": event => onOrganisationChange(event.target.value),
                         "defaultValue": selectedOrganisation ?? "",
                     }}
                 >
                     {organisations.map(organisation => (
-                        <option value={organisation ?? ""} key={organisation ?? 0}>
-                            {organisation ?? "No organisation selected..."}
+                        <option value={organisation} key={organisation}>
+                            {organisation}
                         </option>
                     ))}
                 </Select>
                 <Select
-                    label={"Categories"}
+                    label={t("categoriesLabel")}
                     disabled={!categories.length}
                     nativeSelectProps={{
                         "onChange": event => onCategoriesChange(event.target.value),
-                        "defaultValue": selectedCategory ?? "",
+                        "defaultValue": selectedCategories ?? "",
                     }}
                 >
                     {categories.map(category => (
-                        <option value={category ?? ""} key={category ?? 0}>
-                            {category ?? "No category selected..."}
+                        <option value={category} key={category}>
+                            {category}
                         </option>
                     ))}
                 </Select>
                 <Select
-                    label={`Context`}
+                    label={t("contextLabel")}
                     disabled={!contexts.length}
                     nativeSelectProps={{
-                        "onChange": event => onContextsChange(event.target.value),
+                        "onChange": event => onContextChange(event.target.value),
                         "defaultValue": selectedContext ?? "",
                     }}
                 >
                     {contexts.map(context => (
-                        <option value={context ?? ""} key={context ?? 0}>
-                            {context ?? "No usage selected..."}
+                        <option value={context} key={context}>
+                            {context}
                         </option>
                     ))}
                 </Select>
                 <Select
-                    label={`Prérogatives`}
+                    label={t("prerogativesLabel")}
                     disabled={!prerogatives.length}
                     nativeSelectProps={{
                         "onChange": event => onPrerogativesChange(event.target.value),
@@ -149,8 +150,8 @@ export function Search(props: Props) {
                     }}
                 >
                     {prerogatives.map(prerogative => (
-                        <option value={prerogative ?? ""} key={prerogative ?? 0}>
-                            {prerogative ?? "No prerogative selected..."}
+                        <option value={prerogative} key={prerogative}>
+                            {prerogative}
                         </option>
                     ))}
                 </Select>
@@ -191,3 +192,12 @@ const useStyles = makeStyles<{ filterWrapperMaxHeight: number }>({ "name": { Sea
         },
     }),
 );
+
+export const { i18n } = declareComponentKeys<
+    | "placeholder"
+    | "filtersButton"
+    | "organisationLabel"
+    | "categoriesLabel"
+    | "contextLabel"
+    | "prerogativesLabel"
+>()({ Search });

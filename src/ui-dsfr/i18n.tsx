@@ -24,6 +24,7 @@ const {
 } = createI18nApi<
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/Search").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
@@ -49,18 +50,14 @@ const {
                 "go back": "Back to main services",
                 "search results": ({ count }) => `${count} Free software`,
             },
-            /*            "Catalog": {
-                "header text1": "Recommended Free Software catalog",
-                "header text2":
-                    "Catalog of used and recommended free and open source software for administrative public services.",
-                "what is the SILL": ({ link }) => (
-                    <>
-                        {" "}
-                        <MuiLink {...link}>Click here</MuiLink> to learn more about what
-                        is the SILL.{" "}
-                    </>
-                ),
-            },*/
+            "Search": {
+                "placeholder": "Rechercher un logiciel, un mot, une référence",
+                "filtersButton": "Filtres",
+                "organisationLabel": "Organisation",
+                "categoriesLabel": "Catégories",
+                "contextLabel": "Contexte",
+                "prerogativesLabel": "Prérogatives",
+            }
         },
         "fr": {
             /* spell-checker: disable */
@@ -86,19 +83,14 @@ const {
                 "search results": ({ count }) =>
                     `${count} logiciel libre${count === 1 ? "" : "s"}`,
             },
-            /*            "Catalog": {
-                "header text1": "Catalogue des logiciels libres du SILL",
-                "header text2":
-                    "Le catalogue des logiciels libres utilisés et recommandés pour les administrations",
-                "what is the SILL": ({ link }) => (
-                    <>
-                        {" "}
-                        <MuiLink {...link}>Cliquez ici</MuiLink>
-                        &nbsp;pour comprendre ce qu'est le SILL et quelles sont ses
-                        missions
-                    </>
-                ),
-            },*/
+            "Search": {
+                "placeholder": "Rechercher un logiciel, un mot, une référence",
+                "filtersButton": "Filtres",
+                "organisationLabel": "Organisation",
+                "categoriesLabel": "Catégories",
+                "contextLabel": "Contexte",
+                "prerogativesLabel": "Prérogatives",
+            }
             /* spell-checker: enable */
         },
     },

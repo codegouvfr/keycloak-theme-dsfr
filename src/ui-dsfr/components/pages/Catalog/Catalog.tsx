@@ -1,5 +1,5 @@
 import "minimal-polyfills/Object.fromEntries";
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import { createGroup } from "type-route";
 import type { Link } from "type-route";
 import { makeStyles } from "tss-react/dsfr";
@@ -36,22 +36,6 @@ export function Catalog(props: Props) {
     const pageHeaderRef = useStateRef<HTMLDivElement>(null);
     const { top: pageHeaderStickyTop } = useStickyTop({ "ref": pageHeaderRef });
     const { classes, cx } = useStyles({ pageHeaderStickyTop });
-    /*    const { sliceState } = useCoreState(selectors.catalog.sliceState);
-    const { queryString } = useCoreState(selectors.catalog.queryString);
-    const { isProcessing } = useCoreState(selectors.catalog.isProcessing);
-    /!*const { softwares } = useCoreState(selectors.catalog.softwares);*!/
-    const { tags } = useCoreState(selectors.catalog.tags);
-    const { filteredSoftwares } = useCoreState(selectors.catalog.filteredSoftwares);
-    const { alikeSoftwares } = useCoreState(selectors.catalog.alikeSoftwares);
-    const { referentsBySoftwareId } = useCoreState(
-        selectors.catalog.referentsBySoftwareId,
-    );
-    const { softwareNameBySoftwareId } = useCoreState(
-        selectors.catalog.softwareNameBySoftwareId,
-    );
-    const { searchResultCount } = useCoreState(selectors.catalog.searchResultCount);
-
-    const { catalog, userAuthentication } = useCoreFunctions();*/
 
     /**
      * MOCK DATA
@@ -101,7 +85,7 @@ export function Catalog(props: Props) {
      * FIN MOCK DATA
      */
 
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(route.params.q);
     const [selectedOrganisation, setSelectedOrganisation] =
         useState<SearchProps["selectedOrganisation"]>(undefined);
     const [selectedCategory, setSelectedCategory] =
@@ -120,6 +104,10 @@ export function Catalog(props: Props) {
         setFilteredColorDecisionAndCorrespondingOption,
     ] = useState<Omit<CatalogCardProps, "className">[]>(softwares);
 
+    useEffect(() => {
+        updateSearch()
+    }, [])
+
     const updateSearch = () => {
         setFilteredColorDecisionAndCorrespondingOption(
             fzf
@@ -131,26 +119,32 @@ export function Catalog(props: Props) {
         );
     };
 
+    const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.currentTarget.value)
+        return routes.catalog({ "q": event.target.value }).replace()
+    }
+
     useDebounce(updateSearch, [search]);
 
     return (
         <div className={cx(classes.root, className)}>
             <div>
+                <p>Query: {route.params.q} </p>
                 <Search
-                    onSearchChange={search => setSearch(search)}
                     search={search}
+                    onSearchChange={onSearchChange}
                     organisations={organisations}
-                    onOrganisationsChange={setSelectedOrganisation}
+                    onOrganisationChange={setSelectedOrganisation}
                     selectedOrganisation={selectedOrganisation}
                     categories={categories}
                     onCategoriesChange={setSelectedCategory}
-                    selectedCategory={selectedCategory}
+                    selectedCategories={selectedCategory}
                     contexts={contexts}
-                    onContextsChange={setSelectedContext}
+                    onContextChange={setSelectedContext}
                     selectedContext={selectedContext}
                     prerogatives={prerogatives}
                     onPrerogativesChange={setSelectedPrerogative}
-                    selectedPrerogative={selectedPrerogative}
+                    selectedPrerogatives={selectedPrerogative}
                 />
                 <CatalogCards
                     searchResultCount={filteredColorDecisionAndCorrespondingOption.length}
@@ -165,9 +159,6 @@ export function Catalog(props: Props) {
         </div>
     );
 }
-export const { i18n } = declareComponentKeys<
-    "header text2" | { K: "what is the SILL"; P: { link: Link }; R: JSX.Element }
->()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
     "name": { Catalog },
