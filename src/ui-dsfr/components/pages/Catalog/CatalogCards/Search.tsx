@@ -50,34 +50,18 @@ export function Search(props: Props) {
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
-    const [searchBarWrapperElement, setSearchBarWrapperElement] =
-        useState<HTMLDivElement | null>(null);
-    const [filtersWrapperDivElement, setFiltersWrapperDivElement] =
-        useState<HTMLDivElement | null>(null);
-
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
     const { t } = useTranslation({ Search });
-    const { classes, cx } = useStyles({
-        "filterWrapperMaxHeight": areFiltersOpen
-            ? filtersWrapperDivElement?.scrollHeight ?? 0
-            : 0,
-    });
+    const { classes, cx } = useStyles();
 
     return (
-        <>
-            <div
-                className={cx(classes.root, className)}
-                ref={searchBarWrapperElement =>
-                    setSearchBarWrapperElement(searchBarWrapperElement)
-                }
-            >
+        <div className="fr-accordion">
+            <div className={cx(classes.root, className)}>
                 <SearchBar
                     className={classes.searchBar}
                     label={t("placeholder")}
                     nativeInputProps={{
-                        "ref": inputElement => setInputElement(inputElement),
                         "value": search,
                         "onChange": event => onSearchChange(event),
                     }}
@@ -89,79 +73,81 @@ export function Search(props: Props) {
                     }
                     iconPosition="right"
                     onClick={() => setAreFiltersOpen(!areFiltersOpen)}
+                    aria-expanded="false" aria-controls="accordion-filters"
                 >
                     Filters
                 </Button>
             </div>
-            <div
-                ref={filtersWrapperDivElement =>
-                    setFiltersWrapperDivElement(filtersWrapperDivElement)
-                }
-                className={classes.filtersWrapper}
-            >
-                <Select
-                    label={t("organisationLabel")}
-                    disabled={!organisations.length}
-                    nativeSelectProps={{
-                        "onChange": event => onOrganisationChange(event.target.value),
-                        "defaultValue": selectedOrganisation ?? "",
-                    }}
-                >
-                    {organisations.map(organisation => (
-                        <option value={organisation} key={organisation}>
-                            {organisation}
-                        </option>
-                    ))}
-                </Select>
-                <Select
-                    label={t("categoriesLabel")}
-                    disabled={!categories.length}
-                    nativeSelectProps={{
-                        "onChange": event => onCategoriesChange(event.target.value),
-                        "defaultValue": selectedCategories ?? "",
-                    }}
-                >
-                    {categories.map(category => (
-                        <option value={category} key={category}>
-                            {category}
-                        </option>
-                    ))}
-                </Select>
-                <Select
-                    label={t("contextLabel")}
-                    disabled={!contexts.length}
-                    nativeSelectProps={{
-                        "onChange": event => onContextChange(event.target.value),
-                        "defaultValue": selectedContext ?? "",
-                    }}
-                >
-                    {contexts.map(context => (
-                        <option value={context} key={context}>
-                            {context}
-                        </option>
-                    ))}
-                </Select>
-                <Select
-                    label={t("prerogativesLabel")}
-                    disabled={!prerogatives.length}
-                    nativeSelectProps={{
-                        "onChange": event => onPrerogativesChange(event.target.value),
-                        "defaultValue": prerogatives ?? "",
-                    }}
-                >
-                    {prerogatives.map(prerogative => (
-                        <option value={prerogative} key={prerogative}>
-                            {prerogative}
-                        </option>
-                    ))}
-                </Select>
+            <div className={cx("fr-collapse", classes.filtersAccordion)} id="accordion-filters">
+                <div className={cx(classes.filtersWrapper)}>
+                    <Select
+                        label={t("organisationLabel")}
+                        disabled={!organisations.length}
+                        nativeSelectProps={{
+                            "onChange": event => onOrganisationChange(event.target.value),
+                            "defaultValue": selectedOrganisation ?? "",
+                        }}
+                        className={cx(classes.filterSelectGroup)}
+                    >
+                        {organisations.map(organisation => (
+                            <option value={organisation} key={organisation}>
+                                {organisation}
+                            </option>
+                        ))}
+                    </Select>
+                    <Select
+                        label={t("categoriesLabel")}
+                        disabled={!categories.length}
+                        nativeSelectProps={{
+                            "onChange": event => onCategoriesChange(event.target.value),
+                            "defaultValue": selectedCategories ?? "",
+                        }}
+                        className={cx(classes.filterSelectGroup)}
+                    >
+                        {categories.map(category => (
+                            <option value={category} key={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </Select>
+                    <Select
+                        label={t("contextLabel")}
+                        disabled={!contexts.length}
+                        nativeSelectProps={{
+                            "onChange": event => onContextChange(event.target.value),
+                            "defaultValue": selectedContext ?? "",
+                        }}
+                        className={cx(classes.filterSelectGroup)}
+                    >
+                        {contexts.map(context => (
+                            <option value={context} key={context}>
+                                {context}
+                            </option>
+                        ))}
+                    </Select>
+                    <Select
+                        label={t("prerogativesLabel")}
+                        disabled={!prerogatives.length}
+                        nativeSelectProps={{
+                            "onChange": event => onPrerogativesChange(event.target.value),
+                            "defaultValue": prerogatives ?? "",
+                        }}
+                        className={cx(classes.filterSelectGroup)}
+                    >
+                        {prerogatives.map(prerogative => (
+                            <option value={prerogative} key={prerogative}>
+                                {prerogative}
+                            </option>
+                        ))}
+                    </Select>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 
-const useStyles = makeStyles<{ filterWrapperMaxHeight: number }>({ "name": { Search } })(
-    (theme, { filterWrapperMaxHeight }) => ({
+const useStyles = makeStyles({ "name": { Search } })(
+    (theme) => ({
         "root": {
             "display": "flex",
             "paddingTop": fr.spacing("6v"),
@@ -177,19 +163,23 @@ const useStyles = makeStyles<{ filterWrapperMaxHeight: number }>({ "name": { Sea
             "color": theme.decisions.text.actionHigh.blueFrance.default,
             "marginLeft": fr.spacing("4v"),
         },
-        "filtersWrapper": {
-            "transition": "max-height 0.2s ease-out",
-            "maxHeight": filterWrapperMaxHeight,
-            "overflow": "hidden",
-            "display": "flex",
-            "marginTop": fr.spacing("3v"),
-            "& > *": {
-                "flex": 1,
-                ...fr.spacing("padding", {
-                    "rightLeft": "4v",
-                }),
-            },
+        "filtersAccordion": {
+            "&&": {
+                "paddingLeft": 0,
+                "paddingRight": 0,
+            }
         },
+        "filtersWrapper": {
+            "display": "grid",
+            "gridTemplateColumns": "repeat(4, 1fr)",
+            "gap": fr.spacing("4v"),
+            "marginTop": fr.spacing("3v"),
+        },
+        "filterSelectGroup": {
+            "&:not(:last-of-type)": {
+                "paddingRight": "4v",
+            }
+        }
     }),
 );
 
