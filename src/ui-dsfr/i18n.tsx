@@ -25,6 +25,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/Search").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
@@ -53,11 +54,23 @@ const {
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
-                "organisationLabel": "Organisation",
+                "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-            }
+            },
+            "DetailCard": {
+                "last version": "Last version",
+                "last version date": ({ date }) => `in ${date}`,
+                "register date": ({ date }) => `${date}`,
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `${userCount} users and ${referentCount} referents`,
+                "declare oneself referent": "Declare yourself referent / user",
+                "isDesktop": "This software can be installed on desktop",
+                "isFromFrenchPublicService":
+                    "This software is from French public service",
+                "isPresentInSupportMarket": "This software is present in support market",
+            },
         },
         "fr": {
             /* spell-checker: disable */
@@ -86,11 +99,24 @@ const {
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
-                "organisationLabel": "Organisation",
+                "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-            }
+            },
+            "DetailCard": {
+                "last version": "Dernière version",
+                "last version date": ({ date }) => `en ${date}`,
+                "register date": ({ date }) => `${date}`,
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `${userCount} utilisateurs et ${referentCount} referents`,
+                "declare oneself referent": "Se déclarer référent / utilisateur",
+                "isDesktop": "Ce logiciel s'installe sur ordinateur",
+                "isFromFrenchPublicService":
+                    "Ce logiciel est originaire du service public français",
+                "isPresentInSupportMarket":
+                    "Ce logiciel est présent dans le marcher de support",
+            },
             /* spell-checker: enable */
         },
     },

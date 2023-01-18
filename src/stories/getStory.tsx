@@ -138,16 +138,6 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                     </>
                 ),
             ],
-            "parameters": {
-                "docs": {
-                    "description": {
-                        "component": [
-                            ...(description === undefined ? [] : [description]),
-                        ].join("  \n"),
-                    },
-                },
-                "viewMode": "docs",
-            },
             "argTypes": {
                 "darkMode": {
                     "table": {

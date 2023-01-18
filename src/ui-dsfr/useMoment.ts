@@ -390,3 +390,12 @@ export const shortEndMonthDate = (params: { time: number }): string => {
 
     return moment(date).locale(lang).format(`MMM YYYY`);
 };
+
+export const monthDate = (params: { time: number }): string => {
+    const { time } = params;
+
+    const date = new Date(time);
+    const { lang } = useLang();
+
+    return moment(date).locale(lang).format(`MMMM YYYY`);
+};
