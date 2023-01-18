@@ -1,33 +1,17 @@
-import "minimal-polyfills/Object.fromEntries";
 import React, { memo } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { CatalogCard } from "./CatalogCard";
-/*import { CatalogSearchArea } from "./CatalogSearchArea.tsx";*/
 import type { Props as CatalogCardProps } from "./CatalogCard";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui-dsfr/i18n";
-import { useConstCallback } from "powerhooks/useConstCallback";
-import MuiLink from "@mui/material/Link";
-import { ReactComponent as ServiceNotFoundSvg } from "ui-dsfr/assets/svg/ServiceNotFound.svg";
 import { useOnLoadMore } from "powerhooks/useOnLoadMore";
-import { CircularProgress } from "onyxia-ui/CircularProgress";
-import type { Link } from "type-route";
-import type { CompiledData } from "sill-api";
-import { exclude } from "tsafe/exclude";
-import { capitalize } from "tsafe/capitalize";
-import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
-import type { Param0 } from "tsafe";
 import { useStateRef } from "powerhooks/useStateRef";
 import { fr } from "@codegouvfr/react-dsfr";
-//import {  } from "@codegouvfr/react-dsfr/fr"
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 
 export type Props = {
     className?: string;
     search: string;
-    onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     searchResultCount: number;
     onLoadMore: () => void;
     hasMoreToLoad: boolean;
@@ -39,7 +23,6 @@ export const CatalogCards = memo((props: Props) => {
         className,
         searchResultCount,
         search,
-        onSearchChange,
         onLoadMore,
         hasMoreToLoad,
         catalogCardList,
@@ -69,24 +52,7 @@ export const CatalogCards = memo((props: Props) => {
         return <CatalogCard key={softwareName} {...software} />;
     });
 
-    /*    const evtCatalogSearchAreaAction = useConst(() =>
-        Evt.create<CatalogSearchAreaProps["evtAction"]>(),
-    );*/
-
-    /*    const onGoBackClick = useConstCallback(() =>
-        evtCatalogSearchAreaAction.post("CLEAR SEARCH"),
-    );*/
-
-    return (
-        /*            <CatalogSearchArea
-                tags={tags}
-                selectedTags={selectedTags}
-                onSelectedTagsChange={onSelectedTagsChange}
-                search={search}
-                onSearchChange={onSearchChange}
-            />*/
-        <div className={cx(classes.cards)}>{catalogCards}</div>
-    );
+    return <div className={cx(classes.cards)}>{catalogCards}</div>;
 });
 
 export const { i18n } = declareComponentKeys<
