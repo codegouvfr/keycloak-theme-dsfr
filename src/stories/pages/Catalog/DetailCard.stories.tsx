@@ -26,38 +26,38 @@ export const VueDefault = getStory({
         onClick: () => {},
     },
     isPresentInSupportMarket: true,
-    isDesktop: true,
+    isDesktop: false,
     isFromFrenchPublicService: true,
-    isRGAAComplient: true,
+    isRGAACompliant: true,
     userCount: 13,
     referentCount: 4,
     authors: [
         {
-            href: '#',
-            onClick: () => {}
-        }
+            href: "#",
+            onClick: () => {},
+        },
     ],
     comptoireDuLibreSheet: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
-    license: 'MIT',
+    license: "MIT",
     minimalVersionRequired: "68",
     serviceProvider: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     wikiDataSheet: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     sourceCodeRepository: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     officialWebsite: {
-        href: '#',
-        onClick: () => {}
+        href: "#",
+        onClick: () => {},
     },
     referencedInstances: 2,
     alikeSoftware: [
@@ -90,7 +90,6 @@ export const VueDefault = getStory({
                 href: "#",
                 onClick: () => {},
             },
-        }
-    ]
-
+        },
+    ],
 });

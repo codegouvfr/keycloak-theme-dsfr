@@ -77,7 +77,7 @@ export function Catalog(props: Props) {
         ]),
     }));
 
-    const organisations = ["organisation1", "organisation2", "organisation3"];
+    const organizations = ["organization1", "organization2", "organization3"];
     const categories = ["category1", "category2", "category3"];
     const contexts = ["context1", "context2", "context3"];
     const prerogatives = ["prerogative1", "prerogative2", "prerogative3"];
@@ -86,14 +86,14 @@ export function Catalog(props: Props) {
      */
 
     const [search, setSearch] = useState(route.params.q);
-    const [selectedOrganisation, setSelectedOrganisation] =
-        useState<SearchProps["selectedOrganisation"]>(undefined);
+    const [selectedOrganization, setSelectedOrganization] =
+        useState<SearchProps["selectedOrganization"]>(undefined);
     const [selectedCategory, setSelectedCategory] =
-        useState<SearchProps["selectedOrganisation"]>(undefined);
+        useState<SearchProps["selectedOrganization"]>(undefined);
     const [selectedContext, setSelectedContext] =
-        useState<SearchProps["selectedOrganisation"]>(undefined);
+        useState<SearchProps["selectedOrganization"]>(undefined);
     const [selectedPrerogative, setSelectedPrerogative] =
-        useState<SearchProps["selectedOrganisation"]>(undefined);
+        useState<SearchProps["selectedOrganization"]>(undefined);
 
     const fzf = new Fzf<Omit<CatalogCardProps, "className">[]>(softwares, {
         "selector": item => item.softwareName,
@@ -105,8 +105,8 @@ export function Catalog(props: Props) {
     ] = useState<Omit<CatalogCardProps, "className">[]>(softwares);
 
     useEffect(() => {
-        updateSearch()
-    }, [])
+        updateSearch();
+    }, []);
 
     const updateSearch = () => {
         setFilteredColorDecisionAndCorrespondingOption(
@@ -120,9 +120,9 @@ export function Catalog(props: Props) {
     };
 
     const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.currentTarget.value)
-        return routes.catalog({ "q": event.target.value }).replace()
-    }
+        setSearch(event.currentTarget.value);
+        return routes.catalog({ "q": event.target.value }).replace();
+    };
 
     useDebounce(updateSearch, [search]);
 
@@ -133,9 +133,9 @@ export function Catalog(props: Props) {
                 <Search
                     search={search}
                     onSearchChange={onSearchChange}
-                    organisations={organisations}
-                    onOrganisationChange={setSelectedOrganisation}
-                    selectedOrganisation={selectedOrganisation}
+                    organizations={organizations}
+                    onOrganizationChange={setSelectedOrganization}
+                    selectedOrganization={selectedOrganization}
                     categories={categories}
                     onCategoriesChange={setSelectedCategory}
                     selectedCategories={selectedCategory}

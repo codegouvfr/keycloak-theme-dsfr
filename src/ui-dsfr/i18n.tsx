@@ -60,16 +60,30 @@ const {
                 "prerogativesLabel": "Prérogatives",
             },
             "DetailCard": {
+                "tab title overview": "Overview",
+                "tab title instance": ({ instanceCount }) =>
+                    `Referenced instance (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Alike or equivalent proprietary software (${alikeSoftwareCount})`,
+                "about": "About",
+                "use full links": "Use full links",
+                "prerogatives": "Prerogatives",
                 "last version": "Last version",
                 "last version date": ({ date }) => `in ${date}`,
+                "register": "Date de l'ajout : ",
                 "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} users and ${referentCount} referents`,
                 "declare oneself referent": "Declare yourself referent / user",
-                "isDesktop": "This software can be installed on desktop",
-                "isFromFrenchPublicService":
-                    "This software is from French public service",
-                "isPresentInSupportMarket": "This software is present in support market",
+                "isDesktop": "Installable on agent desktop",
+                "isPresentInSupportMarket": "Present in support market",
+                "isFromFrenchPublicService": "From French public service",
+                "isRGAACompliant": "Is compliant with RGAA rules",
+                "service provider": "See service providers",
+                "comptoire du libre sheet": "Open Comptoir du libre sheet",
+                "wikiData sheet": "Open Wikidata sheet",
             },
         },
         "fr": {
@@ -105,17 +119,30 @@ const {
                 "prerogativesLabel": "Prérogatives",
             },
             "DetailCard": {
-                "last version": "Dernière version",
+                "tab title overview": "Aperçu",
+                "tab title instance": ({ instanceCount }) =>
+                    `Instances référencées (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Logiciel similaires ou équivalents propriétaires (${alikeSoftwareCount})`,
+                "about": "À propos",
+                "use full links": "Liens utiles",
+                "prerogatives": "Prérogatives",
+                "last version": "Dernière version : ",
                 "last version date": ({ date }) => `en ${date}`,
+                "register": "Date de l'ajout : ",
                 "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} utilisateurs et ${referentCount} referents`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
-                "isDesktop": "Ce logiciel s'installe sur ordinateur",
-                "isFromFrenchPublicService":
-                    "Ce logiciel est originaire du service public français",
-                "isPresentInSupportMarket":
-                    "Ce logiciel est présent dans le marcher de support",
+                "isDesktop": "Installable sur poste agent",
+                "isPresentInSupportMarket": "Présent dans le marché de support",
+                "isFromFrenchPublicService": "Développé par le service public",
+                "isRGAACompliant": "Respecte les normes RGAA",
+                "service provider": "Voir les prestataires de services",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "wikiData sheet": "Consulter la fiche de Wikidata",
             },
             /* spell-checker: enable */
         },

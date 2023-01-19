@@ -77,8 +77,8 @@ const useStyles = makeStyles<
                 : {
                       "display": "grid",
                       "gridTemplateColumns": `repeat(3, 1fr)`,
-                      "gridColumnGap": fr.spacing("4v"),
-                      "gridRowGap": fr.spacing("3v"),
+                      "columnGap": fr.spacing("4v"),
+                      "rowGap": fr.spacing("3v"),
                       [fr.breakpoints.down("xl")]: {
                           "gridTemplateColumns": `repeat(2, 1fr)`,
                       },
