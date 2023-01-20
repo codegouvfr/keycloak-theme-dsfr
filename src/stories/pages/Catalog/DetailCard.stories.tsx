@@ -1,4 +1,4 @@
-import { DetailCard } from "ui-dsfr/components/pages/Catalog/DetailCard";
+import { DetailCard } from "ui-dsfr/components/pages/Catalog/DetailCard/DetailCard";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";

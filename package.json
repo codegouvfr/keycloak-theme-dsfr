@@ -54,7 +54,7 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^0.25.3",
+        "@codegouvfr/react-dsfr": "^0.25.6",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",

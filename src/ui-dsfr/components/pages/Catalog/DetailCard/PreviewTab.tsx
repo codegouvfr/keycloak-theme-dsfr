@@ -6,60 +6,48 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate, monthDate } from "ui-dsfr/useMoment";
 import Tooltip from "@mui/material/Tooltip";
-import type { Props as CatalogCardProps } from "./CatalogCards/CatalogCard";
-import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
+
+export type Prerogative = {
+    label: string;
+    status: boolean;
+};
 
 export type Props = {
     className?: string;
-    softwareLogoUrl?: string;
-    softwareName: string;
-    isFromFrenchPublicService: boolean;
-    isDesktop: boolean;
-    isPresentInSupportMarket: boolean;
-    isRGAACompliant: boolean;
     softwareCurrentVersion: string;
     softwareDateCurrentVersion: number;
     registerDate: number;
-    userCount: number;
-    referentCount: number;
-    seeUserAndReferent: Link;
-    declareUserOrReferent: Link;
-    authors: Link[];
     minimalVersionRequired: string;
     license: string;
     serviceProvider: Link;
     comptoireDuLibreSheet: Link;
     wikiDataSheet: Link;
-    officialWebsite: Link;
-    sourceCodeRepository: Link;
-    referencedInstances: number;
-    alikeSoftware: CatalogCardProps[];
+    isDesktop: boolean;
+    isPresentInSupportMarket: boolean;
+    isFromFrenchPublicService: boolean;
+    isRGAACompliant: boolean;
 };
-
-export const DetailCard = memo((props: Props) => {
+export const PreviewTab = (props: Props) => {
     const {
-        className,
         softwareCurrentVersion,
         softwareDateCurrentVersion,
-        minimalVersionRequired,
         registerDate,
+        minimalVersionRequired,
         license,
-        serviceProvider,
         isDesktop,
         isPresentInSupportMarket,
         isFromFrenchPublicService,
         isRGAACompliant,
-        ...rest
+        serviceProvider,
+        comptoireDuLibreSheet,
+        wikiDataSheet,
     } = props;
-
-    /** Assert to make sure all props are deconstructed */
-    //assert<Equals<typeof rest, {}>>();
 
     const { classes, cx } = useStyles();
 
-    const { t } = useTranslation({ DetailCard });
+    const { t } = useTranslation({ PreviewTab });
 
-    const prerogativesList = [
+    const prerogativeList = [
         {
             label: t("isDesktop"),
             status: isDesktop,
@@ -78,7 +66,7 @@ export const DetailCard = memo((props: Props) => {
         },
     ];
 
-    const previewTab = (
+    return (
         <div className={classes.tabContainer}>
             <div className="section">
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>{t("about")}</p>
@@ -122,7 +110,7 @@ export const DetailCard = memo((props: Props) => {
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
                     {t("prerogatives")}
                 </p>
-                {prerogativesList.map(prerogative => {
+                {prerogativeList.map(prerogative => {
                     const { label, status } = prerogative;
                     return (
                         <div className={cx(classes.item, classes.prerogativeItem)}>
@@ -166,7 +154,7 @@ export const DetailCard = memo((props: Props) => {
                     {t("service provider")}
                 </a>
                 <a
-                    {...serviceProvider}
+                    {...comptoireDuLibreSheet}
                     target="_blank"
                     title={t("comptoire du libre sheet")}
                     className={cx(classes.externalLink, classes.item)}
@@ -174,7 +162,7 @@ export const DetailCard = memo((props: Props) => {
                     {t("comptoire du libre sheet")}
                 </a>
                 <a
-                    {...serviceProvider}
+                    {...wikiDataSheet}
                     target="_blank"
                     title={t("wikiData sheet")}
                     className={cx(classes.externalLink, classes.item)}
@@ -184,30 +172,11 @@ export const DetailCard = memo((props: Props) => {
             </div>
         </div>
     );
-
-    return (
-        <div className={cx(classes.root, className)}>
-            <Tabs
-                tabs={[
-                    { "label": t("tab title overview"), "content": previewTab },
-                    {
-                        "label": t("tab title instance", { instanceCount: 2 }),
-                        "content": <p>Content of tab2</p>,
-                    },
-                    {
-                        "label": t("tab title alike software", { alikeSoftwareCount: 1 }),
-                        "content": <p>Content of tab2</p>,
-                    },
-                ]}
-            />
-        </div>
-    );
-});
+};
 
 const useStyles = makeStyles({
-    "name": { DetailCard },
+    "name": { PreviewTab },
 })(theme => ({
-    "root": {},
     "tabContainer": {
         "display": "grid",
         "gridTemplateColumns": `repeat(2, 1fr)`,
@@ -254,9 +223,6 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "tab title overview"
-    | { K: "tab title instance"; P: { instanceCount: number } }
-    | { K: "tab title alike software"; P: { alikeSoftwareCount: number } }
     | "about"
     | "use full links"
     | "prerogatives"
@@ -266,8 +232,6 @@ export const { i18n } = declareComponentKeys<
     | { K: "register date"; P: { date: string } }
     | "minimal version"
     | "license"
-    | { K: "userAndReferentCount"; P: { userCount: number; referentCount: number } }
-    | "declare oneself referent"
     | "isDesktop"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
@@ -275,4 +239,4 @@ export const { i18n } = declareComponentKeys<
     | "service provider"
     | "comptoire du libre sheet"
     | "wikiData sheet"
->()({ DetailCard });
+>()({ PreviewTab });
