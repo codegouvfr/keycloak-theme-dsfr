@@ -2100,7 +2100,7 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@reduxjs/toolkit@^1.8.6", "@reduxjs/toolkit@^1.9.0":
+"@reduxjs/toolkit@^1.8.6", "@reduxjs/toolkit@^1.9.1":
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.9.1.tgz#4c34dc4ddcec161535288c60da5c19c3ef15180e"
   integrity sha512-HikrdY+IDgRfRYlCTGUQaiCxxDDgM1mQrRbZ6S1HFZX5ZYuJ4o8EstNmhTwHdPl2rTmLxzwSu0b3AyeyTlR+RA==
@@ -12872,13 +12872,21 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-clean-architecture@^2.6.1, redux-clean-architecture@^2.8.0:
+redux-clean-architecture@^2.6.1:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/redux-clean-architecture/-/redux-clean-architecture-2.8.0.tgz#e12483fd93cf4d4b03f89064d4f660753c78ebb9"
   integrity sha512-QAQCcZdtGkDS3wfaE88BagTdh+vjweAlPF5idWLtMSMdkng+Jfp09JzcBUS+V2J0niG+A7kpUkFP5sq5tHkkGg==
   dependencies:
     minimal-polyfills "^2.2.2"
     tsafe "^1.2.1"
+
+redux-clean-architecture@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/redux-clean-architecture/-/redux-clean-architecture-3.2.4.tgz#508a7082aba77ee7de0c7c51cbba35589df566b8"
+  integrity sha512-agXg+UIYRabsdpU7DfNtFoldOSxV5n/CFmlO2d6cyKVnoaNsuuS19rpEieiQbh4FCLFnQzU+p0MeZ5fXt5LzEg==
+  dependencies:
+    minimal-polyfills "^2.2.2"
+    tsafe "^1.4.1"
 
 redux-thunk@^2.4.2:
   version "2.4.2"

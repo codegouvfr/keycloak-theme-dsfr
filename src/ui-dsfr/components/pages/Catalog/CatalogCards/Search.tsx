@@ -73,12 +73,16 @@ export function Search(props: Props) {
                     }
                     iconPosition="right"
                     onClick={() => setAreFiltersOpen(!areFiltersOpen)}
-                    aria-expanded="false" aria-controls="accordion-filters"
+                    aria-expanded="false"
+                    aria-controls="accordion-filters"
                 >
                     Filters
                 </Button>
             </div>
-            <div className={cx("fr-collapse", classes.filtersAccordion)} id="accordion-filters">
+            <div
+                className={cx("fr-collapse", classes.filtersAccordion)}
+                id="accordion-filters"
+            >
                 <div className={cx(classes.filtersWrapper)}>
                     <Select
                         label={t("organisationLabel")}
@@ -132,7 +136,7 @@ export function Search(props: Props) {
                             "onChange": event => onPrerogativesChange(event.target.value),
                             "defaultValue": prerogatives ?? "",
                         }}
-                        className={cx(classes.filterSelectGroup)}
+                        className={classes.filterSelectGroup}
                     >
                         {prerogatives.map(prerogative => (
                             <option value={prerogative} key={prerogative}>
@@ -146,42 +150,40 @@ export function Search(props: Props) {
     );
 }
 
-const useStyles = makeStyles({ "name": { Search } })(
-    (theme) => ({
-        "root": {
-            "display": "flex",
-            "paddingTop": fr.spacing("6v"),
+const useStyles = makeStyles({ "name": { Search } })(theme => ({
+    "root": {
+        "display": "flex",
+        "paddingTop": fr.spacing("6v"),
+    },
+    "searchBar": {
+        "flex": 1,
+    },
+    "filterButton": {
+        "backgroundColor": theme.decisions.background.actionLow.blueFrance.default,
+        "&&&:hover": {
+            "backgroundColor": theme.decisions.background.actionLow.blueFrance.hover,
         },
-        "searchBar": {
-            "flex": 1,
+        "color": theme.decisions.text.actionHigh.blueFrance.default,
+        "marginLeft": fr.spacing("4v"),
+    },
+    "filtersAccordion": {
+        "&&": {
+            "paddingLeft": 0,
+            "paddingRight": 0,
         },
-        "filterButton": {
-            "backgroundColor": theme.decisions.background.actionLow.blueFrance.default,
-            "&&&:hover": {
-                "backgroundColor": theme.decisions.background.actionLow.blueFrance.hover,
-            },
-            "color": theme.decisions.text.actionHigh.blueFrance.default,
-            "marginLeft": fr.spacing("4v"),
+    },
+    "filtersWrapper": {
+        "display": "grid",
+        "gridTemplateColumns": "repeat(4, 1fr)",
+        "gap": fr.spacing("4v"),
+        "marginTop": fr.spacing("3v"),
+    },
+    "filterSelectGroup": {
+        "&:not(:last-of-type)": {
+            "paddingRight": "4v",
         },
-        "filtersAccordion": {
-            "&&": {
-                "paddingLeft": 0,
-                "paddingRight": 0,
-            }
-        },
-        "filtersWrapper": {
-            "display": "grid",
-            "gridTemplateColumns": "repeat(4, 1fr)",
-            "gap": fr.spacing("4v"),
-            "marginTop": fr.spacing("3v"),
-        },
-        "filterSelectGroup": {
-            "&:not(:last-of-type)": {
-                "paddingRight": "4v",
-            }
-        }
-    }),
-);
+    },
+}));
 
 export const { i18n } = declareComponentKeys<
     | "placeholder"

@@ -57,7 +57,7 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-            }
+            },
         },
         "fr": {
             /* spell-checker: disable */
@@ -90,7 +90,7 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-            }
+            },
             /* spell-checker: enable */
         },
     },

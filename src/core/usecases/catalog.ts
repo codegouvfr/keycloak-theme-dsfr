@@ -925,10 +925,6 @@ function parseQuery(queryString: string): Query {
 }
 
 function stringifyQuery(query: Query) {
-    if (query.search === "" && query.tags.length === 0) {
-        return "";
-    }
-
     if (query.tags.length === 0) {
         return query.search;
     }

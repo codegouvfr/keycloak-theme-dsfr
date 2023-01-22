@@ -106,16 +106,17 @@ export const Header = memo(
                                 : getEnv().HEADER_SHORT}
                         </Text>
                     )}
-                    {theme.windowInnerWidth > breakpoint && HEADER_USECASE_DESCRIPTION && (
-                        <Text
-                            typo="section heading"
-                            className={css({ "fontWeight": 500 })}
-                            color="focus"
-                        >
-                            &nbsp;
-                            {HEADER_USECASE_DESCRIPTION}
-                        </Text>
-                    )}
+                    {theme.windowInnerWidth > breakpoint &&
+                        HEADER_USECASE_DESCRIPTION && (
+                            <Text
+                                typo="section heading"
+                                className={css({ "fontWeight": 500 })}
+                                color="focus"
+                            >
+                                &nbsp;
+                                {HEADER_USECASE_DESCRIPTION}
+                            </Text>
+                        )}
                 </a>
                 <div className={classes.rightEndActionsContainer}>
                     {props.useCase === "core app" && (

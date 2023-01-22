@@ -105,8 +105,8 @@ export function Catalog(props: Props) {
     ] = useState<Omit<CatalogCardProps, "className">[]>(softwares);
 
     useEffect(() => {
-        updateSearch()
-    }, [])
+        updateSearch();
+    }, []);
 
     const updateSearch = () => {
         setFilteredColorDecisionAndCorrespondingOption(
@@ -120,9 +120,9 @@ export function Catalog(props: Props) {
     };
 
     const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.currentTarget.value)
-        return routes.catalog({ "q": event.target.value }).replace()
-    }
+        setSearch(event.currentTarget.value);
+        return routes.catalog({ "q": event.target.value }).replace();
+    };
 
     useDebounce(updateSearch, [search]);
 
