@@ -6,6 +6,9 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { objectKeys } from "tsafe/objectKeys";
 import memoize from "memoizee";
 import { id } from "tsafe/id";
+import { Fzf } from "fzf";
+import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
 
 export type SoftwareCatalogState = {
     softwares: SoftwareCatalogState.Software.Internal[];
@@ -36,7 +39,8 @@ export namespace SoftwareCatalogState {
         | "isInstallableOnUserTerminal"
         | "isPresentInSupportContract"
         | "isFromFrenchPublicServices"
-        | "doRespectRgaa";
+        | "doRespectRgaa"
+        | "isTestable";
 
     export namespace Software {
         type Common = {
@@ -52,18 +56,13 @@ export namespace SoftwareCatalogState {
                 | undefined;
             referentsCount: number;
             userCounts: number;
-            isPresentInSupportContract: boolean;
-            isFromFrenchPublicService: boolean;
-            doRespectRgaa: boolean;
-            addedTime: number;
-            updateTime: number;
             parentSoftware:
                 | {
                       softwareName: string;
                       softwareId: string;
                   }
                 | undefined;
-            testUrl: string;
+            testUrl: string | undefined;
         };
 
         export type External = Common & {
@@ -71,6 +70,8 @@ export namespace SoftwareCatalogState {
         };
 
         export type Internal = Common & {
+            addedTime: number;
+            updateTime: number;
             categories: string[];
             organizations: string[];
             environments: Record<Environment, boolean>;
@@ -79,6 +80,7 @@ export namespace SoftwareCatalogState {
                 Exclude<Prerogative, "isInstallableOnUserTerminal">,
                 boolean
             >;
+            search: string;
         };
     }
 }
@@ -161,15 +163,64 @@ export const selectors = (() => {
 
     function internalSoftwareToExternalSoftware(
         software: SoftwareCatalogState.Software.Internal,
-    ) {
-        return null as any as SoftwareCatalogState.Software.External;
+    ): SoftwareCatalogState.Software.External {
+        const {
+            softwareId,
+            logoUrl,
+            softwareName,
+            softwareDescriptions,
+            lastVersion,
+            referentsCount,
+            userCounts,
+            parentSoftware,
+            testUrl,
+            addedTime,
+            updateTime,
+            categories,
+            organizations,
+            environments,
+            prerogatives,
+            search,
+            ...rest
+        } = software;
+
+        assert<Equals<typeof rest, {}>>();
+
+        return {
+            softwareId,
+            logoUrl,
+            softwareName,
+            softwareDescriptions,
+            lastVersion,
+            referentsCount,
+            userCounts,
+            parentSoftware,
+            testUrl,
+            "prerogatives": {
+                ...prerogatives,
+                "isInstallableOnUserTerminal":
+                    environments.linux ||
+                    environments.mac ||
+                    environments.windows ||
+                    environments.smartphone,
+            },
+        };
     }
 
     const { filterBySearch } = (() => {
+        const getFzf = memoize(
+            (softwares: SoftwareCatalogState.Software.Internal[]) =>
+                new Fzf(softwares, { "selector": ({ search }) => search }),
+            { "max": 1 },
+        );
+
         const filterBySearchMemoized = memoize(
-            (softwares: SoftwareCatalogState.Software.Internal[], search: string) => {
-                return null as any as Set<number>;
-            },
+            (softwares: SoftwareCatalogState.Software.Internal[], search: string) =>
+                new Set(
+                    getFzf(softwares)
+                        .find(search)
+                        .map(({ item: { softwareId } }) => softwareId),
+                ),
             { "max": 1 },
         );
 
