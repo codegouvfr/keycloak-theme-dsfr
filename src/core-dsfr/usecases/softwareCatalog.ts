@@ -21,30 +21,22 @@ export type SoftwareCatalogState = {
 };
 
 export namespace SoftwareCatalogState {
-    const sorts = [
-        "added time",
-        "update time",
-        "last version publication date",
-        "user count",
-        "referent count",
-        "user count ASC",
-        "referent count ASC",
-    ] as const;
+    export type Sort =
+        | "added time"
+        | "update time"
+        | "last version publication date"
+        | "user count"
+        | "referent count"
+        | "user count ASC"
+        | "referent count ASC";
 
-    export type Sort = typeof sorts[number];
+    export type Environment = "linux" | "windows" | "mac" | "browser" | "smartphone";
 
-    const environments = ["linux", "windows", "mac", "browser", "smartphone"] as const;
-
-    export type Environment = typeof environments[number];
-
-    const prerogatives = [
-        "isInstallableOnUserTerminal",
-        "isPresentInSupportContract",
-        "isFromFrenchPublicServices",
-        "doRespectRgaa",
-    ] as const;
-
-    export type Prerogative = typeof prerogatives[number];
+    export type Prerogative =
+        | "isInstallableOnUserTerminal"
+        | "isPresentInSupportContract"
+        | "isFromFrenchPublicServices"
+        | "doRespectRgaa";
 
     export namespace Software {
         type Common = {
