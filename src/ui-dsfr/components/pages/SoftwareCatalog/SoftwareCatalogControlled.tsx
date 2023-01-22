@@ -4,7 +4,7 @@ import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 
-const availableSortIds = [
+const availableSorts = [
     "added time",
     "update time",
     "last version publication date",
@@ -14,7 +14,7 @@ const availableSortIds = [
     "referent count ASC",
 ] as const;
 
-assert<Equals<typeof availableSortIds[number], SoftwareCatalogState.SortId>>();
+assert<Equals<typeof availableSorts[number], SoftwareCatalogState.Sort>>();
 
 export type Props = {
     className?: string;
@@ -23,40 +23,38 @@ export type Props = {
     search: string;
     onSearchChange: (search: string) => void;
 
-    sortId: SoftwareCatalogState.SortId | undefined;
-    onSortIdChange: (sortId: SoftwareCatalogState.SortId | undefined) => void;
+    sort: SoftwareCatalogState.Sort | undefined;
+    onSortChange: (sort: SoftwareCatalogState.Sort | undefined) => void;
 
-    organizationFilterOptions: {
+    organizationOptions: {
         organization: string;
         softwareCount: number;
     }[];
-    organizationFilter: string | undefined;
-    onOrganizationFilterChange: (organizationFilter: string | undefined) => void;
+    organization: string | undefined;
+    onOrganizationChange: (organization: string | undefined) => void;
 
     categoryFilerOptions: {
         category: string;
         softwareCount: number;
     }[];
-    categoryFilter: string | undefined;
-    onCategoryFilterChange: (categoryFilter: string | undefined) => void;
+    category: string | undefined;
+    onCategoryFilterChange: (category: string | undefined) => void;
 
-    environmentFilterOptions: {
+    environmentOptions: {
         environment: SoftwareCatalogState.Environment;
         softwareCount: number;
     }[];
-    environmentFilter: SoftwareCatalogState.Environment | undefined;
-    onEnvironmentFilterChange: (
+    environment: SoftwareCatalogState.Environment | undefined;
+    onEnvironmentChange: (
         environmentsFilter: SoftwareCatalogState.Environment | undefined,
     ) => void;
 
-    prerogativesFilterOptions: {
+    prerogativesOptions: {
         prerogative: SoftwareCatalogState.Prerogative;
         softwareCount: number;
     }[];
-    prerogativesFilter: SoftwareCatalogState.Prerogative[];
-    onPrerogativesFilterChange: (
-        prerogativesFilter: SoftwareCatalogState.Prerogative[],
-    ) => void;
+    prerogatives: SoftwareCatalogState.Prerogative[];
+    onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
 };
 
 export const SoftwareCatalogControlled = memo((props: Props) => {

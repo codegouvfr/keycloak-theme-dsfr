@@ -27,14 +27,12 @@ export function SoftwareCatalog(props: Props) {
     const { softwareCatalog } = useCoreFunctions();
 
     const { softwares } = useCoreState(selectors.softwareCatalog.softwares);
-    const { organizationFilterOptions } = useCoreState(
-        selectors.softwareCatalog.organizationFilterOptions,
+    const { organizationOptions } = useCoreState(
+        selectors.softwareCatalog.organizationOptions,
     );
-    const { categoryFilterOptions } = useCoreState(
-        selectors.softwareCatalog.categoryFilterOptions,
-    );
-    const { environmentFilterOptions } = useCoreState(
-        selectors.softwareCatalog.environmentFilterOptions,
+    const { categoryOptions } = useCoreState(selectors.softwareCatalog.categoryOptions);
+    const { environmentOptions } = useCoreState(
+        selectors.softwareCatalog.environmentOptions,
     );
     const { prerogativeFilterOptions } = useCoreState(
         selectors.softwareCatalog.prerogativeFilterOptions,
@@ -42,17 +40,16 @@ export function SoftwareCatalog(props: Props) {
 
     const [, startTransition] = useTransition();
 
-    const onSortIdChange = useConstCallback<
-        SoftwareCatalogControlledProps["onSortIdChange"]
-    >(sort =>
-        startTransition(() =>
-            routes
-                .catalog({
-                    ...route.params,
-                    sort,
-                })
-                .replace(),
-        ),
+    const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
+        sort =>
+            startTransition(() =>
+                routes
+                    .catalog({
+                        ...route.params,
+                        sort,
+                    })
+                    .replace(),
+            ),
     );
 
     const onSearchChange = useConstCallback<
@@ -77,8 +74,8 @@ export function SoftwareCatalog(props: Props) {
         [route.params.search],
     );
 
-    const onOrganizationFilterChange = useConstCallback<
-        SoftwareCatalogControlledProps["onOrganizationFilterChange"]
+    const onOrganizationChange = useConstCallback<
+        SoftwareCatalogControlledProps["onOrganizationChange"]
     >(organization =>
         startTransition(() =>
             routes
@@ -92,7 +89,7 @@ export function SoftwareCatalog(props: Props) {
 
     useEffect(() => {
         softwareCatalog.updateFilter({
-            "key": "organizationFilter",
+            "key": "organization",
             "value": route.params.organization,
         });
     }, [route.params.organization]);
@@ -112,13 +109,13 @@ export function SoftwareCatalog(props: Props) {
 
     useEffect(() => {
         softwareCatalog.updateFilter({
-            "key": "categoryFilter",
+            "key": "category",
             "value": route.params.category,
         });
     }, [route.params.category]);
 
-    const onEnvironmentFilterChange = useConstCallback<
-        SoftwareCatalogControlledProps["onEnvironmentFilterChange"]
+    const onEnvironmentChange = useConstCallback<
+        SoftwareCatalogControlledProps["onEnvironmentChange"]
     >(environment =>
         startTransition(() =>
             routes
@@ -132,13 +129,13 @@ export function SoftwareCatalog(props: Props) {
 
     useEffect(() => {
         softwareCatalog.updateFilter({
-            "key": "environmentFilter",
+            "key": "environment",
             "value": route.params.environment,
         });
     }, [route.params.environment]);
 
-    const onPrerogativesFilterChange = useConstCallback<
-        SoftwareCatalogControlledProps["onPrerogativesFilterChange"]
+    const onPrerogativesChange = useConstCallback<
+        SoftwareCatalogControlledProps["onPrerogativesChange"]
     >(prerogatives =>
         startTransition(() =>
             routes
@@ -152,7 +149,7 @@ export function SoftwareCatalog(props: Props) {
 
     useEffect(() => {
         softwareCatalog.updateFilter({
-            "key": "prerogativesFilter",
+            "key": "prerogatives",
             "value": route.params.prerogatives,
         });
     }, [route.params.prerogatives]);
@@ -161,22 +158,22 @@ export function SoftwareCatalog(props: Props) {
         <SoftwareCatalogControlled
             className={className}
             softwares={softwares}
-            sortId={route.params.sort}
-            onSortIdChange={onSortIdChange}
+            sort={route.params.sort}
+            onSortChange={onSortChange}
             search={route.params.search}
             onSearchChange={onSearchChange}
-            organizationFilterOptions={organizationFilterOptions}
-            organizationFilter={route.params.organization}
-            onOrganizationFilterChange={onOrganizationFilterChange}
-            categoryFilerOptions={categoryFilterOptions}
-            categoryFilter={route.params.category}
+            organizationOptions={organizationOptions}
+            organization={route.params.organization}
+            onOrganizationChange={onOrganizationChange}
+            categoryFilerOptions={categoryOptions}
+            category={route.params.category}
             onCategoryFilterChange={onCategoryFilterChange}
-            environmentFilterOptions={environmentFilterOptions}
-            environmentFilter={route.params.environment}
-            onEnvironmentFilterChange={onEnvironmentFilterChange}
-            prerogativesFilterOptions={prerogativeFilterOptions}
-            prerogativesFilter={route.params.prerogatives}
-            onPrerogativesFilterChange={onPrerogativesFilterChange}
+            environmentOptions={environmentOptions}
+            environment={route.params.environment}
+            onEnvironmentChange={onEnvironmentChange}
+            prerogativesOptions={prerogativeFilterOptions}
+            prerogatives={route.params.prerogatives}
+            onPrerogativesChange={onPrerogativesChange}
         />
     );
 }

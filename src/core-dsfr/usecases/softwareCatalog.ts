@@ -11,17 +11,17 @@ export type SoftwareCatalogState = {
     softwares: SoftwareCatalogState.Software.Internal[];
 
     search: string;
-    sortId: SoftwareCatalogState.SortId | undefined;
+    sort: SoftwareCatalogState.Sort | undefined;
     /** Used in organizations: E.g: DINUM */
-    organizationFilter: string | undefined;
+    organization: string | undefined;
     /** E.g: JavaScript */
-    categoryFilter: string | undefined;
-    environmentFilter: SoftwareCatalogState.Environment | undefined;
-    prerogativesFilter: SoftwareCatalogState.Prerogative[];
+    category: string | undefined;
+    environment: SoftwareCatalogState.Environment | undefined;
+    prerogatives: SoftwareCatalogState.Prerogative[];
 };
 
 export namespace SoftwareCatalogState {
-    const sortIds = [
+    const sorts = [
         "added time",
         "update time",
         "last version publication date",
@@ -31,7 +31,7 @@ export namespace SoftwareCatalogState {
         "referent count ASC",
     ] as const;
 
-    export type SortId = typeof sortIds[number];
+    export type Sort = typeof sorts[number];
 
     const environments = ["linux", "windows", "mac", "browser", "smartphone"] as const;
 
@@ -117,11 +117,11 @@ export const { reducer, actions } = createSlice({
             return {
                 softwares,
                 "search": "",
-                "sortId": undefined,
-                "organizationFilter": undefined,
-                "categoryFilter": undefined,
-                "environmentFilter": undefined,
-                "prerogativesFilter": [],
+                "sort": undefined,
+                "organization": undefined,
+                "category": undefined,
+                "environment": undefined,
+                "prerogatives": [],
             };
         },
         "valueUpdated": (state, { payload }: PayloadAction<ChangeValueParams>) => {
@@ -161,15 +161,11 @@ export const selectors = (() => {
     const internalSoftwares = (rootState: RootState) =>
         rootState.softwareCatalog.softwares;
     const search = (rootState: RootState) => rootState.softwareCatalog.search;
-    const sortId = (rootState: RootState) => rootState.softwareCatalog.sortId;
-    const organizationFilter = (rootState: RootState) =>
-        rootState.softwareCatalog.organizationFilter;
-    const categoryFilter = (rootState: RootState) =>
-        rootState.softwareCatalog.categoryFilter;
-    const environmentFilter = (rootState: RootState) =>
-        rootState.softwareCatalog.environmentFilter;
-    const prerogativesFilter = (rootState: RootState) =>
-        rootState.softwareCatalog.prerogativesFilter;
+    const sort = (rootState: RootState) => rootState.softwareCatalog.sort;
+    const organization = (rootState: RootState) => rootState.softwareCatalog.organization;
+    const category = (rootState: RootState) => rootState.softwareCatalog.category;
+    const environment = (rootState: RootState) => rootState.softwareCatalog.environment;
+    const prerogatives = (rootState: RootState) => rootState.softwareCatalog.prerogatives;
 
     function internalSoftwareToExternalSoftware(
         software: SoftwareCatalogState.Software.Internal,
@@ -243,19 +239,19 @@ export const selectors = (() => {
     const softwares = createSelector(
         internalSoftwares,
         search,
-        sortId,
-        organizationFilter,
-        categoryFilter,
-        environmentFilter,
-        prerogativesFilter,
+        sort,
+        organization,
+        category,
+        environment,
+        prerogatives,
         (
             internalSoftwares,
             search,
-            sortId,
-            organizationFilter,
-            categoryFilter,
-            environmentFilter,
-            prerogativesFilter,
+            sort,
+            organization,
+            category,
+            environment,
+            prerogatives,
         ) => {
             let tmpSoftwares = internalSoftwares;
 
@@ -266,28 +262,28 @@ export const selectors = (() => {
                 });
             }
 
-            if (organizationFilter !== undefined) {
+            if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organizationFilter,
+                    "organization": organization,
                 });
             }
 
-            if (categoryFilter !== undefined) {
+            if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": categoryFilter,
+                    "category": category,
                 });
             }
 
-            if (environmentFilter !== undefined) {
+            if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environmentFilter,
+                    "environment": environment,
                 });
             }
 
-            for (const prerogative of prerogativesFilter) {
+            for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
                     prerogative,
@@ -296,7 +292,7 @@ export const selectors = (() => {
 
             tmpSoftwares.sort(
                 (() => {
-                    switch (sortId) {
+                    switch (sort) {
                         case "added time":
                             return null as any;
                         case "last version publication date":
@@ -319,18 +315,18 @@ export const selectors = (() => {
         },
     );
 
-    const organizationFilterOptions = createSelector(
+    const organizationOptions = createSelector(
         internalSoftwares,
         search,
-        categoryFilter,
-        environmentFilter,
-        prerogativesFilter,
+        category,
+        environment,
+        prerogatives,
         (
             internalSoftwares,
             search,
-            categoryFilter,
-            environmentFilter,
-            prerogativesFilter,
+            category,
+            environment,
+            prerogatives,
         ): { organization: string; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByOrganization = Object.fromEntries(
                 Array.from(
@@ -351,21 +347,21 @@ export const selectors = (() => {
                 });
             }
 
-            if (categoryFilter !== undefined) {
+            if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": categoryFilter,
+                    "category": category,
                 });
             }
 
-            if (environmentFilter !== undefined) {
+            if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environmentFilter,
+                    "environment": environment,
                 });
             }
 
-            for (const prerogative of prerogativesFilter) {
+            for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
                     prerogative,
@@ -388,18 +384,18 @@ export const selectors = (() => {
         },
     );
 
-    const categoryFilterOptions = createSelector(
+    const categoryOptions = createSelector(
         internalSoftwares,
         search,
-        organizationFilter,
-        environmentFilter,
-        prerogativesFilter,
+        organization,
+        environment,
+        prerogatives,
         (
             internalSoftwares,
             search,
-            organizationFilter,
-            environmentFilter,
-            prerogativesFilter,
+            organization,
+            environment,
+            prerogatives,
         ): { category: string; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByCategory = Object.fromEntries(
                 Array.from(
@@ -420,21 +416,21 @@ export const selectors = (() => {
                 });
             }
 
-            if (organizationFilter !== undefined) {
+            if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organizationFilter,
+                    "organization": organization,
                 });
             }
 
-            if (environmentFilter !== undefined) {
+            if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environmentFilter,
+                    "environment": environment,
                 });
             }
 
-            for (const prerogative of prerogativesFilter) {
+            for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
                     prerogative,
@@ -456,18 +452,18 @@ export const selectors = (() => {
         },
     );
 
-    const environmentFilterOptions = createSelector(
+    const environmentOptions = createSelector(
         internalSoftwares,
         search,
-        organizationFilter,
-        categoryFilter,
-        prerogativesFilter,
+        organization,
+        category,
+        prerogatives,
         (
             internalSoftwares,
             search,
-            organizationFilter,
-            categoryFilter,
-            prerogativesFilter,
+            organization,
+            category,
+            prerogatives,
         ): { environment: SoftwareCatalogState.Environment; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByEnvironment = new Map(
                 Array.from(
@@ -492,21 +488,21 @@ export const selectors = (() => {
                 });
             }
 
-            if (organizationFilter !== undefined) {
+            if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organizationFilter,
+                    "organization": organization,
                 });
             }
 
-            if (categoryFilter !== undefined) {
+            if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": categoryFilter,
+                    "category": category,
                 });
             }
 
-            for (const prerogative of prerogativesFilter) {
+            for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
                     prerogative,
@@ -537,15 +533,15 @@ export const selectors = (() => {
     const prerogativeFilterOptions = createSelector(
         internalSoftwares,
         search,
-        organizationFilter,
-        categoryFilter,
-        environmentFilter,
+        organization,
+        category,
+        environment,
         (
             internalSoftwares,
             search,
-            organizationFilter,
-            categoryFilter,
-            environmentFilter,
+            organization,
+            category,
+            environment,
         ): { prerogative: SoftwareCatalogState.Prerogative; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByPrerogative = new Map(
                 Array.from(
@@ -570,24 +566,24 @@ export const selectors = (() => {
                 });
             }
 
-            if (organizationFilter !== undefined) {
+            if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organizationFilter,
+                    "organization": organization,
                 });
             }
 
-            if (categoryFilter !== undefined) {
+            if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": categoryFilter,
+                    "category": category,
                 });
             }
 
-            if (environmentFilter !== undefined) {
+            if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environmentFilter,
+                    "environment": environment,
                 });
             }
 
@@ -614,9 +610,9 @@ export const selectors = (() => {
 
     return {
         softwares,
-        organizationFilterOptions,
-        categoryFilterOptions,
-        environmentFilterOptions,
+        organizationOptions,
+        categoryOptions,
+        environmentOptions,
         prerogativeFilterOptions,
     };
 })();

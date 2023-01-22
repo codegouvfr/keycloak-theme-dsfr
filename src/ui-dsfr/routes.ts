@@ -11,7 +11,7 @@ const routeDefs = {
             "search": param.query.optional.string.default(""),
             "sort": param.query.optional.ofType({
                 "parse": raw => {
-                    const schema: z.Schema<SoftwareCatalogState.SortId> = z.union([
+                    const schema: z.Schema<SoftwareCatalogState.Sort> = z.union([
                         z.literal("added time"),
                         z.literal("update time"),
                         z.literal("last version publication date"),
