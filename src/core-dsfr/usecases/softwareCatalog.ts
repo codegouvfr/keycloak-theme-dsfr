@@ -9,6 +9,7 @@ import { id } from "tsafe/id";
 import { Fzf } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
+import { createCompareFn } from "../tools/compareFn";
 
 export type SoftwareCatalogState = {
     softwares: SoftwareCatalogState.Software.Internal[];
@@ -54,7 +55,7 @@ export namespace SoftwareCatalogState {
                   }
                 | undefined;
             referentsCount: number;
-            userCounts: number;
+            userCount: number;
             parentSoftwareName: string | undefined;
             testUrl: string | undefined;
         };
@@ -164,7 +165,7 @@ export const selectors = (() => {
             softwareDescriptions,
             lastVersion,
             referentsCount,
-            userCounts,
+            userCount,
             parentSoftwareName,
             testUrl,
             addedTime,
@@ -185,7 +186,7 @@ export const selectors = (() => {
             softwareDescriptions,
             lastVersion,
             referentsCount,
-            userCounts,
+            userCount,
             parentSoftwareName,
             testUrl,
             "prerogatives": {
@@ -327,31 +328,61 @@ export const selectors = (() => {
 
             tmpSoftwares.sort(
                 (() => {
-                    switch (sort) {
-                        case "added time": {
-                            const getWeight = (
-                                s: SoftwareCatalogState.Software.Internal,
-                            ) => s.addedTime;
-
-                            return (a, b) => getWeight(b) - getWeight(a);
-                        }
-                        case "last version publication date": {
-                            const getWeight = (
-                                s: SoftwareCatalogState.Software.Internal,
-                            ) => s.lastVersion?.publicationTime ?? 0;
-
-                            return (a, b) => getWeight(b) - getWeight(a);
-                        }
-                        case "referent count":
-                            return null as any;
-                        case "referent count ASC":
-                            return null as any;
+                    switch (sort ?? "last version publication date") {
+                        case "added time":
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.addedTime,
+                                    "order": "descending",
+                                },
+                            );
                         case "update time":
-                            return null as any;
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.updateTime,
+                                    "order": "descending",
+                                },
+                            );
+                        case "last version publication date":
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software =>
+                                        software.lastVersion?.publicationTime ?? 0,
+                                    "order": "descending",
+                                    "tieBreaker": createCompareFn({
+                                        "getWeight": software => software.updateTime,
+                                        "order": "descending",
+                                    }),
+                                },
+                            );
+                        case "referent count":
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.referentsCount,
+                                    "order": "descending",
+                                },
+                            );
+                        case "referent count ASC":
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.referentsCount,
+                                    "order": "ascending",
+                                },
+                            );
                         case "user count":
-                            return null as any;
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.userCount,
+                                    "order": "descending",
+                                },
+                            );
                         case "user count ASC":
-                            return null as any;
+                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
+                                {
+                                    "getWeight": software => software.userCount,
+                                    "order": "ascending",
+                                },
+                            );
                     }
                 })(),
             );
