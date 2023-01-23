@@ -55,12 +55,7 @@ export namespace SoftwareCatalogState {
                 | undefined;
             referentsCount: number;
             userCounts: number;
-            parentSoftware:
-                | {
-                      softwareName: string;
-                      softwareId: string;
-                  }
-                | undefined;
+            parentSoftwareName: string | undefined;
             testUrl: string | undefined;
         };
 
@@ -170,7 +165,7 @@ export const selectors = (() => {
             lastVersion,
             referentsCount,
             userCounts,
-            parentSoftware,
+            parentSoftwareName,
             testUrl,
             addedTime,
             updateTime,
@@ -191,7 +186,7 @@ export const selectors = (() => {
             lastVersion,
             referentsCount,
             userCounts,
-            parentSoftware,
+            parentSoftwareName,
             testUrl,
             "prerogatives": {
                 ...prerogatives,

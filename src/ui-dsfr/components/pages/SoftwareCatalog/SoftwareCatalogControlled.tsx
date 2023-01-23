@@ -20,7 +20,10 @@ assert<Equals<typeof sortOptions[number], SoftwareCatalogState.Sort>>();
 export type Props = {
     className?: string;
     softwares: SoftwareCatalogState.Software.External[];
-    softwareDetailLinkBySoftwareName: Record<string, Link>;
+    linksBySoftwareName: Record<
+        string,
+        Record<"softwareDetails" | "declareUsageForm", Link>
+    >;
 
     search: string;
     onSearchChange: (search: string) => void;

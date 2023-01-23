@@ -38,12 +38,19 @@ export function SoftwareCatalog(props: Props) {
         selectors.softwareCatalog.prerogativeFilterOptions,
     );
 
-    const softwareDetailLinkBySoftwareName = useMemo(
+    const linksBySoftwareName = useMemo(
         () =>
             Object.fromEntries(
                 softwares.map(({ softwareName }) => [
                     softwareName,
-                    routes.softwareDetail({ "name": softwareName }).link,
+                    {
+                        "softwareDetails": routes.softwareDetails({
+                            "name": softwareName,
+                        }).link,
+                        "declareUsageForm": routes.declareUsageForm({
+                            "name": softwareName,
+                        }).link,
+                    },
                 ]),
             ),
         [softwares],
@@ -169,7 +176,7 @@ export function SoftwareCatalog(props: Props) {
         <SoftwareCatalogControlled
             className={className}
             softwares={softwares}
-            softwareDetailLinkBySoftwareName={softwareDetailLinkBySoftwareName}
+            linksBySoftwareName={linksBySoftwareName}
             sort={route.params.sort}
             onSortChange={onSortChange}
             search={route.params.search}

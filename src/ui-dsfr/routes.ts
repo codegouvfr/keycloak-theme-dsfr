@@ -74,11 +74,17 @@ const routeDefs = {
         },
         () => `/list`,
     ),
-    "softwareDetail": defineRoute(
+    "softwareDetails": defineRoute(
         {
             "name": param.query.string,
         },
         () => `/detail`,
+    ),
+    "declareUsageForm": defineRoute(
+        {
+            "name": param.query.string,
+        },
+        () => `/declaration`,
     ),
 };
 
