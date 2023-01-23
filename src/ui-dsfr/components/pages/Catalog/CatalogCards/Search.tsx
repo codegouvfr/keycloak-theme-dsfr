@@ -13,9 +13,9 @@ export type Props = {
     className?: string;
     search: string;
     onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    organisations: string[];
-    onOrganisationChange: (organisation: string | undefined) => void;
-    selectedOrganisation: string | undefined;
+    organizations: string[];
+    onOrganizationChange: (organization: string | undefined) => void;
+    selectedOrganization: string | undefined;
     categories: string[];
     onCategoriesChange: (contextcategory: string | undefined) => void;
     selectedCategories: string | undefined;
@@ -32,9 +32,9 @@ export function Search(props: Props) {
         className,
         search,
         onSearchChange,
-        organisations,
-        onOrganisationChange,
-        selectedOrganisation,
+        organizations,
+        onOrganizationChange,
+        selectedOrganization,
         categories,
         onCategoriesChange,
         selectedCategories,
@@ -85,17 +85,17 @@ export function Search(props: Props) {
             >
                 <div className={cx(classes.filtersWrapper)}>
                     <Select
-                        label={t("organisationLabel")}
-                        disabled={!organisations.length}
+                        label={t("organizationLabel")}
+                        disabled={!organizations.length}
                         nativeSelectProps={{
-                            "onChange": event => onOrganisationChange(event.target.value),
-                            "defaultValue": selectedOrganisation ?? "",
+                            "onChange": event => onOrganizationChange(event.target.value),
+                            "defaultValue": selectedOrganization ?? "",
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
-                        {organisations.map(organisation => (
-                            <option value={organisation} key={organisation}>
-                                {organisation}
+                        {organizations.map(organization => (
+                            <option value={organization} key={organization}>
+                                {organization}
                             </option>
                         ))}
                     </Select>
@@ -188,7 +188,7 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
 export const { i18n } = declareComponentKeys<
     | "placeholder"
     | "filtersButton"
-    | "organisationLabel"
+    | "organizationLabel"
     | "categoriesLabel"
     | "contextLabel"
     | "prerogativesLabel"

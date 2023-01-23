@@ -25,6 +25,10 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/Search").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/PreviewTab").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
@@ -33,8 +37,6 @@ const {
             "CatalogCard": {
                 "last version": "Last version",
                 "last version date": ({ date }) => `in (${date})`,
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} users and ${referentCount} referents`,
                 "declare oneself referent": "Declare yourself referent / user",
                 "isDesktop": "This software can be installed on desktop",
                 "isFromFrenchPublicService":
@@ -53,10 +55,62 @@ const {
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
-                "organisationLabel": "Organisation",
+                "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
+            },
+            "DetailCard": {
+                "tab title overview": "Overview",
+                "tab title instance": ({ instanceCount }) =>
+                    `Referenced instance (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Alike or equivalent proprietary software (${alikeSoftwareCount})`,
+                "about": "About",
+                "use full links": "Use full links",
+                "prerogatives": "Prerogatives",
+                "last version": "Last version",
+                "last version date": ({ date }) => `in ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "declare oneself referent": "Declare yourself referent / user",
+                "isDesktop": "Installable on agent desktop",
+                "isPresentInSupportMarket": "Present in support market",
+                "isFromFrenchPublicService": "From French public service",
+                "isRGAACompliant": "Is compliant with RGAA rules",
+                "service provider": "See service providers",
+                "comptoire du libre sheet": "Open Comptoir du libre sheet",
+                "wikiData sheet": "Open Wikidata sheet",
+            },
+            "PreviewTab": {
+                "about": "About",
+                "use full links": "Use full links",
+                "prerogatives": "Prerogatives",
+                "last version": "Last version",
+                "last version date": ({ date }) => `in ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "isDesktop": "Installable on agent desktop",
+                "isPresentInSupportMarket": "Present in support market",
+                "isFromFrenchPublicService": "From French public service",
+                "isRGAACompliant": "Is compliant with RGAA rules",
+                "service provider": "See service providers",
+                "comptoire du libre sheet": "Open Comptoir du libre sheet",
+                "wikiData sheet": "Open Wikidata sheet",
+            },
+            "ReferencedInstancesTab": {
+                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
+                    `${instanceCount} maintained instance by ${publicOrganisationCount} public organisation`,
+                "concerned public": "Concerned public : ",
+                "go to instance": "Open the instance",
+            },
+            "DetailUsersAndReferents": {
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `${userCount} users and ${referentCount} referents`,
             },
         },
         "fr": {
@@ -64,8 +118,6 @@ const {
             "CatalogCard": {
                 "last version": "Dernière version",
                 "last version date": ({ date }) => `en (${date})`,
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} utilisateurs et ${referentCount} referents`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
                 "isDesktop": "Ce logiciel s'installe sur ordinateur",
                 "isFromFrenchPublicService":
@@ -86,10 +138,62 @@ const {
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
-                "organisationLabel": "Organisation",
+                "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
+            },
+            "DetailCard": {
+                "tab title overview": "Aperçu",
+                "tab title instance": ({ instanceCount }) =>
+                    `Instances référencées (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Logiciel similaires ou équivalents propriétaires (${alikeSoftwareCount})`,
+                "about": "À propos",
+                "use full links": "Liens utiles",
+                "prerogatives": "Prérogatives",
+                "last version": "Dernière version : ",
+                "last version date": ({ date }) => `en ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "declare oneself referent": "Se déclarer référent / utilisateur",
+                "isDesktop": "Installable sur poste agent",
+                "isPresentInSupportMarket": "Présent dans le marché de support",
+                "isFromFrenchPublicService": "Développé par le service public",
+                "isRGAACompliant": "Respecte les normes RGAA",
+                "service provider": "Voir les prestataires de services",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "wikiData sheet": "Consulter la fiche de Wikidata",
+            },
+            "PreviewTab": {
+                "about": "À propos",
+                "use full links": "Liens utiles",
+                "prerogatives": "Prérogatives",
+                "last version": "Dernière version : ",
+                "last version date": ({ date }) => `en ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "isDesktop": "Installable sur poste agent",
+                "isPresentInSupportMarket": "Présent dans le marché de support",
+                "isFromFrenchPublicService": "Développé par le service public",
+                "isRGAACompliant": "Respecte les normes RGAA",
+                "service provider": "Voir les prestataires de services",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "wikiData sheet": "Consulter la fiche de Wikidata",
+            },
+            "ReferencedInstancesTab": {
+                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
+                    `${instanceCount} instances maintenues par ${publicOrganisationCount} organisations publiques`,
+                "concerned public": "Public concerné : ",
+                "go to instance": "Accéder à l'instance",
+            },
+            "DetailUsersAndReferents": {
+                "userAndReferentCount": ({ userCount, referentCount }) =>
+                    `${userCount} utilisateurs et ${referentCount} referents`,
             },
             /* spell-checker: enable */
         },

@@ -9,6 +9,7 @@ import { shortEndMonthDate } from "ui-dsfr/useMoment";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
+import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
 
 export type Props = {
     className?: string;
@@ -57,8 +58,8 @@ export const CatalogCard = memo((props: Props) => {
 
     return (
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
-            <div className={cx()}>
-                <div className={cx()}>
+            <div>
+                <div>
                     <div className={cx(classes.headerContainer)}>
                         <img
                             className={cx(classes.logo)}
@@ -133,27 +134,11 @@ export const CatalogCard = memo((props: Props) => {
                             ? resolveLocalizedString(softwareDescription)
                             : "software.function"}
                     </p>
-                    <a
-                        {...seeUserAndReferent}
-                        className={cx(
-                            fr.cx("fr-card__detail"),
-                            classes.detailsUsersContainer,
-                        )}
-                    >
-                        <i
-                            className={cx(
-                                fr.cx("fr-icon-user-line"),
-                                classes.detailsUsersIcon,
-                            )}
-                        />
-                        <span>
-                            {t("userAndReferentCount", {
-                                referentCount: referentCount ?? 0,
-                                userCount: 0,
-                            })}
-                        </span>
-                        <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
-                    </a>
+                    <DetailUsersAndReferents
+                        seeUserAndReferent={seeUserAndReferent}
+                        referentCount={referentCount}
+                        userCount={userCount}
+                    />
                 </div>
                 <div className={cx(classes.footer)}>
                     <a
@@ -249,15 +234,6 @@ const useStyles = makeStyles({
         "height": fr.spacing("20v"),
         "overflowY": "auto",
     },
-    "detailsUsersContainer": {
-        "display": "flex",
-        "alignItems": "center",
-        "marginBottom": fr.spacing("8v"),
-        "background": "none",
-    },
-    "detailsUsersIcon": {
-        "marginRight": fr.spacing("2v"),
-    },
     "footer": {
         "display": "flex",
         "alignItems": "center",
@@ -295,7 +271,6 @@ const useStyles = makeStyles({
 export const { i18n } = declareComponentKeys<
     | "last version"
     | { K: "last version date"; P: { date: string } }
-    | { K: "userAndReferentCount"; P: { userCount: number; referentCount: number } }
     | "declare oneself referent"
     | "isDesktop"
     | "isPresentInSupportMarket"

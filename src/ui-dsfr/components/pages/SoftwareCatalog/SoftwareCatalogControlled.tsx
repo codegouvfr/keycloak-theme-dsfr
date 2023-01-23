@@ -4,7 +4,7 @@ import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 
-const availableSorts = [
+const sortOptions = [
     "added time",
     "update time",
     "last version publication date",
@@ -14,7 +14,7 @@ const availableSorts = [
     "referent count ASC",
 ] as const;
 
-assert<Equals<typeof availableSorts[number], SoftwareCatalogState.Sort>>();
+assert<Equals<typeof sortOptions[number], SoftwareCatalogState.Sort>>();
 
 export type Props = {
     className?: string;
