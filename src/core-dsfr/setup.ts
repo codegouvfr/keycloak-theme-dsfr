@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import type { Action, ThunkAction as ReduxGenericThunkAction } from "@reduxjs/toolkit";
 import { createCoreFromUsecases } from "redux-clean-architecture";
 import type { GenericCreateEvt, GenericThunks } from "redux-clean-architecture";

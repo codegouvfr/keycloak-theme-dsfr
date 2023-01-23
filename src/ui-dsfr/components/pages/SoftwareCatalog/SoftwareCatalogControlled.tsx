@@ -65,6 +65,6 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
     return <div className={cx(classes.root, className)}></div>;
 });
 
-const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })(theme => ({
+const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
     "root": {},
-}));
+});

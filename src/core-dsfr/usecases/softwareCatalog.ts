@@ -336,10 +336,20 @@ export const selectors = (() => {
             tmpSoftwares.sort(
                 (() => {
                     switch (sort) {
-                        case "added time":
-                            return null as any;
-                        case "last version publication date":
-                            return null as any;
+                        case "added time": {
+                            const getWeight = (
+                                s: SoftwareCatalogState.Software.Internal,
+                            ) => s.addedTime;
+
+                            return (a, b) => getWeight(b) - getWeight(a);
+                        }
+                        case "last version publication date": {
+                            const getWeight = (
+                                s: SoftwareCatalogState.Software.Internal,
+                            ) => s.lastVersion?.publicationTime ?? 0;
+
+                            return (a, b) => getWeight(b) - getWeight(a);
+                        }
                         case "referent count":
                             return null as any;
                         case "referent count ASC":

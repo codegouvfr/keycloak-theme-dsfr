@@ -1,13 +1,6 @@
-import { createCoreFromUsecases, createUsecasesApi } from "redux-clean-architecture";
+import { createCoreFromUsecases } from "redux-clean-architecture";
 import type { GenericCreateEvt } from "redux-clean-architecture";
 import type { Action, ThunkAction as ReduxGenericThunkAction } from "@reduxjs/toolkit";
-import * as catalogUsecase from "./usecases/catalog";
-import * as serviceCatalogUsecase from "./usecases/serviceCatalog";
-import * as userAuthenticationUsecase from "./usecases/userAuthentication";
-import * as softwareFormUsecase from "./usecases/softwareForm";
-import * as apiInfo from "./usecases/apiInfo";
-import * as fetchProxy from "./usecases/fetchProxy";
-import * as serviceForm from "./usecases/serviceForm";
 import { createJwtUserApiClient } from "./secondaryAdapters/jwtUserApiClient";
 import { createKeycloakOidcClient } from "./secondaryAdapters/keycloakOidcClient";
 import { createPhonyOidcClient } from "./secondaryAdapters/phonyOidcClient";
@@ -24,18 +17,7 @@ import { id } from "tsafe/id";
 import type { NonPostableEvt } from "evt";
 import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
-
-export const usecases = [
-    catalogUsecase,
-    userAuthenticationUsecase,
-    softwareFormUsecase,
-    apiInfo,
-    fetchProxy,
-    serviceCatalogUsecase,
-    serviceForm,
-];
-
-export const usecasesApi = createUsecasesApi(usecases);
+import { usecases } from "./usecases";
 
 export type CoreParams = Omit<ReturnType<typeof getConfiguration>, "headerLinks"> &
     Pick<Param0<typeof createKeycloakOidcClient>, "evtUserActivity"> & {
@@ -150,12 +132,12 @@ export async function createCore(params: CoreParams) {
         },
     });
 
-    await core.dispatch(userAuthenticationUsecase.privateThunks.initialize());
+    await core.dispatch(usecases.userAuthentication.privateThunks.initialize());
 
-    await core.dispatch(apiInfo.privateThunks.initialize());
+    await core.dispatch(usecases.apiInfo.privateThunks.initialize());
 
-    core.dispatch(catalogUsecase.privateThunks.initialize());
-    core.dispatch(serviceCatalogUsecase.privateThunks.initialize());
+    core.dispatch(usecases.catalog.privateThunks.initialize());
+    core.dispatch(usecases.serviceCatalog.privateThunks.initialize());
 
     return core;
 }
