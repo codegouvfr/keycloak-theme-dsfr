@@ -44,7 +44,6 @@ export namespace SoftwareCatalogState {
 
     export namespace Software {
         type Common = {
-            softwareId: number;
             logoUrl: string | undefined;
             softwareName: string;
             softwareDescriptions: string;
@@ -165,7 +164,6 @@ export const selectors = (() => {
         software: SoftwareCatalogState.Software.Internal,
     ): SoftwareCatalogState.Software.External {
         const {
-            softwareId,
             logoUrl,
             softwareName,
             softwareDescriptions,
@@ -187,7 +185,6 @@ export const selectors = (() => {
         assert<Equals<typeof rest, {}>>();
 
         return {
-            softwareId,
             logoUrl,
             softwareName,
             softwareDescriptions,
@@ -219,7 +216,7 @@ export const selectors = (() => {
                 new Set(
                     getFzf(softwares)
                         .find(search)
-                        .map(({ item: { softwareId } }) => softwareId),
+                        .map(({ item: { softwareName } }) => softwareName),
                 ),
             { "max": 1 },
         );
@@ -232,7 +229,7 @@ export const selectors = (() => {
 
             const softwareIds = filterBySearchMemoized(softwares, search);
 
-            return softwares.filter(({ softwareId }) => softwareIds.has(softwareId));
+            return softwares.filter(({ softwareName }) => softwareIds.has(softwareName));
         }
 
         return { filterBySearch };

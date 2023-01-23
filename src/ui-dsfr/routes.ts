@@ -6,7 +6,7 @@ import { z } from "zod";
 
 const routeDefs = {
     "home": defineRoute("/"),
-    "catalog": defineRoute(
+    "softwareCatalog": defineRoute(
         {
             "search": param.query.optional.string.default(""),
             "sort": param.query.optional.ofType({
@@ -73,6 +73,12 @@ const routeDefs = {
                 .default([]),
         },
         () => `/list`,
+    ),
+    "softwareDetail": defineRoute(
+        {
+            "name": param.query.string,
+        },
+        () => `/detail`,
     ),
 };
 

@@ -3,6 +3,7 @@ import { makeStyles } from "tss-react/dsfr";
 import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
+import type { Link } from "type-route";
 
 const sortOptions = [
     "added time",
@@ -19,6 +20,7 @@ assert<Equals<typeof sortOptions[number], SoftwareCatalogState.Sort>>();
 export type Props = {
     className?: string;
     softwares: SoftwareCatalogState.Software.External[];
+    softwareDetailLinkBySoftwareName: Record<string, Link>;
 
     search: string;
     onSearchChange: (search: string) => void;

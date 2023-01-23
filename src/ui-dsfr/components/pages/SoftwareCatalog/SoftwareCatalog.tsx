@@ -1,4 +1,4 @@
-import React, { useEffect, useTransition } from "react";
+import { useEffect, useTransition, useMemo } from "react";
 import { createGroup } from "type-route";
 import type { Route } from "type-route";
 import { createUseDebounce } from "powerhooks/useDebounce";
@@ -8,7 +8,7 @@ import { SoftwareCatalogControlled } from "./SoftwareCatalogControlled";
 import { Props as SoftwareCatalogControlledProps } from "./SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
 
-SoftwareCatalog.routeGroup = createGroup([routes.catalog]);
+SoftwareCatalog.routeGroup = createGroup([routes.softwareCatalog]);
 
 type PageRoute = Route<typeof SoftwareCatalog.routeGroup>;
 
@@ -38,13 +38,24 @@ export function SoftwareCatalog(props: Props) {
         selectors.softwareCatalog.prerogativeFilterOptions,
     );
 
+    const softwareDetailLinkBySoftwareName = useMemo(
+        () =>
+            Object.fromEntries(
+                softwares.map(({ softwareName }) => [
+                    softwareName,
+                    routes.softwareDetail({ "name": softwareName }).link,
+                ]),
+            ),
+        [softwares],
+    );
+
     const [, startTransition] = useTransition();
 
     const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
         sort =>
             startTransition(() =>
                 routes
-                    .catalog({
+                    .softwareCatalog({
                         ...route.params,
                         sort,
                     })
@@ -57,7 +68,7 @@ export function SoftwareCatalog(props: Props) {
     >(search =>
         startTransition(() =>
             routes
-                .catalog({
+                .softwareCatalog({
                     ...route.params,
                     search,
                 })
@@ -79,7 +90,7 @@ export function SoftwareCatalog(props: Props) {
     >(organization =>
         startTransition(() =>
             routes
-                .catalog({
+                .softwareCatalog({
                     ...route.params,
                     organization,
                 })
@@ -99,7 +110,7 @@ export function SoftwareCatalog(props: Props) {
     >(category =>
         startTransition(() =>
             routes
-                .catalog({
+                .softwareCatalog({
                     ...route.params,
                     category,
                 })
@@ -119,7 +130,7 @@ export function SoftwareCatalog(props: Props) {
     >(environment =>
         startTransition(() =>
             routes
-                .catalog({
+                .softwareCatalog({
                     ...route.params,
                     environment,
                 })
@@ -139,7 +150,7 @@ export function SoftwareCatalog(props: Props) {
     >(prerogatives =>
         startTransition(() =>
             routes
-                .catalog({
+                .softwareCatalog({
                     ...route.params,
                     prerogatives,
                 })
@@ -158,6 +169,7 @@ export function SoftwareCatalog(props: Props) {
         <SoftwareCatalogControlled
             className={className}
             softwares={softwares}
+            softwareDetailLinkBySoftwareName={softwareDetailLinkBySoftwareName}
             sort={route.params.sort}
             onSortChange={onSortChange}
             search={route.params.search}
