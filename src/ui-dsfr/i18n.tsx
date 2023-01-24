@@ -26,8 +26,10 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/Search").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/HeaderDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/PreviewTab").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/FooterDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
@@ -61,6 +63,7 @@ const {
                 "prerogativesLabel": "Prérogatives",
             },
             "DetailCard": {
+                "catalog breadcrumb": "Software catalog",
                 "tab title overview": "Overview",
                 "tab title instance": ({ instanceCount }) =>
                     `Referenced instance (${instanceCount})`,
@@ -83,6 +86,11 @@ const {
                 "service provider": "See service providers",
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
                 "wikiData sheet": "Open Wikidata sheet",
+            },
+            "HeaderDetailCard": {
+                "authors": "Authors : ",
+                "website": "Official website",
+                "repository": "Source code repository",
             },
             "PreviewTab": {
                 "about": "About",
@@ -111,6 +119,10 @@ const {
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} users and ${referentCount} referents`,
+            },
+            "FooterDetailCard": {
+                "share software": "Share the software",
+                "declare referent": "Declare yourself referent / user",
             },
         },
         "fr": {
@@ -144,6 +156,7 @@ const {
                 "prerogativesLabel": "Prérogatives",
             },
             "DetailCard": {
+                "catalog breadcrumb": "Le catalogue de logiciel",
                 "tab title overview": "Aperçu",
                 "tab title instance": ({ instanceCount }) =>
                     `Instances référencées (${instanceCount})`,
@@ -166,6 +179,11 @@ const {
                 "service provider": "Voir les prestataires de services",
                 "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
                 "wikiData sheet": "Consulter la fiche de Wikidata",
+            },
+            "HeaderDetailCard": {
+                "authors": "Auteurs : ",
+                "website": "Site web officiel",
+                "repository": "Dépôt du code source",
             },
             "PreviewTab": {
                 "about": "À propos",
@@ -194,6 +212,10 @@ const {
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} utilisateurs et ${referentCount} referents`,
+            },
+            "FooterDetailCard": {
+                "share software": "Partager la fiche",
+                "declare referent": "Se déclarer référent / utilisateur",
             },
             /* spell-checker: enable */
         },

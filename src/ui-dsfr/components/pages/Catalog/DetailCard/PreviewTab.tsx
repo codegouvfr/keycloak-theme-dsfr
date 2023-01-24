@@ -182,6 +182,9 @@ const useStyles = makeStyles({
         "gridTemplateColumns": `repeat(2, 1fr)`,
         "columnGap": fr.spacing("4v"),
         "rowGap": fr.spacing("3v"),
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`,
+        },
     },
     "section": {
         "display": "flex",

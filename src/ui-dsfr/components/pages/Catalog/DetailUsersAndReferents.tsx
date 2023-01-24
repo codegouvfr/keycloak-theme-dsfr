@@ -2,24 +2,31 @@ import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { Link } from "type-route";
-import { useResolveLocalizedString, useTranslation } from "../../../i18n";
+import { useTranslation } from "../../../i18n";
 import { makeStyles } from "tss-react/dsfr";
+import { assert } from "tsafe/assert";
+import { Equals } from "tsafe";
 
 export type Props = {
+    className?: string;
     seeUserAndReferent: Link;
     referentCount: number;
     userCount: number;
 };
 
 export const DetailUsersAndReferents = (props: Props) => {
-    const { seeUserAndReferent, referentCount, userCount } = props;
+    const { className, seeUserAndReferent, referentCount, userCount, ...rest } = props;
+
+    /** Assert to make sure all props are deconstructed */
+    assert<Equals<typeof rest, {}>>();
+
     const { t } = useTranslation({ DetailUsersAndReferents });
     const { classes, cx } = useStyles();
 
     return (
         <a
             {...seeUserAndReferent}
-            className={cx(fr.cx("fr-card__detail"), classes.detailsUsersContainer)}
+            className={cx(fr.cx("fr-card__detail"), classes.root, className)}
         >
             <i className={cx(fr.cx("fr-icon-user-line"), classes.detailsUsersIcon)} />
             <span>
@@ -36,10 +43,9 @@ export const DetailUsersAndReferents = (props: Props) => {
 const useStyles = makeStyles({
     "name": { DetailUsersAndReferents },
 })(() => ({
-    "detailsUsersContainer": {
+    "root": {
         "display": "flex",
         "alignItems": "center",
-        "marginBottom": fr.spacing("8v"),
         "background": "none",
     },
     "detailsUsersIcon": {
