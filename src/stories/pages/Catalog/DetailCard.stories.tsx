@@ -33,8 +33,25 @@ export const VueDefault = getStory({
     referentCount: 4,
     authors: [
         {
-            href: "#",
-            onClick: () => {},
+            name: "MZLA Technologies Corporation",
+            link: {
+                href: "#",
+                onClick: () => {},
+            },
+        },
+        {
+            name: "Mozilla Foundation",
+            link: {
+                href: "#",
+                onClick: () => {},
+            },
+        },
+        {
+            name: "Mozzila Messaging",
+            link: {
+                href: "#",
+                onClick: () => {},
+            },
         },
     ],
     comptoireDuLibreSheet: {
@@ -59,7 +76,10 @@ export const VueDefault = getStory({
         href: "#",
         onClick: () => {},
     },
-    referencedInstances: 2,
+    shareSoftware: {
+        href: "#",
+        onClick: () => {},
+    },
     alikeSoftware: [
         {
             softwareLogoUrl: LibreOfficeLogo,
@@ -90,6 +110,88 @@ export const VueDefault = getStory({
                 href: "#",
                 onClick: () => {},
             },
+        },
+    ],
+    organizationList: [
+        {
+            name: "CNRS",
+            maintainedInstances: [
+                {
+                    name: "https://videos.ahp-numerique.fr",
+                    description: "Archives Henri-Poincaré",
+                    userCount: 3,
+                    referentCount: 2,
+                    instanceLink: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                    seeUserAndReferent: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                },
+                {
+                    name: "https://videos.ahp-numerique.fr",
+                    description: "Archives Henri-Poincaré",
+                    userCount: 3,
+                    referentCount: 2,
+                    instanceLink: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                    seeUserAndReferent: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                },
+                {
+                    name: "https://videos.ahp-numerique.fr",
+                    description: "Archives Henri-Poincaré",
+                    userCount: 3,
+                    referentCount: 2,
+                    instanceLink: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                    seeUserAndReferent: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                },
+            ],
+        },
+        {
+            name: "Foo",
+            maintainedInstances: [
+                {
+                    name: "https://videos.ahp-numerique.fr",
+                    description: "Bar",
+                    userCount: 3,
+                    referentCount: 2,
+                    instanceLink: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                    seeUserAndReferent: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                },
+                {
+                    name: "https://videos.ahp-numerique.fr",
+                    description: "Archives Henri-Poincaré",
+                    userCount: 3,
+                    referentCount: 2,
+                    instanceLink: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                    seeUserAndReferent: {
+                        href: "#",
+                        onClick: () => {},
+                    },
+                },
+            ],
         },
     ],
 });

@@ -1,7 +1,7 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
-import { fr, getColors } from "@codegouvfr/react-dsfr";
+import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
@@ -27,10 +27,11 @@ export type Organization = {
 export type Props = {
     className?: string;
     organizationList: Organization[];
+    instanceCount: number;
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
-    const { className, organizationList, ...rest } = props;
+    const { className, organizationList, instanceCount, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -55,6 +56,7 @@ export const ReferencedInstancesTab = (props: Props) => {
                     seeUserAndReferent={seeUserAndReferent}
                     referentCount={referentCount}
                     userCount={userCount}
+                    className={classes.detailUsersAndReferents}
                 />
                 <div className={classes.footer}>
                     <Button onClick={() => {}} priority="secondary">
@@ -64,11 +66,6 @@ export const ReferencedInstancesTab = (props: Props) => {
             </div>
         );
     };
-
-    const instanceCount = organizationList.reduce(
-        (acc, organization) => acc + organization.maintainedInstances.length,
-        0,
-    );
 
     return (
         <>
@@ -111,6 +108,9 @@ const useStyles = makeStyles({
         "gridTemplateColumns": `repeat(2, 1fr)`,
         "columnGap": fr.spacing("7v"),
         "rowGap": fr.spacing("3v"),
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`,
+        },
     },
     "card": {
         "padding": fr.spacing("6v"),
@@ -125,6 +125,9 @@ const useStyles = makeStyles({
     },
     "description": {
         "marginBottom": fr.spacing("3v"),
+    },
+    "detailUsersAndReferents": {
+        "marginBottom": fr.spacing("8v"),
     },
     "footer": {
         "display": "flex",

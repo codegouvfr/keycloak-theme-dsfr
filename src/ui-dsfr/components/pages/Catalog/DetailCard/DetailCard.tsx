@@ -2,15 +2,18 @@ import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import type { Link } from "type-route";
-import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
-import { shortEndMonthDate, monthDate } from "ui-dsfr/useMoment";
-import Tooltip from "@mui/material/Tooltip";
-import type { Props as CatalogCardProps } from "../CatalogCards/CatalogCard";
+import { assert } from "tsafe/assert";
+import type { Equals } from "tsafe";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
+import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import type { Props as CatalogCardProps } from "../CatalogCards/CatalogCard";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Props as ReferencedInstanceTabProps } from "./ReferencedInstancesTab";
-import { Prerogative, PreviewTab } from "./PreviewTab";
+import { PreviewTab } from "./PreviewTab";
+import { HeaderDetailCard } from "./HeaderDetailCard";
+import { fr } from "@codegouvfr/react-dsfr";
+import { FooterDetailCard } from "./FooterDetailCard";
 
 export type Props = {
     className?: string;
@@ -26,8 +29,12 @@ export type Props = {
     userCount: number;
     referentCount: number;
     seeUserAndReferent: Link;
+    shareSoftware: Link;
     declareUserOrReferent: Link;
-    authors: Link[];
+    authors: {
+        name: string;
+        link: Link;
+    }[];
     minimalVersionRequired: string;
     license: string;
     serviceProvider: Link;
@@ -35,92 +42,9 @@ export type Props = {
     wikiDataSheet: Link;
     officialWebsite: Link;
     sourceCodeRepository: Link;
-    referencedInstances: number;
     alikeSoftware: CatalogCardProps[];
+    organizationList: ReferencedInstanceTabProps["organizationList"];
 };
-
-const organizationList: ReferencedInstanceTabProps["organizationList"] = [
-    {
-        name: "CNRS",
-        maintainedInstances: [
-            {
-                name: "https://videos.ahp-numerique.fr",
-                description: "Archives Henri-Poincaré",
-                userCount: 3,
-                referentCount: 2,
-                instanceLink: {
-                    href: "#",
-                    onClick: () => {},
-                },
-                seeUserAndReferent: {
-                    href: "#",
-                    onClick: () => {},
-                },
-            },
-            {
-                name: "https://videos.ahp-numerique.fr",
-                description: "Archives Henri-Poincaré",
-                userCount: 3,
-                referentCount: 2,
-                instanceLink: {
-                    href: "#",
-                    onClick: () => {},
-                },
-                seeUserAndReferent: {
-                    href: "#",
-                    onClick: () => {},
-                },
-            },
-            {
-                name: "https://videos.ahp-numerique.fr",
-                description: "Archives Henri-Poincaré",
-                userCount: 3,
-                referentCount: 2,
-                instanceLink: {
-                    href: "#",
-                    onClick: () => {},
-                },
-                seeUserAndReferent: {
-                    href: "#",
-                    onClick: () => {},
-                },
-            },
-        ],
-    },
-    {
-        name: "Foo",
-        maintainedInstances: [
-            {
-                name: "https://videos.ahp-numerique.fr",
-                description: "Bar",
-                userCount: 3,
-                referentCount: 2,
-                instanceLink: {
-                    href: "#",
-                    onClick: () => {},
-                },
-                seeUserAndReferent: {
-                    href: "#",
-                    onClick: () => {},
-                },
-            },
-            {
-                name: "https://videos.ahp-numerique.fr",
-                description: "Archives Henri-Poincaré",
-                userCount: 3,
-                referentCount: 2,
-                instanceLink: {
-                    href: "#",
-                    onClick: () => {},
-                },
-                seeUserAndReferent: {
-                    href: "#",
-                    onClick: () => {},
-                },
-            },
-        ],
-    },
-];
 
 export const DetailCard = memo((props: Props) => {
     const {
@@ -137,18 +61,63 @@ export const DetailCard = memo((props: Props) => {
         isPresentInSupportMarket,
         isFromFrenchPublicService,
         isRGAACompliant,
+        organizationList,
+        softwareName,
+        softwareLogoUrl,
+        authors,
+        officialWebsite,
+        sourceCodeRepository,
+        userCount,
+        referentCount,
+        seeUserAndReferent,
+        declareUserOrReferent,
+        shareSoftware,
+        alikeSoftware,
         ...rest
     } = props;
 
     /** Assert to make sure all props are deconstructed */
-    //assert<Equals<typeof rest, {}>>();
+    assert<Equals<typeof rest, {}>>();
 
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ DetailCard });
 
+    const instanceCount = organizationList.reduce(
+        (acc, organization) => acc + organization.maintainedInstances.length,
+        0,
+    );
+
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={cx(className)}>
+            {/*
+            // TODO : Update react dsfr component : wrong styles for active item
+            */}
+            <Breadcrumb
+                links={[
+                    {
+                        linkProps: {
+                            href: "#",
+                        },
+                        text: t("catalog breadcrumb"),
+                    },
+                    {
+                        linkProps: {
+                            href: "",
+                        },
+                        text: softwareName,
+                        isActive: true,
+                    },
+                ]}
+                className={classes.breadcrumb}
+            />
+            <HeaderDetailCard
+                softwareLogoUrl={softwareLogoUrl}
+                softwareName={softwareName}
+                authors={authors}
+                officialWebsite={officialWebsite}
+                sourceCodeRepository={sourceCodeRepository}
+            />
             <Tabs
                 tabs={[
                     {
@@ -169,14 +138,26 @@ export const DetailCard = memo((props: Props) => {
                         }),
                     },
                     {
-                        "label": t("tab title instance", { instanceCount: 2 }),
-                        "content": ReferencedInstancesTab({ organizationList }),
+                        "label": t("tab title instance", {
+                            instanceCount: instanceCount,
+                        }),
+                        "content": ReferencedInstancesTab({
+                            organizationList,
+                            instanceCount,
+                        }),
                     },
                     {
                         "label": t("tab title alike software", { alikeSoftwareCount: 1 }),
                         "content": <p>Content of tab2</p>,
                     },
                 ]}
+            />
+            <FooterDetailCard
+                usersCount={userCount}
+                referentCount={referentCount}
+                seeUserAndReferent={seeUserAndReferent}
+                shareSoftware={shareSoftware}
+                declareUserOrReferent={declareUserOrReferent}
             />
         </div>
     );
@@ -185,10 +166,13 @@ export const DetailCard = memo((props: Props) => {
 const useStyles = makeStyles({
     "name": { DetailCard },
 })(() => ({
-    "root": {},
+    "breadcrumb": {
+        "marginBottom": fr.spacing("4v"),
+    },
 }));
 
 export const { i18n } = declareComponentKeys<
+    | "catalog breadcrumb"
     | "tab title overview"
     | { K: "tab title instance"; P: { instanceCount: number } }
     | { K: "tab title alike software"; P: { alikeSoftwareCount: number } }

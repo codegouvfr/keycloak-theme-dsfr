@@ -138,6 +138,7 @@ export const CatalogCard = memo((props: Props) => {
                         seeUserAndReferent={seeUserAndReferent}
                         referentCount={referentCount}
                         userCount={userCount}
+                        className={classes.detailUsersAndReferents}
                     />
                 </div>
                 <div className={cx(classes.footer)}>
@@ -233,6 +234,9 @@ const useStyles = makeStyles({
         "color": theme.decisions.text.default.grey.default,
         "height": fr.spacing("20v"),
         "overflowY": "auto",
+    },
+    "detailUsersAndReferents": {
+        "marginBottom": fr.spacing("8v"),
     },
     "footer": {
         "display": "flex",
