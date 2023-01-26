@@ -7,9 +7,10 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { setUseLang } from "@codegouvfr/react-dsfr/spa";
 import { useLang } from "ui-dsfr/i18n";
 import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
-import { createMockRouteFactory } from "ui/routes";
+import { createMockRouteFactory } from "ui-dsfr/routes";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks";
+import { createCoreProvider } from "core-dsfr";
 
 const evtTriggerReRender = Evt.create(0);
 
@@ -20,6 +21,10 @@ setUseLang({
     },
 });
 
+const { CoreProvider } = createCoreProvider({
+    "sillApi": "mock",
+});
+
 export const { createMockRoute } = createMockRouteFactory({
     "triggerStoriesReRender": () => {
         evtTriggerReRender.state++;
@@ -28,7 +33,6 @@ export const { createMockRoute } = createMockRouteFactory({
 
 export function getStoryFactory<Props extends Record<string, unknown>>(params: {
     sectionName: string;
-    description?: string;
     wrappedComponent: Record<string, (props: Props) => JSX.Element | null>;
     /** https://storybook.js.org/docs/react/essentials/controls */
     argTypes?: Partial<Record<keyof Props, ArgType>>;
@@ -38,7 +42,6 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
     const {
         sectionName,
         wrappedComponent,
-        description,
         argTypes = {},
         defaultContainerWidth,
         disabledProps = [],
@@ -129,13 +132,13 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         "meta": id<Meta>({
             "title": `${sectionName}/${componentName}`,
             "component": Component,
-            decorators: [
+            "decorators": [
                 Story => (
-                    <>
+                    <CoreProvider>
                         <MuiDsfrThemeProvider>
                             <Story />
                         </MuiDsfrThemeProvider>
-                    </>
+                    </CoreProvider>
                 ),
             ],
             "argTypes": {

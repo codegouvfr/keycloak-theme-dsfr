@@ -84,7 +84,7 @@
         "react-markdown": "^5.0.3",
         "react-query": "4.0.0-beta.23",
         "react-scripts": "5.0.1",
-        "redux-clean-architecture": "^3.2.4",
+        "redux-clean-architecture": "^3.2.5",
         "run-exclusive": "^2.2.16",
         "sill-api": "0.29.2",
         "tsafe": "^1.1.3",

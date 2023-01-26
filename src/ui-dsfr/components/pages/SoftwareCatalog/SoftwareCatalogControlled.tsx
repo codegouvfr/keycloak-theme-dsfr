@@ -63,11 +63,63 @@ export type Props = {
 };
 
 export const SoftwareCatalogControlled = memo((props: Props) => {
-    const { className } = props;
+    const {
+        className,
+        softwares,
+        linksBySoftwareName,
+        search,
+        onSearchChange,
+        sort,
+        onSortChange,
+        organizationOptions,
+        organization,
+        onOrganizationChange,
+        categoryFilerOptions,
+        category,
+        onCategoryFilterChange,
+        environmentOptions,
+        environment,
+        onEnvironmentChange,
+        prerogativesOptions,
+        prerogatives,
+        onPrerogativesChange,
+        ...rest
+    } = props;
+
+    assert<Equals<typeof rest, {}>>();
 
     const { cx, classes } = useStyles();
 
-    return <div className={cx(classes.root, className)}></div>;
+    return (
+        <div className={cx(classes.root, className)}>
+            <pre>
+                {JSON.stringify(
+                    {
+                        softwares,
+                        linksBySoftwareName,
+                        search,
+                        onSearchChange,
+                        sort,
+                        onSortChange,
+                        organizationOptions,
+                        organization,
+                        onOrganizationChange,
+                        categoryFilerOptions,
+                        category,
+                        onCategoryFilterChange,
+                        environmentOptions,
+                        environment,
+                        onEnvironmentChange,
+                        prerogativesOptions,
+                        prerogatives,
+                        onPrerogativesChange,
+                    },
+                    null,
+                    2,
+                )}
+            </pre>
+        </div>
+    );
 });
 
 const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({

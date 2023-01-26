@@ -104,6 +104,7 @@ export namespace ChangeValueParams {
 export const { reducer, actions } = createSlice({
     name,
     "initialState": createObjectThatThrowsIfAccessed<SoftwareCatalogState>(),
+    //"initialState": {} as any as SoftwareCatalogState,
     "reducers": {
         "initialized": (
             _state,
@@ -247,6 +248,8 @@ export const privateThunks = {
                         .join(" "),
                 };
             }
+
+            console.log("initializing");
 
             dispatch(
                 actions.initialized({
