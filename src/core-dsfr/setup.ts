@@ -3,14 +3,21 @@ import { createCoreFromUsecases } from "redux-clean-architecture";
 import type { GenericCreateEvt, GenericThunks } from "redux-clean-architecture";
 import { usecases } from "./usecases";
 import type { ReturnType } from "tsafe/ReturnType";
+import { createMockSillApiClient } from "./adapter/SillApiClient/mock";
+import { assert } from "tsafe/assert";
 
-type CoreParams = {};
+type CoreParams = {
+    sillApi: "mock";
+};
 
 export async function createCore(params: CoreParams) {
-    const {} = params;
+    const { sillApi } = params;
+
+    assert(sillApi === "mock");
 
     const thunksExtraArgument = {
         "createCoreParams": params,
+        "sillApiClient": createMockSillApiClient(),
     };
 
     const core = createCoreFromUsecases({

@@ -10,6 +10,9 @@ import { Fzf } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
+import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
+import type { SillApiClient } from "../ports/SillApiClient";
+import { exclude } from "tsafe/exclude";
 
 export type SoftwareCatalogState = {
     softwares: SoftwareCatalogState.Software.Internal[];
@@ -47,7 +50,7 @@ export namespace SoftwareCatalogState {
         type Common = {
             logoUrl: string | undefined;
             softwareName: string;
-            softwareDescriptions: string;
+            softwareDescription: string;
             lastVersion:
                 | {
                       semVer: string;
@@ -61,7 +64,12 @@ export namespace SoftwareCatalogState {
         };
 
         export type External = Common & {
-            prerogatives: Record<Prerogative, boolean>;
+            prerogatives: Pick<
+                Record<Prerogative, boolean>,
+                | "isFromFrenchPublicServices"
+                | "isInstallableOnUserTerminal"
+                | "isPresentInSupportContract"
+            >;
         };
 
         export type Internal = Common & {
@@ -70,10 +78,12 @@ export namespace SoftwareCatalogState {
             categories: string[];
             organizations: string[];
             environments: Record<Environment, boolean>;
-            //NOTE: We can deduce if it's installable on user terminal by looking at the environments
-            prerogatives: Record<
-                Exclude<Prerogative, "isInstallableOnUserTerminal">,
-                boolean
+            //NOTE: We can deduce if it's installable on user terminal by looking at the environments.
+            prerogatives: Pick<
+                Record<Prerogative, boolean>,
+                | "isPresentInSupportContract"
+                | "isFromFrenchPublicServices"
+                | "doRespectRgaa"
             >;
             search: string;
         };
@@ -136,11 +146,111 @@ export const privateThunks = {
     "initialize":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , {}] = args;
+            const [dispatch, , { sillApiClient }] = args;
+
+            const apiSoftwares = await sillApiClient.getSoftwares();
+
+            function apiSoftwareToInternalSoftware(
+                apiSoftware: SillApiClient.Software,
+            ): SoftwareCatalogState.Software.Internal {
+                const {
+                    logoUrl,
+                    softwareName,
+                    softwareDescription,
+                    lastVersion,
+                    parentSoftwareId,
+                    testUrl,
+                    addedTime,
+                    updateTime,
+                    categories,
+                    prerogatives,
+                    users,
+                } = apiSoftware;
+
+                const referentsCount = users.filter(
+                    user => user.type === "referent",
+                ).length;
+
+                const parentSoftware = (() => {
+                    if (parentSoftwareId === undefined) {
+                        return undefined;
+                    }
+
+                    const parentSoftware = apiSoftwares.find(
+                        ({ softwareId }) => softwareId === parentSoftwareId,
+                    );
+
+                    assert(parentSoftware !== undefined);
+
+                    return parentSoftware;
+                })();
+
+                const environments = users
+                    .map(user => user.environments)
+                    .reduce(
+                        (prev, curr) => {
+                            const out = { ...prev };
+
+                            for (const env of objectKeys(curr)) {
+                                const value = curr[env];
+
+                                if (!value) {
+                                    continue;
+                                }
+
+                                out[env] = true;
+                            }
+
+                            return out;
+                        },
+                        id<Record<SoftwareCatalogState.Environment, boolean>>({
+                            "linux": false,
+                            "windows": false,
+                            "mac": false,
+                            "browser": false,
+                            "smartphone": false,
+                        }),
+                    );
+
+                return {
+                    logoUrl,
+                    softwareName,
+                    softwareDescription,
+                    lastVersion,
+                    referentsCount,
+                    "userCount": users.length - referentsCount,
+                    "parentSoftwareName": parentSoftware?.softwareName,
+                    testUrl,
+                    addedTime,
+                    updateTime,
+                    categories,
+                    "organizations": users
+                        .map(user => user.organization)
+                        .flat()
+                        .reduce(...removeDuplicates<string>()),
+                    environments,
+                    prerogatives,
+                    "search": [
+                        softwareName,
+                        softwareDescription,
+                        lastVersion?.semVer,
+                        categories.join(" "),
+                        Object.entries(environments)
+                            .filter(([, v]) => v)
+                            .map(([env]) => env)
+                            .join(" "),
+                        parentSoftware === undefined
+                            ? undefined
+                            : apiSoftwareToInternalSoftware(parentSoftware).search,
+                    ]
+                        .filter(exclude(undefined))
+                        .join(" "),
+                };
+            }
 
             dispatch(
                 actions.initialized({
-                    "softwares": [],
+                    "softwares": apiSoftwares.map(apiSoftwareToInternalSoftware),
                 }),
             );
         },
@@ -162,7 +272,7 @@ export const selectors = (() => {
         const {
             logoUrl,
             softwareName,
-            softwareDescriptions,
+            softwareDescription,
             lastVersion,
             referentsCount,
             userCount,
@@ -173,7 +283,7 @@ export const selectors = (() => {
             categories,
             organizations,
             environments,
-            prerogatives,
+            prerogatives: { isFromFrenchPublicServices, isPresentInSupportContract },
             search,
             ...rest
         } = software;
@@ -183,19 +293,20 @@ export const selectors = (() => {
         return {
             logoUrl,
             softwareName,
-            softwareDescriptions,
+            softwareDescription,
             lastVersion,
             referentsCount,
             userCount,
             parentSoftwareName,
             testUrl,
             "prerogatives": {
-                ...prerogatives,
+                isFromFrenchPublicServices,
                 "isInstallableOnUserTerminal":
                     environments.linux ||
                     environments.mac ||
                     environments.windows ||
                     environments.smartphone,
+                isPresentInSupportContract,
             },
         };
     }
@@ -268,7 +379,11 @@ export const selectors = (() => {
 
         return softwares.filter(
             software =>
-                internalSoftwareToExternalSoftware(software).prerogatives[prerogative],
+                ({
+                    ...internalSoftwareToExternalSoftware(software).prerogatives,
+                    ...software.prerogatives,
+                    "isTestable": software.testUrl !== undefined,
+                }[prerogative]),
         );
     }
 
