@@ -49,19 +49,12 @@ export const DeclareUserOrReferent = memo((props: Props) => {
 
     const [activeStep, setActiveStep] = useState(1);
 
-    const title = (
-        <legend className={fr.cx("fr-h6")} id="radio-hint-element-legend">
-            Comment souhaitez-vous déclarer ?
-        </legend>
-    );
-
     const { Form, formContext } = useForm({
         debugForm: false,
     });
 
     /* TODO :
      *  - validation
-     *  - responsive
      *  - Default Values
      *  - Dynamic title
      */
@@ -93,30 +86,48 @@ export const DeclareUserOrReferent = memo((props: Props) => {
         }
     };
 
+    const getActiveStep = (): "type" | "user" | "referent" =>  {
+        if (activeStep === 1) {
+            return "type"
+        }
+
+        if (activeStep === 2 && formContext.values.type === "user") {
+            return "user"
+        }
+
+        if (activeStep === 2 && formContext.values.type === "referent") {
+            return "referent"
+        }
+
+        return "type"
+    }
+
+    const title = (
+        <legend className={fr.cx("fr-h6")} id="radio-hint-element-legend">
+            { getActiveStep() === "type" && "Comment souhaitez-vous déclarer ?" }
+            { getActiveStep() === "user" && "À propos de votre usage" }
+            { getActiveStep() === "referent" && "À propos de votre référencement" }
+        </legend>
+    );
+
     return (
         <div className={className}>
             <Breadcrumb
-                links={[
+                segments={[
                     {
                         linkProps: {
                             href: "/catalog",
                         },
-                        text: t("catalog breadcrumb"),
+                        label: t("catalog breadcrumb")
                     },
                     {
                         linkProps: {
                             href: "/catalog/softwareName",
                         },
-                        text: softwareName,
-                    },
-                    {
-                        linkProps: {
-                            href: "/catalog/softwareName/declareUser",
-                        },
-                        text: t("declare yourself user or referent breadcrumb"),
-                        isActive: true,
-                    },
+                        label: softwareName,
+                    }
                 ]}
+                currentPageLabel={t("declare yourself user or referent breadcrumb")}
                 className={classes.breadcrumb}
             />
             <div className={classes.headerDeclareUserOrReferent}>
@@ -155,14 +166,9 @@ export const DeclareUserOrReferent = memo((props: Props) => {
                     />
                     <Form>
                         <fieldset className={fr.cx("fr-fieldset")}>
-                            {activeStep === 1 && <UserTypeStep />}
-                            {activeStep === 2 && formContext.values.type === "user" && (
-                                <UserStep />
-                            )}
-                            {activeStep === 2 &&
-                                formContext.values.type === "referent" && (
-                                    <ReferentStep />
-                                )}
+                            {getActiveStep() === "type" && <UserTypeStep />}
+                            {getActiveStep() === "user" && <UserStep />}
+                            {getActiveStep() === "referent" && <ReferentStep />}
                         </fieldset>
                         <div className={classes.buttons}>
                             <Button
@@ -215,11 +221,21 @@ const useStyles = makeStyles({
     "formContainer": {
         "display": "grid",
         "gridTemplateColumns": `repeat(2, 1fr)`,
+
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`,
+        },
     },
     "leftCol": {
         "marginLeft": fr.spacing("12v"),
         "paddingRight": fr.spacing("16v"),
         "borderRight": `1px ${theme.decisions.border.default.grey.default} solid`,
+
+        [fr.breakpoints.down("md")]: {
+            "borderRight": "none",
+            "marginLeft": "0",
+            "paddingRight": "0",
+        },
     },
     "softwareNameContainer": {
         "display": "flex",
@@ -240,6 +256,10 @@ const useStyles = makeStyles({
     "rightCol": {
         "marginLeft": fr.spacing("6v"),
         "paddingLeft": fr.spacing("10v"),
+        [fr.breakpoints.down("md")]: {
+            "marginLeft": "0",
+            "paddingLeft": "0",
+        }
     },
     "stepper": {
         "flex": "1",

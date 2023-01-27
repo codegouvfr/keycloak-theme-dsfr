@@ -94,21 +94,15 @@ export const DetailCard = memo((props: Props) => {
             // TODO : Update react dsfr component : wrong styles for active item
             */}
             <Breadcrumb
-                links={[
+                segments={[
                     {
                         linkProps: {
                             href: "#",
                         },
-                        text: t("catalog breadcrumb"),
-                    },
-                    {
-                        linkProps: {
-                            href: "",
-                        },
-                        text: softwareName,
-                        isActive: true,
-                    },
+                        label: t("catalog breadcrumb"),
+                    }
                 ]}
+                currentPageLabel={softwareName}
                 className={classes.breadcrumb}
             />
             <HeaderDetailCard
