@@ -31,6 +31,10 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/FooterDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/DeclareUserOrReferent").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserStep").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
@@ -124,6 +128,37 @@ const {
                 "share software": "Share the software",
                 "declare referent": "Declare yourself referent / user",
             },
+            "DeclareUserOrReferent": {
+                "title": "Declare yourself user or referent of the software",
+                "catalog breadcrumb": "Software catalog",
+                "declare yourself user or referent breadcrumb":
+                    "Declare yourself user or referent of the software",
+                "back": "Back",
+                "next": "Next",
+                "send": "Send",
+            },
+            "UserTypeStep": {
+                "user type label": "I'm a user of this software",
+                "user type hint": "Inside my organization",
+                "referent type label": "I would like to be referent of this software",
+                "referent type hint":
+                    "As a guarantor and reference of the use of this software inside my organization",
+            },
+            "UserStep": {
+                "useCase": "Describe in a few words your use case",
+                "environment": "In which environment do you use your software ?",
+                "version": "Which version of the software do you use ? (Optionnel)",
+                "service": "More precisely, which service of the software do you use ?",
+            },
+            "ReferentStep": {
+                "legend title": "Are you a technical expert of this software ?",
+                "legend hint": "You are able to answer to questions of agents et of DSI",
+                "yes": "Yes",
+                "no": "No",
+                "useCase": "Describe in a few words the use case of your administration",
+                "service":
+                    "More precisely, which service of the software do you declare yourself referent",
+            },
         },
         "fr": {
             /* spell-checker: disable */
@@ -216,6 +251,39 @@ const {
             "FooterDetailCard": {
                 "share software": "Partager la fiche",
                 "declare referent": "Se déclarer référent / utilisateur",
+            },
+            "DeclareUserOrReferent": {
+                "title": "Se déclarer utilisateur ou référent du logiciel",
+                "catalog breadcrumb": "Le catalogue de logiciel",
+                "declare yourself user or referent breadcrumb":
+                    "Se déclarer utilisateur ou référent du logiciel",
+                "back": "Précédent",
+                "next": "Suivant",
+                "send": "Envoyer",
+            },
+            "UserTypeStep": {
+                "user type label": "Je suis un utilisateur de ce logiciel",
+                "user type hint": "Au sein de mon établissement",
+                "referent type label": "Je souhaite devenir référent de ce logiciel",
+                "referent type hint":
+                    "Comme garant et référence de l'utilisation du logiciel au sein de mon établissement",
+            },
+            "UserStep": {
+                "useCase": "Décrivez en quelques mots votre cas d'usage",
+                "environment": "Dans quel environnement utilisez-vous ce logiciel ?",
+                "version": "Quelle version du logiciel utilisez vous ? (Optionnel)",
+                "service": "Plus précisément, quel service du logiciel utilisez-vous ?",
+            },
+            "ReferentStep": {
+                "legend title": "Êtes-vous un expert technique concernant ce logiciel ?",
+                "legend hint":
+                    "Vous pouvez répondre aux questions techniques d'agents et de DSI",
+                "yes": "Oui",
+                "no": "Non",
+                "useCase":
+                    "Décrivez en quelques mots le cas d'usage de votre administration",
+                "service":
+                    "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?",
             },
             /* spell-checker: enable */
         },

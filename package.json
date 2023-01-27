@@ -54,7 +54,7 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^0.25.6",
+        "@codegouvfr/react-dsfr": "^0.28.0",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",
@@ -63,6 +63,7 @@
         "@storybook/addon-docs": "^6.5.15",
         "@trpc/client": "^9.24.0",
         "@types/color": "^3.0.3",
+        "@types/react-form": "^4.0.2",
         "buffer": "^6.0.3",
         "comment-json": "^3.0.0",
         "cra-envs": "^1.2.8",
@@ -81,6 +82,7 @@
         "react": "^18.2.0",
         "react-async-hook": "^3.6.1",
         "react-dom": "^18.2.0",
+        "react-form": "^4.0.1",
         "react-markdown": "^5.0.3",
         "react-query": "4.0.0-beta.23",
         "react-scripts": "5.0.1",
