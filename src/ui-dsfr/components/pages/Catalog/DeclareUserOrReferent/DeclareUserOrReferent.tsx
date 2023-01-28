@@ -10,11 +10,9 @@ import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { Link } from "type-route";
 import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
 
-import { useForm, useField } from "react-form";
+import { useForm } from "react-form";
 
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { Select } from "@codegouvfr/react-dsfr/Select";
 import { UserTypeStep } from "./UserTypeStep";
 import { UserStep } from "./UserStep";
 import { ReferentStep } from "./ReferentStep";
@@ -56,7 +54,6 @@ export const DeclareUserOrReferent = memo((props: Props) => {
     /* TODO :
      *  - validation
      *  - Default Values
-     *  - Dynamic title
      */
 
     const onBackStep = (event: React.MouseEvent<HTMLButtonElement>) => {

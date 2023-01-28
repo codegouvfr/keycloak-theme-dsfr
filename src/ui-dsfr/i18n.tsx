@@ -35,6 +35,8 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserStep").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
+    | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
+    | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
@@ -159,6 +161,22 @@ const {
                 "service":
                     "More precisely, which service of the software do you declare yourself referent",
             },
+            "Authentication": {
+                "connect": "Se connecter",
+                "back": "Retour",
+                "selfCredentials": "Ou utiliser vos identifiants",
+                "forget password": "Mot de passe oublié ?",
+                "no account": "Pas encore de compte ?",
+                "log with": "Identify with",
+                "franceConnect": "FranceConnect",
+                "what is franceConnect": "What is FranceConnect ?",
+                "what is franceConnect title": "What is FranceConnect - new window"
+            },
+            "Inputs": {
+                "email": "Votre email personnel",
+                "email hint": "Par exemple : nom@exemple.com",
+                "password": "Votre mot de passe",
+            }
         },
         "fr": {
             /* spell-checker: disable */
@@ -285,6 +303,22 @@ const {
                 "service":
                     "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?",
             },
+            "Authentication": {
+                "connect": "Se connecter",
+                "back": "Retour",
+                "selfCredentials": "Ou utilisez vos identifiants",
+                "forget password": "Mot de passe oublié ?",
+                "no account": "Pas encore de compte ?",
+                "log with": "S'identifier avec",
+                "franceConnect": "FranceConnect",
+                "what is franceConnect": "Qu'est-ce que FranceConnect ?",
+                "what is franceConnect title": "Qu'est ce que FranceConnect - nouvelle fenêtre"
+            },
+            "Inputs": {
+                "email": "Votre email personnel",
+                "email hint": "Par exemple : nom@exemple.com",
+                "password": "Votre mot de passe"
+            }
             /* spell-checker: enable */
         },
     },
