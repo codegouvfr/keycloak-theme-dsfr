@@ -17,7 +17,7 @@ export namespace SillApiClient {
                   publicationTime: number;
               }
             | undefined;
-        parentSoftwareId: number | undefined;
+        parentSoftwareName: string | undefined;
         testUrl: string | undefined;
         addedTime: number;
         updateTime: number;
@@ -32,6 +32,24 @@ export namespace SillApiClient {
             organization: string;
             environments: Record<Environment, boolean>;
         }[];
+        authors: {
+            authorName: string;
+            authorUrl: string;
+        }[];
+        officialWebsiteUrl: string;
+        codeRepositoryUrl: string;
+        versionMin: string;
+        license: string;
+        serviceProviderCount: number;
+        serviceProviderUrl: string;
+        compotoirDuLibreUrl: string | undefined;
+        wikidataUrl: string;
+        instances: {
+            instanceUrl: string;
+            targetAudience: string;
+        }[];
+        alikeSoftwareNames: string[];
+        proprietaryAlikeSoftwaresNames: string[];
     };
 
     export type Environment = "linux" | "windows" | "mac" | "browser" | "smartphone";
