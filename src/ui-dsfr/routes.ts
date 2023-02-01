@@ -86,6 +86,12 @@ const routeDefs = {
         },
         () => `/declaration`,
     ),
+    "softwareCreationForm": defineRoute(
+        {
+            "step": param.query.optional.number,
+        },
+        () => `/add`,
+    ),
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
