@@ -24,7 +24,6 @@ export function SoftwareCreationForm(props: Props) {
 
     return (
         <div className={className}>
-            <FreeSoloCreateOption />
             <Asynchronous />
         </div>
     );
@@ -32,7 +31,7 @@ export function SoftwareCreationForm(props: Props) {
 
 const filter = createFilterOptions<Film>();
 
-export default function FreeSoloCreateOption() {
+function FreeSoloCreateOption() {
     const [value, setValue] = useState<Film | null>(null);
 
     return (
@@ -65,6 +64,7 @@ export default function FreeSoloCreateOption() {
 }
 
 function Asynchronous() {
+    const [value, setValue] = useState<Film | null>(null);
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<readonly Film[]>([]);
     const loading = open && options.length === 0;
@@ -79,9 +79,11 @@ function Asynchronous() {
         (async () => {
             await sleep(1e3); // For demo purposes.
 
-            if (active) {
-                setOptions([...topFilms]);
+            if (!active) {
+                return;
             }
+
+            setOptions([...topFilms]);
         })();
 
         return () => {
@@ -95,51 +97,49 @@ function Asynchronous() {
         }
     }, [open]);
 
-    const { css } = useStyles();
-
     return (
-        <Autocomplete
-            id="asynchronous-demo"
-            sx={{ width: 300, mt: 4 }}
-            open={open}
-            onOpen={() => {
-                setOpen(true);
-            }}
-            onClose={() => {
-                setOpen(false);
-            }}
-            isOptionEqualToValue={(option, value) => option.title === value.title}
-            getOptionLabel={option => option.title}
-            options={options}
-            loading={loading}
-            selectOnFocus
-            clearOnBlur
-            handleHomeEndKeys
-            renderInput={params => (
-                <div
-                    style={{
-                        "position": "relative",
-                    }}
-                >
-                    <Input
-                        ref={params.InputProps.ref}
-                        label="Foo bar baz"
-                        nativeInputProps={params.inputProps}
-                    />
-                    {loading && (
-                        <CircularProgress
-                            style={{
-                                "position": "absolute",
-                                "top": 0,
-                                "right": 0,
-                            }}
-                            color="inherit"
-                            size={20}
+        <>
+            <Autocomplete
+                id="asynchronous-demo"
+                sx={{ width: 300, mt: 4 }}
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+                onChange={(_event, newValue) => setValue(newValue)}
+                filterOptions={options => options}
+                getOptionLabel={option => option.title}
+                options={options}
+                loading={loading}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                renderInput={params => (
+                    <div
+                        style={{
+                            "position": "relative",
+                        }}
+                    >
+                        <Input
+                            ref={params.InputProps.ref}
+                            label="Foo bar baz"
+                            nativeInputProps={params.inputProps}
                         />
-                    )}
-                </div>
-            )}
-        />
+                        {loading && (
+                            <CircularProgress
+                                style={{
+                                    "position": "absolute",
+                                    "top": 0,
+                                    "right": 0,
+                                }}
+                                color="inherit"
+                                size={20}
+                            />
+                        )}
+                    </div>
+                )}
+            />
+            <div>Year: {value?.year}</div>
+        </>
     );
 }
 
