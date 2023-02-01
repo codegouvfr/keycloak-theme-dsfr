@@ -83,6 +83,7 @@
         "react-async-hook": "^3.6.1",
         "react-dom": "^18.2.0",
         "react-form": "^4.0.1",
+        "react-hook-form": "^7.43.0",
         "react-markdown": "^5.0.3",
         "react-query": "4.0.0-beta.23",
         "react-scripts": "5.0.1",
