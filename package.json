@@ -78,7 +78,7 @@
         "node-fetch": "^2.6.1",
         "onyxia-ui": "^0.47.8",
         "path": "^0.12.7",
-        "powerhooks": "^0.22.0",
+        "powerhooks": "^0.23.0",
         "react": "^18.2.0",
         "react-async-hook": "^3.6.1",
         "react-dom": "^18.2.0",

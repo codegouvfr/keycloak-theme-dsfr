@@ -7,6 +7,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useStyles } from "tss-react/dsfr";
+import { createUseDebounce } from "powerhooks/useDebounce";
 
 SoftwareCreationForm.routeGroup = createGroup([routes.softwareCreationForm]);
 
@@ -24,6 +25,7 @@ export function SoftwareCreationForm(props: Props) {
 
     return (
         <div className={className}>
+            <FreeSoloCreateOption />
             <Asynchronous />
         </div>
     );
@@ -63,13 +65,22 @@ function FreeSoloCreateOption() {
     );
 }
 
+type WikidataEntry = {
+    wikidataLabel: string;
+    wikidataId: string;
+};
+
+const { useDebounce } = createUseDebounce({ "delay": 400 });
+
 function Asynchronous() {
     const [value, setValue] = useState<Film | null>(null);
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<readonly Film[]>([]);
     const loading = open && options.length === 0;
 
-    useEffect(() => {
+    const [inputValue, setInputValue] = useState("");
+
+    useDebounce(() => {
         let active = true;
 
         if (!loading) {
@@ -83,13 +94,15 @@ function Asynchronous() {
                 return;
             }
 
+            console.log(`Filter with ${inputValue}`);
+
             setOptions([...topFilms]);
         })();
 
         return () => {
             active = false;
         };
-    }, [loading]);
+    }, [loading, inputValue]);
 
     useEffect(() => {
         if (!open) {
@@ -106,7 +119,11 @@ function Asynchronous() {
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
                 onChange={(_event, newValue) => setValue(newValue)}
-                filterOptions={options => options}
+                filterOptions={(options, params) => {
+                    setInputValue(params.inputValue);
+
+                    return options;
+                }}
                 getOptionLabel={option => option.title}
                 options={options}
                 loading={loading}
