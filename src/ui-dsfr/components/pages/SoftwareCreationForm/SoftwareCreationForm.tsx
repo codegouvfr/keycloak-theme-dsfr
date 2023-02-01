@@ -1,11 +1,12 @@
 import { createGroup } from "type-route";
 import type { Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useStyles } from "tss-react/dsfr";
 
 SoftwareCreationForm.routeGroup = createGroup([routes.softwareCreationForm]);
 
@@ -32,7 +33,7 @@ export function SoftwareCreationForm(props: Props) {
 const filter = createFilterOptions<Film>();
 
 export default function FreeSoloCreateOption() {
-    const [value, setValue] = React.useState<Film | null>(null);
+    const [value, setValue] = useState<Film | null>(null);
 
     return (
         <Autocomplete
@@ -58,6 +59,85 @@ export default function FreeSoloCreateOption() {
                     ref={params.InputProps.ref}
                     nativeInputProps={params.inputProps}
                 />
+            )}
+        />
+    );
+}
+
+function Asynchronous() {
+    const [open, setOpen] = useState(false);
+    const [options, setOptions] = useState<readonly Film[]>([]);
+    const loading = open && options.length === 0;
+
+    useEffect(() => {
+        let active = true;
+
+        if (!loading) {
+            return undefined;
+        }
+
+        (async () => {
+            await sleep(1e3); // For demo purposes.
+
+            if (active) {
+                setOptions([...topFilms]);
+            }
+        })();
+
+        return () => {
+            active = false;
+        };
+    }, [loading]);
+
+    useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
+
+    const { css } = useStyles();
+
+    return (
+        <Autocomplete
+            id="asynchronous-demo"
+            sx={{ width: 300, mt: 4 }}
+            open={open}
+            onOpen={() => {
+                setOpen(true);
+            }}
+            onClose={() => {
+                setOpen(false);
+            }}
+            isOptionEqualToValue={(option, value) => option.title === value.title}
+            getOptionLabel={option => option.title}
+            options={options}
+            loading={loading}
+            selectOnFocus
+            clearOnBlur
+            handleHomeEndKeys
+            renderInput={params => (
+                <div
+                    style={{
+                        "position": "relative",
+                    }}
+                >
+                    <Input
+                        ref={params.InputProps.ref}
+                        label="Foo bar baz"
+                        nativeInputProps={params.inputProps}
+                    />
+                    {loading && (
+                        <CircularProgress
+                            style={{
+                                "position": "absolute",
+                                "top": 0,
+                                "right": 0,
+                            }}
+                            color="inherit"
+                            size={20}
+                        />
+                    )}
+                </div>
             )}
         />
     );
@@ -200,71 +280,4 @@ function sleep(delay = 0) {
     return new Promise(resolve => {
         setTimeout(resolve, delay);
     });
-}
-
-function Asynchronous() {
-    const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState<readonly Film[]>([]);
-    const loading = open && options.length === 0;
-
-    React.useEffect(() => {
-        let active = true;
-
-        if (!loading) {
-            return undefined;
-        }
-
-        (async () => {
-            await sleep(1e3); // For demo purposes.
-
-            if (active) {
-                setOptions([...topFilms]);
-            }
-        })();
-
-        return () => {
-            active = false;
-        };
-    }, [loading]);
-
-    React.useEffect(() => {
-        if (!open) {
-            setOptions([]);
-        }
-    }, [open]);
-
-    return (
-        <Autocomplete
-            id="asynchronous-demo"
-            sx={{ width: 300, mt: 4 }}
-            open={open}
-            onOpen={() => {
-                setOpen(true);
-            }}
-            onClose={() => {
-                setOpen(false);
-            }}
-            isOptionEqualToValue={(option, value) => option.title === value.title}
-            getOptionLabel={option => option.title}
-            options={options}
-            loading={loading}
-            renderInput={params => (
-                <TextField
-                    {...params}
-                    label="Asynchronous"
-                    InputProps={{
-                        ...params.InputProps,
-                        endAdornment: (
-                            <React.Fragment>
-                                {loading ? (
-                                    <CircularProgress color="inherit" size={20} />
-                                ) : null}
-                                {params.InputProps.endAdornment}
-                            </React.Fragment>
-                        ),
-                    }}
-                />
-            )}
-        />
-    );
 }
