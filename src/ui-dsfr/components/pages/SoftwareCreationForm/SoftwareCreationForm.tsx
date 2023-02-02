@@ -1,13 +1,11 @@
 import { createGroup } from "type-route";
 import type { Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
-import { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
+import { useState } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useStyles } from "tss-react/dsfr";
-import { createUseDebounce } from "powerhooks/useDebounce";
+import { createUseDebounce } from "./useDebounce";
 
 SoftwareCreationForm.routeGroup = createGroup([routes.softwareCreationForm]);
 
@@ -65,50 +63,55 @@ function FreeSoloCreateOption() {
     );
 }
 
-type WikidataEntry = {
-    wikidataLabel: string;
-    wikidataId: string;
-};
-
-const { useDebounce } = createUseDebounce({ "delay": 400 });
+const { useDebounce } = createUseDebounce({ "delay": 1000 });
 
 function Asynchronous() {
     const [value, setValue] = useState<Film | null>(null);
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<readonly Film[]>([]);
-    const loading = open && options.length === 0;
-
+    const [isLoading, setIsLoading] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
     useDebounce(() => {
         let active = true;
 
-        if (!loading) {
-            return undefined;
-        }
-
         (async () => {
-            await sleep(1e3); // For demo purposes.
+            setOptions([]);
+            setIsLoading(true);
+
+            console.log(inputValue, "-- start");
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
             if (!active) {
+                console.log(inputValue, "-- cancel update");
                 return;
             }
 
-            console.log(`Filter with ${inputValue}`);
+            console.log(inputValue, "-- proceed to update");
 
-            setOptions([...topFilms]);
+            setOptions([
+                {
+                    "title": `${inputValue} 1`,
+                    "year": 2001,
+                },
+                {
+                    "title": `${inputValue} 2`,
+                    "year": 2002,
+                },
+                {
+                    "title": `${inputValue} 3`,
+                    "year": 2003,
+                },
+            ]);
+            setIsLoading(false);
         })();
 
         return () => {
+            console.log(inputValue, "-- cleanup");
             active = false;
         };
-    }, [loading, inputValue]);
-
-    useEffect(() => {
-        if (!open) {
-            setOptions([]);
-        }
-    }, [open]);
+    }, [inputValue]);
 
     return (
         <>
@@ -117,7 +120,10 @@ function Asynchronous() {
                 sx={{ width: 300, mt: 4 }}
                 open={open}
                 onOpen={() => setOpen(true)}
-                onClose={() => setOpen(false)}
+                onClose={() => {
+                    setOptions([]);
+                    setOpen(false);
+                }}
                 onChange={(_event, newValue) => setValue(newValue)}
                 filterOptions={(options, params) => {
                     setInputValue(params.inputValue);
@@ -126,7 +132,7 @@ function Asynchronous() {
                 }}
                 getOptionLabel={option => option.title}
                 options={options}
-                loading={loading}
+                loading={isLoading}
                 selectOnFocus
                 clearOnBlur
                 handleHomeEndKeys
@@ -141,7 +147,7 @@ function Asynchronous() {
                             label="Foo bar baz"
                             nativeInputProps={params.inputProps}
                         />
-                        {loading && (
+                        {isLoading && (
                             <CircularProgress
                                 style={{
                                     "position": "absolute",
@@ -292,9 +298,3 @@ const topFilms: readonly Film[] = [
     { title: "3 Idiots", year: 2009 },
     { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
-
-function sleep(delay = 0) {
-    return new Promise(resolve => {
-        setTimeout(resolve, delay);
-    });
-}
