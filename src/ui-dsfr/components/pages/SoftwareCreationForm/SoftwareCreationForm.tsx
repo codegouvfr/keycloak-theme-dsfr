@@ -123,12 +123,11 @@ function Asynchronous() {
                 onClose={() => {
                     setOpen(false);
                 }}
-                onChange={(_event, newValue) => setValue(newValue)}
-                filterOptions={(options, params) => {
-                    setInputValue(params.inputValue);
-
-                    return options;
+                onInputChange={(_event, newValue) => {
+                    setInputValue(newValue);
                 }}
+                onChange={(_event, newValue) => setValue(newValue)}
+                filterOptions={options => options}
                 getOptionLabel={option => option.title}
                 options={options}
                 loading={isLoading}
