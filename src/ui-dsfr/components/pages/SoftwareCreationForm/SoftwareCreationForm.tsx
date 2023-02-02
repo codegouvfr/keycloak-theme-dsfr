@@ -63,7 +63,7 @@ function FreeSoloCreateOption() {
     );
 }
 
-const { useDebounce } = createUseDebounce({ "delay": 1000 });
+const { useDebounce } = createUseDebounce({ "delay": 400 });
 
 function Asynchronous() {
     const [value, setValue] = useState<Film | null>(null);
@@ -121,7 +121,6 @@ function Asynchronous() {
                 open={open}
                 onOpen={() => setOpen(true)}
                 onClose={() => {
-                    setOptions([]);
                     setOpen(false);
                 }}
                 onChange={(_event, newValue) => setValue(newValue)}

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useConst } from "powerhooks/useConst";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import { Deferred } from "evt/tools/Deferred";
-import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 
 type Destructor = () => void;
 
@@ -17,19 +16,16 @@ export function createUseDebounce(params: { delay: number }) {
     ) {
         const { waitForDebounce } = useConst(() => waitForDebounceFactory({ delay }));
 
-        const isUnmountedRef = useConst(() => ({ "current": false }));
-
         const constEffectCallback = useConstCallback(effectCallback);
 
-        useEffect(
-            () => () => {
-                isUnmountedRef.current = true;
-            },
-            [],
-        );
+        const refIsFirst = useConst(() => ({ "current": false }));
 
-        useEffectOnValueChange(() => {
-            console.log("====================> ", deps);
+        useEffect(() => {
+            if (refIsFirst.current) {
+                refIsFirst.current = false;
+
+                return constEffectCallback();
+            }
 
             let isActive = true;
             let destructor: Destructor | undefined = undefined;
@@ -37,20 +33,14 @@ export function createUseDebounce(params: { delay: number }) {
             (async () => {
                 await waitForDebounce();
 
-                if (isUnmountedRef.current) {
-                    console.log("heeeeeeere");
+                if (!isActive) {
                     return;
                 }
 
                 destructor = constEffectCallback() ?? undefined;
-
-                if (!isActive) {
-                    destructor?.();
-                }
             })();
 
             return () => {
-                console.log("!!!!!!!!!!!!!!!!!!!!!!!! cleanup", deps);
                 isActive = false;
                 destructor?.();
             };
