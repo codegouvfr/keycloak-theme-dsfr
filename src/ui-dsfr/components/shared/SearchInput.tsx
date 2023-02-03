@@ -8,10 +8,10 @@ import { useRerenderOnChange } from "powerhooks/tools/StatefulObservable/hooks/u
 
 export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
     className?: string;
+    value: T | undefined;
+    onValueChange: (value: T | undefined) => void;
     debounceDelay: number;
     getOptions: (inputText: string) => Promise<T[]>;
-    defaultValue?: T;
-    onValueChange: (value: T | undefined) => void;
     getOptionLabel: (value: T) => string;
     renderOption?: (liProps: HTMLAttributes<HTMLLIElement>, option: T) => ReactNode;
     noOptionText: ReactNode;
@@ -24,12 +24,12 @@ export function SearchInput<T extends string | Record<string, unknown>>(
 ) {
     const {
         className,
+        value,
+        onValueChange,
         debounceDelay,
         getOptions,
         getOptionLabel,
         renderOption,
-        defaultValue = null,
-        onValueChange,
         noOptionText,
         loadingText,
         dsfrInputProps,
@@ -93,7 +93,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
             onClose={() => setIsOpen(false)}
             onInputChange={(_event, newValue) => setInputValue(newValue)}
             onChange={(_event, newValue) => onValueChange(newValue ?? undefined)}
-            defaultValue={defaultValue}
+            value={value ?? null}
             filterOptions={(options: T[]) => options}
             getOptionLabel={getOptionLabel}
             renderOption={renderOption}

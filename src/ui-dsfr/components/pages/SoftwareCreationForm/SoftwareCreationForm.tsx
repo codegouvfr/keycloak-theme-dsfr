@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { SearchInput } from "ui-dsfr/components/shared/SearchInput";
@@ -40,11 +41,20 @@ async function getWikidataOptions(inputText: string): Promise<WikidataEntry[]> {
 export function SoftwareCreationForm(props: Props) {
     const { className } = props;
 
+    const [wikiDataEntry, setWikiDataEntry] = useState<WikidataEntry | undefined>(
+        undefined,
+    );
+
+    useEffect(() => {
+        console.log(wikiDataEntry);
+    }, [wikiDataEntry]);
+
     return (
         <div className={className}>
             <SearchInput
                 debounceDelay={400}
                 getOptions={getWikidataOptions}
+                value={wikiDataEntry}
                 /*
                 defaultValue={{
                     "wikidataId": "Qxxxxxx",
@@ -52,7 +62,7 @@ export function SoftwareCreationForm(props: Props) {
                     "wikidataDescription": "Logiciel de traitement d'image"
                 }}
                 */
-                onValueChange={wikidataEntry => console.log({ wikidataEntry })}
+                onValueChange={setWikiDataEntry}
                 getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
                 renderOption={(liProps, wikidataEntity) => (
                     <li {...liProps}>
