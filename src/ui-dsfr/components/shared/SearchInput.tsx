@@ -6,7 +6,7 @@ import { createUseDebounce } from "powerhooks/useDebounce";
 import { same } from "evt/tools/inDepth/same";
 import { useRerenderOnChange } from "powerhooks/tools/StatefulObservable/hooks/useRerenderOnChange";
 
-type AutoCompleteProps<T extends string | Record<string, unknown>> = {
+export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
     className?: string;
     debounceDelay: number;
     getOptions: (inputText: string) => Promise<T[]>;

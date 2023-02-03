@@ -1,5 +1,4 @@
-import { createGroup } from "type-route";
-import type { Route } from "type-route";
+import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { SearchInput } from "ui-dsfr/components/shared/SearchInput";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -21,7 +20,7 @@ type WikidataEntry = {
     wikidataId: string;
 };
 
-async function getOptions(inputText: string): Promise<WikidataEntry[]> {
+async function getWikidataOptions(inputText: string): Promise<WikidataEntry[]> {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     if (inputText === "") {
@@ -45,7 +44,7 @@ export function SoftwareCreationForm(props: Props) {
         <div className={className}>
             <SearchInput
                 debounceDelay={400}
-                getOptions={getOptions}
+                getOptions={getWikidataOptions}
                 /*
                 defaultValue={{
                     "wikidataId": "Qxxxxxx",
@@ -57,19 +56,21 @@ export function SoftwareCreationForm(props: Props) {
                 getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
                 renderOption={(liProps, wikidataEntity) => (
                     <li {...liProps}>
-                        <span className={fr.cx("fr-text--bold")}>
-                            {wikidataEntity.wikidataLabel}
-                        </span>
-                        <br />
-                        <span className={fr.cx("fr-text--xs")}>
-                            {wikidataEntity.wikidataDescription}
-                        </span>
+                        <div>
+                            <span>{wikidataEntity.wikidataLabel}</span>
+                            <br />
+                            <span className={fr.cx("fr-text--xs")}>
+                                {wikidataEntity.wikidataDescription}
+                            </span>
+                        </div>
                     </li>
                 )}
                 noOptionText={"No result"}
                 loadingText={"Loading..."}
                 dsfrInputProps={{
                     "label": "Wikidata sheet",
+                    "hintText":
+                        "Associer le logiciel à une fiche Wikidata déjà existante",
                 }}
             />
         </div>
