@@ -11,6 +11,8 @@ import { createMockRouteFactory } from "ui-dsfr/routes";
 import { Evt } from "evt";
 import { useRerenderOnStateChange } from "evt/hooks";
 import { createCoreProvider } from "core-dsfr";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
 
 const evtTriggerReRender = Evt.create(0);
 
@@ -135,9 +137,16 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
             "decorators": [
                 Story => (
                     <CoreProvider>
-                        <MuiDsfrThemeProvider>
-                            <Story />
-                        </MuiDsfrThemeProvider>
+                        <CacheProvider
+                            value={createCache({
+                                "key": "css",
+                                "prepend": false,
+                            })}
+                        >
+                            <MuiDsfrThemeProvider>
+                                <Story />
+                            </MuiDsfrThemeProvider>
+                        </CacheProvider>
                     </CoreProvider>
                 ),
             ],

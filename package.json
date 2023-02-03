@@ -54,7 +54,7 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^0.28.0",
+        "@codegouvfr/react-dsfr": "^0.30.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",
@@ -78,7 +78,7 @@
         "node-fetch": "^2.6.1",
         "onyxia-ui": "^0.47.8",
         "path": "^0.12.7",
-        "powerhooks": "0.22.1",
+        "powerhooks": "0.25.0",
         "react": "^18.2.0",
         "react-async-hook": "^3.6.1",
         "react-dom": "^18.2.0",

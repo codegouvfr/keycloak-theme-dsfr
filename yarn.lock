@@ -1182,10 +1182,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.28.0":
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.28.0.tgz#41233b1d21d8eadcf604deaebc6e1e6c066e8108"
-  integrity sha512-TCsCL1qhqHXhYfKz+D2TV92AR1ZxA5Z50YwyHdbzWkZNffIt3uBtcN1FzlgidGcKpcFuSEugL87tjM9mckIspQ==
+"@codegouvfr/react-dsfr@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.30.1.tgz#19a22caf6e892376f0340c19bfac2a8664f7de6b"
+  integrity sha512-RPUoshPUHMOfu/3TuASXewAav+vuG07Fcw0KGuYG4gG/9ZOavweotCYU+EnthobWiPRQoFGLHsrG8G67EosHsA==
   dependencies:
     tsafe "^1.4.0"
 
@@ -12259,10 +12259,10 @@ postcss@^8.2.15, postcss@^8.3.5, postcss@^8.4.18, postcss@^8.4.19, postcss@^8.4.
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-powerhooks@0.22.1:
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.22.1.tgz#4e6c720e702e138c0869447e0d04bd0550530bbb"
-  integrity sha512-wR/gVPtpOeVAkjJXAHbTB6IBAIWL3RZo69DqxPZ2rXV108cwzOW978KZKd2h7m0QHJdg4ZXYwOsZ13E1EGrTFA==
+powerhooks@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/powerhooks/-/powerhooks-0.25.0.tgz#ea373a8ef6383a90e748a3f63cf829c14de0c821"
+  integrity sha512-BQMUdPyQfxNiM58IWS8AFwxyKahyA7d0b8CdI45S/j99J9bufyRAJVwNwhYLMBCUYEpkgIa028Cm4UBXZ0zU/w==
   dependencies:
     evt "^2.4.13"
     memoizee "^0.4.15"
