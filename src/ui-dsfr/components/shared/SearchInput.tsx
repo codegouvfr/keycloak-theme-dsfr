@@ -42,23 +42,24 @@ export function SearchInput<T extends string | Record<string, unknown>>(
     const [options, setOptions] = useState<readonly T[]>([]);
     const [inputValue, setInputValue] = useState("");
 
-    const { isOpen, setIsOpen } = (function useClosure() {
-        const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onClose, onOpen } = (function useClosure() {
+        const [isOpenAccordingToMui, setIsOpenAccordingToMui] = useState(false);
 
         return {
-            "isOpen": isOpen && inputValue !== "",
-            setIsOpen,
+            "isOpen": isOpenAccordingToMui && inputValue !== "",
+            "onOpen": () => setIsOpenAccordingToMui(true),
+            "onClose": () => setIsOpenAccordingToMui(false),
         };
     })();
 
-    const { isLoading, setIsLoading } = (function useClosure() {
+    const { isLoading, setIsGettingOptions } = (function useClosure() {
         useRerenderOnChange(obsIsDebouncing);
 
-        const [isLoading, setIsLoading] = useState(false);
+        const [isGettingOptions, setIsGettingOptions] = useState(false);
 
         return {
-            "isLoading": isLoading || obsIsDebouncing.current,
-            setIsLoading,
+            "isLoading": isGettingOptions || obsIsDebouncing.current,
+            setIsGettingOptions,
         };
     })();
 
@@ -67,7 +68,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
 
         (async () => {
             setOptions([]);
-            setIsLoading(true);
+            setIsGettingOptions(true);
 
             const options = await getOptions(inputValue);
 
@@ -76,8 +77,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
             }
 
             setOptions(options);
-
-            setIsLoading(false);
+            setIsGettingOptions(false);
         })();
 
         return () => {
@@ -89,8 +89,8 @@ export function SearchInput<T extends string | Record<string, unknown>>(
         <Autocomplete
             className={className}
             open={isOpen}
-            onOpen={() => setIsOpen(true)}
-            onClose={() => setIsOpen(false)}
+            onOpen={onOpen}
+            onClose={onClose}
             onInputChange={(_event, newValue) => setInputValue(newValue)}
             onChange={(_event, newValue) => onValueChange(newValue ?? undefined)}
             value={value ?? null}
