@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { SearchInput } from "ui-dsfr/components/shared/SearchInput";
 import { fr } from "@codegouvfr/react-dsfr";
+import { useForm, Controller } from "react-hook-form";
+import { id } from "tsafe/id";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareCreationForm.routeGroup = createGroup([routes.softwareCreationForm]);
 
@@ -41,49 +43,63 @@ async function getWikidataOptions(inputText: string): Promise<WikidataEntry[]> {
 export function SoftwareCreationForm(props: Props) {
     const { className } = props;
 
-    const [wikiDataEntry, setWikiDataEntry] = useState<WikidataEntry | undefined>(
-        undefined,
-    );
+    const { handleSubmit, control, watch } = useForm({
+        "defaultValues": {
+            "wikidataEntry": id<WikidataEntry | undefined>(undefined),
+        },
+    });
 
-    useEffect(() => {
-        console.log(wikiDataEntry);
-    }, [wikiDataEntry]);
-
-    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
-
-    console.log(inputRef);
+    console.log(watch("wikidataEntry"));
 
     return (
-        <div className={className}>
-            <SearchInput
-                debounceDelay={400}
-                getOptions={getWikidataOptions}
-                value={wikiDataEntry}
-                onValueChange={setWikiDataEntry}
-                getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
-                renderOption={(liProps, wikidataEntity) => (
-                    <li {...liProps}>
-                        <div>
-                            <span>{wikidataEntity.wikidataLabel}</span>
-                            <br />
-                            <span className={fr.cx("fr-text--xs")}>
-                                {wikidataEntity.wikidataDescription}
-                            </span>
-                        </div>
-                    </li>
+        <form className={className} onSubmit={handleSubmit(data => console.log(data))}>
+            <Controller
+                name="wikidataEntry"
+                control={control}
+                rules={{ "required": false }}
+                render={({ field }) => (
+                    <SearchInput
+                        debounceDelay={400}
+                        getOptions={getWikidataOptions}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
+                        renderOption={(liProps, wikidataEntity) => (
+                            <li {...liProps}>
+                                <div>
+                                    <span>{wikidataEntity.wikidataLabel}</span>
+                                    <br />
+                                    <span className={fr.cx("fr-text--xs")}>
+                                        {wikidataEntity.wikidataDescription}
+                                    </span>
+                                </div>
+                            </li>
+                        )}
+                        noOptionText={"No result"}
+                        loadingText={"Loading..."}
+                        dsfrInputProps={{
+                            "label": "Wikidata sheet",
+                            "hintText":
+                                "Associer le logiciel à une fiche Wikidata déjà existante",
+                            "nativeInputProps": {
+                                "ref": field.ref,
+                                "onBlur": field.onBlur,
+                                "name": field.name,
+                            },
+                        }}
+                    />
                 )}
-                noOptionText={"No result"}
-                loadingText={"Loading..."}
-                dsfrInputProps={{
-                    "label": "Wikidata sheet",
-                    "hintText":
-                        "Associer le logiciel à une fiche Wikidata déjà existante",
-                    "nativeInputProps": {
-                        "ref": setInputRef,
-                        "onBlur": () => console.log("blur!"),
-                    },
-                }}
             />
-        </div>
+            <Button
+                style={{
+                    "marginTop": fr.spacing("4v"),
+                }}
+                nativeButtonProps={{
+                    "type": "submit",
+                }}
+            >
+                Submit
+            </Button>
+        </form>
     );
 }
