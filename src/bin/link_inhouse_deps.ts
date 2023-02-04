@@ -19,6 +19,7 @@ cra-envs/
 tsafe/
 clean-redux/
 github-pages-plugin-for-type-route/
+@codegouvfr/react-dsfr
 
 you must have cloned all the projects and run:
 yarn && yarn build 
@@ -45,7 +46,7 @@ import * as fs from "fs";
 
 const webAppProjectRootDirPath = pathJoin(__dirname, "..", "..");
 
-const inHouseModulePeerDepNames: string[] = ["onyxia-ui"];
+const inHouseModulePeerDepNames: string[] = ["onyxia-ui", "@codegouvfr/react-dsfr"];
 
 const inHouseModuleNames = (() => {
     const inHouseModuleNamesFromArgv = process.argv.slice(2);

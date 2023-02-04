@@ -111,12 +111,40 @@ export function SearchInput<T extends string | Record<string, unknown>>(
                         {...dsfrInputProps}
                         style={{
                             "marginBottom": 0,
+                            "width": params.size,
                             ...dsfrInputProps.style,
                         }}
                         ref={params.InputProps.ref}
                         nativeInputProps={{
                             ...params.inputProps,
                             ...dsfrInputProps.nativeInputProps,
+                            "ref": element =>
+                                [
+                                    (params.inputProps as any).ref,
+                                    dsfrInputProps.nativeInputProps?.ref,
+                                ].forEach(ref => {
+                                    if (ref === undefined || ref === null) {
+                                        return;
+                                    }
+
+                                    if (typeof ref === "function") {
+                                        ref(element);
+                                    } else {
+                                        (ref as any).current = element;
+                                    }
+                                }),
+                            "onBlur": (...args) =>
+                                params.inputProps.onBlur?.(...args) ??
+                                dsfrInputProps.nativeInputProps?.onBlur?.(...args),
+                            "onChange": (...args) =>
+                                params.inputProps.onChange?.(...args) ??
+                                dsfrInputProps.nativeInputProps?.onChange?.(...args),
+                            "onFocus": (...args) =>
+                                params.inputProps.onFocus?.(...args) ??
+                                dsfrInputProps.nativeInputProps?.onFocus?.(...args),
+                            "onMouseDown": (...args) =>
+                                params.inputProps.onMouseDown?.(...args) ??
+                                dsfrInputProps.nativeInputProps?.onMouseDown?.(...args),
                         }}
                     />
                     {isLoading && isOpen && (

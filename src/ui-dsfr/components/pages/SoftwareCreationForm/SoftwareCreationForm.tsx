@@ -49,19 +49,16 @@ export function SoftwareCreationForm(props: Props) {
         console.log(wikiDataEntry);
     }, [wikiDataEntry]);
 
+    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+
+    console.log(inputRef);
+
     return (
         <div className={className}>
             <SearchInput
                 debounceDelay={400}
                 getOptions={getWikidataOptions}
                 value={wikiDataEntry}
-                /*
-                defaultValue={{
-                    "wikidataId": "Qxxxxxx",
-                    "wikidataLabel": "Gimp",
-                    "wikidataDescription": "Logiciel de traitement d'image"
-                }}
-                */
                 onValueChange={setWikiDataEntry}
                 getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
                 renderOption={(liProps, wikidataEntity) => (
@@ -81,6 +78,10 @@ export function SoftwareCreationForm(props: Props) {
                     "label": "Wikidata sheet",
                     "hintText":
                         "Associer le logiciel à une fiche Wikidata déjà existante",
+                    "nativeInputProps": {
+                        "ref": setInputRef,
+                        "onBlur": () => console.log("blur!"),
+                    },
                 }}
             />
         </div>
