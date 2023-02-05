@@ -26,7 +26,7 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const { allowedEmailRegexp } = (function useClosure() {
         const [allowedEmailRegexp, setAllowedEmailRegexp] = useState<RegExp | undefined>(
-            undefined,
+            undefined
         );
 
         useEffect(() => {
@@ -82,10 +82,10 @@ export const AccountInfoTab = memo((props: Props) => {
     })();
 
     const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useCoreState(
-        state => state.userAuthentication.agencyName,
+        state => state.userAuthentication.agencyName
     );
     const { value: email, isBeingUpdated: isEmailBeingUpdated } = useCoreState(
-        state => state.userAuthentication.email,
+        state => state.userAuthentication.email
     );
 
     const keycloakAccountConfigurationUrl =
@@ -95,7 +95,7 @@ export const AccountInfoTab = memo((props: Props) => {
 
     const onRequestUpdateFieldFactory = useCallbackFactory(
         ([fieldName]: ["agencyName" | "email"], [value]: [string]) =>
-            userAuthentication.updateField({ fieldName, value }),
+            userAuthentication.updateField({ fieldName, value })
     );
 
     const emailDomainNotAllowedErrorMessage = useEmailDomainNotAllowedErrorMessage();
@@ -110,14 +110,14 @@ export const AccountInfoTab = memo((props: Props) => {
         } catch {
             return {
                 "isValidValue": false,
-                "message": t("not a valid email"),
+                "message": t("not a valid email")
             };
         }
 
         if (!allowedEmailRegexp.test(value)) {
             return {
                 "isValidValue": false,
-                "message": emailDomainNotAllowedErrorMessage,
+                "message": emailDomainNotAllowedErrorMessage
             };
         }
 
@@ -179,6 +179,6 @@ export const { i18n } = declareComponentKeys<
 const useStyles = makeStyles({ "name": { AccountInfoTab } })(theme => ({
     "link": {
         "marginTop": theme.spacing(2),
-        "display": "inline-block",
-    },
+        "display": "inline-block"
+    }
 }));

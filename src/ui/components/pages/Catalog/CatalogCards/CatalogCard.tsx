@@ -60,7 +60,7 @@ export const CatalogCard = memo((props: Props) => {
         onLogin,
         onUserNoLongerReferent,
         onDeclareReferentAnswer,
-        onTagClick,
+        onTagClick
     } = props;
 
     const { classes, cx, css } = useStyles();
@@ -70,7 +70,7 @@ export const CatalogCard = memo((props: Props) => {
     const { imgRef, isBanner } = (function useClosure() {
         const {
             ref: imgRef,
-            domRect: { height, width },
+            domRect: { height, width }
         } = useDomRect();
 
         const isBanner = width === 0 || height === 0 ? undefined : width > height * 1.7;
@@ -81,7 +81,7 @@ export const CatalogCard = memo((props: Props) => {
     const { resolveLocalizedString } = useResolveLocalizedString();
 
     const evtReferentDialogAction = useConst(() =>
-        Evt.create<ReferentDialogsProps["evtAction"]>(),
+        Evt.create<ReferentDialogsProps["evtAction"]>()
     );
 
     const onShowReferentClick = useConstCallback(async () => {
@@ -94,7 +94,7 @@ export const CatalogCard = memo((props: Props) => {
     });
 
     const onOpenDeclareBeingReferent = useConstCallback(() =>
-        evtReferentDialogAction.post("open declare referent"),
+        evtReferentDialogAction.post("open declare referent")
     );
 
     const onTagClickFactory = useCallbackFactory(([tag]: [string]) => onTagClick(tag));
@@ -122,7 +122,7 @@ export const CatalogCard = memo((props: Props) => {
                                     {smartTrim({
                                         "maxLength": 23,
                                         "minCharAtTheEnd": 0,
-                                        "text": capitalize(software.name),
+                                        "text": capitalize(software.name)
                                     })}
                                 </Text>
                             )}
@@ -141,7 +141,7 @@ export const CatalogCard = memo((props: Props) => {
                         <div onClick={onShowReferentClick} className={classes.tagWrapper}>
                             <Tag
                                 text={t("you are referent", {
-                                    "isOnlyReferent": referents.length === 1,
+                                    "isOnlyReferent": referents.length === 1
                                 })}
                             />
                             <IconButton iconId="edit" {...editLink} />
@@ -179,7 +179,7 @@ export const CatalogCard = memo((props: Props) => {
                             software.wikidataData?.description === undefined
                                 ? software.function
                                 : resolveLocalizedString(
-                                      software.wikidataData?.description,
+                                      software.wikidataData?.description
                                   )
                         }`}
                     </Markdown>
@@ -194,7 +194,7 @@ export const CatalogCard = memo((props: Props) => {
                             <div className={classes.developers}>
                                 <Text typo="label 1">
                                     {t("authors", {
-                                        "doUsePlural": developers.length !== 1,
+                                        "doUsePlural": developers.length !== 1
                                     })}
                                     :&nbsp;
                                 </Text>
@@ -274,7 +274,7 @@ export const CatalogCard = memo((props: Props) => {
                             >
                                 {t("show referents", {
                                     "isUserReferent": userIndexInReferents !== undefined,
-                                    "referentCount": length,
+                                    "referentCount": length
                                 })}
                             </Button>
                         );
@@ -311,7 +311,7 @@ export const { i18n } = declareComponentKeys<
 >()({ CatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
-    "name": { CatalogCard },
+    "name": { CatalogCard }
 })((theme, _params, classes) => ({
     "root": {
         "borderRadius": 8,
@@ -320,11 +320,11 @@ const useStyles = makeStyles<void, "cardButtons">({
         "&:hover": {
             "boxShadow": theme.shadows[6],
             [`& .${classes.cardButtons}`]: {
-                "visibility": "visible",
-            },
+                "visibility": "visible"
+            }
         },
         "display": "flex",
-        "flexDirection": "column",
+        "flexDirection": "column"
     },
     "aboveDivider": {
         "padding": theme.spacing({ "topBottom": 2, "rightLeft": 4 }),
@@ -333,10 +333,10 @@ const useStyles = makeStyles<void, "cardButtons">({
         "boxSizing": "border-box",
         "display": "flex",
         "alignItems": "center",
-        "height": 45,
+        "height": 45
     },
     "title": {
-        "marginLeft": theme.spacing(3),
+        "marginLeft": theme.spacing(3)
     },
     "belowDivider": {
         "padding": theme.spacing(4),
@@ -344,43 +344,43 @@ const useStyles = makeStyles<void, "cardButtons">({
         "flex": 1,
         "display": "flex",
         "flexDirection": "column",
-        "overflow": "hidden",
+        "overflow": "hidden"
     },
     "body": {
         "margin": 0,
-        "flex": 1,
+        "flex": 1
         //TODO: Commented out for mozilla (longer one always have scroll in a grid)
         //"overflow": "auto"
     },
     "buttonsWrapper": {
         "display": "flex",
         "justifyContent": "flex-end",
-        "marginTop": theme.spacing(4),
+        "marginTop": theme.spacing(4)
     },
     "cardButtons": {
         "marginRight": theme.spacing(2),
-        "visibility": "hidden",
+        "visibility": "hidden"
     },
     "tagWrapper": {
-        "cursor": "pointer",
+        "cursor": "pointer"
     },
     "warningTag": {
         "backgroundColor": theme.colors.useCases.alertSeverity.warning.main,
         "& > p": {
-            "color": theme.colors.palette.dark.main,
-        },
+            "color": theme.colors.palette.dark.main
+        }
     },
     "agentWorkstation": {
         "marginRight": theme.spacing(3),
-        "marginLeft": theme.spacing(1),
+        "marginLeft": theme.spacing(1)
     },
     "developers": {
         "& > *": {
-            "display": "inline-block",
-        },
+            "display": "inline-block"
+        }
     },
     "softwareTag": {
         "marginRight": theme.spacing(1),
-        "marginTop": theme.spacing(3),
-    },
+        "marginTop": theme.spacing(3)
+    }
 }));

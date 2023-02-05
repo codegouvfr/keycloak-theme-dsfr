@@ -47,15 +47,15 @@ export function Catalog(props: Props) {
         softwareDateCurrentVersion: 1640995200000,
         declareUserOrReferent: {
             href: "#",
-            onClick: () => {},
+            onClick: () => {}
         },
         seeUserAndReferent: {
             href: "#",
-            onClick: () => {},
+            onClick: () => {}
         },
         demoLink: {
             href: "#",
-            onClick: () => {},
+            onClick: () => {}
         },
         isPresentInSupportMarket: true,
         isDesktop: true,
@@ -67,14 +67,14 @@ export function Catalog(props: Props) {
 
         softwareDetailsLink: {
             href: "#",
-            onClick: () => {},
+            onClick: () => {}
         },
         ...logCallbacks([
             "onLogin",
             "onDeclareReferentAnswer",
             "onUserNoLongerReferent",
-            "onTagClick",
-        ]),
+            "onTagClick"
+        ])
     }));
 
     const organizations = ["organization1", "organization2", "organization3"];
@@ -96,12 +96,12 @@ export function Catalog(props: Props) {
         useState<SearchProps["selectedOrganization"]>(undefined);
 
     const fzf = new Fzf<Omit<CatalogCardProps, "className">[]>(softwares, {
-        "selector": item => item.softwareName,
+        "selector": item => item.softwareName
     });
 
     const [
         filteredColorDecisionAndCorrespondingOption,
-        setFilteredColorDecisionAndCorrespondingOption,
+        setFilteredColorDecisionAndCorrespondingOption
     ] = useState<Omit<CatalogCardProps, "className">[]>(softwares);
 
     useEffect(() => {
@@ -114,8 +114,8 @@ export function Catalog(props: Props) {
                 .find(search)
                 .map(
                     ({ item: colorDecisionAndCorrespondingOption }) =>
-                        colorDecisionAndCorrespondingOption,
-                ),
+                        colorDecisionAndCorrespondingOption
+                )
         );
     };
 
@@ -161,15 +161,15 @@ export function Catalog(props: Props) {
 }
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
-    "name": { Catalog },
+    "name": { Catalog }
 })(theme => {
     return {
         "root": {
-            "marginLeft": "unset",
+            "marginLeft": "unset"
         },
         "pageHeader": {
             "backgroundColor": theme.decisions.background.default.grey.default,
-            "marginBottom": 0,
-        },
+            "marginBottom": 0
+        }
     };
 });

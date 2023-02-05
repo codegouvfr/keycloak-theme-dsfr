@@ -2,7 +2,7 @@ import { kcContext } from "ui/components/KcApp/kcContext";
 import {
     retrieveParamFromUrl,
     addParamToUrl,
-    updateSearchBarUrl,
+    updateSearchBarUrl
 } from "powerhooks/tools/urlSearchParams";
 import { isStorybook } from "./isStorybook";
 import { capitalize } from "tsafe/capitalize";
@@ -20,7 +20,7 @@ export function getTransferableEnv<T, Name extends string>(params: {
     return {
         [name]: validateAndParseOrGetDefault(serializedValue),
         [`inject${capitalize(name)}InSearchParams`]: (url: string) =>
-            addParamToUrl({ url, name, "value": serializedValue }).newUrl,
+            addParamToUrl({ url, name, "value": serializedValue }).newUrl
     } as any;
 }
 
@@ -35,7 +35,7 @@ export function readSerializedValue(params: {
     read_from_url: {
         const result = retrieveParamFromUrl({
             "url": window.location.href,
-            name,
+            name
         });
 
         if (!result.wasPresent) {

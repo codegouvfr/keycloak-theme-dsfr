@@ -52,13 +52,13 @@ export const AgentConnectButton = memo((props: Props) => {
 
 const useStyles = makeStyles({ "name": { AgentConnectButton } })({
     "root": {
-        "textAlign": "center",
+        "textAlign": "center"
     },
     "link": {
-        "display": "block",
+        "display": "block"
     },
     "docLink": {
         "display": "inline-block",
-        "marginTop": 8,
-    },
+        "marginTop": 8
+    }
 });

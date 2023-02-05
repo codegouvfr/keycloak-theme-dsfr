@@ -20,7 +20,7 @@ const {
     resolveLocalizedString,
     useLang,
     $lang,
-    useResolveLocalizedString,
+    useResolveLocalizedString
 } = createI18nApi<
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
@@ -49,7 +49,7 @@ const {
                 "isDesktop": "This software can be installed on desktop",
                 "isFromFrenchPublicService":
                     "This software is from French public service",
-                "isPresentInSupportMarket": "This software is present in support market",
+                "isPresentInSupportMarket": "This software is present in support market"
             },
 
             "CatalogCards": {
@@ -58,7 +58,7 @@ const {
                 "check spelling":
                     "Please check your spelling or try widening your search.",
                 "go back": "Back to main services",
-                "search results": ({ count }) => `${count} Free software`,
+                "search results": ({ count }) => `${count} Free software`
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
@@ -66,7 +66,7 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives",
+                "prerogativesLabel": "Prérogatives"
             },
             "DetailCard": {
                 "catalog breadcrumb": "Software catalog",
@@ -91,12 +91,12 @@ const {
                 "isRGAACompliant": "Is compliant with RGAA rules",
                 "service provider": "See service providers",
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
-                "wikiData sheet": "Open Wikidata sheet",
+                "wikiData sheet": "Open Wikidata sheet"
             },
             "HeaderDetailCard": {
                 "authors": "Authors : ",
                 "website": "Official website",
-                "repository": "Source code repository",
+                "repository": "Source code repository"
             },
             "PreviewTab": {
                 "about": "About",
@@ -114,21 +114,21 @@ const {
                 "isRGAACompliant": "Is compliant with RGAA rules",
                 "service provider": "See service providers",
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
-                "wikiData sheet": "Open Wikidata sheet",
+                "wikiData sheet": "Open Wikidata sheet"
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
                     `${instanceCount} maintained instance by ${publicOrganisationCount} public organisation`,
                 "concerned public": "Concerned public : ",
-                "go to instance": "Open the instance",
+                "go to instance": "Open the instance"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} users and ${referentCount} referents`,
+                    `${userCount} users and ${referentCount} referents`
             },
             "FooterDetailCard": {
                 "share software": "Share the software",
-                "declare referent": "Declare yourself referent / user",
+                "declare referent": "Declare yourself referent / user"
             },
             "DeclareUserOrReferent": {
                 "title": "Declare yourself user or referent of the software",
@@ -137,20 +137,20 @@ const {
                     "Declare yourself user or referent of the software",
                 "back": "Back",
                 "next": "Next",
-                "send": "Send",
+                "send": "Send"
             },
             "UserTypeStep": {
                 "user type label": "I'm a user of this software",
                 "user type hint": "Inside my organization",
                 "referent type label": "I would like to be referent of this software",
                 "referent type hint":
-                    "As a guarantor and reference of the use of this software inside my organization",
+                    "As a guarantor and reference of the use of this software inside my organization"
             },
             "UserStep": {
                 "useCase": "Describe in a few words your use case",
                 "environment": "In which environment do you use your software ?",
                 "version": "Which version of the software do you use ? (Optionnel)",
-                "service": "More precisely, which service of the software do you use ?",
+                "service": "More precisely, which service of the software do you use ?"
             },
             "ReferentStep": {
                 "legend title": "Are you a technical expert of this software ?",
@@ -159,7 +159,7 @@ const {
                 "no": "No",
                 "useCase": "Describe in a few words the use case of your administration",
                 "service":
-                    "More precisely, which service of the software do you declare yourself referent",
+                    "More precisely, which service of the software do you declare yourself referent"
             },
             "Authentication": {
                 "connect": "Se connecter",
@@ -175,7 +175,7 @@ const {
             "Inputs": {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
-                "password": "Votre mot de passe",
+                "password": "Votre mot de passe"
             }
         },
         "fr": {
@@ -188,7 +188,7 @@ const {
                 "isFromFrenchPublicService":
                     "Ce logiciel est originaire du service public français",
                 "isPresentInSupportMarket":
-                    "Ce logiciel est présent dans le marcher de support",
+                    "Ce logiciel est présent dans le marcher de support"
             },
             "CatalogCards": {
                 "no service found": "Logiciel non trouvé",
@@ -198,7 +198,7 @@ const {
             orthographié ou essayez d'élargir votre recherche.`,
                 "go back": "Retourner aux principaux services",
                 "search results": ({ count }) =>
-                    `${count} logiciel libre${count === 1 ? "" : "s"}`,
+                    `${count} logiciel libre${count === 1 ? "" : "s"}`
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
@@ -206,7 +206,7 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives",
+                "prerogativesLabel": "Prérogatives"
             },
             "DetailCard": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
@@ -231,12 +231,12 @@ const {
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
                 "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
-                "wikiData sheet": "Consulter la fiche de Wikidata",
+                "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "HeaderDetailCard": {
                 "authors": "Auteurs : ",
                 "website": "Site web officiel",
-                "repository": "Dépôt du code source",
+                "repository": "Dépôt du code source"
             },
             "PreviewTab": {
                 "about": "À propos",
@@ -254,21 +254,21 @@ const {
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
                 "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
-                "wikiData sheet": "Consulter la fiche de Wikidata",
+                "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
                     `${instanceCount} instances maintenues par ${publicOrganisationCount} organisations publiques`,
                 "concerned public": "Public concerné : ",
-                "go to instance": "Accéder à l'instance",
+                "go to instance": "Accéder à l'instance"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} utilisateurs et ${referentCount} referents`,
+                    `${userCount} utilisateurs et ${referentCount} referents`
             },
             "FooterDetailCard": {
                 "share software": "Partager la fiche",
-                "declare referent": "Se déclarer référent / utilisateur",
+                "declare referent": "Se déclarer référent / utilisateur"
             },
             "DeclareUserOrReferent": {
                 "title": "Se déclarer utilisateur ou référent du logiciel",
@@ -277,20 +277,20 @@ const {
                     "Se déclarer utilisateur ou référent du logiciel",
                 "back": "Précédent",
                 "next": "Suivant",
-                "send": "Envoyer",
+                "send": "Envoyer"
             },
             "UserTypeStep": {
                 "user type label": "Je suis un utilisateur de ce logiciel",
                 "user type hint": "Au sein de mon établissement",
                 "referent type label": "Je souhaite devenir référent de ce logiciel",
                 "referent type hint":
-                    "Comme garant et référence de l'utilisation du logiciel au sein de mon établissement",
+                    "Comme garant et référence de l'utilisation du logiciel au sein de mon établissement"
             },
             "UserStep": {
                 "useCase": "Décrivez en quelques mots votre cas d'usage",
                 "environment": "Dans quel environnement utilisez-vous ce logiciel ?",
                 "version": "Quelle version du logiciel utilisez vous ? (Optionnel)",
-                "service": "Plus précisément, quel service du logiciel utilisez-vous ?",
+                "service": "Plus précisément, quel service du logiciel utilisez-vous ?"
             },
             "ReferentStep": {
                 "legend title": "Êtes-vous un expert technique concernant ce logiciel ?",
@@ -301,7 +301,7 @@ const {
                 "useCase":
                     "Décrivez en quelques mots le cas d'usage de votre administration",
                 "service":
-                    "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?",
+                    "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?"
             },
             "Authentication": {
                 "connect": "Se connecter",
@@ -312,7 +312,8 @@ const {
                 "log with": "S'identifier avec",
                 "franceConnect": "FranceConnect",
                 "what is franceConnect": "Qu'est-ce que FranceConnect ?",
-                "what is franceConnect title": "Qu'est ce que FranceConnect - nouvelle fenêtre"
+                "what is franceConnect title":
+                    "Qu'est ce que FranceConnect - nouvelle fenêtre"
             },
             "Inputs": {
                 "email": "Votre email personnel",
@@ -320,19 +321,19 @@ const {
                 "password": "Votre mot de passe"
             }
             /* spell-checker: enable */
-        },
-    },
+        }
+    }
 );
 
 export { useTranslation, resolveLocalizedString, useLang, useResolveLocalizedString };
 
 export const evtLang = statefulObservableToStatefulEvt({
-    "statefulObservable": $lang,
+    "statefulObservable": $lang
 });
 
 export const zLocalizedString = z.union([
     z.string(),
-    z.record(createUnionSchema(languages), z.string()),
+    z.record(createUnionSchema(languages), z.string())
 ]);
 
 {

@@ -20,17 +20,17 @@ setUseLang({
     "useLang": () => {
         const { lang } = useLang();
         return lang;
-    },
+    }
 });
 
 const { CoreProvider } = createCoreProvider({
-    "sillApi": "mock",
+    "sillApi": "mock"
 });
 
 export const { createMockRoute } = createMockRouteFactory({
     "triggerStoriesReRender": () => {
         evtTriggerReRender.state++;
-    },
+    }
 });
 
 export function getStoryFactory<Props extends Record<string, unknown>>(params: {
@@ -46,11 +46,11 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         wrappedComponent,
         argTypes = {},
         defaultContainerWidth,
-        disabledProps = [],
+        disabledProps = []
     } = params;
 
     const Component: any = Object.entries(wrappedComponent).map(
-        ([, component]) => component,
+        ([, component]) => component
     )[0];
 
     document.documentElement.style.overflowY = "scroll";
@@ -99,7 +99,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
 
     function getStory(
         props: Props,
-        params?: { defaultContainerWidth?: number; description?: string },
+        params?: { defaultContainerWidth?: number; description?: string }
     ): typeof Template {
         const { defaultContainerWidth: defaultContainerWidthStoryLevel, description } =
             params ?? {};
@@ -112,7 +112,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                 defaultContainerWidthStoryLevel ?? defaultContainerWidth ?? 0,
             "lang": "fr",
             isFirstStory,
-            ...props,
+            ...props
         };
 
         isFirstStory = false;
@@ -120,9 +120,9 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
         out.parameters = {
             "docs": {
                 "description": {
-                    "story": description,
-                },
-            },
+                    "story": description
+                }
+            }
         };
 
         return out;
@@ -140,7 +140,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                         <CacheProvider
                             value={createCache({
                                 "key": "css",
-                                "prepend": false,
+                                "prepend": false
                             })}
                         >
                             <MuiDsfrThemeProvider>
@@ -148,56 +148,56 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
                             </MuiDsfrThemeProvider>
                         </CacheProvider>
                     </CoreProvider>
-                ),
+                )
             ],
             "argTypes": {
                 "darkMode": {
                     "table": {
-                        "disable": disabledProps.includes("darkMode"),
+                        "disable": disabledProps.includes("darkMode")
                     },
-                    "description": "Global color scheme enabled, light or dark",
+                    "description": "Global color scheme enabled, light or dark"
                 },
                 "containerWidth": {
                     "control": {
                         "type": "range",
                         "min": 0,
                         "max": 1920,
-                        "step": 10,
+                        "step": 10
                     },
                     "table": {
-                        "disable": disabledProps.includes("containerWidth"),
+                        "disable": disabledProps.includes("containerWidth")
                     },
                     "description": `Play with the width of the parent component. Note that this isn't meant for testing the
-                    responsiveness of the components. For that you have [the viewports](https://youtu.be/psLbgPfEzZY).`,
+                    responsiveness of the components. For that you have [the viewports](https://youtu.be/psLbgPfEzZY).`
                 },
                 "lang": {
                     "options": ["fr", "en"],
                     "control": {
-                        "type": "select",
+                        "type": "select"
                     },
                     "table": {
-                        "disable": disabledProps.includes("lang"),
-                    },
+                        "disable": disabledProps.includes("lang")
+                    }
                 },
                 "isFirstStory": {
                     "table": {
-                        "disable": true,
-                    },
+                        "disable": true
+                    }
                 },
-                ...argTypes,
-            },
+                ...argTypes
+            }
         }),
-        getStory,
+        getStory
     };
 }
 
 export function logCallbacks<T extends string>(
-    propertyNames: readonly T[],
+    propertyNames: readonly T[]
 ): Record<T, () => void> {
     const out: Record<T, () => void> = id<Record<string, never>>({});
 
     propertyNames.forEach(
-        propertyName => (out[propertyName] = console.log.bind(console, propertyName)),
+        propertyName => (out[propertyName] = console.log.bind(console, propertyName))
     );
 
     return out;

@@ -87,7 +87,7 @@ export const HeaderDetailCard = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { HeaderDetailCard },
+    "name": { HeaderDetailCard }
 })(theme => ({
     "root": {
         "display": "grid",
@@ -96,12 +96,12 @@ const useStyles = makeStyles({
         "marginBottom": fr.spacing("6v"),
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`,
-            "gridRowGap": fr.spacing("6v"),
-        },
+            "gridRowGap": fr.spacing("6v")
+        }
     },
     "leftCol": {
         "display": "flex",
-        "alignItems": "center",
+        "alignItems": "center"
     },
     "backButton": {
         "background": "none",
@@ -109,39 +109,39 @@ const useStyles = makeStyles({
 
         "&>i": {
             "&::before": {
-                "--icon-size": fr.spacing("8v"),
-            },
-        },
+                "--icon-size": fr.spacing("8v")
+            }
+        }
     },
     "softwareInformation": {
         "display": "flex",
-        "flex": "1",
+        "flex": "1"
     },
     "logo": {
         "width": "50px",
         "height": "50px",
-        "marginRight": fr.spacing("2v"),
+        "marginRight": fr.spacing("2v")
     },
     "softwareName": {
-        "marginBottom": fr.spacing("1v"),
+        "marginBottom": fr.spacing("1v")
     },
     "authors": {
-        "color": theme.decisions.text.mention.grey.default,
+        "color": theme.decisions.text.mention.grey.default
     },
     "authorLink": {
         "marginRight": fr.spacing("2v"),
-        "color": theme.decisions.text.actionHigh.blueFrance.default,
+        "color": theme.decisions.text.actionHigh.blueFrance.default
     },
     "externalLinkButtons": {
         "display": "flex",
         "alignItems": "center",
-        "justifyContent": "end",
+        "justifyContent": "end"
     },
     "officialWebsiteButton": {
-        "marginRight": fr.spacing("4v"),
-    },
+        "marginRight": fr.spacing("4v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<"authors" | "website" | "repository">()({
-    HeaderDetailCard,
+    HeaderDetailCard
 });

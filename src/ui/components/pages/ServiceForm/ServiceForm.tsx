@@ -41,12 +41,12 @@ export function ServiceForm(props: Props) {
     const { formData } = useCoreState(selectors.serviceForm.formData);
     const { isSubmittable } = useCoreState(selectors.serviceForm.isSubmittable);
     const { displayableFieldErrorByFieldName } = useCoreState(
-        selectors.serviceForm.displayableFieldErrorByFieldName,
+        selectors.serviceForm.displayableFieldErrorByFieldName
     );
     const { sillSoftwareNames } = useCoreState(selectors.serviceForm.sillSoftwareNames);
     const { agencyNames } = useCoreState(selectors.serviceForm.agencyNames);
     const { shouldSplashScreenBeShown } = useCoreState(
-        selectors.serviceForm.shouldSplashScreenBeShown,
+        selectors.serviceForm.shouldSplashScreenBeShown
     );
 
     useEffect(() => {
@@ -78,8 +78,8 @@ export function ServiceForm(props: Props) {
             .serviceCatalog({
                 "q": serviceCatalog.stringifyQuery({
                     "search": sliceState.queryString,
-                    "softwareName": undefined,
-                }),
+                    "softwareName": undefined
+                })
             })
             .push();
     }, [sliceState.stateDescription]);
@@ -90,25 +90,25 @@ export function ServiceForm(props: Props) {
         ([fieldName]: [keyof ServiceFormData], [{ value }]: [{ value: string }]) =>
             serviceForm.changeFieldValue({
                 fieldName,
-                value,
-            }),
+                value
+            })
     );
 
     const onEscapeKeyFactory = useCallbackFactory(
         ([fieldName]: [keyof ServiceFormData]) =>
-            serviceForm.restoreFieldDefaultValue({ fieldName }),
+            serviceForm.restoreFieldDefaultValue({ fieldName })
     );
 
     const onBlurFactory = useCallbackFactory(([fieldName]: [keyof ServiceFormData]) =>
-        serviceForm.focusLost({ fieldName }),
+        serviceForm.focusLost({ fieldName })
     );
 
     const onTextFieldSelectedSoftware = useConstCallback(
         (softwareName: string | undefined) =>
             serviceForm.changeFieldValue({
                 "fieldName": "softwareName",
-                "value": softwareName ?? "",
-            }),
+                "value": softwareName ?? ""
+            })
     );
 
     const onSubmitButtonClick = useConstCallback(() => serviceForm.submit());
@@ -132,7 +132,7 @@ export function ServiceForm(props: Props) {
                     mainIcon="add"
                     title={t(serviceId === undefined ? "title add" : "title edit")}
                     helpTitle={t(
-                        serviceId === undefined ? "help title add" : "help title edit",
+                        serviceId === undefined ? "help title add" : "help title edit"
                     )}
                     helpContent={t("help")}
                     helpIcon="sentimentSatisfied"
@@ -143,8 +143,8 @@ export function ServiceForm(props: Props) {
                             fieldName =>
                                 [
                                     fieldName,
-                                    displayableFieldErrorByFieldName[fieldName],
-                                ] as const,
+                                    displayableFieldErrorByFieldName[fieldName]
+                                ] as const
                         )
                         .map(([fieldName, fieldError]) => (
                             <Fragment key={fieldName}>
@@ -182,15 +182,15 @@ export function ServiceForm(props: Props) {
                                                             : `${value}`
                                                     }
                                                     onValueBeingTypedChange={onValueBeingTypedChangeFactory(
-                                                        fieldName,
+                                                        fieldName
                                                     )}
                                                     onEscapeKeyDown={onEscapeKeyFactory(
-                                                        fieldName,
+                                                        fieldName
                                                     )}
                                                     helperText={t(
                                                         fieldError.hasDisplayableError
                                                             ? fieldError.errorMessageKey
-                                                            : (`${fieldName} helper` as const),
+                                                            : (`${fieldName} helper` as const)
                                                     )}
                                                     inputProps_aria-invalid={
                                                         fieldError.hasDisplayableError
@@ -214,7 +214,7 @@ export function ServiceForm(props: Props) {
                         {t(
                             route.params.serviceId === undefined
                                 ? "create service"
-                                : "update service",
+                                : "update service"
                         )}
                     </Button>
                 </div>
@@ -230,16 +230,16 @@ const useStyles = makeStyles({ "name": { ServiceForm } })(theme => ({
         "display": "grid",
         "gridTemplateColumns": "repeat(1, 1fr)",
         "gap": theme.spacing(6),
-        "maxWidth": breakpointsValues.md,
+        "maxWidth": breakpointsValues.md
         //"gridAutoRows": "minmax(100px, auto)"
     },
     "submitButtonWrapper": {
         "display": "flex",
-        "justifyContent": "center",
+        "justifyContent": "center"
     },
     "submitButton": {
-        "width": 200,
-    },
+        "width": 200
+    }
 }));
 
 export const { i18n } = declareComponentKeys<
@@ -260,5 +260,5 @@ const orderedFieldNames = [
     "serviceUrl",
     "description",
     "agencyName",
-    "softwareName",
+    "softwareName"
 ] as const;

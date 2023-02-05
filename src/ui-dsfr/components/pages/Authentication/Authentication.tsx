@@ -24,7 +24,7 @@ export const Authentication = memo((props: Props) => {
     const { classes, cx } = useStyles();
 
     const { Form } = useForm({
-        debugForm: false,
+        debugForm: false
     });
 
     return (
@@ -40,8 +40,12 @@ export const Authentication = memo((props: Props) => {
                 <h2>{t("connect")}</h2>
                 <div className={fr.cx("fr-connect-group")}>
                     <button className={fr.cx("fr-connect")}>
-                        <span className={fr.cx("fr-connect__login")}>{ t("log with") }</span>
-                        <span className={fr.cx("fr-connect__brand")}>{ t("franceConnect") }</span>
+                        <span className={fr.cx("fr-connect__login")}>
+                            {t("log with")}
+                        </span>
+                        <span className={fr.cx("fr-connect__brand")}>
+                            {t("franceConnect")}
+                        </span>
                     </button>
                     <p>
                         <a
@@ -49,8 +53,8 @@ export const Authentication = memo((props: Props) => {
                             target="_blank"
                             rel="noopener"
                             title={t("what is franceConnect title")}
-                            >
-                                { t("what is franceConnect") }
+                        >
+                            {t("what is franceConnect")}
                         </a>
                     </p>
                 </div>
@@ -65,8 +69,29 @@ export const Authentication = memo((props: Props) => {
                         {t("connect")}
                     </Button>
                     <div className={classes.linksPassword}>
-                        <a className={cx(fr.cx("fr-link", "fr-icon-arrow-right-line", "fr-link--icon-right"), classes.forgetPassword)} href="#">{t("forget password")}</a>
-                        <a className={fr.cx("fr-link", "fr-icon-arrow-right-line", "fr-link--icon-right")} href="#">{t("no account")}</a>
+                        <a
+                            className={cx(
+                                fr.cx(
+                                    "fr-link",
+                                    "fr-icon-arrow-right-line",
+                                    "fr-link--icon-right"
+                                ),
+                                classes.forgetPassword
+                            )}
+                            href="#"
+                        >
+                            {t("forget password")}
+                        </a>
+                        <a
+                            className={fr.cx(
+                                "fr-link",
+                                "fr-icon-arrow-right-line",
+                                "fr-link--icon-right"
+                            )}
+                            href="#"
+                        >
+                            {t("no account")}
+                        </a>
                     </div>
                 </Form>
             </div>
@@ -75,7 +100,7 @@ export const Authentication = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { Authentication },
+    "name": { Authentication }
 })(() => ({
     "root": {
         "display": "grid",
@@ -85,7 +110,7 @@ const useStyles = makeStyles({
     "centerCol": {
         "display": "flex",
         "flexDirection": "column",
-        "alignItems": "center",
+        "alignItems": "center"
     },
     "form": {
         "width": "100%",
@@ -106,8 +131,8 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "back"
-    |"connect"
+    | "back"
+    | "connect"
     | "selfCredentials"
     | "forget password"
     | "no account"
@@ -116,5 +141,5 @@ export const { i18n } = declareComponentKeys<
     | "what is franceConnect"
     | "what is franceConnect title"
 >()({
-    Authentication,
+    Authentication
 });

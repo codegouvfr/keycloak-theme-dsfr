@@ -101,7 +101,7 @@ export const CatalogCards = memo((props: Props) => {
         onLogin,
         onDeclareReferentAnswer,
         onUserNoLongerReferent,
-        referenceNewSoftwareLink,
+        referenceNewSoftwareLink
     } = props;
 
     const { t } = useTranslation({ CatalogCards });
@@ -110,7 +110,7 @@ export const CatalogCards = memo((props: Props) => {
 
     useOnLoadMore({
         loadingDivRef,
-        onLoadMore,
+        onLoadMore
     });
 
     const doRenderSearchBarInHeader = (() => {
@@ -124,30 +124,30 @@ export const CatalogCards = memo((props: Props) => {
     const { classes, css, theme } = useStyles({
         "filteredCardCount": filteredSoftwares.length,
         hasMoreToLoad,
-        doRenderSearchBarInHeader,
+        doRenderSearchBarInHeader
     });
 
     const onDeclareReferentAnswerFactory = useCallbackFactory(
         (
             [softwareId]: [number],
             [{ isExpert, useCaseDescription, isPersonalUse }]: [
-                Param0<CatalogCardProps["onDeclareReferentAnswer"]>,
-            ],
+                Param0<CatalogCardProps["onDeclareReferentAnswer"]>
+            ]
         ) =>
             onDeclareReferentAnswer({
                 softwareId,
                 isExpert,
                 useCaseDescription,
-                isPersonalUse,
-            }),
+                isPersonalUse
+            })
     );
 
     const onUserNoLongerReferentFactory = useCallbackFactory(([softwareId]: [number]) =>
-        onUserNoLongerReferent({ softwareId }),
+        onUserNoLongerReferent({ softwareId })
     );
 
     const onTagClick = useConstCallback<CatalogCardProps["onTagClick"]>(tag =>
-        onSelectedTagsChange([tag, ...selectedTags]),
+        onSelectedTagsChange([tag, ...selectedTags])
     );
 
     const catalogCardBySoftwareId = Object.fromEntries(
@@ -155,7 +155,7 @@ export const CatalogCards = memo((props: Props) => {
             ...filteredSoftwares,
             ...alikeSoftwares
                 .map(o => (o.isKnown ? o.software : undefined))
-                .filter(exclude(undefined)),
+                .filter(exclude(undefined))
         ]
             .reduce(...removeDuplicates<CompiledData.Software>())
             .map(software => {
@@ -178,16 +178,16 @@ export const CatalogCards = memo((props: Props) => {
                     onDeclareReferentAnswer={onDeclareReferentAnswerFactory(software.id)}
                     onUserNoLongerReferent={onUserNoLongerReferentFactory(software.id)}
                     onTagClick={onTagClick}
-                />,
-            ]),
+                />
+            ])
     );
 
     const evtCatalogSearchAreaAction = useConst(() =>
-        Evt.create<CatalogSearchAreaProps["evtAction"]>(),
+        Evt.create<CatalogSearchAreaProps["evtAction"]>()
     );
 
     const onGoBackClick = useConstCallback(() =>
-        evtCatalogSearchAreaAction.post("CLEAR SEARCH"),
+        evtCatalogSearchAreaAction.post("CLEAR SEARCH")
     );
 
     const catalogSearchAreaNode = (
@@ -226,7 +226,7 @@ export const CatalogCards = memo((props: Props) => {
                         <NoMatches search={search} onGoBackClick={onGoBackClick} />
                     ) : (
                         filteredSoftwares.map(
-                            software => catalogCardBySoftwareId[software.id],
+                            software => catalogCardBySoftwareId[software.id]
                         )
                     )}
                 </div>
@@ -251,14 +251,14 @@ export const CatalogCards = memo((props: Props) => {
                             <Text
                                 typo="section heading"
                                 className={css({
-                                    ...theme.spacing.topBottom("margin", 2),
+                                    ...theme.spacing.topBottom("margin", 2)
                                 })}
                             >
                                 {t("alike software")}
                             </Text>
                             <div className={classes.cards}>
                                 {softwares.map(
-                                    software => catalogCardBySoftwareId[software.id],
+                                    software => catalogCardBySoftwareId[software.id]
                                 )}
                             </div>
                             {otherSoftwareNames.length !== 0 && (
@@ -266,7 +266,7 @@ export const CatalogCards = memo((props: Props) => {
                                     {capitalize(t("other similar software"))} :
                                     {alikeSoftwares
                                         .map(o =>
-                                            o.isKnown ? undefined : o.softwareName,
+                                            o.isKnown ? undefined : o.softwareName
                                         )
                                         .filter(exclude(undefined))
                                         .join(", ")}
@@ -312,7 +312,7 @@ const useStyles = makeStyles<
     (
         theme,
         { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader },
-        classes,
+        classes
     ) => ({
         "searchBarWrapper": {
             "paddingBottom": theme.spacing(4),
@@ -320,11 +320,11 @@ const useStyles = makeStyles<
                 ? {}
                 : {
                       "position": "sticky",
-                      "top": theme.spacing(3),
-                  }),
+                      "top": theme.spacing(3)
+                  })
         },
         "contextTypo": {
-            "marginBottom": theme.spacing(4),
+            "marginBottom": theme.spacing(4)
         },
         "cards": {
             ...(filteredCardCount === 0
@@ -338,28 +338,28 @@ const useStyles = makeStyles<
 
                           return 1;
                       })()},1fr)`,
-                      "gap": theme.spacing(4),
-                  }),
+                      "gap": theme.spacing(4)
+                  })
         },
         "bottomScrollSpace": {
             ...(hasMoreToLoad
                 ? {
                       "display": "flex",
                       "justifyContent": "center",
-                      ...theme.spacing.topBottom("padding", 3),
+                      ...theme.spacing.topBottom("padding", 3)
                   }
                 : {
                       [`& .${classes.moreToLoadProgress}`]: {
-                          "display": "none",
+                          "display": "none"
                       },
-                      "height": theme.spacing(3),
-                  }),
+                      "height": theme.spacing(3)
+                  })
         },
         "moreToLoadProgress": {},
         "formLinkButton": {
-            "marginLeft": theme.spacing(3),
-        },
-    }),
+            "marginLeft": theme.spacing(3)
+        }
+    })
 );
 
 const { NoMatches } = (() => {
@@ -371,27 +371,27 @@ const { NoMatches } = (() => {
     const useStyles = makeStyles()(theme => ({
         "root": {
             "display": "flex",
-            "justifyContent": "center",
+            "justifyContent": "center"
         },
         "innerDiv": {
             "textAlign": "center",
-            "maxWidth": 500,
+            "maxWidth": 500
         },
         "svg": {
             "fill": theme.colors.palette.dark.greyVariant2,
             "width": 100,
-            "margin": 0,
+            "margin": 0
         },
         "h2": {
-            ...theme.spacing.topBottom("margin", 4),
+            ...theme.spacing.topBottom("margin", 4)
         },
         "typo": {
             "marginBottom": theme.spacing(1),
-            "color": theme.colors.palette.light.greyVariant3,
+            "color": theme.colors.palette.light.greyVariant3
         },
         "link": {
-            "cursor": "pointer",
-        },
+            "cursor": "pointer"
+        }
     }));
 
     const NoMatches = memo((props: Props) => {
@@ -444,15 +444,15 @@ const { CatalogSearchArea } = (() => {
             selectedTags,
             onSelectedTagsChange,
             search,
-            onSearchChange,
+            onSearchChange
         } = props;
 
         const evtSearchBarAction = useConst(() =>
-            Evt.create<SearchBarProps["evtAction"]>(),
+            Evt.create<SearchBarProps["evtAction"]>()
         );
 
         const evtGitHubPickerAction = useConst(() =>
-            Evt.create<GitHubPickerProps["evtAction"]>(),
+            Evt.create<GitHubPickerProps["evtAction"]>()
         );
 
         useEvt(
@@ -460,9 +460,9 @@ const { CatalogSearchArea } = (() => {
                 evtAction.attach(
                     data => data === "CLEAR SEARCH",
                     ctx,
-                    () => evtSearchBarAction.post("CLEAR SEARCH"),
+                    () => evtSearchBarAction.post("CLEAR SEARCH")
                 ),
-            [evtAction],
+            [evtAction]
         );
 
         const buttonRef = useStateRef<HTMLButtonElement>(null);
@@ -474,13 +474,13 @@ const { CatalogSearchArea } = (() => {
                 onSelectedTagsChange(
                     params.isSelect
                         ? [...selectedTags, params.tag]
-                        : selectedTags.filter(tag => tag !== params.tag),
+                        : selectedTags.filter(tag => tag !== params.tag)
                 );
 
                 evtGitHubPickerAction.post({
-                    "action": "close",
+                    "action": "close"
                 });
-            },
+            }
         );
 
         const { t } = useTranslation({ CatalogCards });
@@ -502,7 +502,7 @@ const { CatalogSearchArea } = (() => {
                         onRemove={() =>
                             onSelectedTags({
                                 "isSelect": false,
-                                tag,
+                                tag
                             })
                         }
                     />
@@ -516,7 +516,7 @@ const { CatalogSearchArea } = (() => {
                         evtGitHubPickerAction.post({
                             "action": "open",
                             "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
+                                (assert(buttonRef.current !== null), buttonRef.current)
                         })
                     }
                 >
@@ -535,17 +535,17 @@ const { CatalogSearchArea } = (() => {
 
     const useStyles = makeStyles({ "name": { CatalogSearchArea } })(theme => ({
         "root": {
-            "display": "flex",
+            "display": "flex"
         },
         "searchBar": {
-            "flex": 1,
+            "flex": 1
         },
         "tag": {
-            "marginLeft": theme.spacing(2),
+            "marginLeft": theme.spacing(2)
         },
         "tagButton": {
-            "marginLeft": theme.spacing(2),
-        },
+            "marginLeft": theme.spacing(2)
+        }
     }));
 
     return { CatalogSearchArea };

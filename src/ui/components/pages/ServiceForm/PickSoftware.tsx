@@ -30,7 +30,7 @@ export const PickSoftware = memo((props: Props) => {
     }, [sillSoftwareNames]);
 
     const evtGitHubPickerAction = useConst(() =>
-        Evt.create<GitHubPickerProps["evtAction"]>(),
+        Evt.create<GitHubPickerProps["evtAction"]>()
     );
 
     const buttonRef = useStateRef<HTMLButtonElement>(null);
@@ -48,17 +48,17 @@ export const PickSoftware = memo((props: Props) => {
 
             if (params.isSelect) {
                 evtGitHubPickerAction.post({
-                    "action": "close",
+                    "action": "close"
                 });
             }
-        },
+        }
     );
 
     const onCustomTagRemove = useConstCallback(() => {
         assert(selectedSoftwareName !== undefined);
         onSelectedTags({
             "isSelect": false,
-            "tag": selectedSoftwareName,
+            "tag": selectedSoftwareName
         });
     });
 
@@ -67,7 +67,7 @@ export const PickSoftware = memo((props: Props) => {
             selectedSoftwareName === undefined
                 ? false
                 : sillSoftwareNames.indexOf(selectedSoftwareName) < 0,
-        [selectedSoftwareName, sillSoftwareNames],
+        [selectedSoftwareName, sillSoftwareNames]
     );
 
     return (
@@ -81,7 +81,7 @@ export const PickSoftware = memo((props: Props) => {
                     (
                         <Tooltip
                             title={t("consider registering this software in the sill", {
-                                selectedSoftwareName,
+                                selectedSoftwareName
                             })}
                         >
                             <Icon
@@ -110,7 +110,7 @@ export const PickSoftware = memo((props: Props) => {
                         evtGitHubPickerAction.post({
                             "action": "open",
                             "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
+                                (assert(buttonRef.current !== null), buttonRef.current)
                         })
                     }
                 >
@@ -122,7 +122,7 @@ export const PickSoftware = memo((props: Props) => {
                 getTagColor={tag => getTagColor({ tag, theme }).color}
                 texts={{
                     "create tag": ({ tag }) =>
-                        t("validate unknown software name", { "softwareName": tag }),
+                        t("validate unknown software name", { "softwareName": tag })
                 }}
                 tags={softwareNames}
                 selectedTags={
@@ -146,21 +146,21 @@ export const { i18n } = declareComponentKeys<
 
 const useStyles = makeStyles()(theme => ({
     "labelWrapper": {
-        "marginBottom": theme.spacing(3),
+        "marginBottom": theme.spacing(3)
     },
     "caption": {
         "marginBottom": theme.spacing(2),
-        "display": "inline",
+        "display": "inline"
     },
     "warningIcon": {
         "marginLeft": theme.spacing(2),
-        "color": theme.colors.useCases.alertSeverity.warning.main,
+        "color": theme.colors.useCases.alertSeverity.warning.main
     },
     "tag": {
         "marginRight": theme.spacing(1),
-        "marginBottom": theme.spacing(1),
+        "marginBottom": theme.spacing(1)
     },
     "addButton": {
-        "marginBottom": theme.spacing(1),
-    },
+        "marginBottom": theme.spacing(1)
+    }
 }));

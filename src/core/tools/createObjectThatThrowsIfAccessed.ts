@@ -16,7 +16,7 @@ export function createObjectThatThrowsIfAccessed<T extends object>(params?: {
 
     return new Proxy<T>({} as any, {
         get,
-        "set": get,
+        "set": get
     });
 }
 
@@ -33,9 +33,9 @@ export function createObjectThatThrowsIfAccessedFactory(params: {
 
             return createObjectThatThrowsIfAccessed<T>({
                 debugMessage,
-                isPropertyWhitelisted,
+                isPropertyWhitelisted
             });
-        },
+        }
     };
 }
 
@@ -54,17 +54,17 @@ export function isPropertyAccessedByReduxOrStorybook(prop: string | number | sym
 
 export function createPropertyThatThrowIfAccessed<
     T extends object,
-    PropertyName extends keyof T,
+    PropertyName extends keyof T
 >(propertyName: PropertyName, debugMessage?: string): { [K in PropertyName]: T[K] } {
     const getAndSet = () => {
         throw new Error(
-            `Cannot access ${String(propertyName)} yet ${debugMessage ?? ""}`,
+            `Cannot access ${String(propertyName)} yet ${debugMessage ?? ""}`
         );
     };
 
     return Object.defineProperty({} as any, propertyName, {
         "get": getAndSet,
         "set": getAndSet,
-        "enumerable": true,
+        "enumerable": true
     });
 }

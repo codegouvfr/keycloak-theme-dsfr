@@ -125,7 +125,7 @@ export const DescriptiveField = memo((props: Props) => {
             }, [isSensitiveInformation]);
 
             const toggleIsTextHidden = useConstCallback(() =>
-                setIsTextHidden(!isTextHidden),
+                setIsTextHidden(!isTextHidden)
             );
 
             const { TextWd } = useGuaranteedMemo(() => {
@@ -136,7 +136,7 @@ export const DescriptiveField = memo((props: Props) => {
                                 ? new Array(props.children.length).fill("•")
                                 : props.children}
                         </Text>
-                    ),
+                    )
                 );
 
                 return { TextWd };
@@ -146,7 +146,7 @@ export const DescriptiveField = memo((props: Props) => {
                 TextWd,
                 toggleIsTextHidden,
                 isTextHidden,
-                isSensitiveInformation,
+                isSensitiveInformation
             };
         })();
 
@@ -162,7 +162,7 @@ export const DescriptiveField = memo((props: Props) => {
                     />
                 </Tooltip>
             ),
-        [],
+        []
     );
 
     const {
@@ -174,12 +174,12 @@ export const DescriptiveField = memo((props: Props) => {
         onTextFieldEscapeKeyDown,
         onSubmitButtonClick,
         onValueBeingTypedChange,
-        onTextFieldSubmit,
+        onTextFieldSubmit
     } = (function useClosure() {
         const [isInEditingState, setIsInEditingState] = useState(false);
 
         const [evtTextFieldAction] = useState(() =>
-            Evt.create<UnpackEvt<TextFieldProps["evtAction"]>>(),
+            Evt.create<UnpackEvt<TextFieldProps["evtAction"]>>()
         );
 
         useEvt(
@@ -191,11 +191,11 @@ export const DescriptiveField = memo((props: Props) => {
                 props.evtAction?.attach(
                     action => action === "SUBMIT EDIT",
                     ctx,
-                    () => evtTextFieldAction.post("TRIGGER SUBMIT"),
+                    () => evtTextFieldAction.post("TRIGGER SUBMIT")
                 );
             },
 
-            [props?.type === "editable text" ? props.evtAction : null],
+            [props?.type === "editable text" ? props.evtAction : null]
         );
 
         const onStartEditButtonClick = useConstCallback(() => {
@@ -205,11 +205,11 @@ export const DescriptiveField = memo((props: Props) => {
         });
 
         const onTextFieldEscapeKeyDown = useConstCallback(() =>
-            evtTextFieldAction.post("RESTORE DEFAULT VALUE"),
+            evtTextFieldAction.post("RESTORE DEFAULT VALUE")
         );
 
         const onSubmitButtonClick = useConstCallback(() =>
-            evtTextFieldAction.post("TRIGGER SUBMIT"),
+            evtTextFieldAction.post("TRIGGER SUBMIT")
         );
 
         const { isValueBeingTypedValid, onValueBeingTypedChange } =
@@ -219,9 +219,9 @@ export const DescriptiveField = memo((props: Props) => {
 
                 const onValueBeingTypedChange = useConstCallback(
                     ({
-                        isValidValue,
+                        isValidValue
                     }: Param0<TextFieldProps["onValueBeingTypedChange"]>) =>
-                        setIsValueBeingTypedValid(isValidValue),
+                        setIsValueBeingTypedValid(isValidValue)
                 );
 
                 return { isValueBeingTypedValid, onValueBeingTypedChange };
@@ -275,7 +275,7 @@ export const DescriptiveField = memo((props: Props) => {
             onTextFieldEscapeKeyDown,
             onSubmitButtonClick,
             onValueBeingTypedChange,
-            onTextFieldSubmit,
+            onTextFieldSubmit
         };
     })();
 
@@ -296,7 +296,7 @@ export const DescriptiveField = memo((props: Props) => {
 
     const { classes, cx } = useStyles({
         isFlashing,
-        "isHelperTextVisible": !isInEditingState,
+        "isHelperTextVisible": !isInEditingState
     });
 
     return (
@@ -448,21 +448,21 @@ export const DescriptiveField = memo((props: Props) => {
 });
 
 const useStyles = makeStyles<{ isFlashing: boolean; isHelperTextVisible: boolean }>({
-    "name": { DescriptiveField },
+    "name": { DescriptiveField }
 })((theme, { isFlashing, isHelperTextVisible }) => ({
     "root": {
-        "marginBottom": theme.spacing(3),
+        "marginBottom": theme.spacing(3)
     },
     "mainLine": {
         "display": "flex",
         "& > div": {
             "display": "flex",
-            "alignItems": "center",
+            "alignItems": "center"
         },
-        "marginBottom": theme.spacing(2),
+        "marginBottom": theme.spacing(2)
     },
     "cellTitle": {
-        "width": 360,
+        "width": 360
     },
     "cellMiddle": {
         "flex": 1,
@@ -471,25 +471,25 @@ const useStyles = makeStyles<{ isFlashing: boolean; isHelperTextVisible: boolean
             "overflow": "hidden",
             "whiteSpace": "nowrap",
             "textOverflow": "ellipsis",
-            "color": !isFlashing ? undefined : theme.colors.useCases.buttons.actionActive,
+            "color": !isFlashing ? undefined : theme.colors.useCases.buttons.actionActive
         },
         "& .MuiTextField-root": {
             "width": "100%",
-            "top": 2,
+            "top": 2
         },
         "& .MuiAutocomplete-root": {
-            "minWidth": 300,
-        },
+            "minWidth": 300
+        }
     },
     "cellActions": {
-        "marginRight": theme.spacing(2),
+        "marginRight": theme.spacing(2)
     },
     "noText": {
-        "color": theme.colors.useCases.typography.textDisabled,
+        "color": theme.colors.useCases.typography.textDisabled
     },
     "helperText": {
-        "opacity": isHelperTextVisible ? undefined : 0,
-    },
+        "opacity": isHelperTextVisible ? undefined : 0
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

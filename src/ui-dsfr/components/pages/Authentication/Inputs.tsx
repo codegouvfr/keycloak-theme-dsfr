@@ -21,30 +21,27 @@ export const Inputs = memo((props: Props) => {
 
     const { classes } = useStyles();
 
-
     const { getInputProps: emailGetInputProps } = useField("email", {});
     const { getInputProps: passwordGetInputProps } = useField("password", {});
 
     return (
         <div className={classes.root}>
-            <Input label={t("email")} hintText={t("email hint")} {...emailGetInputProps()} />
+            <Input
+                label={t("email")}
+                hintText={t("email hint")}
+                {...emailGetInputProps()}
+            />
             <Input label={t("password")} {...passwordGetInputProps()} />
         </div>
     );
 });
 
 const useStyles = makeStyles({
-    "name": { Inputs },
+    "name": { Inputs }
 })(() => ({
-    "root": {
-
-    },
+    "root": {}
 }));
 
-export const { i18n } = declareComponentKeys<
-    "email"
-    | "email hint"
-    | "password"
->()({
-    Inputs,
+export const { i18n } = declareComponentKeys<"email" | "email hint" | "password">()({
+    Inputs
 });

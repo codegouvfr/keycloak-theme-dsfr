@@ -52,7 +52,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
     const { t } = useTranslation({ ServiceCatalogCard });
 
     const evtConfirmDereferenceServiceDialogAction = useConst(() =>
-        Evt.create<ConfirmDeleteServiceDialog["evtAction"]>(),
+        Evt.create<ConfirmDeleteServiceDialog["evtAction"]>()
     );
 
     const onOpenConfirmDereferenceServiceDialog = useConstCallback(() => {
@@ -83,9 +83,9 @@ export const ServiceCatalogCard = memo((props: Props) => {
                       "onClick": () => {
                           /* nothing */
                       },
-                      "_target": "blank" as const,
+                      "_target": "blank" as const
                   }),
-        [service.deployedSoftware, sillSoftwareLink],
+        [service.deployedSoftware, sillSoftwareLink]
     );
 
     const editLink = useMemo(
@@ -94,9 +94,9 @@ export const ServiceCatalogCard = memo((props: Props) => {
                 ? propsRest.editLink
                 : {
                       "href": "#",
-                      "onClick": propsRest.onLogin,
+                      "onClick": propsRest.onLogin
                   },
-        [propsRest.isUserLoggedIn ? propsRest.editLink : undefined],
+        [propsRest.isUserLoggedIn ? propsRest.editLink : undefined]
     );
 
     return (
@@ -106,7 +106,7 @@ export const ServiceCatalogCard = memo((props: Props) => {
                     {smartTrim({
                         "maxLength": 50,
                         "minCharAtTheEnd": 0,
-                        "text": service.serviceName,
+                        "text": service.serviceName
                     })}
                 </Text>
 
@@ -174,7 +174,7 @@ export const { i18n } = declareComponentKeys<
 >()({ ServiceCatalogCard });
 
 const useStyles = makeStyles<void, "cardButtons">({
-    "name": { ServiceCatalogCard },
+    "name": { ServiceCatalogCard }
 })((theme, _params, classes) => ({
     "root": {
         "borderRadius": 8,
@@ -183,14 +183,14 @@ const useStyles = makeStyles<void, "cardButtons">({
         "&:hover": {
             "boxShadow": theme.shadows[6],
             [`& .${classes.cardButtons}`]: {
-                "visibility": "visible",
-            },
+                "visibility": "visible"
+            }
         },
         "display": "flex",
-        "flexDirection": "column",
+        "flexDirection": "column"
     },
     "title": {
-        "marginLeft": theme.spacing(3),
+        "marginLeft": theme.spacing(3)
     },
     "aboveDivider": {
         ...theme.spacing.topBottom("padding", 2),
@@ -198,7 +198,7 @@ const useStyles = makeStyles<void, "cardButtons">({
         "boxSizing": "border-box",
         "display": "flex",
         "alignItems": "center",
-        "height": 45,
+        "height": 45
     },
     "belowDivider": {
         "padding": theme.spacing(4),
@@ -206,26 +206,26 @@ const useStyles = makeStyles<void, "cardButtons">({
         "flex": 1,
         "display": "flex",
         "flexDirection": "column",
-        "overflow": "hidden",
+        "overflow": "hidden"
     },
     "description": {
-        "marginBottom": theme.spacing(4),
+        "marginBottom": theme.spacing(4)
     },
     "body": {
         "margin": 0,
-        "flex": 1,
+        "flex": 1
         //TODO: Commented out for mozilla (longer one always have scroll in a grid)
         //"overflow": "auto"
     },
     "buttonsWrapper": {
         "display": "flex",
         "justifyContent": "flex-end",
-        "marginTop": theme.spacing(4),
+        "marginTop": theme.spacing(4)
     },
     "cardButtons": {
         "marginRight": theme.spacing(2),
-        "visibility": "hidden",
-    },
+        "visibility": "hidden"
+    }
 }));
 
 const { Software } = (() => {
@@ -242,7 +242,7 @@ const { Software } = (() => {
         const { imgRef, isBanner } = (function useClosure() {
             const {
                 ref: imgRef,
-                domRect: { height, width },
+                domRect: { height, width }
             } = useDomRect();
 
             const isBanner =
@@ -290,22 +290,22 @@ const { Software } = (() => {
         "rootWhenLink": {
             "all": "unset",
             "display": "block",
-            "cursor": "pointer",
+            "cursor": "pointer"
         },
         "title": {
-            "marginLeft": theme.spacing(3),
+            "marginLeft": theme.spacing(3)
         },
         "innerNode": {
             "display": "flex",
             "alignItems": "center",
-            "marginTop": theme.spacing(4),
+            "marginTop": theme.spacing(4)
         },
         "label": {
-            "marginRight": theme.spacing(4),
+            "marginRight": theme.spacing(4)
         },
         "image": {
-            "height": "100%",
-        },
+            "height": "100%"
+        }
     }));
 
     return { Software };
@@ -326,9 +326,9 @@ const { ConfirmDeleteServiceDialog } = (() => {
                 evtAction.attach(
                     action => action === "open",
                     ctx,
-                    () => setIsOpen(true),
+                    () => setIsOpen(true)
                 ),
-            [evtAction],
+            [evtAction]
         );
 
         const [isOpen, setIsOpen] = useState(false);
@@ -336,11 +336,11 @@ const { ConfirmDeleteServiceDialog } = (() => {
         const onClose = useConstCallback(() => setIsOpen(false));
 
         const evtOnProceedClick = useConst(() =>
-            Evt.create<ButtonsProps["evtOnProceedClick"]>(null),
+            Evt.create<ButtonsProps["evtOnProceedClick"]>(null)
         );
 
         const setOnProceedClick = useConstCallback<BodyProps["setOnProceedClick"]>(
-            ({ onProceedClick }) => (evtOnProceedClick.state = onProceedClick),
+            ({ onProceedClick }) => (evtOnProceedClick.state = onProceedClick)
         );
 
         const { t } = useTranslation({ ServiceCatalogCard });
@@ -384,20 +384,20 @@ const { ConfirmDeleteServiceDialog } = (() => {
                 if (text === "") {
                     return {
                         "isValidValue": false,
-                        "message": t("can't be empty"),
+                        "message": t("can't be empty")
                     };
                 }
 
                 return {
-                    "isValidValue": true,
+                    "isValidValue": true
                 };
-            },
+            }
         );
 
         const [{ onProceedClick }, setOnProceedClick] = useState<{
             onProceedClick: (() => void) | null;
         }>({
-            "onProceedClick": null,
+            "onProceedClick": null
         });
 
         const onValueBeingTypedChange = useConstCallback<
@@ -409,8 +409,8 @@ const { ConfirmDeleteServiceDialog } = (() => {
                           onProceed({ "reason": value });
                           onClose();
                       }
-                    : null,
-            }),
+                    : null
+            })
         );
 
         useEffect(() => {
@@ -423,7 +423,7 @@ const { ConfirmDeleteServiceDialog } = (() => {
             ({ preventDefaultAndStopPropagation }) => {
                 preventDefaultAndStopPropagation();
                 evtAction.post("TRIGGER SUBMIT");
-            },
+            }
         );
 
         const onSubmit = useConstCallback<TextFieldProps["onSubmit"]>(() => {
@@ -479,16 +479,16 @@ const { ConfirmDeleteServiceDialog } = (() => {
     });
 
     const useStyles = makeStyles({
-        "name": { CreateS3DirectoryDialog: ConfirmDeleteServiceDialog },
+        "name": { CreateS3DirectoryDialog: ConfirmDeleteServiceDialog }
     })(theme => ({
         "textField": {
             //"width": 250,
             "display": "block",
             "margin": theme.spacing(5),
             "& > div": {
-                "width": "100%",
-            },
-        },
+                "width": "100%"
+            }
+        }
     }));
 
     return { ConfirmDeleteServiceDialog };

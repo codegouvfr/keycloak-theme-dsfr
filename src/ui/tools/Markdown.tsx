@@ -17,9 +17,9 @@ export const Markdown = memo((props: MarkdownProps) => {
                 <Link underline="hover" href={props.href}>
                     {props.children}
                 </Link>
-            ),
+            )
         }),
-        [],
+        []
     );
 
     return (

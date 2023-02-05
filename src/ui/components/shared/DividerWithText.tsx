@@ -27,15 +27,15 @@ export const DividerWithText = memo((props: Props) => {
 const useStyles = makeStyles({ "name": { DividerWithText } })(theme => ({
     "root": {
         "display": "flex",
-        "alignItems": "center",
+        "alignItems": "center"
     },
     "separator": {
         "height": 1,
         "backgroundColor": theme.colors.useCases.typography.textSecondary,
-        "flex": 1,
+        "flex": 1
     },
     "text": {
         ...theme.spacing.rightLeft("margin", 2),
-        "paddingBottom": 2,
-    },
+        "paddingBottom": 2
+    }
 }));

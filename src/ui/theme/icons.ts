@@ -107,7 +107,7 @@ export const createIconParams = {
     "computer": ComputerIcon,
     "rssFeed": RssFeedIcon,
     "playCircleFilledWhite": PlayCircleFilledWhiteIcon,
-    "storage": StorageIcon,
+    "storage": StorageIcon
 };
 
 export const iconIds = [
@@ -163,7 +163,7 @@ export const iconIds = [
     "computer",
     "rssFeed",
     "playCircleFilledWhite",
-    "storage",
+    "storage"
 ] as const;
 
 assert<Equals<typeof iconIds[number], keyof typeof createIconParams>>();

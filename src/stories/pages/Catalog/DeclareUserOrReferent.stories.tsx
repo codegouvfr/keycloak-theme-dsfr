@@ -6,7 +6,7 @@ import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { DeclareSoftware: DeclareUserOrReferent },
-    "defaultContainerWidth": 0,
+    "defaultContainerWidth": 0
 });
 
 export default meta;
@@ -17,7 +17,7 @@ export const VueDefault = getStory({
     referentCount: 3,
     seeUserAndReferent: {
         href: "",
-        onClick: () => {},
+        onClick: () => {}
     },
-    softwareLogoUrl: LibreOfficeLogo,
+    softwareLogoUrl: LibreOfficeLogo
 });

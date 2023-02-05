@@ -35,7 +35,7 @@ export const FormAlikeSoftwares = memo((props: Props) => {
         onAlikeSoftwaresChange,
         softwareRefs,
         getLinkToSoftwareCard,
-        softwareNameBySoftwareId,
+        softwareNameBySoftwareId
     } = props;
 
     const { classes } = useStyles();
@@ -45,14 +45,14 @@ export const FormAlikeSoftwares = memo((props: Props) => {
             alikeSoftwares
                 .map(softwareRef => (softwareRef.isKnown ? softwareRef : undefined))
                 .filter(exclude(undefined)),
-        [alikeSoftwares],
+        [alikeSoftwares]
     );
     const unknownAlikeSoftwares = useMemo(
         () =>
             alikeSoftwares
                 .map(softwareRef => (softwareRef.isKnown ? undefined : softwareRef))
                 .filter(exclude(undefined)),
-        [alikeSoftwares],
+        [alikeSoftwares]
     );
 
     const knownSoftwareRefs = useMemo(
@@ -60,26 +60,26 @@ export const FormAlikeSoftwares = memo((props: Props) => {
             softwareRefs
                 .map(softwareRef => (softwareRef.isKnown ? softwareRef : undefined))
                 .filter(exclude(undefined)),
-        [softwareRefs],
+        [softwareRefs]
     );
     const unknownSoftwareRefs = useMemo(
         () =>
             softwareRefs
                 .map(softwareRef => (softwareRef.isKnown ? undefined : softwareRef))
                 .filter(exclude(undefined)),
-        [softwareRefs],
+        [softwareRefs]
     );
 
     const onKnownAlikeSoftwaresChange = useConstCallback<
         KnownProps["onAlikeSoftwaresChange"]
     >(knownAlikeSoftwares =>
-        onAlikeSoftwaresChange([...knownAlikeSoftwares, ...unknownAlikeSoftwares]),
+        onAlikeSoftwaresChange([...knownAlikeSoftwares, ...unknownAlikeSoftwares])
     );
 
     const onUnknownAlikeSoftwaresChange = useConstCallback<
         UnknownProps["onAlikeSoftwaresChange"]
     >(unknownAlikeSoftwares =>
-        onAlikeSoftwaresChange([...knownAlikeSoftwares, ...unknownAlikeSoftwares]),
+        onAlikeSoftwaresChange([...knownAlikeSoftwares, ...unknownAlikeSoftwares])
     );
 
     return (
@@ -103,8 +103,8 @@ export const FormAlikeSoftwares = memo((props: Props) => {
 
 const useStyles = makeStyles({ "name": { FormAlikeSoftwares } })(theme => ({
     "unknown": {
-        "marginTop": theme.spacing(4),
-    },
+        "marginTop": theme.spacing(4)
+    }
 }));
 
 type KnownProps = {
@@ -122,7 +122,7 @@ const { Known } = (() => {
             onAlikeSoftwaresChange,
             softwareRefs,
             softwareNameBySoftwareId,
-            getLinkToSoftwareCard,
+            getLinkToSoftwareCard
         } = props;
 
         const evtPickerAction = useConst(() => Evt.create<PickerProps["evtAction"]>());
@@ -141,30 +141,29 @@ const { Known } = (() => {
                           {
                               "isKnown": true,
                               "softwareId":
-                                  (assert(!params.isNewOption),
-                                  parseInt(params.optionId)),
-                          },
+                                  (assert(!params.isNewOption), parseInt(params.optionId))
+                          }
                       ]
                     : alikeSoftwares.filter(
                           softwareRef =>
-                              softwareRef.softwareId !== parseInt(params.optionId),
-                      ),
-            ),
+                              softwareRef.softwareId !== parseInt(params.optionId)
+                      )
+            )
         );
 
         const onSoftwareTagRemoveFactory = useCallbackFactory(([softwareId]: [number]) =>
             onAlikeSoftwaresChange(
                 alikeSoftwares.filter(
-                    softwareRef => softwareRef.softwareId !== softwareId,
-                ),
-            ),
+                    softwareRef => softwareRef.softwareId !== softwareId
+                )
+            )
         );
 
         const onSoftwareTagClickFactory = useCallbackFactory(([softwareId]: [number]) =>
             window.open(
                 getLinkToSoftwareCard(softwareNameBySoftwareId[softwareId]).href,
-                "_blank",
-            ),
+                "_blank"
+            )
         );
 
         return (
@@ -210,7 +209,7 @@ const { Known } = (() => {
                         evtPickerAction.post({
                             "action": "open",
                             "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
+                                (assert(buttonRef.current !== null), buttonRef.current)
                         })
                     }
                 >
@@ -221,13 +220,13 @@ const { Known } = (() => {
                     onSelectedOption={onSelectOption}
                     options={softwareRefs.map(({ softwareId }) => ({
                         "id": `${softwareId}`,
-                        "label": softwareNameBySoftwareId[softwareId],
+                        "label": softwareNameBySoftwareId[softwareId]
                     }))}
                     selectedOptionIds={alikeSoftwares.map(
-                        ({ softwareId }) => `${softwareId}`,
+                        ({ softwareId }) => `${softwareId}`
                     )}
                     texts={{
-                        "done": t("done"),
+                        "done": t("done")
                     }}
                 />
             </div>
@@ -236,15 +235,15 @@ const { Known } = (() => {
 
     const useStyles = makeStyles()(theme => ({
         "caption": {
-            "marginBottom": theme.spacing(2),
+            "marginBottom": theme.spacing(2)
         },
         "tag": {
             "marginRight": theme.spacing(1),
-            "marginBottom": theme.spacing(1),
+            "marginBottom": theme.spacing(1)
         },
         "button": {
-            "marginTop": theme.spacing(2),
-        },
+            "marginTop": theme.spacing(2)
+        }
     }));
 
     return { Known };
@@ -263,7 +262,7 @@ const { Unknown } = (() => {
             className,
             alikeSoftwares,
             onAlikeSoftwaresChange,
-            softwareRefs: softwareRefs_props,
+            softwareRefs: softwareRefs_props
         } = props;
 
         const [createdSoftwareNames, setCreatedSoftwareNames] = useState<string[]>([]);
@@ -273,10 +272,10 @@ const { Unknown } = (() => {
                 ...softwareRefs_props,
                 ...createdSoftwareNames.map(softwareName => ({
                     "isKnown": false as const,
-                    softwareName,
-                })),
+                    softwareName
+                }))
             ],
-            [softwareRefs_props, createdSoftwareNames],
+            [softwareRefs_props, createdSoftwareNames]
         );
 
         const evtPickerAction = useConst(() => Evt.create<PickerProps["evtAction"]>());
@@ -292,7 +291,7 @@ const { Unknown } = (() => {
                 if (params.isSelect && params.isNewOption) {
                     setCreatedSoftwareNames([
                         ...createdSoftwareNames,
-                        params.optionLabel,
+                        params.optionLabel
                     ]);
                 }
 
@@ -304,23 +303,23 @@ const { Unknown } = (() => {
                                   "isKnown": false,
                                   "softwareName": params.isNewOption
                                       ? params.optionLabel
-                                      : params.optionId,
-                              },
+                                      : params.optionId
+                              }
                           ]
                         : alikeSoftwares.filter(
-                              softwareRef => softwareRef.softwareName !== params.optionId,
-                          ),
+                              softwareRef => softwareRef.softwareName !== params.optionId
+                          )
                 );
-            },
+            }
         );
 
         const onSoftwareTagRemoveFactory = useCallbackFactory(
             ([softwareName]: [string]) =>
                 onAlikeSoftwaresChange(
                     alikeSoftwares.filter(
-                        softwareRef => softwareRef.softwareName !== softwareName,
-                    ),
-                ),
+                        softwareRef => softwareRef.softwareName !== softwareName
+                    )
+                )
         );
 
         return (
@@ -362,7 +361,7 @@ const { Unknown } = (() => {
                         evtPickerAction.post({
                             "action": "open",
                             "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
+                                (assert(buttonRef.current !== null), buttonRef.current)
                         })
                     }
                 >
@@ -373,15 +372,14 @@ const { Unknown } = (() => {
                     onSelectedOption={onSelectOption}
                     options={softwareRefs.map(({ softwareName }) => ({
                         "id": softwareName,
-                        "label": softwareName,
+                        "label": softwareName
                     }))}
                     selectedOptionIds={alikeSoftwares.map(
-                        ({ softwareName }) => softwareName,
+                        ({ softwareName }) => softwareName
                     )}
                     texts={{
                         "done": t("done"),
-                        "create option": ({ optionLabel }) =>
-                            `${t("add")} ${optionLabel}`,
+                        "create option": ({ optionLabel }) => `${t("add")} ${optionLabel}`
                     }}
                 />
             </div>
@@ -390,15 +388,15 @@ const { Unknown } = (() => {
 
     const useStyles = makeStyles()(theme => ({
         "caption": {
-            "marginBottom": theme.spacing(2),
+            "marginBottom": theme.spacing(2)
         },
         "tag": {
             "marginRight": theme.spacing(1),
-            "marginBottom": theme.spacing(1),
+            "marginBottom": theme.spacing(1)
         },
         "button": {
-            "marginTop": theme.spacing(2),
-        },
+            "marginTop": theme.spacing(2)
+        }
     }));
 
     return { Unknown };
@@ -442,25 +440,25 @@ const { SoftwareTag } = (() => {
     });
 
     const useStyles = makeStyles<{ isKnown: boolean }>({
-        "name": { CustomTag },
+        "name": { CustomTag }
     })((theme, { isKnown }) => ({
         "root": {
             "backgroundColor":
-                theme.colors.palette[isKnown ? "greenSuccess" : "orangeWarning"].light,
+                theme.colors.palette[isKnown ? "greenSuccess" : "orangeWarning"].light
         },
         "text": {
             "color": theme.colors.palette.dark.main,
-            "paddingLeft": theme.spacing(2),
+            "paddingLeft": theme.spacing(2)
         },
         "icon": {
             "& > svg": {
-                "color": theme.colors.palette.dark.greyVariant2,
-            },
+                "color": theme.colors.palette.dark.greyVariant2
+            }
         },
         "bodyWrapper": {
             "display": "flex",
-            "alignItems": "center",
-        },
+            "alignItems": "center"
+        }
     }));
 
     return { SoftwareTag };

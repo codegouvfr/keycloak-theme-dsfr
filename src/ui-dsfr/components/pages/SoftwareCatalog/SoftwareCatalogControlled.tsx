@@ -12,7 +12,7 @@ const sortOptions = [
     "user count",
     "referent count",
     "user count ASC",
-    "referent count ASC",
+    "referent count ASC"
 ] as const;
 
 assert<Equals<typeof sortOptions[number], SoftwareCatalogState.Sort>>();
@@ -51,7 +51,7 @@ export type Props = {
     }[];
     environment: SoftwareCatalogState.Environment | undefined;
     onEnvironmentChange: (
-        environmentsFilter: SoftwareCatalogState.Environment | undefined,
+        environmentsFilter: SoftwareCatalogState.Environment | undefined
     ) => void;
 
     prerogativesOptions: {
@@ -112,10 +112,10 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                         onEnvironmentChange,
                         prerogativesOptions,
                         prerogatives,
-                        onPrerogativesChange,
+                        onPrerogativesChange
                     },
                     null,
-                    2,
+                    2
                 )}
             </pre>
         </div>
@@ -123,5 +123,5 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
-    "root": {},
+    "root": {}
 });

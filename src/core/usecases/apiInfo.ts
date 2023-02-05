@@ -14,7 +14,7 @@ export const thunks = {
             const { apiVersion } = getContext(extraArgs);
 
             return apiVersion;
-        },
+        }
 };
 
 const { getContext, setContext } = createUsecaseContextApi<{ apiVersion: string }>();
@@ -28,7 +28,7 @@ export const privateThunks = {
             const { sillApiClient } = extraArg;
 
             setContext(extraArg, {
-                "apiVersion": await sillApiClient.getVersion(),
+                "apiVersion": await sillApiClient.getVersion()
             });
-        },
+        }
 };

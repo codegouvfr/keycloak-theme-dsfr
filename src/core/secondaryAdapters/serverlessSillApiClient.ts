@@ -17,17 +17,17 @@ export function createServerlessSillApiClient(params: {
                         "id": "a",
                         "email": "b",
                         "agencyName": "c",
-                        "locale": "d",
-                    },
+                        "locale": "d"
+                    }
                 }),
-            { "promise": true },
+            { "promise": true }
         ),
         "getCompiledData": memoize(
             () =>
                 fetch(jsonUrl)
                     .then(res => res.text())
                     .then(text => JSON.parse(text) as CompiledData),
-            { "promise": true },
+            { "promise": true }
         ),
         "getReferentsBySoftwareId": () => Promise.reject(new Error("not implemented")),
         "declareUserReferent": () => Promise.reject(new Error("not implemented")),
@@ -40,13 +40,13 @@ export function createServerlessSillApiClient(params: {
         "getAllowedEmailRegexp": () => Promise.reject(new Error("not implemented")),
         "getAgencyNames": () => Promise.reject(new Error("not implemented")),
         "getTags": memoize(() => Promise.reject(new Error("not implemented")), {
-            "promise": true,
+            "promise": true
         }),
         "dereferenceSoftware": () => Promise.reject(new Error("not implemented")),
         "downloadCorsProtectedTextFile": () =>
             Promise.reject(new Error("not implemented")),
         "deleteService": () => Promise.reject(new Error("not implemented")),
         "addService": () => Promise.reject(new Error("not implemented")),
-        "updateService": () => Promise.reject(new Error("not implemented")),
+        "updateService": () => Promise.reject(new Error("not implemented"))
     };
 }

@@ -28,14 +28,14 @@ export function SoftwareCatalog(props: Props) {
 
     const { softwares } = useCoreState(selectors.softwareCatalog.softwares);
     const { organizationOptions } = useCoreState(
-        selectors.softwareCatalog.organizationOptions,
+        selectors.softwareCatalog.organizationOptions
     );
     const { categoryOptions } = useCoreState(selectors.softwareCatalog.categoryOptions);
     const { environmentOptions } = useCoreState(
-        selectors.softwareCatalog.environmentOptions,
+        selectors.softwareCatalog.environmentOptions
     );
     const { prerogativeFilterOptions } = useCoreState(
-        selectors.softwareCatalog.prerogativeFilterOptions,
+        selectors.softwareCatalog.prerogativeFilterOptions
     );
 
     const linksBySoftwareName = useMemo(
@@ -45,15 +45,15 @@ export function SoftwareCatalog(props: Props) {
                     softwareName,
                     {
                         "softwareDetails": routes.softwareDetails({
-                            "name": softwareName,
+                            "name": softwareName
                         }).link,
                         "declareUsageForm": routes.declareUsageForm({
-                            "name": softwareName,
-                        }).link,
-                    },
-                ]),
+                            "name": softwareName
+                        }).link
+                    }
+                ])
             ),
-        [softwares],
+        [softwares]
     );
 
     const [, startTransition] = useTransition();
@@ -64,10 +64,10 @@ export function SoftwareCatalog(props: Props) {
                 routes
                     .softwareCatalog({
                         ...route.params,
-                        sort,
+                        sort
                     })
-                    .replace(),
-            ),
+                    .replace()
+            )
     );
 
     const onSearchChange = useConstCallback<
@@ -77,19 +77,19 @@ export function SoftwareCatalog(props: Props) {
             routes
                 .softwareCatalog({
                     ...route.params,
-                    search,
+                    search
                 })
-                .replace(),
-        ),
+                .replace()
+        )
     );
 
     useDebounce(
         () =>
             softwareCatalog.updateFilter({
                 "key": "search",
-                "value": route.params.search,
+                "value": route.params.search
             }),
-        [route.params.search],
+        [route.params.search]
     );
 
     const onOrganizationChange = useConstCallback<
@@ -99,16 +99,16 @@ export function SoftwareCatalog(props: Props) {
             routes
                 .softwareCatalog({
                     ...route.params,
-                    organization,
+                    organization
                 })
-                .replace(),
-        ),
+                .replace()
+        )
     );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "organization",
-            "value": route.params.organization,
+            "value": route.params.organization
         });
     }, [route.params.organization]);
 
@@ -119,16 +119,16 @@ export function SoftwareCatalog(props: Props) {
             routes
                 .softwareCatalog({
                     ...route.params,
-                    category,
+                    category
                 })
-                .replace(),
-        ),
+                .replace()
+        )
     );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "category",
-            "value": route.params.category,
+            "value": route.params.category
         });
     }, [route.params.category]);
 
@@ -139,16 +139,16 @@ export function SoftwareCatalog(props: Props) {
             routes
                 .softwareCatalog({
                     ...route.params,
-                    environment,
+                    environment
                 })
-                .replace(),
-        ),
+                .replace()
+        )
     );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "environment",
-            "value": route.params.environment,
+            "value": route.params.environment
         });
     }, [route.params.environment]);
 
@@ -159,16 +159,16 @@ export function SoftwareCatalog(props: Props) {
             routes
                 .softwareCatalog({
                     ...route.params,
-                    prerogatives,
+                    prerogatives
                 })
-                .replace(),
-        ),
+                .replace()
+        )
     );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "prerogatives",
-            "value": route.params.prerogatives,
+            "value": route.params.prerogatives
         });
     }, [route.params.prerogatives]);
 

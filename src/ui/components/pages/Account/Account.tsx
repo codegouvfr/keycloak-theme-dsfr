@@ -32,7 +32,7 @@ export function Account(props: Props) {
     const tabs = useMemo(() => accountTabIds.map(id => ({ id, "title": t(id) })), [t]);
 
     const onRequestChangeActiveTab = useConstCallback((tabId: AccountTabId) =>
-        routes.account({ tabId }).push(),
+        routes.account({ tabId }).push()
     );
 
     const { classes, cx } = useStyles();
@@ -75,15 +75,15 @@ export const { i18n } = declareComponentKeys<
 const useStyles = makeStyles({ "name": { Account } })(theme => ({
     "root": {
         "height": "100%",
-        "overflow": "auto",
+        "overflow": "auto"
     },
     "tabs": {
         "borderRadius": 8,
         "overflow": "hidden",
-        "boxShadow": theme.shadows[1],
+        "boxShadow": theme.shadows[1]
     },
     //TODO: See if we can't adapt tab to work without it. Understand why it works with Onyxia and not here
     "tabsWrapper": {
-        "width": "unset",
-    },
+        "width": "unset"
+    }
 }));

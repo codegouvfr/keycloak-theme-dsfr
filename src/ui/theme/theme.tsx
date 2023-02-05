@@ -4,7 +4,7 @@ import {
     francePalette,
     ultravioletPalette,
     defaultGetTypographyDesc,
-    getIsPortraitOrientation,
+    getIsPortraitOrientation
 } from "onyxia-ui";
 import type { ThemeProviderProps } from "onyxia-ui";
 import { createIcon } from "onyxia-ui/Icon";
@@ -36,7 +36,7 @@ export const { ThemeProvider, useTheme } = createThemeProvider({
                 case "ultraviolet":
                     return '"Work Sans"';
             }
-        })()}, sans-serif`,
+        })()}, sans-serif`
     }),
     "palette": {
         ...(() => {
@@ -51,14 +51,14 @@ export const { ThemeProvider, useTheme } = createThemeProvider({
         })(),
         "limeGreen": {
             "main": "#BAFF29",
-            "light": "#E2FFA6",
+            "light": "#E2FFA6"
         },
         "agentConnectBlue": {
             "main": "#0579EE",
             "light": "#2E94FA",
-            "lighter": "#E5EDF5",
-        },
-    },
+            "lighter": "#E5EDF5"
+        }
+    }
 });
 
 export type Theme = ReturnType<typeof useTheme>;
@@ -76,12 +76,12 @@ export const { Text } = createText({ useTheme });
 
 export const splashScreen: ThemeProviderProps["splashScreen"] = {
     "Logo": () => <CircularProgress size={70} />,
-    "minimumDisplayDuration": 0,
+    "minimumDisplayDuration": 0
 };
 
 export let isViewPortAdapterEnabled = !getIsPortraitOrientation({
     "windowInnerWidth": window.innerWidth,
-    "windowInnerHeight": window.innerHeight,
+    "windowInnerHeight": window.innerHeight
 });
 
 console.log({ isViewPortAdapterEnabled });
@@ -91,7 +91,7 @@ export const getViewPortConfig: ThemeProviderProps["getViewPortConfig"] =
         ? undefined
         : ({ windowInnerWidth }) => ({
               "targetWindowInnerWidth": Math.max(1920, windowInnerWidth),
-              "targetBrowserFontSizeFactor": 1,
+              "targetBrowserFontSizeFactor": 1
           });
 
 export const { PageHeader } = createPageHeader({ Icon });
@@ -101,12 +101,12 @@ export const { ButtonBar } = createButtonBar({ Icon });
 export const { LanguageSelect } = createLanguageSelect<Language>({
     "languagesPrettyPrint": {
         "en": "English",
-        "fr": "Français",
-    },
+        "fr": "Français"
+    }
 });
 
 export const { LeftBar } = createLeftBar({
     Icon,
     "persistIsPanelOpen": true,
-    "defaultIsPanelOpen": false,
+    "defaultIsPanelOpen": false
 });

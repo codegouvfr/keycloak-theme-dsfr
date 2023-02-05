@@ -10,10 +10,10 @@ const { meta, getStory } = getStoryFactory({
     "argTypes": {
         "softwareLogoUrl": {
             "control": {
-                "type": null,
-            },
-        },
-    },
+                "type": null
+            }
+        }
+    }
 });
 
 export default meta;
@@ -25,15 +25,15 @@ export const VueDefault = getStory({
     softwareDateCurrentVersion: 1640995200000,
     declareUserOrReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     demoLink: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     seeUserAndReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     isPresentInSupportMarket: true,
     isDesktop: true,
@@ -45,14 +45,14 @@ export const VueDefault = getStory({
 
     softwareDetailsLink: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     ...logCallbacks([
         "onLogin",
         "onDeclareReferentAnswer",
         "onUserNoLongerReferent",
-        "onTagClick",
-    ]),
+        "onTagClick"
+    ])
 });
 
 export const TooLongDescription = getStory({
@@ -62,15 +62,15 @@ export const TooLongDescription = getStory({
     softwareDateCurrentVersion: 1640995200000,
     declareUserOrReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     seeUserAndReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     demoLink: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     isPresentInSupportMarket: true,
     isDesktop: true,
@@ -82,12 +82,12 @@ export const TooLongDescription = getStory({
 
     softwareDetailsLink: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     ...logCallbacks([
         "onLogin",
         "onDeclareReferentAnswer",
         "onUserNoLongerReferent",
-        "onTagClick",
-    ]),
+        "onTagClick"
+    ])
 });

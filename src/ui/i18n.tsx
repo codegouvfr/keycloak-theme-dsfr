@@ -23,7 +23,7 @@ const {
     resolveLocalizedString,
     useLang,
     $lang,
-    useResolveLocalizedString,
+    useResolveLocalizedString
 } = createI18nApi<
     | typeof import("ui/components/shared/Header").i18n
     | typeof import("ui/components/shared/DescriptiveField").i18n
@@ -64,7 +64,7 @@ const {
                     "Please explain why this software should be removed from the SILL",
                 "last recommended version": "Last recommended version",
                 "enf of recommendation": "End of recommendation",
-                "complete deletion": "Complete deletion",
+                "complete deletion": "Complete deletion"
             },
             "Account": {
                 "infos": "Account information",
@@ -74,7 +74,7 @@ const {
                 "text3":
                     "Configure your username, emails, password and personal access tokens directly connected to your services.",
                 "personal tokens tooltip":
-                    "Password generated for you with a given validity period",
+                    "Password generated for you with a given validity period"
             },
             "AccountInfoTab": {
                 "general information": "General information",
@@ -86,13 +86,13 @@ const {
                 "agency name helper": "Name of your institution, for example DINUM",
                 "not a valid email": "Not a valid email",
                 "email helper":
-                    "You'll use this email to connect to the platform and to be contacted by other users about the software you are referent of",
+                    "You'll use this email to connect to the platform and to be contacted by other users about the software you are referent of"
             },
             "AccountUserInterfaceTab": {
                 "title": "Interface preferences",
                 "enable dark mode": "Enable dark mode",
                 "dark mode helper":
-                    "Low light interface theme with dark colored background.",
+                    "Low light interface theme with dark colored background."
             },
             "DescriptiveField": {
                 "copy tooltip": "Copy to clipboard",
@@ -100,7 +100,7 @@ const {
                 "service password": "Password for your services",
                 "service password helper text": `This password is required to log in to all of your services. 
             It is generated automatically and renews itself regularly.`,
-                "not yet defined": "Not yet defined",
+                "not yet defined": "Not yet defined"
             },
             "RegisterUserProfile": {
                 "minimum length": ({ n }) => `Minimum length: ${n}`,
@@ -123,23 +123,23 @@ const {
                         Your email domain isn't allowed yet. Contact us at{" "}
                         <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
                     </>
-                ),
+                )
             },
             "Header": {
                 "login": "Login",
                 "logout": "Logout",
                 "trainings": "Trainings",
                 "documentation": "Documentation",
-                "project": "Project",
+                "project": "Project"
             },
             "App": {
                 "reduce": "Reduce",
                 "account": "My account",
                 "catalog": "Recommended Free Software catalog",
-                "service catalog": "Services",
+                "service catalog": "Services"
             },
             "FourOhFour": {
-                "not found": "Page not found",
+                "not found": "Page not found"
             },
             "CatalogCard": {
                 "parent software": ({ name, link }) => (
@@ -172,7 +172,7 @@ const {
                     } else {
                         return `See referent${referentCount === 1 ? "" : "s"}`;
                     }
-                },
+                }
             },
             "ReferentDialogs": {
                 "close": "Close",
@@ -203,7 +203,7 @@ const {
                 Hello,
                 I got your contact from sill.etalab.gouv.fr, you are referent fro ${softwareName}.  
                 [...]
-                `,
+                `
             },
             "CatalogCards": {
                 "show more": "Show more",
@@ -219,7 +219,7 @@ const {
                 "other similar software":
                     "Others similar software that are not in the catalog",
                 "reference a new software": "Reference a new software",
-                "filter by tags": "Filter by tags",
+                "filter by tags": "Filter by tags"
             },
             "Catalog": {
                 "header text1": "Recommended Free Software catalog",
@@ -231,21 +231,21 @@ const {
                         <MuiLink {...link}>Click here</MuiLink> to learn more about what
                         is the SILL.{" "}
                     </>
-                ),
+                )
             },
             "Terms": {
                 "no terms":
-                    "No terms of service document provided for this instance of the SILL",
+                    "No terms of service document provided for this instance of the SILL"
             },
             "Footer": {
                 "contribute": "Contribute",
                 "terms of service": "Terms of service",
                 "change language": "Change language",
-                "rss feed": "RSS Feed",
+                "rss feed": "RSS Feed"
             },
             "Login": {
                 "doRegister": "Create an account",
-                "or": "or",
+                "or": "or"
             },
             "Form": {
                 "agentWorkstation": "Agent workstation",
@@ -297,7 +297,7 @@ const {
                 "confirm give up": "The software haven't been updated yet, confirm quit?",
                 "generalInfoMd": "General information",
                 "generalInfoMd helper":
-                    "A multiline Markdown text where you can includes extra information about the software",
+                    "A multiline Markdown text where you can includes extra information about the software"
             },
             "FormAlikeSoftwares": {
                 "done": "Done",
@@ -305,7 +305,7 @@ const {
                 "add": "Add",
                 "alternative to": "This software is an alternative to",
                 "no similar software": "There isn't any similar software in the SILL",
-                "no alternative": "Not an alternative to any other software",
+                "no alternative": "Not an alternative to any other software"
             },
             "ServiceForm": {
                 "mandatory field": "Mandatory field",
@@ -331,7 +331,7 @@ const {
                 "help title add":
                     "Reference a new service powered by free software and maintained by the french public service",
                 "help title edit": "Edit service information",
-                "help": `By referencing services you help establish a landscape of what free software are in production in the french public service.`,
+                "help": `By referencing services you help establish a landscape of what free software are in production in the french public service.`
             },
             "SoftwareCard": {
                 "dev by french public service": "Developed by french public service",
@@ -398,7 +398,7 @@ const {
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
-                    when,
+                    when
                 }) => `From ${when}, this software is no longer recommended${
                     reason === undefined ? "" : `, ${reason}`
                 }}.
@@ -417,7 +417,7 @@ const {
                 "public services helper":
                     "Services maintained by the public sector powered by this software",
                 "see the services": ({ servicesCount }) =>
-                    `See the ${servicesCount} services`,
+                    `See the ${servicesCount} services`
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -426,7 +426,7 @@ const {
                 "github picker create tag": ({ tag }) => `Create the "${tag}" tag`,
                 "github picker done": "Done",
                 "tags": "Tags",
-                "no tags": "No tags",
+                "no tags": "No tags"
             },
             "ServiceCatalogCard": {
                 "proceed": "Proceed",
@@ -438,7 +438,7 @@ const {
                 "software": "Software",
                 "provide a reason for deleting the service":
                     "Please provide a reason for dereferencing this service.",
-                "can't be empty": "Please provide a reason",
+                "can't be empty": "Please provide a reason"
             },
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,
@@ -450,7 +450,7 @@ const {
                 "go back": "Back to main services",
                 "search": "Search",
                 "filter by software": "Filter by software",
-                "reference a new service": "Reference a new service",
+                "reference a new service": "Reference a new service"
             },
             "ServiceCatalog": {
                 "header text1": "Service catalog",
@@ -462,7 +462,7 @@ const {
                         <MuiLink {...link}>Click here</MuiLink> to learn more about what
                         is the catalog of service.{" "}
                     </>
-                ),
+                )
             },
             "PickSoftware": {
                 "validate unknown software name": ({ softwareName }) =>
@@ -470,10 +470,10 @@ const {
                 "select the software": "Select the software",
                 "deployed software": "Software deployed",
                 "consider registering this software in the sill": ({
-                    selectedSoftwareName,
+                    selectedSoftwareName
                 }) =>
-                    `${selectedSoftwareName} isn't registered in the SILL yet, would you consider adding it?`,
-            },
+                    `${selectedSoftwareName} isn't registered in the SILL yet, would you consider adding it?`
+            }
         },
         "fr": {
             /* spell-checker: disable */
@@ -487,7 +487,7 @@ const {
                     "Expliquez pourquoi le logiciel doit être déréférencé du SILL",
                 "last recommended version": "Dernière version recommandée",
                 "enf of recommendation": "Fin de recommandations",
-                "complete deletion": "Complètement supprimé du SILL",
+                "complete deletion": "Complètement supprimé du SILL"
             },
             "Account": {
                 "infos": "Information du compte",
@@ -496,7 +496,7 @@ const {
                 "text2": "Accédez aux informations de votre compte.",
                 "text3":
                     "Configurez vos identifiant, courriel, mot de passe et jetons d'accès personnels directement connectés à vos services.",
-                "personal tokens tooltip": 'Ou en anglais "token".',
+                "personal tokens tooltip": 'Ou en anglais "token".'
             },
             "AccountInfoTab": {
                 "general information": "Informations générales",
@@ -509,13 +509,13 @@ const {
                 "agency name helper": "Nom de votre institution, par example DINUM",
                 "not a valid email": "Courriel non valide",
                 "email helper":
-                    "Utilisé pour la connexion et pour que les utilisateurs puissent vous joindre à propos des logiciels dont vous êtes référent",
+                    "Utilisé pour la connexion et pour que les utilisateurs puissent vous joindre à propos des logiciels dont vous êtes référent"
             },
             "AccountUserInterfaceTab": {
                 "title": "Configurer l'interface",
                 "enable dark mode": "Activer le mode sombre",
                 "dark mode helper":
-                    "Thème de l'interface à faible luminosité avec un fond de couleur sombre.",
+                    "Thème de l'interface à faible luminosité avec un fond de couleur sombre."
             },
             "DescriptiveField": {
                 "copy tooltip": "Copier dans le presse-papier",
@@ -523,7 +523,7 @@ const {
                 "service password": "Mot de passe pour vos services",
                 "service password helper text": `Ce mot de passe est nécessaire pour vous connecter à tous vos services. 
             Il est généré automatiquement et se renouvelle régulièrement.`,
-                "not yet defined": "Non définie",
+                "not yet defined": "Non définie"
             },
             "RegisterUserProfile": {
                 "minimum length": ({ n }) => `Longueur minimale ${n}`,
@@ -549,23 +549,23 @@ const {
                         Votre domaine n'est pas encore autorisé. Contactez-nous à{" "}
                         <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
                     </>
-                ),
+                )
             },
             "Header": {
                 "login": "Connexion",
                 "logout": "Déconnexion",
                 "trainings": "Formations",
                 "documentation": "Documentation",
-                "project": "Projet",
+                "project": "Projet"
             },
             "App": {
                 "reduce": "Réduire",
                 "account": "Mon compte",
                 "catalog": "Catalogue des logiciels libres du SILL",
-                "service catalog": "Services",
+                "service catalog": "Services"
             },
             "FourOhFour": {
-                "not found": "Page non trouvée",
+                "not found": "Page non trouvée"
             },
             "CatalogCard": {
                 "learn more": "En savoir plus",
@@ -600,7 +600,7 @@ const {
                             ? "voir le référent"
                             : "voir les référents";
                     }
-                },
+                }
             },
             "ReferentDialogs": {
                 "close": "Fermer",
@@ -632,7 +632,7 @@ const {
                 Bonjour,
                 J'ai obtenu votre contact via sill.etalab.gouv.fr, vous êtes référent pour ${softwareName}.  
                 [...]
-                `,
+                `
             },
             "CatalogCards": {
                 "show more": "Afficher tous",
@@ -650,7 +650,7 @@ const {
                 "other similar software":
                     "Autres logiciels similaires qui ne sont pas dans le catalogue",
                 "reference a new software": "Référencer un nouveau logiciel",
-                "filter by tags": "Filtrer par tags",
+                "filter by tags": "Filtrer par tags"
             },
             "Catalog": {
                 "header text1": "Catalogue des logiciels libres du SILL",
@@ -663,21 +663,21 @@ const {
                         &nbsp;pour comprendre ce qu'est le SILL et quelles sont ses
                         missions
                     </>
-                ),
+                )
             },
             "Terms": {
                 "no terms":
-                    "Pas de document de terms et condition fournis pour cette instance du SILL",
+                    "Pas de document de terms et condition fournis pour cette instance du SILL"
             },
             "Footer": {
                 "contribute": "Contribuer au projet",
                 "terms of service": "Conditions d'utilisation",
                 "change language": "Changer la langue",
-                "rss feed": "Flux RSS",
+                "rss feed": "Flux RSS"
             },
             "Login": {
                 "doRegister": "Créer un compte",
-                "or": "ou",
+                "or": "ou"
             },
             "Form": {
                 "agentWorkstation": "Ordinateur de l'agent",
@@ -728,7 +728,7 @@ const {
                     "Le logiciel n'a pas été mis à jour, confirmer l'abandon ?",
                 "generalInfoMd": "Information générale",
                 "generalInfoMd helper":
-                    "Un texte en Markdown multiligne où vous pouvez spécifier des information que vous jugerez pertinente a propos du logiciel",
+                    "Un texte en Markdown multiligne où vous pouvez spécifier des information que vous jugerez pertinente a propos du logiciel"
             },
             "FormAlikeSoftwares": {
                 "done": "OK",
@@ -736,7 +736,7 @@ const {
                 "add": "Ajouter",
                 "alternative to": "Ce logiciel est une alternative à",
                 "no similar software": "Pas d'autre logiciels similaires dans le SILL",
-                "no alternative": "Pas d'alternative renseignée",
+                "no alternative": "Pas d'alternative renseignée"
             },
             "ServiceForm": {
                 "mandatory field": "Champ obligatoire",
@@ -761,7 +761,7 @@ const {
                 "help title add":
                     "Référencer un nouveau service propulsé avec du logiciel libre et maintenu par le service public",
                 "help title edit": "Mètre à jour les informations du service",
-                "help": `En référençant de nouveaux services, vous aider à établir un panorama des logiciels libres mis en production au sein du service public.`,
+                "help": `En référençant de nouveaux services, vous aider à établir un panorama des logiciels libres mis en production au sein du service public.`
             },
             "SoftwareCard": {
                 "dev by french public service":
@@ -835,7 +835,7 @@ const {
                 "software dereferenced": ({
                     lastRecommendedVersion,
                     reason,
-                    when,
+                    when
                 }) => `Depuis ${when}, ce logiciel n'est plus recommandé ${
                     reason === undefined ? "" : ` : « ${reason} »`
                 }.
@@ -854,7 +854,7 @@ const {
                 "public services helper":
                     "Services maintenus par l'organisme public qui utilise ce logiciel",
                 "see the services": ({ servicesCount }) =>
-                    `See the ${servicesCount} services`,
+                    `See the ${servicesCount} services`
             },
             "Tags": {
                 "change tags": ({ isThereTagsAlready }) =>
@@ -865,7 +865,7 @@ const {
                 "github picker create tag": ({ tag }) => `Crée le tag "${tag}"`,
                 "github picker done": "Ok",
                 "tags": "Tags",
-                "no tags": "Aucun tag",
+                "no tags": "Aucun tag"
             },
             "ServiceCatalogCard": {
                 "proceed": "Confirmer",
@@ -877,7 +877,7 @@ const {
                 "can't be empty": "Veuiller préciser une raison",
                 "access service": "Accéder au service 🚀",
                 "maintained by": "Maintenu par",
-                "software": "Logiciel",
+                "software": "Logiciel"
             },
             "ServiceCatalogCards": {
                 "search results": ({ count }) => `${count} services`,
@@ -890,7 +890,7 @@ const {
                 "go back": "Back to main services",
                 "search": "Search",
                 "filter by software": "Filter by software",
-                "reference a new service": "Référencer un nouveau service",
+                "reference a new service": "Référencer un nouveau service"
             },
             "ServiceCatalog": {
                 "header text1": "Catalogue de service",
@@ -902,7 +902,7 @@ const {
                         <MuiLink {...link}>Cliquez ici</MuiLink> pour en apprendre plus à
                         propos de ce qu'est le catalogue de services.{" "}
                     </>
-                ),
+                )
             },
             "PickSoftware": {
                 "validate unknown software name": ({ softwareName }) =>
@@ -910,24 +910,24 @@ const {
                 "select the software": "Sélectionner le logiciel",
                 "deployed software": "Logiciel déployé",
                 "consider registering this software in the sill": ({
-                    selectedSoftwareName,
+                    selectedSoftwareName
                 }) =>
-                    `${selectedSoftwareName} n'est pas encore dans le SILL, envisageriez-vous de l'ajouter ?`,
-            },
+                    `${selectedSoftwareName} n'est pas encore dans le SILL, envisageriez-vous de l'ajouter ?`
+            }
             /* spell-checker: enable */
-        },
-    },
+        }
+    }
 );
 
 export { useTranslation, resolveLocalizedString, useLang, useResolveLocalizedString };
 
 export const evtLang = statefulObservableToStatefulEvt({
-    "statefulObservable": $lang,
+    "statefulObservable": $lang
 });
 
 export const zLocalizedString = z.union([
     z.string(),
-    z.record(createUnionSchema(languages), z.string()),
+    z.record(createUnionSchema(languages), z.string())
 ]);
 
 {

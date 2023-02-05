@@ -10,7 +10,7 @@ export const { getFormattedDate } = (() => {
     const getFormatByLang = (isSameYear: boolean) => ({
         /* spell-checker: disable */
         "fr": `dddd Do MMMM${isSameYear ? "" : " YYYY"} à H[h]mm`,
-        "en": `dddd, MMMM Do${isSameYear ? "" : " YYYY"}, h:mm a`,
+        "en": `dddd, MMMM Do${isSameYear ? "" : " YYYY"}, h:mm a`
         /* spell-checker: enable */
     });
 
@@ -28,7 +28,7 @@ export const { getFormattedDate } = (() => {
             : date.getFullYear() === new Date().getFullYear();
 
         return capitalize(
-            moment(date).locale(lang).format(getFormatByLang(isSameYear)[lang]),
+            moment(date).locale(lang).format(getFormatByLang(isSameYear)[lang])
         );
     }
 
@@ -45,7 +45,7 @@ export function useFormattedDate(params: {
 
     return useMemo(
         () => getFormattedDate({ time, lang, doAlwaysShowYear }),
-        [time, lang],
+        [time, lang]
     );
 }
 
@@ -62,7 +62,7 @@ export function useValidUntil(params: { millisecondsLeft: number }): string {
                 .calendar()
                 .toLowerCase(),
 
-        [lang, millisecondsLeft],
+        [lang, millisecondsLeft]
     );
 
     return validUntil;
@@ -109,9 +109,9 @@ export const { fromNow } = (() => {
                             "past1": text,
                             "pastN": text,
                             "future1": text,
-                            "futureN": text,
+                            "futureN": text
                         };
-                    })(),
+                    })()
                 },
                 {
                     "max": MINUTE,
@@ -123,7 +123,7 @@ export const { fromNow } = (() => {
                                     "past1": "a second ago",
                                     "pastN": "# seconds ago",
                                     "future1": "in a second",
-                                    "futureN": "in # seconds",
+                                    "futureN": "in # seconds"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -131,11 +131,11 @@ export const { fromNow } = (() => {
                                     "past1": "il y a une seconde",
                                     "pastN": "il y a # secondes",
                                     "future1": "dans une seconde",
-                                    "futureN": "dans # secondes",
+                                    "futureN": "dans # secondes"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": HOUR,
@@ -147,7 +147,7 @@ export const { fromNow } = (() => {
                                     "past1": "a minute ago",
                                     "pastN": "# minutes ago",
                                     "future1": "in a minute",
-                                    "futureN": "in # minutes",
+                                    "futureN": "in # minutes"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -155,11 +155,11 @@ export const { fromNow } = (() => {
                                     "past1": "il y a une minute",
                                     "pastN": "il y a # minutes",
                                     "future1": "dans une minute",
-                                    "futureN": "dans # minutes",
+                                    "futureN": "dans # minutes"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": DAY,
@@ -171,7 +171,7 @@ export const { fromNow } = (() => {
                                     "past1": "an hour ago",
                                     "pastN": "# hours ago",
                                     "future1": "in an hour",
-                                    "futureN": "in # hours",
+                                    "futureN": "in # hours"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -179,11 +179,11 @@ export const { fromNow } = (() => {
                                     "past1": "il y a une heure",
                                     "pastN": "il y a # heures",
                                     "future1": "dans une heure",
-                                    "futureN": "dans # heures",
+                                    "futureN": "dans # heures"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": WEEK,
@@ -195,7 +195,7 @@ export const { fromNow } = (() => {
                                     "past1": "yesterday",
                                     "pastN": "# days ago",
                                     "future1": "tomorrow",
-                                    "futureN": "in # days",
+                                    "futureN": "in # days"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -203,11 +203,11 @@ export const { fromNow } = (() => {
                                     "past1": "hier",
                                     "pastN": "il y a # jours",
                                     "future1": "demain",
-                                    "futureN": "dans # jours",
+                                    "futureN": "dans # jours"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": 4 * WEEK,
@@ -219,7 +219,7 @@ export const { fromNow } = (() => {
                                     "past1": "last week",
                                     "pastN": "# weeks ago",
                                     "future1": "in a week",
-                                    "futureN": "in # weeks",
+                                    "futureN": "in # weeks"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -227,11 +227,11 @@ export const { fromNow } = (() => {
                                     "past1": "la semaine dernière",
                                     "pastN": "il y a # semaines",
                                     "future1": "dans une semaine",
-                                    "futureN": "dans # semaines",
+                                    "futureN": "dans # semaines"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": YEAR,
@@ -243,7 +243,7 @@ export const { fromNow } = (() => {
                                     "past1": "last month",
                                     "pastN": "# months ago",
                                     "future1": "in a month",
-                                    "futureN": "in # months",
+                                    "futureN": "in # months"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -251,11 +251,11 @@ export const { fromNow } = (() => {
                                     "past1": "le mois dernier",
                                     "pastN": "il y a # mois",
                                     "future1": "dans un mois",
-                                    "futureN": "dans # mois",
+                                    "futureN": "dans # mois"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": 100 * YEAR,
@@ -267,7 +267,7 @@ export const { fromNow } = (() => {
                                     "past1": "last year",
                                     "pastN": "# years ago",
                                     "future1": "in a year",
-                                    "futureN": "in # years",
+                                    "futureN": "in # years"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -275,11 +275,11 @@ export const { fromNow } = (() => {
                                     "past1": "l'année dernière",
                                     "pastN": "il y a # ans",
                                     "future1": "dans un ans",
-                                    "futureN": "dans # ans",
+                                    "futureN": "dans # ans"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": 1000 * YEAR,
@@ -291,7 +291,7 @@ export const { fromNow } = (() => {
                                     "past1": "last century",
                                     "pastN": "# centuries ago",
                                     "future1": "in a century",
-                                    "futureN": "in # centuries",
+                                    "futureN": "in # centuries"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -299,11 +299,11 @@ export const { fromNow } = (() => {
                                     "past1": "le siècle dernier",
                                     "pastN": "il y a # siècle",
                                     "future1": "dans un siècle",
-                                    "futureN": "dans # siècle",
+                                    "futureN": "dans # siècle"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
+                    })()
                 },
                 {
                     "max": Infinity,
@@ -315,7 +315,7 @@ export const { fromNow } = (() => {
                                     "past1": "last millennium",
                                     "pastN": "# millennia ago",
                                     "future1": "in a millennium",
-                                    "futureN": "in # millennia",
+                                    "futureN": "in # millennia"
                                 } as const;
                             /* spell-checker: disable */
                             case "fr":
@@ -323,12 +323,12 @@ export const { fromNow } = (() => {
                                     "past1": "au cour du millénaire",
                                     "pastN": "Il y a # millénaires",
                                     "future1": "dans un millénaire",
-                                    "futureN": "dans # millétaire",
+                                    "futureN": "dans # millétaire"
                                 } as const;
                             /* spell-checker: enable */
                         }
-                    })(),
-                },
+                    })()
+                }
             ];
         }
 
@@ -373,7 +373,7 @@ export const { useFromNow } = (() => {
         const fromNowText = useMemo(
             () => fromNow({ dateTime, lang }),
 
-            [lang, trigger, dateTime],
+            [lang, trigger, dateTime]
         );
 
         return { fromNowText };

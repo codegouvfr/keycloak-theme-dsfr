@@ -41,7 +41,7 @@ const fieldNames = [
     "agentWorkstation",
     "generalInfoMd",
     "tags",
-    "alikeSoftwares",
+    "alikeSoftwares"
 ] as const;
 
 assert<Equals<typeof fieldNames[number], FieldName>>();
@@ -101,7 +101,7 @@ const newSoftwareDefaultValueByFieldName: ValueByFieldName = {
     "agentWorkstation": false,
     "generalInfoMd": "",
     "tags": [],
-    "alikeSoftwares": [],
+    "alikeSoftwares": []
 };
 
 export const name = "softwareForm";
@@ -111,24 +111,24 @@ export const { reducer, actions } = createSlice({
     "initialState": id<SoftwareFormState>(
         id<SoftwareFormState.NotInitialized>({
             "stateDescription": "not initialized",
-            "isInitializing": false,
-        }),
+            "isInitializing": false
+        })
     ),
     "reducers": {
         "initializationStarted": () =>
             id<SoftwareFormState.NotInitialized>({
                 "stateDescription": "not initialized",
-                "isInitializing": true,
+                "isInitializing": true
             }),
         "initialized": (
             _state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 valueByFieldName: ValueByFieldName;
                 softwareId: number | undefined;
                 tags: string[];
-            }>,
+            }>
         ) => {
             const { valueByFieldName, softwareId, tags } = payload;
 
@@ -142,14 +142,14 @@ export const { reducer, actions } = createSlice({
                             [
                                 fieldName,
                                 fieldName === "wikidataId" ||
-                                    fieldName === "comptoirDuLibreId",
-                            ] as const,
-                    ),
+                                    fieldName === "comptoirDuLibreId"
+                            ] as const
+                    )
                 ) as Record<FieldName, boolean>,
                 softwareId,
                 "isSubmitting": false,
                 "isAutofillInProgress": false,
-                tags,
+                tags
             });
         },
         "autofillStarted": state => {
@@ -161,7 +161,7 @@ export const { reducer, actions } = createSlice({
             assert(state.stateDescription === "form ready");
             state.isAutofillInProgress = false;
             objectKeys(state.hasLostFocusAtLeastOnceByFieldName).forEach(
-                key => (state.hasLostFocusAtLeastOnceByFieldName[key] = true),
+                key => (state.hasLostFocusAtLeastOnceByFieldName[key] = true)
             );
         },
         "focusLost": (state, { payload }: PayloadAction<{ fieldName: FieldName }>) => {
@@ -174,17 +174,17 @@ export const { reducer, actions } = createSlice({
         "softwareAddedOrUpdated": (
             _state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 //NOTE: The extra information is not used in the reducer, but is used in catalog explorer.
                 software: CompiledData.Software<"with referents">;
-            }>,
+            }>
         ) => {
             const { software } = payload;
 
             return id<SoftwareFormState.Submitted>({
                 "stateDescription": "form submitted",
-                "softwareName": software.name,
+                "softwareName": software.name
             });
         },
         "submissionStarted": state => {
@@ -195,11 +195,11 @@ export const { reducer, actions } = createSlice({
         "fieldValueChanged": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 fieldName: FieldName;
                 value: ValueByFieldName[FieldName];
-            }>,
+            }>
         ) => {
             const { fieldName, value } = payload;
 
@@ -213,8 +213,8 @@ export const { reducer, actions } = createSlice({
             assert(state.stateDescription === "form ready");
 
             state.tags.push(tag);
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
@@ -238,7 +238,7 @@ export const thunks = {
                     await evtAction.waitFor(
                         action =>
                             action.sliceName === "catalog" &&
-                            action.actionName === "catalogsFetched",
+                            action.actionName === "catalogsFetched"
                     );
 
                     catalogState = getState().catalog;
@@ -258,7 +258,7 @@ export const thunks = {
                     ? undefined
                     : await (async () => {
                           const software = softwares.find(
-                              software => software.id === softwareId,
+                              software => software.id === softwareId
                           );
 
                           assert(software !== undefined);
@@ -287,8 +287,8 @@ export const thunks = {
                                               >(
                                                   fieldName,
                                                   id<readonly string[]>(
-                                                      softwareKeys,
-                                                  ).includes(fieldName),
+                                                      softwareKeys
+                                                  ).includes(fieldName)
                                               )
                                           ) {
                                               const value = software[fieldName];
@@ -307,7 +307,7 @@ export const thunks = {
                                                           ?.id ??
                                                           newSoftwareDefaultValueByFieldName[
                                                               fieldName
-                                                          ],
+                                                          ]
                                                   );
                                               case "wikidataId":
                                                   return id<
@@ -316,16 +316,16 @@ export const thunks = {
                                                       software.wikidataData?.id ??
                                                           newSoftwareDefaultValueByFieldName[
                                                               fieldName
-                                                          ],
+                                                          ]
                                                   );
                                           }
 
                                           assert<Equals<typeof fieldName, never>>();
-                                      })(),
-                                  ]),
+                                      })()
+                                  ])
                               ) as ValueByFieldName),
-                    tags,
-                }),
+                    tags
+                })
             );
         },
     "focusLost":
@@ -360,8 +360,8 @@ export const thunks = {
             dispatch(
                 actions.fieldValueChanged({
                     fieldName,
-                    "value": state.defaultValueByFieldName[fieldName],
-                }),
+                    "value": state.defaultValueByFieldName[fieldName]
+                })
             );
         },
     "changeFieldValue":
@@ -434,8 +434,8 @@ export const thunks = {
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "function",
-                            "value": resolveLocalizedString(description),
-                        }),
+                            "value": resolveLocalizedString(description)
+                        })
                     );
                 }
 
@@ -450,8 +450,8 @@ export const thunks = {
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "name",
-                            "value": resolveLocalizedString(label),
-                        }),
+                            "value": resolveLocalizedString(label)
+                        })
                     );
                 }
 
@@ -465,8 +465,8 @@ export const thunks = {
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "license",
-                            "value": license,
-                        }),
+                            "value": license
+                        })
                     );
                 }
 
@@ -478,8 +478,8 @@ export const thunks = {
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "versionMin",
-                            "value": latestSemVersionedTag,
-                        }),
+                            "value": latestSemVersionedTag
+                        })
                     );
                 }
 
@@ -491,8 +491,8 @@ export const thunks = {
                     dispatch(
                         actions.fieldValueChanged({
                             "fieldName": "comptoirDuLibreId",
-                            "value": comptoirDuLibreId,
-                        }),
+                            "value": comptoirDuLibreId
+                        })
                     );
                 }
             }
@@ -528,9 +528,9 @@ export const thunks = {
                                 getIsOptionalField(fieldName) &&
                                 value === defaultValueByFieldName[fieldName]
                                     ? undefined
-                                    : value,
-                            ] as const,
-                    ),
+                                    : value
+                            ] as const
+                    )
             ) as SoftwareRowEditableByForm;
 
             dispatch(actions.submissionStarted());
@@ -548,12 +548,12 @@ export const thunks = {
                         softwareRowEditableByForm,
                         isExpert,
                         useCaseDescription,
-                        isPersonalUse,
+                        isPersonalUse
                     });
                 } else {
                     return sillApiClient.updateSoftware({
                         softwareRowEditableByForm,
-                        softwareId,
+                        softwareId
                     });
                 }
             })();
@@ -564,11 +564,11 @@ export const thunks = {
     "getIsOptionalField":
         (fieldName: FieldName): ThunkAction<boolean> =>
         () =>
-            getIsOptionalField(fieldName),
+            getIsOptionalField(fieldName)
 };
 
 const { getContext } = createUsecaseContextApi(() => ({
-    "fetchWikiDataDebounce": waitForDebounceFactory({ "delay": 300 }).waitForDebounce,
+    "fetchWikiDataDebounce": waitForDebounceFactory({ "delay": 300 }).waitForDebounce
 }));
 
 export const selectors = (() => {
@@ -583,7 +583,7 @@ export const selectors = (() => {
     };
 
     const sliceState = (
-        rootState: RootState,
+        rootState: RootState
     ):
         | {
               stateDescription: "not initialized";
@@ -645,12 +645,12 @@ export const selectors = (() => {
             ) {
                 return {
                     "hasError": true,
-                    "errorMessageKey": "mandatory field",
+                    "errorMessageKey": "mandatory field"
                 };
             }
             if (fieldValue === newSoftwareDefaultValueByFieldName[fieldName]) {
                 return {
-                    "hasError": false,
+                    "hasError": false
                 };
             }
 
@@ -661,19 +661,19 @@ export const selectors = (() => {
                     if (!/^Q\d+$/.test(fieldValue)) {
                         return {
                             "hasError": true,
-                            "errorMessageKey": "invalid wikidata id",
+                            "errorMessageKey": "invalid wikidata id"
                         };
                     }
 
                     if (
                         isCreation &&
                         softwares.find(
-                            software => software.wikidataData?.id === fieldValue,
+                            software => software.wikidataData?.id === fieldValue
                         ) !== undefined
                     ) {
                         return {
                             "hasError": true,
-                            "errorMessageKey": "wikidata id already exists",
+                            "errorMessageKey": "wikidata id already exists"
                         };
                     }
                     break;
@@ -691,7 +691,7 @@ export const selectors = (() => {
                     ) {
                         return {
                             "hasError": true,
-                            "errorMessageKey": "name already exists",
+                            "errorMessageKey": "name already exists"
                         };
                     }
                     break;
@@ -701,7 +701,7 @@ export const selectors = (() => {
                     if (isNaN(fieldValue)) {
                         return {
                             "hasError": true,
-                            "errorMessageKey": "should be an integer",
+                            "errorMessageKey": "should be an integer"
                         };
                     }
 
@@ -712,7 +712,7 @@ export const selectors = (() => {
         }
 
         const fieldErrorByFieldName = (
-            rootState: RootState,
+            rootState: RootState
         ): Record<FieldName, FieldError> | undefined => {
             const state = rootState.softwareForm;
 
@@ -732,9 +732,9 @@ export const selectors = (() => {
                             fieldName,
                             "fieldValue": state.valueByFieldName[fieldName],
                             "softwares": catalogState.softwares,
-                            "isCreation": state.softwareId === undefined,
-                        }))(),
-                ]),
+                            "isCreation": state.softwareId === undefined
+                        }))()
+                ])
             ) as Record<FieldName, FieldError>;
         };
 
@@ -757,15 +757,15 @@ export const selectors = (() => {
                     ((): FieldError => {
                         if (!state.hasLostFocusAtLeastOnceByFieldName[fieldName]) {
                             return {
-                                "hasError": false,
+                                "hasError": false
                             };
                         }
 
                         return fieldErrorByFieldName[fieldName];
-                    })(),
-                ]),
+                    })()
+                ])
             ) as Record<FieldName, FieldError>;
-        },
+        }
     );
 
     const isSubmittable = createSelector(
@@ -790,7 +790,7 @@ export const selectors = (() => {
             }
 
             return true;
-        },
+        }
     );
 
     const softwareRefs = catalogSelectors.softwareRefs;
@@ -807,13 +807,13 @@ export const selectors = (() => {
         isSubmittable,
         fieldErrorByFieldName,
         softwareRefs,
-        softwareNameBySoftwareId,
+        softwareNameBySoftwareId
     };
 })();
 
 const { resolveLocalizedString } = createResolveLocalizedString({
     "currentLanguage": "fr",
-    "fallbackLanguage": "en",
+    "fallbackLanguage": "en"
 });
 
 const softwareKeys = [
@@ -842,7 +842,7 @@ const softwareKeys = [
     "wikidataData",
     "comptoirDuLibreSoftware",
     "generalInfoMd",
-    "annuaireCnllServiceProviders",
+    "annuaireCnllServiceProviders"
 ] as const;
 
 assert<
@@ -855,7 +855,7 @@ const { getIsOptionalField } = (() => {
         "comptoirDuLibreId",
         "tags",
         "alikeSoftwares",
-        "generalInfoMd",
+        "generalInfoMd"
     ] as const;
 
     assert<

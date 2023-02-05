@@ -7,7 +7,7 @@ import marianneRoundUrl from "ui/assets/img/marianne_round.png";
 import marianneRoundTransparentUrl from "ui/assets/img/marianne_round_transparent.png";
 import {
     HEADER_ORGANIZATION,
-    HEADER_USECASE_DESCRIPTION,
+    HEADER_USECASE_DESCRIPTION
 } from "ui/valuesCarriedOverToKc/env";
 import { getConfiguration } from "configuration";
 import { assert } from "tsafe/assert";
@@ -98,7 +98,7 @@ export const Header = memo(
                             className={css({
                                 "fontWeight": 600,
                                 "marginLeft": theme.spacing(3),
-                                "marginRight": theme.spacing(2),
+                                "marginRight": theme.spacing(2)
                             })}
                         >
                             {theme.windowInnerWidth > breakpoint
@@ -160,7 +160,7 @@ export const Header = memo(
                 </div>
             </header>
         );
-    }),
+    })
 );
 
 export const { i18n } = declareComponentKeys<
@@ -174,7 +174,7 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             "overflow": "auto",
             "display": "flex",
             "alignItems": "center",
-            ...theme.spacing.topBottom("padding", 2),
+            ...theme.spacing.topBottom("padding", 2)
         },
         "logoContainer": {
             "textDecoration": "none",
@@ -182,26 +182,26 @@ const useStyles = makeStyles<{ logoContainerWidth: number }>({ "name": { Header 
             "textAlign": "center",
             "display": "flex",
             "alignItems": "center",
-            "justifyContent": "center",
+            "justifyContent": "center"
         },
         "mainTextContainer": {
             "textDecoration": "none",
             "display": "block",
             "& > *": {
-                "display": "inline",
-            },
+                "display": "inline"
+            }
         },
         "svg": {
-            "width": "80%",
+            "width": "80%"
         },
         "button": {
-            "marginBottom": theme.spacing(1),
+            "marginBottom": theme.spacing(1)
         },
         "rightEndActionsContainer": {
             "flex": 1,
             "display": "flex",
             "justifyContent": "flex-end",
-            "alignItems": "center",
-        },
-    }),
+            "alignItems": "center"
+        }
+    })
 );

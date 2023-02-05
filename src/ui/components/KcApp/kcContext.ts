@@ -16,19 +16,19 @@ export const { kcContext } = getKcContext({
                         "alias": "agentconnect",
                         "displayName": "Agent Connect",
                         "loginUrl": "#",
-                        "providerId": "agentconnect",
-                    },
-                ],
+                        "providerId": "agentconnect"
+                    }
+                ]
             },
             "realm": {
                 "loginWithEmailAllowed": true,
-                "registrationEmailAsUsername": true,
-            },
+                "registrationEmailAsUsername": true
+            }
         },
         {
             "pageId": "register-user-profile.ftl",
             "locale": {
-                "currentLanguageTag": "fr",
+                "currentLanguageTag": "fr"
             },
             "profile": {
                 "attributes": [
@@ -38,22 +38,22 @@ export const { kcContext } = getKcContext({
                                 "pattern": "^[a-zA-Z0-9]+$",
                                 "ignore.empty.value": true,
                                 // eslint-disable-next-line no-template-curly-in-string
-                                "error-message": "${alphanumericalCharsOnly}",
-                            },
+                                "error-message": "${alphanumericalCharsOnly}"
+                            }
                         },
                         "value": undefined,
-                        "name": "username",
+                        "name": "username"
                     },
                     {
                         "validators": {
                             "pattern": {
                                 /* spell-checker: disable */
                                 "pattern":
-                                    "^[^@]+@([^.]+\\.)*((gouv\\.fr)|(sorbonne-universite\\.fr)|(ac-dijon\\.fr)|(insee\\.fr)|(montreuil\\.fr)|(ac-versailles\\.fr)|(inserm\\.fr)|(cnafmail\\.fr)|(ac-grenoble\\.fr)|(univ-lille\\.fr)|(univ-nantes\\.fr)|(obspm\\.fr)|(ac-orleans-tours\\.fr)|(ac-rennes\\.fr)|(adullactorg)|(ac-toulouse\\.fr)|(ac-paris\\.fr)|(pole-emploi\\.fr)|(unistra\\.fr)|(cea\\.fr)|(telecom-st-etienne\\.fr)|(assurance-maladie\\.fr)|(diderot\\.org)|(recia\\.fr))$",
+                                    "^[^@]+@([^.]+\\.)*((gouv\\.fr)|(sorbonne-universite\\.fr)|(ac-dijon\\.fr)|(insee\\.fr)|(montreuil\\.fr)|(ac-versailles\\.fr)|(inserm\\.fr)|(cnafmail\\.fr)|(ac-grenoble\\.fr)|(univ-lille\\.fr)|(univ-nantes\\.fr)|(obspm\\.fr)|(ac-orleans-tours\\.fr)|(ac-rennes\\.fr)|(adullactorg)|(ac-toulouse\\.fr)|(ac-paris\\.fr)|(pole-emploi\\.fr)|(unistra\\.fr)|(cea\\.fr)|(telecom-st-etienne\\.fr)|(assurance-maladie\\.fr)|(diderot\\.org)|(recia\\.fr))$"
                                 /* spell-checker: enabled */
-                            },
+                            }
                         },
-                        "name": "email",
+                        "name": "email"
                     },
                     {
                         // eslint-disable-next-line no-template-curly-in-string
@@ -62,12 +62,12 @@ export const { kcContext } = getKcContext({
                         "required": true,
                         "groupAnnotations": {},
                         "readOnly": false,
-                        "name": "agencyName",
-                    },
-                ],
-            },
-        },
-    ],
+                        "name": "agencyName"
+                    }
+                ]
+            }
+        }
+    ]
 });
 
 export type KcContext = NonNullable<typeof kcContext>;

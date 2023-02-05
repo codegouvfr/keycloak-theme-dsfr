@@ -18,7 +18,7 @@ const routeDefs = {
                         z.literal("user count"),
                         z.literal("referent count"),
                         z.literal("user count ASC"),
-                        z.literal("referent count ASC"),
+                        z.literal("referent count ASC")
                     ]);
 
                     try {
@@ -27,7 +27,7 @@ const routeDefs = {
                         return noMatch;
                     }
                 },
-                "stringify": value => value,
+                "stringify": value => value
             }),
             "organization": param.query.optional.string,
             "category": param.query.optional.string,
@@ -38,7 +38,7 @@ const routeDefs = {
                         z.literal("windows"),
                         z.literal("mac"),
                         z.literal("browser"),
-                        z.literal("smartphone"),
+                        z.literal("smartphone")
                     ]);
 
                     try {
@@ -47,7 +47,7 @@ const routeDefs = {
                         return noMatch;
                     }
                 },
-                "stringify": value => value,
+                "stringify": value => value
             }),
             "prerogatives": param.query.optional
                 .ofType({
@@ -58,8 +58,8 @@ const routeDefs = {
                                     z.literal("isInstallableOnUserTerminal"),
                                     z.literal("isPresentInSupportContract"),
                                     z.literal("isFromFrenchPublicServices"),
-                                    z.literal("doRespectRgaa"),
-                                ]),
+                                    z.literal("doRespectRgaa")
+                                ])
                             );
 
                         try {
@@ -68,36 +68,36 @@ const routeDefs = {
                             return noMatch;
                         }
                     },
-                    "stringify": value => JSON.stringify(value),
+                    "stringify": value => JSON.stringify(value)
                 })
-                .default([]),
+                .default([])
         },
-        () => `/list`,
+        () => `/list`
     ),
     "softwareDetails": defineRoute(
         {
-            "name": param.query.string,
+            "name": param.query.string
         },
-        () => `/detail`,
+        () => `/detail`
     ),
     "declareUsageForm": defineRoute(
         {
-            "name": param.query.string,
+            "name": param.query.string
         },
-        () => `/declaration`,
+        () => `/declaration`
     ),
     "softwareCreationForm": defineRoute(
         {
-            "step": param.query.optional.number,
+            "step": param.query.optional.number
         },
-        () => `/add`,
-    ),
+        () => `/add`
+    )
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
-    "routes": realRoutes,
+    "routes": realRoutes
 });
 
 export { createMockRouteFactory };

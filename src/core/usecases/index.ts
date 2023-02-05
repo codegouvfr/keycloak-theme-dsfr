@@ -13,5 +13,5 @@ export const usecases = {
     softwareForm,
     apiInfo,
     fetchProxy,
-    serviceForm,
+    serviceForm
 };

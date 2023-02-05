@@ -17,12 +17,12 @@ export async function createCore(params: CoreParams) {
 
     const thunksExtraArgument = {
         "createCoreParams": params,
-        "sillApiClient": createMockSillApiClient(),
+        "sillApiClient": createMockSillApiClient()
     };
 
     const core = createCoreFromUsecases({
         thunksExtraArgument,
-        usecases,
+        usecases
     });
 
     await core.dispatch(usecases.softwareCatalog.privateThunks.initialize());

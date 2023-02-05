@@ -24,12 +24,12 @@ export function SoftwareDetails(props: Props) {
 
     useEffect(() => {
         softwareDetails.setSoftware({
-            "softwareName": route.params.name,
+            "softwareName": route.params.name
         });
 
         return () =>
             softwareDetails.setSoftware({
-                "softwareName": undefined,
+                "softwareName": undefined
             });
     }, [route.params.name]);
 

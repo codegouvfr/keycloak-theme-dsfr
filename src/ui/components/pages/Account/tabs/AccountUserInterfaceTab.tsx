@@ -18,7 +18,7 @@ export const AccountUserInterfaceTab = memo((props: Props) => {
     const { isDarkModeEnabled, setIsDarkModeEnabled } = useIsDarkModeEnabled();
 
     const onRequestToggleIsDarkModeEnabled = useConstCallback(() =>
-        setIsDarkModeEnabled(!isDarkModeEnabled),
+        setIsDarkModeEnabled(!isDarkModeEnabled)
     );
 
     return (

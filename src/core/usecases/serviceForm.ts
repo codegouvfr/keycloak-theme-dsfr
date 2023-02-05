@@ -10,7 +10,7 @@ import type { State as RootState } from "../setup";
 import { objectKeys } from "tsafe/objectKeys";
 import {
     selectors as serviceCatalogSelectors,
-    thunks as serviceCatalog,
+    thunks as serviceCatalog
 } from "./serviceCatalog";
 import { selectors as catalogSelector, thunks as catalog } from "./catalog";
 import { same } from "evt/tools/inDepth/same";
@@ -77,19 +77,19 @@ export const { reducer, actions } = createSlice({
     "initialState": id<ServiceFormState>(
         id<ServiceFormState.NotInitialized>({
             "stateDescription": "not initialized",
-            "isInitializing": false,
-        }),
+            "isInitializing": false
+        })
     ),
     "reducers": {
         "initializationStarted": () =>
             id<ServiceFormState.NotInitialized>({
                 "stateDescription": "not initialized",
-                "isInitializing": true,
+                "isInitializing": true
             }),
         "initialized": (
             _state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 formData: ServiceFormData;
                 serviceId: number | undefined;
@@ -97,7 +97,7 @@ export const { reducer, actions } = createSlice({
                 agencyNames: string[];
                 serviceUrls: string[];
                 formDataDefault: ServiceFormData | undefined;
-            }>,
+            }>
         ) => {
             const {
                 formData,
@@ -105,7 +105,7 @@ export const { reducer, actions } = createSlice({
                 softwares,
                 agencyNames,
                 serviceUrls,
-                formDataDefault,
+                formDataDefault
             } = payload;
 
             return id<ServiceFormState.Ready>({
@@ -113,19 +113,19 @@ export const { reducer, actions } = createSlice({
                 formData,
                 "defaultFormData": formData,
                 "hasLostFocusAtLeastOnceByFieldName": Object.fromEntries(
-                    objectKeys(formData).map(key => [key, false]),
+                    objectKeys(formData).map(key => [key, false])
                 ) as any,
                 serviceId,
                 "isSubmitting": false,
                 softwares,
                 agencyNames,
                 serviceUrls,
-                formDataDefault,
+                formDataDefault
             });
         },
         "focusLost": (
             state,
-            { payload }: PayloadAction<{ fieldName: keyof ServiceFormData }>,
+            { payload }: PayloadAction<{ fieldName: keyof ServiceFormData }>
         ) => {
             const { fieldName } = payload;
 
@@ -136,11 +136,11 @@ export const { reducer, actions } = createSlice({
         "serviceAddedOrUpdated": (
             _state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 //NOTE: The extra information is not used in the reducer, but is used in the service catalog explorer.
                 service: CompiledData.Service;
-            }>,
+            }>
         ) => {
             const { service } = payload;
 
@@ -149,7 +149,7 @@ export const { reducer, actions } = createSlice({
                 "queryString": service.serviceUrl
                     .replace(/^https?:\/\//, "")
                     .replace(/^www\./, "")
-                    .split("/")[0],
+                    .split("/")[0]
             });
         },
         "submissionStarted": state => {
@@ -160,19 +160,19 @@ export const { reducer, actions } = createSlice({
         "fieldValueChanged": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 fieldName: keyof ServiceFormData;
                 value: ServiceFormData[keyof ServiceFormData];
-            }>,
+            }>
         ) => {
             const { fieldName, value } = payload;
 
             assert(state.stateDescription === "form ready");
 
             (state.formData as any)[fieldName] = value;
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
@@ -191,12 +191,12 @@ export const thunks = {
                 await evtAction.waitFor(
                     action =>
                         action.sliceName === "catalog" &&
-                        action.actionName === "catalogsFetched",
+                        action.actionName === "catalogsFetched"
                 );
             }
 
             const softwareNameBySoftwareId = catalogSelector.softwareNameBySoftwareId(
-                getState(),
+                getState()
             );
 
             assert(softwareNameBySoftwareId !== undefined);
@@ -207,7 +207,7 @@ export const thunks = {
                 await evtAction.waitFor(
                     action =>
                         action.sliceName === "serviceCatalog" &&
-                        action.actionName === "catalogsFetched",
+                        action.actionName === "catalogsFetched"
                 );
             }
 
@@ -224,8 +224,8 @@ export const thunks = {
                     "count": services.filter(
                         service =>
                             service.deployedSoftware.isInSill &&
-                            service.deployedSoftware.softwareName === name,
-                    ).length,
+                            service.deployedSoftware.softwareName === name
+                    ).length
                 }))
                 .sort((a, b) => b.count - a.count)
                 .map(({ count, ...rest }) => rest);
@@ -250,13 +250,13 @@ export const thunks = {
                           "description": "",
                           "agencyName": "",
                           "serviceUrl": "",
-                          "softwareName": "",
+                          "softwareName": ""
                       }
                     : {
                           "description": service.description,
                           "agencyName": service.agencyName,
                           "serviceUrl": service.serviceUrl,
-                          "softwareName": service.deployedSoftware.softwareName,
+                          "softwareName": service.deployedSoftware.softwareName
                       };
 
             dispatch(
@@ -266,8 +266,8 @@ export const thunks = {
                     softwares,
                     agencyNames,
                     serviceUrls,
-                    "formDataDefault": service === undefined ? undefined : formData,
-                }),
+                    "formDataDefault": service === undefined ? undefined : formData
+                })
             );
         },
     "focusLost":
@@ -293,8 +293,8 @@ export const thunks = {
             dispatch(
                 actions.fieldValueChanged({
                     fieldName,
-                    "value": state.defaultFormData[fieldName],
-                }),
+                    "value": state.defaultFormData[fieldName]
+                })
             );
         },
     "changeFieldValue":
@@ -326,32 +326,32 @@ export const thunks = {
                 "serviceUrl": state.formData.serviceUrl,
                 "deployedSoftware": (() => {
                     const software = state.softwares.find(
-                        ({ name }) => state.formData.softwareName === name,
+                        ({ name }) => state.formData.softwareName === name
                     );
 
                     return software !== undefined
                         ? ({
                               "isInSill": true,
-                              "softwareSillId": software.sillId,
+                              "softwareSillId": software.sillId
                           } as const)
                         : ({
                               "isInSill": false,
-                              "softwareName": state.formData.softwareName,
+                              "softwareName": state.formData.softwareName
                           } as const);
-                })(),
+                })()
             };
 
             const { service } = await (state.serviceId !== undefined
                 ? sillApiClient.updateService({
                       "serviceId": state.serviceId,
-                      serviceFormData,
+                      serviceFormData
                   })
                 : sillApiClient.addService({
-                      serviceFormData,
+                      serviceFormData
                   }));
 
             dispatch(actions.serviceAddedOrUpdated({ service }));
-        },
+        }
 };
 
 export const selectors = (() => {
@@ -366,7 +366,7 @@ export const selectors = (() => {
     };
 
     const sliceState = (
-        rootState: RootState,
+        rootState: RootState
     ):
         | {
               stateDescription: "not initialized";
@@ -431,7 +431,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "mandatory field" as const,
-                                "isErrorDisplayable": hasLostFocusAtLeastOnce,
+                                "isErrorDisplayable": hasLostFocusAtLeastOnce
                             };
                         }
 
@@ -453,7 +453,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "mandatory field" as const,
-                                "isErrorDisplayable": hasLostFocusAtLeastOnce,
+                                "isErrorDisplayable": hasLostFocusAtLeastOnce
                             };
                         }
 
@@ -478,7 +478,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "service already referenced",
-                                "isErrorDisplayable": true,
+                                "isErrorDisplayable": true
                             };
                         }
 
@@ -486,7 +486,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "not a valid url" as const,
-                                "isErrorDisplayable": hasLostFocusAtLeastOnce,
+                                "isErrorDisplayable": hasLostFocusAtLeastOnce
                             };
                         }
 
@@ -494,7 +494,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "mandatory field" as const,
-                                "isErrorDisplayable": hasLostFocusAtLeastOnce,
+                                "isErrorDisplayable": hasLostFocusAtLeastOnce
                             };
                         }
 
@@ -516,7 +516,7 @@ export const selectors = (() => {
                             return {
                                 "hasError": true,
                                 "errorMessageKey": "mandatory field" as const,
-                                "isErrorDisplayable": hasLostFocusAtLeastOnce,
+                                "isErrorDisplayable": hasLostFocusAtLeastOnce
                             };
                         }
 
@@ -524,9 +524,9 @@ export const selectors = (() => {
                     })();
 
                     return { [fieldName]: value };
-                })(),
+                })()
             };
-        },
+        }
     );
 
     const displayableFieldErrorByFieldName = createSelector(
@@ -552,12 +552,12 @@ export const selectors = (() => {
                                 ? { "hasDisplayableError": false }
                                 : {
                                       "hasDisplayableError": true,
-                                      "errorMessageKey": value.errorMessageKey,
-                                  },
-                        ] as const,
-                ),
+                                      "errorMessageKey": value.errorMessageKey
+                                  }
+                        ] as const
+                )
             ) as Record<keyof ServiceFormData, FieldError>;
-        },
+        }
     );
 
     const isSubmittable = createSelector(
@@ -584,7 +584,7 @@ export const selectors = (() => {
             }
 
             return true;
-        },
+        }
     );
 
     const sillSoftwareNames = createSelector(readyState, state => {
@@ -616,6 +616,6 @@ export const selectors = (() => {
         isSubmittable,
         sillSoftwareNames,
         agencyNames,
-        shouldSplashScreenBeShown,
+        shouldSplashScreenBeShown
     };
 })();

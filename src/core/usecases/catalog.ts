@@ -55,8 +55,8 @@ export const { reducer, actions } = createSlice({
         id<CatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
             "isFetching": false,
-            "queryString": "",
-        }),
+            "queryString": ""
+        })
     ),
     "reducers": {
         "catalogsFetching": state => {
@@ -66,13 +66,13 @@ export const { reducer, actions } = createSlice({
         "catalogsFetched": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<
                 Pick<
                     CatalogExplorerState.Ready,
                     "softwares" | "referentsBySoftwareId" | "tags"
                 >
-            >,
+            >
         ) => {
             const { softwares, referentsBySoftwareId, tags } = payload;
 
@@ -83,12 +83,12 @@ export const { reducer, actions } = createSlice({
                 "isProcessing": false,
                 tags,
                 "displayCount": 24,
-                "queryString": state.queryString,
+                "queryString": state.queryString
             });
         },
         "setQueryString": (
             state,
-            { payload }: PayloadAction<{ queryString: string }>,
+            { payload }: PayloadAction<{ queryString: string }>
         ) => {
             const { queryString } = payload;
 
@@ -118,7 +118,7 @@ export const { reducer, actions } = createSlice({
         "userDeclaredReferent": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 email: string;
                 agencyName: string;
@@ -128,7 +128,7 @@ export const { reducer, actions } = createSlice({
                 useCaseDescription: string;
                 isPersonalUse: boolean;
                 softwareId: number;
-            }>,
+            }>
         ) => {
             const {
                 agencyName,
@@ -138,7 +138,7 @@ export const { reducer, actions } = createSlice({
                 isExpert,
                 email,
                 useCaseDescription,
-                isPersonalUse,
+                isPersonalUse
             } = payload;
 
             assert(state.stateDescription === "ready");
@@ -156,7 +156,7 @@ export const { reducer, actions } = createSlice({
                 familyName,
                 isExpert,
                 useCaseDescription,
-                isPersonalUse,
+                isPersonalUse
             });
 
             referents.userIndex = referents.referents.length - 1;
@@ -166,10 +166,10 @@ export const { reducer, actions } = createSlice({
         "userNoLongerReferent": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 softwareId: number;
-            }>,
+            }>
         ) => {
             const { softwareId } = payload;
 
@@ -194,8 +194,8 @@ export const { reducer, actions } = createSlice({
         "softwareAddedOrUpdated": (
             state,
             {
-                payload,
-            }: PayloadAction<{ software: CompiledData.Software<"with referents"> }>,
+                payload
+            }: PayloadAction<{ software: CompiledData.Software<"with referents"> }>
         ) => {
             const { software } = payload;
 
@@ -216,13 +216,13 @@ export const { reducer, actions } = createSlice({
 
                 referentsBySoftwareId[software.id] = {
                     "referents": software.referents,
-                    "userIndex": 0,
+                    "userIndex": 0
                 };
             }
         },
         "userAgencyNameUpdated": (
             state,
-            { payload }: PayloadAction<{ agencyName: string }>,
+            { payload }: PayloadAction<{ agencyName: string }>
         ) => {
             if (state.stateDescription !== "ready") {
                 return;
@@ -267,7 +267,7 @@ export const { reducer, actions } = createSlice({
                 }
 
                 const index = wrap.referents.findIndex(
-                    referent => referent.email === email,
+                    referent => referent.email === email
                 );
 
                 if (index === -1) {
@@ -279,7 +279,7 @@ export const { reducer, actions } = createSlice({
         },
         "softwareDeleted": (
             state,
-            { payload }: PayloadAction<{ softwareId: number }>,
+            { payload }: PayloadAction<{ softwareId: number }>
         ) => {
             const { softwareId } = payload;
 
@@ -296,13 +296,13 @@ export const { reducer, actions } = createSlice({
         "softwareDereferenced": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 softwareId: number;
                 reason: string | undefined;
                 time: number;
                 lastRecommendedVersion: string | undefined;
-            }>,
+            }>
         ) => {
             const { softwareId, reason, time, lastRecommendedVersion } = payload;
 
@@ -317,12 +317,12 @@ export const { reducer, actions } = createSlice({
             software.dereferencing = {
                 time,
                 reason,
-                lastRecommendedVersion,
+                lastRecommendedVersion
             };
 
             state.isProcessing = false;
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
@@ -351,26 +351,26 @@ export const thunks = {
 
                               return Object.fromEntries(
                                   Object.entries(
-                                      await sillApiClient.getReferentsBySoftwareId(),
+                                      await sillApiClient.getReferentsBySoftwareId()
                                   ).map(([softwareId, referents]) => [
                                       softwareId,
                                       {
                                           referents,
                                           "userIndex": (() => {
                                               const userReferent = referents.find(
-                                                  referent => referent.email === email,
+                                                  referent => referent.email === email
                                               );
 
                                               return userReferent === undefined
                                                   ? undefined
                                                   : referents.indexOf(userReferent);
-                                          })(),
-                                      },
-                                  ]),
+                                          })()
+                                      }
+                                  ])
                               );
                           })(),
-                    "tags": await sillApiClient.getTags(),
-                }),
+                    "tags": await sillApiClient.getTags()
+                })
             );
         },
     "setQueryString":
@@ -468,12 +468,12 @@ export const thunks = {
                 isExpert,
                 softwareId,
                 useCaseDescription,
-                isPersonalUse,
+                isPersonalUse
             });
 
             const {
                 agencyName: { value: agencyName },
-                email: { value: email },
+                email: { value: email }
             } = getState().userAuthentication;
 
             dispatch(
@@ -485,8 +485,8 @@ export const thunks = {
                     isExpert,
                     softwareId,
                     useCaseDescription,
-                    isPersonalUse,
-                }),
+                    isPersonalUse
+                })
             );
         },
     "deleteSoftware":
@@ -509,9 +509,9 @@ export const thunks = {
             await sillApiClient.dereferenceSoftware({
                 softwareId,
                 "dereferencing": {
-                    reason,
+                    reason
                 },
-                "isDeletion": true,
+                "isDeletion": true
             });
         },
     "dereferenceSoftware":
@@ -539,9 +539,9 @@ export const thunks = {
                 softwareId,
                 "dereferencing": {
                     reason,
-                    lastRecommendedVersion,
+                    lastRecommendedVersion
                 },
-                "isDeletion": false,
+                "isDeletion": false
             });
 
             dispatch(
@@ -549,8 +549,8 @@ export const thunks = {
                     softwareId,
                     "time": Date.now(),
                     lastRecommendedVersion,
-                    reason,
-                }),
+                    reason
+                })
             );
         },
     "userNoLongerReferent":
@@ -567,13 +567,13 @@ export const thunks = {
             dispatch(actions.processingStarted());
 
             await sillApiClient.userNoLongerReferent({
-                softwareId,
+                softwareId
             });
 
             dispatch(
                 actions.userNoLongerReferent({
-                    softwareId,
-                }),
+                    softwareId
+                })
             );
         },
     /* Pure */
@@ -585,7 +585,7 @@ export const thunks = {
     "stringifyQuery":
         (query: Query): ThunkAction<string> =>
         () =>
-            stringifyQuery(query),
+            stringifyQuery(query)
 };
 
 export const privateThunks = {
@@ -602,7 +602,7 @@ export const privateThunks = {
                     action.actionName === "softwareAddedOrUpdated"
                         ? [action.payload.software]
                         : null,
-                software => dispatch(actions.softwareAddedOrUpdated({ software })),
+                software => dispatch(actions.softwareAddedOrUpdated({ software }))
             );
 
             evtAction.$attach(
@@ -617,13 +617,13 @@ export const privateThunks = {
                             switch (fieldName) {
                                 case "agencyName":
                                     return actions.userAgencyNameUpdated({
-                                        "agencyName": value,
+                                        "agencyName": value
                                     });
                                 case "email":
                                     return actions.userEmailUpdated({ "email": value });
                             }
-                        })(),
-                    ),
+                        })()
+                    )
             );
 
             evtAction.$attach(
@@ -631,22 +631,22 @@ export const privateThunks = {
                     action.sliceName === "catalog" && action.actionName === "tagCreated"
                         ? [action.payload]
                         : null,
-                ({ tag }) => dispatch(actions.tagCreated({ tag })),
+                ({ tag }) => dispatch(actions.tagCreated({ tag }))
             );
-        },
+        }
 };
 
 const { getContext } = createUsecaseContextApi(() => ({
     "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
     "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 }).waitForDebounce,
-    "prevQueryString": "",
+    "prevQueryString": ""
 }));
 
 export const selectors = (() => {
     const getSoftwareWeight = memoize(
         (software: CompiledData.Software): number =>
             JSON.stringify(software).length -
-            (software.wikidataData?.logoUrl === undefined ? 10000 : 0),
+            (software.wikidataData?.logoUrl === undefined ? 10000 : 0)
     );
 
     const readyState = (rootState: RootState): CatalogExplorerState.Ready | undefined => {
@@ -660,7 +660,7 @@ export const selectors = (() => {
     };
 
     const sliceState = (
-        rootState: RootState,
+        rootState: RootState
     ):
         | { stateDescription: "ready" }
         | { stateDescription: "not fetched"; isFetching: boolean } => {
@@ -690,16 +690,16 @@ export const selectors = (() => {
             .map(software => ({
                 software,
                 "isUserReferent":
-                    referentsBySoftwareId?.[software.id].userIndex !== undefined,
+                    referentsBySoftwareId?.[software.id].userIndex !== undefined
             }))
             .sort((a, b) => getSoftwareWeight(b.software) - getSoftwareWeight(a.software))
             .sort((a, b) =>
-                a.isUserReferent === b.isUserReferent ? 0 : a.isUserReferent ? -1 : 1,
+                a.isUserReferent === b.isUserReferent ? 0 : a.isUserReferent ? -1 : 1
             )
             .slice(0, queryString === "" ? displayCount : softwares.length)
             .map(({ software }) => software)
             .map(software =>
-                software.dereferencing !== undefined ? undefined : software,
+                software.dereferencing !== undefined ? undefined : software
             )
             .filter(exclude(undefined))
             .filter(({ tags }) => arrDiff(tags ?? [], query.tags).added.length === 0)
@@ -715,7 +715,7 @@ export const selectors = (() => {
                           wikidataData,
                           tags,
                           parentSoftware,
-                          alikeSoftwares,
+                          alikeSoftwares
                       }) =>
                           [
                               name,
@@ -726,7 +726,7 @@ export const selectors = (() => {
                                   .map(alikeSoftware =>
                                       alikeSoftware.isKnown
                                           ? undefined
-                                          : alikeSoftware.softwareName,
+                                          : alikeSoftware.softwareName
                                   )
                                   .filter(exclude(undefined)),
                               ...(parentSoftware !== undefined
@@ -748,13 +748,13 @@ export const selectors = (() => {
                                               const { resolveLocalizedString } =
                                                   createResolveLocalizedString({
                                                       "currentLanguage": language,
-                                                      "fallbackLanguage": "en",
+                                                      "fallbackLanguage": "en"
                                                   });
 
                                               return resolveLocalizedString(description);
                                           })
                                           .filter(exclude(undefined))
-                                          .reduce(...removeDuplicates<string>()),
+                                          .reduce(...removeDuplicates<string>())
                                   )
                                   .flat(),
                               wikidataData?.sourceUrl,
@@ -764,9 +764,9 @@ export const selectors = (() => {
                                   : referentsBySoftwareId[id].referents
                                         .map(({ email, agencyName }) => [
                                             email,
-                                            agencyName,
+                                            agencyName
                                         ])
-                                        .flat()),
+                                        .flat())
                           ]
                               .map(e => (!!e ? e : undefined))
                               .filter(exclude(undefined))
@@ -779,7 +779,7 @@ export const selectors = (() => {
 
                                   return format(str).includes(format(query.search));
                               })
-                              .indexOf(true) >= 0,
+                              .indexOf(true) >= 0
             );
     });
 
@@ -827,7 +827,7 @@ export const selectors = (() => {
                 ? filteredSoftwares.length
                 : state.softwares.filter(software => software.dereferencing === undefined)
                       .length;
-        },
+        }
     );
 
     const referentsBySoftwareId = createSelector(readyState, readyState => {
@@ -861,15 +861,15 @@ export const selectors = (() => {
                         softwareRef.isKnown
                             ? {
                                   "software": state.softwares.find(
-                                      s => s.id === softwareRef.softwareId,
+                                      s => s.id === softwareRef.softwareId
                                   )!,
-                                  "isKnown": true as const,
+                                  "isKnown": true as const
                               }
-                            : softwareRef,
-                    ),
+                            : softwareRef
+                    )
                 )
                 .flat();
-        },
+        }
     );
 
     const softwareRefs = createSelector(readyState, state => {
@@ -883,13 +883,13 @@ export const selectors = (() => {
             ...softwares.map(
                 ({ id }): SoftwareRef.Known => ({
                     "isKnown": true,
-                    "softwareId": id,
-                }),
+                    "softwareId": id
+                })
             ),
             ...softwares
                 .map(({ parentSoftware }) => parentSoftware)
                 .filter(exclude(undefined)),
-            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares ?? []).flat(),
+            ...softwares.map(({ alikeSoftwares }) => alikeSoftwares ?? []).flat()
         ].reduce(...removeDuplicates<SoftwareRef>(same));
     });
 
@@ -905,7 +905,7 @@ export const selectors = (() => {
         referentsBySoftwareId,
         tags,
         searchResultCount,
-        softwareRefs,
+        softwareRefs
     };
 })();
 
@@ -917,7 +917,7 @@ function parseQuery(queryString: string): Query {
     if (!queryString.startsWith("{")) {
         return {
             "search": queryString,
-            "tags": [],
+            "tags": []
         };
     }
 

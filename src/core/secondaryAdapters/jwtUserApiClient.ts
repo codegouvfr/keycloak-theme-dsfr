@@ -15,8 +15,8 @@ export function createJwtUserApiClient(params: {
                 parseJwtPayload({
                     jwtClaims,
                     "jwtPayload": jwtSimple.decode(getOidcAccessToken(), "", true),
-                    zParsedJwtTokenPayload,
-                }),
-            ),
+                    zParsedJwtTokenPayload
+                })
+            )
     };
 }

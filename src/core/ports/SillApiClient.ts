@@ -14,48 +14,48 @@ export type SillApiClient = {
     getCompiledData: () => Promise<InferOutput<"getCompiledData">>;
     getReferentsBySoftwareId: () => Promise<InferOutput<"getReferentsBySoftwareId">>;
     declareUserReferent: (
-        params: InferInput<"declareUserReferent">,
+        params: InferInput<"declareUserReferent">
     ) => Promise<InferOutput<"declareUserReferent">>;
     userNoLongerReferent: (
-        params: InferInput<"userNoLongerReferent">,
+        params: InferInput<"userNoLongerReferent">
     ) => Promise<InferOutput<"userNoLongerReferent">>;
     addSoftware: (
-        params: InferInput<"addSoftware">,
+        params: InferInput<"addSoftware">
     ) => Promise<InferOutput<"addSoftware">>;
     updateSoftware: (
-        params: InferInput<"updateSoftware">,
+        params: InferInput<"updateSoftware">
     ) => Promise<InferOutput<"updateSoftware">>;
     autoFillFormInfo: (
-        params: InferInput<"autoFillFormInfo">,
+        params: InferInput<"autoFillFormInfo">
     ) => Promise<InferOutput<"autoFillFormInfo">>;
     updateAgencyName: (
-        params: InferInput<"updateAgencyName">,
+        params: InferInput<"updateAgencyName">
     ) => Promise<InferOutput<"updateAgencyName">>;
     updateEmail: (
-        params: InferInput<"updateEmail">,
+        params: InferInput<"updateEmail">
     ) => Promise<InferOutput<"updateEmail">>;
     getAllowedEmailRegexp: (
-        params: InferInput<"getAllowedEmailRegexp">,
+        params: InferInput<"getAllowedEmailRegexp">
     ) => Promise<InferOutput<"getAllowedEmailRegexp">>;
     getAgencyNames: (
-        params: InferInput<"getAgencyNames">,
+        params: InferInput<"getAgencyNames">
     ) => Promise<InferOutput<"getAgencyNames">>;
     getTags: {
         (params: InferInput<"getTags">): Promise<InferOutput<"getTags">>;
         clear: () => void;
     };
     dereferenceSoftware: (
-        params: InferInput<"dereferenceSoftware">,
+        params: InferInput<"dereferenceSoftware">
     ) => Promise<InferOutput<"dereferenceSoftware">>;
     downloadCorsProtectedTextFile: (
-        params: InferInput<"downloadCorsProtectedTextFile">,
+        params: InferInput<"downloadCorsProtectedTextFile">
     ) => Promise<InferOutput<"downloadCorsProtectedTextFile">>;
     deleteService: (
-        params: InferInput<"deleteService">,
+        params: InferInput<"deleteService">
     ) => Promise<InferOutput<"deleteService">>;
     addService: (params: InferInput<"addService">) => Promise<InferOutput<"addService">>;
     updateService: (
-        params: InferInput<"updateService">,
+        params: InferInput<"updateService">
     ) => Promise<InferOutput<"updateService">>;
 };
 

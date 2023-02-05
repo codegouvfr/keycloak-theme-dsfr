@@ -40,7 +40,7 @@ export const PreviewTab = (props: Props) => {
         isRGAACompliant,
         serviceProvider,
         comptoireDuLibreSheet,
-        wikiDataSheet,
+        wikiDataSheet
     } = props;
 
     const { classes, cx } = useStyles();
@@ -50,20 +50,20 @@ export const PreviewTab = (props: Props) => {
     const prerogativeList = [
         {
             label: t("isDesktop"),
-            status: isDesktop,
+            status: isDesktop
         },
         {
             label: t("isPresentInSupportMarket"),
-            status: isPresentInSupportMarket,
+            status: isPresentInSupportMarket
         },
         {
             label: t("isFromFrenchPublicService"),
-            status: isFromFrenchPublicService,
+            status: isFromFrenchPublicService
         },
         {
             label: t("isRGAACompliant"),
-            status: isRGAACompliant,
-        },
+            status: isRGAACompliant
+        }
     ];
 
     return (
@@ -77,17 +77,17 @@ export const PreviewTab = (props: Props) => {
                             fr.cx(
                                 "fr-badge",
                                 "fr-badge--yellow-tournesol",
-                                "fr-badge--sm",
+                                "fr-badge--sm"
                             ),
-                            classes.badgeVersion,
+                            classes.badgeVersion
                         )}
                     >
                         {softwareCurrentVersion}
                     </span>
                     {t("last version date", {
                         date: shortEndMonthDate({
-                            time: softwareDateCurrentVersion,
-                        }),
+                            time: softwareDateCurrentVersion
+                        })
                     })}
                 </p>
                 <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
@@ -119,17 +119,17 @@ export const PreviewTab = (props: Props) => {
                                     fr.cx(
                                         status
                                             ? "fr-icon-check-line"
-                                            : "fr-icon-close-line",
+                                            : "fr-icon-close-line"
                                     ),
                                     status
                                         ? classes.prerogativeStatusSuccess
-                                        : classes.prerogativeStatusError,
+                                        : classes.prerogativeStatusError
                                 )}
                             />
                             <p
                                 className={cx(
                                     fr.cx("fr-text--md"),
-                                    classes.prerogativeItemDetail,
+                                    classes.prerogativeItemDetail
                                 )}
                             >
                                 {label}
@@ -175,7 +175,7 @@ export const PreviewTab = (props: Props) => {
 };
 
 const useStyles = makeStyles({
-    "name": { PreviewTab },
+    "name": { PreviewTab }
 })(theme => ({
     "tabContainer": {
         "display": "grid",
@@ -183,46 +183,46 @@ const useStyles = makeStyles({
         "columnGap": fr.spacing("4v"),
         "rowGap": fr.spacing("3v"),
         [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, 1fr)`,
-        },
+            "gridTemplateColumns": `repeat(1, 1fr)`
+        }
     },
     "section": {
         "display": "flex",
         "flexDirection": "column",
-        "alignItems": "flex-start",
+        "alignItems": "flex-start"
     },
     "item": {
         "&:not(:last-of-type)": {
-            "marginBottom": fr.spacing("4v"),
-        },
+            "marginBottom": fr.spacing("4v")
+        }
     },
     "prerogativeItem": {
         "display": "flex",
-        "alignItems": "center",
+        "alignItems": "center"
     },
     "prerogativeItemDetail": {
         "color": theme.decisions.text.label.grey.default,
         ...fr.spacing("margin", {
             "left": "3v",
             "right": "1v",
-            "bottom": 0,
-        }),
+            "bottom": 0
+        })
     },
     "prerogativeStatusSuccess": {
-        "color": theme.decisions.text.default.success.default,
+        "color": theme.decisions.text.default.success.default
     },
     "prerogativeStatusError": {
-        "color": theme.decisions.text.default.error.default,
+        "color": theme.decisions.text.default.error.default
     },
     "labelDetail": {
-        "color": theme.decisions.text.mention.grey.default,
+        "color": theme.decisions.text.mention.grey.default
     },
     "badgeVersion": {
-        ...fr.spacing("margin", { rightLeft: "2v" }),
+        ...fr.spacing("margin", { rightLeft: "2v" })
     },
     "externalLink": {
-        "color": theme.decisions.text.actionHigh.blueFrance.default,
-    },
+        "color": theme.decisions.text.actionHigh.blueFrance.default
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

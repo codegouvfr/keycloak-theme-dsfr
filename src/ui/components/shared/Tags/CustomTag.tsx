@@ -20,7 +20,7 @@ export const CustomTag = memo((props: Props) => {
 
     const { classes, cx } = useStyles({
         "tagColor": getTagColor({ tag, theme }),
-        "hasOnRemove": onRemove !== undefined,
+        "hasOnRemove": onRemove !== undefined
     });
 
     return (
@@ -47,25 +47,25 @@ export const CustomTag = memo((props: Props) => {
 });
 
 const useStyles = makeStyles<{ tagColor: TagColor; hasOnRemove: boolean }>({
-    "name": { CustomTag },
+    "name": { CustomTag }
 })((theme, { tagColor, hasOnRemove }) => ({
     "root": {
-        "backgroundColor": tagColor.color,
+        "backgroundColor": tagColor.color
     },
     "text": {
         "color":
             theme.colors.palette[tagColor.isContrastTextWhite ? "light" : "dark"].main,
-        "paddingLeft": hasOnRemove ? theme.spacing(2) : undefined,
+        "paddingLeft": hasOnRemove ? theme.spacing(2) : undefined
     },
     "icon": {
         "& > svg": {
             "color":
                 theme.colors.palette[tagColor.isContrastTextWhite ? "light" : "dark"]
-                    .greyVariant2,
-        },
+                    .greyVariant2
+        }
     },
     "bodyWrapper": {
         "display": "flex",
-        "alignItems": "center",
-    },
+        "alignItems": "center"
+    }
 }));

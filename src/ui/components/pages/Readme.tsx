@@ -30,7 +30,7 @@ export function Readme(props: Props) {
         () =>
             fetchProxy
                 .downloadCoreProtectedTextFile(readmeUrl)
-                .then(text => text.split("---").reverse()[0]), // Remove title that isn't standard Markdown
+                .then(text => text.split("---").reverse()[0]) // Remove title that isn't standard Markdown
     );
 
     {
@@ -41,7 +41,7 @@ export function Readme(props: Props) {
                 hideSplashScreen();
             } else {
                 showSplashScreen({
-                    "enableTransparency": false,
+                    "enableTransparency": false
                 });
             }
         }, [readme]);
@@ -63,7 +63,7 @@ export function Readme(props: Props) {
 export const useStyles = makeStyles()(theme => ({
     "root": {
         "display": "flex",
-        "justifyContent": "center",
+        "justifyContent": "center"
     },
     "markdown": {
         "borderRadius": theme.spacing(2),
@@ -71,8 +71,8 @@ export const useStyles = makeStyles()(theme => ({
         "maxWidth": 900,
         "padding": theme.spacing(4),
         "&:hover": {
-            "boxShadow": theme.shadows[1],
+            "boxShadow": theme.shadows[1]
         },
-        "marginBottom": theme.spacing(2),
-    },
+        "marginBottom": theme.spacing(2)
+    }
 }));

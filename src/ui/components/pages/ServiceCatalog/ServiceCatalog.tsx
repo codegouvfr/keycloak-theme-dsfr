@@ -46,13 +46,13 @@ export function ServiceCatalog(props: Props) {
         if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
-                "scrollTopThreshold": 600,
+                "scrollTopThreshold": 600
             };
         }
 
         return {
             "behavior": "controlled",
-            "isCollapsed": false,
+            "isCollapsed": false
         };
     }, [theme.windowInnerWidth]);
 
@@ -60,13 +60,13 @@ export function ServiceCatalog(props: Props) {
         if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
-                "scrollTopThreshold": 300,
+                "scrollTopThreshold": 300
             };
         }
 
         return {
             "behavior": "controlled",
-            "isCollapsed": false,
+            "isCollapsed": false
         };
     }, []);
 
@@ -75,7 +75,7 @@ export function ServiceCatalog(props: Props) {
     const { isProcessing } = useCoreState(selectors.serviceCatalog.isProcessing);
     const { filteredServices } = useCoreState(selectors.serviceCatalog.filteredServices);
     const { searchResultCount } = useCoreState(
-        selectors.serviceCatalog.searchResultCount,
+        selectors.serviceCatalog.searchResultCount
     );
     const { softwareNames } = useCoreState(selectors.serviceCatalog.softwareNames);
 
@@ -110,7 +110,7 @@ export function ServiceCatalog(props: Props) {
 
         if (isProcessing) {
             showSplashScreen({
-                "enableTransparency": true,
+                "enableTransparency": true
             });
         } else {
             hideSplashScreen();
@@ -125,10 +125,10 @@ export function ServiceCatalog(props: Props) {
                         serviceCatalog.stringifyQuery({
                             search,
                             "softwareName": serviceCatalog.parseQuery(route.params.q)
-                                .softwareName,
-                        }) || undefined,
+                                .softwareName
+                        }) || undefined
                 })
-                .replace(),
+                .replace()
     );
 
     const onSelectedSoftwareChange = useConstCallback<
@@ -139,10 +139,10 @@ export function ServiceCatalog(props: Props) {
                 "q":
                     serviceCatalog.stringifyQuery({
                         "search": serviceCatalog.parseQuery(route.params.q).search,
-                        softwareName,
-                    }) || undefined,
+                        softwareName
+                    }) || undefined
             })
-            .replace(),
+            .replace()
     );
 
     useEffect(() => {
@@ -150,9 +150,7 @@ export function ServiceCatalog(props: Props) {
     }, [route.params.q]);
 
     const getFormLink = useConst(() =>
-        memoize(
-            (serviceId: number | undefined) => routes.serviceForm({ serviceId }).link,
-        ),
+        memoize((serviceId: number | undefined) => routes.serviceForm({ serviceId }).link)
     );
 
     const { editLinkByServiceId, sillSoftwareLinkByServiceId } = useMemo(() => {
@@ -173,12 +171,12 @@ export function ServiceCatalog(props: Props) {
 
         return {
             editLinkByServiceId,
-            sillSoftwareLinkByServiceId,
+            sillSoftwareLinkByServiceId
         };
     }, [filteredServices]);
 
     const onLogin = useConstCallback(() =>
-        userAuthentication.login({ "doesCurrentHrefRequiresAuth": false }),
+        userAuthentication.login({ "doesCurrentHrefRequiresAuth": false })
     );
 
     if (sliceState.stateDescription !== "ready") {
@@ -200,7 +198,7 @@ export function ServiceCatalog(props: Props) {
                 title={t("header text1")}
                 helpTitle={t("header text2")}
                 helpContent={t("what is the catalog of service", {
-                    "link": routes.readme().link,
+                    "link": routes.readme().link
                 })}
                 helpIcon="sentimentSatisfied"
                 titleCollapseParams={titleCollapseParams}
@@ -227,11 +225,11 @@ export function ServiceCatalog(props: Props) {
                         {...(userAuthentication.getIsUserLoggedIn()
                             ? {
                                   "isUserLoggedIn": true,
-                                  "onRequestDelete": serviceCatalog.deleteService,
+                                  "onRequestDelete": serviceCatalog.deleteService
                               }
                             : {
                                   "isUserLoggedIn": false,
-                                  onLogin,
+                                  onLogin
                               })}
                     />
                 )}
@@ -246,7 +244,7 @@ export const { i18n } = declareComponentKeys<
 >()({ ServiceCatalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
-    "name": { ServiceCatalog },
+    "name": { ServiceCatalog }
 })((theme, { pageHeaderStickyTop }) => {
     const spacingLeft = theme.spacing(
         (() => {
@@ -255,22 +253,22 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             }
 
             return 0;
-        })(),
+        })()
     );
 
     return {
         "root": {
-            "marginLeft": "unset",
+            "marginLeft": "unset"
         },
         "contentWrapper": {
-            "marginLeft": spacingLeft,
+            "marginLeft": spacingLeft
         },
         "pageHeader": {
             ...(() => {
                 if (isViewPortAdapterEnabled) {
                     return {
                         "position": "sticky",
-                        "top": pageHeaderStickyTop,
+                        "top": pageHeaderStickyTop
                     } as const;
                 }
 
@@ -278,7 +276,7 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             })(),
             "backgroundColor": theme.colors.useCases.surfaces.background,
             "paddingLeft": spacingLeft,
-            "marginBottom": 0,
-        },
+            "marginBottom": 0
+        }
     };
 });

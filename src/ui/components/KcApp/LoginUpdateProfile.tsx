@@ -41,8 +41,8 @@ const LoginUpdateProfile = memo(
                                     props.kcFormGroupClass,
                                     messagesPerField.printIfExists(
                                         "username",
-                                        props.kcFormGroupErrorClass,
-                                    ),
+                                        props.kcFormGroupErrorClass
+                                    )
                                 )}
                             >
                                 <div className={cx(props.kcLabelWrapperClass)}>
@@ -70,8 +70,8 @@ const LoginUpdateProfile = memo(
                                 props.kcFormGroupClass,
                                 messagesPerField.printIfExists(
                                     "email",
-                                    props.kcFormGroupErrorClass,
-                                ),
+                                    props.kcFormGroupErrorClass
+                                )
                             )}
                         >
                             <div className={cx(props.kcLabelWrapperClass)}>
@@ -109,7 +109,7 @@ const LoginUpdateProfile = memo(
                                             className={cx(
                                                 props.kcButtonClass,
                                                 props.kcButtonPrimaryClass,
-                                                props.kcButtonLargeClass,
+                                                props.kcButtonLargeClass
                                             )}
                                             type="submit"
                                             defaultValue={msgStr("doSubmit")}
@@ -118,7 +118,7 @@ const LoginUpdateProfile = memo(
                                             className={cx(
                                                 props.kcButtonClass,
                                                 props.kcButtonDefaultClass,
-                                                props.kcButtonLargeClass,
+                                                props.kcButtonLargeClass
                                             )}
                                             type="submit"
                                             name="cancel-aia"
@@ -133,7 +133,7 @@ const LoginUpdateProfile = memo(
                                             props.kcButtonClass,
                                             props.kcButtonPrimaryClass,
                                             props.kcButtonBlockClass,
-                                            props.kcButtonLargeClass,
+                                            props.kcButtonLargeClass
                                         )}
                                         type="submit"
                                         defaultValue={msgStr("doSubmit")}
@@ -145,7 +145,7 @@ const LoginUpdateProfile = memo(
                 }
             />
         );
-    },
+    }
 );
 
 export default LoginUpdateProfile;

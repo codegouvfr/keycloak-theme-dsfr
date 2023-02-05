@@ -11,5 +11,5 @@ export const thunks = {
             const [, , { sillApiClient }] = args;
 
             return sillApiClient.downloadCorsProtectedTextFile({ url });
-        },
+        }
 };

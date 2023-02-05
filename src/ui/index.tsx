@@ -33,14 +33,14 @@ const { CoreProvider } = createCoreProvider(() => ({
                     addParamToUrl({
                         url,
                         "name": "ui_locales",
-                        "value": evtLang.state,
-                    }).newUrl,
+                        "value": evtLang.state
+                    }).newUrl
             )
             .map(url => injectTosInSearchParams({ url, termsOfServices }))[0],
     "evtUserActivity": Evt.merge([
         Evt.from(document, "mousemove"),
-        Evt.from(document, "keydown"),
-    ]).pipe(() => [undefined as void]),
+        Evt.from(document, "keydown")
+    ]).pipe(() => [undefined as void])
 }));
 
 const queryClient = new QueryClient();
@@ -65,5 +65,5 @@ createRoot(document.getElementById("root")!).render(
                 )}
             </ThemeProvider>
         </RouteProvider>
-    </Suspense>,
+    </Suspense>
 );

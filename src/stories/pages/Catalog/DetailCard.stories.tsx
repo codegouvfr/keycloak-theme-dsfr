@@ -6,7 +6,7 @@ import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { DetailCard },
-    "defaultContainerWidth": 0,
+    "defaultContainerWidth": 0
 });
 
 export default meta;
@@ -19,11 +19,11 @@ export const VueDefault = getStory({
     registerDate: 1640995200000,
     declareUserOrReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     seeUserAndReferent: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     isPresentInSupportMarket: true,
     isDesktop: false,
@@ -36,49 +36,49 @@ export const VueDefault = getStory({
             name: "MZLA Technologies Corporation",
             link: {
                 href: "#",
-                onClick: () => {},
-            },
+                onClick: () => {}
+            }
         },
         {
             name: "Mozilla Foundation",
             link: {
                 href: "#",
-                onClick: () => {},
-            },
+                onClick: () => {}
+            }
         },
         {
             name: "Mozzila Messaging",
             link: {
                 href: "#",
-                onClick: () => {},
-            },
-        },
+                onClick: () => {}
+            }
+        }
     ],
     comptoireDuLibreSheet: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     license: "MIT",
     minimalVersionRequired: "68",
     serviceProvider: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     wikiDataSheet: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     sourceCodeRepository: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     officialWebsite: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     shareSoftware: {
         href: "#",
-        onClick: () => {},
+        onClick: () => {}
     },
     alikeSoftware: [
         {
@@ -88,15 +88,15 @@ export const VueDefault = getStory({
             softwareDateCurrentVersion: 1640995200000,
             declareUserOrReferent: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             demoLink: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             seeUserAndReferent: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             isPresentInSupportMarket: true,
             isDesktop: true,
@@ -108,9 +108,9 @@ export const VueDefault = getStory({
 
             softwareDetailsLink: {
                 href: "#",
-                onClick: () => {},
-            },
-        },
+                onClick: () => {}
+            }
+        }
     ],
     organizationList: [
         {
@@ -123,12 +123,12 @@ export const VueDefault = getStory({
                     referentCount: 2,
                     instanceLink: {
                         href: "#",
-                        onClick: () => {},
+                        onClick: () => {}
                     },
                     seeUserAndReferent: {
                         href: "#",
-                        onClick: () => {},
-                    },
+                        onClick: () => {}
+                    }
                 },
                 {
                     name: "https://videos.ahp-numerique.fr",
@@ -137,12 +137,12 @@ export const VueDefault = getStory({
                     referentCount: 2,
                     instanceLink: {
                         href: "#",
-                        onClick: () => {},
+                        onClick: () => {}
                     },
                     seeUserAndReferent: {
                         href: "#",
-                        onClick: () => {},
-                    },
+                        onClick: () => {}
+                    }
                 },
                 {
                     name: "https://videos.ahp-numerique.fr",
@@ -151,14 +151,14 @@ export const VueDefault = getStory({
                     referentCount: 2,
                     instanceLink: {
                         href: "#",
-                        onClick: () => {},
+                        onClick: () => {}
                     },
                     seeUserAndReferent: {
                         href: "#",
-                        onClick: () => {},
-                    },
-                },
-            ],
+                        onClick: () => {}
+                    }
+                }
+            ]
         },
         {
             name: "Foo",
@@ -170,12 +170,12 @@ export const VueDefault = getStory({
                     referentCount: 2,
                     instanceLink: {
                         href: "#",
-                        onClick: () => {},
+                        onClick: () => {}
                     },
                     seeUserAndReferent: {
                         href: "#",
-                        onClick: () => {},
-                    },
+                        onClick: () => {}
+                    }
                 },
                 {
                     name: "https://videos.ahp-numerique.fr",
@@ -184,14 +184,14 @@ export const VueDefault = getStory({
                     referentCount: 2,
                     instanceLink: {
                         href: "#",
-                        onClick: () => {},
+                        onClick: () => {}
                     },
                     seeUserAndReferent: {
                         href: "#",
-                        onClick: () => {},
-                    },
-                },
-            ],
-        },
-    ],
+                        onClick: () => {}
+                    }
+                }
+            ]
+        }
+    ]
 });

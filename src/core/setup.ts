@@ -61,7 +61,7 @@ export async function createCore(params: CoreParams) {
         apiUrl,
         mockAuthentication,
         transformUrlBeforeRedirectToLogin,
-        evtUserActivity,
+        evtUserActivity
     } = params;
 
     let refOidcAccessToken:
@@ -73,8 +73,8 @@ export async function createCore(params: CoreParams) {
         : createTrpcSillApiClient({
               "url": apiUrl,
               "refOidcAccessToken": (refOidcAccessToken = {
-                  "current": undefined,
-              }),
+                  "current": undefined
+              })
           });
 
     const { keycloakParams, jwtClaims } = await sillApiClient.getOidcParams();
@@ -83,42 +83,42 @@ export async function createCore(params: CoreParams) {
         ? createPhonyOidcClient(
               (assert(
                   mockAuthentication !== undefined,
-                  "The server doesn't have authentication enable, a mocked user should be provided",
+                  "The server doesn't have authentication enable, a mocked user should be provided"
               ),
               {
                   jwtClaims,
-                  ...mockAuthentication,
-              }),
+                  ...mockAuthentication
+              })
           )
         : createKeycloakOidcClient(
               (assert(
                   mockAuthentication === undefined,
-                  "The server have a real authentication mechanism enable, it wont allow us to mock a specific user",
+                  "The server have a real authentication mechanism enable, it wont allow us to mock a specific user"
               ),
               {
                   ...keycloakParams,
                   "transformUrlBeforeRedirect": url =>
                       transformUrlBeforeRedirectToLogin({
                           url,
-                          "termsOfServices": keycloakParams.termsOfServices,
+                          "termsOfServices": keycloakParams.termsOfServices
                       }),
-                  evtUserActivity,
-              }),
+                  evtUserActivity
+              })
           ));
     if (oidcClient.isUserLoggedIn && refOidcAccessToken !== undefined) {
         const prop = "current";
         Object.defineProperty(refOidcAccessToken, prop, {
             "get": () =>
                 id<NonNullable<typeof refOidcAccessToken>[typeof prop]>(
-                    oidcClient.accessToken,
-                ),
+                    oidcClient.accessToken
+                )
         });
     }
 
     const userApiClient = oidcClient.isUserLoggedIn
         ? createJwtUserApiClient({
               jwtClaims,
-              "getOidcAccessToken": () => oidcClient.accessToken,
+              "getOidcAccessToken": () => oidcClient.accessToken
           })
         : createObjectThatThrowsIfAccessed<UserApiClient>();
 
@@ -128,8 +128,8 @@ export async function createCore(params: CoreParams) {
             "coreParams": params,
             userApiClient,
             oidcClient,
-            sillApiClient,
-        },
+            sillApiClient
+        }
     });
 
     await core.dispatch(usecases.userAuthentication.privateThunks.initialize());

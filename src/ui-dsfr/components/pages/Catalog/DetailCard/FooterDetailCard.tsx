@@ -64,7 +64,7 @@ export const FooterDetailCard = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { FooterDetailCard },
+    "name": { FooterDetailCard }
 })(theme => ({
     "root": {
         "position": "sticky",
@@ -73,9 +73,9 @@ const useStyles = makeStyles({
         "boxShadow": `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`,
         ...fr.spacing("padding", {
             "top": "4v",
-            "bottom": "6v",
+            "bottom": "6v"
         }),
-        "background": theme.decisions.background.default.grey.default,
+        "background": theme.decisions.background.default.grey.default
     },
     "container": {
         "display": "grid",
@@ -84,25 +84,25 @@ const useStyles = makeStyles({
         "marginBottom": fr.spacing("6v"),
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`,
-            "gridRowGap": fr.spacing("6v"),
-        },
+            "gridRowGap": fr.spacing("6v")
+        }
     },
     "buttons": {
         "display": "flex",
         "alignItems": "center",
-        "justifyContent": "end",
+        "justifyContent": "end"
     },
     "shareSoftware": {
         "marginRight": fr.spacing("4v"),
         "&&::before": {
-            "--icon-size": fr.spacing("6v"),
-        },
+            "--icon-size": fr.spacing("6v")
+        }
     },
     "detailUsersAndReferents": {
-        color: theme.decisions.text.actionHigh.blueFrance.default,
-    },
+        color: theme.decisions.text.actionHigh.blueFrance.default
+    }
 }));
 
 export const { i18n } = declareComponentKeys<"share software" | "declare referent">()({
-    FooterDetailCard,
+    FooterDetailCard
 });

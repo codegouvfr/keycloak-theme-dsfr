@@ -75,16 +75,16 @@ export const ReferentStep = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { ReferentStep },
+    "name": { ReferentStep }
 })(() => ({
     "root": {
         "width": "100%",
-        "paddingRight": fr.spacing("10v"),
-    },
+        "paddingRight": fr.spacing("10v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<
     "legend title" | "legend hint" | "yes" | "no" | "useCase" | "service"
 >()({
-    ReferentStep,
+    ReferentStep
 });

@@ -3,5 +3,5 @@ import * as softwareDetails from "./softwareDetails";
 
 export const usecases = {
     softwareCatalog,
-    softwareDetails,
+    softwareDetails
 };

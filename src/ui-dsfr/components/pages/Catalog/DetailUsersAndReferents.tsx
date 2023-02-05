@@ -32,7 +32,7 @@ export const DetailUsersAndReferents = (props: Props) => {
             <span>
                 {t("userAndReferentCount", {
                     referentCount: referentCount ?? 0,
-                    userCount: userCount ?? 0,
+                    userCount: userCount ?? 0
                 })}
             </span>
             <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
@@ -41,16 +41,16 @@ export const DetailUsersAndReferents = (props: Props) => {
 };
 
 const useStyles = makeStyles({
-    "name": { DetailUsersAndReferents },
+    "name": { DetailUsersAndReferents }
 })(() => ({
     "root": {
         "display": "flex",
         "alignItems": "center",
-        "background": "none",
+        "background": "none"
     },
     "detailsUsersIcon": {
-        "marginRight": fr.spacing("2v"),
-    },
+        "marginRight": fr.spacing("2v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<{

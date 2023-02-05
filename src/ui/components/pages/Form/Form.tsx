@@ -49,17 +49,17 @@ export function Form(props: Props) {
     const { sliceState } = useCoreState(selectors.softwareForm.sliceState);
     const { isSubmittable } = useCoreState(selectors.softwareForm.isSubmittable);
     const { displayableFieldErrorByFieldName } = useCoreState(
-        selectors.softwareForm.displayableFieldErrorByFieldName,
+        selectors.softwareForm.displayableFieldErrorByFieldName
     );
     const { softwareRefs } = useCoreState(selectors.softwareForm.softwareRefs);
     const { softwareNameBySoftwareId } = useCoreState(
-        selectors.softwareForm.softwareNameBySoftwareId,
+        selectors.softwareForm.softwareNameBySoftwareId
     );
     const { tags } = useCoreState(selectors.softwareForm.tags);
     const { softwareId } = useCoreState(selectors.softwareForm.softwareId);
     const { valueByFieldName } = useCoreState(selectors.softwareForm.valueByFieldName);
     const { isAutofillInProgress } = useCoreState(
-        selectors.softwareForm.isAutofillInProgress,
+        selectors.softwareForm.isAutofillInProgress
     );
 
     const { showSplashScreen, hideSplashScreen } = useSplashScreen();
@@ -86,7 +86,7 @@ export function Form(props: Props) {
         }
     }, [
         sliceState.stateDescription,
-        sliceState.stateDescription === "form ready" && sliceState.isSubmitting,
+        sliceState.stateDescription === "form ready" && sliceState.isSubmitting
     ]);
 
     const { classes, cx, css } = useStyles();
@@ -97,16 +97,16 @@ export function Form(props: Props) {
         ([fieldName]: [FieldName], [{ value }]: [{ value: string | number | boolean }]) =>
             softwareForm.changeFieldValue({
                 fieldName,
-                value,
-            }),
+                value
+            })
     );
 
     const onEscapeKeyFactory = useCallbackFactory(([fieldName]: [FieldName]) =>
-        softwareForm.restoreFieldDefaultValue({ fieldName }),
+        softwareForm.restoreFieldDefaultValue({ fieldName })
     );
 
     const onBlurFactory = useCallbackFactory(([fieldName]: [FieldName]) =>
-        softwareForm.focusLost({ fieldName }),
+        softwareForm.focusLost({ fieldName })
     );
 
     const onDeclareOneselfReferentDialogAnswer = useConstCallback<
@@ -131,7 +131,7 @@ export function Form(props: Props) {
                     mainIcon="add"
                     title={t(softwareId === undefined ? "title add" : "title edit")}
                     helpTitle={t(
-                        softwareId === undefined ? "help title add" : "help title edit",
+                        softwareId === undefined ? "help title add" : "help title edit"
                     )}
                     helpContent={t("help")}
                     helpIcon="sentimentSatisfied"
@@ -142,8 +142,8 @@ export function Form(props: Props) {
                             fieldName =>
                                 [
                                     fieldName,
-                                    displayableFieldErrorByFieldName[fieldName],
-                                ] as const,
+                                    displayableFieldErrorByFieldName[fieldName]
+                                ] as const
                         )
                         .map(([fieldName, fieldError]) => (
                             <Fragment key={fieldName}>
@@ -159,13 +159,13 @@ export function Form(props: Props) {
                                                 selectedTags={selectedTags}
                                                 onCreateNewTag={tag =>
                                                     softwareForm.createTag({
-                                                        tag,
+                                                        tag
                                                     })
                                                 }
                                                 onSelectedTags={selectedTags =>
                                                     softwareForm.changeFieldValue({
                                                         "fieldName": "tags",
-                                                        "value": selectedTags,
+                                                        "value": selectedTags
                                                     })
                                                 }
                                             />
@@ -181,7 +181,7 @@ export function Form(props: Props) {
                                                 onAlikeSoftwaresChange={alikeSoftwares =>
                                                     softwareForm.changeFieldValue({
                                                         "fieldName": "alikeSoftwares",
-                                                        "value": alikeSoftwares,
+                                                        "value": alikeSoftwares
                                                     })
                                                 }
                                                 softwareRefs={softwareRefs}
@@ -205,8 +205,8 @@ export function Form(props: Props) {
                                                         ? undefined
                                                         : {
                                                               "className": css({
-                                                                  "gridColumn": "span 2",
-                                                              }),
+                                                                  "gridColumn": "span 2"
+                                                              })
                                                           })}
                                                     doRenderAsTextArea={
                                                         fieldName === "generalInfoMd"
@@ -218,7 +218,7 @@ export function Form(props: Props) {
                                                     }
                                                     label={`${t(fieldName)}${
                                                         !softwareForm.getIsOptionalField(
-                                                            fieldName,
+                                                            fieldName
                                                         )
                                                             ? " *"
                                                             : ""
@@ -233,12 +233,12 @@ export function Form(props: Props) {
                                                     onValueBeingTypedChange={(() => {
                                                         const cb =
                                                             onValueBeingTypedChangeFactory(
-                                                                fieldName,
+                                                                fieldName
                                                             );
 
                                                         if (typeof value === "number") {
                                                             return ({
-                                                                value,
+                                                                value
                                                             }: Param0<
                                                                 TextFieldProps["onValueBeingTypedChange"]
                                                             >) =>
@@ -247,15 +247,15 @@ export function Form(props: Props) {
                                                                         value === ""
                                                                             ? -1
                                                                             : parseInt(
-                                                                                  value,
-                                                                              ),
+                                                                                  value
+                                                                              )
                                                                 });
                                                         }
 
                                                         return cb;
                                                     })()}
                                                     onEscapeKeyDown={onEscapeKeyFactory(
-                                                        fieldName,
+                                                        fieldName
                                                     )}
                                                     isCircularProgressShown={
                                                         isAutofillInProgress
@@ -263,7 +263,7 @@ export function Form(props: Props) {
                                                     helperText={t(
                                                         fieldError.hasError
                                                             ? fieldError.errorMessageKey
-                                                            : (`${fieldName} helper` as const),
+                                                            : (`${fieldName} helper` as const)
                                                     )}
                                                     inputProps_aria-invalid={
                                                         fieldError.hasError
@@ -285,8 +285,8 @@ export function Form(props: Props) {
                                                                         {
                                                                             fieldName,
                                                                             "value":
-                                                                                isChecked,
-                                                                        },
+                                                                                isChecked
+                                                                        }
                                                                     )
                                                                 }
                                                             />
@@ -295,7 +295,7 @@ export function Form(props: Props) {
                                                     />
                                                     <FormHelperText>
                                                         {t(
-                                                            `${fieldName} helper` as const,
+                                                            `${fieldName} helper` as const
                                                         )}
                                                     </FormHelperText>
                                                 </div>
@@ -316,7 +316,7 @@ export function Form(props: Props) {
                                 evtOpenDialogIsExpert.post();
                             } else {
                                 softwareForm.submit({
-                                    "createReferentParams": undefined,
+                                    "createReferentParams": undefined
                                 });
                             }
                         }}
@@ -324,7 +324,7 @@ export function Form(props: Props) {
                         {t(
                             route.params.softwareId === undefined
                                 ? "create software"
-                                : "update software",
+                                : "update software"
                         )}
                     </Button>
                 </div>
@@ -344,16 +344,16 @@ const useStyles = makeStyles({ "name": { Form } })(theme => ({
         "display": "grid",
         "gridTemplateColumns": "repeat(2, 1fr)",
         "gap": theme.spacing(6),
-        "maxWidth": breakpointsValues.lg,
+        "maxWidth": breakpointsValues.lg
         //"gridAutoRows": "minmax(100px, auto)"
     },
     "submitButtonWrapper": {
         "display": "flex",
-        "justifyContent": "center",
+        "justifyContent": "center"
     },
     "submitButton": {
-        "width": 200,
-    },
+        "width": 200
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

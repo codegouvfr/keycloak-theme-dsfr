@@ -25,11 +25,11 @@ export const Tags = memo((props: Props) => {
         tags,
         selectedTags,
         onSelectedTags: onSelectedTags_props,
-        onCreateNewTag,
+        onCreateNewTag
     } = props;
 
     const evtGitHubPickerAction = useConst(() =>
-        Evt.create<GitHubPickerProps["evtAction"]>(),
+        Evt.create<GitHubPickerProps["evtAction"]>()
     );
 
     const buttonRef = useStateRef<HTMLButtonElement>(null);
@@ -47,16 +47,16 @@ export const Tags = memo((props: Props) => {
             onSelectedTags_props(
                 params.isSelect
                     ? [...selectedTags, params.tag]
-                    : selectedTags.filter(tag => tag !== params.tag),
+                    : selectedTags.filter(tag => tag !== params.tag)
             );
-        },
+        }
     );
 
     const onRemoveFactory = useCallbackFactory(([tag]: [string]) =>
         onSelectedTags({
             "isSelect": false,
-            tag,
-        }),
+            tag
+        })
     );
 
     return (
@@ -92,7 +92,7 @@ export const Tags = memo((props: Props) => {
                     evtGitHubPickerAction.post({
                         "action": "open",
                         "anchorEl":
-                            (assert(buttonRef.current !== null), buttonRef.current),
+                            (assert(buttonRef.current !== null), buttonRef.current)
                     })
                 }
             >
@@ -104,7 +104,7 @@ export const Tags = memo((props: Props) => {
                 texts={{
                     "label": t("github picker label"),
                     "create tag": ({ tag }) => t("github picker create tag", { tag }),
-                    "done": t("github picker done"),
+                    "done": t("github picker done")
                 }}
                 tags={tags}
                 selectedTags={selectedTags}
@@ -125,13 +125,13 @@ export const { i18n } = declareComponentKeys<
 
 const useStyles = makeStyles()(theme => ({
     "caption": {
-        "marginBottom": theme.spacing(2),
+        "marginBottom": theme.spacing(2)
     },
     "tag": {
         "marginRight": theme.spacing(1),
-        "marginBottom": theme.spacing(1),
+        "marginBottom": theme.spacing(1)
     },
     "button": {
-        "marginTop": theme.spacing(2),
-    },
+        "marginTop": theme.spacing(2)
+    }
 }));

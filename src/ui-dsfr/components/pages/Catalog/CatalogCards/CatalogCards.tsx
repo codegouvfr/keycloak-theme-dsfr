@@ -38,12 +38,12 @@ export const CatalogCards = memo((props: Props) => {
 
     useOnLoadMore({
         loadingDivRef,
-        onLoadMore,
+        onLoadMore
     });
 
     const { classes, cx } = useStyles({
         "softwareListCount": catalogCardList.length,
-        hasMoreToLoad,
+        hasMoreToLoad
     });
 
     const catalogCards = catalogCardList.map(software => {
@@ -80,12 +80,12 @@ const useStyles = makeStyles<
                       "columnGap": fr.spacing("4v"),
                       "rowGap": fr.spacing("3v"),
                       [fr.breakpoints.down("xl")]: {
-                          "gridTemplateColumns": `repeat(2, 1fr)`,
+                          "gridTemplateColumns": `repeat(2, 1fr)`
                       },
                       [fr.breakpoints.down("md")]: {
-                          "gridTemplateColumns": `repeat(1, 1fr)`,
-                      },
-                  }),
+                          "gridTemplateColumns": `repeat(1, 1fr)`
+                      }
+                  })
         },
         "bottomScrollSpace": {
             ...(hasMoreToLoad
@@ -93,17 +93,17 @@ const useStyles = makeStyles<
                       "display": "flex",
                       "justifyContent": "center",
                       "color": theme.decisions.text.default.grey.default,
-                      ...fr.spacing("padding", { "topBottom": "3v" }),
+                      ...fr.spacing("padding", { "topBottom": "3v" })
                   }
                 : {
                       [`& .${classes.moreToLoadProgress}`]: {
-                          "display": "none",
+                          "display": "none"
                       },
-                      "height": fr.spacing("3v"),
-                  }),
+                      "height": fr.spacing("3v")
+                  })
         },
-        "moreToLoadProgress": {},
-    }),
+        "moreToLoadProgress": {}
+    })
 );
 
 /*const { NoMatches } = (() => {

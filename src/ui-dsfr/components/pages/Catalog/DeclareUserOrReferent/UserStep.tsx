@@ -23,7 +23,7 @@ export const UserStep = memo((props: Props) => {
 
     const { getInputProps: environmentGetInputProps } = useField(
         "referent.environment",
-        {},
+        {}
     );
 
     const { getInputProps: versionGetInputProps } = useField("user.version", {});
@@ -54,16 +54,16 @@ export const UserStep = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { UserStep },
+    "name": { UserStep }
 })(() => ({
     "root": {
         "width": "100%",
-        "paddingRight": fr.spacing("10v"),
-    },
+        "paddingRight": fr.spacing("10v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<
     "useCase" | "environment" | "version" | "service"
 >()({
-    UserStep,
+    UserStep
 });

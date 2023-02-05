@@ -65,11 +65,11 @@ export const UserTypeStep = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { UserTypeStep },
+    "name": { UserTypeStep }
 })(() => ({}));
 
 export const { i18n } = declareComponentKeys<
     "user type label" | "user type hint" | "referent type label" | "referent type hint"
 >()({
-    UserTypeStep,
+    UserTypeStep
 });

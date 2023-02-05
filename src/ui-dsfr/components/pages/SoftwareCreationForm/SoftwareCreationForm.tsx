@@ -36,7 +36,7 @@ async function getWikidataOptions(inputText: string): Promise<WikidataEntry[]> {
         .map(i => ({
             "wikidataLabel": `${inputText} software ${i}`,
             "wikidataId": `Q${inputText}${i}`,
-            "wikidataDescription": `Description of software ${i}`,
+            "wikidataDescription": `Description of software ${i}`
         }));
 }
 
@@ -45,8 +45,8 @@ export function SoftwareCreationForm(props: Props) {
 
     const { handleSubmit, control, watch } = useForm({
         "defaultValues": {
-            "wikidataEntry": id<WikidataEntry | undefined>(undefined),
-        },
+            "wikidataEntry": id<WikidataEntry | undefined>(undefined)
+        }
     });
 
     console.log(watch("wikidataEntry"));
@@ -84,18 +84,18 @@ export function SoftwareCreationForm(props: Props) {
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
-                                "name": field.name,
-                            },
+                                "name": field.name
+                            }
                         }}
                     />
                 )}
             />
             <Button
                 style={{
-                    "marginTop": fr.spacing("4v"),
+                    "marginTop": fr.spacing("4v")
                 }}
                 nativeButtonProps={{
-                    "type": "submit",
+                    "type": "submit"
                 }}
             >
                 Submit

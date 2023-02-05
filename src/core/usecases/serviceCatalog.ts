@@ -58,8 +58,8 @@ export const { reducer, actions } = createSlice({
         id<ServiceCatalogExplorerState.NotFetched>({
             "stateDescription": "not fetched",
             "isFetching": false,
-            "queryString": "",
-        }),
+            "queryString": ""
+        })
     ),
     "reducers": {
         "catalogsFetching": state => {
@@ -69,8 +69,8 @@ export const { reducer, actions } = createSlice({
         "catalogsFetched": (
             state,
             {
-                payload,
-            }: PayloadAction<Pick<ServiceCatalogExplorerState.Ready, "services">>,
+                payload
+            }: PayloadAction<Pick<ServiceCatalogExplorerState.Ready, "services">>
         ) => {
             const { services } = payload;
 
@@ -79,12 +79,12 @@ export const { reducer, actions } = createSlice({
                 services,
                 "isProcessing": false,
                 "displayCount": 24,
-                "queryString": state.queryString,
+                "queryString": state.queryString
             });
         },
         "setQueryString": (
             state,
-            { payload }: PayloadAction<{ queryString: string }>,
+            { payload }: PayloadAction<{ queryString: string }>
         ) => {
             const { queryString } = payload;
 
@@ -106,7 +106,7 @@ export const { reducer, actions } = createSlice({
         },
         "serviceAddedOrUpdated": (
             state,
-            { payload }: PayloadAction<{ service: CompiledData.Service }>,
+            { payload }: PayloadAction<{ service: CompiledData.Service }>
         ) => {
             const { service } = payload;
 
@@ -127,10 +127,10 @@ export const { reducer, actions } = createSlice({
         "serviceDeleted": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 serviceId: number;
-            }>,
+            }>
         ) => {
             const { serviceId } = payload;
 
@@ -145,14 +145,14 @@ export const { reducer, actions } = createSlice({
             state.services.splice(state.services.indexOf(service), 1);
 
             state.isProcessing = false;
-        },
-    },
+        }
+    }
 });
 
 const { getContext } = createUsecaseContextApi(() => ({
     "waitForSearchDebounce": waitForDebounceFactory({ "delay": 750 }).waitForDebounce,
     "waitForLoadMoreDebounce": waitForDebounceFactory({ "delay": 50 }).waitForDebounce,
-    "prevQueryString": "",
+    "prevQueryString": ""
 }));
 
 export const thunks = {
@@ -178,14 +178,14 @@ export const thunks = {
                 await evtAction.waitFor(
                     action =>
                         action.sliceName === "catalog" &&
-                        action.actionName === "catalogsFetched",
+                        action.actionName === "catalogsFetched"
                 );
             }
 
             dispatch(
                 actions.catalogsFetched({
-                    "services": (await sillApiClient.getCompiledData()).services,
-                }),
+                    "services": (await sillApiClient.getCompiledData()).services
+                })
             );
         },
     "setQueryString":
@@ -280,13 +280,13 @@ export const thunks = {
 
             await sillApiClient.deleteService({
                 serviceId,
-                reason,
+                reason
             });
 
             dispatch(
                 actions.serviceDeleted({
-                    serviceId,
-                }),
+                    serviceId
+                })
             );
         },
     /** Pure */
@@ -298,7 +298,7 @@ export const thunks = {
     "stringifyQuery":
         (query: Query): ThunkAction<string> =>
         () =>
-            stringifyQuery(query),
+            stringifyQuery(query)
 };
 
 export const privateThunks = {
@@ -315,14 +315,14 @@ export const privateThunks = {
                     action.actionName === "serviceAddedOrUpdated"
                         ? [action.payload.service]
                         : null,
-                service => dispatch(actions.serviceAddedOrUpdated({ service })),
+                service => dispatch(actions.serviceAddedOrUpdated({ service }))
             );
-        },
+        }
 };
 
 export const selectors = (() => {
     const readyState = (
-        rootState: RootState,
+        rootState: RootState
     ): ServiceCatalogExplorerState.Ready | undefined => {
         const state = rootState.serviceCatalog;
         switch (state.stateDescription) {
@@ -334,7 +334,7 @@ export const selectors = (() => {
     };
 
     const sliceState = (
-        rootState: RootState,
+        rootState: RootState
     ):
         | { stateDescription: "ready" }
         | { stateDescription: "not fetched"; isFetching: boolean } => {
@@ -372,15 +372,14 @@ export const selectors = (() => {
             return Object.fromEntries(
                 Object.entries(servicesBySoftwareId)
                     .map(([softwareId, services]) =>
-                        services === undefined ? undefined : [softwareId, services],
+                        services === undefined ? undefined : [softwareId, services]
                     )
                     .filter(exclude(undefined))
                     .map(
-                        ([softwareId, services]) =>
-                            [softwareId, services.length] as const,
-                    ),
+                        ([softwareId, services]) => [softwareId, services.length] as const
+                    )
             );
-        },
+        }
     );
 
     const serviceWithSoftwares = createSelector(
@@ -410,7 +409,7 @@ export const selectors = (() => {
                             ? {
                                   "isInSill": false,
                                   "softwareName": service.softwareName,
-                                  "comptoirDuLibreId": service.comptoirDuLibreId,
+                                  "comptoirDuLibreId": service.comptoirDuLibreId
                               }
                             : {
                                   "isInSill": true,
@@ -418,20 +417,20 @@ export const selectors = (() => {
                                       const software =
                                           softwareCatalogState.softwares.find(
                                               software =>
-                                                  software.id === service.softwareSillId,
+                                                  software.id === service.softwareSillId
                                           );
 
                                       assert(software !== undefined);
 
                                       return {
                                           "softwareName": software.name,
-                                          "logoUrl": software.wikidataData?.logoUrl,
+                                          "logoUrl": software.wikidataData?.logoUrl
                                       };
-                                  })(),
-                              },
-                }),
+                                  })()
+                              }
+                })
             );
-        },
+        }
     );
 
     const filteredServices = createSelector(
@@ -456,7 +455,7 @@ export const selectors = (() => {
                 .filter(
                     service =>
                         query.softwareName === undefined ||
-                        service.deployedSoftware.softwareName === query.softwareName,
+                        service.deployedSoftware.softwareName === query.softwareName
                 )
                 .filter(
                     query.search === ""
@@ -474,7 +473,7 @@ export const selectors = (() => {
                               signupScope,
                               signupValidationMethod,
                               usageScope,
-                              deployedSoftware,
+                              deployedSoftware
                           }) =>
                               [
                                   agencyName,
@@ -489,7 +488,7 @@ export const selectors = (() => {
                                   signupScope,
                                   signupValidationMethod,
                                   usageScope,
-                                  deployedSoftware.softwareName,
+                                  deployedSoftware.softwareName
                               ]
                                   .map(e => (!!e ? e : undefined))
                                   .filter(exclude(undefined))
@@ -502,9 +501,9 @@ export const selectors = (() => {
 
                                       return format(str).includes(format(query.search));
                                   })
-                                  .indexOf(true) >= 0,
+                                  .indexOf(true) >= 0
                 );
-        },
+        }
     );
 
     const searchResultCount = createSelector(
@@ -521,7 +520,7 @@ export const selectors = (() => {
             const { queryString } = state;
 
             return queryString !== "" ? filteredSoftwares.length : state.services.length;
-        },
+        }
     );
 
     const softwareNames = createSelector(serviceWithSoftwares, serviceWithSoftwares => {
@@ -533,13 +532,13 @@ export const selectors = (() => {
 
         serviceWithSoftwares.forEach(service => {
             let entry = arr.find(
-                ({ name }) => service.deployedSoftware.softwareName === name,
+                ({ name }) => service.deployedSoftware.softwareName === name
             );
 
             if (entry === undefined) {
                 arr.push({
                     "name": service.deployedSoftware.softwareName,
-                    "count": 1,
+                    "count": 1
                 });
 
                 return;
@@ -553,7 +552,7 @@ export const selectors = (() => {
 
     const isProcessing = createSelector(
         readyState,
-        readyState => readyState?.isProcessing,
+        readyState => readyState?.isProcessing
     );
 
     return {
@@ -565,7 +564,7 @@ export const selectors = (() => {
         searchResultCount,
         servicesBySoftwareId,
         softwareNames,
-        isProcessing,
+        isProcessing
     };
 })();
 
@@ -578,7 +577,7 @@ function parseQuery(queryString: string): Query {
     if (!queryString.startsWith("{")) {
         return {
             "search": queryString,
-            "softwareName": undefined,
+            "softwareName": undefined
         };
     }
 

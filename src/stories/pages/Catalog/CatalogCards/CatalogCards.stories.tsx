@@ -8,7 +8,7 @@ import LibreOfficeLogo from "../../../assets/logo_libreoffice.png";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { CatalogCards },
-    "defaultContainerWidth": 1550,
+    "defaultContainerWidth": 1550
 });
 
 export default meta;
@@ -22,15 +22,15 @@ export const VueDefault = getStory({
             softwareDateCurrentVersion: 1640995200000,
             declareUserOrReferent: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             seeUserAndReferent: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             demoLink: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             isPresentInSupportMarket: true,
             isDesktop: true,
@@ -42,18 +42,18 @@ export const VueDefault = getStory({
 
             softwareDetailsLink: {
                 href: "#",
-                onClick: () => {},
+                onClick: () => {}
             },
             ...logCallbacks([
                 "onLogin",
                 "onDeclareReferentAnswer",
                 "onUserNoLongerReferent",
-                "onTagClick",
-            ]),
-        }),
+                "onTagClick"
+            ])
+        })
     ),
     "searchResultCount": 44,
     "search": "",
     "hasMoreToLoad": true,
-    ...logCallbacks(["onSearchChange", "onLoadMore"]),
+    ...logCallbacks(["onSearchChange", "onLoadMore"])
 });

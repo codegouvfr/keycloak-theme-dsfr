@@ -8,8 +8,8 @@ export type TagColor = {
 export const getTagColors = (theme: Theme): TagColor[] => [
     {
         "color": theme.colors.palette.blueInfo.light,
-        "isContrastTextWhite": false,
-    },
+        "isContrastTextWhite": false
+    }
 ];
 
 export function getTagColor(params: { tag: string; theme: Theme }): TagColor {

@@ -10,16 +10,16 @@ export function useI18n(props: Props) {
             "en": {
                 "alphanumericalCharsOnly": "Only alphanumerical characters",
                 "administrativeEmail": "Administrative Email",
-                "agencyName": "Agency Name",
+                "agencyName": "Agency Name"
             },
             "fr": {
                 /* spell-checker: disable */
                 "alphanumericalCharsOnly": "Caractère alphanumérique uniquement",
                 "administrativeEmail": "Email administratif",
-                "agencyName": "Nom du service de rattachement",
+                "agencyName": "Nom du service de rattachement"
                 /* spell-checker: enable */
-            },
-        },
+            }
+        }
     });
 }
 

@@ -46,13 +46,13 @@ export function Catalog(props: Props) {
         if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
-                "scrollTopThreshold": 600,
+                "scrollTopThreshold": 600
             };
         }
 
         return {
             "behavior": "controlled",
-            "isCollapsed": false,
+            "isCollapsed": false
         };
     }, [theme.windowInnerWidth]);
 
@@ -60,13 +60,13 @@ export function Catalog(props: Props) {
         if (isViewPortAdapterEnabled) {
             return {
                 "behavior": "collapses on scroll",
-                "scrollTopThreshold": 300,
+                "scrollTopThreshold": 300
             };
         }
 
         return {
             "behavior": "controlled",
-            "isCollapsed": false,
+            "isCollapsed": false
         };
     }, []);
 
@@ -78,10 +78,10 @@ export function Catalog(props: Props) {
     const { filteredSoftwares } = useCoreState(selectors.catalog.filteredSoftwares);
     const { alikeSoftwares } = useCoreState(selectors.catalog.alikeSoftwares);
     const { referentsBySoftwareId } = useCoreState(
-        selectors.catalog.referentsBySoftwareId,
+        selectors.catalog.referentsBySoftwareId
     );
     const { softwareNameBySoftwareId } = useCoreState(
-        selectors.catalog.softwareNameBySoftwareId,
+        selectors.catalog.softwareNameBySoftwareId
     );
     const { searchResultCount } = useCoreState(selectors.catalog.searchResultCount);
 
@@ -116,7 +116,7 @@ export function Catalog(props: Props) {
 
         if (isProcessing) {
             showSplashScreen({
-                "enableTransparency": true,
+                "enableTransparency": true
             });
         } else {
             hideSplashScreen();
@@ -130,10 +130,10 @@ export function Catalog(props: Props) {
                     "q":
                         catalog.stringifyQuery({
                             search,
-                            "tags": catalog.parseQuery(route.params.q).tags,
-                        }) || undefined,
+                            "tags": catalog.parseQuery(route.params.q).tags
+                        }) || undefined
                 })
-                .replace(),
+                .replace()
     );
 
     useEffect(() => {
@@ -155,10 +155,10 @@ export function Catalog(props: Props) {
 
             softwares.forEach(software => {
                 openLinkBySoftwareId[software.id] = routes.card({
-                    "name": software.name,
+                    "name": software.name
                 }).link;
                 editLinkBySoftwareId[software.id] = routes.form({
-                    "softwareId": software.id,
+                    "softwareId": software.id
                 }).link;
                 parentSoftwareBySoftwareId[software.id] =
                     software.parentSoftware === undefined
@@ -185,7 +185,7 @@ export function Catalog(props: Props) {
             return {
                 openLinkBySoftwareId,
                 editLinkBySoftwareId,
-                parentSoftwareBySoftwareId,
+                parentSoftwareBySoftwareId
             };
         }, [softwares, softwareNameBySoftwareId]);
 
@@ -195,7 +195,7 @@ export function Catalog(props: Props) {
     });
 
     const getFormLink = useConst(() =>
-        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
+        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link)
     );
 
     const onSelectedTagsChange = useConstCallback<
@@ -206,10 +206,10 @@ export function Catalog(props: Props) {
                 "q":
                     catalog.stringifyQuery({
                         search,
-                        tags,
-                    }) || undefined,
+                        tags
+                    }) || undefined
             })
-            .push(),
+            .push()
     );
 
     if (sliceState.stateDescription !== "ready") {
@@ -235,7 +235,7 @@ export function Catalog(props: Props) {
                 title={t("header text1")}
                 helpTitle={t("header text2")}
                 helpContent={t("what is the SILL", {
-                    "link": routes.readme().link,
+                    "link": routes.readme().link
                 })}
                 helpIcon="sentimentSatisfied"
                 titleCollapseParams={titleCollapseParams}
@@ -276,7 +276,7 @@ export const { i18n } = declareComponentKeys<
 >()({ Catalog });
 
 const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
-    "name": { Catalog },
+    "name": { Catalog }
 })((theme, { pageHeaderStickyTop }) => {
     const spacingLeft = theme.spacing(
         (() => {
@@ -285,22 +285,22 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             }
 
             return 0;
-        })(),
+        })()
     );
 
     return {
         "root": {
-            "marginLeft": "unset",
+            "marginLeft": "unset"
         },
         "contentWrapper": {
-            "marginLeft": spacingLeft,
+            "marginLeft": spacingLeft
         },
         "pageHeader": {
             ...(() => {
                 if (isViewPortAdapterEnabled) {
                     return {
                         "position": "sticky",
-                        "top": pageHeaderStickyTop,
+                        "top": pageHeaderStickyTop
                     } as const;
                 }
 
@@ -308,7 +308,7 @@ const useStyles = makeStyles<{ pageHeaderStickyTop: number | undefined }>({
             })(),
             "backgroundColor": theme.colors.useCases.surfaces.background,
             "paddingLeft": spacingLeft,
-            "marginBottom": 0,
-        },
+            "marginBottom": 0
+        }
     };
 });

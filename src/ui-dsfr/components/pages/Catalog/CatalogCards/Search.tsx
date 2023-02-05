@@ -63,7 +63,7 @@ export function Search(props: Props) {
                     label={t("placeholder")}
                     nativeInputProps={{
                         "value": search,
-                        "onChange": event => onSearchChange(event),
+                        "onChange": event => onSearchChange(event)
                     }}
                 />
                 <Button
@@ -89,7 +89,7 @@ export function Search(props: Props) {
                         disabled={!organizations.length}
                         nativeSelectProps={{
                             "onChange": event => onOrganizationChange(event.target.value),
-                            "defaultValue": selectedOrganization ?? "",
+                            "defaultValue": selectedOrganization ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
@@ -104,7 +104,7 @@ export function Search(props: Props) {
                         disabled={!categories.length}
                         nativeSelectProps={{
                             "onChange": event => onCategoriesChange(event.target.value),
-                            "defaultValue": selectedCategories ?? "",
+                            "defaultValue": selectedCategories ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
@@ -119,7 +119,7 @@ export function Search(props: Props) {
                         disabled={!contexts.length}
                         nativeSelectProps={{
                             "onChange": event => onContextChange(event.target.value),
-                            "defaultValue": selectedContext ?? "",
+                            "defaultValue": selectedContext ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
@@ -134,7 +134,7 @@ export function Search(props: Props) {
                         disabled={!prerogatives.length}
                         nativeSelectProps={{
                             "onChange": event => onPrerogativesChange(event.target.value),
-                            "defaultValue": prerogatives ?? "",
+                            "defaultValue": prerogatives ?? ""
                         }}
                         className={classes.filterSelectGroup}
                     >
@@ -153,36 +153,36 @@ export function Search(props: Props) {
 const useStyles = makeStyles({ "name": { Search } })(theme => ({
     "root": {
         "display": "flex",
-        "paddingTop": fr.spacing("6v"),
+        "paddingTop": fr.spacing("6v")
     },
     "searchBar": {
-        "flex": 1,
+        "flex": 1
     },
     "filterButton": {
         "backgroundColor": theme.decisions.background.actionLow.blueFrance.default,
         "&&&:hover": {
-            "backgroundColor": theme.decisions.background.actionLow.blueFrance.hover,
+            "backgroundColor": theme.decisions.background.actionLow.blueFrance.hover
         },
         "color": theme.decisions.text.actionHigh.blueFrance.default,
-        "marginLeft": fr.spacing("4v"),
+        "marginLeft": fr.spacing("4v")
     },
     "filtersAccordion": {
         "&&": {
             "paddingLeft": 0,
-            "paddingRight": 0,
-        },
+            "paddingRight": 0
+        }
     },
     "filtersWrapper": {
         "display": "grid",
         "gridTemplateColumns": "repeat(4, 1fr)",
         "gap": fr.spacing("4v"),
-        "marginTop": fr.spacing("3v"),
+        "marginTop": fr.spacing("3v")
     },
     "filterSelectGroup": {
         "&:not(:last-of-type)": {
-            "paddingRight": "4v",
-        },
-    },
+            "paddingRight": "4v"
+        }
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

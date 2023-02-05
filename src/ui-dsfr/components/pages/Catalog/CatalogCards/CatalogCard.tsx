@@ -92,7 +92,7 @@ export const CatalogCard = memo((props: Props) => {
                                         >
                                             <i
                                                 className={fr.cx(
-                                                    "fr-icon-questionnaire-line",
+                                                    "fr-icon-questionnaire-line"
                                                 )}
                                             />
                                         </Tooltip>
@@ -103,7 +103,7 @@ export const CatalogCard = memo((props: Props) => {
                                 <p
                                     className={cx(
                                         fr.cx("fr-card__detail"),
-                                        classes.softwareVersionContainer,
+                                        classes.softwareVersionContainer
                                     )}
                                 >
                                     {t("last version")} :
@@ -112,17 +112,17 @@ export const CatalogCard = memo((props: Props) => {
                                             fr.cx(
                                                 "fr-badge",
                                                 "fr-badge--yellow-tournesol",
-                                                "fr-badge--sm",
+                                                "fr-badge--sm"
                                             ),
-                                            classes.badgeVersion,
+                                            classes.badgeVersion
                                         )}
                                     >
                                         {softwareCurrentVersion}
                                     </span>
                                     {t("last version date", {
                                         date: shortEndMonthDate({
-                                            time: softwareDateCurrentVersion,
-                                        }),
+                                            time: softwareDateCurrentVersion
+                                        })
                                     })}
                                 </p>
                             </div>
@@ -145,7 +145,7 @@ export const CatalogCard = memo((props: Props) => {
                     <a
                         className={cx(
                             fr.cx("fr-btn", "fr-btn--secondary"),
-                            classes.declareReferentOrUserButton,
+                            classes.declareReferentOrUserButton
                         )}
                         {...declareUserOrReferent}
                     >
@@ -169,28 +169,28 @@ export const CatalogCard = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { CatalogCard },
+    "name": { CatalogCard }
 })(theme => ({
     "root": {
         ...fr.spacing("padding", {
             "topBottom": "7v",
-            "rightLeft": "6v",
+            "rightLeft": "6v"
         }),
         "backgroundColor": theme.decisions.background.default.grey.default,
         [fr.breakpoints.down("md")]: {
             ...fr.spacing("padding", {
                 "topBottom": "5v",
-                "rightLeft": "3v",
-            }),
-        },
+                "rightLeft": "3v"
+            })
+        }
     },
     "headerContainer": {
         "display": "flex",
         "alignItems": "center",
-        "marginBottom": fr.spacing("4v"),
+        "marginBottom": fr.spacing("4v")
     },
     "header": {
-        "width": "100%",
+        "width": "100%"
     },
     "logo": {
         "height": fr.spacing("10v"),
@@ -198,16 +198,16 @@ const useStyles = makeStyles({
         "marginRight": fr.spacing("3v"),
         [fr.breakpoints.down("md")]: {
             "height": fr.spacing("5v"),
-            "width": fr.spacing("5v"),
-        },
+            "width": fr.spacing("5v")
+        }
     },
     "titleContainer": {
         "display": "flex",
-        "justifyContent": "space-between",
+        "justifyContent": "space-between"
     },
     "title": {
         "margin": 0,
-        "color": theme.decisions.text.title.grey.default,
+        "color": theme.decisions.text.title.grey.default
     },
     "titleActionsContainer": {
         "display": "flex",
@@ -216,27 +216,27 @@ const useStyles = makeStyles({
         "&>i": {
             "color": theme.decisions.text.title.blueFrance.default,
             "&::before": {
-                "--icon-size": fr.spacing("4v"),
-            },
-        },
+                "--icon-size": fr.spacing("4v")
+            }
+        }
     },
     "softwareVersionContainer": {
         [fr.breakpoints.down("md")]: {
-            fontSize: fr.spacing("2v"),
-        },
+            fontSize: fr.spacing("2v")
+        }
     },
     "badgeVersion": {
-        ...fr.spacing("margin", { rightLeft: "1v" }),
+        ...fr.spacing("margin", { rightLeft: "1v" })
     },
     "description": {
         "marginTop": 0,
         "marginBottom": fr.spacing("3v"),
         "color": theme.decisions.text.default.grey.default,
         "height": fr.spacing("20v"),
-        "overflowY": "auto",
+        "overflowY": "auto"
     },
     "detailUsersAndReferents": {
-        "marginBottom": fr.spacing("8v"),
+        "marginBottom": fr.spacing("8v")
     },
     "footer": {
         "display": "flex",
@@ -245,14 +245,14 @@ const useStyles = makeStyles({
         [fr.breakpoints.down("md")]: {
             "flexDirection": "column",
             "justifyContent": "flex-start",
-            "alignItems": "flex-start",
-        },
+            "alignItems": "flex-start"
+        }
     },
     "declareReferentOrUserButton": {
         [fr.breakpoints.down("md")]: {
             "width": "100%",
-            "justifyContent": "center",
-        },
+            "justifyContent": "center"
+        }
     },
     "footerActionsContainer": {
         "display": "flex",
@@ -264,12 +264,12 @@ const useStyles = makeStyles({
             "marginLeft": 0,
             "marginTop": fr.spacing("3v"),
             "gap": fr.spacing("4v"),
-            "alignSelf": "end",
-        },
+            "alignSelf": "end"
+        }
     },
     "footerActionLink": {
-        "background": "none",
-    },
+        "background": "none"
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

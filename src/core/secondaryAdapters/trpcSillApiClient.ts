@@ -17,15 +17,15 @@ export function createTrpcSillApiClient(params: {
             ...(refOidcAccessToken.current === undefined
                 ? {}
                 : {
-                      "authorization": `Bearer ${refOidcAccessToken.current}`,
-                  }),
-        }),
+                      "authorization": `Bearer ${refOidcAccessToken.current}`
+                  })
+        })
     });
 
     return {
         "getVersion": memoize(() => trpcClient.query("getVersion"), { "promise": true }),
         "getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
-            "promise": true,
+            "promise": true
         }),
         "getCompiledData": () => trpcClient.query("getCompiledData"),
         "getReferentsBySoftwareId": () => trpcClient.query("getReferentsBySoftwareId"),
@@ -47,6 +47,6 @@ export function createTrpcSillApiClient(params: {
             trpcClient.query("downloadCorsProtectedTextFile", params),
         "deleteService": params => trpcClient.mutation("deleteService", params),
         "addService": params => trpcClient.mutation("addService", params),
-        "updateService": params => trpcClient.mutation("updateService", params),
+        "updateService": params => trpcClient.mutation("updateService", params)
     };
 }

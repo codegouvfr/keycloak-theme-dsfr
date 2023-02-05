@@ -85,7 +85,7 @@ export const DetailCard = memo((props: Props) => {
 
     const instanceCount = organizationList.reduce(
         (acc, organization) => acc + organization.maintainedInstances.length,
-        0,
+        0
     );
 
     return (
@@ -97,9 +97,9 @@ export const DetailCard = memo((props: Props) => {
                 segments={[
                     {
                         linkProps: {
-                            href: "#",
+                            href: "#"
                         },
-                        label: t("catalog breadcrumb"),
+                        label: t("catalog breadcrumb")
                     }
                 ]}
                 currentPageLabel={softwareName}
@@ -128,22 +128,22 @@ export const DetailCard = memo((props: Props) => {
                             minimalVersionRequired,
                             registerDate,
                             softwareDateCurrentVersion,
-                            softwareCurrentVersion,
-                        }),
+                            softwareCurrentVersion
+                        })
                     },
                     {
                         "label": t("tab title instance", {
-                            instanceCount: instanceCount,
+                            instanceCount: instanceCount
                         }),
                         "content": ReferencedInstancesTab({
                             organizationList,
-                            instanceCount,
-                        }),
+                            instanceCount
+                        })
                     },
                     {
                         "label": t("tab title alike software", { alikeSoftwareCount: 1 }),
-                        "content": <p>Content of tab2</p>,
-                    },
+                        "content": <p>Content of tab2</p>
+                    }
                 ]}
             />
             <FooterDetailCard
@@ -158,11 +158,11 @@ export const DetailCard = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { DetailCard },
+    "name": { DetailCard }
 })(() => ({
     "breadcrumb": {
-        "marginBottom": fr.spacing("4v"),
-    },
+        "marginBottom": fr.spacing("4v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

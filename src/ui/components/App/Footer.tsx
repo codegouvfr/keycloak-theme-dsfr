@@ -145,7 +145,7 @@ export const Footer = memo(
                 <DarkModeSwitch size="extra small" className={classes.darkModeSwitch} />
             </footer>
         );
-    }),
+    })
 );
 
 export const { i18n } = declareComponentKeys<
@@ -161,24 +161,24 @@ const useStyles = makeStyles<Props>({ "name": { Footer } })(theme => ({
             "textDecoration": "none",
             "&:hover": {
                 "textDecoration": "underline",
-                "textDecorationColor": theme.colors.useCases.typography.textPrimary,
-            },
-        },
+                "textDecorationColor": theme.colors.useCases.typography.textPrimary
+            }
+        }
     },
     "icon": {
-        "fill": theme.colors.useCases.typography.textPrimary,
+        "fill": theme.colors.useCases.typography.textPrimary
     },
     "linkWithIcon": {
         "display": "flex",
-        "alignItems": "center",
+        "alignItems": "center"
     },
     "sep": {
-        "flex": 1,
+        "flex": 1
     },
     "spacing": {
-        "width": theme.spacing(4),
+        "width": theme.spacing(4)
     },
     "darkModeSwitch": {
-        "padding": 0,
-    },
+        "padding": 0
+    }
 }));

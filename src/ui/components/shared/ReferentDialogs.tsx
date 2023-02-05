@@ -62,21 +62,21 @@ export const ReferentDialogs = memo((props: ReferentDialogsProps) => {
         referents,
         userIndexInReferents,
         onUserNoLongerReferent,
-        onAnswer,
+        onAnswer
     } = props;
 
     const evtDeclareOneselfReferentDialogAction = useConst(() => Evt.create());
 
     const onOpenDeclareBeingReferent = useConstCallback(() =>
-        evtDeclareOneselfReferentDialogAction.post(),
+        evtDeclareOneselfReferentDialogAction.post()
     );
 
     const evtReferentDialogAction = useConst(() =>
         evtAction.pipe((action, sideEffect) =>
             action === "open declare referent"
                 ? (sideEffect(() => evtDeclareOneselfReferentDialogAction.post()), null)
-                : [undefined as void],
-        ),
+                : [undefined as void]
+        )
     );
 
     return (
@@ -115,7 +115,7 @@ const { ReferentDialog } = (() => {
             referents,
             userIndexInReferents,
             onOpenDeclareBeingReferent,
-            onUserNoLongerReferent: onUserNoLongerReferent_prop,
+            onUserNoLongerReferent: onUserNoLongerReferent_prop
         } = props;
 
         const [isOpen, setIsOpen] = useState(false);
@@ -142,14 +142,14 @@ const { ReferentDialog } = (() => {
 
         const { isOpenByEmail, toggleIsOpenFactory } = (function useClosure() {
             const [isOpenByEmail, setIsOpenByEmail] = useState<Record<string, boolean>>(
-                {},
+                {}
             );
 
             const toggleIsOpenFactory = useCallbackFactory(([email]: [string]) =>
                 setIsOpenByEmail({
                     ...isOpenByEmail,
-                    [email]: !isOpenByEmail[email],
-                }),
+                    [email]: !isOpenByEmail[email]
+                })
             );
 
             return { isOpenByEmail, toggleIsOpenFactory };
@@ -162,7 +162,7 @@ const { ReferentDialog } = (() => {
         return (
             <Dialog
                 className={css({
-                    "maxWidth": "unset",
+                    "maxWidth": "unset"
                 })}
                 body={
                     <TableContainer component={Paper}>
@@ -186,9 +186,9 @@ const { ReferentDialog } = (() => {
 
                                                         return {
                                                             "width": `${factor}em`,
-                                                            "height": `${factor}em`,
+                                                            "height": `${factor}em`
                                                         };
-                                                    })(),
+                                                    })()
                                                 })}
                                                 iconId="help"
                                             />
@@ -203,12 +203,12 @@ const { ReferentDialog } = (() => {
                                         agencyName,
                                         isExpert,
                                         useCaseDescription,
-                                        isPersonalUse,
+                                        isPersonalUse
                                     }) => (
                                         <Fragment key={email}>
                                             <TableRow
                                                 sx={{
-                                                    "& > *": { "borderBottom": "unset" },
+                                                    "& > *": { "borderBottom": "unset" }
                                                 }}
                                             >
                                                 <TableCell>
@@ -217,7 +217,7 @@ const { ReferentDialog } = (() => {
                                                             aria-label="expand row"
                                                             size="small"
                                                             onClick={toggleIsOpenFactory(
-                                                                email,
+                                                                email
                                                             )}
                                                         >
                                                             {isOpenByEmail[email] ? (
@@ -232,12 +232,12 @@ const { ReferentDialog } = (() => {
                                                     <MuiLink
                                                         href={`mailto:${email}?subject=${encodeURIComponent(
                                                             t("mail subject", {
-                                                                softwareName,
-                                                            }),
+                                                                softwareName
+                                                            })
                                                         )}&body=${encodeURIComponent(
                                                             t("mail body", {
-                                                                softwareName,
-                                                            }),
+                                                                softwareName
+                                                            })
                                                         )}`}
                                                     >
                                                         {email}
@@ -257,7 +257,7 @@ const { ReferentDialog } = (() => {
                                                 <TableCell
                                                     style={{
                                                         "paddingBottom": 0,
-                                                        "paddingTop": 0,
+                                                        "paddingTop": 0
                                                     }}
                                                     colSpan={6}
                                                 >
@@ -270,13 +270,13 @@ const { ReferentDialog } = (() => {
                                                             sx={{
                                                                 "margin": 1,
                                                                 "& > *": {
-                                                                    "display": "inline",
-                                                                },
+                                                                    "display": "inline"
+                                                                }
                                                             }}
                                                         >
                                                             <Text typo="label 2">
                                                                 {t(
-                                                                    "use case description",
+                                                                    "use case description"
                                                                 )}
                                                                 :
                                                             </Text>
@@ -290,7 +290,7 @@ const { ReferentDialog } = (() => {
                                                 </TableCell>
                                             </TableRow>
                                         </Fragment>
-                                    ),
+                                    )
                                 )}
                             </TableBody>
                         </Table>
@@ -344,8 +344,8 @@ export const { DeclareOneselfReferentDialog } = (() => {
                 Evt.create<Param0<typeof onAnswer>>({
                     "isExpert": false,
                     "useCaseDescription": "",
-                    "isPersonalUse": true,
-                }),
+                    "isPersonalUse": true
+                })
             );
             const { t } = useTranslation({ ReferentDialogs });
 
@@ -371,7 +371,7 @@ export const { DeclareOneselfReferentDialog } = (() => {
                     }
                 />
             );
-        },
+        }
     );
 
     const { Buttons } = (() => {
@@ -424,8 +424,8 @@ export const { DeclareOneselfReferentDialog } = (() => {
                 ({ value }) =>
                     (evtAnswer.state = {
                         ...evtAnswer.state,
-                        "useCaseDescription": value,
-                    }),
+                        "useCaseDescription": value
+                    })
             );
 
             const { classes } = useStyles();
@@ -435,9 +435,9 @@ export const { DeclareOneselfReferentDialog } = (() => {
                     evtAnswer.state = {
                         ...evtAnswer.state,
                         "isPersonalUse":
-                            (event.target as HTMLInputElement).value === "true",
+                            (event.target as HTMLInputElement).value === "true"
                     };
-                },
+                }
             );
 
             return (
@@ -487,7 +487,7 @@ export const { DeclareOneselfReferentDialog } = (() => {
                                 onChange={(...[, isChecked]) =>
                                     (evtAnswer.state = {
                                         ...evtAnswer.state,
-                                        "isExpert": isChecked,
+                                        "isExpert": isChecked
                                     })
                                 }
                             />
@@ -504,14 +504,14 @@ export const { DeclareOneselfReferentDialog } = (() => {
 
                 "display": "block",
                 "& textarea": {
-                    "minWidth": 460,
-                },
+                    "minWidth": 460
+                }
             },
             "radio": {
                 "display": "block",
                 "marginTop": theme.spacing(6),
-                "marginBottom": theme.spacing(4),
-            },
+                "marginBottom": theme.spacing(4)
+            }
         }));
 
         return { Body };

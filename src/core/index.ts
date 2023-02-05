@@ -12,8 +12,8 @@ export const {
     useCoreEvts,
     useCoreExtras,
     useCoreFunctions,
-    useCoreState,
+    useCoreState
 } = createReactApi({
     createCore,
-    usecases,
+    usecases
 });

@@ -5,7 +5,7 @@ import { getStoryFactory } from "stories/getStory";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Authentication },
-    "defaultContainerWidth": 0,
+    "defaultContainerWidth": 0
 });
 
 export default meta;

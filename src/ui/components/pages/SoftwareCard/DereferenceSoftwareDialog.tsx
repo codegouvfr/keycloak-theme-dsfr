@@ -39,8 +39,8 @@ export const DereferenceSoftwareDialog = memo((props: DereferenceSoftwareDialogP
         Evt.create<Param0<typeof onAnswer>>({
             "isDeletion": false,
             "reason": undefined,
-            "lastRecommendedVersion": undefined,
-        }),
+            "lastRecommendedVersion": undefined
+        })
     );
 
     const { t } = useTranslation({ DereferenceSoftwareDialog });
@@ -108,8 +108,8 @@ const { Body } = (() => {
             (event: any) =>
                 (evtAnswer.state = {
                     ...evtAnswer.state,
-                    "isDeletion": event.target.value === "true",
-                }),
+                    "isDeletion": event.target.value === "true"
+                })
         );
 
         const onReasonValueBeingTypedChange = useConstCallback<
@@ -118,8 +118,8 @@ const { Body } = (() => {
             ({ value }) =>
                 (evtAnswer.state = {
                     ...evtAnswer.state,
-                    "reason": value,
-                }),
+                    "reason": value
+                })
         );
 
         const onVersionValueBeingTypedChange = useConstCallback<
@@ -128,8 +128,8 @@ const { Body } = (() => {
             ({ value }) =>
                 (evtAnswer.state = {
                     ...evtAnswer.state,
-                    "lastRecommendedVersion": value,
-                }),
+                    "lastRecommendedVersion": value
+                })
         );
 
         const { classes } = useStyles({ "isDeletion": evtAnswer.state.isDeletion });
@@ -175,23 +175,23 @@ const { Body } = (() => {
 
     const useStyles = makeStyles<{ isDeletion: boolean }>()((theme, { isDeletion }) => ({
         "formControl": {
-            "marginTop": theme.spacing(3),
+            "marginTop": theme.spacing(3)
         },
         "textField1": {
             "marginTop": theme.spacing(3),
             "display": "block",
             "& textarea": {
-                "minWidth": 460,
-            },
+                "minWidth": 460
+            }
         },
         "textField2": {
             "marginTop": theme.spacing(6),
             "display": "block",
             "& textarea": {
-                "minWidth": 460,
+                "minWidth": 460
             },
-            "visibility": isDeletion ? "hidden" : "visible",
-        },
+            "visibility": isDeletion ? "hidden" : "visible"
+        }
     }));
 
     return { Body };

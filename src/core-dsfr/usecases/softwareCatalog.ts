@@ -109,8 +109,8 @@ export const { reducer, actions } = createSlice({
         "initialized": (
             _state,
             {
-                payload,
-            }: PayloadAction<{ softwares: SoftwareCatalogState.Software.Internal[] }>,
+                payload
+            }: PayloadAction<{ softwares: SoftwareCatalogState.Software.Internal[] }>
         ) => {
             const { softwares } = payload;
 
@@ -121,26 +121,26 @@ export const { reducer, actions } = createSlice({
                 "organization": undefined,
                 "category": undefined,
                 "environment": undefined,
-                "prerogatives": [],
+                "prerogatives": []
             };
         },
         "valueUpdated": (state, { payload }: PayloadAction<ChangeValueParams>) => {
             const { key, value } = payload;
 
             (state as any)[key] = value;
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
     "updateFilter":
         <K extends ChangeValueParams.Key>(
-            params: ChangeValueParams<K>,
+            params: ChangeValueParams<K>
         ): ThunkAction<void> =>
         (...args) => {
             const [dispatch] = args;
             dispatch(actions.valueUpdated(params));
-        },
+        }
 };
 
 export const privateThunks = {
@@ -154,12 +154,12 @@ export const privateThunks = {
             const softwares = apiSoftwares.map(({ softwareName }) =>
                 apiSoftwareToInternalSoftware({
                     apiSoftwares,
-                    softwareName,
-                }),
+                    softwareName
+                })
             );
 
             dispatch(actions.initialized({ softwares }));
-        },
+        }
 };
 
 export const selectors = (() => {
@@ -176,7 +176,7 @@ export const selectors = (() => {
         const getFzf = memoize(
             (softwares: SoftwareCatalogState.Software.Internal[]) =>
                 new Fzf(softwares, { "selector": ({ search }) => search }),
-            { "max": 1 },
+            { "max": 1 }
         );
 
         const filterBySearchMemoized = memoize(
@@ -184,9 +184,9 @@ export const selectors = (() => {
                 new Set(
                     getFzf(softwares)
                         .find(search)
-                        .map(({ item: { softwareName } }) => softwareName),
+                        .map(({ item: { softwareName } }) => softwareName)
                 ),
-            { "max": 1 },
+            { "max": 1 }
         );
 
         function filterBySearch(params: {
@@ -210,7 +210,7 @@ export const selectors = (() => {
         const { softwares, organization } = params;
 
         return softwares.filter(({ organizations }) =>
-            organizations.includes(organization),
+            organizations.includes(organization)
         );
     }
 
@@ -243,8 +243,8 @@ export const selectors = (() => {
                 ({
                     ...internalSoftwareToExternalSoftware(software).prerogatives,
                     ...software.prerogatives,
-                    "isTestable": software.testUrl !== undefined,
-                }[prerogative]),
+                    "isTestable": software.testUrl !== undefined
+                }[prerogative])
         );
     }
 
@@ -263,42 +263,42 @@ export const selectors = (() => {
             organization,
             category,
             environment,
-            prerogatives,
+            prerogatives
         ) => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
                     "softwares": tmpSoftwares,
-                    search,
+                    search
                 });
             }
 
             if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organization,
+                    "organization": organization
                 });
             }
 
             if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": category,
+                    "category": category
                 });
             }
 
             if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environment,
+                    "environment": environment
                 });
             }
 
             for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
-                    prerogative,
+                    prerogative
                 });
             }
 
@@ -309,15 +309,15 @@ export const selectors = (() => {
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.addedTime,
-                                    "order": "descending",
-                                },
+                                    "order": "descending"
+                                }
                             );
                         case "update time":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.updateTime,
-                                    "order": "descending",
-                                },
+                                    "order": "descending"
+                                }
                             );
                         case "last version publication date":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
@@ -327,44 +327,44 @@ export const selectors = (() => {
                                     "order": "descending",
                                     "tieBreaker": createCompareFn({
                                         "getWeight": software => software.updateTime,
-                                        "order": "descending",
-                                    }),
-                                },
+                                        "order": "descending"
+                                    })
+                                }
                             );
                         case "referent count":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.referentCount,
-                                    "order": "descending",
-                                },
+                                    "order": "descending"
+                                }
                             );
                         case "referent count ASC":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.referentCount,
-                                    "order": "ascending",
-                                },
+                                    "order": "ascending"
+                                }
                             );
                         case "user count":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.userCount,
-                                    "order": "descending",
-                                },
+                                    "order": "descending"
+                                }
                             );
                         case "user count ASC":
                             return createCompareFn<SoftwareCatalogState.Software.Internal>(
                                 {
                                     "getWeight": software => software.userCount,
-                                    "order": "ascending",
-                                },
+                                    "order": "ascending"
+                                }
                             );
                     }
-                })(),
+                })()
             );
 
             return tmpSoftwares.map(internalSoftwareToExternalSoftware);
-        },
+        }
     );
 
     const organizationOptions = createSelector(
@@ -378,16 +378,16 @@ export const selectors = (() => {
             search,
             category,
             environment,
-            prerogatives,
+            prerogatives
         ): { organization: string; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByOrganization = Object.fromEntries(
                 Array.from(
                     new Set(
                         internalSoftwares
                             .map(({ organizations }) => organizations)
-                            .reduce((prev, curr) => [...prev, ...curr], []),
-                    ),
-                ).map(organization => [organization, 0]),
+                            .reduce((prev, curr) => [...prev, ...curr], [])
+                    )
+                ).map(organization => [organization, 0])
             );
 
             let tmpSoftwares = internalSoftwares;
@@ -395,45 +395,45 @@ export const selectors = (() => {
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
                     "softwares": tmpSoftwares,
-                    search,
+                    search
                 });
             }
 
             if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": category,
+                    "category": category
                 });
             }
 
             if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environment,
+                    "environment": environment
                 });
             }
 
             for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
-                    prerogative,
+                    prerogative
                 });
             }
 
             tmpSoftwares.forEach(({ organizations }) =>
                 organizations.forEach(
                     organization =>
-                        softwareCountInCurrentFilterByOrganization[organization]++,
-                ),
+                        softwareCountInCurrentFilterByOrganization[organization]++
+                )
             );
 
             return Object.entries(softwareCountInCurrentFilterByOrganization)
                 .map(([organization, softwareCount]) => ({
                     organization,
-                    softwareCount,
+                    softwareCount
                 }))
                 .sort((a, b) => a.softwareCount - b.softwareCount);
-        },
+        }
     );
 
     const categoryOptions = createSelector(
@@ -447,16 +447,16 @@ export const selectors = (() => {
             search,
             organization,
             environment,
-            prerogatives,
+            prerogatives
         ): { category: string; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByCategory = Object.fromEntries(
                 Array.from(
                     new Set(
                         internalSoftwares
                             .map(({ categories }) => categories)
-                            .reduce((prev, curr) => [...prev, ...curr], []),
-                    ),
-                ).map(category => [category, 0]),
+                            .reduce((prev, curr) => [...prev, ...curr], [])
+                    )
+                ).map(category => [category, 0])
             );
 
             let tmpSoftwares = internalSoftwares;
@@ -464,44 +464,44 @@ export const selectors = (() => {
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
                     "softwares": tmpSoftwares,
-                    search,
+                    search
                 });
             }
 
             if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organization,
+                    "organization": organization
                 });
             }
 
             if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environment,
+                    "environment": environment
                 });
             }
 
             for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
-                    prerogative,
+                    prerogative
                 });
             }
 
             tmpSoftwares.forEach(({ categories }) =>
                 categories.forEach(
-                    category => softwareCountInCurrentFilterByCategory[category]++,
-                ),
+                    category => softwareCountInCurrentFilterByCategory[category]++
+                )
             );
 
             return Object.entries(softwareCountInCurrentFilterByCategory)
                 .map(([category, softwareCount]) => ({
                     category,
-                    softwareCount,
+                    softwareCount
                 }))
                 .sort((a, b) => a.softwareCount - b.softwareCount);
-        },
+        }
     );
 
     const environmentOptions = createSelector(
@@ -515,7 +515,7 @@ export const selectors = (() => {
             search,
             organization,
             category,
-            prerogatives,
+            prerogatives
         ): { environment: SoftwareCatalogState.Environment; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByEnvironment = new Map(
                 Array.from(
@@ -523,12 +523,12 @@ export const selectors = (() => {
                         internalSoftwares
                             .map(({ environments }) =>
                                 objectKeys(environments).filter(
-                                    environment => environments[environment],
-                                ),
+                                    environment => environments[environment]
+                                )
                             )
-                            .reduce((prev, curr) => [...prev, ...curr], []),
-                    ),
-                ).map(environment => [environment, id<number>(0)] as const),
+                            .reduce((prev, curr) => [...prev, ...curr], [])
+                    )
+                ).map(environment => [environment, id<number>(0)] as const)
             );
 
             let tmpSoftwares = internalSoftwares;
@@ -536,28 +536,28 @@ export const selectors = (() => {
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
                     "softwares": tmpSoftwares,
-                    search,
+                    search
                 });
             }
 
             if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organization,
+                    "organization": organization
                 });
             }
 
             if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": category,
+                    "category": category
                 });
             }
 
             for (const prerogative of prerogatives) {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
-                    prerogative,
+                    prerogative
                 });
             }
 
@@ -568,18 +568,18 @@ export const selectors = (() => {
                         softwareCountInCurrentFilterByEnvironment.set(
                             environment,
                             softwareCountInCurrentFilterByEnvironment.get(environment)! +
-                                1,
-                        ),
-                    ),
+                                1
+                        )
+                    )
             );
 
             return Array.from(softwareCountInCurrentFilterByEnvironment.entries())
                 .map(([environment, softwareCount]) => ({
                     environment,
-                    softwareCount,
+                    softwareCount
                 }))
                 .sort((a, b) => a.softwareCount - b.softwareCount);
-        },
+        }
     );
 
     const prerogativeFilterOptions = createSelector(
@@ -593,7 +593,7 @@ export const selectors = (() => {
             search,
             organization,
             category,
-            environment,
+            environment
         ): { prerogative: SoftwareCatalogState.Prerogative; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByPrerogative = new Map(
                 Array.from(
@@ -601,12 +601,12 @@ export const selectors = (() => {
                         internalSoftwares
                             .map(({ prerogatives }) =>
                                 objectKeys(prerogatives).filter(
-                                    prerogative => prerogatives[prerogative],
-                                ),
+                                    prerogative => prerogatives[prerogative]
+                                )
                             )
-                            .reduce((prev, curr) => [...prev, ...curr], []),
-                    ),
-                ).map(prerogative => [prerogative, id<number>(0)] as const),
+                            .reduce((prev, curr) => [...prev, ...curr], [])
+                    )
+                ).map(prerogative => [prerogative, id<number>(0)] as const)
             );
 
             let tmpSoftwares = internalSoftwares;
@@ -614,28 +614,28 @@ export const selectors = (() => {
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
                     "softwares": tmpSoftwares,
-                    search,
+                    search
                 });
             }
 
             if (organization !== undefined) {
                 tmpSoftwares = filterByOrganization({
                     "softwares": tmpSoftwares,
-                    "organization": organization,
+                    "organization": organization
                 });
             }
 
             if (category !== undefined) {
                 tmpSoftwares = filterByCategory({
                     "softwares": tmpSoftwares,
-                    "category": category,
+                    "category": category
                 });
             }
 
             if (environment !== undefined) {
                 tmpSoftwares = filterByEnvironnement({
                     "softwares": tmpSoftwares,
-                    "environment": environment,
+                    "environment": environment
                 });
             }
 
@@ -646,18 +646,18 @@ export const selectors = (() => {
                         softwareCountInCurrentFilterByPrerogative.set(
                             prerogative,
                             softwareCountInCurrentFilterByPrerogative.get(prerogative)! +
-                                1,
-                        ),
-                    ),
+                                1
+                        )
+                    )
             );
 
             return Array.from(softwareCountInCurrentFilterByPrerogative.entries())
                 .map(([prerogative, softwareCount]) => ({
                     prerogative,
-                    softwareCount,
+                    softwareCount
                 }))
                 .sort((a, b) => a.softwareCount - b.softwareCount);
-        },
+        }
     );
 
     return {
@@ -665,7 +665,7 @@ export const selectors = (() => {
         organizationOptions,
         categoryOptions,
         environmentOptions,
-        prerogativeFilterOptions,
+        prerogativeFilterOptions
     };
 })();
 
@@ -676,7 +676,7 @@ function apiSoftwareToInternalSoftware(params: {
     const { apiSoftwares, softwareName } = params;
 
     const apiSoftware = apiSoftwares.find(
-        apiSoftware => apiSoftware.softwareName === softwareName,
+        apiSoftware => apiSoftware.softwareName === softwareName
     );
 
     assert(apiSoftware !== undefined);
@@ -691,7 +691,7 @@ function apiSoftwareToInternalSoftware(params: {
         updateTime,
         categories,
         prerogatives,
-        users,
+        users
     } = apiSoftware;
 
     assert<
@@ -709,7 +709,7 @@ function apiSoftwareToInternalSoftware(params: {
         }
 
         const parentSoftware = apiSoftwares.find(
-            ({ softwareName }) => softwareName === parentSoftwareName,
+            ({ softwareName }) => softwareName === parentSoftwareName
         );
 
         assert(parentSoftware !== undefined);
@@ -740,8 +740,8 @@ function apiSoftwareToInternalSoftware(params: {
                 "windows": false,
                 "mac": false,
                 "browser": false,
-                "smartphone": false,
-            }),
+                "smartphone": false
+            })
         );
 
     return {
@@ -775,16 +775,16 @@ function apiSoftwareToInternalSoftware(params: {
                 ? undefined
                 : apiSoftwareToInternalSoftware({
                       apiSoftwares,
-                      "softwareName": parentSoftware.softwareName,
-                  }).search,
+                      "softwareName": parentSoftware.softwareName
+                  }).search
         ]
             .filter(exclude(undefined))
-            .join(" "),
+            .join(" ")
     };
 }
 
 function internalSoftwareToExternalSoftware(
-    software: SoftwareCatalogState.Software.Internal,
+    software: SoftwareCatalogState.Software.Internal
 ): SoftwareCatalogState.Software.External {
     const {
         logoUrl,
@@ -823,8 +823,8 @@ function internalSoftwareToExternalSoftware(
                 environments.mac ||
                 environments.windows ||
                 environments.smartphone,
-            isPresentInSupportContract,
-        },
+            isPresentInSupportContract
+        }
     };
 }
 
@@ -837,7 +837,7 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
     return internalSoftwareToExternalSoftware(
         apiSoftwareToInternalSoftware({
             apiSoftwares,
-            softwareName,
-        }),
+            softwareName
+        })
     );
 }

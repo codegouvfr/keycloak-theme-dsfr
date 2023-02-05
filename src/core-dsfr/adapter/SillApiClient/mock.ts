@@ -16,13 +16,13 @@ export function createMockSillApiClient(): SillApiClient {
                             "authors": [
                                 {
                                     "authorName": "Frank Karlitschek",
-                                    "authorUrl": "https://www.wikidata.org/wiki/Q5487635",
+                                    "authorUrl": "https://www.wikidata.org/wiki/Q5487635"
                                 },
                                 {
                                     "authorName": "Nextcloud GmbH",
                                     "authorUrl":
-                                        "https://www.wikidata.org/wiki/Q110707544",
-                                },
+                                        "https://www.wikidata.org/wiki/Q110707544"
+                                }
                             ],
                             "versionMin": "17.0.3",
                             "serviceProviderCount": 29,
@@ -39,7 +39,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "softwareDescription": "Partage de fichiers",
                             "lastVersion": {
                                 "semVer": "25.0.2",
-                                "publicationTime": 0,
+                                "publicationTime": 0
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -49,7 +49,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "prerogatives": {
                                 "doRespectRgaa": false,
                                 "isFromFrenchPublicServices": false,
-                                "isPresentInSupportContract": true,
+                                "isPresentInSupportContract": true
                             },
                             "users": [
                                 {
@@ -61,8 +61,8 @@ export function createMockSillApiClient(): SillApiClient {
                                         "windows": true,
                                         "browser": false,
                                         "mac": false,
-                                        "smartphone": false,
-                                    },
+                                        "smartphone": false
+                                    }
                                 },
                                 {
                                     "type": "user",
@@ -73,14 +73,14 @@ export function createMockSillApiClient(): SillApiClient {
                                         "windows": true,
                                         "browser": false,
                                         "mac": false,
-                                        "smartphone": false,
-                                    },
-                                },
-                            ],
-                        },
-                    ]),
+                                        "smartphone": false
+                                    }
+                                }
+                            ]
+                        }
+                    ])
                 ),
-            { "promise": true },
-        ),
+            { "promise": true }
+        )
     };
 }

@@ -41,14 +41,14 @@ export const Template = memo((props: TemplateProps) => {
 
     const {
         domRect: { width: rootWidth },
-        ref: rootRef,
+        ref: rootRef
     } = useDomRect();
 
     const logoContainerWidth = Math.max(
         Math.floor(
-            (Math.min(rootWidth, 1920) * 4) /*logo container width percent*/ / 100,
+            (Math.min(rootWidth, 1920) * 4) /*logo container width percent*/ / 100
         ),
-        45,
+        45
     );
 
     const { windowInnerWidth, windowInnerHeight } = useWindowInnerSize();
@@ -56,7 +56,7 @@ export const Template = memo((props: TemplateProps) => {
     const { classes, cx } = useStyles({
         windowInnerWidth,
         "aspectRatio": windowInnerWidth / windowInnerHeight,
-        windowInnerHeight,
+        windowInnerHeight
     });
 
     const [isExtraCssLoaded, setExtraCssLoaded] = useReducer(() => true, false);
@@ -76,18 +76,18 @@ export const Template = memo((props: TemplateProps) => {
         Promise.all(
             [
                 ...toArr(props.stylesCommon).map(relativePath =>
-                    pathJoin(kcContext.url.resourcesCommonPath, relativePath),
+                    pathJoin(kcContext.url.resourcesCommonPath, relativePath)
                 ),
                 ...toArr(props.styles).map(relativePath =>
-                    pathJoin(kcContext.url.resourcesPath, relativePath),
-                ),
+                    pathJoin(kcContext.url.resourcesPath, relativePath)
+                )
             ].map(href =>
                 headInsert({
                     "type": "css",
                     href,
-                    "position": "prepend",
-                }),
-            ),
+                    "position": "prepend"
+                })
+            )
         ).then(() => {
             if (isUnmounted) {
                 return;
@@ -99,8 +99,8 @@ export const Template = memo((props: TemplateProps) => {
         toArr(props.scripts).forEach(relativePath =>
             headInsert({
                 "type": "javascript",
-                "src": pathJoin(kcContext.url.resourcesPath, relativePath),
-            }),
+                "src": pathJoin(kcContext.url.resourcesPath, relativePath)
+            })
         );
 
         if (props.kcHtmlClass !== undefined) {
@@ -150,25 +150,25 @@ const useStyles = makeStyles<{
         "height": "100vh",
         "display": "flex",
         "flexDirection": "column",
-        "backgroundColor": theme.colors.useCases.surfaces.background,
+        "backgroundColor": theme.colors.useCases.surfaces.background
     },
 
     "header": {
         "width": "100%",
         "paddingRight": "2%",
-        "height": 64,
+        "height": 64
     },
     "betweenHeaderAndFooter": {
         "flex": 1,
         "overflow": "hidden",
         "backgroundSize": "auto 90%",
         "backgroundPosition": "center",
-        "backgroundRepeat": "no-repeat",
+        "backgroundRepeat": "no-repeat"
     },
     "page": {
         "height": "100%",
-        "overflow": "auto",
-    },
+        "overflow": "auto"
+    }
 }));
 
 const { Page } = (() => {
@@ -207,15 +207,15 @@ const { Page } = (() => {
 
         const {
             ref: containerRef,
-            domRect: { height: containerHeight },
+            domRect: { height: containerHeight }
         } = useDomRect();
         const {
             ref: paperRef,
-            domRect: { height: paperHeight },
+            domRect: { height: paperHeight }
         } = useDomRect();
 
         const { classes, cx } = useStyles({
-            "isPaperBiggerThanContainer": paperHeight > containerHeight,
+            "isPaperBiggerThanContainer": paperHeight > containerHeight
         });
         return (
             <div ref={containerRef} className={cx(classes.root, className)}>
@@ -250,26 +250,26 @@ const { Page } = (() => {
     });
 
     const useStyles = makeStyles<{ isPaperBiggerThanContainer: boolean }>({
-        "name": { Page },
+        "name": { Page }
     })((theme, { isPaperBiggerThanContainer }) => ({
         "root": {
             "display": "flex",
             "justifyContent": "center",
-            "alignItems": isPaperBiggerThanContainer ? undefined : "center",
+            "alignItems": isPaperBiggerThanContainer ? undefined : "center"
         },
         "paper": {
             "padding": theme.spacing(5),
             "width": 490,
             "height": "fit-content",
             "marginBottom": theme.spacing(4),
-            "borderRadius": 8,
+            "borderRadius": 8
         },
         "alert": {
-            "alignItems": "center",
+            "alignItems": "center"
         },
         "crossButtonWrapper": {
-            "display": "flex",
-        },
+            "display": "flex"
+        }
     }));
 
     const { Head } = (() => {
@@ -304,7 +304,7 @@ const { Page } = (() => {
                                 <div
                                     className={cx(
                                         kcProps.kcLabelWrapperClass,
-                                        "subtitle",
+                                        "subtitle"
                                     )}
                                 >
                                     <span className="subtitle">
@@ -345,7 +345,7 @@ const { Page } = (() => {
                                             <div className="kc-login-tooltip">
                                                 <i
                                                     className={cx(
-                                                        kcProps.kcResetFlowIcon,
+                                                        kcProps.kcResetFlowIcon
                                                     )}
                                                 ></i>
                                                 <span className="kc-tooltip-text">
@@ -387,13 +387,13 @@ const { Page } = (() => {
         });
 
         const useStyles = makeStyles({
-            "name": `${symToStr({ Template })}${symToStr({ Head })}`,
+            "name": `${symToStr({ Template })}${symToStr({ Head })}`
         })(theme => ({
             "root": {
                 "textAlign": "center",
                 "marginTop": theme.spacing(3),
-                "marginBottom": theme.spacing(3),
-            },
+                "marginBottom": theme.spacing(3)
+            }
         }));
 
         return { Head };
@@ -445,7 +445,7 @@ const { Page } = (() => {
                                     <Text typo="label 2">
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                "__html": kcContext.message.summary,
+                                                "__html": kcContext.message.summary
                                             }}
                                         />
                                     </Text>
@@ -460,15 +460,15 @@ const { Page } = (() => {
                                     action={kcContext.url.loginAction}
                                     method="post"
                                     className={cx(
-                                        displayWide && props.kcContentWrapperClass,
+                                        displayWide && props.kcContentWrapperClass
                                     )}
                                 >
                                     <div
                                         className={cx(
                                             displayWide && [
                                                 kcProps.kcFormSocialAccountContentClass,
-                                                kcProps.kcFormSocialAccountClass,
-                                            ],
+                                                kcProps.kcFormSocialAccountClass
+                                            ]
                                         )}
                                     >
                                         <div className={cx(kcProps.kcFormGroupClass)}>
@@ -504,11 +504,11 @@ const { Page } = (() => {
         });
 
         const useStyles = makeStyles({
-            "name": `${symToStr({ Template })}${symToStr({ Main })}`,
+            "name": `${symToStr({ Template })}${symToStr({ Main })}`
         })(() => ({
             "alert": {
-                "alignItems": "center",
-            },
+                "alignItems": "center"
+            }
         }));
 
         return { Main };

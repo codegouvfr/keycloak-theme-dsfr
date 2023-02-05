@@ -32,8 +32,8 @@ export async function createKeycloakOidcClient(params: {
             "adapter": createKeycloakAdapter({
                 transformUrlBeforeRedirect,
                 keycloakInstance,
-                "getRedirectMethod": () => redirectMethod,
-            }),
+                "getRedirectMethod": () => redirectMethod
+            })
         })
         .catch((error: Error) => error);
 
@@ -43,7 +43,7 @@ export async function createKeycloakOidcClient(params: {
     }
 
     const login: OidcClient.NotLoggedIn["login"] = async ({
-        doesCurrentHrefRequiresAuth,
+        doesCurrentHrefRequiresAuth
     }) => {
         if (doesCurrentHrefRequiresAuth) {
             redirectMethod = "location.replace";
@@ -57,7 +57,7 @@ export async function createKeycloakOidcClient(params: {
     if (!isAuthenticated) {
         return id<OidcClient.NotLoggedIn>({
             "isUserLoggedIn": false,
-            login,
+            login
         });
     }
 
@@ -73,7 +73,7 @@ export async function createKeycloakOidcClient(params: {
                         case "home":
                             return window.location.origin;
                     }
-                })(),
+                })()
             });
 
             return new Promise<never>(() => {});
@@ -82,7 +82,7 @@ export async function createKeycloakOidcClient(params: {
             await keycloakInstance.updateToken(-1);
 
             oidcClient.accessToken = keycloakInstance.token!;
-        },
+        }
     });
 
     (function callee() {
@@ -91,7 +91,7 @@ export async function createKeycloakOidcClient(params: {
 
         setTimeout(async () => {
             log?.(
-                `OIDC access token will expire in ${minValiditySecond} seconds, waiting for user activity before renewing`,
+                `OIDC access token will expire in ${minValiditySecond} seconds, waiting for user activity before renewing`
             );
 
             await evtUserActivity.waitFor();
@@ -100,7 +100,7 @@ export async function createKeycloakOidcClient(params: {
 
             const error = await keycloakInstance.updateToken(-1).then(
                 () => undefined,
-                (error: Error) => error,
+                (error: Error) => error
             );
 
             if (error) {

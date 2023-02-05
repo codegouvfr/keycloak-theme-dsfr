@@ -49,8 +49,8 @@ const zConfiguration = z.object({
                 "id": z.string(),
                 "email": z.string(),
                 "agencyName": z.string(),
-                "locale": z.string(),
-            }),
+                "locale": z.string()
+            })
         })
         .optional(),
     "headerLinks": z
@@ -58,10 +58,10 @@ const zConfiguration = z.object({
             z.object({
                 "iconId": createUnionSchema(iconIds),
                 "label": zLocalizedString,
-                "url": z.string(),
-            }),
+                "url": z.string()
+            })
         )
-        .optional(),
+        .optional()
 });
 
 {
@@ -80,8 +80,8 @@ export const getConfiguration = memoize(
         if (CONFIGURATION === undefined) {
             throw new Error(
                 `We need a ${symToStr({
-                    CONFIGURATION,
-                })} environnement variable`,
+                    CONFIGURATION
+                })} environnement variable`
             );
         }
 
@@ -91,7 +91,7 @@ export const getConfiguration = memoize(
             configuration = JSONC.parse(CONFIGURATION) as any;
         } catch {
             throw new Error(
-                `The CONFIGURATION environnement variable is not a valid JSONC string (JSONC = JSON + Comment support)\n${CONFIGURATION}`,
+                `The CONFIGURATION environnement variable is not a valid JSONC string (JSONC = JSON + Comment support)\n${CONFIGURATION}`
             );
         }
 
@@ -99,9 +99,9 @@ export const getConfiguration = memoize(
 
         return {
             ...configuration,
-            "apiUrl": configuration.apiUrl ?? `${window.location.origin}/api`,
+            "apiUrl": configuration.apiUrl ?? `${window.location.origin}/api`
         };
-    },
+    }
 );
 
 if (require.main === module) {

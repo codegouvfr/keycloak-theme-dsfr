@@ -25,60 +25,60 @@ export const name = "userAuthentication";
 export const { reducer, actions } = createSlice({
     name,
     "initialState": createObjectThatThrowsIfAccessed<UserAuthenticationState>({
-        "debugMessage": "Slice not initialized",
+        "debugMessage": "Slice not initialized"
     }),
     "reducers": {
         "initialized": (
             _state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 agencyName: string;
                 email: string;
-            }>,
+            }>
         ) => {
             const { agencyName, email } = payload;
 
             return {
                 "agencyName": {
                     "value": agencyName,
-                    "isBeingUpdated": false,
+                    "isBeingUpdated": false
                 },
                 "email": {
                     "value": email,
-                    "isBeingUpdated": false,
-                },
+                    "isBeingUpdated": false
+                }
             };
         },
         "updateFieldStarted": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 fieldName: "agencyName" | "email";
                 value: string;
-            }>,
+            }>
         ) => {
             const { fieldName, value } = payload;
 
             state[fieldName] = {
                 value,
-                "isBeingUpdated": true,
+                "isBeingUpdated": true
             };
         },
         "updateFieldCompleted": (
             state,
             {
-                payload,
+                payload
             }: PayloadAction<{
                 fieldName: "agencyName" | "email";
-            }>,
+            }>
         ) => {
             const { fieldName } = payload;
 
             state[fieldName].isBeingUpdated = false;
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
@@ -91,7 +91,7 @@ export const thunks = {
 
             assert(
                 immutableUserFields !== undefined,
-                "Can't use getUser when not authenticated",
+                "Can't use getUser when not authenticated"
             );
 
             return immutableUserFields;
@@ -177,7 +177,7 @@ export const thunks = {
             const [, , { sillApiClient }] = args;
 
             return sillApiClient.getAgencyNames();
-        },
+        }
 };
 
 export const privateThunks = {
@@ -192,8 +192,8 @@ export const privateThunks = {
                 dispatch(
                     actions.initialized({
                         "agencyName": user.agencyName,
-                        "email": user.email,
-                    }),
+                        "email": user.email
+                    })
                 );
             }
 
@@ -212,12 +212,12 @@ export const privateThunks = {
                                       keycloakParams.url,
                                       "realms",
                                       keycloakParams.realm,
-                                      "account",
-                                  ),
+                                      "account"
+                                  )
                     };
-                })()),
+                })())
             });
-        },
+        }
 };
 
 const { getContext, setContext } = createUsecaseContextApi<{

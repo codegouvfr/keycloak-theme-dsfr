@@ -89,27 +89,27 @@ export const ServiceCatalogCards = memo((props: Props) => {
     const { classes } = useStyles({
         "filteredCardCount": filteredServices.length,
         hasMoreToLoad,
-        doRenderSearchBarInHeader,
+        doRenderSearchBarInHeader
     });
 
     const onRequestDeleteFactory = useCallbackFactory(
         (
             [serviceId]: [number],
             [{ reason }]: [
-                Param0<ServiceCatalogCardProps.UserLoggedIn["onRequestDelete"]>,
-            ],
+                Param0<ServiceCatalogCardProps.UserLoggedIn["onRequestDelete"]>
+            ]
         ) => {
             assert(propsRest.isUserLoggedIn);
             propsRest.onRequestDelete({ serviceId, reason });
-        },
+        }
     );
 
     const evtCatalogSearchAreaAction = useConst(() =>
-        Evt.create<SearchAreaProps["evtAction"]>(),
+        Evt.create<SearchAreaProps["evtAction"]>()
     );
 
     const onGoBackClick = useConstCallback(() =>
-        evtCatalogSearchAreaAction.post("CLEAR SEARCH"),
+        evtCatalogSearchAreaAction.post("CLEAR SEARCH")
     );
 
     const catalogSearchAreaNode = (
@@ -156,13 +156,13 @@ export const ServiceCatalogCards = memo((props: Props) => {
                                     ? {
                                           "isUserLoggedIn": true,
                                           "onRequestDelete": onRequestDeleteFactory(
-                                              service.id,
+                                              service.id
                                           ),
-                                          "editLink": editLinkByServiceId[service.id]!,
+                                          "editLink": editLinkByServiceId[service.id]!
                                       }
                                     : {
                                           "isUserLoggedIn": false,
-                                          "onLogin": propsRest.onLogin,
+                                          "onLogin": propsRest.onLogin
                                       })}
                             />
                         ))
@@ -190,7 +190,7 @@ const useStyles = makeStyles<
     (
         theme,
         { filteredCardCount, hasMoreToLoad, doRenderSearchBarInHeader },
-        classes,
+        classes
     ) => ({
         "searchBarWrapper": {
             "paddingBottom": theme.spacing(4),
@@ -198,11 +198,11 @@ const useStyles = makeStyles<
                 ? {}
                 : {
                       "position": "sticky",
-                      "top": theme.spacing(3),
-                  }),
+                      "top": theme.spacing(3)
+                  })
         },
         "contextTypo": {
-            "marginBottom": theme.spacing(4),
+            "marginBottom": theme.spacing(4)
         },
         "cards": {
             ...(filteredCardCount === 0
@@ -216,28 +216,28 @@ const useStyles = makeStyles<
 
                           return 1;
                       })()},1fr)`,
-                      "gap": theme.spacing(4),
-                  }),
+                      "gap": theme.spacing(4)
+                  })
         },
         "bottomScrollSpace": {
             ...(hasMoreToLoad
                 ? {
                       "display": "flex",
                       "justifyContent": "center",
-                      ...theme.spacing.topBottom("padding", 3),
+                      ...theme.spacing.topBottom("padding", 3)
                   }
                 : {
                       [`& .${classes.moreToLoadProgress}`]: {
-                          "display": "none",
+                          "display": "none"
                       },
-                      "height": theme.spacing(3),
-                  }),
+                      "height": theme.spacing(3)
+                  })
         },
         "moreToLoadProgress": {},
         "formLinkButton": {
-            "marginLeft": theme.spacing(3),
-        },
-    }),
+            "marginLeft": theme.spacing(3)
+        }
+    })
 );
 
 const { NoMatches } = (() => {
@@ -249,27 +249,27 @@ const { NoMatches } = (() => {
     const useStyles = makeStyles()(theme => ({
         "root": {
             "display": "flex",
-            "justifyContent": "center",
+            "justifyContent": "center"
         },
         "innerDiv": {
             "textAlign": "center",
-            "maxWidth": 500,
+            "maxWidth": 500
         },
         "svg": {
             "fill": theme.colors.palette.dark.greyVariant2,
             "width": 100,
-            "margin": 0,
+            "margin": 0
         },
         "h2": {
-            ...theme.spacing.topBottom("margin", 4),
+            ...theme.spacing.topBottom("margin", 4)
         },
         "typo": {
             "marginBottom": theme.spacing(1),
-            "color": theme.colors.palette.light.greyVariant3,
+            "color": theme.colors.palette.light.greyVariant3
         },
         "link": {
-            "cursor": "pointer",
-        },
+            "cursor": "pointer"
+        }
     }));
 
     const NoMatches = memo((props: Props) => {
@@ -322,15 +322,15 @@ const { SearchArea } = (() => {
             selectedSoftwareName,
             onSelectedSoftwareChange,
             search,
-            onSearchChange,
+            onSearchChange
         } = props;
 
         const evtSearchBarAction = useConst(() =>
-            Evt.create<SearchBarProps["evtAction"]>(),
+            Evt.create<SearchBarProps["evtAction"]>()
         );
 
         const evtGitHubPickerAction = useConst(() =>
-            Evt.create<GitHubPickerProps["evtAction"]>(),
+            Evt.create<GitHubPickerProps["evtAction"]>()
         );
 
         useEvt(
@@ -338,9 +338,9 @@ const { SearchArea } = (() => {
                 evtAction.attach(
                     data => data === "CLEAR SEARCH",
                     ctx,
-                    () => evtSearchBarAction.post("CLEAR SEARCH"),
+                    () => evtSearchBarAction.post("CLEAR SEARCH")
                 ),
-            [evtAction],
+            [evtAction]
         );
 
         const buttonRef = useStateRef<HTMLButtonElement>(null);
@@ -353,7 +353,7 @@ const { SearchArea } = (() => {
             onSelectedSoftwareChange(params.isSelect ? params.tag : undefined);
 
             evtGitHubPickerAction.post({
-                "action": "close",
+                "action": "close"
             });
         });
 
@@ -361,7 +361,7 @@ const { SearchArea } = (() => {
 
         const githubPickerSelectedTags = useMemo(
             () => (selectedSoftwareName === undefined ? [] : [selectedSoftwareName]),
-            [selectedSoftwareName],
+            [selectedSoftwareName]
         );
 
         return (
@@ -380,7 +380,7 @@ const { SearchArea } = (() => {
                         onRemove={() =>
                             onGitHubPickerSelectTags({
                                 "isSelect": false,
-                                "tag": selectedSoftwareName,
+                                "tag": selectedSoftwareName
                             })
                         }
                     />
@@ -394,7 +394,7 @@ const { SearchArea } = (() => {
                         evtGitHubPickerAction.post({
                             "action": "open",
                             "anchorEl":
-                                (assert(buttonRef.current !== null), buttonRef.current),
+                                (assert(buttonRef.current !== null), buttonRef.current)
                         })
                     }
                 >
@@ -413,17 +413,17 @@ const { SearchArea } = (() => {
 
     const useStyles = makeStyles({ "name": { SearchArea } })(theme => ({
         "root": {
-            "display": "flex",
+            "display": "flex"
         },
         "searchBar": {
-            "flex": 1,
+            "flex": 1
         },
         "tag": {
-            "marginLeft": theme.spacing(2),
+            "marginLeft": theme.spacing(2)
         },
         "tagButton": {
-            "marginLeft": theme.spacing(2),
-        },
+            "marginLeft": theme.spacing(2)
+        }
     }));
 
     return { SearchArea };

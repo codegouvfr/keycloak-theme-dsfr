@@ -57,16 +57,16 @@ export const App = memo((props: Props) => {
 
     const {
         domRect: { width: rootWidth },
-        ref: rootRef,
+        ref: rootRef
     } = useDomRect();
 
     const {
         ref: headerRef,
-        domRect: { height: headerHeight },
+        domRect: { height: headerHeight }
     } = useDomRect();
     const {
         ref: footerRef,
-        domRect: { height: footerHeight },
+        domRect: { height: footerHeight }
     } = useDomRect();
 
     {
@@ -83,14 +83,14 @@ export const App = memo((props: Props) => {
 
     const { classes, cx } = useStyles({
         "leftBarTop": top,
-        "leftBarHeight": windowInnerHeight - headerHeight - footerHeight,
+        "leftBarHeight": windowInnerHeight - headerHeight - footerHeight
     });
 
     const logoContainerWidth = Math.max(
         Math.floor(
-            (Math.min(rootWidth, 1920) * 4) /* logo container with in percent */ / 100,
+            (Math.min(rootWidth, 1920) * 4) /* logo container with in percent */ / 100
         ),
-        45,
+        45
     );
 
     const { userAuthentication, apiInfo } = useCoreFunctions();
@@ -100,7 +100,7 @@ export const App = memo((props: Props) => {
     const onHeaderAuthClick = useConstCallback(() =>
         isUserLoggedIn
             ? userAuthentication.logout({ "redirectTo": "home" })
-            : userAuthentication.login({ "doesCurrentHrefRequiresAuth": false }),
+            : userAuthentication.login({ "doesCurrentHrefRequiresAuth": false })
     );
 
     const { lang } = useLang();
@@ -112,20 +112,20 @@ export const App = memo((props: Props) => {
                     "iconId": "account",
                     "label": t("account"),
                     "link": routes.account().link,
-                    "hasDividerBelow": true,
+                    "hasDividerBelow": true
                 },
                 "catalog": {
                     "iconId": "catalog",
                     "label": t("catalog"),
-                    "link": routes.catalog().link,
+                    "link": routes.catalog().link
                 },
                 "serviceCatalog": {
                     "iconId": "http",
                     "label": t("service catalog"),
-                    "link": routes.serviceCatalog().link,
-                },
+                    "link": routes.serviceCatalog().link
+                }
             } as const),
-        [t, lang],
+        [t, lang]
     );
 
     const termsLink = useMemo(() => routes.terms().link, []);
@@ -140,7 +140,7 @@ export const App = memo((props: Props) => {
                     "useCase": "core app",
                     logoContainerWidth,
                     "logoLink": routes.home().link,
-                    "ref": headerRef,
+                    "ref": headerRef
                 } as const;
 
                 return isUserLoggedIn ? (
@@ -197,7 +197,7 @@ export const { i18n } = declareComponentKeys<
 >()({ App });
 
 const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: number }>({
-    "name": { App },
+    "name": { App }
 })((theme, { leftBarTop, leftBarHeight }) => ({
     "root": {
         "backgroundColor": theme.colors.useCases.surfaces.background,
@@ -207,8 +207,8 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
             ? {}
             : {
                   "height": "100%",
-                  "overflow": "auto",
-              }),
+                  "overflow": "auto"
+              })
         // https://stackoverflow.com/questions/55211408/collapse-header-with-dynamic-height-on-scroll/55212530
         //"overflowAnchor": "none",
     },
@@ -216,7 +216,7 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
         if (isViewPortAdapterEnabled) {
             return {
                 "position": "sticky",
-                "top": 0,
+                "top": 0
             } as const;
         }
 
@@ -224,12 +224,12 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
     })(),
     "betweenHeaderAndFooter": {
         "display": "flex",
-        "alignItems": "start",
+        "alignItems": "start"
     },
     "footer": {
         "height": 32,
         "position": "sticky",
-        "bottom": 0,
+        "bottom": 0
     },
     "leftBar": {
         "position": "sticky",
@@ -241,16 +241,16 @@ const useStyles = makeStyles<{ leftBarTop: number | undefined; leftBarHeight: nu
                 return undefined;
             }
             return "none";
-        })(),
+        })()
     },
     "main": {
         //TODO: See if scroll delegation works if we put auto here instead of "hidden"
         //"paddingLeft": theme.spacing(4),
         "& > *": {
-            "marginLeft": theme.spacing(4),
+            "marginLeft": theme.spacing(4)
         },
-        "flex": 1,
-    },
+        "flex": 1
+    }
 }));
 
 const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
@@ -273,7 +273,7 @@ const PageSelector = memo((props: { route: ReturnType<typeof useRoute> }) => {
                         if (
                             typeGuard<Language>(
                                 lang,
-                                id<readonly string[]>(languages).includes(lang),
+                                id<readonly string[]>(languages).includes(lang)
                             )
                         ) {
                             evtLang.state = lang;
@@ -428,8 +428,8 @@ function useApplyLanguageSelectedAtLogin() {
                     locale in
                         id<Record<Language, null>>({
                             "en": null,
-                            "fr": null,
-                        }),
+                            "fr": null
+                        })
             )
         ) {
             return;
@@ -461,7 +461,7 @@ function useRestoreScroll(params: {
 
             const scrollableElement = getScrollableParent({
                 "doReturnElementIfScrollable": true,
-                element,
+                element
             });
 
             {
@@ -483,9 +483,9 @@ function useRestoreScroll(params: {
             }
 
             Evt.from(ctx, scrollableElement, "scroll").attach(
-                () => (scrollTopByPageName[route.name] = scrollableElement.scrollTop),
+                () => (scrollTopByPageName[route.name] = scrollableElement.scrollTop)
             );
         },
-        [rootRef.current, route.name],
+        [rootRef.current, route.name]
     );
 }

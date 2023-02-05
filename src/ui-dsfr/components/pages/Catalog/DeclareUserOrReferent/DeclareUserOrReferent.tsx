@@ -48,7 +48,7 @@ export const DeclareUserOrReferent = memo((props: Props) => {
     const [activeStep, setActiveStep] = useState(1);
 
     const { Form, formContext } = useForm({
-        debugForm: false,
+        debugForm: false
     });
 
     /* TODO :
@@ -83,27 +83,27 @@ export const DeclareUserOrReferent = memo((props: Props) => {
         }
     };
 
-    const getActiveStep = (): "type" | "user" | "referent" =>  {
+    const getActiveStep = (): "type" | "user" | "referent" => {
         if (activeStep === 1) {
-            return "type"
+            return "type";
         }
 
         if (activeStep === 2 && formContext.values.type === "user") {
-            return "user"
+            return "user";
         }
 
         if (activeStep === 2 && formContext.values.type === "referent") {
-            return "referent"
+            return "referent";
         }
 
-        return "type"
-    }
+        return "type";
+    };
 
     const title = (
         <legend className={fr.cx("fr-h6")} id="radio-hint-element-legend">
-            { getActiveStep() === "type" && "Comment souhaitez-vous déclarer ?" }
-            { getActiveStep() === "user" && "À propos de votre usage" }
-            { getActiveStep() === "referent" && "À propos de votre référencement" }
+            {getActiveStep() === "type" && "Comment souhaitez-vous déclarer ?"}
+            {getActiveStep() === "user" && "À propos de votre usage"}
+            {getActiveStep() === "referent" && "À propos de votre référencement"}
         </legend>
     );
 
@@ -113,15 +113,15 @@ export const DeclareUserOrReferent = memo((props: Props) => {
                 segments={[
                     {
                         linkProps: {
-                            href: "/catalog",
+                            href: "/catalog"
                         },
                         label: t("catalog breadcrumb")
                     },
                     {
                         linkProps: {
-                            href: "/catalog/softwareName",
+                            href: "/catalog/softwareName"
                         },
-                        label: softwareName,
+                        label: softwareName
                     }
                 ]}
                 currentPageLabel={t("declare yourself user or referent breadcrumb")}
@@ -146,7 +146,7 @@ export const DeclareUserOrReferent = memo((props: Props) => {
                     <DetailUsersAndReferents
                         className={cx(
                             fr.cx("fr-text--lg"),
-                            classes.detailUserAndReferent,
+                            classes.detailUserAndReferent
                         )}
                         seeUserAndReferent={seeUserAndReferent}
                         referentCount={referentCount}
@@ -192,15 +192,15 @@ export const DeclareUserOrReferent = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { DeclareUserOrReferent },
+    "name": { DeclareUserOrReferent }
 })(theme => ({
     "breadcrumb": {
-        "marginBottom": fr.spacing("4v"),
+        "marginBottom": fr.spacing("4v")
     },
     "headerDeclareUserOrReferent": {
         "display": "flex",
         "alignItems": "center",
-        "marginBottom": fr.spacing("10v"),
+        "marginBottom": fr.spacing("10v")
     },
     "backButton": {
         "background": "none",
@@ -208,20 +208,20 @@ const useStyles = makeStyles({
 
         "&>i": {
             "&::before": {
-                "--icon-size": fr.spacing("8v"),
-            },
-        },
+                "--icon-size": fr.spacing("8v")
+            }
+        }
     },
     "title": {
-        "marginBottom": fr.spacing("1v"),
+        "marginBottom": fr.spacing("1v")
     },
     "formContainer": {
         "display": "grid",
         "gridTemplateColumns": `repeat(2, 1fr)`,
 
         [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, 1fr)`,
-        },
+            "gridTemplateColumns": `repeat(1, 1fr)`
+        }
     },
     "leftCol": {
         "marginLeft": fr.spacing("12v"),
@@ -231,47 +231,47 @@ const useStyles = makeStyles({
         [fr.breakpoints.down("md")]: {
             "borderRight": "none",
             "marginLeft": "0",
-            "paddingRight": "0",
-        },
+            "paddingRight": "0"
+        }
     },
     "softwareNameContainer": {
         "display": "flex",
         "alignItems": "center",
-        "marginBottom": fr.spacing("3v"),
+        "marginBottom": fr.spacing("3v")
     },
     "logo": {
         "width": "50px",
         "height": "50px",
-        "marginRight": fr.spacing("2v"),
+        "marginRight": fr.spacing("2v")
     },
     "softwareName": {
-        "marginBottom": 0,
+        "marginBottom": 0
     },
     "detailUserAndReferent": {
-        color: theme.decisions.text.actionHigh.blueFrance.default,
+        color: theme.decisions.text.actionHigh.blueFrance.default
     },
     "rightCol": {
         "marginLeft": fr.spacing("6v"),
         "paddingLeft": fr.spacing("10v"),
         [fr.breakpoints.down("md")]: {
             "marginLeft": "0",
-            "paddingLeft": "0",
+            "paddingLeft": "0"
         }
     },
     "stepper": {
-        "flex": "1",
+        "flex": "1"
     },
     "buttons": {
         "display": "flex",
         "alignItems": "center",
-        "justifyContent": "end",
+        "justifyContent": "end"
     },
     "back": {
-        "marginRight": fr.spacing("4v"),
+        "marginRight": fr.spacing("4v")
     },
     "formLine": {
-        "marginBottom": fr.spacing("4v"),
-    },
+        "marginBottom": fr.spacing("4v")
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

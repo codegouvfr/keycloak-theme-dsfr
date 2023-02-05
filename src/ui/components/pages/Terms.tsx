@@ -40,7 +40,7 @@ export function Terms(props: Props) {
 
             const { resolveLocalizedString } = createResolveLocalizedString({
                 "currentLanguage": lang,
-                fallbackLanguage,
+                fallbackLanguage
             });
 
             return resolveLocalizedString(termsOfServices);
@@ -48,7 +48,7 @@ export function Terms(props: Props) {
     })();
 
     const { data: tos } = useQuery(["tos", tosUrl], () =>
-        tosUrl === undefined ? undefined : fetch(tosUrl).then(res => res.text()),
+        tosUrl === undefined ? undefined : fetch(tosUrl).then(res => res.text())
     );
 
     {
@@ -59,7 +59,7 @@ export function Terms(props: Props) {
                 hideSplashScreen();
             } else {
                 showSplashScreen({
-                    "enableTransparency": false,
+                    "enableTransparency": false
                 });
             }
         }, [tos]);
@@ -85,13 +85,13 @@ export function Terms(props: Props) {
 }
 
 export const { i18n } = declareComponentKeys<"no terms">()({
-    Terms,
+    Terms
 });
 
 export const useStyles = makeStyles()(theme => ({
     "root": {
         "display": "flex",
-        "justifyContent": "center",
+        "justifyContent": "center"
     },
     "markdown": {
         "borderRadius": theme.spacing(2),
@@ -99,8 +99,8 @@ export const useStyles = makeStyles()(theme => ({
         "maxWidth": 900,
         "padding": theme.spacing(4),
         "&:hover": {
-            "boxShadow": theme.shadows[1],
+            "boxShadow": theme.shadows[1]
         },
-        "marginBottom": theme.spacing(2),
-    },
+        "marginBottom": theme.spacing(2)
+    }
 }));

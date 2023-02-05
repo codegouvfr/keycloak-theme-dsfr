@@ -20,7 +20,7 @@ export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
 };
 
 export function SearchInput<T extends string | Record<string, unknown>>(
-    props: AutoCompleteProps<T>,
+    props: AutoCompleteProps<T>
 ) {
     const {
         className,
@@ -32,12 +32,12 @@ export function SearchInput<T extends string | Record<string, unknown>>(
         renderOption,
         noOptionText,
         loadingText,
-        dsfrInputProps,
+        dsfrInputProps
     } = props;
 
     const { useDebounce, obsIsDebouncing } = useMemo(
         () => createUseDebounce({ "delay": debounceDelay }),
-        [debounceDelay],
+        [debounceDelay]
     );
     const [options, setOptions] = useState<readonly T[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -48,7 +48,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
         return {
             "isOpen": isOpenAccordingToMui && inputValue !== "",
             "onOpen": () => setIsOpenAccordingToMui(true),
-            "onClose": () => setIsOpenAccordingToMui(false),
+            "onClose": () => setIsOpenAccordingToMui(false)
         };
     })();
 
@@ -59,7 +59,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
 
         return {
             "isLoading": isGettingOptions || obsIsDebouncing.current,
-            setIsGettingOptions,
+            setIsGettingOptions
         };
     })();
 
@@ -112,7 +112,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
                         style={{
                             "marginBottom": 0,
                             "width": params.size,
-                            ...dsfrInputProps.style,
+                            ...dsfrInputProps.style
                         }}
                         ref={params.InputProps.ref}
                         nativeInputProps={{
@@ -121,7 +121,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
                             "ref": element =>
                                 [
                                     (params.inputProps as any).ref,
-                                    dsfrInputProps.nativeInputProps?.ref,
+                                    dsfrInputProps.nativeInputProps?.ref
                                 ].forEach(ref => {
                                     if (ref === undefined || ref === null) {
                                         return;
@@ -144,7 +144,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
                                 dsfrInputProps.nativeInputProps?.onFocus?.(...args),
                             "onMouseDown": (...args) =>
                                 params.inputProps.onMouseDown?.(...args) ??
-                                dsfrInputProps.nativeInputProps?.onMouseDown?.(...args),
+                                dsfrInputProps.nativeInputProps?.onMouseDown?.(...args)
                         }}
                     />
                     {isLoading && isOpen && (
@@ -152,7 +152,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
                             style={{
                                 "position": "absolute",
                                 "top": 0,
-                                "right": 0,
+                                "right": 0
                             }}
                             color="inherit"
                             size={20}

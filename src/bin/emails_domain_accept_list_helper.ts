@@ -7,7 +7,7 @@
 //ts-node --skip-project src/bin/emails_domain_accept_list_helper.ts
 
 import {
-    emailDomainsToRegExpStr,
+    emailDomainsToRegExpStr
     //regExpStrToEmailDomains,
 } from "../ui/components/KcApp/emailDomainAcceptListHelper";
 import { id } from "tsafe/id";
@@ -26,8 +26,8 @@ console.log(emailDomains);
         [
             "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/academies.txt",
             "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/universites.txt",
-            "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/aphp.txt",
-        ].map(url => fetch.default(url).then(resp => resp.text())),
+            "https://raw.githubusercontent.com/etalab/noms-de-domaine-organismes-publics/master/sources/aphp.txt"
+        ].map(url => fetch.default(url).then(resp => resp.text()))
     ).then(rawFiles =>
         rawFiles
             .map(rawFile => rawFile.split(/\r?\n/).filter(domain => domain !== ""))
@@ -131,8 +131,8 @@ console.log(emailDomains);
                     "paris.fr",
                     "parc-haut-jura.fr",
                     "cefedem-aura.org",
-                    "ademe.fr",
-                ],
+                    "ademe.fr"
+                ]
             )
             .map(domain => domain.toLowerCase())
             .reduce((domains, domain) => {
@@ -143,7 +143,7 @@ console.log(emailDomains);
                 }
 
                 return [...domains, domain];
-            }, id<string[]>([])),
+            }, id<string[]>([]))
     );
 
     console.log(JSON.stringify(emailDomains, null, 2));

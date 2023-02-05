@@ -24,7 +24,7 @@ export type PaletteId = typeof paletteIds[number];
 const { API_URL, injectAPI_URLInSearchParams } = getTransferableEnv({
     "name": "API_URL" as const,
     "getSerializedValueFromEnv": () => getConfiguration().apiUrl,
-    "validateAndParseOrGetDefault": (valueStr): string => valueStr,
+    "validateAndParseOrGetDefault": (valueStr): string => valueStr
 });
 
 export { API_URL };
@@ -39,15 +39,15 @@ const { THEME_ID, injectTHEME_IDInSearchParams } = getTransferableEnv({
                   assert(
                       typeGuard<PaletteId>(
                           valueStr,
-                          id<readonly string[]>(paletteIds).includes(valueStr),
+                          id<readonly string[]>(paletteIds).includes(valueStr)
                       ),
                       `${valueStr} is not a valid palette. Available are: ${paletteIds.join(
-                          ", ",
-                      )}`,
+                          ", "
+                      )}`
                   );
 
                   return valueStr;
-              })(),
+              })()
 });
 
 export { THEME_ID };
@@ -56,7 +56,7 @@ const { HEADER_ORGANIZATION, injectHEADER_ORGANIZATIONInSearchParams } =
     getTransferableEnv({
         "name": "HEADER_ORGANIZATION" as const,
         "getSerializedValueFromEnv": () => getEnv().HEADER_ORGANIZATION,
-        "validateAndParseOrGetDefault": (valueStr): string => valueStr,
+        "validateAndParseOrGetDefault": (valueStr): string => valueStr
     });
 
 export { HEADER_ORGANIZATION };
@@ -65,7 +65,7 @@ const { HEADER_USECASE_DESCRIPTION, injectHEADER_USECASE_DESCRIPTIONInSearchPara
     getTransferableEnv({
         "name": "HEADER_USECASE_DESCRIPTION" as const,
         "getSerializedValueFromEnv": () => getEnv().HEADER_USECASE_DESCRIPTION,
-        "validateAndParseOrGetDefault": (valueStr): string => valueStr,
+        "validateAndParseOrGetDefault": (valueStr): string => valueStr
     });
 
 export { HEADER_USECASE_DESCRIPTION };
@@ -77,7 +77,7 @@ export function injectTransferableEnvsInSearchParams(url: string): string {
         injectTHEME_IDInSearchParams,
         injectHEADER_ORGANIZATIONInSearchParams,
         injectHEADER_USECASE_DESCRIPTIONInSearchParams,
-        injectAPI_URLInSearchParams,
+        injectAPI_URLInSearchParams
     ]) {
         newUrl = inject(newUrl);
     }

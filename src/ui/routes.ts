@@ -18,60 +18,60 @@ const routeDefs = {
                             !id<readonly string[]>(accountTabIds).includes(raw)
                                 ? noMatch
                                 : (raw as AccountTabId),
-                        "stringify": value => value,
-                    }),
+                        "stringify": value => value
+                    })
                 )
-                .default(accountTabIds[0]),
+                .default(accountTabIds[0])
         },
-        () => `/account`,
+        () => `/account`
     ),
     "catalog": defineRoute(
         {
-            "q": param.query.optional.string.default(""),
+            "q": param.query.optional.string.default("")
         },
-        () => `/software`,
+        () => `/software`
     ),
     "serviceCatalog": defineRoute(
         {
-            "q": param.query.optional.string.default(""),
+            "q": param.query.optional.string.default("")
         },
-        () => `/services`,
+        () => `/services`
     ),
     "card": defineRoute(
         {
             /** Can be the software name (string) or it's `${id}` (for legacy route compat)  */
-            "name": param.query.string,
+            "name": param.query.string
         },
-        () => `/software`,
+        () => `/software`
     ),
     "form": defineRoute(
         {
-            "softwareId": param.query.optional.number,
+            "softwareId": param.query.optional.number
         },
-        () => `/form`,
+        () => `/form`
     ),
     "serviceForm": defineRoute(
         {
-            "serviceId": param.query.optional.number,
+            "serviceId": param.query.optional.number
         },
-        () => `/service-form`,
+        () => `/service-form`
     ),
     "legacyRoute": defineRoute(
         {
             "lang": param.path.string,
-            "id": param.query.optional.number,
+            "id": param.query.optional.number
         },
-        ({ lang }) => `/${lang}/software`,
+        ({ lang }) => `/${lang}/software`
     ),
     "fourOhFour": defineRoute("/404"),
     "terms": defineRoute("/terms"),
-    "readme": defineRoute("/readme"),
+    "readme": defineRoute("/readme")
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
-    "routes": realRoutes,
+    "routes": realRoutes
 });
 
 export { createMockRouteFactory };

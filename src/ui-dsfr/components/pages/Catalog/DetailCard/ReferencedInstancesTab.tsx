@@ -73,7 +73,7 @@ export const ReferencedInstancesTab = (props: Props) => {
                 <p className={fr.cx("fr-text--bold")}>
                     {t("instanceCount", {
                         instanceCount,
-                        publicOrganisationCount: organizationList.length,
+                        publicOrganisationCount: organizationList.length
                     })}
                 </p>
                 {organizationList.map(organization => {
@@ -88,7 +88,7 @@ export const ReferencedInstancesTab = (props: Props) => {
                         >
                             <div className={classes.accordionGrid}>
                                 {maintainedInstances.map(instance =>
-                                    instanceCard(instance),
+                                    instanceCard(instance)
                                 )}
                             </div>
                         </Accordion>
@@ -100,7 +100,7 @@ export const ReferencedInstancesTab = (props: Props) => {
 };
 
 const useStyles = makeStyles({
-    "name": { ReferencedInstancesTab },
+    "name": { ReferencedInstancesTab }
 })(theme => ({
     "root": {},
     "accordionGrid": {
@@ -109,30 +109,30 @@ const useStyles = makeStyles({
         "columnGap": fr.spacing("7v"),
         "rowGap": fr.spacing("3v"),
         [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, 1fr)`,
-        },
+            "gridTemplateColumns": `repeat(1, 1fr)`
+        }
     },
     "card": {
-        "padding": fr.spacing("6v"),
+        "padding": fr.spacing("6v")
     },
     "name": {
         "marginBottom": fr.spacing("3v"),
-        "color": theme.decisions.text.title.grey.default,
+        "color": theme.decisions.text.title.grey.default
     },
     "concernedPublic": {
         "color": theme.decisions.text.mention.grey.default,
-        "marginBottom": fr.spacing("2v"),
+        "marginBottom": fr.spacing("2v")
     },
     "description": {
-        "marginBottom": fr.spacing("3v"),
+        "marginBottom": fr.spacing("3v")
     },
     "detailUsersAndReferents": {
-        "marginBottom": fr.spacing("8v"),
+        "marginBottom": fr.spacing("8v")
     },
     "footer": {
         "display": "flex",
-        "justifyContent": "flex-end",
-    },
+        "justifyContent": "flex-end"
+    }
 }));
 
 export const { i18n } = declareComponentKeys<

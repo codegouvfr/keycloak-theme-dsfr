@@ -4,7 +4,7 @@ import type { Param0 } from "tsafe";
 export function createTypeRouteMock<
     Routes extends {
         [Name in string]: (params?: any) => { params: any };
-    },
+    }
 >(params: { routes: Routes }) {
     const { routes } = params;
 
@@ -22,7 +22,7 @@ export function createTypeRouteMock<
 
         function createMockRoute<Name extends keyof typeof routes>(
             name: Name,
-            params: Param0<typeof routes[Name]>,
+            params: Param0<typeof routes[Name]>
         ): { params: ReturnType<typeof routes[Name]>["params"] } {
             evtRoutes.$attach(
                 routeEvent =>
@@ -32,7 +32,7 @@ export function createTypeRouteMock<
                 newParams => {
                     params = newParams;
                     triggerStoriesReRender();
-                },
+                }
             );
 
             return Object.defineProperty(
@@ -40,8 +40,8 @@ export function createTypeRouteMock<
                 "params",
                 {
                     "enumerable": true,
-                    "get": () => routes[name](params).params,
-                },
+                    "get": () => routes[name](params).params
+                }
             );
         }
 
@@ -72,11 +72,11 @@ export function createTypeRouteMock<
                             return () => {
                                 evtRoutes.post({
                                     name,
-                                    params,
+                                    params
                                 } as any);
                             };
-                        },
-                    },
+                        }
+                    }
                 );
             };
 
@@ -85,7 +85,7 @@ export function createTypeRouteMock<
             out["~internal"] = { "type": "RouteBuilder" };
 
             return out;
-        },
+        }
     });
 
     return { createMockRouteFactory, routesProxy };

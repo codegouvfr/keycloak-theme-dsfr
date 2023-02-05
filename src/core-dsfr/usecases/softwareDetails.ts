@@ -6,7 +6,7 @@ import { assert } from "tsafe/assert";
 import type { SillApiClient } from "../ports/SillApiClient";
 import {
     type SoftwareCatalogState,
-    apiSoftwareToExternalCatalogSoftware,
+    apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 
 export type SoftwareDetailsState = {
@@ -66,14 +66,14 @@ export const { reducer, actions } = createSlice({
         "softwareSet": (
             _state,
             {
-                payload,
-            }: PayloadAction<{ software: SoftwareDetailsState.Software | undefined }>,
+                payload
+            }: PayloadAction<{ software: SoftwareDetailsState.Software | undefined }>
         ) => {
             const { software } = payload;
 
             return { software };
-        },
-    },
+        }
+    }
 });
 
 export const thunks = {
@@ -91,11 +91,11 @@ export const thunks = {
                             ? undefined
                             : apiSoftwareToSoftware({
                                   "apiSoftwares": await sillApiClient.getSoftwares(),
-                                  softwareName,
-                              }),
-                }),
+                                  softwareName
+                              })
+                })
             );
-        },
+        }
 };
 
 export const selectors = (() => {
@@ -111,7 +111,7 @@ function apiSoftwareToSoftware(params: {
     const { apiSoftwares, softwareName } = params;
 
     const apiSoftware = apiSoftwares.find(
-        apiSoftware => apiSoftware.softwareName === softwareName,
+        apiSoftware => apiSoftware.softwareName === softwareName
     );
 
     assert(apiSoftware !== undefined);
@@ -136,7 +136,7 @@ function apiSoftwareToSoftware(params: {
         alikeSoftwareNames,
         proprietaryAlikeSoftwaresNames,
         license,
-        versionMin,
+        versionMin
     } = apiSoftware;
 
     const referentCount = users.filter(user => user.type === "referent").length;
@@ -147,7 +147,7 @@ function apiSoftwareToSoftware(params: {
         }
 
         const parentSoftware = apiSoftwares.find(
-            ({ softwareName }) => softwareName === parentSoftwareName,
+            ({ softwareName }) => softwareName === parentSoftwareName
         );
 
         assert(parentSoftware !== undefined);
@@ -174,22 +174,22 @@ function apiSoftwareToSoftware(params: {
         "alikeSoftwares": alikeSoftwareNames.map(softwareName =>
             apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,
-                softwareName,
-            }),
+                softwareName
+            })
         ),
         proprietaryAlikeSoftwaresNames,
         license,
         "prerogatives": {
             "isInstallableOnUserTerminal": apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,
-                softwareName,
+                softwareName
             }).prerogatives.isInstallableOnUserTerminal,
             "isPresentInSupportContract": prerogatives.isPresentInSupportContract,
             "isFromFrenchPublicServices": prerogatives.isFromFrenchPublicServices,
-            "doRespectRgaa": prerogatives.doRespectRgaa,
+            "doRespectRgaa": prerogatives.doRespectRgaa
         },
         serviceProviderCount,
         testUrl,
-        versionMin,
+        versionMin
     };
 }

@@ -57,13 +57,13 @@ export function SoftwareCard(props: Props) {
 
     const { softwares } = useCoreState(selectors.catalog.softwares);
     const { referentsBySoftwareId } = useCoreState(
-        selectors.catalog.referentsBySoftwareId,
+        selectors.catalog.referentsBySoftwareId
     );
 
     //NOTE: DODO: fake news, fix! No need to trigger fetching of the catalog since
     // the serviceCatalog slice fetches itself when the software catalog is fetching.
     const { serviceCountBySoftwareId } = useCoreState(
-        selectors.serviceCatalog.serviceCountBySoftwareId,
+        selectors.serviceCatalog.serviceCountBySoftwareId
     );
 
     const { catalog, userAuthentication, serviceCatalog } = useCoreFunctions();
@@ -95,7 +95,7 @@ export function SoftwareCard(props: Props) {
 
             if (isProcessing) {
                 showSplashScreen({
-                    "enableTransparency": true,
+                    "enableTransparency": true
                 });
             } else {
                 hideSplashScreen();
@@ -131,7 +131,7 @@ export function SoftwareCard(props: Props) {
 
             if (isProcessing) {
                 showSplashScreen({
-                    "enableTransparency": true,
+                    "enableTransparency": true
                 });
             } else {
                 hideSplashScreen();
@@ -140,13 +140,13 @@ export function SoftwareCard(props: Props) {
     }
 
     const onGoBack = useConstCallback(() =>
-        routes[getPreviousCatalog() ?? "catalog"]().push(),
+        routes[getPreviousCatalog() ?? "catalog"]().push()
     );
 
     const { imgRef, isBanner, imgWidth } = (function useClosure() {
         const {
             ref: imgRef,
-            domRect: { height, width: imgWidth },
+            domRect: { height, width: imgWidth }
         } = useDomRect();
 
         const isBanner =
@@ -156,7 +156,7 @@ export function SoftwareCard(props: Props) {
     })();
 
     const evtReferentDialogAction = useConst(() =>
-        Evt.create<ReferentDialogsProps["evtAction"]>(),
+        Evt.create<ReferentDialogsProps["evtAction"]>()
     );
 
     const evtDereferenceSoftwareDialogOpen = useConst(() => Evt.create<void>());
@@ -196,7 +196,7 @@ export function SoftwareCard(props: Props) {
         const software = softwares.find(
             ({ name, id }) =>
                 softwareNameOrSoftwareId ===
-                (typeof softwareNameOrSoftwareId === "number" ? id : name),
+                (typeof softwareNameOrSoftwareId === "number" ? id : name)
         );
 
         if (software === undefined) {
@@ -208,11 +208,11 @@ export function SoftwareCard(props: Props) {
     }, [softwareNameOrSoftwareId, softwares]);
 
     const getFormLink = useConst(() =>
-        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link),
+        memoize((softwareId: number | undefined) => routes.form({ softwareId }).link)
     );
 
     const { softwareNameBySoftwareId } = useCoreState(
-        selectors.catalog.softwareNameBySoftwareId,
+        selectors.catalog.softwareNameBySoftwareId
     );
 
     const openLinkBySoftwareId = useMemo(() => {
@@ -224,7 +224,7 @@ export function SoftwareCard(props: Props) {
 
         Object.entries(softwareNameBySoftwareId).forEach(([id, name]) => {
             openLinkBySoftwareId[parseInt(id)] = routes.card({
-                "name": name,
+                "name": name
             }).link;
         });
 
@@ -238,15 +238,15 @@ export function SoftwareCard(props: Props) {
                 isExpert,
                 "softwareId": software.id,
                 useCaseDescription,
-                isPersonalUse,
+                isPersonalUse
             });
-        },
+        }
     );
 
     const onUserNoLongerReferent = useConstCallback(() => {
         assert(software !== undefined);
         catalog.userNoLongerReferent({
-            "softwareId": software.id,
+            "softwareId": software.id
         });
     });
 
@@ -260,13 +260,13 @@ export function SoftwareCard(props: Props) {
 
             catalog.deleteSoftware({
                 "softwareId": software.id,
-                reason,
+                reason
             });
         } else {
             catalog.dereferenceSoftware({
                 "softwareId": software.id,
                 reason,
-                lastRecommendedVersion,
+                lastRecommendedVersion
             });
         }
     });
@@ -304,13 +304,13 @@ export function SoftwareCard(props: Props) {
     const softwareFunction = capitalize(
         [lang === "fr" ? undefined : software.wikidataData?.description]
             .filter(exclude(undefined))
-            .map(resolveLocalizedString)[0] ?? software.function,
+            .map(resolveLocalizedString)[0] ?? software.function
     );
 
     const referencedSincePrettyPrint = getFormattedDate({
         "time": software.referencedSinceTime,
         lang,
-        "doAlwaysShowYear": true,
+        "doAlwaysShowYear": true
     });
 
     const editLink =
@@ -324,7 +324,7 @@ export function SoftwareCard(props: Props) {
         <div className={cx(classes.root, className)}>
             <DirectoryHeader
                 classes={{
-                    "imageWrapper": classes.imageWrapper,
+                    "imageWrapper": classes.imageWrapper
                 }}
                 onGoBack={onGoBack}
                 title={
@@ -358,8 +358,8 @@ export function SoftwareCard(props: Props) {
                                         "when": getFormattedDate({
                                             "time": software.dereferencing.time,
                                             lang,
-                                            "doAlwaysShowYear": true,
-                                        }),
+                                            "doAlwaysShowYear": true
+                                        })
                                     })}
                                 </Text>
                             </>
@@ -418,8 +418,8 @@ export function SoftwareCard(props: Props) {
                                 {...routes.serviceCatalog({
                                     "q": serviceCatalog.stringifyQuery({
                                         "search": "",
-                                        "softwareName": software.name,
-                                    }),
+                                        "softwareName": software.name
+                                    })
                                 }).link}
                             >
                                 {t("see the services", { servicesCount })}
@@ -437,7 +437,7 @@ export function SoftwareCard(props: Props) {
                                 href={
                                     (assert(
                                         software.testUrls.length === 1,
-                                        "Implement view for multiple urls",
+                                        "Implement view for multiple urls"
                                     ),
                                     software.testUrls[0].url)
                                 }
@@ -525,7 +525,7 @@ export function SoftwareCard(props: Props) {
                                 href={`https://catalogue.numerique.gouv.fr/solutions/${software.catalogNumeriqueGouvFrId}`}
                             >
                                 {t("consult on GouvTech", {
-                                    "gouvTechDomain": "catalogue.numerique.gouv.fr",
+                                    "gouvTechDomain": "catalogue.numerique.gouv.fr"
                                 })}
                             </MuiLink>
                         }
@@ -636,7 +636,7 @@ export function SoftwareCard(props: Props) {
                                 href={`https://comptoir-du-libre.org/fr/softwares/servicesProviders/${software.comptoirDuLibreSoftware.id}`}
                             >
                                 {t("total service provider", {
-                                    "howMany": `${software.comptoirDuLibreSoftware.providers.length}`,
+                                    "howMany": `${software.comptoirDuLibreSoftware.providers.length}`
                                 })}
                             </MuiLink>
                         }
@@ -735,34 +735,34 @@ export function SoftwareCard(props: Props) {
 }
 
 const useStyles = makeStyles<{ imgWidth: number }>({
-    "name": { SoftwareCard },
+    "name": { SoftwareCard }
 })((theme, { imgWidth }) => ({
     "root": {
-        "marginBottom": theme.spacing(3),
+        "marginBottom": theme.spacing(3)
     },
     "card": {
-        "paddingTop": theme.spacing(2),
+        "paddingTop": theme.spacing(2)
     },
     "formLinkButton": {
-        ...theme.spacing.topBottom("margin", 4),
+        ...theme.spacing.topBottom("margin", 4)
     },
     "warningTag": {
         "backgroundColor": theme.colors.useCases.alertSeverity.warning.main,
         "& > p": {
-            "color": theme.colors.palette.dark.main,
-        },
+            "color": theme.colors.palette.dark.main
+        }
     },
     "imageWrapper": {
-        "width": imgWidth,
+        "width": imgWidth
     },
     "tag": {
-        "marginRight": theme.spacing(1),
+        "marginRight": theme.spacing(1)
     },
     "dereferenceButton": {
-        "marginLeft": theme.spacing(3),
+        "marginLeft": theme.spacing(3)
     },
     "dereferencedText": {
-        "color": theme.colors.useCases.alertSeverity.error.main,
+        "color": theme.colors.useCases.alertSeverity.error.main
     },
     "generalInfo": {
         /*
@@ -770,7 +770,7 @@ const useStyles = makeStyles<{ imgWidth: number }>({
         "marginTop": theme.spacing(4),
         "paddingTop": theme.spacing(4)
         */
-    },
+    }
 }));
 
 export const { i18n } = declareComponentKeys<
