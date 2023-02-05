@@ -1,10 +1,10 @@
 import { useState, useMemo, type ReactNode, type HTMLAttributes } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
-import CircularProgress from "@mui/material/CircularProgress";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { same } from "evt/tools/inDepth/same";
 import { useRerenderOnChange } from "powerhooks/tools/StatefulObservable/hooks/useRerenderOnChange";
+import { CircularProgressWrapper } from "./CircularProgressWrapper";
 
 export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
     className?: string;
@@ -106,59 +106,53 @@ export function SearchInput<T extends string | Record<string, unknown>>(
             handleHomeEndKeys
             isOptionEqualToValue={(option: T, value: T) => same(option, value)}
             renderInput={params => (
-                <div style={{ "position": "relative" }}>
-                    <Input
-                        {...dsfrInputProps}
-                        style={{
-                            "marginBottom": 0,
-                            "width": params.size,
-                            ...dsfrInputProps.style
-                        }}
-                        ref={params.InputProps.ref}
-                        nativeInputProps={{
-                            ...params.inputProps,
-                            ...dsfrInputProps.nativeInputProps,
-                            "ref": element =>
-                                [
-                                    (params.inputProps as any).ref,
-                                    dsfrInputProps.nativeInputProps?.ref
-                                ].forEach(ref => {
-                                    if (ref === undefined || ref === null) {
-                                        return;
-                                    }
-
-                                    if (typeof ref === "function") {
-                                        ref(element);
-                                    } else {
-                                        (ref as any).current = element;
-                                    }
-                                }),
-                            "onBlur": (...args) =>
-                                params.inputProps.onBlur?.(...args) ??
-                                dsfrInputProps.nativeInputProps?.onBlur?.(...args),
-                            "onChange": (...args) =>
-                                params.inputProps.onChange?.(...args) ??
-                                dsfrInputProps.nativeInputProps?.onChange?.(...args),
-                            "onFocus": (...args) =>
-                                params.inputProps.onFocus?.(...args) ??
-                                dsfrInputProps.nativeInputProps?.onFocus?.(...args),
-                            "onMouseDown": (...args) =>
-                                params.inputProps.onMouseDown?.(...args) ??
-                                dsfrInputProps.nativeInputProps?.onMouseDown?.(...args)
-                        }}
-                    />
-                    {isLoading && isOpen && (
-                        <CircularProgress
+                <CircularProgressWrapper
+                    isInProgress={isLoading && isOpen}
+                    renderChildren={({ style }) => (
+                        <Input
+                            {...dsfrInputProps}
                             style={{
-                                "position": "absolute",
-                                "top": 0,
-                                "right": 0
+                                ...style,
+                                "width": params.size,
+                                ...dsfrInputProps.style
                             }}
-                            color="inherit"
-                            size={20}
+                            ref={params.InputProps.ref}
+                            nativeInputProps={{
+                                ...params.inputProps,
+                                ...dsfrInputProps.nativeInputProps,
+                                "ref": element =>
+                                    [
+                                        (params.inputProps as any).ref,
+                                        dsfrInputProps.nativeInputProps?.ref
+                                    ].forEach(ref => {
+                                        if (ref === undefined || ref === null) {
+                                            return;
+                                        }
+
+                                        if (typeof ref === "function") {
+                                            ref(element);
+                                        } else {
+                                            (ref as any).current = element;
+                                        }
+                                    }),
+                                "onBlur": (...args) =>
+                                    params.inputProps.onBlur?.(...args) ??
+                                    dsfrInputProps.nativeInputProps?.onBlur?.(...args),
+                                "onChange": (...args) =>
+                                    params.inputProps.onChange?.(...args) ??
+                                    dsfrInputProps.nativeInputProps?.onChange?.(...args),
+                                "onFocus": (...args) =>
+                                    params.inputProps.onFocus?.(...args) ??
+                                    dsfrInputProps.nativeInputProps?.onFocus?.(...args),
+                                "onMouseDown": (...args) =>
+                                    params.inputProps.onMouseDown?.(...args) ??
+                                    dsfrInputProps.nativeInputProps?.onMouseDown?.(
+                                        ...args
+                                    )
+                            }}
                         />
                     )}
-                </div>
+                />
             )}
         />
     );
