@@ -86,11 +86,10 @@ const routeDefs = {
         },
         () => `/declaration`
     ),
-    "softwareCreationForm": defineRoute(
-        {
-            "step": param.query.optional.number
-        },
-        () => `/add`
+    "softwareCreationForm": defineRoute("/add"),
+    "softwareUpdateForm": defineRoute(
+        { "name": param.query.optional.string },
+        () => `/update`
     )
 };
 

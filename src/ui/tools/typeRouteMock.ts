@@ -23,7 +23,7 @@ export function createTypeRouteMock<
         function createMockRoute<Name extends keyof typeof routes>(
             name: Name,
             params: Param0<typeof routes[Name]>
-        ): { params: ReturnType<typeof routes[Name]>["params"] } {
+        ): ReturnType<typeof routes[Name]> {
             evtRoutes.$attach(
                 routeEvent =>
                     routeEvent.name === name
@@ -35,14 +35,26 @@ export function createTypeRouteMock<
                 }
             );
 
-            return Object.defineProperty(
-                {} as { params: Param0<typeof routes[Name]> },
-                "params",
-                {
-                    "enumerable": true,
-                    "get": () => routes[name](params).params
+            return new Proxy({} as ReturnType<typeof routes[Name]>, {
+                "get": (...args) => {
+                    const [, prop] = args;
+
+                    switch (prop) {
+                        case "params":
+                            return routes[name](params).params;
+                        case "name":
+                            return name;
+                        case "constructor":
+                        case "length":
+                        case Symbol.toStringTag:
+                            return Reflect.get(...args);
+                        default:
+                            throw new Error(
+                                `Mock for ${String(prop)} of type-route not implemented`
+                            );
+                    }
                 }
-            );
+            });
         }
 
         return { createMockRoute };

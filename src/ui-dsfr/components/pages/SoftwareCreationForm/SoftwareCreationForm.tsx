@@ -8,8 +8,12 @@ import { id } from "tsafe/id";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
+import CircularProgress from "@mui/material/CircularProgress";
 
-SoftwareCreationForm.routeGroup = createGroup([routes.softwareCreationForm]);
+SoftwareCreationForm.routeGroup = createGroup([
+    routes.softwareCreationForm,
+    routes.softwareUpdateForm
+]);
 
 type PageRoute = Route<typeof SoftwareCreationForm.routeGroup>;
 
@@ -17,7 +21,7 @@ SoftwareCreationForm.getDoRequireUserLoggedIn = () => true;
 
 export type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
 namespace core {
@@ -59,10 +63,28 @@ namespace core {
             "comptoirDuLibreId": undefined
         };
     }
+
+    export async function getPrefillData(params: { softwareName: string }): Promise<{
+        wikidataEntry: WikidataEntry | undefined;
+        softwareName: string;
+    }> {
+        const { softwareName } = params;
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        return {
+            "wikidataEntry": {
+                "wikidataDescription": `${softwareName} descriptions`,
+                "wikidataId": "Qxxxxxx",
+                "wikidataLabel": softwareName
+            },
+            "softwareName": "Onyxia"
+        };
+    }
 }
 
 export function SoftwareCreationForm(props: Props) {
-    const { className } = props;
+    const { className, route } = props;
 
     const {
         handleSubmit,
@@ -84,7 +106,7 @@ export function SoftwareCreationForm(props: Props) {
         const wikiDataEntry = watch("wikidataEntry");
 
         useEffect(() => {
-            if (wikiDataEntry === undefined) {
+            if (wikiDataEntry === undefined || route.name === "softwareUpdateForm") {
                 return;
             }
 
@@ -114,80 +136,137 @@ export function SoftwareCreationForm(props: Props) {
         return { isAutocompleteInProgress };
     })();
 
+    const { isPrefillingForSoftwareUpdate } = (() => {
+        const softwareName =
+            route.name === "softwareUpdateForm" ? route.params.name : undefined;
+
+        const [isPrefillingForSoftwareUpdate, setIsPrefillingForSoftwareUpdate] =
+            useState(softwareName !== undefined ? true : false);
+
+        useEffect(() => {
+            if (softwareName === undefined) {
+                return;
+            }
+
+            let isActive = true;
+
+            (async () => {
+                setIsPrefillingForSoftwareUpdate(true);
+
+                const { wikidataEntry } = await core.getPrefillData({ softwareName });
+
+                if (!isActive) {
+                    return;
+                }
+
+                setValue("wikidataEntry", wikidataEntry);
+                setValue("softwareName", softwareName);
+                setIsPrefillingForSoftwareUpdate(false);
+            })();
+
+            return () => {
+                isActive = false;
+            };
+        }, []);
+
+        return { isPrefillingForSoftwareUpdate };
+    })();
+
+    if (isPrefillingForSoftwareUpdate) {
+        return <CircularProgress />;
+    }
+
     return (
-        <form className={className} onSubmit={handleSubmit(data => console.log(data))}>
-            <Controller
-                name="wikidataEntry"
-                control={control}
-                rules={{ "required": false }}
-                render={({ field }) => (
-                    <SearchInput
-                        debounceDelay={400}
-                        getOptions={core.getWikidataOptions}
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
-                        renderOption={(liProps, wikidataEntity) => (
-                            <li {...liProps}>
-                                <div>
-                                    <span>{wikidataEntity.wikidataLabel}</span>
-                                    <br />
-                                    <span className={fr.cx("fr-text--xs")}>
-                                        {wikidataEntity.wikidataDescription}
-                                    </span>
-                                </div>
-                            </li>
-                        )}
-                        noOptionText={"No result"}
-                        loadingText={"Loading..."}
-                        dsfrInputProps={{
-                            "label": "Wikidata sheet",
-                            "hintText":
-                                "Associer le logiciel à une fiche Wikidata déjà existante",
-                            "nativeInputProps": {
-                                "ref": field.ref,
-                                "onBlur": field.onBlur,
-                                "name": field.name
-                            }
-                        }}
-                    />
-                )}
-            />
-            <CircularProgressWrapper
-                isInProgress={isAutocompleteInProgress}
-                renderChildren={({ style }) => (
-                    <Input
-                        disabled={isAutocompleteInProgress}
-                        style={{
-                            ...style,
-                            "marginTop": fr.spacing("4v")
-                        }}
-                        label="Software name"
-                        nativeInputProps={{
-                            ...register("softwareName", { "required": true })
-                        }}
-                        state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={(() => {
-                            switch (errors.softwareName?.type) {
-                                case undefined:
-                                    return undefined;
-                                case "required":
-                                    return "You must provide a software name";
-                            }
-                        })()}
-                    />
-                )}
-            />
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                nativeButtonProps={{
-                    "type": "submit"
-                }}
+        <>
+            <h1>
+                {(() => {
+                    switch (route.name) {
+                        case "softwareCreationForm":
+                            return "Ajouter un logiciel";
+                        case "softwareUpdateForm":
+                            return "Mettre a jour un logiciel";
+                    }
+                })()}
+            </h1>
+            <form
+                className={className}
+                onSubmit={handleSubmit(data => console.log(data))}
             >
-                Submit
-            </Button>
-        </form>
+                <Controller
+                    name="wikidataEntry"
+                    control={control}
+                    rules={{ "required": false }}
+                    render={({ field }) => (
+                        <SearchInput
+                            debounceDelay={400}
+                            getOptions={core.getWikidataOptions}
+                            value={field.value}
+                            onValueChange={field.onChange}
+                            getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
+                            renderOption={(liProps, wikidataEntity) => (
+                                <li {...liProps}>
+                                    <div>
+                                        <span>{wikidataEntity.wikidataLabel}</span>
+                                        <br />
+                                        <span className={fr.cx("fr-text--xs")}>
+                                            {wikidataEntity.wikidataDescription}
+                                        </span>
+                                    </div>
+                                </li>
+                            )}
+                            noOptionText={"No result"}
+                            loadingText={"Loading..."}
+                            dsfrInputProps={{
+                                "label": "Wikidata sheet",
+                                "hintText":
+                                    "Associer le logiciel à une fiche Wikidata déjà existante",
+                                "nativeInputProps": {
+                                    "ref": field.ref,
+                                    "onBlur": field.onBlur,
+                                    "name": field.name
+                                }
+                            }}
+                        />
+                    )}
+                />
+                <CircularProgressWrapper
+                    isInProgress={isAutocompleteInProgress}
+                    renderChildren={({ style }) => (
+                        <Input
+                            disabled={isAutocompleteInProgress}
+                            style={{
+                                ...style,
+                                "marginTop": fr.spacing("4v")
+                            }}
+                            label="Software name"
+                            nativeInputProps={{
+                                ...register("softwareName", { "required": true })
+                            }}
+                            state={
+                                errors.softwareName !== undefined ? "error" : undefined
+                            }
+                            stateRelatedMessage={(() => {
+                                switch (errors.softwareName?.type) {
+                                    case undefined:
+                                        return undefined;
+                                    case "required":
+                                        return "You must provide a software name";
+                                }
+                            })()}
+                        />
+                    )}
+                />
+                <Button
+                    style={{
+                        "marginTop": fr.spacing("4v")
+                    }}
+                    nativeButtonProps={{
+                        "type": "submit"
+                    }}
+                >
+                    Submit
+                </Button>
+            </form>
+        </>
     );
 }
