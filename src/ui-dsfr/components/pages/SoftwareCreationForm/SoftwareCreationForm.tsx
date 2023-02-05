@@ -157,6 +157,7 @@ export function SoftwareCreationForm(props: Props) {
                 isInProgress={isAutocompleteInProgress}
                 renderChildren={({ style }) => (
                     <Input
+                        disabled={isAutocompleteInProgress}
                         style={{
                             ...style,
                             "marginTop": fr.spacing("4v")
