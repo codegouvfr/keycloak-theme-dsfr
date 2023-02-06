@@ -1182,10 +1182,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.30.1":
-  version "0.30.1"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.30.1.tgz#19a22caf6e892376f0340c19bfac2a8664f7de6b"
-  integrity sha512-RPUoshPUHMOfu/3TuASXewAav+vuG07Fcw0KGuYG4gG/9ZOavweotCYU+EnthobWiPRQoFGLHsrG8G67EosHsA==
+"@codegouvfr/react-dsfr@^0.31.0":
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.31.0.tgz#c4bc7ad7ddda012ec72faa349e9cea2335ede0c1"
+  integrity sha512-cYsskilmG4VFJTapUt/5FM1cFSjKJKHUemdwtR57FuKNN4sXjBcTq5jdhbV3EeRAVaj96VO2wR7at1YvxUkjKw==
   dependencies:
     tsafe "^1.4.0"
 
@@ -10143,6 +10143,11 @@ listr2@^3.12.2:
     rxjs "^7.5.1"
     through "^2.3.8"
     wrap-ansi "^7.0.0"
+
+little-state-machine@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/little-state-machine/-/little-state-machine-4.8.0.tgz#4853d01f71dc7e15fec00193692f845020a57686"
+  integrity sha512-xfi5+iDxTLhu0hbnNubUs+qoQQqxhtEZeObP5ELjUlHnl74bbasY7mOonsGQrAouyrbag3ebNLSse5xX1T7buQ==
 
 load-json-file@^1.0.0:
   version "1.1.0"
