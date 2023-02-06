@@ -9,6 +9,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
 import CircularProgress from "@mui/material/CircularProgress";
+import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 
 SoftwareCreationForm.routeGroup = createGroup([
     routes.softwareCreationForm,
@@ -96,7 +97,8 @@ export function SoftwareCreationForm(props: Props) {
     } = useForm({
         "defaultValues": {
             "wikidataEntry": id<core.WikidataEntry | undefined>(undefined),
-            "softwareName": id<string | undefined>(undefined)
+            "softwareName": id<string | undefined>(undefined),
+            "softwareType": id<"desktop" | "cloud" | "library">(undefined as any)
         }
     });
 
@@ -192,6 +194,37 @@ export function SoftwareCreationForm(props: Props) {
                 className={className}
                 onSubmit={handleSubmit(data => console.log(data))}
             >
+                <RadioButtons
+                    legend=""
+                    state={errors.softwareType !== undefined ? "error" : undefined}
+                    stateRelatedMessage="This is field is required"
+                    options={[
+                        {
+                            "label": "Logiciel installable sur poste de travail",
+                            "nativeInputProps": {
+                                ...register("softwareType", { "required": true }),
+                                "value": "desktop"
+                            }
+                        },
+                        {
+                            "label":
+                                "Solution logicielle applicative hébergée dans le cloud",
+                            "hintText": "Cloud public ou cloud de votre organisation",
+                            "nativeInputProps": {
+                                ...register("softwareType", { "required": true }),
+                                "value": "cloud"
+                            }
+                        },
+                        {
+                            "label": "Briques ou modules techniques ",
+                            "hintText": "Par exemple des proxy, serveurs HTTP ou plugins",
+                            "nativeInputProps": {
+                                ...register("softwareType", { "required": true }),
+                                "value": "library"
+                            }
+                        }
+                    ]}
+                />
                 <Controller
                     name="wikidataEntry"
                     control={control}
