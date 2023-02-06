@@ -265,7 +265,7 @@ export const selectors = (() => {
             environment,
             prerogatives
         ) => {
-            let tmpSoftwares = [...internalSoftwares];
+            let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
@@ -302,7 +302,7 @@ export const selectors = (() => {
                 });
             }
 
-            tmpSoftwares.sort(
+            tmpSoftwares = [...tmpSoftwares].sort(
                 (() => {
                     switch (sort ?? "last version publication date") {
                         case "added time":
