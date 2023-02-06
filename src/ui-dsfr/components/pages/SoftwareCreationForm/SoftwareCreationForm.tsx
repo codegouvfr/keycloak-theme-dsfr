@@ -115,7 +115,6 @@ export function SoftwareCreationForm(props: Props) {
                 className={classes.step1}
                 formData={formDataStep1}
                 onFormDataChange={formData => {
-                    console.log("next!!!!!!!!!");
                     setFormDataStep1(formData);
                     dispatchState("next");
                 }}
