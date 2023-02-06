@@ -265,7 +265,7 @@ export const selectors = (() => {
             environment,
             prerogatives
         ) => {
-            let tmpSoftwares = internalSoftwares;
+            let tmpSoftwares = [...internalSoftwares];
 
             if (search !== "") {
                 tmpSoftwares = filterBySearch({
