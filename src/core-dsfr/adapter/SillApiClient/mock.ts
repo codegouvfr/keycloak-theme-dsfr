@@ -1,7 +1,9 @@
 import memoize from "memoizee";
 import type { SillApiClient } from "../../ports/SillApiClient";
 import { id } from "tsafe/id";
+import LogoNextCloud from "../../assets/logo_nextcloud.png";
 import LogoLibreOffice from "../../assets/logo_libreoffice.png";
+import LogoWordpress from "../../assets/logo_wordpress.png";
 
 export function createMockSillApiClient(): SillApiClient {
     return {
@@ -10,7 +12,7 @@ export function createMockSillApiClient(): SillApiClient {
                 Promise.resolve(
                     id<SillApiClient.Software[]>([
                         {
-                            "logoUrl": undefined,
+                            "logoUrl": LogoNextCloud,
                             "softwareId": 0,
                             "softwareName": "NextCloud",
                             "codeRepositoryUrl": "https://github.com/nextcloud/server",
@@ -40,11 +42,11 @@ export function createMockSillApiClient(): SillApiClient {
                             "softwareDescription": "Partage de fichiers",
                             "lastVersion": {
                                 "semVer": "25.0.2",
-                                "publicationTime": 0
+                                "publicationTime": 1669985280
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
-                            "addedTime": 1674739365178,
+                            "addedTime": 1670416144,
                             "updateTime": 1674739365178,
                             "categories": ["cloud"],
                             "prerogatives": {
@@ -66,8 +68,8 @@ export function createMockSillApiClient(): SillApiClient {
                                     }
                                 },
                                 {
-                                    "type": "user",
-                                    "userId": 0,
+                                    "type": "referent",
+                                    "userId": 3,
                                     "organization": "DINUM",
                                     "environments": {
                                         "linux": true,
@@ -106,16 +108,16 @@ export function createMockSillApiClient(): SillApiClient {
                                 "LibreOffice, Suite bureautique (logiciel de traitement de texte, tableur ect)",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1670503742
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
                             "addedTime": 1674739365178,
                             "updateTime": 1674739365178,
-                            "categories": ["cloud"],
+                            "categories": ["text", "software"],
                             "prerogatives": {
-                                "doRespectRgaa": false,
-                                "isFromFrenchPublicServices": false,
+                                "doRespectRgaa": true,
+                                "isFromFrenchPublicServices": true,
                                 "isPresentInSupportContract": true
                             },
                             "users": [
@@ -133,7 +135,19 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
+                                    "userId": 1,
+                                    "organization": "DINUM",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "referent",
+                                    "userId": 3,
                                     "organization": "DINUM",
                                     "environments": {
                                         "linux": true,
@@ -144,12 +158,13 @@ export function createMockSillApiClient(): SillApiClient {
                                     }
                                 }
                             ]
-                        }
-                        /*                        {
-                            "logoUrl": LogoLibreOffice,
+                        },
+                        {
+                            "logoUrl": LogoWordpress,
                             "softwareId": 2,
                             "softwareName": "Wordpress",
-                            "codeRepositoryUrl": "https://core.trac.wordpress.org/browser",
+                            "codeRepositoryUrl":
+                                "https://core.trac.wordpress.org/browser",
                             "authors": [
                                 {
                                     "authorName": "Matt Mullenweg",
@@ -162,7 +177,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "Automattic",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q2872634"
-                                },
+                                }
                             ],
                             "versionMin": "Dernière stable",
                             "serviceProviderCount": 24,
@@ -176,16 +191,17 @@ export function createMockSillApiClient(): SillApiClient {
                             "instances": [],
                             "license": "MPL-2.0",
                             "officialWebsiteUrl": "https://wordpress.org/",
-                            "softwareDescription": "Wordpress, Système de gestion de contenus web",
+                            "softwareDescription":
+                                "Wordpress, Système de gestion de contenus web",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1667911742
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
                             "addedTime": 1674739365178,
                             "updateTime": 1674739365178,
-                            "categories": ["cloud"],
+                            "categories": ["cloud", "software"],
                             "prerogatives": {
                                 "doRespectRgaa": false,
                                 "isFromFrenchPublicServices": false,
@@ -206,7 +222,31 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
+                                    "userId": 1,
+                                    "organization": "DINUM",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "user",
+                                    "userId": 2,
+                                    "organization": "DINUM",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "referent",
+                                    "userId": 3,
                                     "organization": "DINUM",
                                     "environments": {
                                         "linux": true,
@@ -231,7 +271,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "Jean-Baptiste Kempf",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q58879462"
-                                },
+                                }
                             ],
                             "versionMin": "Dernière stable",
                             "serviceProviderCount": 5,
@@ -248,7 +288,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "softwareDescription": "VLC, Lecteur multimédia",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1665233342
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -296,7 +336,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "The Debian Project",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q55966784"
-                                },
+                                }
                             ],
                             "versionMin": "10",
                             "serviceProviderCount": 16,
@@ -313,7 +353,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "softwareDescription": "Debian, Distribution GNU/LINUX",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -369,7 +409,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "Mozilla Messaging",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q1370678"
-                                },
+                                }
                             ],
                             "versionMin": "68",
                             "serviceProviderCount": 9,
@@ -386,7 +426,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "softwareDescription": "Thunderbird, Courrielleur",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -434,7 +474,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "QGIS Development Team",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q15952356"
-                                },
+                                }
                             ],
                             "versionMin": "3.16",
                             "serviceProviderCount": 14,
@@ -448,10 +488,11 @@ export function createMockSillApiClient(): SillApiClient {
                             "instances": [],
                             "license": "GPL-2.0-or-later",
                             "officialWebsiteUrl": "https://qgis.org/fr/site/",
-                            "softwareDescription": "Qgis, Système d'information géographique",
+                            "softwareDescription":
+                                "Qgis, Système d'information géographique",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -494,7 +535,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "logoUrl": LogoLibreOffice,
                             "softwareId": 7,
                             "softwareName": "Mozilla Firefox",
-                            "codeRepositoryUrl": "https://hg.mozilla.org/mozilla-central/",
+                            "codeRepositoryUrl":
+                                "https://hg.mozilla.org/mozilla-central/",
                             "authors": [
                                 {
                                     "authorName": "Mozilla Foundation",
@@ -515,7 +557,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "Mozilla Corporation",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q169925"
-                                },
+                                }
                             ],
                             "versionMin": "3.16",
                             "serviceProviderCount": 3,
@@ -528,11 +570,13 @@ export function createMockSillApiClient(): SillApiClient {
                             "wikidataUrl": "https://www.wikidata.org/wiki/Q698",
                             "instances": [],
                             "license": "MPL-2.0",
-                            "officialWebsiteUrl": "https://www.mozilla.org/fr/firefox/new/",
-                            "softwareDescription": "Mozilla Firefox (Extended Support Release), Navigateur",
+                            "officialWebsiteUrl":
+                                "https://www.mozilla.org/fr/firefox/new/",
+                            "softwareDescription":
+                                "Mozilla Firefox (Extended Support Release), Navigateur",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -575,7 +619,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "logoUrl": LogoLibreOffice,
                             "softwareId": 8,
                             "softwareName": "PostgreSQL",
-                            "codeRepositoryUrl": "https://git.postgresql.org/gitweb/?p=postgresql.git",
+                            "codeRepositoryUrl":
+                                "https://git.postgresql.org/gitweb/?p=postgresql.git",
                             "authors": [
                                 {
                                     "authorName": "Michael Stonebraker",
@@ -584,7 +629,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "PostgreSQL Global Development Group",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q65807102"
-                                },
+                                }
                             ],
                             "versionMin": "10",
                             "serviceProviderCount": 17,
@@ -598,10 +643,11 @@ export function createMockSillApiClient(): SillApiClient {
                             "instances": [],
                             "license": "PostgreSQL",
                             "officialWebsiteUrl": "https://www.postgresql.org/",
-                            "softwareDescription": "PostgreSQL, Base de données transactionnelle",
+                            "softwareDescription":
+                                "PostgreSQL, Base de données transactionnelle",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -649,7 +695,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "authorName": "Framasoft",
                                     "authorUrl": "https://www.wikidata.org/wiki/Q3080414"
-                                },
+                                }
                             ],
                             "versionMin": "3.x",
                             "serviceProviderCount": 5,
@@ -663,10 +709,11 @@ export function createMockSillApiClient(): SillApiClient {
                             "instances": [],
                             "license": "AGPL-3.0-or-later",
                             "officialWebsiteUrl": "https://joinpeertube.org/",
-                            "softwareDescription": "Peertube, Plateforme d'hébergement décentralisée de vidéos",
+                            "softwareDescription":
+                                "Peertube, Plateforme d'hébergement décentralisée de vidéos",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -693,7 +740,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
+                                    "userId": 1,
                                     "organization": "DINUM",
                                     "environments": {
                                         "linux": true,
@@ -709,7 +756,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "logoUrl": LogoLibreOffice,
                             "softwareId": 10,
                             "softwareName": "Archifiltre",
-                            "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+                            "codeRepositoryUrl":
+                                "https://github.com/SocialGouv/archifiltre-docs",
                             "authors": [],
                             "versionMin": "2.0.x",
                             "serviceProviderCount": 1,
@@ -722,11 +770,13 @@ export function createMockSillApiClient(): SillApiClient {
                             "wikidataUrl": "https://www.wikidata.org/wiki/Q77064547",
                             "instances": [],
                             "license": "MIT",
-                            "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
-                            "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+                            "officialWebsiteUrl":
+                                "https://archifiltre.fabrique.social.gouv.fr/",
+                            "softwareDescription":
+                                "Archifiltre, Système d'aide à l'archivage de fichiers",
                             "lastVersion": {
                                 "semVer": "Dernière stable",
-                                "publicationTime": 0
+                                "publicationTime": 1633524542
                             },
                             "parentSoftwareName": undefined,
                             "testUrl": undefined,
@@ -764,7 +814,7 @@ export function createMockSillApiClient(): SillApiClient {
                                     }
                                 }
                             ]
-                        }*/
+                        }
                     ])
                 ),
             { "promise": true }
