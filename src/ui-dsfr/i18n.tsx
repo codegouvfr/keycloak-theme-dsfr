@@ -22,9 +22,9 @@ const {
     $lang,
     useResolveLocalizedString
 } = createI18nApi<
-    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCard").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/CatalogCards").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/CatalogCards/Search").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/Search").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/HeaderDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/PreviewTab").i18n
@@ -42,7 +42,11 @@ const {
     { languages, fallbackLanguage },
     {
         "en": {
-            "CatalogCard": {
+            "SoftwareCatalogControlled": {
+                "search results": ({ count }) =>
+                    `${count} free software${count === 1 ? "" : "s"}`
+            },
+            "SoftwareCatalogCard": {
                 "last version": "Last version",
                 "last version date": ({ date }) => `in (${date})`,
                 "declare oneself referent": "Declare yourself referent / user",
@@ -50,15 +54,6 @@ const {
                 "isFromFrenchPublicService":
                     "This software is from French public service",
                 "isPresentInSupportMarket": "This software is present in support market"
-            },
-
-            "CatalogCards": {
-                "no service found": "No software found",
-                "no result found": ({ forWhat }) => `No result found for ${forWhat}`,
-                "check spelling":
-                    "Please check your spelling or try widening your search.",
-                "go back": "Back to main services",
-                "search results": ({ count }) => `${count} Free software`
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
@@ -180,7 +175,7 @@ const {
         },
         "fr": {
             /* spell-checker: disable */
-            "CatalogCard": {
+            "SoftwareCatalogCard": {
                 "last version": "Dernière version",
                 "last version date": ({ date }) => `en (${date})`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
@@ -190,13 +185,7 @@ const {
                 "isPresentInSupportMarket":
                     "Ce logiciel est présent dans le marcher de support"
             },
-            "CatalogCards": {
-                "no service found": "Logiciel non trouvé",
-                "no result found": ({ forWhat }) =>
-                    `Aucun résultat trouvé pour ${forWhat}`,
-                "check spelling": `Vérifiez que le nom du service est correctement
-            orthographié ou essayez d'élargir votre recherche.`,
-                "go back": "Retourner aux principaux services",
+            "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
                     `${count} logiciel libre${count === 1 ? "" : "s"}`
             },

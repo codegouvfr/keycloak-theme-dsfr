@@ -9,50 +9,49 @@ import { shortEndMonthDate } from "ui-dsfr/useMoment";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
-import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Props = {
     className?: string;
-    softwareLogoUrl?: string;
+    logoUrl?: string;
     softwareName: string;
-    isFromFrenchPublicService: boolean;
-    isDesktop: boolean;
-    isPresentInSupportMarket: boolean;
-    softwareCurrentVersion: string;
-    softwareDateCurrentVersion: number;
+    prerogatives: {
+        isFromFrenchPublicServices: boolean;
+        isInstallableOnUserTerminal: boolean;
+        isPresentInSupportContract: boolean;
+    };
+    lastVersion?: {
+        semVer: string;
+        publicationTime: number;
+    };
     softwareDescription?: string;
     userCount: number;
     referentCount: number;
-    seeUserAndReferent: Link;
-    declareUserOrReferent: Link;
-    demoLink: Link;
-    softwareDetailsLink: Link;
+    declareUsageForm: Link;
+    testUrl?: string;
+    softwareDetails: Link;
 };
 
-export const CatalogCard = memo((props: Props) => {
+export const SoftwareCatalogCard = memo((props: Props) => {
     const {
         className,
-        softwareLogoUrl,
+        logoUrl,
         softwareName,
-        isPresentInSupportMarket,
-        isFromFrenchPublicService,
-        isDesktop,
-        softwareCurrentVersion,
-        softwareDateCurrentVersion,
+        prerogatives,
+        lastVersion,
         softwareDescription,
         userCount,
         referentCount,
-        seeUserAndReferent,
-        declareUserOrReferent,
-        demoLink,
-        softwareDetailsLink,
+        softwareDetails,
+        declareUsageForm,
+        testUrl,
         ...rest
     } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const { t } = useTranslation({ CatalogCard });
+    const { t } = useTranslation({ SoftwareCatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
 
@@ -63,21 +62,21 @@ export const CatalogCard = memo((props: Props) => {
                     <div className={cx(classes.headerContainer)}>
                         <img
                             className={cx(classes.logo)}
-                            src={softwareLogoUrl}
+                            src={logoUrl}
                             alt="Logo du logiciel"
                         />
                         <div className={cx(classes.header)}>
                             <div className={cx(classes.titleContainer)}>
                                 <h3 className={cx(classes.title)}>{softwareName}</h3>
                                 <div className={cx(classes.titleActionsContainer)}>
-                                    {isDesktop && (
+                                    {prerogatives.isInstallableOnUserTerminal && (
                                         <Tooltip title={t("isDesktop")} arrow>
                                             <i
                                                 className={fr.cx("fr-icon-computer-line")}
                                             />
                                         </Tooltip>
                                     )}
-                                    {isFromFrenchPublicService && (
+                                    {prerogatives.isFromFrenchPublicServices && (
                                         <Tooltip
                                             title={t("isFromFrenchPublicService")}
                                             arrow
@@ -85,7 +84,7 @@ export const CatalogCard = memo((props: Props) => {
                                             <i className={fr.cx("fr-icon-france-line")} />
                                         </Tooltip>
                                     )}
-                                    {isPresentInSupportMarket && (
+                                    {prerogatives.isPresentInSupportContract && (
                                         <Tooltip
                                             title={t("isPresentInSupportMarket")}
                                             arrow
@@ -99,33 +98,35 @@ export const CatalogCard = memo((props: Props) => {
                                     )}
                                 </div>
                             </div>
-                            <div>
-                                <p
-                                    className={cx(
-                                        fr.cx("fr-card__detail"),
-                                        classes.softwareVersionContainer
-                                    )}
-                                >
-                                    {t("last version")} :
-                                    <span
+                            {lastVersion && (
+                                <div>
+                                    <p
                                         className={cx(
-                                            fr.cx(
-                                                "fr-badge",
-                                                "fr-badge--yellow-tournesol",
-                                                "fr-badge--sm"
-                                            ),
-                                            classes.badgeVersion
+                                            fr.cx("fr-card__detail"),
+                                            classes.softwareVersionContainer
                                         )}
                                     >
-                                        {softwareCurrentVersion}
-                                    </span>
-                                    {t("last version date", {
-                                        date: shortEndMonthDate({
-                                            time: softwareDateCurrentVersion
-                                        })
-                                    })}
-                                </p>
-                            </div>
+                                        {t("last version")} :
+                                        <span
+                                            className={cx(
+                                                fr.cx(
+                                                    "fr-badge",
+                                                    "fr-badge--yellow-tournesol",
+                                                    "fr-badge--sm"
+                                                ),
+                                                classes.badgeVersion
+                                            )}
+                                        >
+                                            {lastVersion.semVer}
+                                        </span>
+                                        {t("last version date", {
+                                            date: shortEndMonthDate({
+                                                time: lastVersion.publicationTime
+                                            })
+                                        })}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -135,7 +136,10 @@ export const CatalogCard = memo((props: Props) => {
                             : "software.function"}
                     </p>
                     <DetailUsersAndReferents
-                        seeUserAndReferent={seeUserAndReferent}
+                        seeUserAndReferent={{
+                            href: "",
+                            onClick: () => {}
+                        }}
                         referentCount={referentCount}
                         userCount={userCount}
                         className={classes.detailUsersAndReferents}
@@ -147,18 +151,15 @@ export const CatalogCard = memo((props: Props) => {
                             fr.cx("fr-btn", "fr-btn--secondary"),
                             classes.declareReferentOrUserButton
                         )}
-                        {...declareUserOrReferent}
+                        {...declareUsageForm}
                     >
                         {t("declare oneself referent")}
                     </a>
                     <div className={cx(classes.footerActionsContainer)}>
-                        <a className={cx(classes.footerActionLink)} {...demoLink}>
+                        <a className={cx(classes.footerActionLink)} href={testUrl}>
                             <i className={fr.cx("fr-icon-play-circle-line")} />
                         </a>
-                        <a
-                            className={cx(classes.footerActionLink)}
-                            {...softwareDetailsLink}
-                        >
+                        <a className={cx(classes.footerActionLink)} {...softwareDetails}>
                             <i className={fr.cx("fr-icon-arrow-right-line")} />
                         </a>
                     </div>
@@ -169,7 +170,7 @@ export const CatalogCard = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({
-    "name": { CatalogCard }
+    "name": { SoftwareCatalogCard }
 })(theme => ({
     "root": {
         ...fr.spacing("padding", {
@@ -279,4 +280,4 @@ export const { i18n } = declareComponentKeys<
     | "isDesktop"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
->()({ CatalogCard });
+>()({ SoftwareCatalogCard });

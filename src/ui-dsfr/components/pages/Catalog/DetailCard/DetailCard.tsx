@@ -7,7 +7,6 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import type { Props as CatalogCardProps } from "../CatalogCards/CatalogCard";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Props as ReferencedInstanceTabProps } from "./ReferencedInstancesTab";
 import { PreviewTab } from "./PreviewTab";
@@ -42,7 +41,6 @@ export type Props = {
     wikiDataSheet: Link;
     officialWebsite: Link;
     sourceCodeRepository: Link;
-    alikeSoftware: CatalogCardProps[];
     organizationList: ReferencedInstanceTabProps["organizationList"];
 };
 
@@ -72,7 +70,6 @@ export const DetailCard = memo((props: Props) => {
         seeUserAndReferent,
         declareUserOrReferent,
         shareSoftware,
-        alikeSoftware,
         ...rest
     } = props;
 

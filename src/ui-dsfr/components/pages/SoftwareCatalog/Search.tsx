@@ -8,23 +8,29 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { useTranslation } from "ui-dsfr/i18n";
+import { SillApiClient } from "../../../../core-dsfr/ports/SillApiClient";
+import Environment = SillApiClient.Environment;
+import Prerogative = SillApiClient.Prerogative;
+import MenuItem from "@mui/material/MenuItem";
+import SelectMui from "@mui/material/Select";
+import { InputBase } from "@mui/material";
 
 export type Props = {
     className?: string;
     search: string;
-    onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    organizations: string[];
+    onSearchChange: (search: string) => void;
+    organizations: { organization: string; softwareCount: number }[];
     onOrganizationChange: (organization: string | undefined) => void;
     selectedOrganization: string | undefined;
-    categories: string[];
-    onCategoriesChange: (contextcategory: string | undefined) => void;
+    categories: { category: string; softwareCount: number }[];
+    onCategoriesChange: (category: string | undefined) => void;
     selectedCategories: string | undefined;
-    contexts: string[];
-    onContextChange: (context: string | undefined) => void;
-    selectedContext: string | undefined;
-    prerogatives: string[];
-    onPrerogativesChange: (prerogative: string | undefined) => void;
-    selectedPrerogatives: string | undefined;
+    environments: { environment: Environment; softwareCount: number }[];
+    onEnvironmentsChange: (environmentsFilter: Environment | undefined) => void;
+    selectedEnvironment: string | undefined;
+    prerogatives: { prerogative: Prerogative; softwareCount: number }[];
+    onPrerogativesChange: (prerogatives: Prerogative[]) => void;
+    selectedPrerogatives: Prerogative[];
 };
 
 export function Search(props: Props) {
@@ -38,9 +44,9 @@ export function Search(props: Props) {
         categories,
         onCategoriesChange,
         selectedCategories,
-        contexts,
-        onContextChange,
-        selectedContext,
+        environments,
+        onEnvironmentsChange,
+        selectedEnvironment,
         prerogatives,
         onPrerogativesChange,
         selectedPrerogatives,
@@ -63,7 +69,7 @@ export function Search(props: Props) {
                     label={t("placeholder")}
                     nativeInputProps={{
                         "value": search,
-                        "onChange": event => onSearchChange(event)
+                        "onChange": event => onSearchChange(event.currentTarget.value)
                     }}
                 />
                 <Button
@@ -94,8 +100,11 @@ export function Search(props: Props) {
                         className={cx(classes.filterSelectGroup)}
                     >
                         {organizations.map(organization => (
-                            <option value={organization} key={organization}>
-                                {organization}
+                            <option
+                                value={organization.organization}
+                                key={organization.organization}
+                            >
+                                {organization.organization} ({organization.softwareCount})
                             </option>
                         ))}
                     </Select>
@@ -109,41 +118,63 @@ export function Search(props: Props) {
                         className={cx(classes.filterSelectGroup)}
                     >
                         {categories.map(category => (
-                            <option value={category} key={category}>
-                                {category}
+                            <option value={category.category} key={category.category}>
+                                {category.category} ({category.softwareCount})
                             </option>
                         ))}
                     </Select>
                     <Select
                         label={t("contextLabel")}
-                        disabled={!contexts.length}
+                        disabled={!environments.length}
                         nativeSelectProps={{
-                            "onChange": event => onContextChange(event.target.value),
-                            "defaultValue": selectedContext ?? ""
+                            "onChange": event =>
+                                onEnvironmentsChange(
+                                    event.currentTarget.value as Environment
+                                ),
+                            "defaultValue": selectedEnvironment ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
-                        {contexts.map(context => (
-                            <option value={context} key={context}>
-                                {context}
+                        {environments.map(environment => (
+                            <option
+                                value={environment.environment}
+                                key={environment.environment}
+                            >
+                                {environment.environment}
                             </option>
                         ))}
                     </Select>
-                    <Select
-                        label={t("prerogativesLabel")}
-                        disabled={!prerogatives.length}
-                        nativeSelectProps={{
-                            "onChange": event => onPrerogativesChange(event.target.value),
-                            "defaultValue": prerogatives ?? ""
-                        }}
-                        className={classes.filterSelectGroup}
-                    >
-                        {prerogatives.map(prerogative => (
-                            <option value={prerogative} key={prerogative}>
-                                {prerogative}
-                            </option>
-                        ))}
-                    </Select>
+
+                    <div className={classes.filterSelectGroup}>
+                        <label htmlFor="prerogatives-label">
+                            {t("prerogativesLabel")}
+                        </label>
+                        <SelectMui
+                            labelId="prerogatives-label"
+                            id="prerogatives"
+                            multiple
+                            value={selectedPrerogatives ?? ""}
+                            onChange={event =>
+                                onPrerogativesChange(
+                                    (typeof event.target.value === "string"
+                                        ? event.target.value.split(",")
+                                        : event.target.value) as Prerogative[]
+                                )
+                            }
+                            className={cx(fr.cx("fr-select"), classes.multiSelect)}
+                            input={<InputBase />}
+                        >
+                            {prerogatives.map(prerogative => (
+                                <MenuItem
+                                    key={prerogative.prerogative}
+                                    value={prerogative.prerogative}
+                                >
+                                    {prerogative.prerogative} ({prerogative.softwareCount}
+                                    )
+                                </MenuItem>
+                            ))}
+                        </SelectMui>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,13 +205,32 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
     },
     "filtersWrapper": {
         "display": "grid",
-        "gridTemplateColumns": "repeat(4, 1fr)",
-        "gap": fr.spacing("4v"),
-        "marginTop": fr.spacing("3v")
+        "gridTemplateColumns": `repeat(4, minmax(20%, 1fr))`,
+        "columnGap": fr.spacing("4v"),
+        "marginTop": fr.spacing("3v"),
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`
+        }
     },
     "filterSelectGroup": {
         "&:not(:last-of-type)": {
-            "paddingRight": "4v"
+            "borderRight": `1px ${theme.decisions.border.default.grey.default} solid`,
+            "paddingRight": fr.spacing("4v")
+        },
+        [fr.breakpoints.down("md")]: {
+            "&:not(:last-of-type)": {
+                "border": "none"
+            }
+        }
+    },
+    "multiSelect": {
+        "marginTop": fr.spacing("2v"),
+        "paddingRight": 0,
+        "&&>.MuiInputBase-input": {
+            "padding": 0
+        },
+        "&&>.MuiSvgIcon-root": {
+            "display": "none"
         }
     }
 }));

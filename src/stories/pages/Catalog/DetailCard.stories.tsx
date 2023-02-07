@@ -80,38 +80,6 @@ export const VueDefault = getStory({
         href: "#",
         onClick: () => {}
     },
-    alikeSoftware: [
-        {
-            softwareLogoUrl: LibreOfficeLogo,
-            softwareName: "LibreOffice",
-            softwareCurrentVersion: "2.0.1",
-            softwareDateCurrentVersion: 1640995200000,
-            declareUserOrReferent: {
-                href: "#",
-                onClick: () => {}
-            },
-            demoLink: {
-                href: "#",
-                onClick: () => {}
-            },
-            seeUserAndReferent: {
-                href: "#",
-                onClick: () => {}
-            },
-            isPresentInSupportMarket: true,
-            isDesktop: true,
-            isFromFrenchPublicService: true,
-            softwareDescription:
-                "Suite bureautique (logiciel de traitement de texte, tableur, etc.) ",
-            userCount: 13,
-            referentCount: 4,
-
-            softwareDetailsLink: {
-                href: "#",
-                onClick: () => {}
-            }
-        }
-    ],
     organizationList: [
         {
             name: "CNRS",

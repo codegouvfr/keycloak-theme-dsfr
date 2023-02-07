@@ -1,9 +1,14 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import type { Link } from "type-route";
+import { fr } from "@codegouvfr/react-dsfr";
+import { SoftwareCatalogCard } from "./SoftwareCatalogCard";
+import { Search } from "./Search";
+import { Select } from "@codegouvfr/react-dsfr/Select";
+import { declareComponentKeys } from "i18nifty";
 
 const sortOptions = [
     "added time",
@@ -90,38 +95,112 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
 
     const { cx, classes } = useStyles();
 
+    const catalogCards = softwares.map(software => {
+        const { softwareName } = software;
+
+        const { softwareDetails, declareUsageForm } = linksBySoftwareName[softwareName];
+
+        return (
+            <SoftwareCatalogCard
+                key={softwareName}
+                {...software}
+                declareUsageForm={declareUsageForm}
+                softwareDetails={softwareDetails}
+            />
+        );
+    });
+
     return (
         <div className={cx(classes.root, className)}>
-            <pre>
-                {JSON.stringify(
-                    {
-                        softwares,
-                        linksBySoftwareName,
-                        search,
-                        onSearchChange,
-                        sort,
-                        onSortChange,
-                        organizationOptions,
-                        organization,
-                        onOrganizationChange,
-                        categoryFilerOptions,
-                        category,
-                        onCategoryFilterChange,
-                        environmentOptions,
-                        environment,
-                        onEnvironmentChange,
-                        prerogativesOptions,
-                        prerogatives,
-                        onPrerogativesChange
-                    },
-                    null,
-                    2
-                )}
-            </pre>
+            <Search
+                search={search}
+                onSearchChange={onSearchChange}
+                organizations={organizationOptions}
+                onOrganizationChange={onOrganizationChange}
+                selectedOrganization={organization}
+                categories={categoryFilerOptions}
+                onCategoriesChange={onCategoryFilterChange}
+                selectedCategories={category}
+                environments={environmentOptions}
+                onEnvironmentsChange={onEnvironmentChange}
+                selectedEnvironment={environment}
+                prerogatives={prerogativesOptions}
+                onPrerogativesChange={onPrerogativesChange}
+                selectedPrerogatives={prerogatives}
+            />
+            <div>
+                <div className={classes.header}>
+                    <h6 className={classes.softwareCount}>
+                        {softwares.length} logiciels libres
+                    </h6>
+                    <Select
+                        label="Trier par"
+                        nativeSelectProps={{
+                            "onChange": event =>
+                                onSortChange(
+                                    event.currentTarget.value as SoftwareCatalogState.Sort
+                                ),
+                            "defaultValue": sort ?? ""
+                        }}
+                        className={classes.sort}
+                    >
+                        {sortOptions.map(sort => (
+                            <option value={sort} key={sort}>
+                                {sort}
+                            </option>
+                        ))}
+                    </Select>
+                </div>
+                <div className={classes.cardList}>{catalogCards}</div>
+            </div>
         </div>
     );
 });
 
 const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
-    "root": {}
+    "root": {},
+    "header": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        ...fr.spacing("margin", {
+            "topBottom": "4v"
+        }),
+        [fr.breakpoints.down("md")]: {
+            "flexWrap": "wrap"
+        }
+    },
+    "softwareCount": {
+        "marginBottom": 0
+    },
+    "sort": {
+        "display": "flex",
+        "alignItems": "center",
+        "gap": fr.spacing("2v"),
+
+        "&&>select": {
+            "width": "auto",
+            "marginTop": 0
+        },
+        [fr.breakpoints.down("md")]: {
+            "marginTop": fr.spacing("4v")
+        }
+    },
+    "cardList": {
+        "display": "grid",
+        "gridTemplateColumns": `repeat(3, 1fr)`,
+        "columnGap": fr.spacing("4v"),
+        "rowGap": fr.spacing("3v"),
+        [fr.breakpoints.down("xl")]: {
+            "gridTemplateColumns": `repeat(2, 1fr)`
+        },
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`
+        }
+    }
 });
+
+export const { i18n } = declareComponentKeys<{
+    K: "search results";
+    P: { count: number };
+}>()({ SoftwareCatalogControlled });
