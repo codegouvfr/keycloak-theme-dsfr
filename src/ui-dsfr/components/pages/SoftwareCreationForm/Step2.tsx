@@ -7,18 +7,22 @@ import { Input } from "@codegouvfr/react-dsfr/Input";
 import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
 import { core } from "./coreMock";
 
-export type FormDataStep2 = {
-    wikidataEntry: core.WikidataEntry | undefined;
-    softwareName: string | undefined;
-};
-
-export function Step2(props: {
+export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
-    formData: FormDataStep2 | undefined;
-    onFormDataChange: (formData: FormDataStep2) => void;
+    formData: Step2Props.FormData | undefined;
+    onFormDataChange: (formData: Step2Props.FormData) => void;
     onPrev: () => void;
-}) {
+};
+
+export namespace Step2Props {
+    export type FormData = {
+        wikidataEntry: core.WikidataEntry | undefined;
+        softwareName: string | undefined;
+    };
+}
+
+export function SoftwareCreationFormStep2(props: Step2Props) {
     const { className, isUpdateForm, formData, onFormDataChange, onPrev } = props;
 
     const {
@@ -28,7 +32,7 @@ export function Step2(props: {
         watch,
         formState: { errors },
         setValue
-    } = useForm<FormDataStep2>({
+    } = useForm<Step2Props.FormData>({
         "defaultValues": formData
     });
 

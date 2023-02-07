@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Step1, type FormDataStep1 } from "./Step1";
-import { Step2, type FormDataStep2 } from "./Step2";
+import { SoftwareCreationFormStep1, type Step1Props } from "./Step1";
+import { SoftwareCreationFormStep2, type Step2Props } from "./Step2";
 import { core } from "./coreMock";
 import { makeStyles } from "tss-react/dsfr";
 
@@ -24,10 +24,10 @@ export type Props = {
 export function SoftwareCreationForm(props: Props) {
     const { className, route } = props;
 
-    const [formDataStep1, setFormDataStep1] = useState<FormDataStep1 | undefined>(
+    const [formDataStep1, setFormDataStep1] = useState<Step1Props.FormData | undefined>(
         undefined
     );
-    const [formDataStep2, setFormDataStep2] = useState<FormDataStep2 | undefined>(
+    const [formDataStep2, setFormDataStep2] = useState<Step2Props.FormData | undefined>(
         undefined
     );
 
@@ -76,7 +76,7 @@ export function SoftwareCreationForm(props: Props) {
         return <CircularProgress />;
     }
 
-    const dispatch = (action: "next" | "prev") =>
+    const dispatchStep = (action: "next" | "prev") =>
         routes[route.name]({
             ...route.params,
             "step":
@@ -103,23 +103,23 @@ export function SoftwareCreationForm(props: Props) {
                     }
                 })()}
             </h1>
-            <Step1
+            <SoftwareCreationFormStep1
                 className={classes.step1}
                 formData={formDataStep1}
                 onFormDataChange={formData => {
                     setFormDataStep1(formData);
-                    dispatch("next");
+                    dispatchStep("next");
                 }}
             />
-            <Step2
+            <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
                 formData={formDataStep2}
                 onFormDataChange={formData => {
                     setFormDataStep2(formData);
-                    dispatch("next");
+                    dispatchStep("next");
                 }}
-                onPrev={() => dispatch("prev")}
+                onPrev={() => dispatchStep("prev")}
             />
         </div>
     );
