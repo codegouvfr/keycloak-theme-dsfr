@@ -4,6 +4,7 @@ import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SoftwareCreationFormStep1, type Step1Props } from "./Step1";
 import { SoftwareCreationFormStep2, type Step2Props } from "./Step2";
+import { SoftwareCreationFormStep3, type Step3Props } from "./Step3";
 import { core } from "./coreMock";
 import { makeStyles } from "tss-react/dsfr";
 
@@ -28,6 +29,9 @@ export function SoftwareCreationForm(props: Props) {
         undefined
     );
     const [formDataStep2, setFormDataStep2] = useState<Step2Props.FormData | undefined>(
+        undefined
+    );
+    const [formDataStep3, setFormDataStep3] = useState<Step3Props.FormData | undefined>(
         undefined
     );
 
@@ -137,6 +141,16 @@ export function SoftwareCreationForm(props: Props) {
                 getAutofillData={core.getAutofillData}
                 getWikidataOptions={core.getWikidataOptions}
             />
+            <SoftwareCreationFormStep3
+                className={classes.step3}
+                defaultFormData={formDataStep3}
+                isCloudNativeSoftware={formDataStep1?.softwareType === "cloud"}
+                onFormDataChange={formData => {
+                    setFormDataStep3(formData);
+                    dispatchStep("next");
+                }}
+                onPrev={() => dispatchStep("prev")}
+            />
         </div>
     );
 }
@@ -147,5 +161,8 @@ const useStyles = makeStyles<{ step: number }>()((_theme, { step }) => ({
     },
     "step2": {
         "display": step === 2 ? undefined : "none"
+    },
+    "step3": {
+        "display": step === 3 ? undefined : "none"
     }
 }));
