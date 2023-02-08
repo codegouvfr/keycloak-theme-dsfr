@@ -58,7 +58,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -69,8 +69,32 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "referent",
+                                    "userId": 1,
+                                    "organization": "CC Pays de Pouzauges",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "referent",
+                                    "userId": 2,
+                                    "organization": "ENSEA",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "user",
                                     "userId": 3,
-                                    "organization": "DINUM",
+                                    "organization": "CNRS-ICMCB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -114,7 +138,7 @@ export function createMockSillApiClient(): SillApiClient {
                             "testUrl": undefined,
                             "addedTime": 1674739365178,
                             "updateTime": 1674739365178,
-                            "categories": ["text", "software"],
+                            "categories": ["library", "desktop"],
                             "prerogatives": {
                                 "doRespectRgaa": true,
                                 "isFromFrenchPublicServices": true,
@@ -124,33 +148,9 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
-                                        "linux": true,
-                                        "windows": true,
-                                        "browser": false,
-                                        "mac": false,
-                                        "smartphone": false
-                                    }
-                                },
-                                {
-                                    "type": "user",
-                                    "userId": 1,
-                                    "organization": "DINUM",
-                                    "environments": {
-                                        "linux": true,
-                                        "windows": true,
-                                        "browser": false,
-                                        "mac": false,
-                                        "smartphone": false
-                                    }
-                                },
-                                {
-                                    "type": "referent",
-                                    "userId": 3,
-                                    "organization": "DINUM",
-                                    "environments": {
-                                        "linux": true,
+                                        "linux": false,
                                         "windows": true,
                                         "browser": false,
                                         "mac": false,
@@ -210,34 +210,10 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
-                                    "environments": {
-                                        "linux": true,
-                                        "windows": true,
-                                        "browser": false,
-                                        "mac": false,
-                                        "smartphone": false
-                                    }
-                                },
-                                {
-                                    "type": "user",
-                                    "userId": 1,
-                                    "organization": "DINUM",
-                                    "environments": {
-                                        "linux": true,
-                                        "windows": true,
-                                        "browser": false,
-                                        "mac": false,
-                                        "smartphone": false
-                                    }
-                                },
-                                {
-                                    "type": "user",
                                     "userId": 2,
-                                    "organization": "DINUM",
+                                    "organization": "Abbeville - Mairie d'Abbeville",
                                     "environments": {
-                                        "linux": true,
+                                        "linux": false,
                                         "windows": true,
                                         "browser": false,
                                         "mac": false,
@@ -245,9 +221,9 @@ export function createMockSillApiClient(): SillApiClient {
                                     }
                                 },
                                 {
-                                    "type": "referent",
+                                    "type": "user",
                                     "userId": 3,
-                                    "organization": "DINUM",
+                                    "organization": "CNRS-ICMCB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -303,11 +279,11 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 2,
+                                    "organization": "Abbeville - Mairie d'Abbeville",
                                     "environments": {
                                         "linux": true,
-                                        "windows": true,
+                                        "windows": false,
                                         "browser": false,
                                         "mac": false,
                                         "smartphone": false
@@ -316,7 +292,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -368,8 +344,20 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 2,
+                                    "organization": "Abbeville - Mairie d'Abbeville",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": true,
+                                        "mac": true,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "user",
+                                    "userId": 3,
+                                    "organization": "CNRS-ICMCB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -379,9 +367,9 @@ export function createMockSillApiClient(): SillApiClient {
                                     }
                                 },
                                 {
-                                    "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "type": "referent",
+                                    "userId": 4,
+                                    "organization": "Arles logiciels libres",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -442,7 +430,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -453,8 +441,8 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 3,
+                                    "organization": "CNRS-ICMCB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -508,7 +496,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -519,8 +507,8 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 5,
+                                    "organization": "CC du Pays Réuni d'Orange",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -592,7 +580,7 @@ export function createMockSillApiClient(): SillApiClient {
                                 {
                                     "type": "user",
                                     "userId": 0,
-                                    "organization": "DINUM",
+                                    "organization": "CA du Puy-en-Velay",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -603,8 +591,20 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 3,
+                                    "organization": "CNRS-ICMCB",
+                                    "environments": {
+                                        "linux": true,
+                                        "windows": true,
+                                        "browser": false,
+                                        "mac": false,
+                                        "smartphone": false
+                                    }
+                                },
+                                {
+                                    "type": "referent",
+                                    "userId": 2,
+                                    "organization": "ENSEA",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -662,8 +662,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 5,
+                                    "organization": "CC du Pays Réuni d'Orange",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -674,8 +674,8 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 3,
+                                    "organization": "CNRS-ICMCB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -728,8 +728,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 6,
+                                    "organization": "Fontaine",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -740,8 +740,8 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 1,
-                                    "organization": "DINUM",
+                                    "userId": 7,
+                                    "organization": "Ville d'Échirolles",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -791,8 +791,8 @@ export function createMockSillApiClient(): SillApiClient {
                             "users": [
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 8,
+                                    "organization": "Centre de Gestion du Nord",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
@@ -803,8 +803,8 @@ export function createMockSillApiClient(): SillApiClient {
                                 },
                                 {
                                     "type": "user",
-                                    "userId": 0,
-                                    "organization": "DINUM",
+                                    "userId": 9,
+                                    "organization": "CB",
                                     "environments": {
                                         "linux": true,
                                         "windows": true,
