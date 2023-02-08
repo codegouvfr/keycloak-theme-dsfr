@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui-dsfr/i18n";
+import { useLang, useTranslation } from "ui-dsfr/i18n";
 import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
@@ -46,6 +46,7 @@ export const PreviewTab = (props: Props) => {
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ PreviewTab });
+    const { lang } = useLang();
 
     const prerogativeList = [
         {
@@ -87,17 +88,20 @@ export const PreviewTab = (props: Props) => {
                         </span>
                         {t("last version date", {
                             date: shortEndMonthDate({
-                                time: softwareDateCurrentVersion
+                                time: softwareDateCurrentVersion,
+                                lang
                             })
                         })}
                     </p>
                 )}
-                <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                    <span className={classes.labelDetail}>{t("register")}</span>
-                    {t("register date", {
-                        date: shortEndMonthDate({ time: registerDate ?? 0 })
-                    })}
-                </p>
+                {registerDate && (
+                    <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
+                        <span className={classes.labelDetail}>{t("register")}</span>
+                        {t("register date", {
+                            date: monthDate({ time: registerDate, lang })
+                        })}
+                    </p>
+                )}
 
                 <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                     <span className={classes.labelDetail}>{t("minimal version")}</span>

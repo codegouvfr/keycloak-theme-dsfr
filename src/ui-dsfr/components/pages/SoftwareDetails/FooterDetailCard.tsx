@@ -7,7 +7,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-/*import { DetailUsersAndReferents } from "./DetailUsersAndReferents";*/
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Props = {
     className?: string;
@@ -39,12 +39,12 @@ export const FooterDetailCard = memo((props: Props) => {
     return (
         <div className={cx(classes.root, className)}>
             <div className={cx(classes.container)}>
-                {/*                <DetailUsersAndReferents
+                <DetailUsersAndReferents
                     className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
                     seeUserAndReferent={seeUserAndReferent}
                     referentCount={referentCount}
                     userCount={usersCount}
-                />*/}
+                />
                 <div className={classes.buttons}>
                     <Button
                         iconId="ri-share-forward-line"

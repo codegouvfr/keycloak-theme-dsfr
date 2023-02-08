@@ -6,14 +6,13 @@ import { selectors, useCoreState, useCoreFunctions } from "core-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
-import { DetailCard } from "../Catalog/DetailCard/DetailCard";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "../../../i18n";
 import { HeaderDetailCard } from "./HeaderDetailCard";
 import { PreviewTab } from "./PreviewTab";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import { FooterDetailCard } from "../Catalog/DetailCard/FooterDetailCard";
+import { FooterDetailCard } from "./FooterDetailCard";
 
 SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
 
@@ -47,8 +46,6 @@ export function SoftwareDetails(props: Props) {
                 "softwareName": undefined
             });
     }, [route.params.name]);
-
-    console.log(software);
 
     return (
         <div>
@@ -88,8 +85,9 @@ export function SoftwareDetails(props: Props) {
                             isRGAACompliant: software?.prerogatives.doRespectRgaa,
                             minimalVersionRequired: software?.versionMin,
                             registerDate: software?.addedTime,
-                            softwareDateCurrentVersion: 1,
-                            softwareCurrentVersion: "2.0"
+                            softwareDateCurrentVersion:
+                                software?.lastVersion?.publicationTime,
+                            softwareCurrentVersion: software?.lastVersion?.semVer
                         })
                     },
                     {
@@ -108,8 +106,8 @@ export function SoftwareDetails(props: Props) {
                 ]}
             />
             <FooterDetailCard
-                usersCount={software?.userCount}
-                referentCount={software?.referentCount}
+                usersCount={software?.userCount ?? 0}
+                referentCount={software?.referentCount ?? 0}
                 seeUserAndReferent={{
                     href: "",
                     onClick: () => {}

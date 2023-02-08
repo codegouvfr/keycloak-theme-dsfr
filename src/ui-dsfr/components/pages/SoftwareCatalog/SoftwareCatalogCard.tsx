@@ -1,9 +1,8 @@
 import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation, useResolveLocalizedString } from "ui-dsfr/i18n";
-import { CompiledData } from "sill-api";
+import { useTranslation, useResolveLocalizedString, useLang } from "ui-dsfr/i18n";
 import type { Link } from "type-route";
-import { fr, getColors } from "@codegouvfr/react-dsfr";
+import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate } from "ui-dsfr/useMoment";
 import { assert } from "tsafe/assert";
@@ -54,6 +53,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     const { t } = useTranslation({ SoftwareCatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
+    const { lang } = useLang();
 
     return (
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
@@ -121,7 +121,8 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                         </span>
                                         {t("last version date", {
                                             date: shortEndMonthDate({
-                                                time: lastVersion.publicationTime
+                                                time: lastVersion.publicationTime,
+                                                lang
                                             })
                                         })}
                                     </p>

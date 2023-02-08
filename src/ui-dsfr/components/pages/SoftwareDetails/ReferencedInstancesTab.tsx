@@ -8,7 +8,7 @@ import { assert } from "tsafe/assert";
 import type { Link } from "type-route";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-/*import { DetailUsersAndReferents } from "./DetailUsersAndReferents";*/
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Instance = {
     name: string;
@@ -52,12 +52,12 @@ export const ReferencedInstancesTab = (props: Props) => {
                 <p className={cx(fr.cx("fr-text--sm"), classes.description)}>
                     {description}
                 </p>
-                {/*                <DetailUsersAndReferents
+                <DetailUsersAndReferents
                     seeUserAndReferent={seeUserAndReferent}
                     referentCount={referentCount}
                     userCount={userCount}
                     className={classes.detailUsersAndReferents}
-                />*/}
+                />
                 <div className={classes.footer}>
                     <Button onClick={() => {}} priority="secondary">
                         {t("go to instance")}
