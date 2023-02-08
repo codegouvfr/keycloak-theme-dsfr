@@ -48,17 +48,30 @@ export function SoftwareCreationForm(props: Props) {
             (async () => {
                 setIsPrefillingForSoftwareUpdate(true);
 
-                const { softwareType, wikidataEntry, comptoirDuLibreId } =
-                    await core.getPrefillData({
-                        softwareName
-                    });
+                const {
+                    softwareType,
+                    wikidataEntry,
+                    comptoirDuLibreId,
+                    softwareDescription,
+                    softwareLicense,
+                    softwareMinimalVersion
+                } = await core.getPrefillData({
+                    softwareName
+                });
 
                 if (!isActive) {
                     return;
                 }
 
                 setFormDataStep1({ softwareType });
-                setFormDataStep2({ softwareName, wikidataEntry, comptoirDuLibreId });
+                setFormDataStep2({
+                    softwareName,
+                    wikidataEntry,
+                    comptoirDuLibreId,
+                    softwareDescription,
+                    softwareLicense,
+                    softwareMinimalVersion
+                });
 
                 setIsPrefillingForSoftwareUpdate(false);
             })();

@@ -17,9 +17,9 @@ export type Step2Props = {
     getAutofillData: (wikidataId: string) => Promise<{
         comptoirDuLibreId: number | undefined;
         softwareName: string;
-        //softwareDescription: string;
-        //softwareLicense: string | undefined;
-        //softwareMinimalVersion: string | undefined;
+        softwareDescription: string;
+        softwareLicense: string | undefined;
+        softwareMinimalVersion: string | undefined;
     }>;
 };
 
@@ -34,9 +34,9 @@ export namespace Step2Props {
         wikidataEntry: WikidataEntry | undefined;
         comptoirDuLibreId: number | undefined;
         softwareName: string;
-        //softwareDescription: string;
-        //softwareLicense: string;
-        //softwareMinimalVersion: string;
+        softwareDescription: string;
+        softwareLicense: string;
+        softwareMinimalVersion: string;
     };
 }
 
@@ -95,9 +95,13 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
             (async () => {
                 setIsAutocompleteInProgress(true);
 
-                const { comptoirDuLibreId, softwareName } = await getAutofillData(
-                    wikiDataEntry.wikidataId
-                );
+                const {
+                    comptoirDuLibreId,
+                    softwareName,
+                    softwareDescription,
+                    softwareLicense,
+                    softwareMinimalVersion
+                } = await getAutofillData(wikiDataEntry.wikidataId);
 
                 if (!isActive) {
                     return;
@@ -109,6 +113,19 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
                     );
                 }
+
+                if (softwareDescription !== undefined) {
+                    setValue("softwareDescription", softwareDescription);
+                }
+
+                if (softwareLicense !== undefined) {
+                    setValue("softwareLicense", softwareLicense);
+                }
+
+                if (softwareMinimalVersion !== undefined) {
+                    setValue("softwareMinimalVersion", softwareMinimalVersion);
+                }
+
                 setValue("softwareName", softwareName);
 
                 setIsAutocompleteInProgress(false);
@@ -206,14 +223,64 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={(() => {
-                            switch (errors.softwareName?.type) {
-                                case undefined:
-                                    return undefined;
-                                case "required":
-                                    return "You must provide a software name";
-                            }
-                        })()}
+                        stateRelatedMessage="This field is required"
+                    />
+                )}
+            />
+            <CircularProgressWrapper
+                isInProgress={isAutocompleteInProgress}
+                renderChildren={({ style }) => (
+                    <Input
+                        disabled={isAutocompleteInProgress}
+                        style={{
+                            ...style,
+                            "marginTop": fr.spacing("4v")
+                        }}
+                        label="Fonction du logiciel"
+                        hintText="Decrivez en quelques mots les fonctions du logiciel"
+                        nativeInputProps={{
+                            ...register("softwareDescription", { "required": true })
+                        }}
+                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        stateRelatedMessage="Ce champ est requis"
+                    />
+                )}
+            />
+            <CircularProgressWrapper
+                isInProgress={isAutocompleteInProgress}
+                renderChildren={({ style }) => (
+                    <Input
+                        disabled={isAutocompleteInProgress}
+                        style={{
+                            ...style,
+                            "marginTop": fr.spacing("4v")
+                        }}
+                        label="Licience du logiciel"
+                        hintText="(GNU, GPL, BSD, ect.)"
+                        nativeInputProps={{
+                            ...register("softwareLicense", { "required": true })
+                        }}
+                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        stateRelatedMessage="Ce champ est requis"
+                    />
+                )}
+            />
+            <CircularProgressWrapper
+                isInProgress={isAutocompleteInProgress}
+                renderChildren={({ style }) => (
+                    <Input
+                        disabled={isAutocompleteInProgress}
+                        style={{
+                            ...style,
+                            "marginTop": fr.spacing("4v")
+                        }}
+                        label="Minimal version"
+                        hintText="Version la plus ancienne encore acceptable d'avoir en production"
+                        nativeInputProps={{
+                            ...register("softwareMinimalVersion", { "required": true })
+                        }}
+                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        stateRelatedMessage="Ce champ est requis"
                     />
                 )}
             />

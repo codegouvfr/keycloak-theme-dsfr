@@ -25,14 +25,20 @@ export namespace core {
     }
 
     export async function getAutofillData(wikidataId: string): Promise<{
-        softwareName: string;
         comptoirDuLibreId: number | undefined;
+        softwareName: string;
+        softwareDescription: string;
+        softwareLicense: string | undefined;
+        softwareMinimalVersion: string | undefined;
     }> {
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         return {
+            "comptoirDuLibreId": 123,
             "softwareName": `Software ${wikidataId}`,
-            "comptoirDuLibreId": undefined
+            "softwareDescription": `Software ${wikidataId} description`,
+            "softwareLicense": `Software ${wikidataId} license`,
+            "softwareMinimalVersion": `1.3.4`
         };
     }
 
@@ -40,7 +46,9 @@ export namespace core {
         softwareType: "desktop" | "cloud" | "library";
         comptoirDuLibreId: number | undefined;
         wikidataEntry: WikidataEntry | undefined;
-        softwareName: string;
+        softwareDescription: string;
+        softwareLicense: string;
+        softwareMinimalVersion: string;
     }> {
         const { softwareName } = params;
 
@@ -48,13 +56,15 @@ export namespace core {
 
         return {
             "softwareType": "desktop",
-            "comptoirDuLibreId": undefined,
+            "comptoirDuLibreId": 461,
             "wikidataEntry": {
                 "wikidataDescription": `${softwareName} descriptions`,
                 "wikidataId": "Qxxxxxx",
                 "wikidataLabel": softwareName
             },
-            "softwareName": "Onyxia"
+            "softwareDescription": "A data science oriented container launcher",
+            "softwareLicense": "MIT",
+            "softwareMinimalVersion": "1.2.3"
         };
     }
 }
