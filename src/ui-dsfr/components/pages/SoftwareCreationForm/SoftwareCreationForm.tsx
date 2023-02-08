@@ -7,6 +7,10 @@ import { SoftwareCreationFormStep2, type Step2Props } from "./Step2";
 import { SoftwareCreationFormStep3, type Step3Props } from "./Step3";
 import { core } from "./coreMock";
 import { makeStyles } from "tss-react/dsfr";
+import { Button } from "@codegouvfr/react-dsfr/Button";
+import { fr } from "@codegouvfr/react-dsfr";
+import { useConst } from "powerhooks/useConst";
+import { Evt } from "evt";
 
 SoftwareCreationForm.routeGroup = createGroup([
     routes.softwareCreationForm,
@@ -90,24 +94,11 @@ export function SoftwareCreationForm(props: Props) {
 
     const { classes } = useStyles({ "step": route.params.step });
 
+    const evtActionSubmitStep = useConst(() => Evt.create());
+
     if (isPrefillingForSoftwareUpdate) {
         return <CircularProgress />;
     }
-
-    const dispatchStep = (action: "next" | "prev") =>
-        routes[route.name]({
-            ...route.params,
-            "step":
-                route.params.step +
-                (() => {
-                    switch (action) {
-                        case "next":
-                            return 1;
-                        case "prev":
-                            return -1;
-                    }
-                })()
-        }).push();
 
     return (
         <div className={className}>
@@ -124,20 +115,15 @@ export function SoftwareCreationForm(props: Props) {
             <SoftwareCreationFormStep1
                 className={classes.step1}
                 defaultFormData={formDataStep1}
-                onFormDataChange={formData => {
-                    setFormDataStep1(formData);
-                    dispatchStep("next");
-                }}
+                onSubmit={setFormDataStep1}
+                evtActionSubmit={evtActionSubmitStep}
             />
             <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
                 defaultFormData={formDataStep2}
-                onFormDataChange={formData => {
-                    setFormDataStep2(formData);
-                    dispatchStep("next");
-                }}
-                onPrev={() => dispatchStep("prev")}
+                evtActionSubmit={evtActionSubmitStep}
+                onSubmit={setFormDataStep2}
                 getAutofillData={core.getAutofillData}
                 getWikidataOptions={core.getWikidataOptions}
             />
@@ -145,12 +131,40 @@ export function SoftwareCreationForm(props: Props) {
                 className={classes.step3}
                 defaultFormData={formDataStep3}
                 isCloudNativeSoftware={formDataStep1?.softwareType === "cloud"}
-                onFormDataChange={formData => {
-                    setFormDataStep3(formData);
-                    dispatchStep("next");
-                }}
-                onPrev={() => dispatchStep("prev")}
+                evtActionSubmit={evtActionSubmitStep}
+                onSubmit={setFormDataStep3}
             />
+            {route.params.step !== 1 && (
+                <Button
+                    style={{
+                        ...fr.spacing("margin", {
+                            "top": "4v",
+                            "right": "4v"
+                        })
+                    }}
+                    linkProps={
+                        routes[route.name]({
+                            ...route.params,
+                            "step": route.params.step - 1
+                        }).link
+                    }
+                >
+                    Prev
+                </Button>
+            )}
+            <Button
+                style={{
+                    "marginTop": fr.spacing("4v")
+                }}
+                linkProps={
+                    routes[route.name]({
+                        ...route.params,
+                        "step": route.params.step + 1
+                    }).link
+                }
+            >
+                Next
+            </Button>
         </div>
     );
 }

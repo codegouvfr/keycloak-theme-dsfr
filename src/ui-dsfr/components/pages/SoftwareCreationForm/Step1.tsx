@@ -1,12 +1,14 @@
-import { fr } from "@codegouvfr/react-dsfr";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks";
 
 export type Step1Props = {
     className?: string;
     defaultFormData: Partial<Step1Props.FormData> | undefined;
-    onFormDataChange: (formData: Step1Props.FormData) => void;
+    onSubmit: (formData: Step1Props.FormData) => void;
+    evtActionSubmit: NonPostableEvt<void>;
 };
 
 export namespace Step1Props {
@@ -16,7 +18,7 @@ export namespace Step1Props {
 }
 
 export function SoftwareCreationFormStep1(props: Step1Props) {
-    const { className, defaultFormData, onFormDataChange } = props;
+    const { className, defaultFormData, onSubmit, evtActionSubmit } = props;
 
     const {
         handleSubmit,
@@ -26,8 +28,25 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
         "defaultValues": defaultFormData
     });
 
+    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+
+    useEvt(
+        ctx => {
+            if (formElement === null) {
+                return;
+            }
+
+            evtActionSubmit.attach(ctx, () => formElement.submit());
+        },
+        [evtActionSubmit, formElement]
+    );
+
     return (
-        <form className={className} onSubmit={handleSubmit(onFormDataChange)}>
+        <form
+            ref={setFormElement}
+            className={className}
+            onSubmit={handleSubmit(onSubmit)}
+        >
             <RadioButtons
                 legend=""
                 state={errors.softwareType !== undefined ? "error" : undefined}
@@ -58,16 +77,6 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                     }
                 ]}
             />
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                nativeButtonProps={{
-                    "type": "submit"
-                }}
-            >
-                Next
-            </Button>
         </form>
     );
 }

@@ -74,7 +74,16 @@ export function createTypeRouteMock<
                             const [, prop] = args;
 
                             if (prop === "link") {
-                                return (routes as any)[name](params).link;
+                                return {
+                                    ...(routes as any)[name](params).link,
+                                    "onClick": (e: any) => {
+                                        evtRoutes.post({
+                                            name,
+                                            params
+                                        } as any);
+                                        e.preventDefault();
+                                    }
+                                };
                             }
 
                             if (prop !== "push" && prop !== "replace") {

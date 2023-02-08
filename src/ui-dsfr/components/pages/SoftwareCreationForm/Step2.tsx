@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import { SearchInput } from "ui-dsfr/components/shared/SearchInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useForm, Controller } from "react-hook-form";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
 import { assert } from "tsafe/assert";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks";
 
 export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
     defaultFormData: Partial<Step2Props.FormData> | undefined;
-    onFormDataChange: (formData: Step2Props.FormData) => void;
-    onPrev: () => void;
+    onSubmit: (formData: Step2Props.FormData) => void;
+    evtActionSubmit: NonPostableEvt<void>;
     getWikidataOptions: (inputText: string) => Promise<Step2Props.WikidataEntry[]>;
     getAutofillData: (wikidataId: string) => Promise<{
         comptoirDuLibreId: number | undefined;
@@ -45,8 +46,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         className,
         isUpdateForm,
         defaultFormData,
-        onFormDataChange,
-        onPrev,
+        onSubmit,
+        evtActionSubmit,
         getWikidataOptions,
         getAutofillData
     } = props;
@@ -79,6 +80,19 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
             };
         })()
     });
+
+    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+
+    useEvt(
+        ctx => {
+            if (formElement === null) {
+                return;
+            }
+
+            evtActionSubmit.attach(ctx, () => formElement.submit());
+        },
+        [evtActionSubmit, formElement]
+    );
 
     const { isAutocompleteInProgress } = (function useClosure() {
         const [isAutocompleteInProgress, setIsAutocompleteInProgress] = useState(false);
@@ -142,8 +156,9 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
     return (
         <form
             className={className}
+            ref={setFormElement}
             onSubmit={handleSubmit(({ comptoirDuLibreInputValue, ...rest }) =>
-                onFormDataChange({
+                onSubmit({
                     ...rest,
                     "comptoirDuLibreId": comptoirDuLibreInputValueToComptoirDuLibreId(
                         comptoirDuLibreInputValue
@@ -284,24 +299,6 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                     />
                 )}
             />
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v"),
-                    "marginRight": fr.spacing("4v")
-                }}
-                onClick={() => onPrev()}
-                type="button"
-            >
-                Prev
-            </Button>
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                type="submit"
-            >
-                Next
-            </Button>
         </form>
     );
 }

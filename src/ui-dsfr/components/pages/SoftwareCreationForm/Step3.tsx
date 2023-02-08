@@ -1,15 +1,17 @@
+import { useState } from "react";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useForm } from "react-hook-form";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks";
 
 export type Step2Props = {
     className?: string;
     defaultFormData: Partial<Step3Props.FormData> | undefined;
     isCloudNativeSoftware: boolean;
-    onFormDataChange: (formData: Step3Props.FormData) => void;
-    onPrev: () => void;
+    onSubmit: (formData: Step3Props.FormData) => void;
+    evtActionSubmit: NonPostableEvt<void>;
 };
 
 export namespace Step3Props {
@@ -30,8 +32,8 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         className,
         defaultFormData,
         isCloudNativeSoftware,
-        onFormDataChange,
-        onPrev
+        onSubmit,
+        evtActionSubmit
     } = props;
 
     const {
@@ -74,8 +76,22 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         })()
     });
 
+    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+
+    useEvt(
+        ctx => {
+            if (formElement === null) {
+                return;
+            }
+
+            evtActionSubmit.attach(ctx, () => formElement.submit());
+        },
+        [evtActionSubmit, formElement]
+    );
+
     return (
         <form
+            ref={setFormElement}
             className={className}
             onSubmit={handleSubmit(
                 ({
@@ -84,7 +100,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                     isFromFrenchPublicServiceInputValue,
                     targetAudience
                 }) =>
-                    onFormDataChange({
+                    onSubmit({
                         "isPresentInSupportContract": (() => {
                             switch (isPresentInSupportContractInputValue) {
                                 case undefined:
@@ -215,24 +231,6 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                     />
                 </>
             )}
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v"),
-                    "marginRight": fr.spacing("4v")
-                }}
-                onClick={() => onPrev()}
-                type="button"
-            >
-                Prev
-            </Button>
-            <Button
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                type="submit"
-            >
-                Next
-            </Button>
         </form>
     );
 }
