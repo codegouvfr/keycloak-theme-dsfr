@@ -1,10 +1,9 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { assert } from "tsafe/assert";
-import { Step1, type FormDataStep1 } from "./Step1";
-import { Step2, type FormDataStep2 } from "./Step2";
+import { SoftwareCreationFormStep1, type Step1Props } from "./Step1";
+import { SoftwareCreationFormStep2, type Step2Props } from "./Step2";
 import { core } from "./coreMock";
 import { makeStyles } from "tss-react/dsfr";
 
@@ -25,32 +24,10 @@ export type Props = {
 export function SoftwareCreationForm(props: Props) {
     const { className, route } = props;
 
-    const [step, dispatchState] = useReducer(
-        (state: 1 | 2 | 3, action: "next" | "previous") => {
-            switch (state) {
-                case 1:
-                    assert(action === "next");
-                    return 2;
-                case 2:
-                    switch (action) {
-                        case "next":
-                            return 3;
-                        case "previous":
-                            return 1;
-                    }
-                    break;
-                case 3:
-                    assert(action === "previous");
-                    return 1;
-            }
-        },
-        1
-    );
-
-    const [formDataStep1, setFormDataStep1] = useState<FormDataStep1 | undefined>(
+    const [formDataStep1, setFormDataStep1] = useState<Step1Props.FormData | undefined>(
         undefined
     );
-    const [formDataStep2, setFormDataStep2] = useState<FormDataStep2 | undefined>(
+    const [formDataStep2, setFormDataStep2] = useState<Step2Props.FormData | undefined>(
         undefined
     );
 
@@ -71,16 +48,17 @@ export function SoftwareCreationForm(props: Props) {
             (async () => {
                 setIsPrefillingForSoftwareUpdate(true);
 
-                const { softwareType, wikidataEntry } = await core.getPrefillData({
-                    softwareName
-                });
+                const { softwareType, wikidataEntry, comptoirDuLibreId } =
+                    await core.getPrefillData({
+                        softwareName
+                    });
 
                 if (!isActive) {
                     return;
                 }
 
                 setFormDataStep1({ softwareType });
-                setFormDataStep2({ softwareName, wikidataEntry });
+                setFormDataStep2({ softwareName, wikidataEntry, comptoirDuLibreId });
 
                 setIsPrefillingForSoftwareUpdate(false);
             })();
@@ -93,11 +71,26 @@ export function SoftwareCreationForm(props: Props) {
         return { isPrefillingForSoftwareUpdate };
     })();
 
-    const { classes } = useStyles({ step });
+    const { classes } = useStyles({ "step": route.params.step });
 
     if (isPrefillingForSoftwareUpdate) {
         return <CircularProgress />;
     }
+
+    const dispatchStep = (action: "next" | "prev") =>
+        routes[route.name]({
+            ...route.params,
+            "step":
+                route.params.step +
+                (() => {
+                    switch (action) {
+                        case "next":
+                            return 1;
+                        case "prev":
+                            return -1;
+                    }
+                })()
+        }).push();
 
     return (
         <div className={className}>
@@ -111,33 +104,35 @@ export function SoftwareCreationForm(props: Props) {
                     }
                 })()}
             </h1>
-            <Step1
+            <SoftwareCreationFormStep1
                 className={classes.step1}
-                formData={formDataStep1}
+                defaultFormData={formDataStep1}
                 onFormDataChange={formData => {
                     setFormDataStep1(formData);
-                    dispatchState("next");
+                    dispatchStep("next");
                 }}
             />
-            <Step2
+            <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
-                formData={formDataStep2}
+                defaultFormData={formDataStep2}
                 onFormDataChange={formData => {
                     setFormDataStep2(formData);
-                    dispatchState("next");
+                    dispatchStep("next");
                 }}
-                onPrev={() => dispatchState("previous")}
+                onPrev={() => dispatchStep("prev")}
+                getAutofillData={core.getAutofillData}
+                getWikidataOptions={core.getWikidataOptions}
             />
         </div>
     );
 }
 
-const useStyles = makeStyles<{ step: 1 | 2 | 3 }>()((_theme, { step }) => ({
+const useStyles = makeStyles<{ step: number }>()((_theme, { step }) => ({
     "step1": {
-        "display": step === 1 ? "block" : "none"
+        "display": step === 1 ? undefined : "none"
     },
     "step2": {
-        "display": step === 2 ? "block" : "none"
+        "display": step === 2 ? undefined : "none"
     }
 }));

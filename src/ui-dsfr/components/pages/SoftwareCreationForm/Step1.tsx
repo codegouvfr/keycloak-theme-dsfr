@@ -3,23 +3,27 @@ import { useForm } from "react-hook-form";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 
-export type FormDataStep1 = {
-    softwareType: "desktop" | "cloud" | "library";
+export type Step1Props = {
+    className?: string;
+    defaultFormData: Partial<Step1Props.FormData> | undefined;
+    onFormDataChange: (formData: Step1Props.FormData) => void;
 };
 
-export function Step1(props: {
-    className?: string;
-    formData: FormDataStep1 | undefined;
-    onFormDataChange: (formData: FormDataStep1) => void;
-}) {
-    const { className, formData, onFormDataChange } = props;
+export namespace Step1Props {
+    export type FormData = {
+        softwareType: "desktop" | "cloud" | "library";
+    };
+}
+
+export function SoftwareCreationFormStep1(props: Step1Props) {
+    const { className, defaultFormData, onFormDataChange } = props;
 
     const {
         handleSubmit,
         register,
         formState: { errors }
-    } = useForm<FormDataStep1>({
-        "defaultValues": formData
+    } = useForm<Step1Props.FormData>({
+        "defaultValues": defaultFormData
     });
 
     return (

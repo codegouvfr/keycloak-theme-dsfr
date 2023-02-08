@@ -24,12 +24,10 @@ export namespace core {
             }));
     }
 
-    export async function getAutofillData(params: { wikidataId: string }): Promise<{
+    export async function getAutofillData(wikidataId: string): Promise<{
         softwareName: string;
-        comptoirDuLibreId?: number;
+        comptoirDuLibreId: number | undefined;
     }> {
-        const { wikidataId } = params;
-
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         return {
@@ -40,6 +38,7 @@ export namespace core {
 
     export async function getPrefillData(params: { softwareName: string }): Promise<{
         softwareType: "desktop" | "cloud" | "library";
+        comptoirDuLibreId: number | undefined;
         wikidataEntry: WikidataEntry | undefined;
         softwareName: string;
     }> {
@@ -49,6 +48,7 @@ export namespace core {
 
         return {
             "softwareType": "desktop",
+            "comptoirDuLibreId": undefined,
             "wikidataEntry": {
                 "wikidataDescription": `${softwareName} descriptions`,
                 "wikidataId": "Qxxxxxx",
