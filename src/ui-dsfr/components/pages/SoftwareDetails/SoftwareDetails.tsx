@@ -13,6 +13,7 @@ import { PreviewTab } from "./PreviewTab";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { FooterDetailCard } from "./FooterDetailCard";
+import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
 
 SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
 
@@ -46,6 +47,8 @@ export function SoftwareDetails(props: Props) {
                 "softwareName": undefined
             });
     }, [route.params.name]);
+
+    console.log(software);
 
     return (
         <div>
@@ -100,8 +103,12 @@ export function SoftwareDetails(props: Props) {
                         })
                     },
                     {
-                        "label": t("tab title alike software", { alikeSoftwareCount: 1 }),
-                        "content": <p>Content of tab2</p>
+                        "label": t("tab title alike software", {
+                            alikeSoftwareCount: software?.alikeSoftwares.length ?? 0
+                        }),
+                        "content": AlikeSoftwareTab({
+                            alikeSoftwares: software?.alikeSoftwares
+                        })
                     }
                 ]}
             />

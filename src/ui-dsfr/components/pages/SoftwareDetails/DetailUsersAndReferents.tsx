@@ -1,4 +1,3 @@
-import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { Link } from "type-route";

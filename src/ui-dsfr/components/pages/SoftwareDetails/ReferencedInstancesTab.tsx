@@ -13,9 +13,6 @@ import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 export type Instance = {
     name: string;
     description: string;
-    userCount: number;
-    referentCount: number;
-    seeUserAndReferent: Link;
     instanceLink: Link;
 };
 
@@ -41,8 +38,7 @@ export const ReferencedInstancesTab = (props: Props) => {
     const [expanded, setExpanded] = useState(false);
 
     const instanceCard = (instance: Instance) => {
-        const { name, description, referentCount, userCount, seeUserAndReferent } =
-            instance;
+        const { name, description } = instance;
         return (
             <div className={cx(fr.cx("fr-card"), classes.card)}>
                 <h6 className={cx(classes.name)}>{name}</h6>
@@ -52,12 +48,6 @@ export const ReferencedInstancesTab = (props: Props) => {
                 <p className={cx(fr.cx("fr-text--sm"), classes.description)}>
                     {description}
                 </p>
-                <DetailUsersAndReferents
-                    seeUserAndReferent={seeUserAndReferent}
-                    referentCount={referentCount}
-                    userCount={userCount}
-                    className={classes.detailUsersAndReferents}
-                />
                 <div className={classes.footer}>
                     <Button onClick={() => {}} priority="secondary">
                         {t("go to instance")}
