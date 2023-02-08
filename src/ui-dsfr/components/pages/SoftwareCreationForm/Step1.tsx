@@ -5,7 +5,7 @@ import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 
 export type Step1Props = {
     className?: string;
-    formData: Step1Props.FormData | undefined;
+    defaultFormData: Partial<Step1Props.FormData> | undefined;
     onFormDataChange: (formData: Step1Props.FormData) => void;
 };
 
@@ -16,14 +16,14 @@ export namespace Step1Props {
 }
 
 export function SoftwareCreationFormStep1(props: Step1Props) {
-    const { className, formData, onFormDataChange } = props;
+    const { className, defaultFormData, onFormDataChange } = props;
 
     const {
         handleSubmit,
         register,
         formState: { errors }
     } = useForm<Step1Props.FormData>({
-        "defaultValues": formData
+        "defaultValues": defaultFormData
     });
 
     return (

@@ -48,16 +48,17 @@ export function SoftwareCreationForm(props: Props) {
             (async () => {
                 setIsPrefillingForSoftwareUpdate(true);
 
-                const { softwareType, wikidataEntry } = await core.getPrefillData({
-                    softwareName
-                });
+                const { softwareType, wikidataEntry, comptoirDuLibreId } =
+                    await core.getPrefillData({
+                        softwareName
+                    });
 
                 if (!isActive) {
                     return;
                 }
 
                 setFormDataStep1({ softwareType });
-                setFormDataStep2({ softwareName, wikidataEntry });
+                setFormDataStep2({ softwareName, wikidataEntry, comptoirDuLibreId });
 
                 setIsPrefillingForSoftwareUpdate(false);
             })();
@@ -105,7 +106,7 @@ export function SoftwareCreationForm(props: Props) {
             </h1>
             <SoftwareCreationFormStep1
                 className={classes.step1}
-                formData={formDataStep1}
+                defaultFormData={formDataStep1}
                 onFormDataChange={formData => {
                     setFormDataStep1(formData);
                     dispatchStep("next");
@@ -114,12 +115,14 @@ export function SoftwareCreationForm(props: Props) {
             <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
-                formData={formDataStep2}
+                defaultFormData={formDataStep2}
                 onFormDataChange={formData => {
                     setFormDataStep2(formData);
                     dispatchStep("next");
                 }}
                 onPrev={() => dispatchStep("prev")}
+                getAutofillData={core.getAutofillData}
+                getWikidataOptions={core.getWikidataOptions}
             />
         </div>
     );

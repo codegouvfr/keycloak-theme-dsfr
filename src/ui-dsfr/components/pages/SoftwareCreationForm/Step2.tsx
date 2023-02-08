@@ -5,25 +5,51 @@ import { useForm, Controller } from "react-hook-form";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
-import { core } from "./coreMock";
+import { assert } from "tsafe/assert";
 
 export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
-    formData: Step2Props.FormData | undefined;
+    defaultFormData: Partial<Step2Props.FormData> | undefined;
     onFormDataChange: (formData: Step2Props.FormData) => void;
     onPrev: () => void;
+    getWikidataOptions: (inputText: string) => Promise<Step2Props.WikidataEntry[]>;
+    getAutofillData: (wikidataId: string) => Promise<{
+        comptoirDuLibreId: number | undefined;
+        softwareName: string;
+        //softwareDescription: string;
+        //softwareLicense: string | undefined;
+        //softwareMinimalVersion: string | undefined;
+    }>;
 };
 
 export namespace Step2Props {
+    export type WikidataEntry = {
+        wikidataLabel: string;
+        wikidataDescription: string;
+        wikidataId: string;
+    };
+
     export type FormData = {
-        wikidataEntry: core.WikidataEntry | undefined;
-        softwareName: string | undefined;
+        wikidataEntry: WikidataEntry | undefined;
+        comptoirDuLibreId: number | undefined;
+        softwareName: string;
+        //softwareDescription: string;
+        //softwareLicense: string;
+        //softwareMinimalVersion: string;
     };
 }
 
 export function SoftwareCreationFormStep2(props: Step2Props) {
-    const { className, isUpdateForm, formData, onFormDataChange, onPrev } = props;
+    const {
+        className,
+        isUpdateForm,
+        defaultFormData,
+        onFormDataChange,
+        onPrev,
+        getWikidataOptions,
+        getAutofillData
+    } = props;
 
     const {
         handleSubmit,
@@ -32,8 +58,26 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         watch,
         formState: { errors },
         setValue
-    } = useForm<Step2Props.FormData>({
-        "defaultValues": formData
+    } = useForm<
+        Omit<Step2Props.FormData, "comptoirDuLibreId"> & {
+            comptoirDuLibreInputValue: string;
+        }
+    >({
+        "defaultValues": (() => {
+            const { comptoirDuLibreId, ...rest } = defaultFormData ?? {};
+
+            return {
+                ...rest,
+                ...(comptoirDuLibreId === undefined
+                    ? {}
+                    : {
+                          "comptoirDuLibreInputValue":
+                              comptoirDuLibreIdToComptoirDuLibreInputValue(
+                                  comptoirDuLibreId
+                              )
+                      })
+            };
+        })()
     });
 
     const { isAutocompleteInProgress } = (function useClosure() {
@@ -51,14 +95,20 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
             (async () => {
                 setIsAutocompleteInProgress(true);
 
-                const { softwareName } = await core.getAutofillData({
-                    "wikidataId": wikiDataEntry.wikidataId
-                });
+                const { comptoirDuLibreId, softwareName } = await getAutofillData(
+                    wikiDataEntry.wikidataId
+                );
 
                 if (!isActive) {
                     return;
                 }
 
+                if (comptoirDuLibreId !== undefined) {
+                    setValue(
+                        "comptoirDuLibreInputValue",
+                        comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
+                    );
+                }
                 setValue("softwareName", softwareName);
 
                 setIsAutocompleteInProgress(false);
@@ -73,7 +123,17 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
     })();
 
     return (
-        <form className={className} onSubmit={handleSubmit(onFormDataChange)}>
+        <form
+            className={className}
+            onSubmit={handleSubmit(({ comptoirDuLibreInputValue, ...rest }) =>
+                onFormDataChange({
+                    ...rest,
+                    "comptoirDuLibreId": comptoirDuLibreInputValueToComptoirDuLibreId(
+                        comptoirDuLibreInputValue
+                    )
+                })
+            )}
+        >
             <Controller
                 name="wikidataEntry"
                 control={control}
@@ -81,7 +141,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                 render={({ field }) => (
                     <SearchInput
                         debounceDelay={400}
-                        getOptions={core.getWikidataOptions}
+                        getOptions={getWikidataOptions}
                         value={field.value}
                         onValueChange={field.onChange}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
@@ -108,6 +168,27 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                                 "name": field.name
                             }
                         }}
+                    />
+                )}
+            />
+            <CircularProgressWrapper
+                isInProgress={isAutocompleteInProgress}
+                renderChildren={({ style }) => (
+                    <Input
+                        disabled={isAutocompleteInProgress}
+                        style={{
+                            ...style,
+                            "marginTop": fr.spacing("4v")
+                        }}
+                        label="Identifiant Comptoir du Libre"
+                        hintText="URL de la page ou identifiant numérique"
+                        nativeInputProps={{
+                            ...register("comptoirDuLibreInputValue", {
+                                "pattern": /^[0-9]{1,5}$|^http/
+                            })
+                        }}
+                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        stateRelatedMessage="Should be an url of an numeric identifier"
                     />
                 )}
             />
@@ -156,4 +237,44 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
             </Button>
         </form>
     );
+}
+
+function comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId: number) {
+    return `https://comptoir-du-libre.org/fr/softwares/${comptoirDuLibreId}`;
+}
+
+function comptoirDuLibreInputValueToComptoirDuLibreId(comptoirDuLibreInputValue: string) {
+    if (comptoirDuLibreInputValue === "") {
+        return undefined;
+    }
+
+    number: {
+        const n = parseInt(comptoirDuLibreInputValue);
+
+        if (isNaN(n)) {
+            break number;
+        }
+
+        return n;
+    }
+
+    url: {
+        if (
+            !comptoirDuLibreInputValue.startsWith(
+                "https://comptoir-du-libre.org/fr/softwares/"
+            )
+        ) {
+            break url;
+        }
+
+        const n = parseInt(comptoirDuLibreInputValue.split("/").reverse()[0]);
+
+        if (isNaN(n)) {
+            break url;
+        }
+
+        return n;
+    }
+
+    assert(false);
 }
