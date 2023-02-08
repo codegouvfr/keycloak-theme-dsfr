@@ -25,7 +25,7 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/Search").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/SoftwareDetails").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/HeaderDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/PreviewTab").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
@@ -35,6 +35,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserStep").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
+    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     //| typeof import("ui-dsfr/components/pages/Catalog").i18n
@@ -62,6 +63,31 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives"
+            },
+            "SoftwareDetails": {
+                "catalog breadcrumb": "Software catalog",
+                "tab title overview": "Overview",
+                "tab title instance": ({ instanceCount }) =>
+                    `Referenced instance (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Alike or equivalent proprietary software (${alikeSoftwareCount})`,
+                "about": "About",
+                "use full links": "Use full links",
+                "prerogatives": "Prerogatives",
+                "last version": "Last version",
+                "last version date": ({ date }) => `in ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "declare oneself referent": "Declare yourself referent / user",
+                "isDesktop": "Installable on agent desktop",
+                "isPresentInSupportMarket": "Present in support market",
+                "isFromFrenchPublicService": "From French public service",
+                "isRGAACompliant": "Is compliant with RGAA rules",
+                "service provider": "See service providers",
+                "comptoire du libre sheet": "Open Comptoir du libre sheet",
+                "wikiData sheet": "Open Wikidata sheet"
             },
             "DetailCard": {
                 "catalog breadcrumb": "Software catalog",
@@ -196,6 +222,31 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives"
+            },
+            "SoftwareDetails": {
+                "catalog breadcrumb": "Le catalogue de logiciel",
+                "tab title overview": "Aperçu",
+                "tab title instance": ({ instanceCount }) =>
+                    `Instances référencées (${instanceCount})`,
+                "tab title alike software": ({ alikeSoftwareCount }) =>
+                    `Logiciel similaires ou équivalents propriétaires (${alikeSoftwareCount})`,
+                "about": "À propos",
+                "use full links": "Liens utiles",
+                "prerogatives": "Prérogatives",
+                "last version": "Dernière version : ",
+                "last version date": ({ date }) => `en ${date}`,
+                "register": "Date de l'ajout : ",
+                "register date": ({ date }) => `${date}`,
+                "minimal version": "Version minimale requise : ",
+                "license": "License : ",
+                "declare oneself referent": "Se déclarer référent / utilisateur",
+                "isDesktop": "Installable sur poste agent",
+                "isPresentInSupportMarket": "Présent dans le marché de support",
+                "isFromFrenchPublicService": "Développé par le service public",
+                "isRGAACompliant": "Respecte les normes RGAA",
+                "service provider": "Voir les prestataires de services",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "DetailCard": {
                 "catalog breadcrumb": "Le catalogue de logiciel",

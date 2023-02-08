@@ -7,15 +7,15 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
+/*import { DetailUsersAndReferents } from "./DetailUsersAndReferents";*/
 
 export type Props = {
     className?: string;
-    usersCount?: number;
-    referentCount?: number;
+    usersCount: number;
+    referentCount: number;
     seeUserAndReferent: Link;
-    shareSoftware?: Link;
-    declareUserOrReferent?: Link;
+    shareSoftware: Link;
+    declareUserOrReferent: Link;
 };
 
 export const FooterDetailCard = memo((props: Props) => {
@@ -39,12 +39,12 @@ export const FooterDetailCard = memo((props: Props) => {
     return (
         <div className={cx(classes.root, className)}>
             <div className={cx(classes.container)}>
-                <DetailUsersAndReferents
+                {/*                <DetailUsersAndReferents
                     className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
                     seeUserAndReferent={seeUserAndReferent}
-                    referentCount={referentCount ?? 0}
-                    userCount={usersCount ?? 0}
-                />
+                    referentCount={referentCount}
+                    userCount={usersCount}
+                />*/}
                 <div className={classes.buttons}>
                     <Button
                         iconId="ri-share-forward-line"
@@ -81,6 +81,7 @@ const useStyles = makeStyles({
         "display": "grid",
         "gridTemplateColumns": `repeat(2, 1fr)`,
         "columnGap": fr.spacing("6v"),
+        "marginBottom": fr.spacing("6v"),
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`,
             "gridRowGap": fr.spacing("6v")

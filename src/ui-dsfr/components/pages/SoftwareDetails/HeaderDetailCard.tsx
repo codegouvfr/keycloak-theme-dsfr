@@ -12,9 +12,9 @@ export type Props = {
     className?: string;
     softwareLogoUrl?: string;
     softwareName?: string;
-    authors: {
-        name: string;
-        link: Link;
+    authors?: {
+        authorName: string;
+        authorUrl: string;
     }[];
     officialWebsite?: string;
     sourceCodeRepository?: string;
@@ -55,9 +55,12 @@ export const HeaderDetailCard = memo((props: Props) => {
                         <span>
                             <span className={classes.authors}>{t("authors")}</span>
                             <span>
-                                {authors.map(author => (
-                                    <a {...author.link} className={classes.authorLink}>
-                                        {author.name}
+                                {authors?.map(author => (
+                                    <a
+                                        href={author.authorUrl}
+                                        className={classes.authorLink}
+                                    >
+                                        {author.authorName}
                                     </a>
                                 ))}
                             </span>
@@ -66,21 +69,31 @@ export const HeaderDetailCard = memo((props: Props) => {
                 </div>
             </div>
             <div className={classes.externalLinkButtons}>
-                <Button
-                    iconId="fr-icon-global-line"
-                    onClick={function noRefCheck() {}}
-                    priority="secondary"
-                    className={classes.officialWebsiteButton}
+                <a
+                    href={officialWebsite}
+                    className={cx(
+                        fr.cx(
+                            "fr-icon-global-line",
+                            "fr-btn",
+                            "fr-btn--secondary",
+                            "fr-btn--icon-left"
+                        ),
+                        classes.officialWebsiteButton
+                    )}
                 >
                     {t("website")}
-                </Button>
-                <Button
-                    iconId="fr-icon-code-s-slash-line"
-                    onClick={function noRefCheck() {}}
-                    priority="secondary"
+                </a>
+                <a
+                    href={sourceCodeRepository}
+                    className={fr.cx(
+                        "fr-icon-code-s-slash-line",
+                        "fr-btn",
+                        "fr-btn--secondary",
+                        "fr-btn--icon-left"
+                    )}
                 >
                     {t("repository")}
-                </Button>
+                </a>
             </div>
         </div>
     );
