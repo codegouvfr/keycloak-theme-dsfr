@@ -9,6 +9,7 @@ import { SoftwareCatalogCard } from "./SoftwareCatalogCard";
 import { Search } from "./Search";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../../i18n";
 
 const sortOptions = [
     "added time",
@@ -94,6 +95,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { cx, classes } = useStyles();
+    const { t } = useTranslation({ SoftwareCatalogControlled });
 
     const catalogCards = softwares.map(software => {
         const { softwareName } = software;
@@ -131,7 +133,9 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
             <div>
                 <div className={classes.header}>
                     <h6 className={classes.softwareCount}>
-                        {softwares.length} logiciels libres
+                        {t("search results", {
+                            count: softwares.length
+                        })}
                     </h6>
                     <Select
                         label="Trier par"

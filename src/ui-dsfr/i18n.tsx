@@ -25,11 +25,12 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/Search").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/DetailCard").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/HeaderDetailCard").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/PreviewTab").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/ReferencedInstancesTab").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailCard/FooterDetailCard").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/SoftwareDetails").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/HeaderDetailCard").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/PreviewTab").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/ReferencedInstancesTab").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/AlikeSoftwareTab").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareDetails/FooterDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/DeclareUserOrReferent").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
@@ -63,7 +64,7 @@ const {
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives"
             },
-            "DetailCard": {
+            "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
                 "tab title overview": "Overview",
                 "tab title instance": ({ instanceCount }) =>
@@ -116,6 +117,10 @@ const {
                     `${instanceCount} maintained instance by ${publicOrganisationCount} public organisation`,
                 "concerned public": "Concerned public : ",
                 "go to instance": "Open the instance"
+            },
+            "AlikeSoftwareTab": {
+                "alike software sill": "Alike software in SILL",
+                "alike software proprietary": "Alike proprietary software"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
@@ -197,7 +202,7 @@ const {
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives"
             },
-            "DetailCard": {
+            "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
                 "tab title overview": "Aperçu",
                 "tab title instance": ({ instanceCount }) =>
@@ -250,6 +255,10 @@ const {
                     `${instanceCount} instances maintenues par ${publicOrganisationCount} organisations publiques`,
                 "concerned public": "Public concerné : ",
                 "go to instance": "Accéder à l'instance"
+            },
+            "AlikeSoftwareTab": {
+                "alike software sill": "Logiciels similaires sur le SILL",
+                "alike software proprietary": "Logiciels équivalents propriétaires"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount }) =>

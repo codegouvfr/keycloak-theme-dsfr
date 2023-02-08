@@ -8,14 +8,11 @@ import { assert } from "tsafe/assert";
 import type { Link } from "type-route";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Instance = {
     name: string;
     description: string;
-    userCount: number;
-    referentCount: number;
-    seeUserAndReferent: Link;
     instanceLink: Link;
 };
 
@@ -26,8 +23,8 @@ export type Organization = {
 
 export type Props = {
     className?: string;
-    organizationList: Organization[];
-    instanceCount: number;
+    organizationList?: any[];
+    instanceCount?: number;
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
@@ -41,8 +38,7 @@ export const ReferencedInstancesTab = (props: Props) => {
     const [expanded, setExpanded] = useState(false);
 
     const instanceCard = (instance: Instance) => {
-        const { name, description, referentCount, userCount, seeUserAndReferent } =
-            instance;
+        const { name, description } = instance;
         return (
             <div className={cx(fr.cx("fr-card"), classes.card)}>
                 <h6 className={cx(classes.name)}>{name}</h6>
@@ -52,12 +48,6 @@ export const ReferencedInstancesTab = (props: Props) => {
                 <p className={cx(fr.cx("fr-text--sm"), classes.description)}>
                     {description}
                 </p>
-                <DetailUsersAndReferents
-                    seeUserAndReferent={seeUserAndReferent}
-                    referentCount={referentCount}
-                    userCount={userCount}
-                    className={classes.detailUsersAndReferents}
-                />
                 <div className={classes.footer}>
                     <Button onClick={() => {}} priority="secondary">
                         {t("go to instance")}
@@ -72,11 +62,11 @@ export const ReferencedInstancesTab = (props: Props) => {
             <div className={cx(classes.root, className)}>
                 <p className={fr.cx("fr-text--bold")}>
                     {t("instanceCount", {
-                        instanceCount,
-                        publicOrganisationCount: organizationList.length
+                        instanceCount: instanceCount ?? 0,
+                        publicOrganisationCount: organizationList?.length ?? 0
                     })}
                 </p>
-                {organizationList.map(organization => {
+                {organizationList?.map(organization => {
                     const { name, maintainedInstances } = organization;
 
                     return (

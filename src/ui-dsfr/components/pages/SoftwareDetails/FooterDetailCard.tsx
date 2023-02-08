@@ -7,7 +7,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-import { DetailUsersAndReferents } from "../DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Props = {
     className?: string;

@@ -382,20 +382,18 @@ export const { useFromNow } = (() => {
     return { useFromNow };
 })();
 
-export const shortEndMonthDate = (params: { time: number }): string => {
-    const { time } = params;
-    const { lang } = useLang();
+export const shortEndMonthDate = (params: { time: number; lang: string }): string => {
+    const { time, lang } = params;
 
     return moment(time * 1000)
         .locale(lang)
         .format(`MMM YYYY`);
 };
 
-export const monthDate = (params: { time: number }): string => {
-    const { time } = params;
+export const monthDate = (params: { time: number; lang: string }): string => {
+    const { time, lang } = params;
 
-    const date = new Date(time);
-    const { lang } = useLang();
-
-    return moment(date).locale(lang).format(`MMMM YYYY`);
+    return moment(time * 1000)
+        .locale(lang)
+        .format(`MMMM YYYY`);
 };

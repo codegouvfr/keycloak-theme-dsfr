@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui-dsfr/i18n";
+import { useLang, useTranslation } from "ui-dsfr/i18n";
 import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
@@ -14,18 +14,18 @@ export type Prerogative = {
 
 export type Props = {
     className?: string;
-    softwareCurrentVersion: string;
-    softwareDateCurrentVersion: number;
-    registerDate: number;
-    minimalVersionRequired: string;
-    license: string;
-    serviceProvider: Link;
-    comptoireDuLibreSheet: Link;
-    wikiDataSheet: Link;
-    isDesktop: boolean;
-    isPresentInSupportMarket: boolean;
-    isFromFrenchPublicService: boolean;
-    isRGAACompliant: boolean;
+    softwareCurrentVersion?: string;
+    softwareDateCurrentVersion?: number;
+    registerDate?: number;
+    minimalVersionRequired?: string;
+    license?: string;
+    serviceProvider?: string;
+    comptoireDuLibreSheet?: string;
+    wikiDataSheet?: string;
+    isDesktop?: boolean;
+    isPresentInSupportMarket?: boolean;
+    isFromFrenchPublicService?: boolean;
+    isRGAACompliant?: boolean;
 };
 export const PreviewTab = (props: Props) => {
     const {
@@ -46,6 +46,7 @@ export const PreviewTab = (props: Props) => {
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ PreviewTab });
+    const { lang } = useLang();
 
     const prerogativeList = [
         {
@@ -70,32 +71,37 @@ export const PreviewTab = (props: Props) => {
         <div className={classes.tabContainer}>
             <div className="section">
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>{t("about")}</p>
-                <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                    <span className={classes.labelDetail}>{t("last version")}</span>
-                    <span
-                        className={cx(
-                            fr.cx(
-                                "fr-badge",
-                                "fr-badge--yellow-tournesol",
-                                "fr-badge--sm"
-                            ),
-                            classes.badgeVersion
-                        )}
-                    >
-                        {softwareCurrentVersion}
-                    </span>
-                    {t("last version date", {
-                        date: shortEndMonthDate({
-                            time: softwareDateCurrentVersion
-                        })
-                    })}
-                </p>
-                <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                    <span className={classes.labelDetail}>{t("register")}</span>
-                    <span>
-                        {t("register date", { date: monthDate({ time: registerDate }) })}
-                    </span>
-                </p>
+                {softwareDateCurrentVersion && (
+                    <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
+                        <span className={classes.labelDetail}>{t("last version")}</span>
+                        <span
+                            className={cx(
+                                fr.cx(
+                                    "fr-badge",
+                                    "fr-badge--yellow-tournesol",
+                                    "fr-badge--sm"
+                                ),
+                                classes.badgeVersion
+                            )}
+                        >
+                            {softwareCurrentVersion}
+                        </span>
+                        {t("last version date", {
+                            date: shortEndMonthDate({
+                                time: softwareDateCurrentVersion,
+                                lang
+                            })
+                        })}
+                    </p>
+                )}
+                {registerDate && (
+                    <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
+                        <span className={classes.labelDetail}>{t("register")}</span>
+                        {t("register date", {
+                            date: monthDate({ time: registerDate, lang })
+                        })}
+                    </p>
+                )}
 
                 <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                     <span className={classes.labelDetail}>{t("minimal version")}</span>
@@ -113,7 +119,10 @@ export const PreviewTab = (props: Props) => {
                 {prerogativeList.map(prerogative => {
                     const { label, status } = prerogative;
                     return (
-                        <div className={cx(classes.item, classes.prerogativeItem)}>
+                        <div
+                            key={prerogative.label}
+                            className={cx(classes.item, classes.prerogativeItem)}
+                        >
                             <i
                                 className={cx(
                                     fr.cx(
@@ -146,7 +155,7 @@ export const PreviewTab = (props: Props) => {
                     {t("use full links")}
                 </p>
                 <a
-                    {...serviceProvider}
+                    href={serviceProvider}
                     target="_blank"
                     title={t("service provider")}
                     className={cx(classes.externalLink, classes.item)}
@@ -154,7 +163,7 @@ export const PreviewTab = (props: Props) => {
                     {t("service provider")}
                 </a>
                 <a
-                    {...comptoireDuLibreSheet}
+                    href={comptoireDuLibreSheet}
                     target="_blank"
                     title={t("comptoire du libre sheet")}
                     className={cx(classes.externalLink, classes.item)}
@@ -162,7 +171,7 @@ export const PreviewTab = (props: Props) => {
                     {t("comptoire du libre sheet")}
                 </a>
                 <a
-                    {...wikiDataSheet}
+                    href={wikiDataSheet}
                     target="_blank"
                     title={t("wikiData sheet")}
                     className={cx(classes.externalLink, classes.item)}
