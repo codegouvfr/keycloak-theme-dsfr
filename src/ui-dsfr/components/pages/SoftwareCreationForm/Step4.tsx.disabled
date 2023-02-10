@@ -1,0 +1,130 @@
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import type { NonPostableEvt } from "evt";
+import { useEvt } from "evt/hooks";
+import { SearchInput } from "ui-dsfr/components/shared/SearchMultiInput";
+import { fr } from "@codegouvfr/react-dsfr";
+import type { Step2Props } from "./Step2";
+
+export type Step4Props = {
+    className?: string;
+    initialFormData: Step4Props.FormData | undefined;
+    onSubmit: (formData: Step4Props.FormData) => void;
+    evtActionSubmit: NonPostableEvt<void>;
+};
+
+export namespace Step4Props {
+    export type FormData = {
+        similarSoftwares: {
+            wikidataLabel: string;
+            wikidataDescription: string;
+            wikidataId: string;
+        };
+    };
+}
+
+export function SoftwareCreationFormStep4(props: Step4Props) {
+    const { className, initialFormData, onSubmit, evtActionSubmit } = props;
+
+    
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+        watch,
+        control
+    } = useForm<Step4Props.FormData>({
+        "defaultValues": (() => {
+            if (initialFormData === undefined) {
+                return undefined;
+            }
+
+            return initialFormData;
+        })()
+    });
+
+    const [submitButtonElement, setSubmitButtonElement] =
+        useState<HTMLButtonElement | null>(null);
+
+    useEvt(
+        ctx => {
+            if (submitButtonElement === null) {
+                return;
+            }
+
+            evtActionSubmit.attach(ctx, () => submitButtonElement.click());
+        },
+        [evtActionSubmit, submitButtonElement]
+    );
+
+    return (
+        <form
+            className={className}
+            onSubmit={handleSubmit(formData =>
+                onSubmit(formData)
+            )}
+        >
+            <Controller
+                name="similarSoftwares"
+                control={control}
+                rules={{ "required": false }}
+                render={({ field }) => (
+                    <SearchInput
+                        debounceDelay={400}
+                        getOptions={getWikidataOptions}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
+                        renderOption={(liProps, wikidataEntity) => (
+                            <li {...liProps}>
+                                <div>
+                                    <span>{wikidataEntity.wikidataLabel}</span>
+                                    <br />
+                                    <span className={fr.cx("fr-text--xs")}>
+                                        {wikidataEntity.wikidataDescription}
+                                    </span>
+                                </div>
+                            </li>
+                        )}
+                        noOptionText={"No result"}
+                        loadingText={"Loading..."}
+                        dsfrInputProps={{
+                            "label": "Wikidata sheet",
+                            "hintText":
+                                "Associer le logiciel à une fiche Wikidata déjà existante",
+                            "nativeInputProps": {
+                                "ref": field.ref,
+                                "onBlur": field.onBlur,
+                                "name": field.name
+                            }
+                        }}
+                    />
+                )}
+            />
+            <button
+                style={{ "display": "none" }}
+                ref={setSubmitButtonElement}
+                type="submit"
+            />
+        </form>
+    );
+}
+
+    export async function getWikidataOptions(
+        inputText: string
+    ): Promise<Step2Props.WikidataEntry[]> {
+        if (inputText === "") {
+            return [];
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        return new Array(4)
+            .fill(0)
+            .map((_, i) => i)
+            .map(i => ({
+                "wikidataLabel": `${inputText} software ${i}`,
+                "wikidataId": `Q${inputText}${i}`,
+                "wikidataDescription": `Description of software ${i}`
+            }));
+    }
