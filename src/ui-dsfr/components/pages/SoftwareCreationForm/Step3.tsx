@@ -74,6 +74,8 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         : isFromFrenchPublicService
                         ? "true"
                         : "false",
+                "isPublicInstanceInputValue":
+                    instanceInfo !== undefined ? "true" : "false",
                 instanceUrl,
                 targetAudience
             };

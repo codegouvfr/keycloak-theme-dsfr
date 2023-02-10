@@ -27,6 +27,8 @@ export type Props = {
     route: PageRoute;
 };
 
+const submittingStep = 4;
+
 export function SoftwareCreationForm(props: Props) {
     const { className, route } = props;
 
@@ -115,7 +117,7 @@ export function SoftwareCreationForm(props: Props) {
     }, [state.step]);
 
     useEffect(() => {
-        if (route.params.step !== 4) {
+        if (route.params.step !== submittingStep) {
             return;
         }
 
@@ -241,7 +243,7 @@ export function SoftwareCreationForm(props: Props) {
             <div className={classes.submittingProgress}>
                 <CircularProgress />
             </div>
-            {route.params.step !== 4 && (
+            {route.params.step !== submittingStep && (
                 <>
                     {route.params.step !== 1 && (
                         <Button
@@ -260,7 +262,7 @@ export function SoftwareCreationForm(props: Props) {
                         style={{ "marginTop": fr.spacing("4v") }}
                         onClick={() => evtActionSubmitStep.post()}
                     >
-                        Next
+                        {route.params.step === submittingStep - 1 ? "Submit" : "Next"}
                     </Button>
                 </>
             )}
@@ -279,7 +281,7 @@ const useStyles = makeStyles<{ step: number }>()((_theme, { step }) => ({
         "display": step === 3 ? undefined : "none"
     },
     "submittingProgress": {
-        "display": step === 4 ? "flex" : "none",
+        "display": step === submittingStep ? "flex" : "none",
         "justifyContent": "center",
         "alignItems": "center"
     }

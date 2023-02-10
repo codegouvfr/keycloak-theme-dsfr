@@ -55,8 +55,23 @@ export namespace core {
             "step1": {
                 "softwareType": "cloud"
             },
-            "step2": null as any,
-            "step3": null as any
+            "step2": {
+                "wikidataId": "Q110492908",
+                "comptoirDuLibreId": 461,
+                "softwareDescription":
+                    "Onyxia est une application web qui fournie un environnement de travail pour les data scientists. Onyxia est développé par l'INSEE.",
+                "softwareLicense": "MIT",
+                "softwareMinimalVersion": "2.13.12",
+                "softwareName": "Onyxia"
+            },
+            "step3": {
+                "instanceInfo": {
+                    "instanceUrl": "https://datalab.sspcloud.fr",
+                    "targetAudience": "SSM et étudiants"
+                },
+                "isFromFrenchPublicService": true,
+                "isPresentInSupportContract": false
+            }
         };
     }
 
@@ -65,7 +80,8 @@ export namespace core {
         step2: Step2Props.FormData;
         step3: Step3Props.FormData;
     }) {
+        console.log("submitting", formData);
         await new Promise(resolve => setTimeout(resolve, 2000));
-        console.log("submiting", formData);
+        alert(`Form submitted ${JSON.stringify(formData, null, 2)}`);
     }
 }

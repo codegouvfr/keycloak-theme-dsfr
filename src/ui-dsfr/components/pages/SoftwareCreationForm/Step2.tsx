@@ -77,7 +77,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         : {
                               wikidataId,
                               "wikidataDescription": "",
-                              "wikidataLabel": ""
+                              "wikidataLabel": rest.softwareName
                           },
                 "comptoirDuLibreIdInputValue":
                     comptoirDuLibreId === undefined
