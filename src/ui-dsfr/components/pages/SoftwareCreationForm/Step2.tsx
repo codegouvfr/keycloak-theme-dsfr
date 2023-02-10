@@ -7,21 +7,16 @@ import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgr
 import { assert } from "tsafe/assert";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
+import type { core } from "./coreMock";
 
 export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
-    defaultFormData: Partial<Step2Props.FormData> | undefined;
+    initialFormData: Step2Props.FormData | undefined;
     onSubmit: (formData: Step2Props.FormData) => void;
     evtActionSubmit: NonPostableEvt<void>;
-    getWikidataOptions: (inputText: string) => Promise<Step2Props.WikidataEntry[]>;
-    getAutofillData: (wikidataId: string) => Promise<{
-        comptoirDuLibreId: number | undefined;
-        softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string | undefined;
-        softwareMinimalVersion: string | undefined;
-    }>;
+    getAutofillDataFromWikidata: typeof core["getAutofillDataFromWikidata"];
+    getWikidataOptions: typeof core["getWikidataOptions"];
 };
 
 export namespace Step2Props {
@@ -32,7 +27,7 @@ export namespace Step2Props {
     };
 
     export type FormData = {
-        wikidataEntry: WikidataEntry | undefined;
+        wikidataId: string | undefined;
         comptoirDuLibreId: number | undefined;
         softwareName: string;
         softwareDescription: string;
@@ -45,11 +40,11 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
     const {
         className,
         isUpdateForm,
-        defaultFormData,
+        initialFormData,
         onSubmit,
         evtActionSubmit,
         getWikidataOptions,
-        getAutofillData
+        getAutofillDataFromWikidata
     } = props;
 
     const {
@@ -59,24 +54,28 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         watch,
         formState: { errors },
         setValue
-    } = useForm<
-        Omit<Step2Props.FormData, "comptoirDuLibreId"> & {
-            comptoirDuLibreInputValue: string;
-        }
-    >({
+    } = useForm<{
+        wikidataEntry: Step2Props.WikidataEntry | undefined;
+        comptoirDuLibreIdInputValue: string;
+        softwareName: string;
+        softwareDescription: string;
+        softwareLicense: string;
+        softwareMinimalVersion: string;
+    }>({
         "defaultValues": (() => {
-            const { comptoirDuLibreId, ...rest } = defaultFormData ?? {};
+            const { comptoirDuLibreId, wikidataId, ...rest } = initialFormData ?? {};
 
             return {
                 ...rest,
-                ...(comptoirDuLibreId === undefined
-                    ? {}
-                    : {
-                          "comptoirDuLibreInputValue":
-                              comptoirDuLibreIdToComptoirDuLibreInputValue(
-                                  comptoirDuLibreId
-                              )
-                      })
+                "wikidataEntry": {
+                    wikidataId,
+                    "wikidataDescription": "",
+                    "wikidataLabel": ""
+                },
+                "comptoirDuLibreInputValue":
+                    comptoirDuLibreId === undefined
+                        ? ""
+                        : comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
             };
         })()
     });
@@ -89,7 +88,10 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => formElement.submit());
+            evtActionSubmit.attach(ctx, () => {
+                console.log("bam");
+                formElement.submit();
+            });
         },
         [evtActionSubmit, formElement]
     );
@@ -115,7 +117,9 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                     softwareDescription,
                     softwareLicense,
                     softwareMinimalVersion
-                } = await getAutofillData(wikiDataEntry.wikidataId);
+                } = await getAutofillDataFromWikidata({
+                    "wikidataId": wikiDataEntry.wikidataId
+                });
 
                 if (!isActive) {
                     return;
@@ -123,7 +127,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
 
                 if (comptoirDuLibreId !== undefined) {
                     setValue(
-                        "comptoirDuLibreInputValue",
+                        "comptoirDuLibreIdInputValue",
                         comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
                     );
                 }
@@ -157,13 +161,18 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         <form
             className={className}
             ref={setFormElement}
-            onSubmit={handleSubmit(({ comptoirDuLibreInputValue, ...rest }) =>
-                onSubmit({
-                    ...rest,
-                    "comptoirDuLibreId": comptoirDuLibreInputValueToComptoirDuLibreId(
-                        comptoirDuLibreInputValue
-                    )
-                })
+            onSubmit={handleSubmit(
+                ({ comptoirDuLibreIdInputValue, wikidataEntry, ...rest }) =>
+                    onSubmit({
+                        ...rest,
+                        "comptoirDuLibreId":
+                            comptoirDuLibreIdInputValue === ""
+                                ? undefined
+                                : comptoirDuLibreInputValueToComptoirDuLibreId(
+                                      comptoirDuLibreIdInputValue
+                                  ),
+                        "wikidataId": wikidataEntry?.wikidataId
+                    })
             )}
         >
             <Controller
@@ -215,7 +224,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         label="Identifiant Comptoir du Libre"
                         hintText="URL de la page ou identifiant numérique"
                         nativeInputProps={{
-                            ...register("comptoirDuLibreInputValue", {
+                            ...register("comptoirDuLibreIdInputValue", {
                                 "pattern": /^[0-9]{1,5}$|^http/
                             })
                         }}

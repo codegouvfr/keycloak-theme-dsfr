@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer, useTransition } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -11,6 +11,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
+import { assert } from "tsafe/assert";
 
 SoftwareCreationForm.routeGroup = createGroup([
     routes.softwareCreationForm,
@@ -29,15 +30,94 @@ export type Props = {
 export function SoftwareCreationForm(props: Props) {
     const { className, route } = props;
 
-    const [formDataStep1, setFormDataStep1] = useState<Step1Props.FormData | undefined>(
-        undefined
+    const [, startTransition] = useTransition();
+
+    const [formData, dispatch] = useReducer(
+        (
+            state: {
+                step1?: Step1Props.FormData;
+                step2?: Step2Props.FormData;
+                step3?: Step3Props.FormData;
+            },
+            action:
+                | {
+                      actionName: "initialize for update";
+                      payload: Required<typeof state>;
+                  }
+                | {
+                      actionName: "submit step 1";
+                      payload: Step1Props.FormData;
+                  }
+                | {
+                      actionName: "submit step 2";
+                      payload: Step2Props.FormData;
+                  }
+                | {
+                      actionName: "submit step 3";
+                      payload: Step3Props.FormData;
+                  }
+        ): typeof state => {
+            /*
+        if (action.actionName !== "initialize for update") {
+
+            startTransition(()=>
+            routes[route.name]({
+                ...route.params,
+                "step": route.params.step + 1
+            }).push());
+
+        }
+        */
+
+            switch (action.actionName) {
+                case "initialize for update":
+                    return action.payload;
+                case "submit step 1":
+                    return {
+                        ...state,
+                        "step1": action.payload
+                    };
+                case "submit step 2":
+                    return {
+                        ...state,
+                        "step2": action.payload
+                    };
+                case "submit step 3":
+                    return {
+                        ...state,
+                        "step3": action.payload
+                    };
+            }
+        },
+        {}
     );
-    const [formDataStep2, setFormDataStep2] = useState<Step2Props.FormData | undefined>(
-        undefined
-    );
-    const [formDataStep3, setFormDataStep3] = useState<Step3Props.FormData | undefined>(
-        undefined
-    );
+
+    useEffect(() => {
+        if (formData.step1 !== undefined && route.params.step === 1) {
+            startTransition(() =>
+                routes[route.name]({
+                    ...route.params,
+                    "step": 2
+                }).push()
+            );
+        }
+    }, [formData.step1]);
+
+    console.log(formData);
+
+    useEffect(() => {
+        if (route.params.step !== 4) {
+            return;
+        }
+
+        const { step1, step2, step3 } = formData;
+
+        assert(step1 !== undefined);
+        assert(step2 !== undefined);
+        assert(step3 !== undefined);
+
+        core.submit({ step1, step2, step3 });
+    }, [route.params.step]);
 
     const { isPrefillingForSoftwareUpdate } = (() => {
         const softwareName =
@@ -56,29 +136,15 @@ export function SoftwareCreationForm(props: Props) {
             (async () => {
                 setIsPrefillingForSoftwareUpdate(true);
 
-                const {
-                    softwareType,
-                    wikidataEntry,
-                    comptoirDuLibreId,
-                    softwareDescription,
-                    softwareLicense,
-                    softwareMinimalVersion
-                } = await core.getPrefillData({
-                    softwareName
-                });
+                const formData = await core.getFormDataForSoftware({ softwareName });
 
                 if (!isActive) {
                     return;
                 }
 
-                setFormDataStep1({ softwareType });
-                setFormDataStep2({
-                    softwareName,
-                    wikidataEntry,
-                    comptoirDuLibreId,
-                    softwareDescription,
-                    softwareLicense,
-                    softwareMinimalVersion
+                dispatch({
+                    "actionName": "initialize for update",
+                    "payload": formData
                 });
 
                 setIsPrefillingForSoftwareUpdate(false);
@@ -114,25 +180,40 @@ export function SoftwareCreationForm(props: Props) {
             </h1>
             <SoftwareCreationFormStep1
                 className={classes.step1}
-                defaultFormData={formDataStep1}
-                onSubmit={setFormDataStep1}
-                evtActionSubmit={evtActionSubmitStep}
+                initialFormData={formData.step1}
+                onSubmit={formData =>
+                    dispatch({
+                        "actionName": "submit step 1",
+                        "payload": formData
+                    })
+                }
+                evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 1)}
             />
             <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
-                defaultFormData={formDataStep2}
-                evtActionSubmit={evtActionSubmitStep}
-                onSubmit={setFormDataStep2}
-                getAutofillData={core.getAutofillData}
+                initialFormData={formData.step2}
+                evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 2)}
+                onSubmit={formData =>
+                    dispatch({
+                        "actionName": "submit step 2",
+                        "payload": formData
+                    })
+                }
+                getAutofillDataFromWikidata={core.getAutofillDataFromWikidata}
                 getWikidataOptions={core.getWikidataOptions}
             />
             <SoftwareCreationFormStep3
                 className={classes.step3}
-                defaultFormData={formDataStep3}
-                isCloudNativeSoftware={formDataStep1?.softwareType === "cloud"}
-                evtActionSubmit={evtActionSubmitStep}
-                onSubmit={setFormDataStep3}
+                defaultFormData={formData.step3}
+                isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
+                evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 3)}
+                onSubmit={formData =>
+                    dispatch({
+                        "actionName": "submit step 3",
+                        "payload": formData
+                    })
+                }
             />
             {route.params.step !== 1 && (
                 <Button
@@ -153,15 +234,8 @@ export function SoftwareCreationForm(props: Props) {
                 </Button>
             )}
             <Button
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                linkProps={
-                    routes[route.name]({
-                        ...route.params,
-                        "step": route.params.step + 1
-                    }).link
-                }
+                style={{ "marginTop": fr.spacing("4v") }}
+                onClick={() => evtActionSubmitStep.post()}
             >
                 Next
             </Button>

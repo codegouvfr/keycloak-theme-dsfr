@@ -3,32 +3,63 @@ import { useForm } from "react-hook-form";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
+import { assert } from "tsafe/assert";
+import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 
 export type Step1Props = {
     className?: string;
-    defaultFormData: Partial<Step1Props.FormData> | undefined;
+    initialFormData: Step1Props.FormData | undefined;
     onSubmit: (formData: Step1Props.FormData) => void;
     evtActionSubmit: NonPostableEvt<void>;
 };
 
 export namespace Step1Props {
-    export type FormData = {
-        softwareType: "desktop" | "cloud" | "library";
-    };
+    export type FormData =
+        | {
+              softwareType: "cloud" | "library";
+          }
+        | {
+              softwareType: "desktop";
+              os: {
+                  window: boolean;
+                  mac: boolean;
+                  linux: boolean;
+                  android: boolean;
+                  ios: boolean;
+              };
+          };
 }
 
 export function SoftwareCreationFormStep1(props: Step1Props) {
-    const { className, defaultFormData, onSubmit, evtActionSubmit } = props;
+    const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
     const {
         handleSubmit,
         register,
-        formState: { errors }
-    } = useForm<Step1Props.FormData>({
-        "defaultValues": defaultFormData
+        formState: { errors },
+        watch
+    } = useForm<{
+        softwareType: "desktop" | "cloud" | "library" | "desktop";
+        osCheckboxValues: string[] | undefined;
+    }>({
+        "defaultValues": (() => {
+            if (initialFormData === undefined) {
+                return {};
+            }
+
+            return {
+                "softwareType": initialFormData?.softwareType,
+                "osCheckboxValues":
+                    initialFormData.softwareType === "desktop"
+                        ? Object.entries(initialFormData.os)
+                              .filter(([, value]) => value)
+                              .map(([key]) => key)
+                        : undefined
+            };
+        })()
     });
 
-    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+    const [formElement, setFormElement] = useState<HTMLButtonElement | null>(null);
 
     useEvt(
         ctx => {
@@ -36,16 +67,40 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => formElement.submit());
+            evtActionSubmit.attach(ctx, () => {
+                console.log("bim");
+                //formElement.submit()
+                formElement.click();
+            });
         },
         [evtActionSubmit, formElement]
     );
 
     return (
         <form
-            ref={setFormElement}
             className={className}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(({ softwareType, osCheckboxValues }) =>
+                onSubmit(
+                    softwareType === "desktop"
+                        ? (() => {
+                              assert(osCheckboxValues !== undefined);
+
+                              return {
+                                  softwareType,
+                                  "os": {
+                                      "window": osCheckboxValues?.includes("windows"),
+                                      "mac": osCheckboxValues?.includes("mac"),
+                                      "linux": osCheckboxValues?.includes("linux"),
+                                      "android": osCheckboxValues?.includes("android"),
+                                      "ios": osCheckboxValues?.includes("ios")
+                                  }
+                              };
+                          })()
+                        : {
+                              softwareType
+                          }
+                )
+            )}
         >
             <RadioButtons
                 legend=""
@@ -77,6 +132,49 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                     }
                 ]}
             />
+            {watch("softwareType") === "desktop" && (
+                <Checkbox
+                    legend="OS sur le quelle se logiciel peut être installer"
+                    options={[
+                        {
+                            "label": "Windows",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "windows"
+                            }
+                        },
+                        {
+                            "label": "GNU/Linux",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "linux"
+                            }
+                        },
+                        {
+                            "label": "MacOS",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "mac"
+                            }
+                        },
+                        {
+                            "label": "Android",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "android"
+                            }
+                        },
+                        {
+                            "label": "iOS",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "ios"
+                            }
+                        }
+                    ]}
+                />
+            )}
+            <button ref={setFormElement} type="submit" />
         </form>
     );
 }

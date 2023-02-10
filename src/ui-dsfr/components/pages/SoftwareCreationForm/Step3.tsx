@@ -84,7 +84,10 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => formElement.submit());
+            evtActionSubmit.attach(ctx, () => {
+                console.log("boum");
+                formElement.submit();
+            });
         },
         [evtActionSubmit, formElement]
     );

@@ -1,15 +1,28 @@
+import type { Step1Props } from "./Step1";
+import type { Step2Props } from "./Step2";
+import type { Step3Props } from "./Step3";
+
 export namespace core {
-    export type WikidataEntry = {
-        wikidataLabel: string;
-        wikidataDescription: string;
+    export async function getAutofillDataFromWikidata(props: {
         wikidataId: string;
-    };
+    }): Promise<Step2Props.FormData> {
+        const { wikidataId } = props;
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        return {
+            wikidataId,
+            "comptoirDuLibreId": 123,
+            "softwareName": `Software ${wikidataId}`,
+            "softwareDescription": `Software ${wikidataId} description`,
+            "softwareLicense": `Software ${wikidataId} license`,
+            "softwareMinimalVersion": `1.3.4`
+        };
+    }
 
     export async function getWikidataOptions(
         inputText: string
-    ): Promise<WikidataEntry[]> {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
+    ): Promise<Step2Props.WikidataEntry[]> {
         if (inputText === "") {
             return [];
         }
@@ -24,47 +37,32 @@ export namespace core {
             }));
     }
 
-    export async function getAutofillData(wikidataId: string): Promise<{
-        comptoirDuLibreId: number | undefined;
+    export async function getFormDataForSoftware(params: {
         softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string | undefined;
-        softwareMinimalVersion: string | undefined;
+    }): Promise<{
+        step1: Step1Props.FormData;
+        step2: Step2Props.FormData;
+        step3: Step3Props.FormData;
     }> {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { softwareName: _ } = params;
+
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         return {
-            "comptoirDuLibreId": 123,
-            "softwareName": `Software ${wikidataId}`,
-            "softwareDescription": `Software ${wikidataId} description`,
-            "softwareLicense": `Software ${wikidataId} license`,
-            "softwareMinimalVersion": `1.3.4`
+            "step1": {
+                "softwareType": "cloud"
+            },
+            "step2": null as any,
+            "step3": null as any
         };
     }
 
-    export async function getPrefillData(params: { softwareName: string }): Promise<{
-        softwareType: "desktop" | "cloud" | "library";
-        comptoirDuLibreId: number | undefined;
-        wikidataEntry: WikidataEntry | undefined;
-        softwareDescription: string;
-        softwareLicense: string;
-        softwareMinimalVersion: string;
-    }> {
-        const { softwareName } = params;
-
+    export async function submit(_formData: {
+        step1: Step1Props.FormData;
+        step2: Step2Props.FormData;
+        step3: Step3Props.FormData;
+    }) {
         await new Promise(resolve => setTimeout(resolve, 2000));
-
-        return {
-            "softwareType": "desktop",
-            "comptoirDuLibreId": 461,
-            "wikidataEntry": {
-                "wikidataDescription": `${softwareName} descriptions`,
-                "wikidataId": "Qxxxxxx",
-                "wikidataLabel": softwareName
-            },
-            "softwareDescription": "A data science oriented container launcher",
-            "softwareLicense": "MIT",
-            "softwareMinimalVersion": "1.2.3"
-        };
     }
 }
