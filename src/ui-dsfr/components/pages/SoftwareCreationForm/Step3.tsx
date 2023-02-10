@@ -206,6 +206,12 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                                 }
                             }
                         ]}
+                        state={
+                            errors.isPublicInstanceInputValue !== undefined
+                                ? "error"
+                                : undefined
+                        }
+                        stateRelatedMessage="This field is required"
                     />
                     {watch("isPublicInstanceInputValue") === "true" && (
                         <Input

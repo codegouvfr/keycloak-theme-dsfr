@@ -59,10 +59,26 @@ export function SoftwareCreationForm(props: Props) {
                       actionName: "submit step 3";
                       payload: Step3Props.FormData;
                   }
+                | {
+                      actionName: "previous";
+                  }
         ): typeof state => ({
-            "step": state.step + (action.actionName === "initialize for update" ? 0 : 1),
+            "step":
+                state.step +
+                (() => {
+                    switch (action.actionName) {
+                        case "initialize for update":
+                            return 0;
+                        case "previous":
+                            return -1;
+                        default:
+                            return 1;
+                    }
+                })(),
             "formData": (() => {
                 switch (action.actionName) {
+                    case "previous":
+                        return state.formData;
                     case "initialize for update":
                         return action.payload;
                     case "submit step 1":
@@ -216,12 +232,7 @@ export function SoftwareCreationForm(props: Props) {
                             "right": "4v"
                         })
                     }}
-                    linkProps={
-                        routes[route.name]({
-                            ...route.params,
-                            "step": route.params.step - 1
-                        }).link
-                    }
+                    onClick={() => dispatch({ "actionName": "previous" })}
                 >
                     Prev
                 </Button>
