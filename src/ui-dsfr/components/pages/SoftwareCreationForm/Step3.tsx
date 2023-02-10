@@ -221,7 +221,11 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                                 })
                             }}
                             state={errors.instanceUrl !== undefined ? "error" : undefined}
-                            stateRelatedMessage={"This field is required"}
+                            stateRelatedMessage={
+                                errors.instanceUrl
+                                    ? "Malformed"
+                                    : "This field is required"
+                            }
                         />
                     )}
                     <Input
