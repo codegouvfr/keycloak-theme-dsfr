@@ -32,17 +32,20 @@ export function SoftwareCreationForm(props: Props) {
 
     const [, startTransition] = useTransition();
 
-    const [formData, dispatch] = useReducer(
+    const [state, dispatch] = useReducer(
         (
             state: {
-                step1?: Step1Props.FormData;
-                step2?: Step2Props.FormData;
-                step3?: Step3Props.FormData;
+                step: number;
+                formData: {
+                    step1?: Step1Props.FormData;
+                    step2?: Step2Props.FormData;
+                    step3?: Step3Props.FormData;
+                };
             },
             action:
                 | {
                       actionName: "initialize for update";
-                      payload: Required<typeof state>;
+                      payload: Required<typeof state>["formData"];
                   }
                 | {
                       actionName: "submit step 1";
@@ -56,61 +59,51 @@ export function SoftwareCreationForm(props: Props) {
                       actionName: "submit step 3";
                       payload: Step3Props.FormData;
                   }
-        ): typeof state => {
-            /*
-        if (action.actionName !== "initialize for update") {
-
-            startTransition(()=>
-            routes[route.name]({
-                ...route.params,
-                "step": route.params.step + 1
-            }).push());
-
+        ): typeof state => ({
+            "step": state.step + (action.actionName === "initialize for update" ? 0 : 1),
+            "formData": (() => {
+                switch (action.actionName) {
+                    case "initialize for update":
+                        return action.payload;
+                    case "submit step 1":
+                        return {
+                            ...state.formData,
+                            "step1": action.payload
+                        };
+                    case "submit step 2":
+                        return {
+                            ...state.formData,
+                            "step2": action.payload
+                        };
+                    case "submit step 3":
+                        return {
+                            ...state.formData,
+                            "step3": action.payload
+                        };
+                }
+            })()
+        }),
+        {
+            "step": 1,
+            "formData": {}
         }
-        */
-
-            switch (action.actionName) {
-                case "initialize for update":
-                    return action.payload;
-                case "submit step 1":
-                    return {
-                        ...state,
-                        "step1": action.payload
-                    };
-                case "submit step 2":
-                    return {
-                        ...state,
-                        "step2": action.payload
-                    };
-                case "submit step 3":
-                    return {
-                        ...state,
-                        "step3": action.payload
-                    };
-            }
-        },
-        {}
     );
 
     useEffect(() => {
-        if (formData.step1 !== undefined && route.params.step === 1) {
-            startTransition(() =>
-                routes[route.name]({
-                    ...route.params,
-                    "step": 2
-                }).push()
-            );
-        }
-    }, [formData.step1]);
-
-    console.log(formData);
+        startTransition(() =>
+            routes[route.name]({
+                ...route.params,
+                "step": state.step
+            }).push()
+        );
+    }, [state.step]);
 
     useEffect(() => {
         if (route.params.step !== 4) {
             return;
         }
 
-        const { step1, step2, step3 } = formData;
+        const { step1, step2, step3 } = state.formData;
 
         assert(step1 !== undefined);
         assert(step2 !== undefined);
@@ -180,7 +173,7 @@ export function SoftwareCreationForm(props: Props) {
             </h1>
             <SoftwareCreationFormStep1
                 className={classes.step1}
-                initialFormData={formData.step1}
+                initialFormData={state.formData.step1}
                 onSubmit={formData =>
                     dispatch({
                         "actionName": "submit step 1",
@@ -192,7 +185,7 @@ export function SoftwareCreationForm(props: Props) {
             <SoftwareCreationFormStep2
                 className={classes.step2}
                 isUpdateForm={route.name === "softwareUpdateForm"}
-                initialFormData={formData.step2}
+                initialFormData={state.formData.step2}
                 evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 2)}
                 onSubmit={formData =>
                     dispatch({
@@ -205,8 +198,8 @@ export function SoftwareCreationForm(props: Props) {
             />
             <SoftwareCreationFormStep3
                 className={classes.step3}
-                defaultFormData={formData.step3}
-                isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
+                defaultFormData={state.formData.step3}
+                isCloudNativeSoftware={state.formData.step1?.softwareType === "cloud"}
                 evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 3)}
                 onSubmit={formData =>
                     dispatch({

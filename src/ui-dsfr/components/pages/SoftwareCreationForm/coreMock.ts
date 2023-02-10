@@ -27,6 +27,8 @@ export namespace core {
             return [];
         }
 
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
         return new Array(4)
             .fill(0)
             .map((_, i) => i)
