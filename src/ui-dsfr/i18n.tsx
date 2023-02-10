@@ -31,6 +31,8 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/AlikeSoftwareTab").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/FooterDetailCard").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/FooterSoftwareUserAndReferent").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/DeclareUserOrReferent").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
@@ -38,7 +40,6 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
-    //| typeof import("ui-dsfr/components/pages/Catalog").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -129,6 +130,19 @@ const {
             "FooterDetailCard": {
                 "share software": "Share the software",
                 "declare referent": "Declare yourself referent / user"
+            },
+            "SoftwareUserAndReferent": {
+                "catalog breadcrumb": "Software catalog",
+                "user and referent breadcrumb": "Users and referents",
+                "title": "Users and referents",
+                "tab user title": "Users",
+                "tab referent title": "Referents",
+                "category": "Category"
+            },
+            "FooterSoftwareUserAndReferent": {
+                "softwareDetails": "Voir la fiche logiciel",
+                "declare user": "Se déclarer utilisateur",
+                "declare referent": "Se déclarer référent"
             },
             "DeclareUserOrReferent": {
                 "title": "Declare yourself user or referent of the software",
@@ -267,6 +281,19 @@ const {
             "FooterDetailCard": {
                 "share software": "Partager la fiche",
                 "declare referent": "Se déclarer référent / utilisateur"
+            },
+            "SoftwareUserAndReferent": {
+                "catalog breadcrumb": "Software catalog",
+                "user and referent breadcrumb": "Utilisateurs et référents",
+                "title": "Utilisateurs et référents",
+                "tab user title": "Utilisateurs",
+                "tab referent title": "Référents",
+                "category": "Catégorie"
+            },
+            "FooterSoftwareUserAndReferent": {
+                "softwareDetails": "Voir la fiche logiciel",
+                "declare user": "Se déclarer utilisateur",
+                "declare referent": "Se déclarer référent"
             },
             "DeclareUserOrReferent": {
                 "title": "Se déclarer utilisateur ou référent du logiciel",
