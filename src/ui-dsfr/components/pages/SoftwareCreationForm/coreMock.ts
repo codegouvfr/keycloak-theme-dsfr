@@ -60,11 +60,12 @@ export namespace core {
         };
     }
 
-    export async function submit(_formData: {
+    export async function submit(formData: {
         step1: Step1Props.FormData;
         step2: Step2Props.FormData;
         step3: Step3Props.FormData;
     }) {
         await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log("submiting", formData);
     }
 }

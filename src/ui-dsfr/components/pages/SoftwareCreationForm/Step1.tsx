@@ -44,7 +44,7 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
     }>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
-                return {};
+                return undefined;
             }
 
             return {
@@ -59,21 +59,18 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
         })()
     });
 
-    const [formElement, setFormElement] = useState<HTMLButtonElement | null>(null);
+    const [submitButtonElement, setSubmitButtonElement] =
+        useState<HTMLButtonElement | null>(null);
 
     useEvt(
         ctx => {
-            if (formElement === null) {
+            if (submitButtonElement === null) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => {
-                console.log("bim");
-                //formElement.submit()
-                formElement.click();
-            });
+            evtActionSubmit.attach(ctx, () => submitButtonElement.click());
         },
-        [evtActionSubmit, formElement]
+        [evtActionSubmit, submitButtonElement]
     );
 
     return (
@@ -174,7 +171,11 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                     ]}
                 />
             )}
-            <button ref={setFormElement} type="submit" />
+            <button
+                style={{ "display": "none" }}
+                ref={setSubmitButtonElement}
+                type="submit"
+            />
         </form>
     );
 }

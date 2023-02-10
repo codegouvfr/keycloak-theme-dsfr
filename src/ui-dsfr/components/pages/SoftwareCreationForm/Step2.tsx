@@ -63,16 +63,23 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         softwareMinimalVersion: string;
     }>({
         "defaultValues": (() => {
+            if (initialFormData === undefined) {
+                return undefined;
+            }
+
             const { comptoirDuLibreId, wikidataId, ...rest } = initialFormData ?? {};
 
             return {
                 ...rest,
-                "wikidataEntry": {
-                    wikidataId,
-                    "wikidataDescription": "",
-                    "wikidataLabel": ""
-                },
-                "comptoirDuLibreInputValue":
+                "wikidataEntry":
+                    wikidataId === undefined
+                        ? undefined
+                        : {
+                              wikidataId,
+                              "wikidataDescription": "",
+                              "wikidataLabel": ""
+                          },
+                "comptoirDuLibreIdInputValue":
                     comptoirDuLibreId === undefined
                         ? ""
                         : comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
@@ -80,20 +87,18 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         })()
     });
 
-    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+    const [submitButtonElement, setSubmitButtonElement] =
+        useState<HTMLButtonElement | null>(null);
 
     useEvt(
         ctx => {
-            if (formElement === null) {
+            if (submitButtonElement === null) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => {
-                console.log("bam");
-                formElement.submit();
-            });
+            evtActionSubmit.attach(ctx, () => submitButtonElement.click());
         },
-        [evtActionSubmit, formElement]
+        [evtActionSubmit, submitButtonElement]
     );
 
     const { isAutocompleteInProgress } = (function useClosure() {
@@ -160,7 +165,6 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
     return (
         <form
             className={className}
-            ref={setFormElement}
             onSubmit={handleSubmit(
                 ({ comptoirDuLibreIdInputValue, wikidataEntry, ...rest }) =>
                     onSubmit({
@@ -307,6 +311,11 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         stateRelatedMessage="Ce champ est requis"
                     />
                 )}
+            />
+            <button
+                style={{ "display": "none" }}
+                ref={setSubmitButtonElement}
+                type="submit"
             />
         </form>
     );

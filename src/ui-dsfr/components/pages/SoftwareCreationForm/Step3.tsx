@@ -49,11 +49,15 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         targetAudience: string;
     }>({
         "defaultValues": (() => {
+            if (defaultFormData === undefined) {
+                return undefined;
+            }
+
             const {
                 isFromFrenchPublicService,
                 isPresentInSupportContract,
                 instanceInfo
-            } = defaultFormData ?? {};
+            } = defaultFormData;
 
             const { instanceUrl, targetAudience } = instanceInfo ?? {};
 
@@ -76,25 +80,22 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         })()
     });
 
-    const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+    const [submitButtonElement, setSubmitButtonElement] =
+        useState<HTMLButtonElement | null>(null);
 
     useEvt(
         ctx => {
-            if (formElement === null) {
+            if (submitButtonElement === null) {
                 return;
             }
 
-            evtActionSubmit.attach(ctx, () => {
-                console.log("boum");
-                formElement.submit();
-            });
+            evtActionSubmit.attach(ctx, () => submitButtonElement.click());
         },
-        [evtActionSubmit, formElement]
+        [evtActionSubmit, submitButtonElement]
     );
 
     return (
         <form
-            ref={setFormElement}
             className={className}
             onSubmit={handleSubmit(
                 ({
@@ -214,10 +215,13 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                             label="Quel est l’URL de l’instance?"
                             hintText="Afin de proposer un accès rapide au service proposé"
                             nativeInputProps={{
-                                ...register("instanceUrl", { "required": true })
+                                ...register("instanceUrl", {
+                                    "required": true,
+                                    "pattern": /^http/
+                                })
                             }}
                             state={errors.instanceUrl !== undefined ? "error" : undefined}
-                            stateRelatedMessage="This field is required"
+                            stateRelatedMessage={"This field is required"}
                         />
                     )}
                     <Input
@@ -229,11 +233,16 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         nativeInputProps={{
                             ...register("targetAudience", { "required": true })
                         }}
-                        state={errors.instanceUrl !== undefined ? "error" : undefined}
+                        state={errors.targetAudience !== undefined ? "error" : undefined}
                         stateRelatedMessage="This field is required"
                     />
                 </>
             )}
+            <button
+                style={{ "display": "none" }}
+                ref={setSubmitButtonElement}
+                type="submit"
+            />
         </form>
     );
 }
