@@ -119,13 +119,27 @@ export function SoftwareCreationForm(props: Props) {
             return;
         }
 
-        const { step1, step2, step3 } = state.formData;
+        let isActive = true;
 
-        assert(step1 !== undefined);
-        assert(step2 !== undefined);
-        assert(step3 !== undefined);
+        (async () => {
+            const { step1, step2, step3 } = state.formData;
 
-        core.submit({ step1, step2, step3 });
+            assert(step1 !== undefined);
+            assert(step2 !== undefined);
+            assert(step3 !== undefined);
+
+            await core.submit({ step1, step2, step3 });
+
+            if (!isActive) {
+                return;
+            }
+
+            routes.softwareDetails({ "name": step2.softwareName }).push();
+        })();
+
+        return () => {
+            isActive = false;
+        };
     }, [route.params.step]);
 
     const { isPrefillingForSoftwareUpdate } = (() => {
@@ -224,25 +238,32 @@ export function SoftwareCreationForm(props: Props) {
                     })
                 }
             />
-            {route.params.step !== 1 && (
-                <Button
-                    style={{
-                        ...fr.spacing("margin", {
-                            "top": "4v",
-                            "right": "4v"
-                        })
-                    }}
-                    onClick={() => dispatch({ "actionName": "previous" })}
-                >
-                    Prev
-                </Button>
+            <div className={classes.submittingProgress}>
+                <CircularProgress />
+            </div>
+            {route.params.step !== 4 && (
+                <>
+                    {route.params.step !== 1 && (
+                        <Button
+                            style={{
+                                ...fr.spacing("margin", {
+                                    "top": "4v",
+                                    "right": "4v"
+                                })
+                            }}
+                            onClick={() => dispatch({ "actionName": "previous" })}
+                        >
+                            Prev
+                        </Button>
+                    )}
+                    <Button
+                        style={{ "marginTop": fr.spacing("4v") }}
+                        onClick={() => evtActionSubmitStep.post()}
+                    >
+                        Next
+                    </Button>
+                </>
             )}
-            <Button
-                style={{ "marginTop": fr.spacing("4v") }}
-                onClick={() => evtActionSubmitStep.post()}
-            >
-                Next
-            </Button>
         </div>
     );
 }
@@ -256,5 +277,10 @@ const useStyles = makeStyles<{ step: number }>()((_theme, { step }) => ({
     },
     "step3": {
         "display": step === 3 ? undefined : "none"
+    },
+    "submittingProgress": {
+        "display": step === 4 ? "flex" : "none",
+        "justifyContent": "center",
+        "alignItems": "center"
     }
 }));
