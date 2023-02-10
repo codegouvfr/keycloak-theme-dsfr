@@ -43,11 +43,15 @@ export function SoftwareCreationForm(props: Props) {
                     step2?: Step2Props.FormData;
                     step3?: Step3Props.FormData;
                 };
+                softwareSillId?: number;
             },
             action:
                 | {
                       actionName: "initialize for update";
-                      payload: Required<typeof state>["formData"];
+                      payload: {
+                          formData: Required<typeof state>["formData"];
+                          softwareSillId: number;
+                      };
                   }
                 | {
                       actionName: "submit step 1";
@@ -82,7 +86,7 @@ export function SoftwareCreationForm(props: Props) {
                     case "previous":
                         return state.formData;
                     case "initialize for update":
-                        return action.payload;
+                        return action.payload.formData;
                     case "submit step 1":
                         return {
                             ...state.formData,
@@ -99,7 +103,11 @@ export function SoftwareCreationForm(props: Props) {
                             "step3": action.payload
                         };
                 }
-            })()
+            })(),
+            "softwareSillId":
+                action.actionName === "initialize for update"
+                    ? action.payload.softwareSillId
+                    : state.softwareSillId
         }),
         {
             "step": 1,
@@ -130,7 +138,16 @@ export function SoftwareCreationForm(props: Props) {
             assert(step2 !== undefined);
             assert(step3 !== undefined);
 
-            await core.submit({ step1, step2, step3 });
+            const formData = { step1, step2, step3 };
+
+            if (state.softwareSillId === undefined) {
+                await core.createSoftware({ formData });
+            } else {
+                await core.updateSoftware({
+                    "softwareSillId": state.softwareSillId,
+                    formData
+                });
+            }
 
             if (!isActive) {
                 return;
@@ -142,7 +159,7 @@ export function SoftwareCreationForm(props: Props) {
         return () => {
             isActive = false;
         };
-    }, [route.params.step]);
+    }, [route.params.step, state.softwareSillId]);
 
     const { isPrefillingForSoftwareUpdate } = (() => {
         const softwareName =
@@ -161,7 +178,9 @@ export function SoftwareCreationForm(props: Props) {
             (async () => {
                 setIsPrefillingForSoftwareUpdate(true);
 
-                const formData = await core.getFormDataForSoftware({ softwareName });
+                const { formData, softwareSillId } = await core.getSoftwareUpdateData({
+                    softwareName
+                });
 
                 if (!isActive) {
                     return;
@@ -169,7 +188,10 @@ export function SoftwareCreationForm(props: Props) {
 
                 dispatch({
                     "actionName": "initialize for update",
-                    "payload": formData
+                    "payload": {
+                        softwareSillId,
+                        formData
+                    }
                 });
 
                 setIsPrefillingForSoftwareUpdate(false);

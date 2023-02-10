@@ -39,12 +39,15 @@ export namespace core {
             }));
     }
 
-    export async function getFormDataForSoftware(params: {
+    export async function getSoftwareUpdateData(params: {
         softwareName: string;
     }): Promise<{
-        step1: Step1Props.FormData;
-        step2: Step2Props.FormData;
-        step3: Step3Props.FormData;
+        softwareSillId: number;
+        formData: {
+            step1: Step1Props.FormData;
+            step2: Step2Props.FormData;
+            step3: Step3Props.FormData;
+        };
     }> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { softwareName: _ } = params;
@@ -52,35 +55,57 @@ export namespace core {
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         return {
-            "step1": {
-                "softwareType": "cloud"
-            },
-            "step2": {
-                "wikidataId": "Q110492908",
-                "comptoirDuLibreId": 461,
-                "softwareDescription":
-                    "Onyxia est une application web qui fournie un environnement de travail pour les data scientists. Onyxia est développé par l'INSEE.",
-                "softwareLicense": "MIT",
-                "softwareMinimalVersion": "2.13.12",
-                "softwareName": "Onyxia"
-            },
-            "step3": {
-                "instanceInfo": {
-                    "instanceUrl": "https://datalab.sspcloud.fr",
-                    "targetAudience": "SSM et étudiants"
+            "softwareSillId": 233,
+            "formData": {
+                "step1": {
+                    "softwareType": "cloud"
                 },
-                "isFromFrenchPublicService": true,
-                "isPresentInSupportContract": false
+                "step2": {
+                    "wikidataId": "Q110492908",
+                    "comptoirDuLibreId": 461,
+                    "softwareDescription":
+                        "Onyxia est une application web qui fournie un environnement de travail pour les data scientists. Onyxia est développé par l'INSEE.",
+                    "softwareLicense": "MIT",
+                    "softwareMinimalVersion": "2.13.12",
+                    "softwareName": "Onyxia"
+                },
+                "step3": {
+                    "instanceInfo": {
+                        "instanceUrl": "https://datalab.sspcloud.fr",
+                        "targetAudience": "SSM et étudiants"
+                    },
+                    "isFromFrenchPublicService": true,
+                    "isPresentInSupportContract": false
+                }
             }
         };
     }
 
-    export async function submit(formData: {
-        step1: Step1Props.FormData;
-        step2: Step2Props.FormData;
-        step3: Step3Props.FormData;
+    export async function createSoftware(params: {
+        formData: {
+            step1: Step1Props.FormData;
+            step2: Step2Props.FormData;
+            step3: Step3Props.FormData;
+        };
     }) {
+        const { formData } = params;
+
         console.log("submitting", formData);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        alert(`Form submitted ${JSON.stringify(formData, null, 2)}`);
+    }
+
+    export async function updateSoftware(params: {
+        softwareSillId: number;
+        formData: {
+            step1: Step1Props.FormData;
+            step2: Step2Props.FormData;
+            step3: Step3Props.FormData;
+        };
+    }) {
+        const { softwareSillId, formData } = params;
+
+        console.log("submitting", softwareSillId);
         await new Promise(resolve => setTimeout(resolve, 2000));
         alert(`Form submitted ${JSON.stringify(formData, null, 2)}`);
     }
