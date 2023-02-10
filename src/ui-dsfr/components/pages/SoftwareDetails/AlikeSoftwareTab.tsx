@@ -72,7 +72,7 @@ export const AlikeSoftwareTab = (props: Props) => {
 
 const useStyles = makeStyles({
     "name": { AlikeSoftwareTab }
-})(theme => ({
+})(_theme => ({
     "root": {}
 }));
 

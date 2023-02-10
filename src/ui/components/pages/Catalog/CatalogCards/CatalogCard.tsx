@@ -237,7 +237,10 @@ export const CatalogCard = memo((props: Props) => {
                         return (
                             url !== undefined && (
                                 <Button
-                                    className={classes.cardButtons}
+                                    className={cx(
+                                        classes.cardButtons,
+                                        css({ "display": "none" })
+                                    )}
                                     href={url}
                                     variant="ternary"
                                 >

@@ -77,7 +77,7 @@ export const ReferencedInstancesTab = (props: Props) => {
                             expanded={expanded}
                         >
                             <div className={classes.accordionGrid}>
-                                {maintainedInstances.map(instance =>
+                                {maintainedInstances.map((instance: any) =>
                                     instanceCard(instance)
                                 )}
                             </div>
