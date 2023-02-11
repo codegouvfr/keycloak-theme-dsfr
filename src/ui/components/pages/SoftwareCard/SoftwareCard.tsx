@@ -429,6 +429,7 @@ export function SoftwareCard(props: Props) {
                 )}
                 {software.testUrls.length !== 0 && (
                     <DescriptiveField
+                        className={css({ "display": "none" })}
                         type="text"
                         title={t("test url")}
                         helperText={t("test url helper")}
