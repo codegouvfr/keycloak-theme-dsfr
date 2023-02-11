@@ -42,7 +42,7 @@ export const Footer = memo(
 
         return (
             <footer className={cx(classes.root, className)} ref={ref} {...rest}>
-                <Text typo="body 2">2013 - 2022 SILL, DINUM</Text>
+                <Text typo="body 2">2013 - 2023 SILL, DINUM</Text>
                 {spacing}
                 <a
                     href={"https://github.com/etalab/sill"}
