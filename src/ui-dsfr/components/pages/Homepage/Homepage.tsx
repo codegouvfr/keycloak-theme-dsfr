@@ -174,12 +174,7 @@ export function Homepage(props: Props) {
                 </div>
             </div>
             <section className={cx(classes.softwareSelectionBackground, classes.section)}>
-                <div
-                    className={cx(
-                        fr.cx("fr-container"),
-                        classes.softwareSelectionContainer
-                    )}
-                >
+                <div className={fr.cx("fr-container")}>
                     <h2 className={classes.titleSection}>{t("software selection")}</h2>
                     <div className={classes.softwareSelection}>
                         {softwareSelectionList.map(software => (
@@ -226,7 +221,7 @@ export function Homepage(props: Props) {
                 </div>
             </section>
             <div className={cx(classes.helpUsBackground, classes.section)}>
-                <div className={cx(fr.cx("fr-container"), classes.helpUsContainer)}>
+                <div className={cx(fr.cx("fr-container"))}>
                     <h2 className={classes.titleSection}>{t("help us")}</h2>
                     <div className={classes.helpUsCards}>
                         {helpUsCards.map(card => (
@@ -311,7 +306,6 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     "softwareSelectionBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default
     },
-    "softwareSelectionContainer": {},
     "softwareSelection": {
         "display": "grid",
         "gridTemplateColumns": "repeat(3, 1fr)",
@@ -351,7 +345,6 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     "helpUsBackground": {
         "backgroundColor": theme.decisions.background.default.grey.hover
     },
-    "helpUsContainer": {},
     "helpUsCards": {
         "display": "grid",
         "gridTemplateColumns": "repeat(3, 1fr)",

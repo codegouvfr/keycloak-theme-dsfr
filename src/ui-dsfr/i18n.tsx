@@ -41,6 +41,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/components/pages/Homepage/Homepage").i18n
+    | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -48,7 +49,7 @@ const {
             "Homepage": {
                 "title":
                     "The free software catalog recommended by the State for the whole administration",
-                "agent label": "I am an agent or a DSI",
+                "agent label": "I am an agent or a CIO",
                 "search label": "I search...",
                 "research placeholder": "Search a software, a word, a reference",
                 "or": "or",
@@ -63,13 +64,13 @@ const {
                 "why use the STILL": "Why and when use the SILL ?",
                 "discover as agent label": "Discover as agent",
                 "discover as agent description": "Description agent à changer",
-                "discover as DSI label": "Discover as DSI",
-                "discover as DSI description": "Description DSI à changer",
+                "discover as DSI label": "Discover as CIO",
+                "discover as DSI description": "Description CIO à changer",
                 "contribute as agent label": "Contribute as agent",
                 "contribute as agent description":
                     "Description contribution agent à changer",
-                "contribute as DSI label": "Contribute as DSI",
-                "contribute as DSI description": "Description contribution DSI à changer",
+                "contribute as DSI label": "Contribute as CIO",
+                "contribute as DSI description": "Description contribution CIO à changer",
                 "SILL numbers": "The SILL in figures",
                 "referenced software": "referenced software",
                 "user": "site user",
@@ -85,6 +86,24 @@ const {
                 "add software or service title": "Add a software or a service",
                 "add software or service description": "Description text body à changer",
                 "complete form": "Complete the add form"
+            },
+            "AddSoftwareLanding": {
+                "title":
+                    "Help us enrich the catalog by adding software or software deployments in your organization !",
+                "subtitle":
+                    "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
+                "who can add software": "Who can add software or a service and how?",
+                "add software": "Add software",
+                "add instance": "Add instance",
+                "discover as agent label": "Discover as agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Discover as CIO",
+                "discover as DSI description": "Description CIO à changer",
+                "contribute as agent label": "Contribute as agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribute as CIO",
+                "contribute as DSI description": "Description contribution CIO à changer"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -210,7 +229,7 @@ const {
             },
             "ReferentStep": {
                 "legend title": "Are you a technical expert of this software ?",
-                "legend hint": "You are able to answer to questions of agents et of DSI",
+                "legend hint": "You are able to answer to questions of agents and of CIO",
                 "yes": "Yes",
                 "no": "No",
                 "useCase": "Describe in a few words the use case of your administration",
@@ -276,6 +295,25 @@ const {
                 "add software or service title": "Ajouter un logiciel ou un service",
                 "add software or service description": "Description text body à changer",
                 "complete form": "Remplir le formulaire d'ajout"
+            },
+            "AddSoftwareLanding": {
+                "title":
+                    "Aidez nous à enrichir le catalogue en ajoutant des logiciels ou des déploiement de logiciels dans votre organisation !",
+                "subtitle":
+                    "Participez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et DSI de l'administration",
+                "who can add software":
+                    "Qui peut ajouter un logiciel ou un service et comment ?",
+                "add software": "Ajouter un logiciel",
+                "add instance": "Ajouter une instance",
+                "discover as agent label": "Découvrir en tant qu'agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Découvrir en tant que DSI",
+                "discover as DSI description": "Description DSI à changer",
+                "contribute as agent label": "Contribuer en tant qu'agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribuer en tant que DSI",
+                "contribute as DSI description": "Description contribution DSI à changer"
             },
             "SoftwareCatalogCard": {
                 "last version": "Dernière version",

@@ -98,7 +98,8 @@ const routeDefs = {
             "name": param.query.optional.string
         },
         () => `/update`
-    )
+    ),
+    "addSoftwareLanding": defineRoute("/add-software")
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
