@@ -18,7 +18,7 @@ export function FixedTags() {
             multiple
             id="fixed-tags-demo"
             value={value}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
                 setValue([
                     ...fixedOptions,
                     ...newValue.filter(option => fixedOptions.indexOf(option) === -1)
