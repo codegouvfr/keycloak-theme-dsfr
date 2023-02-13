@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { SoftwareCreationFormStep1, type Step1Props } from "./Step1";
 import { SoftwareCreationFormStep2, type Step2Props } from "./Step2";
 import { SoftwareCreationFormStep3, type Step3Props } from "./Step3";
+import { SoftwareCreationFormStep4, type Step4Props } from "./Step4";
 import { core } from "./coreMock";
 import { makeStyles } from "tss-react/dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -27,7 +28,7 @@ export type Props = {
     route: PageRoute;
 };
 
-const submittingStep = 4;
+const submittingStep = 5;
 
 export function SoftwareCreationForm(props: Props) {
     const { className, route } = props;
@@ -42,6 +43,7 @@ export function SoftwareCreationForm(props: Props) {
                     step1?: Step1Props.FormData;
                     step2?: Step2Props.FormData;
                     step3?: Step3Props.FormData;
+                    step4?: Step4Props.FormData;
                 };
                 softwareSillId?: number;
             },
@@ -64,6 +66,10 @@ export function SoftwareCreationForm(props: Props) {
                 | {
                       actionName: "submit step 3";
                       payload: Step3Props.FormData;
+                  }
+                | {
+                      actionName: "submit step 4";
+                      payload: Step4Props.FormData;
                   }
                 | {
                       actionName: "previous";
@@ -102,6 +108,11 @@ export function SoftwareCreationForm(props: Props) {
                             ...state.formData,
                             "step3": action.payload
                         };
+                    case "submit step 4":
+                        return {
+                            ...state.formData,
+                            "step4": action.payload
+                        };
                 }
             })(),
             "softwareSillId":
@@ -132,13 +143,14 @@ export function SoftwareCreationForm(props: Props) {
         let isActive = true;
 
         (async () => {
-            const { step1, step2, step3 } = state.formData;
+            const { step1, step2, step3, step4 } = state.formData;
 
             assert(step1 !== undefined);
             assert(step2 !== undefined);
             assert(step3 !== undefined);
+            assert(step4 !== undefined);
 
-            const formData = { step1, step2, step3 };
+            const formData = { step1, step2, step3, step4 };
 
             if (state.softwareSillId === undefined) {
                 await core.createSoftware({ formData });
@@ -252,7 +264,7 @@ export function SoftwareCreationForm(props: Props) {
             />
             <SoftwareCreationFormStep3
                 className={classes.step3}
-                defaultFormData={state.formData.step3}
+                initialFormData={state.formData.step3}
                 isCloudNativeSoftware={state.formData.step1?.softwareType === "cloud"}
                 evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 3)}
                 onSubmit={formData =>
@@ -261,6 +273,18 @@ export function SoftwareCreationForm(props: Props) {
                         "payload": formData
                     })
                 }
+            />
+            <SoftwareCreationFormStep4
+                className={classes.step4}
+                initialFormData={state.formData.step4}
+                evtActionSubmit={evtActionSubmitStep.pipe(() => route.params.step === 4)}
+                onSubmit={formData =>
+                    dispatch({
+                        "actionName": "submit step 4",
+                        "payload": formData
+                    })
+                }
+                getWikidataOptions={core.getWikidataOptions}
             />
             <div className={classes.submittingProgress}>
                 <CircularProgress />
@@ -301,6 +325,9 @@ const useStyles = makeStyles<{ step: number }>()((_theme, { step }) => ({
     },
     "step3": {
         "display": step === 3 ? undefined : "none"
+    },
+    "step4": {
+        "display": step === 4 ? undefined : "none"
     },
     "submittingProgress": {
         "display": step === submittingStep ? "flex" : "none",

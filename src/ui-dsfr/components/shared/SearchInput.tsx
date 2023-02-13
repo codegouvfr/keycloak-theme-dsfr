@@ -6,7 +6,7 @@ import { same } from "evt/tools/inDepth/same";
 import { useRerenderOnChange } from "powerhooks/tools/StatefulObservable/hooks/useRerenderOnChange";
 import { CircularProgressWrapper } from "./CircularProgressWrapper";
 
-export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
+export type SearchInputProps<T extends string | Record<string, unknown>> = {
     className?: string;
     value: T | undefined;
     onValueChange: (value: T | undefined) => void;
@@ -20,7 +20,7 @@ export type AutoCompleteProps<T extends string | Record<string, unknown>> = {
 };
 
 export function SearchInput<T extends string | Record<string, unknown>>(
-    props: AutoCompleteProps<T>
+    props: SearchInputProps<T>
 ) {
     const {
         className,

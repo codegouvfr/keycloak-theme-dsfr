@@ -8,7 +8,7 @@ import { useEvt } from "evt/hooks";
 
 export type Step2Props = {
     className?: string;
-    defaultFormData: Partial<Step3Props.FormData> | undefined;
+    initialFormData: Partial<Step3Props.FormData> | undefined;
     isCloudNativeSoftware: boolean;
     onSubmit: (formData: Step3Props.FormData) => void;
     evtActionSubmit: NonPostableEvt<void>;
@@ -30,7 +30,7 @@ export namespace Step3Props {
 export function SoftwareCreationFormStep3(props: Step2Props) {
     const {
         className,
-        defaultFormData,
+        initialFormData,
         isCloudNativeSoftware,
         onSubmit,
         evtActionSubmit
@@ -49,7 +49,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         targetAudience: string;
     }>({
         "defaultValues": (() => {
-            if (defaultFormData === undefined) {
+            if (initialFormData === undefined) {
                 return undefined;
             }
 
@@ -57,7 +57,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                 isFromFrenchPublicService,
                 isPresentInSupportContract,
                 instanceInfo
-            } = defaultFormData;
+            } = initialFormData;
 
             const { instanceUrl, targetAudience } = instanceInfo ?? {};
 

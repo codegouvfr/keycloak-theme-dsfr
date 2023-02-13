@@ -1,6 +1,8 @@
+import { Fzf } from "fzf";
 import type { Step1Props } from "./Step1";
 import type { Step2Props } from "./Step2";
 import type { Step3Props } from "./Step3";
+import type { Step4Props } from "./Step4";
 
 export namespace core {
     export async function getAutofillDataFromWikidata(props: {
@@ -20,6 +22,46 @@ export namespace core {
         };
     }
 
+    const options: Step2Props.WikidataEntry[] = [
+        {
+            "wikidataId": "Q110492908",
+            "wikidataLabel": "Onyxia",
+            "wikidataDescription": "A data science oriented container launcher"
+        },
+        {
+            "wikidataId": "Q107693197",
+            "wikidataLabel": "Keycloakify",
+            "wikidataDescription": "Build tool for creating Keycloak themes using React"
+        },
+        {
+            "wikidataId": "Q8038",
+            "wikidataDescription": "image retouching and editing tool",
+            "wikidataLabel": "GIMP"
+        },
+        {
+            "wikidataId": "Q10135",
+            "wikidataDescription":
+                "office suite supported by the free software community",
+            "wikidataLabel": "LibreOffice"
+        },
+        {
+            "wikidataId": "Q19841877",
+            "wikidataDescription": "source code editor developed by Microsoft",
+            "wikidataLabel": "Visual Studio Code"
+        },
+        {
+            "wikidataId": "Q50938515",
+            "wikidataDescription":
+                "decentralized video hosting network, based on free/libre software",
+            "wikidataLabel": "PeerTube"
+        }
+    ];
+
+    const fzf = new Fzf(options, {
+        "selector": item =>
+            `${item.wikidataLabel} ${item.wikidataDescription} ${item.wikidataId}`
+    });
+
     export async function getWikidataOptions(
         inputText: string
     ): Promise<Step2Props.WikidataEntry[]> {
@@ -29,14 +71,9 @@ export namespace core {
 
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        return new Array(4)
-            .fill(0)
-            .map((_, i) => i)
-            .map(i => ({
-                "wikidataLabel": `${inputText} software ${i}`,
-                "wikidataId": `Q${inputText}${i}`,
-                "wikidataDescription": `Description of software ${i}`
-            }));
+        const entries = fzf.find("cd");
+
+        return entries.map(({ item }) => item);
     }
 
     export async function getSoftwareUpdateData(params: {
@@ -86,6 +123,7 @@ export namespace core {
             step1: Step1Props.FormData;
             step2: Step2Props.FormData;
             step3: Step3Props.FormData;
+            step4: Step4Props.FormData;
         };
     }) {
         const { formData } = params;
@@ -101,6 +139,7 @@ export namespace core {
             step1: Step1Props.FormData;
             step2: Step2Props.FormData;
             step3: Step3Props.FormData;
+            step4: Step4Props.FormData;
         };
     }) {
         const { softwareSillId, formData } = params;

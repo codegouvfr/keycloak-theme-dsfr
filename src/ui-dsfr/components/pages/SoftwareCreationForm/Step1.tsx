@@ -5,7 +5,6 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
-import { FixedTags } from "ui-dsfr/components/shared/SearchMultiInput";
 
 export type Step1Props = {
     className?: string;
@@ -172,7 +171,6 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                     ]}
                 />
             )}
-            <FixedTags />
             <button
                 style={{ "display": "none" }}
                 ref={setSubmitButtonElement}
