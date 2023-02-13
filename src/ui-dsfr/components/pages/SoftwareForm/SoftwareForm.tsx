@@ -14,14 +14,14 @@ import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { assert } from "tsafe/assert";
 
-SoftwareCreationForm.routeGroup = createGroup([
+SoftwareForm.routeGroup = createGroup([
     routes.softwareCreationForm,
     routes.softwareUpdateForm
 ]);
 
-type PageRoute = Route<typeof SoftwareCreationForm.routeGroup>;
+type PageRoute = Route<typeof SoftwareForm.routeGroup>;
 
-SoftwareCreationForm.getDoRequireUserLoggedIn = () => true;
+SoftwareForm.getDoRequireUserLoggedIn = () => true;
 
 export type Props = {
     className?: string;
@@ -30,7 +30,7 @@ export type Props = {
 
 const submittingStep = 5;
 
-export function SoftwareCreationForm(props: Props) {
+export function SoftwareForm(props: Props) {
     const { className, route } = props;
 
     const [, startTransition] = useTransition();

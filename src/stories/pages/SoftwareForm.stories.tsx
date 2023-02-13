@@ -1,10 +1,10 @@
-import { SoftwareCreationForm } from "ui-dsfr/components/pages/SoftwareCreationForm/SoftwareCreationForm";
+import { SoftwareForm } from "ui-dsfr/components/pages/SoftwareForm";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
-    "wrappedComponent": { SoftwareCreationForm }
+    "wrappedComponent": { SoftwareForm }
 });
 
 export default meta;
