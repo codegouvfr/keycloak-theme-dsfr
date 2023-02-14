@@ -40,10 +40,72 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
+    | typeof import("ui-dsfr/components/pages/Homepage/Homepage").i18n
+    | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
+    | typeof import("ui-dsfr/components/shared/Header").i18n
 >()(
     { languages, fallbackLanguage },
     {
         "en": {
+            "Homepage": {
+                "title":
+                    "The free software catalog recommended by the State for the whole administration",
+                "agent label": "I am an agent or a CIO",
+                "search label": "I search...",
+                "research placeholder": "Search a software, a word, a reference",
+                "or": "or",
+                "sign in": "Sign in",
+                "software selection": "Some software selection",
+                "last added": "Last added",
+                "most used": "The most used",
+                "essential": "To have on your desktop",
+                "selection of the month": "Selection of the month",
+                "waiting for referent": "Waiting for a referent",
+                "in support market": "Is present in support market",
+                "why use the STILL": "Why and when use the SILL ?",
+                "discover as agent label": "Discover as agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Discover as CIO",
+                "discover as DSI description": "Description CIO à changer",
+                "contribute as agent label": "Contribute as agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribute as CIO",
+                "contribute as DSI description": "Description contribution CIO à changer",
+                "SILL numbers": "The SILL in figures",
+                "referenced software": "referenced software",
+                "user": "site user",
+                "referent": "software referent",
+                "organization": "organization",
+                "help us": "Help us to enrich the catalog",
+                "declare referent title":
+                    "Declare oneself user or referent of a software",
+                "declare referent description": "Description text body à changer",
+                "search software": "Search a software",
+                "edit software title": "Edit a software",
+                "edit software description": "Description text body à changer",
+                "add software or service title": "Add a software or a service",
+                "add software or service description": "Description text body à changer",
+                "complete form": "Complete the add form"
+            },
+            "AddSoftwareLanding": {
+                "title":
+                    "Help us enrich the catalog by adding software or software deployments in your organization !",
+                "subtitle":
+                    "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
+                "who can add software": "Who can add software or a service and how?",
+                "add software": "Add software",
+                "add instance": "Add instance",
+                "discover as agent label": "Discover as agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Discover as CIO",
+                "discover as DSI description": "Description CIO à changer",
+                "contribute as agent label": "Contribute as agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribute as CIO",
+                "contribute as DSI description": "Description contribution CIO à changer"
+            },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
                     `${count} free software${count === 1 ? "" : "s"}`
@@ -168,7 +230,7 @@ const {
             },
             "ReferentStep": {
                 "legend title": "Are you a technical expert of this software ?",
-                "legend hint": "You are able to answer to questions of agents et of DSI",
+                "legend hint": "You are able to answer to questions of agents and of CIO",
                 "yes": "Yes",
                 "no": "No",
                 "useCase": "Describe in a few words the use case of your administration",
@@ -190,10 +252,82 @@ const {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
                 "password": "Votre mot de passe"
+            },
+            "Header": {
+                "brand": "DINUM",
+                "title": "Socle interministériel de logiciels libres",
+                "navigation welcome": "Welcome to the SILL",
+                "navigation catalog": "Software catalog",
+                "navigation add software": "Add software or instance",
+                "navigation support request": "Support request",
+                "navigation about": "About the site",
+                "quick access test": "Immediate test",
+                "quick access connect": "Sign in",
+                "quick access account": "My account"
             }
         },
         "fr": {
             /* spell-checker: disable */
+            "Homepage": {
+                "title":
+                    "Le catalogue de logiciels libres de référence recommandé par l'État pour toute l'administration",
+                "agent label": "Je suis un agent ou une DSI",
+                "search label": "Je cherche...",
+                "research placeholder": "Rechercher un logiciel, un mot, une référence",
+                "or": "ou",
+                "sign in": "Se connecter",
+                "software selection": "Quelques sélections de logiciels",
+                "last added": "Derniers ajouts",
+                "most used": "Les plus utilisés",
+                "essential": "À avoir sur son poste",
+                "selection of the month": "La sélection du mois",
+                "waiting for referent": "En attente de référent",
+                "in support market": "Dans le marché de support",
+                "why use the STILL": "Pourquoi et quand utiliser le SILL ?",
+                "discover as agent label": "Découvrir en tant qu'agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Découvrir en tant que DSI",
+                "discover as DSI description": "Description DSI à changer",
+                "contribute as agent label": "Contribuer en tant qu'agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribuer en tant que DSI",
+                "contribute as DSI description": "Description contribution DSI à changer",
+                "SILL numbers": "Le SILL en plusieurs chiffres",
+                "referenced software": "logiciels référencés",
+                "user": "utilisateurs du site",
+                "referent": "référents de logiciels",
+                "organization": "organismes présent",
+                "help us": "Aidez-nous à enrichir le catalogue",
+                "declare referent title":
+                    "Se déclarer utilisateur ou référent d'un logiciel",
+                "declare referent description": "Description text body à changer",
+                "search software": "Rechercher un logiciel",
+                "edit software title": "Éditer une fiche logiciel",
+                "edit software description": "Description text body à changer",
+                "add software or service title": "Ajouter un logiciel ou un service",
+                "add software or service description": "Description text body à changer",
+                "complete form": "Remplir le formulaire d'ajout"
+            },
+            "AddSoftwareLanding": {
+                "title":
+                    "Aidez nous à enrichir le catalogue en ajoutant des logiciels ou des déploiement de logiciels dans votre organisation !",
+                "subtitle":
+                    "Participez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et DSI de l'administration",
+                "who can add software":
+                    "Qui peut ajouter un logiciel ou un service et comment ?",
+                "add software": "Ajouter un logiciel",
+                "add instance": "Ajouter une instance",
+                "discover as agent label": "Découvrir en tant qu'agent",
+                "discover as agent description": "Description agent à changer",
+                "discover as DSI label": "Découvrir en tant que DSI",
+                "discover as DSI description": "Description DSI à changer",
+                "contribute as agent label": "Contribuer en tant qu'agent",
+                "contribute as agent description":
+                    "Description contribution agent à changer",
+                "contribute as DSI label": "Contribuer en tant que DSI",
+                "contribute as DSI description": "Description contribution DSI à changer"
+            },
             "SoftwareCatalogCard": {
                 "last version": "Dernière version",
                 "last version date": ({ date }) => `en (${date})`,
@@ -344,6 +478,18 @@ const {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
                 "password": "Votre mot de passe"
+            },
+            "Header": {
+                "brand": "DINUM",
+                "title": "Socle interministériel de logiciels libres",
+                "navigation welcome": "Bienvenue sur le SILL",
+                "navigation catalog": "Catalogue de logiciel",
+                "navigation add software": "Ajouter un logiciel ou une instance",
+                "navigation support request": "Demande d'accompagement",
+                "navigation about": "À propos du site",
+                "quick access test": "Test immédiat",
+                "quick access connect": "Se connecter",
+                "quick access account": "Mon compte"
             }
             /* spell-checker: enable */
         }

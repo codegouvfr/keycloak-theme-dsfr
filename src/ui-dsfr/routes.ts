@@ -88,7 +88,8 @@ const routeDefs = {
         () => "/declaration"
     ),
     "softwareCreationForm": defineRoute("/add"),
-    "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update")
+    "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update"),
+    "addSoftwareLanding": defineRoute("/add-software")
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);

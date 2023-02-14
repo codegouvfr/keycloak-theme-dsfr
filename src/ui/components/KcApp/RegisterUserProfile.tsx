@@ -19,7 +19,7 @@ import { useRerenderOnStateChange } from "evt/hooks/useRerenderOnStateChange";
 import { useConst } from "powerhooks/useConst";
 import { I18n } from "./i18n";
 
-const contactEmail = "contact-sill@data.gouv.fr";
+const contactEmail = "sill@code.gouv.fr";
 
 type KcContext_RegisterUserProfile = Extract<
     KcContext,
