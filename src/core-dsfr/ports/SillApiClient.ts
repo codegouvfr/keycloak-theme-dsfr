@@ -46,7 +46,6 @@ export namespace SillApiClient {
         updateTime: number;
         categories: string[];
         prerogatives: Record<Prerogative, boolean>;
-        userReferentStates: {};
         users: {
             type: "user" | "referent";
             organization: string;
