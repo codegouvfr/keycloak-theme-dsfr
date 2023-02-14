@@ -5,11 +5,12 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
+import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
 
 export type Step1Props = {
     className?: string;
-    initialFormData: Step1Props.FormData | undefined;
-    onSubmit: (formData: Step1Props.FormData) => void;
+    initialFormData: SillApiClient.FormData["step1"] | undefined;
+    onSubmit: (formData: SillApiClient.FormData["step1"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
 };
 
@@ -39,7 +40,7 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
         formState: { errors },
         watch
     } = useForm<{
-        softwareType: "desktop" | "cloud" | "library" | "desktop";
+        softwareType: "cloud" | "library" | "desktop";
         osCheckboxValues: string[] | undefined;
     }>({
         "defaultValues": (() => {
@@ -85,11 +86,9 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                               return {
                                   softwareType,
                                   "os": {
-                                      "window": osCheckboxValues?.includes("windows"),
+                                      "windows": osCheckboxValues?.includes("windows"),
                                       "mac": osCheckboxValues?.includes("mac"),
-                                      "linux": osCheckboxValues?.includes("linux"),
-                                      "android": osCheckboxValues?.includes("android"),
-                                      "ios": osCheckboxValues?.includes("ios")
+                                      "linux": osCheckboxValues?.includes("linux")
                                   }
                               };
                           })()

@@ -37,8 +37,7 @@ const routeDefs = {
                         z.literal("linux"),
                         z.literal("windows"),
                         z.literal("mac"),
-                        z.literal("browser"),
-                        z.literal("smartphone")
+                        z.literal("browser")
                     ]);
 
                     try {
@@ -52,15 +51,17 @@ const routeDefs = {
             "prerogatives": param.query.optional
                 .ofType({
                     "parse": raw => {
-                        const schema: z.Schema<SoftwareCatalogState.Prerogative[]> =
-                            z.array(
-                                z.union([
-                                    z.literal("isInstallableOnUserTerminal"),
-                                    z.literal("isPresentInSupportContract"),
-                                    z.literal("isFromFrenchPublicServices"),
-                                    z.literal("doRespectRgaa")
-                                ])
-                            );
+                        const schema: z.Schema<
+                            SoftwareCatalogState["prerogatives"][number][]
+                        > = z.array(
+                            z.enum([
+                                "isPresentInSupportContract",
+                                "isFromFrenchPublicServices",
+                                "doRespectRgaa",
+                                "isInstallableOnUserTerminal",
+                                "isTestable"
+                            ] as const)
+                        );
 
                         try {
                             return schema.parse(JSON.parse(raw));
@@ -84,21 +85,10 @@ const routeDefs = {
         {
             "name": param.query.string
         },
-        () => `/declaration`
+        () => "/declaration"
     ),
-    "softwareCreationForm": defineRoute(
-        {
-            "step": param.query.optional.number.default(1)
-        },
-        () => `/add`
-    ),
-    "softwareUpdateForm": defineRoute(
-        {
-            "step": param.query.optional.number.default(1),
-            "name": param.query.optional.string
-        },
-        () => `/update`
-    )
+    "softwareCreationForm": defineRoute("/add"),
+    "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update")
 };
 
 export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);

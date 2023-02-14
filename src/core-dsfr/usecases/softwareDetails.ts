@@ -37,13 +37,7 @@ export namespace SoftwareDetailsState {
         serviceProviderUrl: string;
         compotoirDuLibreUrl: string | undefined;
         wikidataUrl: string;
-        prerogatives: Pick<
-            Record<SoftwareCatalogState.Prerogative, boolean>,
-            | "isInstallableOnUserTerminal"
-            | "isPresentInSupportContract"
-            | "isFromFrenchPublicServices"
-            | "doRespectRgaa"
-        >;
+        prerogatives: Record<SoftwareCatalogState.Prerogative, boolean>;
         userCount: number;
         referentCount: number;
         testUrl: string | undefined;
@@ -51,9 +45,22 @@ export namespace SoftwareDetailsState {
             instanceUrl: string;
             targetAudience: string;
         }[];
-        parentSoftwareName: string | undefined;
-        alikeSoftwares: SoftwareCatalogState.Software.External[];
-        proprietaryAlikeSoftwaresNames: string[];
+        parentSoftware:
+            | ({ softwareName: string } & (
+                  | { isInSill: true }
+                  | { isInSill: false; url: string }
+              ))
+            | undefined;
+        similarSoftwares: (
+            | {
+                  isInSill: true;
+                  software: SoftwareCatalogState.Software.External;
+              }
+            | {
+                  isInSill: false;
+                  url: string;
+              }
+        )[];
     };
 }
 
@@ -123,36 +130,48 @@ function apiSoftwareToSoftware(params: {
         codeRepositoryUrl,
         softwareDescription,
         lastVersion,
-        parentSoftwareName,
+        parentSoftware: parentSoftwareWikidata_api,
         testUrl,
         addedTime,
         prerogatives,
         users,
         serviceProviderCount,
         serviceProviderUrl,
-        compotoirDuLibreUrl,
-        wikidataUrl,
-        instances,
-        alikeSoftwareNames,
-        proprietaryAlikeSoftwaresNames,
+        compotoirDuLibreId,
+        similarSoftwares: similarSoftwares_api,
+        wikidataId,
         license,
-        versionMin
+        versionMin,
+        softwareType
     } = apiSoftware;
 
     const referentCount = users.filter(user => user.type === "referent").length;
 
-    const parentSoftware = (() => {
-        if (parentSoftwareName === undefined) {
+    const parentSoftware: SoftwareDetailsState.Software["parentSoftware"] = (() => {
+        if (parentSoftwareWikidata_api === undefined) {
             return undefined;
         }
 
-        const parentSoftware = apiSoftwares.find(
-            ({ softwareName }) => softwareName === parentSoftwareName
-        );
+        in_sill: {
+            const software = apiSoftwares.find(
+                software => software.wikidataId === parentSoftwareWikidata_api.wikidataId
+            );
 
-        assert(parentSoftware !== undefined);
+            if (software === undefined) {
+                break in_sill;
+            }
 
-        return parentSoftware;
+            return {
+                "softwareName": software.softwareName,
+                "isInSill": true
+            };
+        }
+
+        return {
+            "isInSill": false,
+            "softwareName": parentSoftwareWikidata_api.wikidataLabel,
+            "url": `https://www.wikidata.org/wiki/${parentSoftwareWikidata_api.wikidataId}`
+        };
     })();
 
     return {
@@ -165,25 +184,34 @@ function apiSoftwareToSoftware(params: {
         lastVersion,
         referentCount,
         "userCount": users.length - referentCount,
-        "parentSoftwareName": parentSoftware?.softwareName,
+        parentSoftware,
         addedTime,
         serviceProviderUrl,
-        compotoirDuLibreUrl,
-        wikidataUrl,
-        instances,
-        "alikeSoftwares": alikeSoftwareNames.map(softwareName =>
-            apiSoftwareToExternalCatalogSoftware({
+        "compotoirDuLibreUrl": `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
+        "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
+        "instances": [],
+        "similarSoftwares": similarSoftwares_api.map(softwareRef => {
+            const software = apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,
-                softwareName
-            })
-        ),
-        proprietaryAlikeSoftwaresNames,
+                "wikidataId": softwareRef.wikidataId
+            });
+
+            if (software === undefined) {
+                return {
+                    "isInSill": false,
+                    "url": `https://www.wikidata.org/wiki/${softwareRef.wikidataId}`
+                };
+            }
+
+            return {
+                "isInSill": true,
+                software
+            };
+        }),
         license,
         "prerogatives": {
-            "isInstallableOnUserTerminal": apiSoftwareToExternalCatalogSoftware({
-                apiSoftwares,
-                softwareName
-            }).prerogatives.isInstallableOnUserTerminal,
+            "isTestable": testUrl !== undefined,
+            "isInstallableOnUserTerminal": softwareType.type === "desktop",
             "isPresentInSupportContract": prerogatives.isPresentInSupportContract,
             "isFromFrenchPublicServices": prerogatives.isFromFrenchPublicServices,
             "doRespectRgaa": prerogatives.doRespectRgaa

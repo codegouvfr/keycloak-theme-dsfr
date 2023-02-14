@@ -3,6 +3,23 @@ export type SillApiClient = {
         (): Promise<SillApiClient.Software[]>;
         clear: () => void;
     };
+    getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (params: {
+        wikidataId: string;
+    }) => Promise<{
+        comptoirDuLibreId: number | undefined;
+        softwareName: string;
+        softwareDescription: string;
+        softwareLicense: string | undefined;
+        softwareMinimalVersion: string | undefined;
+    }>;
+    getWikidataOptions: (params: {
+        queryString: string;
+    }) => Promise<SillApiClient.WikidataEntry[]>;
+    createSoftware: (params: { formData: SillApiClient.FormData }) => Promise<void>;
+    updateSoftware: (params: {
+        softwareSillId: number;
+        formData: SillApiClient.FormData;
+    }) => Promise<void>;
 };
 
 export namespace SillApiClient {
@@ -17,20 +34,22 @@ export namespace SillApiClient {
                   publicationTime: number;
               }
             | undefined;
-        parentSoftwareName: string | undefined;
+        parentSoftware:
+            | {
+                  wikidataLabel: string;
+                  wikidataDescription: string;
+                  wikidataId: string;
+              }
+            | undefined;
         testUrl: string | undefined;
         addedTime: number;
         updateTime: number;
         categories: string[];
-        prerogatives: Pick<
-            Record<Prerogative, boolean>,
-            "isPresentInSupportContract" | "isFromFrenchPublicServices" | "doRespectRgaa"
-        >;
+        prerogatives: Record<Prerogative, boolean>;
+        userReferentStates: {};
         users: {
             type: "user" | "referent";
-            userId: number;
             organization: string;
-            environments: Record<Environment, boolean>;
         }[];
         authors: {
             authorName: string;
@@ -42,22 +61,74 @@ export namespace SillApiClient {
         license: string;
         serviceProviderCount: number;
         serviceProviderUrl: string;
-        compotoirDuLibreUrl: string | undefined;
-        wikidataUrl: string;
-        instances: {
-            instanceUrl: string;
-            targetAudience: string;
+        compotoirDuLibreId: number | undefined;
+        wikidataId: string;
+        softwareType: SoftwareType;
+        similarSoftwares: {
+            wikidataLabel: string;
+            wikidataDescription: string;
+            wikidataId: string;
         }[];
-        alikeSoftwareNames: string[];
-        proprietaryAlikeSoftwaresNames: string[];
     };
 
-    export type Environment = "linux" | "windows" | "mac" | "browser" | "smartphone";
+    export type SoftwareType =
+        | SoftwareType.Desktop
+        | SoftwareType.CloudNative
+        | SoftwareType.Library;
+
+    export namespace SoftwareType {
+        export type Desktop = {
+            type: "desktop";
+            os: Record<"windows" | "linux" | "mac", boolean>;
+        };
+
+        export type CloudNative = {
+            type: "cloud";
+        };
+
+        export type Library = {
+            type: "library";
+        };
+    }
 
     export type Prerogative =
-        | "isInstallableOnUserTerminal"
         | "isPresentInSupportContract"
         | "isFromFrenchPublicServices"
-        | "doRespectRgaa"
-        | "isTestable";
+        | "doRespectRgaa";
+
+    export type WikidataEntry = {
+        wikidataLabel: string;
+        wikidataDescription: string;
+        wikidataId: string;
+    };
+
+    export type FormData = {
+        step1:
+            | {
+                  softwareType: "cloud" | "library";
+              }
+            | {
+                  softwareType: "desktop";
+                  os: Record<"windows" | "linux" | "mac", boolean>;
+              };
+        step2: {
+            wikidataId: string | undefined;
+            comptoirDuLibreId: number | undefined;
+            softwareName: string;
+            softwareDescription: string;
+            softwareLicense: string;
+            softwareMinimalVersion: string;
+        };
+        step3: {
+            isPresentInSupportContract: boolean | undefined;
+            isFromFrenchPublicService: boolean;
+        };
+        step4: {
+            similarSoftwares: {
+                wikidataLabel: string;
+                wikidataDescription: string;
+                wikidataId: string;
+            }[];
+        };
+    };
 }

@@ -14,6 +14,7 @@ import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { FooterDetailCard } from "./FooterDetailCard";
 import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
+import { exclude } from "tsafe/exclude";
 
 SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
 
@@ -104,10 +105,12 @@ export function SoftwareDetails(props: Props) {
                     },
                     {
                         "label": t("tab title alike software", {
-                            alikeSoftwareCount: software?.alikeSoftwares.length ?? 0
+                            alikeSoftwareCount: software?.similarSoftwares.length ?? 0
                         }),
                         "content": AlikeSoftwareTab({
-                            alikeSoftwares: software?.alikeSoftwares
+                            alikeSoftwares: software?.similarSoftwares
+                                .map(item => (item.isInSill ? item.software : undefined))
+                                .filter(exclude(undefined))
                         })
                     }
                 ]}

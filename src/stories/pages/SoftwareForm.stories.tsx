@@ -10,7 +10,7 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueCreation = getStory({
-    "route": createMockRoute("softwareCreationForm", {})
+    "route": createMockRoute("softwareCreationForm", undefined as void)
 });
 
 export const VueUpdate = getStory({

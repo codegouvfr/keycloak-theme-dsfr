@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import type { ThunkAction, State as RootState } from "../setup";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
@@ -37,13 +38,13 @@ export namespace SoftwareCatalogState {
         | "user count ASC"
         | "referent count ASC";
 
-    export type Environment = "linux" | "windows" | "mac" | "browser" | "smartphone";
+    export type Environment = "linux" | "windows" | "mac" | "browser" | "library";
 
     export type Prerogative =
-        | "isInstallableOnUserTerminal"
         | "isPresentInSupportContract"
         | "isFromFrenchPublicServices"
         | "doRespectRgaa"
+        | "isInstallableOnUserTerminal"
         | "isTestable";
 
     export namespace Software {
@@ -59,17 +60,17 @@ export namespace SoftwareCatalogState {
                 | undefined;
             referentCount: number;
             userCount: number;
-            parentSoftwareName: string | undefined;
+            parentSoftware:
+                | ({ softwareName: string } & (
+                      | { isInSill: true }
+                      | { isInSill: false; url: string }
+                  ))
+                | undefined;
             testUrl: string | undefined;
         };
 
         export type External = Common & {
-            prerogatives: Pick<
-                Record<Prerogative, boolean>,
-                | "isFromFrenchPublicServices"
-                | "isInstallableOnUserTerminal"
-                | "isPresentInSupportContract"
-            >;
+            prerogatives: Record<Prerogative, boolean>;
         };
 
         export type Internal = Common & {
@@ -77,14 +78,11 @@ export namespace SoftwareCatalogState {
             updateTime: number;
             categories: string[];
             organizations: string[];
-            environments: Record<Environment, boolean>;
-            //NOTE: We can deduce if it's installable on user terminal by looking at the environments.
-            prerogatives: Pick<
-                Record<Prerogative, boolean>,
-                | "isPresentInSupportContract"
-                | "isFromFrenchPublicServices"
-                | "doRespectRgaa"
+            prerogatives: Record<
+                Exclude<Prerogative, "isInstallableOnUserTerminal" | "isTestable">,
+                boolean
             >;
+            softwareType: SillApiClient.SoftwareType;
             search: string;
         };
     }
@@ -151,12 +149,19 @@ export const privateThunks = {
 
             const apiSoftwares = await sillApiClient.getSoftwares();
 
-            const softwares = apiSoftwares.map(({ softwareName }) =>
-                apiSoftwareToInternalSoftware({
+            const softwares = apiSoftwares.map(({ softwareName }) => {
+                const software = apiSoftwareToInternalSoftware({
                     apiSoftwares,
-                    softwareName
-                })
-            );
+                    "softwareRef": {
+                        "type": "name",
+                        softwareName
+                    }
+                });
+
+                assert(software !== undefined);
+
+                return software;
+            });
 
             dispatch(actions.initialized({ softwares }));
         }
@@ -229,7 +234,20 @@ export const selectors = (() => {
     }) {
         const { softwares, environment } = params;
 
-        return softwares.filter(({ environments }) => environments[environment]);
+        return softwares.filter(({ softwareType }) => {
+            switch (environment) {
+                case "linux":
+                case "mac":
+                case "windows":
+                    return (
+                        softwareType.type === "desktop" && softwareType.os[environment]
+                    );
+                case "browser":
+                    return softwareType.type === "cloud";
+                case "library":
+                    return softwareType.type === "library";
+            }
+        });
     }
 
     function filterByPrerogative(params: {
@@ -521,10 +539,22 @@ export const selectors = (() => {
                 Array.from(
                     new Set(
                         internalSoftwares
-                            .map(({ environments }) =>
-                                objectKeys(environments).filter(
-                                    environment => environments[environment]
-                                )
+                            .map(
+                                ({
+                                    softwareType
+                                }): SoftwareCatalogState.Environment[] => {
+                                    switch (softwareType.type) {
+                                        case "cloud":
+                                            return ["browser"];
+                                        case "library":
+                                            return ["library" as const];
+                                        case "desktop":
+                                            return objectKeys(softwareType.os).filter(
+                                                os => softwareType.os[os]
+                                            );
+                                    }
+                                    assert(false);
+                                }
                             )
                             .reduce((prev, curr) => [...prev, ...curr], [])
                     )
@@ -561,17 +591,32 @@ export const selectors = (() => {
                 });
             }
 
-            tmpSoftwares.forEach(({ environments }) =>
-                objectKeys(environments)
-                    .filter(environment => environments[environment])
-                    .forEach(environment =>
+            tmpSoftwares.forEach(({ softwareType }) => {
+                switch (softwareType.type) {
+                    case "cloud":
                         softwareCountInCurrentFilterByEnvironment.set(
-                            environment,
-                            softwareCountInCurrentFilterByEnvironment.get(environment)! +
-                                1
-                        )
-                    )
-            );
+                            "browser",
+                            softwareCountInCurrentFilterByEnvironment.get("browser")! + 1
+                        );
+                        break;
+                    case "library":
+                        softwareCountInCurrentFilterByEnvironment.set(
+                            "library",
+                            softwareCountInCurrentFilterByEnvironment.get("library")! + 1
+                        );
+                        break;
+                    case "desktop":
+                        objectKeys(softwareType.os)
+                            .filter(os => softwareType.os[os])
+                            .forEach(os =>
+                                softwareCountInCurrentFilterByEnvironment.set(
+                                    os,
+                                    softwareCountInCurrentFilterByEnvironment.get(os)! + 1
+                                )
+                            );
+                        break;
+                }
+            });
 
             return Array.from(softwareCountInCurrentFilterByEnvironment.entries())
                 .map(([environment, softwareCount]) => ({
@@ -671,26 +716,43 @@ export const selectors = (() => {
 
 function apiSoftwareToInternalSoftware(params: {
     apiSoftwares: SillApiClient.Software[];
-    softwareName: string;
-}): SoftwareCatalogState.Software.Internal {
-    const { apiSoftwares, softwareName } = params;
+    softwareRef:
+        | {
+              type: "wikidataId";
+              wikidataId: string;
+          }
+        | {
+              type: "name";
+              softwareName: string;
+          };
+}): SoftwareCatalogState.Software.Internal | undefined {
+    const { apiSoftwares, softwareRef } = params;
 
-    const apiSoftware = apiSoftwares.find(
-        apiSoftware => apiSoftware.softwareName === softwareName
-    );
+    const apiSoftware = apiSoftwares.find(apiSoftware => {
+        switch (softwareRef.type) {
+            case "name":
+                return apiSoftware.softwareName === softwareRef.softwareName;
+            case "wikidataId":
+                return apiSoftware.wikidataId === softwareRef.wikidataId;
+        }
+    });
 
-    assert(apiSoftware !== undefined);
+    if (apiSoftware === undefined) {
+        return undefined;
+    }
 
     const {
+        softwareName,
         logoUrl,
         softwareDescription,
         lastVersion,
-        parentSoftwareName,
+        parentSoftware: parentSoftwareWikidataRef,
         testUrl,
         addedTime,
         updateTime,
         categories,
         prerogatives,
+        softwareType,
         users
     } = apiSoftware;
 
@@ -703,46 +765,34 @@ function apiSoftwareToInternalSoftware(params: {
 
     const referentCount = users.filter(user => user.type === "referent").length;
 
-    const parentSoftware = (() => {
-        if (parentSoftwareName === undefined) {
-            return undefined;
-        }
+    const parentSoftware: SoftwareCatalogState.Software.Internal["parentSoftware"] =
+        (() => {
+            if (parentSoftwareWikidataRef === undefined) {
+                return undefined;
+            }
 
-        const parentSoftware = apiSoftwares.find(
-            ({ softwareName }) => softwareName === parentSoftwareName
-        );
+            in_sill: {
+                const software = apiSoftwares.find(
+                    software =>
+                        software.wikidataId === parentSoftwareWikidataRef.wikidataId
+                );
 
-        assert(parentSoftware !== undefined);
-
-        return parentSoftware;
-    })();
-
-    const environments = users
-        .map(user => user.environments)
-        .reduce(
-            (prev, curr) => {
-                const out = { ...prev };
-
-                for (const env of objectKeys(curr)) {
-                    const value = curr[env];
-
-                    if (!value) {
-                        continue;
-                    }
-
-                    out[env] = true;
+                if (software === undefined) {
+                    break in_sill;
                 }
 
-                return out;
-            },
-            id<Record<SoftwareCatalogState.Environment, boolean>>({
-                "linux": false,
-                "windows": false,
-                "mac": false,
-                "browser": false,
-                "smartphone": false
-            })
-        );
+                return {
+                    "softwareName": software.softwareName,
+                    "isInSill": true
+                };
+            }
+
+            return {
+                "isInSill": false,
+                "softwareName": parentSoftwareWikidataRef.wikidataLabel,
+                "url": `https://www.wikidata.org/wiki/${parentSoftwareWikidataRef.wikidataId}`
+            };
+        })();
 
     return {
         logoUrl,
@@ -751,7 +801,6 @@ function apiSoftwareToInternalSoftware(params: {
         lastVersion,
         referentCount,
         "userCount": users.length - referentCount,
-        "parentSoftwareName": parentSoftware?.softwareName,
         testUrl,
         addedTime,
         updateTime,
@@ -760,23 +809,23 @@ function apiSoftwareToInternalSoftware(params: {
             .map(user => user.organization)
             .flat()
             .reduce(...removeDuplicates<string>()),
-        environments,
+        "parentSoftware": null as any,
+        softwareType,
         prerogatives,
         "search": [
             softwareName,
             softwareDescription,
             lastVersion?.semVer,
             categories.join(" "),
-            Object.entries(environments)
-                .filter(([, v]) => v)
-                .map(([env]) => env)
-                .join(" "),
             parentSoftware === undefined
                 ? undefined
                 : apiSoftwareToInternalSoftware({
                       apiSoftwares,
-                      "softwareName": parentSoftware.softwareName
-                  }).search
+                      "softwareRef": {
+                          "type": "name",
+                          "softwareName": parentSoftware.softwareName
+                      }
+                  })?.search
         ]
             .filter(exclude(undefined))
             .join(" ")
@@ -793,15 +842,19 @@ function internalSoftwareToExternalSoftware(
         lastVersion,
         referentCount,
         userCount,
-        parentSoftwareName,
         testUrl,
         addedTime,
         updateTime,
         categories,
         organizations,
-        environments,
-        prerogatives: { isFromFrenchPublicServices, isPresentInSupportContract },
+        prerogatives: {
+            isFromFrenchPublicServices,
+            isPresentInSupportContract,
+            doRespectRgaa
+        },
         search,
+        parentSoftware,
+        softwareType,
         ...rest
     } = software;
 
@@ -814,30 +867,35 @@ function internalSoftwareToExternalSoftware(
         lastVersion,
         referentCount,
         userCount,
-        parentSoftwareName,
         testUrl,
         "prerogatives": {
             isFromFrenchPublicServices,
-            "isInstallableOnUserTerminal":
-                environments.linux ||
-                environments.mac ||
-                environments.windows ||
-                environments.smartphone,
-            isPresentInSupportContract
-        }
+            isPresentInSupportContract,
+            doRespectRgaa,
+            "isInstallableOnUserTerminal": softwareType.type === "desktop",
+            "isTestable": testUrl !== undefined
+        },
+        parentSoftware
     };
 }
 
 export function apiSoftwareToExternalCatalogSoftware(params: {
     apiSoftwares: SillApiClient.Software[];
-    softwareName: string;
-}): SoftwareCatalogState.Software.External {
-    const { apiSoftwares, softwareName } = params;
+    wikidataId: string;
+}): SoftwareCatalogState.Software.External | undefined {
+    const { apiSoftwares, wikidataId } = params;
 
-    return internalSoftwareToExternalSoftware(
-        apiSoftwareToInternalSoftware({
-            apiSoftwares,
-            softwareName
-        })
-    );
+    const internalSoftware = apiSoftwareToInternalSoftware({
+        apiSoftwares,
+        "softwareRef": {
+            "type": "wikidataId",
+            wikidataId
+        }
+    });
+
+    if (internalSoftware === undefined) {
+        return undefined;
+    }
+
+    return internalSoftwareToExternalSoftware(internalSoftware);
 }
