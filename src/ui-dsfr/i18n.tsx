@@ -42,6 +42,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/components/pages/Homepage/Homepage").i18n
     | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
+    | typeof import("ui-dsfr/components/shared/Header").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -251,6 +252,18 @@ const {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
                 "password": "Votre mot de passe"
+            },
+            "Header": {
+                "brand": "DINUM",
+                "title": "Socle interministériel de logiciels libres",
+                "navigation welcome": "Welcome to the SILL",
+                "navigation catalog": "Software catalog",
+                "navigation add software": "Add software or instance",
+                "navigation support request": "Support request",
+                "navigation about": "About the site",
+                "quick access test": "Immediate test",
+                "quick access connect": "Sign in",
+                "quick access account": "My account"
             }
         },
         "fr": {
@@ -465,6 +478,18 @@ const {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
                 "password": "Votre mot de passe"
+            },
+            "Header": {
+                "brand": "DINUM",
+                "title": "Socle interministériel de logiciels libres",
+                "navigation welcome": "Bienvenue sur le SILL",
+                "navigation catalog": "Catalogue de logiciel",
+                "navigation add software": "Ajouter un logiciel ou une instance",
+                "navigation support request": "Demande d'accompagement",
+                "navigation about": "À propos du site",
+                "quick access test": "Test immédiat",
+                "quick access connect": "Se connecter",
+                "quick access account": "Mon compte"
             }
             /* spell-checker: enable */
         }
