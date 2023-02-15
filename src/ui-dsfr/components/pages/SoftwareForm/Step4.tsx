@@ -4,31 +4,24 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SearchMultiInput } from "ui-dsfr/components/shared/SearchMultiInput";
-import { core } from "./coreMock";
+import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import type { useCoreFunctions } from "core-dsfr";
 
 export type Step4Props = {
     className?: string;
-    initialFormData: Step4Props.FormData | undefined;
-    onSubmit: (formData: Step4Props.FormData) => void;
+    initialFormData: SillApiClient.FormData["step4"] | undefined;
+    onSubmit: (formData: SillApiClient.FormData["step4"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
-    getWikidataOptions: typeof core["getWikidataOptions"];
+    getWikidataOptions: ReturnType<
+        typeof useCoreFunctions
+    >["softwareForm"]["getWikidataOptions"];
 };
-
-export namespace Step4Props {
-    export type FormData = {
-        similarSoftwares: {
-            wikidataLabel: string;
-            wikidataDescription: string;
-            wikidataId: string;
-        }[];
-    };
-}
 
 export function SoftwareCreationFormStep4(props: Step4Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit, getWikidataOptions } =
         props;
 
-    const { handleSubmit, control } = useForm<Step4Props.FormData>({
+    const { handleSubmit, control } = useForm<SillApiClient.FormData["step4"]>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
                 return {
@@ -65,7 +58,9 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
                 render={({ field }) => (
                     <SearchMultiInput
                         debounceDelay={400}
-                        getOptions={getWikidataOptions}
+                        getOptions={inputText =>
+                            getWikidataOptions({ "queryString": inputText })
+                        }
                         value={field.value}
                         onValueChange={value => field.onChange(value)}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}

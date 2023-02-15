@@ -7,34 +7,22 @@ import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgr
 import { assert } from "tsafe/assert";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
-import type { core } from "./coreMock";
+import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import type { useCoreFunctions } from "core-dsfr";
 
 export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
-    initialFormData: Step2Props.FormData | undefined;
-    onSubmit: (formData: Step2Props.FormData) => void;
+    initialFormData: SillApiClient.FormData["step2"] | undefined;
+    onSubmit: (formData: SillApiClient.FormData["step2"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
-    getAutofillDataFromWikidata: typeof core["getAutofillDataFromWikidata"];
-    getWikidataOptions: typeof core["getWikidataOptions"];
+    getAutofillDataFromWikidata: ReturnType<
+        typeof useCoreFunctions
+    >["softwareForm"]["getAutofillData"];
+    getWikidataOptions: ReturnType<
+        typeof useCoreFunctions
+    >["softwareForm"]["getWikidataOptions"];
 };
-
-export namespace Step2Props {
-    export type WikidataEntry = {
-        wikidataLabel: string;
-        wikidataDescription: string;
-        wikidataId: string;
-    };
-
-    export type FormData = {
-        wikidataId: string | undefined;
-        comptoirDuLibreId: number | undefined;
-        softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string;
-        softwareMinimalVersion: string;
-    };
-}
 
 export function SoftwareCreationFormStep2(props: Step2Props) {
     const {
@@ -55,7 +43,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         formState: { errors },
         setValue
     } = useForm<{
-        wikidataEntry: Step2Props.WikidataEntry | undefined;
+        wikidataEntry: SillApiClient.WikidataEntry | undefined;
         comptoirDuLibreIdInputValue: string;
         softwareName: string;
         softwareDescription: string;
@@ -186,7 +174,9 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                 render={({ field }) => (
                     <SearchInput
                         debounceDelay={400}
-                        getOptions={getWikidataOptions}
+                        getOptions={inputText =>
+                            getWikidataOptions({ "queryString": inputText })
+                        }
                         value={field.value}
                         onValueChange={field.onChange}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}

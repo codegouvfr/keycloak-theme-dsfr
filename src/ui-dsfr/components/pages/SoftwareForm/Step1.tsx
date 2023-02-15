@@ -14,23 +14,6 @@ export type Step1Props = {
     evtActionSubmit: NonPostableEvt<void>;
 };
 
-export namespace Step1Props {
-    export type FormData =
-        | {
-              softwareType: "cloud" | "library";
-          }
-        | {
-              softwareType: "desktop";
-              os: {
-                  window: boolean;
-                  mac: boolean;
-                  linux: boolean;
-                  android: boolean;
-                  ios: boolean;
-              };
-          };
-}
-
 export function SoftwareCreationFormStep1(props: Step1Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
