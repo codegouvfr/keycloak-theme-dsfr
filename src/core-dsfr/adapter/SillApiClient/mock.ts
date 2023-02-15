@@ -1,3 +1,4 @@
+import { Fzf } from "fzf";
 import memoize from "memoizee";
 import type { SillApiClient } from "../../ports/SillApiClient";
 import { id } from "tsafe/id";
@@ -670,9 +671,81 @@ export function createMockSillApiClient(): SillApiClient {
                 ]),
             { "promise": true }
         ),
-        "createSoftware": null as any,
-        "updateSoftware": null as any,
-        "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": null as any,
-        "getWikidataOptions": null as any
+        "createSoftware": async ({ formData }) => {
+            console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
+        },
+        "updateSoftware": async ({ formData, softwareSillId }) => {
+            console.log(
+                `Software updated, ${softwareSillId}, ${JSON.stringify(
+                    formData,
+                    null,
+                    2
+                )}`
+            );
+        },
+        "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({
+            wikidataId
+        }) => {
+            await new Promise(resolve => setTimeout(resolve, 1));
+
+            return {
+                wikidataId,
+                "comptoirDuLibreId": 123,
+                "softwareName": `Software ${wikidataId}`,
+                "softwareDescription": `Software ${wikidataId} description`,
+                "softwareLicense": `Software ${wikidataId} license`,
+                "softwareMinimalVersion": `1.3.4`
+            };
+        },
+        "getWikidataOptions": async ({ queryString }) => {
+            if (queryString === "") {
+                return [];
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const entries = fzf.find("cd");
+
+            return entries.map(({ item }) => item);
+        }
     };
 }
+
+const options: SillApiClient.WikidataEntry[] = [
+    {
+        "wikidataId": "Q110492908",
+        "wikidataLabel": "Onyxia",
+        "wikidataDescription": "A data science oriented container launcher"
+    },
+    {
+        "wikidataId": "Q107693197",
+        "wikidataLabel": "Keycloakify",
+        "wikidataDescription": "Build tool for creating Keycloak themes using React"
+    },
+    {
+        "wikidataId": "Q8038",
+        "wikidataDescription": "image retouching and editing tool",
+        "wikidataLabel": "GIMP"
+    },
+    {
+        "wikidataId": "Q10135",
+        "wikidataDescription": "office suite supported by the free software community",
+        "wikidataLabel": "LibreOffice"
+    },
+    {
+        "wikidataId": "Q19841877",
+        "wikidataDescription": "source code editor developed by Microsoft",
+        "wikidataLabel": "Visual Studio Code"
+    },
+    {
+        "wikidataId": "Q50938515",
+        "wikidataDescription":
+            "decentralized video hosting network, based on free/libre software",
+        "wikidataLabel": "PeerTube"
+    }
+];
+
+const fzf = new Fzf(options, {
+    "selector": item =>
+        `${item.wikidataLabel} ${item.wikidataDescription} ${item.wikidataId}`
+});

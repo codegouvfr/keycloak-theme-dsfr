@@ -46,7 +46,7 @@ export const { reducer, actions } = createSlice({
             state.isInitializing = true;
         },
         "initializeForUpdate": (
-            state,
+            _state,
             {
                 payload
             }: PayloadAction<{
@@ -56,10 +56,13 @@ export const { reducer, actions } = createSlice({
         ) => {
             const { formData, softwareSillId } = payload;
 
-            assert(state.stateDescription === "ready");
-
-            state.formData = formData;
-            state.softwareSillId = softwareSillId;
+            return {
+                "stateDescription": "ready",
+                "step": 1,
+                softwareSillId,
+                formData,
+                "isSubmitting": false
+            };
         },
         "step1DataSet": (
             state,
@@ -142,6 +145,11 @@ export const thunks = {
             const state = getState().softwareForm;
 
             if (state.stateDescription === "ready" || state.isInitializing) {
+                return;
+            }
+
+            if (softwareName === undefined) {
+                dispatch(actions.initializedForCreate());
                 return;
             }
 

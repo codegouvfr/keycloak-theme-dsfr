@@ -15,6 +15,6 @@ export const VueCreation = getStory({
 
 export const VueUpdate = getStory({
     "route": createMockRoute("softwareUpdateForm", {
-        "name": "Onyxia"
+        "name": "NextCloud"
     })
 });

@@ -51,52 +51,63 @@ export function SoftwareDetails(props: Props) {
 
     console.log(software);
 
+    if (software === undefined) {
+        return null;
+    }
+
     return (
         <div>
             <Breadcrumb
                 segments={[
                     {
-                        linkProps: {
-                            href: "#"
+                        "linkProps": {
+                            "href": "#"
                         },
-                        label: t("catalog breadcrumb")
+                        "label": t("catalog breadcrumb")
                     }
                 ]}
-                currentPageLabel={software?.softwareName}
+                currentPageLabel={software.softwareName}
                 className={classes.breadcrumb}
             />
             <HeaderDetailCard
-                softwareLogoUrl={software?.logoUrl}
-                softwareName={software?.softwareName}
-                authors={software?.authors}
-                officialWebsite={software?.officialWebsiteUrl}
-                sourceCodeRepository={software?.codeRepositoryUrl}
+                softwareLogoUrl={software.logoUrl}
+                softwareName={software.softwareName}
+                authors={software.authors}
+                officialWebsite={software.officialWebsiteUrl}
+                sourceCodeRepository={software.codeRepositoryUrl}
             />
             <Tabs
                 tabs={[
                     {
                         "label": t("tab title overview"),
-                        "content": PreviewTab({
-                            wikiDataSheet: software?.wikidataUrl,
-                            comptoireDuLibreSheet: software?.compotoirDuLibreUrl,
-                            serviceProvider: software?.serviceProviderUrl,
-                            license: software?.license,
-                            isDesktop: software?.prerogatives.isInstallableOnUserTerminal,
-                            isPresentInSupportMarket:
-                                software?.prerogatives.isPresentInSupportContract,
-                            isFromFrenchPublicService:
-                                software?.prerogatives.isFromFrenchPublicServices,
-                            isRGAACompliant: software?.prerogatives.doRespectRgaa,
-                            minimalVersionRequired: software?.versionMin,
-                            registerDate: software?.addedTime,
-                            softwareDateCurrentVersion:
-                                software?.lastVersion?.publicationTime,
-                            softwareCurrentVersion: software?.lastVersion?.semVer
-                        })
+                        "content": (
+                            <PreviewTab
+                                wikiDataSheet={software?.wikidataUrl}
+                                comptoireDuLibreSheet={software?.compotoirDuLibreUrl}
+                                serviceProvider={software?.serviceProviderUrl}
+                                license={software?.license}
+                                isDesktop={
+                                    software?.prerogatives.isInstallableOnUserTerminal
+                                }
+                                isPresentInSupportMarket={
+                                    software?.prerogatives.isPresentInSupportContract
+                                }
+                                isFromFrenchPublicService={
+                                    software?.prerogatives.isFromFrenchPublicServices
+                                }
+                                isRGAACompliant={software?.prerogatives.doRespectRgaa}
+                                minimalVersionRequired={software?.versionMin}
+                                registerDate={software?.addedTime}
+                                softwareDateCurrentVersion={
+                                    software?.lastVersion?.publicationTime
+                                }
+                                softwareCurrentVersion={software?.lastVersion?.semVer}
+                            />
+                        )
                     },
                     {
                         "label": t("tab title instance", {
-                            instanceCount: software?.instances.length ?? 0
+                            "instanceCount": software?.instances.length ?? 0
                         }),
                         "content": ReferencedInstancesTab({
                             organizationList: software?.instances,

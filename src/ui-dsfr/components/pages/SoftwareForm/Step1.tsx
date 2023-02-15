@@ -49,7 +49,7 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
             }
 
             return {
-                "softwareType": initialFormData?.softwareType,
+                "softwareType": initialFormData.softwareType,
                 "osCheckboxValues":
                     initialFormData.softwareType === "desktop"
                         ? Object.entries(initialFormData.os)
@@ -131,6 +131,8 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
             {watch("softwareType") === "desktop" && (
                 <Checkbox
                     legend="OS sur le quelle se logiciel peut être installer"
+                    state={errors.osCheckboxValues !== undefined ? "error" : undefined}
+                    stateRelatedMessage="This is field is required"
                     options={[
                         {
                             "label": "Windows",
@@ -151,20 +153,6 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                             "nativeInputProps": {
                                 ...register("osCheckboxValues", { "required": true }),
                                 "value": "mac"
-                            }
-                        },
-                        {
-                            "label": "Android",
-                            "nativeInputProps": {
-                                ...register("osCheckboxValues", { "required": true }),
-                                "value": "android"
-                            }
-                        },
-                        {
-                            "label": "iOS",
-                            "nativeInputProps": {
-                                ...register("osCheckboxValues", { "required": true }),
-                                "value": "ios"
                             }
                         }
                     ]}
