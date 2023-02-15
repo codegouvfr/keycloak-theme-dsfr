@@ -13,6 +13,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
+import illustration_sill from "../../../../core-dsfr/assets/illustration_sill.svg";
 
 Homepage.routeGroup = createGroup([routes.home]);
 
@@ -136,6 +137,7 @@ export function Homepage(props: Props) {
             <div className={classes.section}>
                 <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
                     <h2 className={classes.title}>{t("title")}</h2>
+                    <img src={illustration_sill} alt="Illustration du SILL" />
                 </div>
 
                 <div className={cx(fr.cx("fr-container"), classes.searchForm)}>
@@ -266,10 +268,12 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
         }
     },
     "titleContainer": {
-        "marginBottom": fr.spacing("10v")
+        "marginBottom": fr.spacing("10v"),
+        "display": "flex"
     },
     "title": {
-        "&::first-line": {
+        "margin-right": fr.spacing("30v"),
+        "&>span": {
             color: theme.decisions.text.title.blueFrance.default
         }
     },
@@ -357,7 +361,10 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "title"
+    | {
+          K: "title";
+          R: JSX.Element;
+      }
     | "agent label"
     | "search label"
     | "research placeholder"

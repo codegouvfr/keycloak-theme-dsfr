@@ -49,8 +49,12 @@ const {
     {
         "en": {
             "Homepage": {
-                "title":
-                    "The free software catalog recommended by the State for the whole administration",
+                "title": (
+                    <>
+                        <span>The free software catalog </span>recommended by the State
+                        for the whole administration.
+                    </>
+                ),
                 "agent label": "I am an agent or a CIO",
                 "search label": "I search...",
                 "research placeholder": "Search a software, a word, a reference",
@@ -90,8 +94,12 @@ const {
                 "complete form": "Complete the add form"
             },
             "AddSoftwareLanding": {
-                "title":
-                    "Help us enrich the catalog by adding software or software deployments in your organization !",
+                "title": (
+                    <>
+                        <span>Help us enrich the catalog</span> by adding software or
+                        software deployments in your organization !
+                    </>
+                ),
                 "subtitle":
                     "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
                 "who can add software": "Who can add software or a service and how?",
@@ -276,8 +284,12 @@ const {
         "fr": {
             /* spell-checker: disable */
             "Homepage": {
-                "title":
-                    "Le catalogue de logiciels libres de référence recommandé par l'État pour toute l'administration",
+                "title": (
+                    <>
+                        <span>Le catalogue de logiciels libres de référence</span>{" "}
+                        recommandé par l'État pour toute l'administration.
+                    </>
+                ),
                 "agent label": "Je suis un agent ou une DSI",
                 "search label": "Je cherche...",
                 "research placeholder": "Rechercher un logiciel, un mot, une référence",
@@ -317,8 +329,13 @@ const {
                 "complete form": "Remplir le formulaire d'ajout"
             },
             "AddSoftwareLanding": {
-                "title":
-                    "Aidez nous à enrichir le catalogue en ajoutant des logiciels ou des déploiement de logiciels dans votre organisation !",
+                "title": (
+                    <>
+                        <span>Aidez nous à enrichir le catalogue</span> en ajoutant des
+                        logiciels ou des déploiement de logiciels dans votre organisation
+                        !
+                    </>
+                ),
                 "subtitle":
                     "Participez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et DSI de l'administration",
                 "who can add software":
