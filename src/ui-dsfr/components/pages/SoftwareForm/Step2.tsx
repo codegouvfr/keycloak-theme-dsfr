@@ -9,6 +9,8 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
 import type { useCoreFunctions } from "core-dsfr";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../../i18n";
 
 export type Step2Props = {
     className?: string;
@@ -34,6 +36,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         getWikidataOptions,
         getAutofillDataFromWikidata
     } = props;
+
+    const { t } = useTranslation({ SoftwareCreationFormStep2 });
 
     const {
         handleSubmit,
@@ -194,9 +198,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         noOptionText={"No result"}
                         loadingText={"Loading..."}
                         dsfrInputProps={{
-                            "label": "Wikidata sheet",
-                            "hintText":
-                                "Associer le logiciel à une fiche Wikidata déjà existante",
+                            "label": t("wikidata id"),
+                            "hintText": t("wikidata id hint"),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -215,8 +218,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Identifiant Comptoir du Libre"
-                        hintText="URL de la page ou identifiant numérique"
+                        label={t("comptoir du libre id")}
+                        hintText={t("comptoir du libre id hint")}
                         nativeInputProps={{
                             ...register("comptoirDuLibreIdInputValue", {
                                 "pattern": /^[0-9]{1,5}$|^http/
@@ -236,7 +239,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Software name"
+                        label={t("software name")}
                         nativeInputProps={{
                             ...register("softwareName", { "required": true })
                         }}
@@ -254,8 +257,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Fonction du logiciel"
-                        hintText="Decrivez en quelques mots les fonctions du logiciel"
+                        label={t("software feature")}
+                        hintText={t("software feature hint")}
                         nativeInputProps={{
                             ...register("softwareDescription", { "required": true })
                         }}
@@ -273,8 +276,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Licience du logiciel"
-                        hintText="(GNU, GPL, BSD, ect.)"
+                        label={t("license")}
+                        hintText={t("license hint")}
                         nativeInputProps={{
                             ...register("softwareLicense", { "required": true })
                         }}
@@ -292,8 +295,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Minimal version"
-                        hintText="Version la plus ancienne encore acceptable d'avoir en production"
+                        label={t("minimal version")}
+                        hintText={t("minimal version hint")}
                         nativeInputProps={{
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
@@ -350,3 +353,21 @@ function comptoirDuLibreInputValueToComptoirDuLibreId(comptoirDuLibreInputValue:
 
     assert(false);
 }
+
+export const { i18n } = declareComponentKeys<
+    | "wikidata id"
+    | {
+          K: "wikidata id hint";
+          R: JSX.Element;
+      }
+    | "wikidata id information"
+    | "comptoir du libre id"
+    | "comptoir du libre id hint"
+    | "software name"
+    | "software feature"
+    | "software feature hint"
+    | "license"
+    | "license hint"
+    | "minimal version"
+    | "minimal version hint"
+>()({ SoftwareCreationFormStep2 });

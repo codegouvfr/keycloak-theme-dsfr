@@ -6,6 +6,10 @@ import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import { declareComponentKeys } from "i18nifty";
+import { SoftwareForm } from "./SoftwareForm";
+import { SoftwareCreationFormStep2 } from "./Step2";
+import { useTranslation } from "../../../i18n";
 
 export type Step1Props = {
     className?: string;
@@ -16,6 +20,8 @@ export type Step1Props = {
 
 export function SoftwareCreationFormStep1(props: Step1Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
+
+    const { t } = useTranslation({ SoftwareCreationFormStep1 });
 
     const {
         handleSubmit,
@@ -87,23 +93,23 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                 stateRelatedMessage="This is field is required"
                 options={[
                     {
-                        "label": "Logiciel installable sur poste de travail",
+                        "label": t("software desktop"),
                         "nativeInputProps": {
                             ...register("softwareType", { "required": true }),
                             "value": "desktop"
                         }
                     },
                     {
-                        "label": "Solution logicielle applicative hébergée dans le cloud",
-                        "hintText": "Cloud public ou cloud de votre organisation",
+                        "label": t("software cloud"),
+                        "hintText": t("software cloud hint"),
                         "nativeInputProps": {
                             ...register("softwareType", { "required": true }),
                             "value": "cloud"
                         }
                     },
                     {
-                        "label": "Briques ou modules techniques ",
-                        "hintText": "Par exemple des proxy, serveurs HTTP ou plugins",
+                        "label": t("module"),
+                        "hintText": t("module hint"),
                         "nativeInputProps": {
                             ...register("softwareType", { "required": true }),
                             "value": "library"
@@ -113,7 +119,7 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
             />
             {watch("softwareType") === "desktop" && (
                 <Checkbox
-                    legend="OS sur le quelle se logiciel peut être installer"
+                    legend={t("checkbox legend")}
                     state={errors.osCheckboxValues !== undefined ? "error" : undefined}
                     stateRelatedMessage="This is field is required"
                     options={[
@@ -149,3 +155,12 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    | "software desktop"
+    | "software cloud"
+    | "software cloud hint"
+    | "module"
+    | "module hint"
+    | "checkbox legend"
+>()({ SoftwareCreationFormStep1 });
