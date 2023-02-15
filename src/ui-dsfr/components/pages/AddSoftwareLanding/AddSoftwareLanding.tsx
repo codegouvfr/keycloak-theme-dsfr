@@ -9,6 +9,7 @@ import { routes } from "../../../routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
+import illustration_sill from "../../../../core-dsfr/assets/illustration_sill.svg";
 
 AddSoftwareLanding.routeGroup = createGroup([routes.addSoftwareLanding]);
 
@@ -50,8 +51,15 @@ export function AddSoftwareLanding(props: Props) {
         <div className={cx(classes.root, className)}>
             <div className={classes.section}>
                 <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
-                    <h2 className={classes.title}>{t("title")}</h2>
-                    <p className={fr.cx("fr-text--lg")}>{t("subtitle")}</p>
+                    <div>
+                        <h2 className={classes.title}>{t("title")}</h2>
+                        <p className={fr.cx("fr-text--lg")}>{t("subtitle")}</p>
+                    </div>
+                    <img
+                        src={illustration_sill}
+                        alt="Illustration du SILL"
+                        className={classes.illustration}
+                    />
                 </div>
             </div>
             <section className={cx(classes.whoCanAddBackground, classes.section)}>
@@ -103,12 +111,16 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
         }
     },
     "titleContainer": {
-        "marginBottom": fr.spacing("10v")
+        "marginBottom": fr.spacing("10v"),
+        "display": "flex"
     },
     "title": {
-        "&::first-line": {
+        "&>span": {
             color: theme.decisions.text.title.blueFrance.default
         }
+    },
+    "illustration": {
+        "margin-left": fr.spacing("30v")
     },
     "whoCanAddBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default
@@ -139,7 +151,10 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "title"
+    | {
+          K: "title";
+          R: JSX.Element;
+      }
     | "subtitle"
     | "who can add software"
     | "add software"
