@@ -25,7 +25,7 @@ export const Header = memo((props: Props) => {
             serviceTitle={t("title")}
             homeLinkProps={{
                 href: routes.home().link.href,
-                title: ""
+                title: t("home title")
             }}
             quickAccessItems={[
                 {
@@ -97,6 +97,7 @@ export const Header = memo((props: Props) => {
 
 export const { i18n } = declareComponentKeys<
     | "brand"
+    | "home title"
     | "title"
     | "navigation welcome"
     | "navigation catalog"

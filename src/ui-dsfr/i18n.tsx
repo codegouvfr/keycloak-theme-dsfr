@@ -43,6 +43,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Homepage/Homepage").i18n
     | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
     | typeof import("ui-dsfr/components/shared/Header").i18n
+    | typeof import("ui-dsfr/components/shared/Footer").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -255,6 +256,7 @@ const {
             },
             "Header": {
                 "brand": "DINUM",
+                "home title": "Home - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Welcome to the SILL",
                 "navigation catalog": "Software catalog",
@@ -264,6 +266,11 @@ const {
                 "quick access test": "Immediate test",
                 "quick access connect": "Sign in",
                 "quick access account": "My account"
+            },
+            "Footer": {
+                "brand": "DINUM",
+                "home title": "Home - Socle interministériel de logiciels libres",
+                "description": "Texte descriptif footer à modifier"
             }
         },
         "fr": {
@@ -481,6 +488,7 @@ const {
             },
             "Header": {
                 "brand": "DINUM",
+                "home title": "Accueil - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Bienvenue sur le SILL",
                 "navigation catalog": "Catalogue de logiciel",
@@ -490,6 +498,11 @@ const {
                 "quick access test": "Test immédiat",
                 "quick access connect": "Se connecter",
                 "quick access account": "Mon compte"
+            },
+            "Footer": {
+                "brand": "DINUM",
+                "home title": "Acceuil - Socle interministériel de logiciels libres",
+                "description": "Texte descriptif footer à modifier"
             }
             /* spell-checker: enable */
         }
