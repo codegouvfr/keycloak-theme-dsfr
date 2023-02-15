@@ -15,10 +15,12 @@ export type SillApiClient = {
     getWikidataOptions: (params: {
         queryString: string;
     }) => Promise<SillApiClient.WikidataEntry[]>;
-    createSoftware: (params: { formData: SillApiClient.FormData }) => Promise<void>;
+    createSoftware: (params: {
+        formData: SillApiClient.SoftwareFormData;
+    }) => Promise<void>;
     updateSoftware: (params: {
         softwareSillId: number;
-        formData: SillApiClient.FormData;
+        formData: SillApiClient.SoftwareFormData;
     }) => Promise<void>;
 };
 
@@ -101,33 +103,42 @@ export namespace SillApiClient {
         wikidataId: string;
     };
 
-    export type FormData = {
-        step1:
+    export type Os = "windows" | "linux" | "mac";
+
+    export type SoftwareFormData = {
+        softwareType:
             | {
                   softwareType: "cloud" | "library";
               }
             | {
                   softwareType: "desktop";
-                  os: Record<"windows" | "linux" | "mac", boolean>;
+                  os: Record<Os, boolean>;
               };
+        wikidataId: string | undefined;
+        comptoirDuLibreId: number | undefined;
+        softwareName: string;
+        softwareDescription: string;
+        softwareLicense: string;
+        softwareMinimalVersion: string;
+        isPresentInSupportContract: boolean | undefined;
+        isFromFrenchPublicService: boolean;
+        similarSoftwares: {
+            wikidataLabel: string;
+            wikidataDescription: string;
+            wikidataId: string;
+        }[];
+    };
+
+    /*
+    export type DeclarationFormData = {
+        step1: {
+            declarationType: "user" | "referent";
+        };
         step2: {
-            wikidataId: string | undefined;
-            comptoirDuLibreId: number | undefined;
-            softwareName: string;
-            softwareDescription: string;
-            softwareLicense: string;
-            softwareMinimalVersion: string;
-        };
-        step3: {
-            isPresentInSupportContract: boolean | undefined;
-            isFromFrenchPublicService: boolean;
-        };
-        step4: {
-            similarSoftwares: {
-                wikidataLabel: string;
-                wikidataDescription: string;
-                wikidataId: string;
-            }[];
+            usecaseDescription: string;
+            os: Os;
+            version: string;
         };
     };
+    */
 }

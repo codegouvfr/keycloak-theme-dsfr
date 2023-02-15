@@ -4,7 +4,7 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SearchMultiInput } from "ui-dsfr/components/shared/SearchMultiInput";
-import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { useCoreFunctions } from "core-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { SoftwareCreationFormStep2 } from "./Step2";
@@ -12,8 +12,8 @@ import { useTranslation } from "../../../i18n";
 
 export type Step4Props = {
     className?: string;
-    initialFormData: SillApiClient.FormData["step4"] | undefined;
-    onSubmit: (formData: SillApiClient.FormData["step4"]) => void;
+    initialFormData: FormData["step4"] | undefined;
+    onSubmit: (formData: FormData["step4"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
     getWikidataOptions: ReturnType<
         typeof useCoreFunctions
@@ -25,8 +25,7 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
         props;
 
     const { t } = useTranslation({ SoftwareCreationFormStep4 });
-
-    const { handleSubmit, control } = useForm<SillApiClient.FormData["step4"]>({
+    const { handleSubmit, control } = useForm<FormData["step4"]>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
                 return {
