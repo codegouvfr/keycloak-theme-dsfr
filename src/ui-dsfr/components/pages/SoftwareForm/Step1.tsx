@@ -5,12 +5,12 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
-import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import type { FormData } from "core-dsfr/usecases/softwareForm";
 
 export type Step1Props = {
     className?: string;
-    initialFormData: SillApiClient.FormData["step1"] | undefined;
-    onSubmit: (formData: SillApiClient.FormData["step1"]) => void;
+    initialFormData: FormData["step1"] | undefined;
+    onSubmit: (formData: FormData["step1"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
 };
 

@@ -7,14 +7,15 @@ import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgr
 import { assert } from "tsafe/assert";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
-import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
 import type { useCoreFunctions } from "core-dsfr";
+import type { FormData } from "core-dsfr/usecases/softwareForm";
+import type { ReturnType } from "tsafe";
 
 export type Step2Props = {
     className?: string;
     isUpdateForm: boolean;
-    initialFormData: SillApiClient.FormData["step2"] | undefined;
-    onSubmit: (formData: SillApiClient.FormData["step2"]) => void;
+    initialFormData: FormData["step2"] | undefined;
+    onSubmit: (formData: FormData["step2"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
     getAutofillDataFromWikidata: ReturnType<
         typeof useCoreFunctions
@@ -43,7 +44,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         formState: { errors },
         setValue
     } = useForm<{
-        wikidataEntry: SillApiClient.WikidataEntry | undefined;
+        wikidataEntry: ReturnType<typeof getWikidataOptions>[number] | undefined;
         comptoirDuLibreIdInputValue: string;
         softwareName: string;
         softwareDescription: string;

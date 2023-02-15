@@ -22,37 +22,37 @@ namespace SoftwareFormState {
         softwareSillId?: number;
         isSubmitting: boolean;
     };
-}
 
-export type FormData = {
-    step1:
-        | {
-              softwareType: "cloud" | "library";
-          }
-        | {
-              softwareType: "desktop";
-              os: Record<"windows" | "linux" | "mac", boolean>;
-          };
-    step2: {
-        wikidataId: string | undefined;
-        comptoirDuLibreId: number | undefined;
-        softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string;
-        softwareMinimalVersion: string;
+    export type FormData = {
+        step1:
+            | {
+                  softwareType: "cloud" | "library";
+              }
+            | {
+                  softwareType: "desktop";
+                  os: Record<"windows" | "linux" | "mac", boolean>;
+              };
+        step2: {
+            wikidataId: string | undefined;
+            comptoirDuLibreId: number | undefined;
+            softwareName: string;
+            softwareDescription: string;
+            softwareLicense: string;
+            softwareMinimalVersion: string;
+        };
+        step3: {
+            isPresentInSupportContract: boolean | undefined;
+            isFromFrenchPublicService: boolean;
+        };
+        step4: {
+            similarSoftwares: {
+                wikidataLabel: string;
+                wikidataDescription: string;
+                wikidataId: string;
+            }[];
+        };
     };
-    step3: {
-        isPresentInSupportContract: boolean | undefined;
-        isFromFrenchPublicService: boolean;
-    };
-    step4: {
-        similarSoftwares: {
-            wikidataLabel: string;
-            wikidataDescription: string;
-            wikidataId: string;
-        }[];
-    };
-};
+}
 
 export const name = "softwareForm" as const;
 
@@ -81,7 +81,7 @@ export const { reducer, actions } = createSlice({
                 payload
             }: PayloadAction<{
                 softwareSillId: number;
-                formData: FormData;
+                formData: SoftwareFormState.FormData;
             }>
         ) => {
             const { formData, softwareSillId } = payload;
@@ -99,7 +99,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                formDataStep1: FormData["step1"];
+                formDataStep1: SoftwareFormState.FormData["step1"];
             }>
         ) => {
             const { formDataStep1 } = payload;
@@ -114,7 +114,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                formDataStep2: FormData["step2"];
+                formDataStep2: SoftwareFormState.FormData["step2"];
             }>
         ) => {
             const { formDataStep2 } = payload;
@@ -129,7 +129,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                formDataStep3: FormData["step3"];
+                formDataStep3: SoftwareFormState.FormData["step3"];
             }>
         ) => {
             const { formDataStep3 } = payload;
@@ -226,7 +226,9 @@ export const thunks = {
             );
         },
     "setStep1Data":
-        (props: { formDataStep1: FormData["step1"] }): ThunkAction<void> =>
+        (props: {
+            formDataStep1: SoftwareFormState.FormData["step1"];
+        }): ThunkAction<void> =>
         (...args) => {
             const { formDataStep1 } = props;
 
@@ -235,7 +237,9 @@ export const thunks = {
             dispatch(actions.step1DataSet({ formDataStep1 }));
         },
     "setStep2Data":
-        (props: { formDataStep2: FormData["step2"] }): ThunkAction<void> =>
+        (props: {
+            formDataStep2: SoftwareFormState.FormData["step2"];
+        }): ThunkAction<void> =>
         (...args) => {
             const { formDataStep2 } = props;
 
@@ -244,7 +248,9 @@ export const thunks = {
             dispatch(actions.step2DataSet({ formDataStep2 }));
         },
     "setStep3Data":
-        (props: { formDataStep3: FormData["step3"] }): ThunkAction<void> =>
+        (props: {
+            formDataStep3: SoftwareFormState.FormData["step3"];
+        }): ThunkAction<void> =>
         (...args) => {
             const { formDataStep3 } = props;
 
@@ -253,7 +259,7 @@ export const thunks = {
             dispatch(actions.step3DataSet({ formDataStep3 }));
         },
     "setStep4DataAndSubmit":
-        (props: { formDataStep4: FormData["step4"] }): ThunkAction =>
+        (props: { formDataStep4: SoftwareFormState.FormData["step4"] }): ThunkAction =>
         async (...args) => {
             const { formDataStep4 } = props;
 

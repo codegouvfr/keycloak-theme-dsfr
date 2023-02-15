@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
-import type { SillApiClient } from "core-dsfr/ports/SillApiClient";
+import type { FormData } from "core-dsfr/usecases/softwareForm";
 
 export type Step2Props = {
     className?: string;
     isCloudNativeSoftware: boolean;
-    initialFormData: SillApiClient.FormData["step3"] | undefined;
-    onSubmit: (formData: SillApiClient.FormData["step3"]) => void;
+    initialFormData: FormData["step3"] | undefined;
+    onSubmit: (formData: FormData["step3"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
 };
 
