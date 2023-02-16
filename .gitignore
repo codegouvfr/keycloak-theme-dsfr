@@ -33,3 +33,7 @@ package-lock.json
 /build_keycloak
 /src/env.ts
 /.yarn_home
+
+/public/dsfr/
+/public/index.html
+/src/index.tsx
