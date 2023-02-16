@@ -2,19 +2,24 @@ import { makeStyles } from "tss-react/dsfr";
 import { useRoute } from "../routes";
 import { SoftwareCatalog } from "./pages/SoftwareCatalog";
 import { Homepage } from "./pages/Homepage";
+import { Header } from "./shared/Header";
+import { Footer } from "./shared/Footer";
+import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLanding";
 
 export default function App() {
     const route = useRoute();
 
     const { classes, cx } = useStyles();
 
+    const isUserLoggedIn = true;
+
     return (
         <div className={cx(classes.root)}>
-            <h1>Header</h1>
+            <Header isUserLoggedIn={isUserLoggedIn} route={route} />
             <main className={classes.main}>
                 <PageSelector route={route} />
             </main>
-            <h2>Footer</h2>
+            <Footer />
         </div>
     );
 }
@@ -42,6 +47,19 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
     We sacrifice dryness for the sake of type safety and flexibility.
     */
     {
+        const Page = Homepage;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
         const Page = SoftwareCatalog;
 
         if (Page.routeGroup.has(route)) {
@@ -55,7 +73,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
     }
 
     {
-        const Page = Homepage;
+        const Page = AddSoftwareLanding;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {

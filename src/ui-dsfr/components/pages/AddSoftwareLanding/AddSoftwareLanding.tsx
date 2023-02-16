@@ -9,11 +9,13 @@ import { routes } from "../../../routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import illustration_sill from "../../../../core-dsfr/assets/illustration_sill.svg";
+import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
 
 AddSoftwareLanding.routeGroup = createGroup([routes.addSoftwareLanding]);
 
 type PageRoute = Route<typeof AddSoftwareLanding.routeGroup>;
+
+AddSoftwareLanding.getDoRequireUserLoggedIn = () => false;
 
 export type Props = {
     className?: string;
@@ -30,20 +32,20 @@ export function AddSoftwareLanding(props: Props) {
 
     const whoCanAddAccordionList = [
         {
-            label: t("discover as agent label"),
-            description: t("discover as agent description")
+            "label": t("discover as agent label"),
+            "description": t("discover as agent description")
         },
         {
-            label: t("discover as DSI label"),
-            description: t("discover as DSI description")
+            "label": t("discover as DSI label"),
+            "description": t("discover as DSI description")
         },
         {
-            label: t("contribute as agent label"),
-            description: t("contribute as agent description")
+            "label": t("contribute as agent label"),
+            "description": t("contribute as agent description")
         },
         {
-            label: t("contribute as DSI label"),
-            description: t("contribute as DSI description")
+            "label": t("contribute as DSI label"),
+            "description": t("contribute as DSI description")
         }
     ];
 

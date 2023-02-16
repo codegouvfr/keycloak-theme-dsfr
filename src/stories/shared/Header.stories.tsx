@@ -1,6 +1,6 @@
 import { Header } from "ui-dsfr/components/shared/Header";
 import { sectionName } from "./sectionName";
-import { getStoryFactory } from "stories/getStory";
+import { createMockRoute, getStoryFactory } from "stories/getStory";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
@@ -11,5 +11,6 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    "route": createMockRoute("home", undefined)
 });

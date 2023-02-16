@@ -47,95 +47,95 @@ export function Homepage(props: Props) {
 
     const softwareSelectionList = [
         {
-            title: t("last added"),
-            href: ""
+            "title": t("last added"),
+            "href": ""
         },
         {
-            title: t("most used"),
-            href: ""
+            "title": t("most used"),
+            "href": ""
         },
         {
-            title: t("essential"),
-            href: ""
+            "title": t("essential"),
+            "href": ""
         },
         {
-            title: t("selection of the month"),
-            href: ""
+            "title": t("selection of the month"),
+            "href": ""
         },
         {
-            title: t("waiting for referent"),
-            href: ""
+            "title": t("waiting for referent"),
+            "href": ""
         },
         {
-            title: t("in support market"),
-            href: ""
+            "title": t("in support market"),
+            "href": ""
         }
     ];
 
     const whyUseSillAccordionList = [
         {
-            label: t("discover as agent label"),
-            description: t("discover as agent description")
+            "label": t("discover as agent label"),
+            "description": t("discover as agent description")
         },
         {
-            label: t("discover as DSI label"),
-            description: t("discover as DSI description")
+            "label": t("discover as DSI label"),
+            "description": t("discover as DSI description")
         },
         {
-            label: t("contribute as agent label"),
-            description: t("contribute as agent description")
+            "label": t("contribute as agent label"),
+            "description": t("contribute as agent description")
         },
         {
-            label: t("contribute as DSI label"),
-            description: t("contribute as DSI description")
+            "label": t("contribute as DSI label"),
+            "description": t("contribute as DSI description")
         }
     ];
 
     const sillNumbers = [
         {
-            number: 322,
-            label: t("referenced software")
+            "number": 322,
+            "label": t("referenced software")
         },
         {
-            number: 500,
-            label: t("user")
+            "number": 500,
+            "label": t("user")
         },
         {
-            number: 100,
-            label: t("referent")
+            "number": 100,
+            "label": t("referent")
         },
         {
-            number: 37,
-            label: t("organization")
+            "number": 37,
+            "label": t("organization")
         }
     ];
 
     const helpUsCards = [
         {
-            imgUrl: "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            title: t("declare referent title"),
-            description: t("declare referent description"),
-            buttonLabel: t("search software"),
-            href: ""
+            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
+            "title": t("declare referent title"),
+            "description": t("declare referent description"),
+            "buttonLabel": t("search software"),
+            "href": ""
         },
         {
-            imgUrl: "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            title: t("edit software title"),
-            description: t("edit software description"),
-            buttonLabel: t("search software"),
-            href: ""
+            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
+            "title": t("edit software title"),
+            "description": t("edit software description"),
+            "buttonLabel": t("search software"),
+            "href": ""
         },
         {
-            imgUrl: "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            title: t("add software or service title"),
-            description: t("add software or service description"),
-            buttonLabel: t("complete form"),
-            href: ""
+            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
+            "title": t("add software or service title"),
+            "description": t("add software or service description"),
+            "buttonLabel": t("complete form"),
+            "href": ""
         }
     ];
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <div className={classes.section}>
                 <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
                     <h2 className={classes.title}>{t("title")}</h2>
@@ -252,7 +252,6 @@ export function Homepage(props: Props) {
 }
 
 const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
-    "root": {},
     "section": {
         ...fr.spacing("padding", {
             "topBottom": "30v"
@@ -274,7 +273,7 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
         "display": "flex"
     },
     "title": {
-        "margin-right": fr.spacing("30v"),
+        "marginRight": fr.spacing("30v"),
         "&>span": {
             color: theme.decisions.text.title.blueFrance.default
         }

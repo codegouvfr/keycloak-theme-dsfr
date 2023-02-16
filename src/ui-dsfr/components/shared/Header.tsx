@@ -5,18 +5,22 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "../../i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "../../routes";
+import { Route } from "type-route";
 
 export type Props = {
     className?: string;
     isUserLoggedIn: boolean;
+    route: Route<any>;
 };
 
 export const Header = memo((props: Props) => {
-    const { className, isUserLoggedIn, ...rest } = props;
+    const { className, isUserLoggedIn, route, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ Header });
+
+    console.log(route);
 
     return (
         <HeaderDS
@@ -55,23 +59,24 @@ export const Header = memo((props: Props) => {
             ]}
             navigation={[
                 {
+                    isActive: route.name === routes.home.name,
                     linkProps: {
-                        href: "https://code.gouv.fr/",
+                        href: routes.home().link.href,
                         target: "_self"
                     },
                     text: t("navigation welcome")
                 },
                 {
-                    isActive: true,
+                    isActive: route.name === routes.softwareCatalog.name,
                     linkProps: {
-                        href: "#",
-                        target: "_self"
+                        href: routes.softwareCatalog().link.href
                     },
                     text: t("navigation catalog")
                 },
                 {
+                    isActive: route.name === routes.addSoftwareLanding.name,
                     linkProps: {
-                        href: "#",
+                        href: routes.addSoftwareLanding().link.href,
                         target: "_self"
                     },
                     text: t("navigation add software")

@@ -21,7 +21,7 @@ const sortOptions = [
     "referent count ASC"
 ] as const;
 
-assert<Equals<typeof sortOptions[number], SoftwareCatalogState.Sort>>();
+assert<Equals<(typeof sortOptions)[number], SoftwareCatalogState.Sort>>();
 
 export type Props = {
     className?: string;
@@ -113,7 +113,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
     });
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <Search
                 search={search}
                 onSearchChange={onSearchChange}
@@ -162,7 +162,12 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
-    "root": {},
+    "root": {
+        "paddingBottom": fr.spacing("30v"),
+        [fr.breakpoints.down("md")]: {
+            "paddingBottom": fr.spacing("20v")
+        }
+    },
     "header": {
         "display": "flex",
         "alignItems": "center",
