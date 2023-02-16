@@ -42,6 +42,11 @@ const {
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/components/pages/Homepage").i18n
     | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareForm/SoftwareForm").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step1").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step2").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step3").i18n
+    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step4").i18n
     | typeof import("ui-dsfr/components/shared/Header").i18n
     | typeof import("ui-dsfr/components/shared/Footer").i18n
 >()(
@@ -114,6 +119,86 @@ const {
                     "Description contribution agent à changer",
                 "contribute as DSI label": "Contribute as CIO",
                 "contribute as DSI description": "Description contribution CIO à changer"
+            },
+            "SoftwareForm": {
+                "add software or service": "Ajouter un logiciel ou un service",
+                "add software": "Ajouter un logiciel",
+                "title software creation form": "Ajouter un logiciel",
+                "title software update form": "Mettre à jour un logiciel",
+                "current step": ({ currentStepIndex, totalStep }) =>
+                    `Étapes ${currentStepIndex} sur ${totalStep}`,
+                "stepper title": ({ currentStepIndex }) => {
+                    switch (currentStepIndex) {
+                        case 1:
+                            return "Quel type de logiciel souhaitez-vous ajouter ?";
+                        case 2:
+                            return "Quelques pré-requis ?";
+                        case 3:
+                            return "Quelques pré-requis ?";
+                        case 4:
+                            return "Logiciels similaires et équivalents propriétaires ?";
+                        default:
+                            return "";
+                    }
+                },
+                "previous": "Précedent",
+                "next": "Suivant",
+                "submit": "Envoyer"
+            },
+            "SoftwareCreationFormStep1": {
+                "software desktop": "Logiciel installable sur poste de travail",
+                "software cloud":
+                    "Solution logicielle applicative hébergée dans le cloud",
+                "software cloud hint": "Cloud public ou cloud de votre organisation",
+                "module": "Brique ou modules techniques",
+                "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
+                "checkbox legend":
+                    "Système d'exploitation sur lequel le logiciel peut être installé",
+                "required": "This field is required"
+            },
+            "SoftwareCreationFormStep2": {
+                "wikidata id": "Identifiant Wikidata",
+                "wikidata id hint": (
+                    <>
+                        Associer le logiciel à une fiche{" "}
+                        <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">
+                            Wikidata
+                        </a>{" "}
+                        déjà existante
+                    </>
+                ),
+                "wikidata id information":
+                    "Cette information remplira automatiquement d'autres champs",
+                "comptoir du libre id": "Identifiant Comptoire du Libre",
+                "comptoir du libre id hint": "URL de la page ou identifiant numérique",
+                "software name": "Nom du logiciel",
+                "software feature": "Fonction du logiciel",
+                "software feature hint":
+                    "Décrivez en quelques mots les fonctionnalités du logiciel",
+                "license": "License du logiciel",
+                "license hint": "(GNU, GPL, BSD, etc.)",
+                "minimal version": "Version minimale",
+                "minimal version hint":
+                    "Version la plus ancienne encore acceptable d'avoir en production",
+                "required": "Ce champs est requis", //TODO: move to common keys
+                "url or numeric id":
+                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                "autofill notice":
+                    "Cette information remplira automatiquement d'autres champs"
+            },
+            "SoftwareCreationFormStep3": {
+                "is present in support market":
+                    "Le logiciel est-il présent sur le marché de support ?",
+                "is from french public service":
+                    "Le logiciel est-il développé par le service public français ?",
+                "yes": "Oui",
+                "no": "Non",
+                "required": "Ce champs est requis" //TODO: move to common keys
+            },
+            "SoftwareCreationFormStep4": {
+                "similar software": "Ce logiciel est une alternative à ...",
+                "similar software hint":
+                    "Associer le logiciel a des logiciel similaire, propriétaire ou non"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -351,6 +436,86 @@ const {
                     "Description contribution agent à changer",
                 "contribute as DSI label": "Contribuer en tant que DSI",
                 "contribute as DSI description": "Description contribution DSI à changer"
+            },
+            "SoftwareForm": {
+                "add software or service": "Ajouter un logiciel ou un service",
+                "add software": "Ajouter un logiciel",
+                "title software creation form": "Ajouter un logiciel",
+                "title software update form": "Mettre à jour un logiciel",
+                "current step": ({ currentStepIndex, totalStep }) =>
+                    `Étapes ${currentStepIndex} sur ${totalStep}`,
+                "stepper title": ({ currentStepIndex }) => {
+                    switch (currentStepIndex) {
+                        case 1:
+                            return "Quel type de logiciel souhaitez-vous ajouter ?";
+                        case 2:
+                            return "Quelques pré-requis ?";
+                        case 3:
+                            return "Quelques pré-requis ?";
+                        case 4:
+                            return "Logiciels similaires et équivalents propriétaires ?";
+                        default:
+                            return "";
+                    }
+                },
+                "previous": "Précedent",
+                "next": "Suivant",
+                "submit": "Ajouter le logiciel"
+            },
+            "SoftwareCreationFormStep1": {
+                "software desktop": "Logiciel installable sur poste de travail",
+                "software cloud":
+                    "Solution logicielle applicative hébergée dans le cloud",
+                "software cloud hint": "Cloud public ou cloud de votre organisation",
+                "module": "Brique ou modules techniques",
+                "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
+                "checkbox legend":
+                    "Système d'exploitation sur lequel le logiciel peut être installé",
+                "required": "Ce champs est required" //TODO: move to common keys
+            },
+            "SoftwareCreationFormStep2": {
+                "wikidata id": "Identifiant Wikidata",
+                "wikidata id hint": (
+                    <>
+                        Associer le logiciel à une fiche{" "}
+                        <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">
+                            Wikidata
+                        </a>{" "}
+                        déjà existante
+                    </>
+                ),
+                "wikidata id information":
+                    "Cette information remplira automatiquement d'autres champs",
+                "comptoir du libre id": "Identifiant Comptoire du Libre",
+                "comptoir du libre id hint": "URL de la page ou identifiant numérique",
+                "software name": "Nom du logiciel",
+                "software feature": "Fonction du logiciel",
+                "software feature hint":
+                    "Décrivez en quelques mots les fonctionnalités du logiciel",
+                "license": "License du logiciel",
+                "license hint": "(GNU, GPL, BSD, etc.)",
+                "minimal version": "Version minimale",
+                "minimal version hint":
+                    "Version la plus ancienne encore acceptable d'avoir en production",
+                "required": "Ce champs est requis", //TODO: move to common keys
+                "url or numeric id":
+                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                "autofill notice":
+                    "Cette information remplira automatiquement d'autres champs"
+            },
+            "SoftwareCreationFormStep3": {
+                "is present in support market":
+                    "Le logiciel est-il présent sur le marché de support ?",
+                "is from french public service":
+                    "Le logiciel est-il développé par le service public français ?",
+                "yes": "Oui",
+                "no": "Non",
+                "required": "Ce champs est requis" //TODO: move to common keys
+            },
+            "SoftwareCreationFormStep4": {
+                "similar software": "Ce logiciel est une alternative à ...",
+                "similar software hint":
+                    "Associer le logiciel a des logiciel similaire, propriétaire ou non"
             },
             "SoftwareCatalogCard": {
                 "last version": "Dernière version",

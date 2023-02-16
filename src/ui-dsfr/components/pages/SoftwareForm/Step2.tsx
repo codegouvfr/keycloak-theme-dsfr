@@ -10,6 +10,8 @@ import { useEvt } from "evt/hooks";
 import type { useCoreFunctions } from "core-dsfr";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { ReturnType } from "tsafe";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../../i18n";
 
 export type Step2Props = {
     className?: string;
@@ -35,6 +37,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         getWikidataOptions,
         getAutofillDataFromWikidata
     } = props;
+
+    const { t } = useTranslation({ SoftwareCreationFormStep2 });
 
     const {
         handleSubmit,
@@ -195,9 +199,8 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                         noOptionText={"No result"}
                         loadingText={"Loading..."}
                         dsfrInputProps={{
-                            "label": "Wikidata sheet",
-                            "hintText":
-                                "Associer le logiciel à une fiche Wikidata déjà existante",
+                            "label": t("wikidata id"),
+                            "hintText": t("wikidata id hint"),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -207,6 +210,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                     />
                 )}
             />
+            <p className="fr-info-text">{t("autofill notice")}</p>
             <CircularProgressWrapper
                 isInProgress={isAutocompleteInProgress}
                 renderChildren={({ style }) => (
@@ -216,15 +220,15 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Identifiant Comptoir du Libre"
-                        hintText="URL de la page ou identifiant numérique"
+                        label={t("comptoir du libre id")}
+                        hintText={t("comptoir du libre id hint")}
                         nativeInputProps={{
                             ...register("comptoirDuLibreIdInputValue", {
                                 "pattern": /^[0-9]{1,5}$|^http/
                             })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Should be an url of an numeric identifier"
+                        stateRelatedMessage={t("url or numeric id")}
                     />
                 )}
             />
@@ -237,12 +241,12 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Software name"
+                        label={t("software name")}
                         nativeInputProps={{
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="This field is required"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -255,13 +259,13 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Fonction du logiciel"
-                        hintText="Decrivez en quelques mots les fonctions du logiciel"
+                        label={t("software feature")}
+                        hintText={t("software feature hint")}
                         nativeInputProps={{
                             ...register("softwareDescription", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -274,13 +278,13 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Licience du logiciel"
-                        hintText="(GNU, GPL, BSD, ect.)"
+                        label={t("license")}
+                        hintText={t("license hint")}
                         nativeInputProps={{
                             ...register("softwareLicense", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -293,13 +297,13 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...style,
                             "marginTop": fr.spacing("4v")
                         }}
-                        label="Minimal version"
-                        hintText="Version la plus ancienne encore acceptable d'avoir en production"
+                        label={t("minimal version")}
+                        hintText={t("minimal version hint")}
                         nativeInputProps={{
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -351,3 +355,24 @@ function comptoirDuLibreInputValueToComptoirDuLibreId(comptoirDuLibreInputValue:
 
     assert(false);
 }
+
+export const { i18n } = declareComponentKeys<
+    | "wikidata id"
+    | {
+          K: "wikidata id hint";
+          R: JSX.Element;
+      }
+    | "wikidata id information"
+    | "comptoir du libre id"
+    | "comptoir du libre id hint"
+    | "software name"
+    | "software feature"
+    | "software feature hint"
+    | "license"
+    | "license hint"
+    | "minimal version"
+    | "minimal version hint"
+    | "required"
+    | "url or numeric id"
+    | "autofill notice"
+>()({ SoftwareCreationFormStep2 });

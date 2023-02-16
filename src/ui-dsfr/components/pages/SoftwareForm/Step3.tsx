@@ -4,6 +4,9 @@ import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
+import { declareComponentKeys } from "i18nifty";
+import { SoftwareCreationFormStep2 } from "./Step2";
+import { useTranslation } from "../../../i18n";
 
 export type Step2Props = {
     className?: string;
@@ -15,6 +18,8 @@ export type Step2Props = {
 
 export function SoftwareCreationFormStep3(props: Step2Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
+
+    const { t } = useTranslation({ SoftwareCreationFormStep3 });
 
     const {
         handleSubmit,
@@ -96,17 +101,17 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
             )}
         >
             <RadioButtons
-                legend="Le logiciel est-il présent sur le marché support?"
+                legend={t("is present in support market")}
                 options={[
                     {
-                        "label": "Oui",
+                        "label": t("yes"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "true"
                         }
                     },
                     {
-                        "label": "Non",
+                        "label": t("no"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "false"
@@ -115,10 +120,10 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                 ]}
             />
             <RadioButtons
-                legend="Le logiciel est-il développé par le service public français ?*"
+                legend={t("is from french public service")}
                 options={[
                     {
-                        "label": "Oui",
+                        "label": t("yes"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -127,7 +132,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         }
                     },
                     {
-                        "label": "Non",
+                        "label": t("no"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -141,7 +146,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         ? "error"
                         : undefined
                 }
-                stateRelatedMessage="This field is mandatory"
+                stateRelatedMessage={t("required")}
             />
             <button
                 style={{ "display": "none" }}
@@ -151,3 +156,11 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    | "is present in support market"
+    | "is from french public service"
+    | "yes"
+    | "no"
+    | "required"
+>()({ SoftwareCreationFormStep3 });

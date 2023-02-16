@@ -6,6 +6,9 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { SearchMultiInput } from "ui-dsfr/components/shared/SearchMultiInput";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { useCoreFunctions } from "core-dsfr";
+import { declareComponentKeys } from "i18nifty";
+import { SoftwareCreationFormStep2 } from "./Step2";
+import { useTranslation } from "../../../i18n";
 
 export type Step4Props = {
     className?: string;
@@ -21,6 +24,7 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit, getWikidataOptions } =
         props;
 
+    const { t } = useTranslation({ SoftwareCreationFormStep4 });
     const { handleSubmit, control } = useForm<FormData["step4"]>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
@@ -78,9 +82,8 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
                         noOptionText="No result"
                         loadingText="Loading..."
                         dsfrInputProps={{
-                            "label": "Logiciels similaires",
-                            "hintText":
-                                "Associer le logiciel a des logiciel similaire, propriétaire ou non",
+                            "label": t("similar software"),
+                            "hintText": t("similar software hint"),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -98,3 +101,7 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    "similar software" | "similar software hint"
+>()({ SoftwareCreationFormStep4 });
