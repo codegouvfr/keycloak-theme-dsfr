@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<% if (process.env.REACT_APP_THEME_ID === "france") { %>
+	<!-- We only preload the default font -->
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Bold_Italic.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Bold.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Light_Italic.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Light.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Regular_Italic.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/Marianne/Marianne-Regular.woff2" as="font" crossorigin="anonymous">
+	<!--<link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/fonts/Marianne/font.css">-->
+	<% } else { %>
+	<link rel="preload" href="%PUBLIC_URL%/fonts/WorkSans/worksans-bold-webfont.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/WorkSans/worksans-medium-webfont.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/WorkSans/worksans-regular-webfont.woff2" as="font" crossorigin="anonymous">
+	<link rel="preload" href="%PUBLIC_URL%/fonts/WorkSans/worksans-semibold-webfont.woff2" as="font" crossorigin="anonymous">
+	<!--<link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/fonts/WorkSans/font.css">-->
+	<% } %>
+
+	<!-- 
+		We need to put it plain in the html because of Keycloakify, in case we decide to remove --external-assets 
+		SEE: https://github.com/InseeFrLab/keycloakify#font-face-importing-fonts-from-thesrc-dir 
+		We also put it outside the EJS 'if' because it won't be run on Keycloak. This way we will have the fonts
+		they just aren't going to be preloaded according to the (right) theme.
+		(@font-face) are downloaded lazily. If they are not used, they are not downloaded so it has no impact 
+		to put it here.
+	-->
+	<style>
+		/* latin */
+		@font-face {
+			font-family: 'Work Sans';
+			font-style: normal;
+			font-weight: normal;
+			/*400*/
+			font-display: swap;
+			src: url("%PUBLIC_URL%/fonts/WorkSans/worksans-regular-webfont.woff2") format("woff2");
+		}
+	
+		/* latin */
+		@font-face {
+			font-family: 'Work Sans';
+			font-style: normal;
+			font-weight: 500;
+			font-display: swap;
+			src: url("%PUBLIC_URL%/fonts/WorkSans/worksans-medium-webfont.woff2") format("woff2");
+		}
+	
+		/* latin */
+		@font-face {
+			font-family: 'Work Sans';
+			font-style: normal;
+			font-weight: 600;
+			font-display: swap;
+			src: url("%PUBLIC_URL%/fonts/WorkSans/worksans-semibold-webfont.woff2") format("woff2");
+		}
+	
+		/* latin */
+		@font-face {
+			font-family: 'Work Sans';
+			font-style: normal;
+			font-weight: bold;
+			/*700*/
+			font-display: swap;
+			src: url("%PUBLIC_URL%/fonts/WorkSans/worksans-bold-webfont.woff2") format("woff2");
+		}
+	</style>
+	<style>
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Light.woff2") format("woff2");
+		  font-weight: 300;
+		  font-style: normal;
+		}
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Light_Italic.woff2") format("woff2");
+		  font-weight: 300;
+		  font-style: italic;
+		}
+		
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Regular.woff2") format("woff2");
+		  font-weight: normal; /*400*/
+		  font-style: normal;
+		}
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Regular_Italic.woff2") format("woff2");
+		  font-weight: normal; /*400*/
+		  font-style: italic;
+		}
+		
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Medium.woff2") format("woff2");
+		  font-weight: 500;
+		  font-display: swap;
+		  font-style: normal;
+		}
+		
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Bold.woff2") format("woff2");
+		  font-weight: bold /*700*/;
+		  font-style: normal;
+		}
+		@font-face {
+		  font-family: Marianne;
+		  src: url("%PUBLIC_URL%/fonts/Marianne/Marianne-Bold_Italic.woff2") format("woff2");
+		  font-weight: bold; /*700*/
+		  font-style: italic;
+		}
+	</style>
+
+
+	<script>
+		/*
+		This is a way to get the correct background color as soon as possible,
+		even before the JavaScript bundle is evaluated.
+		It is to prevent a white flash when the user has dark mode enabled.
+		It is very implementation dependent and can easily break...
+		if it does no big deal.
+		*/
+		(function () {
+
+			var isDarkModeEnabled = /true/.test((function () {
+
+				var key = "powerhooks_useGlobalState_isDarkModeEnabled";
+				var value = null;
+
+				try {
+					value = (new URLSearchParams(location.search)).get(key);
+				} catch (_) { }
+
+				if (value !== null) {
+					return value;
+				}
+
+				try {
+					value = localStorage.getItem(key);
+				} catch (_) { }
+
+				if (value !== null) {
+					return value;
+				}
+
+				try {
+					value = window.matchMedia("(prefers-color-scheme: dark)")
+						.matches ? "true" : "false";
+				} catch (_) { }
+
+				if (value !== null) {
+					return value;
+				}
+
+				return "false";
+
+			})());
+
+			document.documentElement.style.backgroundColor =
+				(function(){
+					switch("%REACT_APP_THEME_ID%"){
+						case "onyxia": return isDarkModeEnabled ? "#2C323F" : "#F1F0EB";
+						case "france": return isDarkModeEnabled ? "#2A2A2A" : "#F1F0EB";
+						case "ultraviolet": return isDarkModeEnabled ? "#2D1C3A" : "#F7F5F4";
+					}
+				})();
+
+		})();
+	</script>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>%REACT_APP_HEADER_USECASE_DESCRIPTION%</title>
+
+	<!-- start favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon/favicon-16x16.png">
+	<link rel="mask-icon" href="%PUBLIC_URL%/favicon/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- end favicon -->
+
+	<!-- cspell: disable -->
+	<!-- Primary Meta Tags -->
+	<meta name="title" content="%REACT_APP_HEADER_USECASE_DESCRIPTION% %REACT_APP_HEADER_ORGANIZATION%">
+	<meta name="description"
+		content="%REACT_APP_DESCRIPTION%">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="%REACT_APP_HEADER_USECASE_DESCRIPTION% %REACT_APP_HEADER_ORGANIZATION%">
+	<meta property="og:description"
+		content="%REACT_APP_DESCRIPTION%">
+	<meta property="og:image" content="%PUBLIC_URL%/Prewiew-%REACT_APP_THEME_ID%.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:title" content="%REACT_APP_HEADER_USECASE_DESCRIPTION% %REACT_APP_HEADER_ORGANIZATION%">
+	<meta property="twitter:description"
+		content="%REACT_APP_DESCRIPTION%">
+	<meta property="twitter:image" content="%PUBLIC_URL%/Prewiew-%REACT_APP_THEME_ID%.png">
+	<!-- cspell: enable -->
+
+	<script async="true" >
+		var _paq = window._paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u="//stats.data.gouv.fr/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', '112']);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);})();
+	</script>
+
+	<noscript>
+	  <h3>No Javascript? No problem.</h3>
+	  <p>We do understand why you might not want to use Javascript.</p>
+	  <p>To access to the data exposed in this website, please refer to <a href="/api/sill.json">this link</a>.</p>
+	  <h3>Pas de Javascript? Pas de souci.</h3>
+	  <p>Nous comprenons bien pourquoi vous ne souhaitez pas utiliser de Javascript.</p>
+	  <p>Pour accéder aux données exposées via ce site web, merci de vous référer à <a href="/api/sill.json">ce lien</a>.</p>
+	</noscript>
+
+</head>
+
+<body>
+	<div id="root"></div>
+	<!--
+      	This HTML file is a template.
+      	If you open it directly in the browser, you will see an empty page.
+
+      	You can add webfonts, meta tags, or analytics to this file.
+      	The build step will place the bundled scripts into the <body> tag.
+
+      	To begin the development, run `npm start`.
+      	To create a production bundle, use `npm run build`.
+    	-->
+</body>
+
+</html>

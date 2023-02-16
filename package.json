@@ -4,8 +4,11 @@
     "version": "0.30.18",
     "license": "MIT",
     "scripts": {
-        "start": "./.env.local.sh react-app-rewired start",
-        "build": "react-app-rewired build",
+        "start": "yarn use-onyxia && ./.env.local.sh react-app-rewired start",
+        "start-dsfr": "yarn use-dsfr && ./.env.local.sh react-app-rewired start",
+        "build": "yarn use-onyxia && react-app-rewired build",
+        "use-dsfr": "cp public/index-dsfr.html public/index.html && cp src/index-dsfr.ts src/index.ts",
+        "use-onyxia": "cp public/index-onyxia.html public/index.html && cp src/index-onyxia.ts src/index.ts",
         "keycloak": "yarn build && keycloakify",
         "prestorybook": "only-include-used-icons",
         "storybook": "start-storybook -p 6006",
