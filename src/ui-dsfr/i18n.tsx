@@ -153,7 +153,8 @@ const {
                 "module": "Brique ou modules techniques",
                 "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
                 "checkbox legend":
-                    "Système d'exploitation sur lequel le logiciel peut être installé"
+                    "Système d'exploitation sur lequel le logiciel peut être installé",
+                "required": "This field is required"
             },
             "SoftwareCreationFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
@@ -178,7 +179,12 @@ const {
                 "license hint": "(GNU, GPL, BSD, etc.)",
                 "minimal version": "Version minimale",
                 "minimal version hint":
-                    "Version la plus ancienne encore acceptable d'avoir en production"
+                    "Version la plus ancienne encore acceptable d'avoir en production",
+                "required": "Ce champs est requis", //TODO: move to common keys
+                "url or numeric id":
+                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                "autofill notice":
+                    "Cette information remplira automatiquement d'autres champs"
             },
             "SoftwareCreationFormStep3": {
                 "is present in support market":
@@ -186,7 +192,8 @@ const {
                 "is from french public service":
                     "Le logiciel est-il développé par le service public français ?",
                 "yes": "Oui",
-                "no": "Non"
+                "no": "Non",
+                "required": "Ce champs est requis" //TODO: move to common keys
             },
             "SoftwareCreationFormStep4": {
                 "similar software": "Ce logiciel est une alternative à ...",
@@ -463,7 +470,8 @@ const {
                 "module": "Brique ou modules techniques",
                 "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
                 "checkbox legend":
-                    "Système d'exploitation sur lequel le logiciel peut être installé"
+                    "Système d'exploitation sur lequel le logiciel peut être installé",
+                "required": "Ce champs est required" //TODO: move to common keys
             },
             "SoftwareCreationFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
@@ -488,7 +496,12 @@ const {
                 "license hint": "(GNU, GPL, BSD, etc.)",
                 "minimal version": "Version minimale",
                 "minimal version hint":
-                    "Version la plus ancienne encore acceptable d'avoir en production"
+                    "Version la plus ancienne encore acceptable d'avoir en production",
+                "required": "Ce champs est requis", //TODO: move to common keys
+                "url or numeric id":
+                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                "autofill notice":
+                    "Cette information remplira automatiquement d'autres champs"
             },
             "SoftwareCreationFormStep3": {
                 "is present in support market":
@@ -496,7 +509,8 @@ const {
                 "is from french public service":
                     "Le logiciel est-il développé par le service public français ?",
                 "yes": "Oui",
-                "no": "Non"
+                "no": "Non",
+                "required": "Ce champs est requis" //TODO: move to common keys
             },
             "SoftwareCreationFormStep4": {
                 "similar software": "Ce logiciel est une alternative à ...",

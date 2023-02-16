@@ -188,6 +188,7 @@ export function SoftwareForm(props: Props) {
                         onClick={() => softwareForm.returnToPreviousStep()}
                         priority="secondary"
                         className={classes.softwareDetails}
+                        disabled={step === 1}
                     >
                         {t("previous")}
                     </Button>
@@ -220,10 +221,6 @@ export function SoftwareForm(props: Props) {
 const useStyles = makeStyles<{ step: number | undefined }>({
     "name": { SoftwareForm }
 })(theme => ({
-    "submittingProgress": {
-        "justifyContent": "center",
-        "alignItems": "center"
-    },
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
     },

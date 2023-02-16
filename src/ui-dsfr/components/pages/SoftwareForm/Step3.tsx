@@ -146,7 +146,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         ? "error"
                         : undefined
                 }
-                stateRelatedMessage="This field is mandatory"
+                stateRelatedMessage={t("required")}
             />
             <button
                 style={{ "display": "none" }}
@@ -158,5 +158,9 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
 }
 
 export const { i18n } = declareComponentKeys<
-    "is present in support market" | "is from french public service" | "yes" | "no"
+    | "is present in support market"
+    | "is from french public service"
+    | "yes"
+    | "no"
+    | "required"
 >()({ SoftwareCreationFormStep3 });

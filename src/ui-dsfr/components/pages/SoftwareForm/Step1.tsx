@@ -7,8 +7,6 @@ import { assert } from "tsafe/assert";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import { declareComponentKeys } from "i18nifty";
-import { SoftwareForm } from "./SoftwareForm";
-import { SoftwareCreationFormStep2 } from "./Step2";
 import { useTranslation } from "../../../i18n";
 
 export type Step1Props = {
@@ -121,7 +119,7 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                 <Checkbox
                     legend={t("checkbox legend")}
                     state={errors.osCheckboxValues !== undefined ? "error" : undefined}
-                    stateRelatedMessage="This is field is required"
+                    stateRelatedMessage={t("required")}
                     options={[
                         {
                             "label": "Windows",
@@ -163,4 +161,5 @@ export const { i18n } = declareComponentKeys<
     | "module"
     | "module hint"
     | "checkbox legend"
+    | "required"
 >()({ SoftwareCreationFormStep1 });

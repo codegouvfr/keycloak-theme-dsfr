@@ -210,6 +210,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                     />
                 )}
             />
+            <p className="fr-info-text">{t("autofill notice")}</p>
             <CircularProgressWrapper
                 isInProgress={isAutocompleteInProgress}
                 renderChildren={({ style }) => (
@@ -227,7 +228,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Should be an url of an numeric identifier"
+                        stateRelatedMessage={t("url or numeric id")}
                     />
                 )}
             />
@@ -245,7 +246,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="This field is required"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -264,7 +265,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareDescription", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -283,7 +284,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareLicense", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -302,7 +303,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage="Ce champ est requis"
+                        stateRelatedMessage={t("required")}
                     />
                 )}
             />
@@ -371,4 +372,7 @@ export const { i18n } = declareComponentKeys<
     | "license hint"
     | "minimal version"
     | "minimal version hint"
+    | "required"
+    | "url or numeric id"
+    | "autofill notice"
 >()({ SoftwareCreationFormStep2 });
