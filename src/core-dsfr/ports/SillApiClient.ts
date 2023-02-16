@@ -22,6 +22,9 @@ export type SillApiClient = {
         softwareSillId: number;
         formData: SillApiClient.SoftwareFormData;
     }) => Promise<void>;
+    createUserOrReferent: (params: {
+        formData: SillApiClient.DeclarationFormData;
+    }) => Promise<void>;
 };
 
 export namespace SillApiClient {
@@ -129,16 +132,27 @@ export namespace SillApiClient {
         }[];
     };
 
-    /*
-    export type DeclarationFormData = {
-        step1: {
-            declarationType: "user" | "referent";
-        };
-        step2: {
+    export type DeclarationFormData =
+        | DeclarationFormData.User
+        | DeclarationFormData.Referent;
+
+    export namespace DeclarationFormData {
+        export type User = {
+            declarationType: "user";
             usecaseDescription: string;
-            os: Os;
+            /** NOTE: undefined if the software is not of type desktop */
+            os: Record<"windows" | "linux" | "osx", boolean> | undefined;
             version: string;
+            /** NOTE: Can be not undefined only if cloud */
+            serviceUr: string | undefined;
         };
-    };
-    */
+
+        export type Referent = {
+            declarationType: "referent";
+            isTechnicalExpert: boolean;
+            usecaseDescription: string;
+            /** NOTE: Can be not undefined only if cloud */
+            serviceUr: string | undefined;
+        };
+    }
 }

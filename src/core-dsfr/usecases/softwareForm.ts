@@ -71,11 +71,7 @@ export const { reducer, actions } = createSlice({
                 "step": 1,
                 "isSubmitting": false
             }),
-        "initializationStarted": state => {
-            assert(state.stateDescription === "not initialized");
-            state.isInitializing = true;
-        },
-        "initializeForUpdate": (
+        "initializedForUpdate": (
             _state,
             {
                 payload
@@ -93,6 +89,10 @@ export const { reducer, actions } = createSlice({
                 formData,
                 "isSubmitting": false
             };
+        },
+        "initializationStarted": state => {
+            assert(state.stateDescription === "not initialized");
+            state.isInitializing = true;
         },
         "step1DataSet": (
             state,
@@ -172,7 +172,7 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState().softwareForm;
+            const state = getState()[name];
 
             if (state.stateDescription === "ready" || state.isInitializing) {
                 return;
@@ -192,7 +192,7 @@ export const thunks = {
             assert(software !== undefined);
 
             dispatch(
-                actions.initializeForUpdate({
+                actions.initializedForUpdate({
                     "softwareSillId": software.softwareId,
                     "formData": {
                         "step1":
@@ -259,7 +259,7 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState().softwareForm;
+            const state = getState()[name];
 
             assert(state.stateDescription === "ready");
 
@@ -332,7 +332,7 @@ export const thunks = {
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
-        const state = rootState.softwareForm;
+        const state = rootState[name];
 
         if (state.stateDescription === "not initialized") {
             return undefined;
@@ -357,7 +357,7 @@ export const selectors = (() => {
 
 export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
     return evtAction.pipe(action =>
-        action.sliceName === "softwareForm" && action.actionName === "formSubmitted"
+        action.sliceName === name && action.actionName === "formSubmitted"
             ? [
                   {
                       "action": "redirect" as const,
