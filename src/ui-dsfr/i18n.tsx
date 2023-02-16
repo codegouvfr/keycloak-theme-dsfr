@@ -40,7 +40,7 @@ const {
     | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
-    | typeof import("ui-dsfr/components/pages/Homepage/Homepage").i18n
+    | typeof import("ui-dsfr/components/pages/Homepage").i18n
     | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
     | typeof import("ui-dsfr/components/shared/Header").i18n
     | typeof import("ui-dsfr/components/shared/Footer").i18n

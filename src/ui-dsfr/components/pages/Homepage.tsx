@@ -3,9 +3,9 @@ import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "../../i18n";
 import { createGroup, Route } from "type-route";
-import { routes } from "../../../routes";
+import { routes } from "../../routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Select } from "@codegouvfr/react-dsfr/Select";
@@ -13,11 +13,13 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
-import illustration_sill from "../../../../core-dsfr/assets/illustration_sill.svg";
+import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
 
 Homepage.routeGroup = createGroup([routes.home]);
 
 type PageRoute = Route<typeof Homepage.routeGroup>;
+
+Homepage.getDoRequireUserLoggedIn = () => false;
 
 export type Props = {
     className?: string;
