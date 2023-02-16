@@ -707,6 +707,9 @@ export function createMockSillApiClient(): SillApiClient {
             const entries = fzf.find("cd");
 
             return entries.map(({ item }) => item);
+        },
+        "createUserOrReferent": async ({ formData }) => {
+            console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
         }
     };
 }
