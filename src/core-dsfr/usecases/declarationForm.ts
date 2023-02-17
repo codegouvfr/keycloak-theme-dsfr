@@ -25,6 +25,7 @@ namespace State {
             softwareName: string;
             referentCount: number;
             userCount: number;
+            softwareType: SillApiClient.Software["softwareType"]["type"];
         };
     };
 }

@@ -141,10 +141,10 @@ export namespace SillApiClient {
             declarationType: "user";
             usecaseDescription: string;
             /** NOTE: undefined if the software is not of type desktop */
-            os: Record<"windows" | "linux" | "osx", boolean> | undefined;
+            os: "windows" | "linux" | "mac" | undefined;
             version: string;
-            /** NOTE: Can be not undefined only if cloud */
-            serviceUr: string | undefined;
+            /** NOTE: Defined only when software is cloud */
+            serviceUrl: string | undefined;
         };
 
         export type Referent = {

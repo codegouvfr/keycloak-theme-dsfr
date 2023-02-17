@@ -8,6 +8,8 @@ import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
+//import { DeclareUser } from "./DeclareUser";
+//import { FormData } from "core-dsfr/usecases/declarationForm";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
 
@@ -49,9 +51,14 @@ export function DeclarationForm(props: Props) {
         []
     );
 
+    //const [userFromData, setUserFromData] = useState<FormData.User | undefined>(undefined);
+    //const [referentFromData, setReferentFromData] = useState<FormData.Referent | undefined>(undefined);
+
     if (step === undefined) {
         return <CircularProgress />;
     }
+
+    assert(software !== undefined);
 
     return (
         <div className={className}>
@@ -92,7 +99,26 @@ export function DeclarationForm(props: Props) {
                             />
                         );
                     case 2:
-                        return <h1>TODO</h1>;
+                        switch (declarationType) {
+                            case "user":
+                                return <h1>TODO</h1>;
+                            /*
+                                return <DeclareUser
+                                    softwareType={(() => {
+                                        switch (software.softwareType) {
+                                            case "cloud": return "cloud";
+                                            case "desktop": return "desktop";
+                                            default: return "other";
+                                        }
+                                    })()}
+                                    initialFormData={userFromData}
+                                    onSubmit={formData => { }}
+                                    evtActionSubmit={null as any}
+                                />;
+                                */
+                            case "referent":
+                                return <h1>TODO</h1>;
+                        }
                 }
             })()}
             {step === 1 && (

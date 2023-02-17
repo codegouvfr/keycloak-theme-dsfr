@@ -73,9 +73,9 @@ export function SoftwareCreationFormStep1(props: Step1Props) {
                               return {
                                   softwareType,
                                   "os": {
-                                      "windows": osCheckboxValues?.includes("windows"),
-                                      "mac": osCheckboxValues?.includes("mac"),
-                                      "linux": osCheckboxValues?.includes("linux")
+                                      "windows": osCheckboxValues.includes("windows"),
+                                      "mac": osCheckboxValues.includes("mac"),
+                                      "linux": osCheckboxValues.includes("linux")
                                   }
                               };
                           })()
