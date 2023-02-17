@@ -1,16 +1,10 @@
-import React, { memo } from "react";
+import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useLang, useTranslation } from "ui-dsfr/i18n";
-import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "tss-react/dsfr";
 import { shortEndMonthDate, monthDate } from "ui-dsfr/useMoment";
 import Tooltip from "@mui/material/Tooltip";
-
-export type Prerogative = {
-    label: string;
-    status: boolean;
-};
 
 export type Props = {
     className?: string;
@@ -50,25 +44,25 @@ export const PreviewTab = (props: Props) => {
 
     const prerogativeList = [
         {
-            label: t("isDesktop"),
-            status: isDesktop
+            "label": t("isDesktop"),
+            "status": isDesktop
         },
         {
-            label: t("isPresentInSupportMarket"),
-            status: isPresentInSupportMarket
+            "label": t("isPresentInSupportMarket"),
+            "status": isPresentInSupportMarket
         },
         {
-            label: t("isFromFrenchPublicService"),
-            status: isFromFrenchPublicService
+            "label": t("isFromFrenchPublicService"),
+            "status": isFromFrenchPublicService
         },
         {
-            label: t("isRGAACompliant"),
-            status: isRGAACompliant
+            "label": t("isRGAACompliant"),
+            "status": isRGAACompliant
         }
     ];
 
     return (
-        <div className={classes.tabContainer}>
+        <section className={classes.tabContainer}>
             <div className="section">
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>{t("about")}</p>
                 {softwareDateCurrentVersion && (
@@ -88,7 +82,7 @@ export const PreviewTab = (props: Props) => {
                         </span>
                         {t("last version date", {
                             date: shortEndMonthDate({
-                                time: softwareDateCurrentVersion,
+                                "time": softwareDateCurrentVersion,
                                 lang
                             })
                         })}
@@ -98,7 +92,7 @@ export const PreviewTab = (props: Props) => {
                     <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                         <span className={classes.labelDetail}>{t("register")}</span>
                         {t("register date", {
-                            date: monthDate({ time: registerDate, lang })
+                            date: monthDate({ "time": registerDate, lang })
                         })}
                     </p>
                 )}
@@ -157,6 +151,7 @@ export const PreviewTab = (props: Props) => {
                 <a
                     href={serviceProvider}
                     target="_blank"
+                    rel="noreferrer"
                     title={t("service provider")}
                     className={cx(classes.externalLink, classes.item)}
                 >
@@ -165,6 +160,7 @@ export const PreviewTab = (props: Props) => {
                 <a
                     href={comptoireDuLibreSheet}
                     target="_blank"
+                    rel="noreferrer"
                     title={t("comptoire du libre sheet")}
                     className={cx(classes.externalLink, classes.item)}
                 >
@@ -173,13 +169,14 @@ export const PreviewTab = (props: Props) => {
                 <a
                     href={wikiDataSheet}
                     target="_blank"
+                    rel="noreferrer"
                     title={t("wikiData sheet")}
                     className={cx(classes.externalLink, classes.item)}
                 >
                     {t("wikiData sheet")}
                 </a>
             </div>
-        </div>
+        </section>
     );
 };
 

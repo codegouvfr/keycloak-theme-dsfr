@@ -8,7 +8,6 @@ import { assert } from "tsafe/assert";
 import type { Link } from "type-route";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 
 export type Instance = {
     name: string;
@@ -58,41 +57,38 @@ export const ReferencedInstancesTab = (props: Props) => {
     };
 
     return (
-        <>
-            <div className={cx(classes.root, className)}>
-                <p className={fr.cx("fr-text--bold")}>
-                    {t("instanceCount", {
-                        instanceCount: instanceCount ?? 0,
-                        publicOrganisationCount: organizationList?.length ?? 0
-                    })}
-                </p>
-                {organizationList?.map(organization => {
-                    const { name, maintainedInstances } = organization;
-
-                    return (
-                        <Accordion
-                            key={name}
-                            label={`${name} (${maintainedInstances.length})`}
-                            onExpandedChange={value => setExpanded(!value)}
-                            expanded={expanded}
-                        >
-                            <div className={classes.accordionGrid}>
-                                {maintainedInstances.map((instance: any) =>
-                                    instanceCard(instance)
-                                )}
-                            </div>
-                        </Accordion>
-                    );
+        <section className={className}>
+            <p className={fr.cx("fr-text--bold")}>
+                {t("instanceCount", {
+                    "instanceCount": instanceCount ?? 0,
+                    "publicOrganisationCount": organizationList?.length ?? 0
                 })}
-            </div>
-        </>
+            </p>
+            {organizationList?.map(organization => {
+                const { name, maintainedInstances } = organization;
+
+                return (
+                    <Accordion
+                        key={name}
+                        label={`${name} (${maintainedInstances.length})`}
+                        onExpandedChange={value => setExpanded(!value)}
+                        expanded={expanded}
+                    >
+                        <div className={classes.accordionGrid}>
+                            {maintainedInstances.map((instance: any) =>
+                                instanceCard(instance)
+                            )}
+                        </div>
+                    </Accordion>
+                );
+            })}
+        </section>
     );
 };
 
 const useStyles = makeStyles({
     "name": { ReferencedInstancesTab }
 })(theme => ({
-    "root": {},
     "accordionGrid": {
         "display": "grid",
         "gridTemplateColumns": `repeat(2, 1fr)`,
@@ -115,9 +111,6 @@ const useStyles = makeStyles({
     },
     "description": {
         "marginBottom": fr.spacing("3v")
-    },
-    "detailUsersAndReferents": {
-        "marginBottom": fr.spacing("8v")
     },
     "footer": {
         "display": "flex",

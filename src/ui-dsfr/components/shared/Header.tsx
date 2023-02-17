@@ -20,8 +20,6 @@ export const Header = memo((props: Props) => {
 
     const { t } = useTranslation({ Header });
 
-    console.log(route);
-
     return (
         <HeaderDS
             className={className}

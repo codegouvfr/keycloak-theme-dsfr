@@ -14,7 +14,7 @@ import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { FooterDetailCard } from "./FooterDetailCard";
 import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
-import { exclude } from "tsafe/exclude";
+import { compact } from "lodash";
 
 SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
 
@@ -28,11 +28,11 @@ export type Props = {
 };
 
 export function SoftwareDetails(props: Props) {
-    const { className, route } = props;
+    const { route } = props;
 
     const { softwareDetails } = useCoreFunctions();
 
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation({ SoftwareDetails });
 
@@ -49,97 +49,104 @@ export function SoftwareDetails(props: Props) {
             });
     }, [route.params.name]);
 
-    console.log(software);
-
+    //TODO: Add fallback if no software
     if (software === undefined) {
         return null;
     }
 
     return (
         <div>
-            <Breadcrumb
-                segments={[
-                    {
-                        "linkProps": {
-                            "href": "#"
+            <div className={fr.cx("fr-container")}>
+                <Breadcrumb
+                    segments={[
+                        {
+                            "linkProps": {
+                                "href": "#"
+                            },
+                            "label": t("catalog breadcrumb")
+                        }
+                    ]}
+                    currentPageLabel={software.softwareName}
+                    className={classes.breadcrumb}
+                />
+                <HeaderDetailCard
+                    softwareLogoUrl={software.logoUrl}
+                    softwareName={software.softwareName}
+                    authors={software.authors}
+                    officialWebsite={software.officialWebsiteUrl}
+                    sourceCodeRepository={software.codeRepositoryUrl}
+                />
+                <Tabs
+                    tabs={[
+                        {
+                            "label": t("tab title overview"),
+                            "content": (
+                                <PreviewTab
+                                    wikiDataSheet={software.wikidataUrl}
+                                    comptoireDuLibreSheet={software.compotoirDuLibreUrl}
+                                    serviceProvider={software.serviceProviderUrl}
+                                    license={software.license}
+                                    isDesktop={
+                                        software.prerogatives.isInstallableOnUserTerminal
+                                    }
+                                    isPresentInSupportMarket={
+                                        software.prerogatives.isPresentInSupportContract
+                                    }
+                                    isFromFrenchPublicService={
+                                        software.prerogatives.isFromFrenchPublicServices
+                                    }
+                                    isRGAACompliant={software.prerogatives.doRespectRgaa}
+                                    minimalVersionRequired={software.versionMin}
+                                    registerDate={software.addedTime}
+                                    softwareDateCurrentVersion={
+                                        software.lastVersion?.publicationTime
+                                    }
+                                    softwareCurrentVersion={software.lastVersion?.semVer}
+                                />
+                            )
                         },
-                        "label": t("catalog breadcrumb")
-                    }
-                ]}
-                currentPageLabel={software.softwareName}
-                className={classes.breadcrumb}
-            />
-            <HeaderDetailCard
-                softwareLogoUrl={software.logoUrl}
-                softwareName={software.softwareName}
-                authors={software.authors}
-                officialWebsite={software.officialWebsiteUrl}
-                sourceCodeRepository={software.codeRepositoryUrl}
-            />
-            <Tabs
-                tabs={[
-                    {
-                        "label": t("tab title overview"),
-                        "content": (
-                            <PreviewTab
-                                wikiDataSheet={software?.wikidataUrl}
-                                comptoireDuLibreSheet={software?.compotoirDuLibreUrl}
-                                serviceProvider={software?.serviceProviderUrl}
-                                license={software?.license}
-                                isDesktop={
-                                    software?.prerogatives.isInstallableOnUserTerminal
-                                }
-                                isPresentInSupportMarket={
-                                    software?.prerogatives.isPresentInSupportContract
-                                }
-                                isFromFrenchPublicService={
-                                    software?.prerogatives.isFromFrenchPublicServices
-                                }
-                                isRGAACompliant={software?.prerogatives.doRespectRgaa}
-                                minimalVersionRequired={software?.versionMin}
-                                registerDate={software?.addedTime}
-                                softwareDateCurrentVersion={
-                                    software?.lastVersion?.publicationTime
-                                }
-                                softwareCurrentVersion={software?.lastVersion?.semVer}
-                            />
-                        )
-                    },
-                    {
-                        "label": t("tab title instance", {
-                            "instanceCount": software?.instances.length ?? 0
-                        }),
-                        "content": ReferencedInstancesTab({
-                            organizationList: software?.instances,
-                            instanceCount: software?.instances.length
-                        })
-                    },
-                    {
-                        "label": t("tab title alike software", {
-                            alikeSoftwareCount: software?.similarSoftwares.length ?? 0
-                        }),
-                        "content": AlikeSoftwareTab({
-                            alikeSoftwares: software?.similarSoftwares
-                                .map(item => (item.isInSill ? item.software : undefined))
-                                .filter(exclude(undefined))
-                        })
-                    }
-                ]}
-            />
+                        {
+                            "label": t("tab title instance", {
+                                "instanceCount": software.instances.length ?? 0
+                            }),
+                            "content": (
+                                <ReferencedInstancesTab
+                                    organizationList={software.instances}
+                                    instanceCount={software.instances.length}
+                                />
+                            )
+                        },
+                        {
+                            "label": t("tab title alike software", {
+                                alikeSoftwareCount: software.similarSoftwares.length ?? 0
+                            }),
+                            "content": (
+                                <AlikeSoftwareTab
+                                    alikeSoftwares={compact(
+                                        software.similarSoftwares.map(item =>
+                                            item.isInSill ? item.software : undefined
+                                        )
+                                    )}
+                                />
+                            )
+                        }
+                    ]}
+                />
+            </div>
             <FooterDetailCard
-                usersCount={software?.userCount ?? 0}
-                referentCount={software?.referentCount ?? 0}
+                usersCount={software.userCount ?? 0}
+                referentCount={software.referentCount ?? 0}
                 seeUserAndReferent={{
-                    href: "",
-                    onClick: () => {}
+                    "href": "",
+                    "onClick": () => {}
                 }}
                 shareSoftware={{
-                    href: "",
-                    onClick: () => {}
+                    "href": "",
+                    "onClick": () => {}
                 }}
                 declareUserOrReferent={{
-                    href: "",
-                    onClick: () => {}
+                    "href": "",
+                    "onClick": () => {}
                 }}
             />
         </div>

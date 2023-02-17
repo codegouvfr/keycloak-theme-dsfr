@@ -57,113 +57,103 @@ export const SoftwareCatalogCard = memo((props: Props) => {
 
     return (
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
-            <div>
-                <div>
-                    <div className={cx(classes.headerContainer)}>
-                        <img
-                            className={cx(classes.logo)}
-                            src={logoUrl}
-                            alt="Logo du logiciel"
-                        />
-                        <div className={cx(classes.header)}>
-                            <div className={cx(classes.titleContainer)}>
-                                <h3 className={cx(classes.title)}>{softwareName}</h3>
-                                <div className={cx(classes.titleActionsContainer)}>
-                                    {prerogatives.isInstallableOnUserTerminal && (
-                                        <Tooltip title={t("isDesktop")} arrow>
-                                            <i
-                                                className={fr.cx("fr-icon-computer-line")}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                    {prerogatives.isFromFrenchPublicServices && (
-                                        <Tooltip
-                                            title={t("isFromFrenchPublicService")}
-                                            arrow
-                                        >
-                                            <i className={fr.cx("fr-icon-france-line")} />
-                                        </Tooltip>
-                                    )}
-                                    {prerogatives.isPresentInSupportContract && (
-                                        <Tooltip
-                                            title={t("isPresentInSupportMarket")}
-                                            arrow
-                                        >
-                                            <i
-                                                className={fr.cx(
-                                                    "fr-icon-questionnaire-line"
-                                                )}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                </div>
+            <div className={classes.cardBody}>
+                <div className={cx(classes.headerContainer)}>
+                    <img
+                        className={cx(classes.logo)}
+                        src={logoUrl}
+                        alt="Logo du logiciel"
+                    />
+                    <div className={cx(classes.header)}>
+                        <div className={cx(classes.titleContainer)}>
+                            <h3 className={cx(classes.title)}>{softwareName}</h3>
+                            <div className={cx(classes.titleActionsContainer)}>
+                                {prerogatives.isInstallableOnUserTerminal && (
+                                    <Tooltip title={t("isDesktop")} arrow>
+                                        <i className={fr.cx("fr-icon-computer-line")} />
+                                    </Tooltip>
+                                )}
+                                {prerogatives.isFromFrenchPublicServices && (
+                                    <Tooltip title={t("isFromFrenchPublicService")} arrow>
+                                        <i className={fr.cx("fr-icon-france-line")} />
+                                    </Tooltip>
+                                )}
+                                {prerogatives.isPresentInSupportContract && (
+                                    <Tooltip title={t("isPresentInSupportMarket")} arrow>
+                                        <i
+                                            className={fr.cx(
+                                                "fr-icon-questionnaire-line"
+                                            )}
+                                        />
+                                    </Tooltip>
+                                )}
                             </div>
-                            {lastVersion && (
-                                <div>
-                                    <p
+                        </div>
+                        {lastVersion && (
+                            <div>
+                                <p
+                                    className={cx(
+                                        fr.cx("fr-card__detail"),
+                                        classes.softwareVersionContainer
+                                    )}
+                                >
+                                    {t("last version")} :
+                                    <span
                                         className={cx(
-                                            fr.cx("fr-card__detail"),
-                                            classes.softwareVersionContainer
+                                            fr.cx(
+                                                "fr-badge",
+                                                "fr-badge--yellow-tournesol",
+                                                "fr-badge--sm"
+                                            ),
+                                            classes.badgeVersion
                                         )}
                                     >
-                                        {t("last version")} :
-                                        <span
-                                            className={cx(
-                                                fr.cx(
-                                                    "fr-badge",
-                                                    "fr-badge--yellow-tournesol",
-                                                    "fr-badge--sm"
-                                                ),
-                                                classes.badgeVersion
-                                            )}
-                                        >
-                                            {lastVersion.semVer}
-                                        </span>
-                                        {t("last version date", {
-                                            date: shortEndMonthDate({
-                                                time: lastVersion.publicationTime,
-                                                lang
-                                            })
-                                        })}
-                                    </p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
-                        {softwareDescription
-                            ? resolveLocalizedString(softwareDescription)
-                            : "software.function"}
-                    </p>
-                    <DetailUsersAndReferents
-                        seeUserAndReferent={{
-                            href: "",
-                            onClick: () => {}
-                        }}
-                        referentCount={referentCount}
-                        userCount={userCount}
-                        className={classes.detailUsersAndReferents}
-                    />
-                </div>
-                <div className={cx(classes.footer)}>
-                    <a
-                        className={cx(
-                            fr.cx("fr-btn", "fr-btn--secondary"),
-                            classes.declareReferentOrUserButton
+                                        {lastVersion.semVer}
+                                    </span>
+                                    {t("last version date", {
+                                        date: shortEndMonthDate({
+                                            time: lastVersion.publicationTime,
+                                            lang
+                                        })
+                                    })}
+                                </p>
+                            </div>
                         )}
-                        {...declareUsageForm}
-                    >
-                        {t("declare oneself referent")}
-                    </a>
-                    <div className={cx(classes.footerActionsContainer)}>
-                        <a className={cx(classes.footerActionLink)} href={testUrl}>
-                            <i className={fr.cx("fr-icon-play-circle-line")} />
-                        </a>
-                        <a className={cx(classes.footerActionLink)} {...softwareDetails}>
-                            <i className={fr.cx("fr-icon-arrow-right-line")} />
-                        </a>
                     </div>
+                </div>
+
+                <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
+                    {softwareDescription
+                        ? resolveLocalizedString(softwareDescription)
+                        : "software.function"}
+                </p>
+                <DetailUsersAndReferents
+                    seeUserAndReferent={{
+                        href: "",
+                        onClick: () => {}
+                    }}
+                    referentCount={referentCount}
+                    userCount={userCount}
+                    className={classes.detailUsersAndReferents}
+                />
+            </div>
+            <div className={cx(classes.footer)}>
+                <a
+                    className={cx(
+                        fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
+                        classes.declareReferentOrUserButton
+                    )}
+                    {...declareUsageForm}
+                >
+                    {t("declare oneself referent")}
+                </a>
+                <div className={cx(classes.footerActionsContainer)}>
+                    <a className={cx(classes.footerActionLink)} href={testUrl}>
+                        <i className={fr.cx("fr-icon-play-circle-line")} />
+                    </a>
+                    <a className={cx(classes.footerActionLink)} {...softwareDetails}>
+                        <i className={fr.cx("fr-icon-arrow-right-line")} />
+                    </a>
                 </div>
             </div>
         </div>
@@ -185,6 +175,12 @@ const useStyles = makeStyles({
                 "rightLeft": "3v"
             })
         }
+    },
+    "cardBody": {
+        "height": "100%",
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": fr.spacing("8v")
     },
     "headerContainer": {
         "display": "flex",
@@ -238,7 +234,8 @@ const useStyles = makeStyles({
         "overflowY": "auto"
     },
     "detailUsersAndReferents": {
-        "marginBottom": fr.spacing("8v")
+        "order": 4,
+        "marginTop": "auto"
     },
     "footer": {
         "display": "flex",

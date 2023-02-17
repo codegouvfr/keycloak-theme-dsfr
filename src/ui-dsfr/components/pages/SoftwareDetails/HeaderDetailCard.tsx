@@ -59,6 +59,7 @@ export const HeaderDetailCard = memo((props: Props) => {
                                     <a
                                         href={author.authorUrl}
                                         className={classes.authorLink}
+                                        key={author.authorName}
                                     >
                                         {author.authorName}
                                     </a>

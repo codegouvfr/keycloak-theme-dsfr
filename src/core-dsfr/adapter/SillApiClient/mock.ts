@@ -83,7 +83,7 @@ export function createMockSillApiClient(): SillApiClient {
                         "logoUrl": LogoLibreOffice,
                         "softwareId": 1,
                         "softwareName": "LibreOffice",
-                        "codeRepositoryUrl": "git.libreoffice.org/core",
+                        "codeRepositoryUrl": "https://git.libreoffice.org/core",
                         "authors": [
                             {
                                 "authorName": "TDF",
@@ -109,7 +109,7 @@ export function createMockSillApiClient(): SillApiClient {
                         "softwareDescription":
                             "LibreOffice, Suite bureautique (logiciel de traitement de texte, tableur ect)",
                         "lastVersion": {
-                            "semVer": "Dernière stable",
+                            "semVer": "10.1.3",
                             "publicationTime": 1670503742
                         },
                         "parentSoftware": undefined,

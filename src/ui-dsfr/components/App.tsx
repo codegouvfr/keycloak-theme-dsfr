@@ -5,6 +5,7 @@ import { Homepage } from "./pages/Homepage";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLanding";
+import { SoftwareDetails } from "./pages/SoftwareDetails";
 
 export default function App() {
     const route = useRoute();
@@ -74,6 +75,18 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
     {
         const Page = AddSoftwareLanding;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+    {
+        const Page = SoftwareDetails;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {

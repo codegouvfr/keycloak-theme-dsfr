@@ -38,7 +38,7 @@ export const FooterDetailCard = memo((props: Props) => {
 
     return (
         <div className={cx(classes.root, className)}>
-            <div className={cx(classes.container)}>
+            <div className={cx(fr.cx("fr-container"), classes.container)}>
                 <DetailUsersAndReferents
                     className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
                     seeUserAndReferent={seeUserAndReferent}
