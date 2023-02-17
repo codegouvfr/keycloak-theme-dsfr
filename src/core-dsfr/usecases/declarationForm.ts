@@ -75,7 +75,6 @@ export const { reducer, actions } = createSlice({
 
             assert(state.step === 1);
 
-            state.step = 2;
             state.declarationType = declarationType;
         },
         "navigatedToPreviousStep": state => {
@@ -83,6 +82,12 @@ export const { reducer, actions } = createSlice({
             assert(state.step === 2);
 
             state.step = 1;
+        },
+        "navigatedToNextStep": state => {
+            assert(state.stateDescription === "ready");
+            assert(state.step === 1);
+            assert(state.declarationType !== undefined);
+            state.step = 2;
         },
         "submissionStarted": state => {
             assert(state.stateDescription === "ready");
@@ -151,6 +156,13 @@ export const thunks = {
 
             dispatch(actions.navigatedToPreviousStep());
         },
+    "navigateToNextStep":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch] = args;
+
+            dispatch(actions.navigatedToNextStep());
+        },
     "submit":
         (props: { formData: FormData }): ThunkAction =>
         async (...args) => {
@@ -158,19 +170,19 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const { softwareName } = (() => {
-                const state = getState()[name];
+            const state = getState()[name];
 
-                assert(state.stateDescription === "ready");
+            assert(state.stateDescription === "ready");
 
-                return state.software;
-            })();
+            assert(formData.declarationType === state.declarationType);
 
             dispatch(actions.submissionStarted());
 
             await sillApiClient.createUserOrReferent({ formData });
 
-            dispatch(actions.formSubmitted({ softwareName }));
+            dispatch(
+                actions.formSubmitted({ "softwareName": state.software.softwareName })
+            );
         }
 };
 

@@ -51,8 +51,6 @@ export function SoftwareForm(props: Props) {
     const { softwareForm } = useCoreFunctions();
 
     useEffect(() => {
-        //console.log("initialize", route.params);
-
         softwareForm.initialize({
             "softwareName":
                 route.name === "softwareUpdateForm" ? route.params.name : undefined
