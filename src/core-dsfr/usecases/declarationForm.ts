@@ -7,9 +7,9 @@ import { assert } from "tsafe/assert";
 import type { SillApiClient } from "../ports/SillApiClient";
 import type { Param0 } from "tsafe";
 
-type SoftwareFormState = SoftwareFormState.NotInitialized | SoftwareFormState.Ready;
+type State = State.NotInitialized | State.Ready;
 
-namespace SoftwareFormState {
+namespace State {
     export type NotInitialized = {
         stateDescription: "not initialized";
         isInitializing: boolean;
@@ -17,131 +17,72 @@ namespace SoftwareFormState {
 
     export type Ready = {
         stateDescription: "ready";
-        step: number;
-        formData: Partial<FormData>;
-        softwareSillId?: number;
+        declarationType: "user" | "referent" | undefined;
+        step: 1 | 2;
         isSubmitting: boolean;
-    };
-
-    export type FormData = {
-        step1:
-            | {
-                  softwareType: "cloud" | "library";
-              }
-            | {
-                  softwareType: "desktop";
-                  os: Record<"windows" | "linux" | "mac", boolean>;
-              };
-        step2: {
-            wikidataId: string | undefined;
-            comptoirDuLibreId: number | undefined;
+        software: {
+            logoUrl: string | undefined;
             softwareName: string;
-            softwareDescription: string;
-            softwareLicense: string;
-            softwareMinimalVersion: string;
-        };
-        step3: {
-            isPresentInSupportContract: boolean | undefined;
-            isFromFrenchPublicService: boolean;
-        };
-        step4: {
-            similarSoftwares: {
-                wikidataLabel: string;
-                wikidataDescription: string;
-                wikidataId: string;
-            }[];
+            referentCount: number;
+            userCount: number;
         };
     };
 }
 
-export const name = "softwareForm" as const;
+export type FormData = FormData.User | FormData.Referent;
+
+export namespace FormData {
+    export type User = SillApiClient.DeclarationFormData.User;
+    export type Referent = SillApiClient.DeclarationFormData.Referent;
+}
+
+export const name = "declarationForm" as const;
 
 export const { reducer, actions } = createSlice({
     name,
-    "initialState": id<SoftwareFormState>({
+    "initialState": id<State>({
         "stateDescription": "not initialized",
         "isInitializing": false
     }),
     "reducers": {
-        "initializedForCreate": () =>
-            id<SoftwareFormState.Ready>({
-                "stateDescription": "ready",
-                "formData": {},
-                "softwareSillId": undefined,
-                "step": 1,
-                "isSubmitting": false
-            }),
         "initializationStarted": state => {
             assert(state.stateDescription === "not initialized");
             state.isInitializing = true;
         },
-        "initializeForUpdate": (
+        "initialized": (
             _state,
-            {
-                payload
-            }: PayloadAction<{
-                softwareSillId: number;
-                formData: SoftwareFormState.FormData;
-            }>
+            { payload }: PayloadAction<{ software: State.Ready["software"] }>
         ) => {
-            const { formData, softwareSillId } = payload;
+            const { software } = payload;
 
-            return {
+            return id<State.Ready>({
                 "stateDescription": "ready",
+                "declarationType": undefined,
+                "isSubmitting": false,
                 "step": 1,
-                softwareSillId,
-                formData,
-                "isSubmitting": false
-            };
+                software
+            });
         },
-        "step1DataSet": (
+        "declarationTypeSet": (
             state,
             {
                 payload
-            }: PayloadAction<{
-                formDataStep1: SoftwareFormState.FormData["step1"];
-            }>
+            }: PayloadAction<{ declarationType: State.Ready["declarationType"] }>
         ) => {
-            const { formDataStep1 } = payload;
+            const { declarationType } = payload;
 
             assert(state.stateDescription === "ready");
 
-            state.formData.step1 = formDataStep1;
-            state.step++;
-        },
-        "step2DataSet": (
-            state,
-            {
-                payload
-            }: PayloadAction<{
-                formDataStep2: SoftwareFormState.FormData["step2"];
-            }>
-        ) => {
-            const { formDataStep2 } = payload;
+            assert(state.step === 1);
 
-            assert(state.stateDescription === "ready");
-
-            state.formData.step2 = formDataStep2;
-            state.step++;
-        },
-        "step3DataSet": (
-            state,
-            {
-                payload
-            }: PayloadAction<{
-                formDataStep3: SoftwareFormState.FormData["step3"];
-            }>
-        ) => {
-            const { formDataStep3 } = payload;
-
-            assert(state.stateDescription === "ready");
-
-            state.formData.step3 = formDataStep3;
-            state.step++;
+            state.step = 2;
+            state.declarationType = declarationType;
         },
         "navigatedToPreviousStep": state => {
             assert(state.stateDescription === "ready");
-            state.step--;
+            assert(state.step === 2);
+
+            state.step = 1;
         },
         "submissionStarted": state => {
             assert(state.stateDescription === "ready");
@@ -150,23 +91,17 @@ export const { reducer, actions } = createSlice({
         },
         "formSubmitted": (
             _state,
-            {
-                payload: _payload
-            }: PayloadAction<{
-                softwareName: string;
-            }>
-        ) => {
-            return {
-                "stateDescription": "not initialized",
-                "isInitializing": false
-            };
-        }
+            { payload: _payload }: PayloadAction<{ softwareName: string }>
+        ) => ({
+            "stateDescription": "not initialized",
+            "isInitializing": false
+        })
     }
 });
 
 export const thunks = {
     "initialize":
-        (params: { softwareName: string | undefined }): ThunkAction =>
+        (params: { softwareName: string }): ThunkAction =>
         async (...args) => {
             const { softwareName } = params;
 
@@ -175,11 +110,6 @@ export const thunks = {
             const state = getState().softwareForm;
 
             if (state.stateDescription === "ready" || state.isInitializing) {
-                return;
-            }
-
-            if (softwareName === undefined) {
-                dispatch(actions.initializedForCreate());
                 return;
             }
 
@@ -192,153 +122,61 @@ export const thunks = {
             assert(software !== undefined);
 
             dispatch(
-                actions.initializeForUpdate({
-                    "softwareSillId": software.softwareId,
-                    "formData": {
-                        "step1":
-                            software.softwareType.type === "desktop"
-                                ? {
-                                      "softwareType": "desktop",
-                                      "os": software.softwareType.os
-                                  }
-                                : {
-                                      "softwareType": software.softwareType.type
-                                  },
-                        "step2": {
-                            "wikidataId": software.wikidataId,
-                            "comptoirDuLibreId": software.compotoirDuLibreId,
-                            "softwareDescription": software.softwareDescription,
-                            "softwareLicense": software.license,
-                            "softwareMinimalVersion": software.versionMin,
-                            "softwareName": software.softwareName
-                        },
-                        "step3": {
-                            "isPresentInSupportContract":
-                                software.prerogatives.isPresentInSupportContract,
-                            "isFromFrenchPublicService":
-                                software.prerogatives.isFromFrenchPublicServices
-                        },
-                        "step4": {
-                            "similarSoftwares": software.similarSoftwares
-                        }
+                actions.initialized({
+                    "software": {
+                        "logoUrl": software.logoUrl,
+                        softwareName,
+                        "referentCount": software.users.filter(
+                            ({ type }) => type === "referent"
+                        ).length,
+                        "userCount": software.users.filter(({ type }) => type === "user")
+                            .length
                     }
                 })
             );
         },
-    "setStep1Data":
-        (props: {
-            formDataStep1: SoftwareFormState.FormData["step1"];
-        }): ThunkAction<void> =>
+    "setDeclarationType":
+        (props: { declarationType: State.Ready["declarationType"] }): ThunkAction<void> =>
         (...args) => {
-            const { formDataStep1 } = props;
+            const { declarationType } = props;
 
             const [dispatch] = args;
 
-            dispatch(actions.step1DataSet({ formDataStep1 }));
+            dispatch(actions.declarationTypeSet({ declarationType }));
         },
-    "setStep2Data":
-        (props: {
-            formDataStep2: SoftwareFormState.FormData["step2"];
-        }): ThunkAction<void> =>
-        (...args) => {
-            const { formDataStep2 } = props;
-
-            const [dispatch] = args;
-
-            dispatch(actions.step2DataSet({ formDataStep2 }));
-        },
-    "setStep3Data":
-        (props: {
-            formDataStep3: SoftwareFormState.FormData["step3"];
-        }): ThunkAction<void> =>
-        (...args) => {
-            const { formDataStep3 } = props;
-
-            const [dispatch] = args;
-
-            dispatch(actions.step3DataSet({ formDataStep3 }));
-        },
-    "setStep4DataAndSubmit":
-        (props: { formDataStep4: SoftwareFormState.FormData["step4"] }): ThunkAction =>
-        async (...args) => {
-            const { formDataStep4 } = props;
-
-            const [dispatch, getState, { sillApiClient }] = args;
-
-            const state = getState().softwareForm;
-
-            assert(state.stateDescription === "ready");
-
-            const { step1, step2, step3 } = state.formData;
-
-            assert(step1 !== undefined);
-            assert(step2 !== undefined);
-            assert(step3 !== undefined);
-
-            const formData = {
-                "softwareType": step1,
-                ...step2,
-                ...step3,
-                ...formDataStep4
-            };
-
-            if (state.softwareSillId !== undefined) {
-                await sillApiClient.updateSoftware({
-                    "softwareSillId": state.softwareSillId,
-                    formData
-                });
-            } else {
-                await sillApiClient.createSoftware({
-                    formData
-                });
-            }
-
-            dispatch(
-                actions.formSubmitted({
-                    "softwareName": step2.softwareName
-                })
-            );
-        },
-    "returnToPreviousStep":
+    "navigateToPreviousStep":
         (): ThunkAction<void> =>
         (...args) => {
             const [dispatch] = args;
 
             dispatch(actions.navigatedToPreviousStep());
         },
-    "getWikidataOptions":
-        (props: {
-            queryString: string;
-        }): ThunkAction<ReturnType<SillApiClient["getWikidataOptions"]>> =>
-        (...args) => {
-            const { queryString } = props;
+    "submit":
+        (props: { formData: FormData }): ThunkAction =>
+        async (...args) => {
+            const { formData } = props;
 
-            const [, , { sillApiClient }] = args;
+            const [dispatch, getState, { sillApiClient }] = args;
 
-            return sillApiClient.getWikidataOptions({ queryString });
-        },
-    "getAutofillData":
-        (props: {
-            wikidataId: string;
-        }): ThunkAction<
-            ReturnType<
-                SillApiClient["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]
-            >
-        > =>
-        (...args) => {
-            const { wikidataId } = props;
+            const { softwareName } = (() => {
+                const state = getState()[name];
 
-            const [, , extraArg] = args;
+                assert(state.stateDescription === "ready");
 
-            return extraArg.sillApiClient.getSoftwareFormAutoFillDataFromWikidataAndOtherSources(
-                { wikidataId }
-            );
+                return state.software;
+            })();
+
+            dispatch(actions.submissionStarted());
+
+            await sillApiClient.createUserOrReferent({ formData });
+
+            dispatch(actions.formSubmitted({ softwareName }));
         }
 };
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
-        const state = rootState.softwareForm;
+        const state = rootState[name];
 
         if (state.stateDescription === "not initialized") {
             return undefined;
@@ -349,21 +187,24 @@ export const selectors = (() => {
 
     const step = createSelector(readyState, readyState => readyState?.step);
 
-    const formData = createSelector(readyState, readyState => readyState?.formData);
-
     const isSubmitting = createSelector(
         readyState,
         readyState => readyState?.isSubmitting ?? false
     );
 
-    const isLastStep = createSelector(readyState, readyState => readyState?.step === 4);
+    const declarationType = createSelector(
+        readyState,
+        readyState => readyState?.declarationType
+    );
 
-    return { step, formData, isSubmitting, isLastStep };
+    const software = createSelector(readyState, readyState => readyState?.software);
+
+    return { step, isSubmitting, declarationType, software };
 })();
 
 export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
     return evtAction.pipe(action =>
-        action.sliceName === "softwareForm" && action.actionName === "formSubmitted"
+        action.sliceName === name && action.actionName === "formSubmitted"
             ? [
                   {
                       "action": "redirect" as const,
