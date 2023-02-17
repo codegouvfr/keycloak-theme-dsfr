@@ -5,7 +5,6 @@ import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import { declareComponentKeys } from "i18nifty";
-import { SoftwareCreationFormStep2 } from "./Step2";
 import { useTranslation } from "../../../i18n";
 
 export type Step2Props = {
@@ -20,6 +19,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
     const { t } = useTranslation({ SoftwareCreationFormStep3 });
+    const commoni18n = useTranslation({ "App": "App" });
 
     const {
         handleSubmit,
@@ -104,14 +104,14 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                 legend={t("is present in support market")}
                 options={[
                     {
-                        "label": t("yes"),
+                        "label": commoni18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "true"
                         }
                     },
                     {
-                        "label": t("no"),
+                        "label": commoni18n.t("no"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "false"
@@ -123,7 +123,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                 legend={t("is from french public service")}
                 options={[
                     {
-                        "label": t("yes"),
+                        "label": commoni18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -132,7 +132,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         }
                     },
                     {
-                        "label": t("no"),
+                        "label": commoni18n.t("no"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -146,7 +146,7 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
                         ? "error"
                         : undefined
                 }
-                stateRelatedMessage={t("required")}
+                stateRelatedMessage={commoni18n.t("required")}
             />
             <button
                 style={{ "display": "none" }}
@@ -158,9 +158,5 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
 }
 
 export const { i18n } = declareComponentKeys<
-    | "is present in support market"
-    | "is from french public service"
-    | "yes"
-    | "no"
-    | "required"
+    "is present in support market" | "is from french public service"
 >()({ SoftwareCreationFormStep3 });

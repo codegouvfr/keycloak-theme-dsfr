@@ -29,6 +29,7 @@ export function AddSoftwareLanding(props: Props) {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ AddSoftwareLanding });
+    const commoni18n = useTranslation({ "App": "App" });
 
     const whoCanAddAccordionList = [
         {
@@ -76,8 +77,12 @@ export function AddSoftwareLanding(props: Props) {
                             {t("who can add software")}
                         </h2>
                         <div className={classes.whoCanAddButtonContainer}>
-                            <Button priority="primary">{t("add software")}</Button>
-                            <Button priority="secondary">{t("add instance")}</Button>
+                            <Button priority="primary">
+                                {commoni18n.t("add software")}
+                            </Button>
+                            <Button priority="secondary">
+                                {commoni18n.t("add instance")}
+                            </Button>
                         </div>
                     </div>
 
@@ -159,8 +164,6 @@ export const { i18n } = declareComponentKeys<
       }
     | "subtitle"
     | "who can add software"
-    | "add software"
-    | "add instance"
     | "discover as agent label"
     | "discover as agent description"
     | "discover as DSI label"

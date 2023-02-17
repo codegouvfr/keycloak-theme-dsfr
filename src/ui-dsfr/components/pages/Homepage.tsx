@@ -33,6 +33,7 @@ export function Homepage(props: Props) {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ Homepage });
+    const commoni18n = useTranslation({ "App": "App" });
 
     const [selectedUserType, setSelectedUserType] = useState("");
     const [selectedSearchType, setSelectedSearchType] = useState("");
@@ -127,7 +128,7 @@ export function Homepage(props: Props) {
         },
         {
             "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            "title": t("add software or service title"),
+            "title": commoni18n.t("add software or service"),
             "description": t("add software or service description"),
             "buttonLabel": t("complete form"),
             "href": ""
@@ -398,7 +399,6 @@ export const { i18n } = declareComponentKeys<
     | "search software"
     | "edit software title"
     | "edit software description"
-    | "add software or service title"
     | "add software or service description"
     | "complete form"
 >()({ Homepage });

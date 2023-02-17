@@ -51,8 +51,6 @@ export function SoftwareForm(props: Props) {
     const { softwareForm } = useCoreFunctions();
 
     useEffect(() => {
-        //console.log("initialize", route.params);
-
         softwareForm.initialize({
             "softwareName":
                 route.name === "softwareUpdateForm" ? route.params.name : undefined
@@ -72,6 +70,7 @@ export function SoftwareForm(props: Props) {
 
     const { cx, classes } = useStyles({ step });
     const { t } = useTranslation({ SoftwareForm });
+    const commoni18n = useTranslation({ "App": "App" });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
@@ -88,10 +87,10 @@ export function SoftwareForm(props: Props) {
                             "linkProps": {
                                 "href": routes.addSoftwareLanding().link.href
                             },
-                            "label": t("add software or service")
+                            "label": commoni18n.t("add software or service")
                         }
                     ]}
-                    currentPageLabel={t("add software")}
+                    currentPageLabel={commoni18n.t("add software")}
                     className={classes.breadcrumb}
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
@@ -105,7 +104,7 @@ export function SoftwareForm(props: Props) {
                         {(() => {
                             switch (route.name) {
                                 case "softwareCreationForm":
-                                    return t("title software creation form");
+                                    return commoni18n.t("add software");
                                 case "softwareUpdateForm":
                                     return t("title software update form");
                             }
@@ -190,7 +189,7 @@ export function SoftwareForm(props: Props) {
                         className={classes.softwareDetails}
                         disabled={step === 1}
                     >
-                        {t("previous")}
+                        {commoni18n.t("previous")}
                     </Button>
                     <Button
                         onClick={() => evtActionSubmitStep.post()}
@@ -200,7 +199,7 @@ export function SoftwareForm(props: Props) {
                         {isLastStep ? (
                             isSubmitting ? (
                                 <>
-                                    {t("submit")}{" "}
+                                    {t("submit")}
                                     <CircularProgress
                                         className={classes.progressSubmit}
                                     />
@@ -209,7 +208,7 @@ export function SoftwareForm(props: Props) {
                                 t("submit")
                             )
                         ) : (
-                            t("next")
+                            commoni18n.t("next")
                         )}
                     </Button>
                 </div>
@@ -273,13 +272,7 @@ const useStyles = makeStyles<{ step: number | undefined }>({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "add software or service"
-    | "add software"
-    | "title software creation form"
     | "title software update form"
-    | { K: "current step"; P: { currentStepIndex: number; totalStep: number } }
     | { K: "stepper title"; P: { currentStepIndex: number } }
-    | "previous"
-    | "next"
     | "submit"
 >()({ SoftwareForm });
