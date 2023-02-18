@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { SoftwareCreationFormStep1 } from "./Step1";
-import { SoftwareCreationFormStep2 } from "./Step2";
-import { SoftwareCreationFormStep3 } from "./Step3";
-import { SoftwareCreationFormStep4 } from "./Step4";
+import { SoftwareFormStep1 } from "./Step1";
+import { SoftwareFormStep2 } from "./Step2";
+import { SoftwareFormStep3 } from "./Step3";
+import { SoftwareFormStep4 } from "./Step4";
 import { makeStyles } from "tss-react/dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -117,7 +117,7 @@ export function SoftwareForm(props: Props) {
                     title={t("stepper title", { "currentStepIndex": step ?? 1 })}
                     className={classes.stepper}
                 />
-                <SoftwareCreationFormStep1
+                <SoftwareFormStep1
                     className={classes.step1}
                     initialFormData={formData.step1}
                     onSubmit={formData =>
@@ -127,7 +127,7 @@ export function SoftwareForm(props: Props) {
                     }
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 1)}
                 />
-                <SoftwareCreationFormStep2
+                <SoftwareFormStep2
                     className={classes.step2}
                     isUpdateForm={route.name === "softwareUpdateForm"}
                     initialFormData={formData.step2}
@@ -140,7 +140,7 @@ export function SoftwareForm(props: Props) {
                     getWikidataOptions={softwareForm.getWikidataOptions}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 2)}
                 />
-                <SoftwareCreationFormStep3
+                <SoftwareFormStep3
                     className={classes.step3}
                     initialFormData={formData.step3}
                     onSubmit={formData =>
@@ -151,7 +151,7 @@ export function SoftwareForm(props: Props) {
                     isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 3)}
                 />
-                <SoftwareCreationFormStep4
+                <SoftwareFormStep4
                     className={classes.step4}
                     initialFormData={formData.step4}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 4)}

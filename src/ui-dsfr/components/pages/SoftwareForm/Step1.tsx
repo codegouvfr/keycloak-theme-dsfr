@@ -16,10 +16,10 @@ export type Step1Props = {
     evtActionSubmit: NonPostableEvt<void>;
 };
 
-export function SoftwareCreationFormStep1(props: Step1Props) {
+export function SoftwareFormStep1(props: Step1Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
-    const { t } = useTranslation({ SoftwareCreationFormStep1 });
+    const { t } = useTranslation({ SoftwareFormStep1 });
 
     const {
         handleSubmit,
@@ -162,4 +162,4 @@ export const { i18n } = declareComponentKeys<
     | "module hint"
     | "checkbox legend"
     | "required"
->()({ SoftwareCreationFormStep1 });
+>()({ SoftwareFormStep1 });

@@ -148,7 +148,7 @@ const {
                 },
                 "submit": "Add software"
             },
-            "SoftwareCreationFormStep1": {
+            "SoftwareFormStep1": {
                 "software desktop": "Desktop installable software",
                 "software cloud": "Application software solution hosted in the cloud",
                 "software cloud hint": "Public cloud or your organization's cloud",
@@ -158,7 +158,7 @@ const {
                     "Operating system on which the software can be installed",
                 "required": "This field is required"
             },
-            "SoftwareCreationFormStep2": {
+            "SoftwareFormStep2": {
                 "wikidata id": "Wikidata ID",
                 "wikidata id hint": (
                     <>
@@ -186,13 +186,13 @@ const {
                 "autofill notice":
                     "This information will automatically populate other fields"
             },
-            "SoftwareCreationFormStep3": {
+            "SoftwareFormStep3": {
                 "is present in support market":
                     "Is the software present in the support market?",
                 "is from french public service":
                     "Is the software developed by the French public service?"
             },
-            "SoftwareCreationFormStep4": {
+            "SoftwareFormStep4": {
                 "similar software": "This software is an alternative to ...",
                 "similar software hint":
                     "Associate the software with similar software, proprietary or not"
@@ -457,7 +457,7 @@ const {
                 },
                 "submit": "Ajouter le logiciel"
             },
-            "SoftwareCreationFormStep1": {
+            "SoftwareFormStep1": {
                 "software desktop": "Logiciel installable sur poste de travail",
                 "software cloud":
                     "Solution logicielle applicative hébergée dans le cloud",
@@ -468,7 +468,7 @@ const {
                     "Système d'exploitation sur lequel le logiciel peut être installé",
                 "required": "Ce champs est required" //TODO: move to common keys
             },
-            "SoftwareCreationFormStep2": {
+            "SoftwareFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
                 "wikidata id hint": (
                     <>
@@ -497,13 +497,13 @@ const {
                 "autofill notice":
                     "Cette information remplira automatiquement d'autres champs"
             },
-            "SoftwareCreationFormStep3": {
+            "SoftwareFormStep3": {
                 "is present in support market":
                     "Le logiciel est-il présent sur le marché de support ?",
                 "is from french public service":
                     "Le logiciel est-il développé par le service public français ?"
             },
-            "SoftwareCreationFormStep4": {
+            "SoftwareFormStep4": {
                 "similar software": "Ce logiciel est une alternative à ...",
                 "similar software hint":
                     "Associez le logiciel à des logiciel similaire, propriétaire ou non"

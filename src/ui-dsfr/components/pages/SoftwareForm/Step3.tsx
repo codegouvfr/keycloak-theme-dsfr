@@ -15,10 +15,10 @@ export type Step2Props = {
     evtActionSubmit: NonPostableEvt<void>;
 };
 
-export function SoftwareCreationFormStep3(props: Step2Props) {
+export function SoftwareFormStep3(props: Step2Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
-    const { t } = useTranslation({ SoftwareCreationFormStep3 });
+    const { t } = useTranslation({ SoftwareFormStep3 });
     const commoni18n = useTranslation({ "App": "App" });
 
     const {
@@ -159,4 +159,4 @@ export function SoftwareCreationFormStep3(props: Step2Props) {
 
 export const { i18n } = declareComponentKeys<
     "is present in support market" | "is from french public service"
->()({ SoftwareCreationFormStep3 });
+>()({ SoftwareFormStep3 });

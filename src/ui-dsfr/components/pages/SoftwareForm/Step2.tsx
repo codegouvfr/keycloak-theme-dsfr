@@ -27,7 +27,7 @@ export type Step2Props = {
     >["softwareForm"]["getWikidataOptions"];
 };
 
-export function SoftwareCreationFormStep2(props: Step2Props) {
+export function SoftwareFormStep2(props: Step2Props) {
     const {
         className,
         isUpdateForm,
@@ -38,7 +38,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
         getAutofillDataFromWikidata
     } = props;
 
-    const { t } = useTranslation({ SoftwareCreationFormStep2 });
+    const { t } = useTranslation({ SoftwareFormStep2 });
     const commoni18n = useTranslation({ "App": "App" });
 
     const {
@@ -375,4 +375,4 @@ export const { i18n } = declareComponentKeys<
     | "minimal version hint"
     | "url or numeric id"
     | "autofill notice"
->()({ SoftwareCreationFormStep2 });
+>()({ SoftwareFormStep2 });

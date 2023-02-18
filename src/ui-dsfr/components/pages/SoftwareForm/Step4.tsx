@@ -7,7 +7,7 @@ import { SearchMultiInput } from "ui-dsfr/components/shared/SearchMultiInput";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { useCoreFunctions } from "core-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { SoftwareCreationFormStep2 } from "./Step2";
+import { SoftwareFormStep2 } from "./Step2";
 import { useTranslation } from "../../../i18n";
 
 export type Step4Props = {
@@ -20,11 +20,11 @@ export type Step4Props = {
     >["softwareForm"]["getWikidataOptions"];
 };
 
-export function SoftwareCreationFormStep4(props: Step4Props) {
+export function SoftwareFormStep4(props: Step4Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit, getWikidataOptions } =
         props;
 
-    const { t } = useTranslation({ SoftwareCreationFormStep4 });
+    const { t } = useTranslation({ SoftwareFormStep4 });
     const { handleSubmit, control } = useForm<FormData["step4"]>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
@@ -104,4 +104,4 @@ export function SoftwareCreationFormStep4(props: Step4Props) {
 
 export const { i18n } = declareComponentKeys<
     "similar software" | "similar software hint"
->()({ SoftwareCreationFormStep4 });
+>()({ SoftwareFormStep4 });

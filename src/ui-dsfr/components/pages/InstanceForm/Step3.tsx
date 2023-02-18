@@ -27,7 +27,7 @@ export namespace Step3Props {
     };
 }
 
-export function SoftwareCreationFormStep3(props: Step2Props) {
+export function SoftwareFormStep3(props: Step2Props) {
     const {
         className,
         initialFormData,
