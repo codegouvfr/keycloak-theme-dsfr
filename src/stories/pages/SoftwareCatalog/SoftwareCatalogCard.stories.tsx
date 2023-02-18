@@ -18,6 +18,10 @@ export const VueDefault = getStory({
         onClick: () => {}
     },
     "referentCount": 3,
+    "softwareUserAndReferent": {
+        "href": "",
+        onClick: () => {}
+    },
     "softwareDetails": {
         href: "",
         onClick: () => {}
@@ -44,6 +48,10 @@ export const VueTooLongDescription = getStory({
         onClick: () => {}
     },
     "referentCount": 3,
+    "softwareUserAndReferent": {
+        "href": "",
+        onClick: () => {}
+    },
     "softwareDetails": {
         href: "",
         onClick: () => {}

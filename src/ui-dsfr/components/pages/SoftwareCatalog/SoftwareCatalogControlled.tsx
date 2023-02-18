@@ -101,6 +101,10 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         const { softwareName } = software;
 
         const { softwareDetails, declareUsageForm } = linksBySoftwareName[softwareName];
+        const softwareUserAndReferent: Link = {
+            "href": `/users-and-referents?name=${softwareName}`,
+            "onClick": () => {}
+        };
 
         return (
             <SoftwareCatalogCard
@@ -108,6 +112,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                 {...software}
                 declareUsageForm={declareUsageForm}
                 softwareDetails={softwareDetails}
+                softwareUserAndReferent={softwareUserAndReferent}
             />
         );
     });

@@ -22,6 +22,7 @@ const {
     $lang,
     useResolveLocalizedString
 } = createI18nApi<
+    | typeof import("ui-dsfr/components/App").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareCatalog/Search").i18n
@@ -53,6 +54,18 @@ const {
     { languages, fallbackLanguage },
     {
         "en": {
+            "App": {
+                "yes": "Yes",
+                "no": "Non",
+                "previous": "Previous",
+                "next": "Next",
+                "add software": "Add software",
+                "add software or service": "Add software or service",
+                "add instance": "Add instance",
+                "required": "Ce champs est requis",
+                "all": "All",
+                "allFeminine": "All"
+            },
             "Homepage": {
                 "title": (
                     <>
@@ -94,7 +107,6 @@ const {
                 "search software": "Search a software",
                 "edit software title": "Edit a software",
                 "edit software description": "Description text body à changer",
-                "add software or service title": "Add a software or a service",
                 "add software or service description": "Description text body à changer",
                 "complete form": "Complete the add form"
             },
@@ -108,8 +120,6 @@ const {
                 "subtitle":
                     "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
                 "who can add software": "Who can add software or a service and how?",
-                "add software": "Add software",
-                "add instance": "Add instance",
                 "discover as agent label": "Discover as agent",
                 "discover as agent description": "Description agent à changer",
                 "discover as DSI label": "Discover as CIO",
@@ -121,84 +131,71 @@ const {
                 "contribute as DSI description": "Description contribution CIO à changer"
             },
             "SoftwareForm": {
-                "add software or service": "Ajouter un logiciel ou un service",
-                "add software": "Ajouter un logiciel",
-                "title software creation form": "Ajouter un logiciel",
-                "title software update form": "Mettre à jour un logiciel",
-                "current step": ({ currentStepIndex, totalStep }) =>
-                    `Étapes ${currentStepIndex} sur ${totalStep}`,
+                "title software update form": "Update logiciel",
                 "stepper title": ({ currentStepIndex }) => {
                     switch (currentStepIndex) {
                         case 1:
-                            return "Quel type de logiciel souhaitez-vous ajouter ?";
+                            return "What kind of software do you want to add ?";
                         case 2:
-                            return "Quelques pré-requis ?";
+                            return "About the software";
                         case 3:
-                            return "Quelques pré-requis ?";
+                            return "Some prerequisites";
                         case 4:
-                            return "Logiciels similaires et équivalents propriétaires ?";
+                            return "Proprietary similar and equivalent software";
                         default:
                             return "";
                     }
                 },
-                "previous": "Précedent",
-                "next": "Suivant",
-                "submit": "Envoyer"
+                "submit": "Add software"
             },
             "SoftwareCreationFormStep1": {
-                "software desktop": "Logiciel installable sur poste de travail",
-                "software cloud":
-                    "Solution logicielle applicative hébergée dans le cloud",
-                "software cloud hint": "Cloud public ou cloud de votre organisation",
-                "module": "Brique ou modules techniques",
-                "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
+                "software desktop": "Desktop installable software",
+                "software cloud": "Application software solution hosted in the cloud",
+                "software cloud hint": "Public cloud or your organization's cloud",
+                "module": "Brick or technical modules",
+                "module hint": "For example proxies, HTTP servers or plugins",
                 "checkbox legend":
-                    "Système d'exploitation sur lequel le logiciel peut être installé",
+                    "Operating system on which the software can be installed",
                 "required": "This field is required"
             },
             "SoftwareCreationFormStep2": {
-                "wikidata id": "Identifiant Wikidata",
+                "wikidata id": "Wikidata ID",
                 "wikidata id hint": (
                     <>
-                        Associer le logiciel à une fiche{" "}
+                        Associate the software with an existing{" "}
                         <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">
                             Wikidata
                         </a>{" "}
-                        déjà existante
+                        file
                     </>
                 ),
                 "wikidata id information":
-                    "Cette information remplira automatiquement d'autres champs",
-                "comptoir du libre id": "Identifiant Comptoire du Libre",
-                "comptoir du libre id hint": "URL de la page ou identifiant numérique",
-                "software name": "Nom du logiciel",
-                "software feature": "Fonction du logiciel",
+                    "This information will automatically populate other fields",
+                "comptoir du libre id": "Comptoir du Libre identifier",
+                "comptoir du libre id hint": "Page URL or numeric ID",
+                "software name": "Software name",
+                "software feature": "Software function",
                 "software feature hint":
-                    "Décrivez en quelques mots les fonctionnalités du logiciel",
-                "license": "License du logiciel",
+                    "Describe in a few words the features of the software",
+                "license": "Software license",
                 "license hint": "(GNU, GPL, BSD, etc.)",
-                "minimal version": "Version minimale",
+                "minimal version": "Minimum version",
                 "minimal version hint":
-                    "Version la plus ancienne encore acceptable d'avoir en production",
-                "required": "Ce champs est requis", //TODO: move to common keys
-                "url or numeric id":
-                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                    "Earliest version still acceptable to have in production",
+                "url or numeric id": "This field must be a URL or an ID number", //TODO: move to common keys,
                 "autofill notice":
-                    "Cette information remplira automatiquement d'autres champs"
+                    "This information will automatically populate other fields"
             },
             "SoftwareCreationFormStep3": {
                 "is present in support market":
-                    "Le logiciel est-il présent sur le marché de support ?",
+                    "Is the software present in the support market?",
                 "is from french public service":
-                    "Le logiciel est-il développé par le service public français ?",
-                "yes": "Oui",
-                "no": "Non",
-                "required": "Ce champs est requis" //TODO: move to common keys
+                    "Is the software developed by the French public service?"
             },
             "SoftwareCreationFormStep4": {
-                "similar software": "Ce logiciel est une alternative à ...",
+                "similar software": "This software is an alternative to ...",
                 "similar software hint":
-                    "Associer le logiciel a des logiciel similaire, propriétaire ou non"
+                    "Associate the software with similar software, proprietary or not"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -305,8 +302,6 @@ const {
                 "catalog breadcrumb": "Software catalog",
                 "declare yourself user or referent breadcrumb":
                     "Declare yourself user or referent of the software",
-                "back": "Back",
-                "next": "Next",
                 "send": "Send"
             },
             "UserTypeStep": {
@@ -325,8 +320,6 @@ const {
             "ReferentStep": {
                 "legend title": "Are you a technical expert of this software ?",
                 "legend hint": "You are able to answer to questions of agents and of CIO",
-                "yes": "Yes",
-                "no": "No",
                 "useCase": "Describe in a few words the use case of your administration",
                 "service":
                     "More precisely, which service of the software do you declare yourself referent"
@@ -368,6 +361,18 @@ const {
         },
         "fr": {
             /* spell-checker: disable */
+            "App": {
+                "yes": "Oui",
+                "no": "Non",
+                "previous": "Précedent",
+                "next": "Suivant",
+                "add software": "Ajouter un logiciel",
+                "add software or service": "Ajouter un logiciel ou un service",
+                "add instance": "Ajouter une instance",
+                "required": "Ce champs est requis",
+                "all": "Tous",
+                "allFeminine": "Toutes"
+            },
             "Homepage": {
                 "title": (
                     <>
@@ -409,7 +414,6 @@ const {
                 "search software": "Rechercher un logiciel",
                 "edit software title": "Éditer une fiche logiciel",
                 "edit software description": "Description text body à changer",
-                "add software or service title": "Ajouter un logiciel ou un service",
                 "add software or service description": "Description text body à changer",
                 "complete form": "Remplir le formulaire d'ajout"
             },
@@ -425,8 +429,6 @@ const {
                     "Participez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et DSI de l'administration",
                 "who can add software":
                     "Qui peut ajouter un logiciel ou un service et comment ?",
-                "add software": "Ajouter un logiciel",
-                "add instance": "Ajouter une instance",
                 "discover as agent label": "Découvrir en tant qu'agent",
                 "discover as agent description": "Description agent à changer",
                 "discover as DSI label": "Découvrir en tant que DSI",
@@ -438,28 +440,21 @@ const {
                 "contribute as DSI description": "Description contribution DSI à changer"
             },
             "SoftwareForm": {
-                "add software or service": "Ajouter un logiciel ou un service",
-                "add software": "Ajouter un logiciel",
-                "title software creation form": "Ajouter un logiciel",
                 "title software update form": "Mettre à jour un logiciel",
-                "current step": ({ currentStepIndex, totalStep }) =>
-                    `Étapes ${currentStepIndex} sur ${totalStep}`,
                 "stepper title": ({ currentStepIndex }) => {
                     switch (currentStepIndex) {
                         case 1:
                             return "Quel type de logiciel souhaitez-vous ajouter ?";
                         case 2:
-                            return "Quelques pré-requis ?";
+                            return "À propos du logiciel";
                         case 3:
                             return "Quelques pré-requis ?";
                         case 4:
-                            return "Logiciels similaires et équivalents propriétaires ?";
+                            return "Logiciels similaires et équivalents propriétaires";
                         default:
                             return "";
                     }
                 },
-                "previous": "Précedent",
-                "next": "Suivant",
                 "submit": "Ajouter le logiciel"
             },
             "SoftwareCreationFormStep1": {
@@ -497,7 +492,6 @@ const {
                 "minimal version": "Version minimale",
                 "minimal version hint":
                     "Version la plus ancienne encore acceptable d'avoir en production",
-                "required": "Ce champs est requis", //TODO: move to common keys
                 "url or numeric id":
                     "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
                 "autofill notice":
@@ -507,15 +501,12 @@ const {
                 "is present in support market":
                     "Le logiciel est-il présent sur le marché de support ?",
                 "is from french public service":
-                    "Le logiciel est-il développé par le service public français ?",
-                "yes": "Oui",
-                "no": "Non",
-                "required": "Ce champs est requis" //TODO: move to common keys
+                    "Le logiciel est-il développé par le service public français ?"
             },
             "SoftwareCreationFormStep4": {
                 "similar software": "Ce logiciel est une alternative à ...",
                 "similar software hint":
-                    "Associer le logiciel a des logiciel similaire, propriétaire ou non"
+                    "Associez le logiciel à des logiciel similaire, propriétaire ou non"
             },
             "SoftwareCatalogCard": {
                 "last version": "Dernière version",
@@ -623,8 +614,6 @@ const {
                 "catalog breadcrumb": "Le catalogue de logiciel",
                 "declare yourself user or referent breadcrumb":
                     "Se déclarer utilisateur ou référent du logiciel",
-                "back": "Précédent",
-                "next": "Suivant",
                 "send": "Envoyer"
             },
             "UserTypeStep": {
@@ -644,8 +633,6 @@ const {
                 "legend title": "Êtes-vous un expert technique concernant ce logiciel ?",
                 "legend hint":
                     "Vous pouvez répondre aux questions techniques d'agents et de DSI",
-                "yes": "Oui",
-                "no": "Non",
                 "useCase":
                     "Décrivez en quelques mots le cas d'usage de votre administration",
                 "service":
@@ -703,7 +690,7 @@ export const zLocalizedString = z.union([
 ]);
 
 {
-    type Got = ReturnType<typeof zLocalizedString["parse"]>;
+    type Got = ReturnType<(typeof zLocalizedString)["parse"]>;
     type Expected = LocalizedString;
 
     assert<Equals<Got, Expected>>();

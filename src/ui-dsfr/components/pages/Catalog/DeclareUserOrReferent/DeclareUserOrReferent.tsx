@@ -43,6 +43,8 @@ export const DeclareUserOrReferent = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ DeclareUserOrReferent });
+    const commoni18n = useTranslation({ "App": "App" });
+
     const { classes, cx } = useStyles();
 
     const [activeStep, setActiveStep] = useState(1);
@@ -174,14 +176,16 @@ export const DeclareUserOrReferent = memo((props: Props) => {
                                 className={classes.back}
                                 disabled={handleDisableBackButton()}
                             >
-                                {t("back")}
+                                {commoni18n.t("previous")}
                             </Button>
                             <Button
                                 onClick={onNextStep}
                                 priority="primary"
                                 disabled={handleDisableNextButton()}
                             >
-                                {activeStep === STEP_COUNT ? t("send") : t("next")}
+                                {activeStep === STEP_COUNT
+                                    ? t("send")
+                                    : commoni18n.t("next")}
                             </Button>
                         </div>
                     </Form>
@@ -278,7 +282,5 @@ export const { i18n } = declareComponentKeys<
     | "catalog breadcrumb"
     | "declare yourself user or referent breadcrumb"
     | "title"
-    | "back"
-    | "next"
     | "send"
 >()({ DeclareUserOrReferent });

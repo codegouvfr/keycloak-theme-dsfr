@@ -10,7 +10,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "../../../i18n";
 import { FooterSoftwareUserAndReferent } from "./FooterSoftwareUserAndReferent";
 
-SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareDetails]);
+SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
 
 type PageRoute = Route<typeof SoftwareUserAndReferent.routeGroup>;
 
@@ -22,7 +22,7 @@ export type Props = {
 };
 
 export function SoftwareUserAndReferent(props: Props) {
-    const { className, route } = props;
+    const { route } = props;
 
     const { softwareDetails } = useCoreFunctions();
 
@@ -64,106 +64,116 @@ export function SoftwareUserAndReferent(props: Props) {
 
     return (
         <div>
-            <Breadcrumb
-                segments={[
-                    {
-                        linkProps: {
-                            href: "#"
+            <div className={fr.cx("fr-container")}>
+                <Breadcrumb
+                    segments={[
+                        {
+                            linkProps: {
+                                href: "#"
+                            },
+                            label: t("catalog breadcrumb")
                         },
-                        label: t("catalog breadcrumb")
-                    },
-                    {
-                        linkProps: {
-                            href: "#"
-                        },
-                        label: software?.softwareName
-                    }
-                ]}
-                currentPageLabel={t("user and referent breadcrumb")}
-                className={classes.breadcrumb}
-            />
-            <div className={classes.header}>
-                <a href={"/"} className={classes.backButton}>
-                    <i className={fr.cx("fr-icon-arrow-left-s-line")} />
-                </a>
-                <h4 className={classes.title}>{t("title")}</h4>
-            </div>
-            <div className={classes.main}>
-                <nav
-                    className={cx(fr.cx("fr-sidemenu"), classes.sidemenu)}
-                    aria-labelledby="fr-sidemenu-title"
-                >
-                    <div className={fr.cx("fr-sidemenu__inner")}>
-                        <button
-                            className={fr.cx("fr-sidemenu__btn")}
-                            hidden
-                            aria-controls="fr-sidemenu-wrapper"
-                            aria-expanded="false"
-                        >
-                            {t("category")} (
-                            {activeMenu === 0
-                                ? t("tab user title")
-                                : t("tab referent title")}
-                            )
-                        </button>
-                        <div className={fr.cx("fr-collapse")} id="fr-sidemenu-wrapper">
-                            <div
-                                className={cx(
-                                    fr.cx("fr-sidemenu__title"),
-                                    classes.sidemenuTitle
-                                )}
-                                id="fr-sidemenu-title"
+                        {
+                            linkProps: {
+                                href: "#"
+                            },
+                            label: software?.softwareName
+                        }
+                    ]}
+                    currentPageLabel={t("user and referent breadcrumb")}
+                    className={classes.breadcrumb}
+                />
+                <div className={classes.header}>
+                    <a href={"/"} className={classes.backButton}>
+                        <i className={fr.cx("fr-icon-arrow-left-s-line")} />
+                    </a>
+                    <h4 className={classes.title}>{t("title")}</h4>
+                </div>
+                <div className={classes.main}>
+                    <nav
+                        className={cx(fr.cx("fr-sidemenu"), classes.sidemenu)}
+                        aria-labelledby="fr-sidemenu-title"
+                    >
+                        <div className={fr.cx("fr-sidemenu__inner")}>
+                            <button
+                                className={fr.cx("fr-sidemenu__btn")}
+                                hidden
+                                aria-controls="fr-sidemenu-wrapper"
+                                aria-expanded="false"
                             >
-                                <img
-                                    src={software?.logoUrl}
-                                    alt=""
-                                    className={classes.logo}
-                                />
-                                {software?.softwareName}
-                            </div>
-                            <ul className={fr.cx("fr-sidemenu__list")}>
-                                {MenuTabs.map(tab => {
-                                    const ariaCurrent =
-                                        tab.id === activeMenu
-                                            ? {
-                                                  "aria-current": "step"
-                                              }
-                                            : {};
+                                {t("category")} (
+                                {activeMenu === 0
+                                    ? t("tab user title")
+                                    : t("tab referent title")}
+                                )
+                            </button>
+                            <div
+                                className={fr.cx("fr-collapse")}
+                                id="fr-sidemenu-wrapper"
+                            >
+                                <div
+                                    className={cx(
+                                        fr.cx("fr-sidemenu__title"),
+                                        classes.sidemenuTitle
+                                    )}
+                                    id="fr-sidemenu-title"
+                                >
+                                    <img
+                                        src={software?.logoUrl}
+                                        alt=""
+                                        className={classes.logo}
+                                    />
+                                    {software?.softwareName}
+                                </div>
+                                <ul className={fr.cx("fr-sidemenu__list")}>
+                                    {MenuTabs.map(tab => {
+                                        const ariaCurrent =
+                                            tab.id === activeMenu
+                                                ? {
+                                                      "aria-current": "step"
+                                                  }
+                                                : {};
 
-                                    return (
-                                        <li
-                                            className={cx(fr.cx("fr-sidemenu__item"), {
-                                                "fr-sidemenu__item--active":
-                                                    tab.id === activeMenu
-                                            })}
-                                        >
-                                            {/*@ts-ignore*/}
-                                            <a
-                                                className={fr.cx("fr-sidemenu__link")}
-                                                href="#"
-                                                target="_self"
-                                                {...ariaCurrent}
-                                                onClick={() => onChangeTabMenu(tab.id)}
+                                        return (
+                                            <li
+                                                className={cx(
+                                                    fr.cx("fr-sidemenu__item"),
+                                                    {
+                                                        "fr-sidemenu__item--active":
+                                                            tab.id === activeMenu
+                                                    }
+                                                )}
                                             >
-                                                {tab.label}
-                                            </a>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
+                                                {/*@ts-ignore*/}
+                                                <a
+                                                    className={fr.cx("fr-sidemenu__link")}
+                                                    href="#"
+                                                    target="_self"
+                                                    {...ariaCurrent}
+                                                    onClick={() =>
+                                                        onChangeTabMenu(tab.id)
+                                                    }
+                                                >
+                                                    {tab.label}
+                                                </a>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
                         </div>
+                    </nav>
+                    <div className={classes.contentMenuTab}>
+                        <ul>
+                            {contentItems?.map(author => {
+                                return (
+                                    <li key={author.authorName}>
+                                        <a href={author.authorUrl}>{author.authorName}</a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
-                </nav>
-                <div className={classes.contentMenuTab}>
-                    <ul>
-                        {contentItems?.map(author => {
-                            return (
-                                <li key={author.authorName}>
-                                    <a href={author.authorUrl}>{author.authorName}</a>
-                                </li>
-                            );
-                        })}
-                    </ul>
                 </div>
             </div>
             <FooterSoftwareUserAndReferent

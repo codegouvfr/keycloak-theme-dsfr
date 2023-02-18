@@ -25,9 +25,10 @@ export const ReferentStep = memo((props: Props) => {
 
     const { getInputProps: serviceGetInputProps } = useField("referent.service", {});
 
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation({ ReferentStep });
+    const commoni18n = useTranslation({ "App": "App" });
 
     return (
         <div className={classes.root}>
@@ -48,7 +49,7 @@ export const ReferentStep = memo((props: Props) => {
                         value="yes"
                     />
                     <label className={fr.cx("fr-label")} htmlFor="radio-yes">
-                        {t("yes")}
+                        {commoni18n.t("yes")}
                     </label>
                 </div>
                 <div className={fr.cx("fr-radio-group")}>
@@ -60,8 +61,7 @@ export const ReferentStep = memo((props: Props) => {
                         value="no"
                     />
                     <label className={fr.cx("fr-label")} htmlFor="radio-no">
-                        {" "}
-                        {t("no")}
+                        {commoni18n.t("no")}
                     </label>
                 </div>
             </div>
@@ -84,7 +84,7 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "legend title" | "legend hint" | "yes" | "no" | "useCase" | "service"
+    "legend title" | "legend hint" | "useCase" | "service"
 >()({
     ReferentStep
 });

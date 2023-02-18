@@ -6,6 +6,8 @@ import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLanding";
 import { SoftwareDetails } from "./pages/SoftwareDetails";
+import { declareComponentKeys } from "i18nifty";
+import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
 
 export default function App() {
     const route = useRoute();
@@ -24,19 +26,6 @@ export default function App() {
         </div>
     );
 }
-
-const useStyles = makeStyles({
-    "name": { App }
-})({
-    "root": {
-        "display": "flex",
-        "flexDirection": "column",
-        "height": "100vh"
-    },
-    "main": {
-        "flex": 1
-    }
-});
 
 function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
     const { route } = props;
@@ -98,5 +87,47 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         }
     }
 
+    {
+        const Page = SoftwareUserAndReferent;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
     return <h1>Not found 😢</h1>;
 }
+
+const useStyles = makeStyles({
+    "name": { App }
+})({
+    "root": {
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "100vh"
+    },
+    "main": {
+        "flex": 1
+    }
+});
+
+/**
+ * "App" key is used for common translation keys
+ */
+export const { i18n } = declareComponentKeys<
+    | "yes"
+    | "no"
+    | "previous"
+    | "next"
+    | "add software"
+    | "add software or service"
+    | "add instance"
+    | "required"
+    | "all"
+    | "allFeminine"
+>()({ "App": "App" });

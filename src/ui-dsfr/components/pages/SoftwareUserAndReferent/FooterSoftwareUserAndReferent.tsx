@@ -28,7 +28,7 @@ export const FooterSoftwareUserAndReferent = memo((props: Props) => {
 
     return (
         <div className={cx(classes.root, className)}>
-            <div className={cx(classes.container)}>
+            <div className={cx(fr.cx("fr-container"), classes.container)}>
                 <Button
                     iconId="fr-icon-eye-line"
                     onClick={function noRefCheck() {}}

@@ -26,6 +26,7 @@ export type Props = {
     softwareDescription?: string;
     userCount: number;
     referentCount: number;
+    softwareUserAndReferent: Link;
     declareUsageForm: Link;
     testUrl?: string;
     softwareDetails: Link;
@@ -41,6 +42,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         softwareDescription,
         userCount,
         referentCount,
+        softwareUserAndReferent,
         softwareDetails,
         declareUsageForm,
         testUrl,
@@ -128,10 +130,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         : "software.function"}
                 </p>
                 <DetailUsersAndReferents
-                    seeUserAndReferent={{
-                        href: "",
-                        onClick: () => {}
-                    }}
+                    seeUserAndReferent={softwareUserAndReferent}
                     referentCount={referentCount}
                     userCount={userCount}
                     className={classes.detailUsersAndReferents}

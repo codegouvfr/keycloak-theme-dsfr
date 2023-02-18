@@ -95,6 +95,12 @@ const routeDefs = {
             "name": param.query.string
         },
         () => `/declaration`
+    ),
+    "softwareUsersAndReferents": defineRoute(
+        {
+            "name": param.query.string
+        },
+        () => `/users-and-referents`
     )
 };
 

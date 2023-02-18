@@ -39,6 +39,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
     } = props;
 
     const { t } = useTranslation({ SoftwareCreationFormStep2 });
+    const commoni18n = useTranslation({ "App": "App" });
 
     const {
         handleSubmit,
@@ -246,7 +247,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={t("required")}
+                        stateRelatedMessage={commoni18n.t("required")}
                     />
                 )}
             />
@@ -265,7 +266,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareDescription", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={t("required")}
+                        stateRelatedMessage={commoni18n.t("required")}
                     />
                 )}
             />
@@ -284,7 +285,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareLicense", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={t("required")}
+                        stateRelatedMessage={commoni18n.t("required")}
                     />
                 )}
             />
@@ -303,7 +304,7 @@ export function SoftwareCreationFormStep2(props: Step2Props) {
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={t("required")}
+                        stateRelatedMessage={commoni18n.t("required")}
                     />
                 )}
             />
@@ -372,7 +373,6 @@ export const { i18n } = declareComponentKeys<
     | "license hint"
     | "minimal version"
     | "minimal version hint"
-    | "required"
     | "url or numeric id"
     | "autofill notice"
 >()({ SoftwareCreationFormStep2 });
