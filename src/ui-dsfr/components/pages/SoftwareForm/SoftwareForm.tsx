@@ -117,69 +117,51 @@ export function SoftwareForm(props: Props) {
                     title={t("stepper title", { "currentStepIndex": step ?? 1 })}
                     className={classes.stepper}
                 />
-                {(() => {
-                    switch (step) {
-                        case 1:
-                            return (
-                                <SoftwareCreationFormStep1
-                                    initialFormData={formData.step1}
-                                    onSubmit={formData =>
-                                        softwareForm.setStep1Data({
-                                            "formDataStep1": formData
-                                        })
-                                    }
-                                    evtActionSubmit={evtActionSubmitStep}
-                                />
-                            );
-                        case 2:
-                            return (
-                                <SoftwareCreationFormStep2
-                                    isUpdateForm={route.name === "softwareUpdateForm"}
-                                    initialFormData={formData.step2}
-                                    onSubmit={formData =>
-                                        softwareForm.setStep2Data({
-                                            "formDataStep2": formData
-                                        })
-                                    }
-                                    getAutofillDataFromWikidata={
-                                        softwareForm.getAutofillData
-                                    }
-                                    getWikidataOptions={softwareForm.getWikidataOptions}
-                                    evtActionSubmit={evtActionSubmitStep}
-                                />
-                            );
-                        case 3:
-                            return (
-                                <SoftwareCreationFormStep3
-                                    initialFormData={formData.step3}
-                                    onSubmit={formData =>
-                                        softwareForm.setStep3Data({
-                                            "formDataStep3": formData
-                                        })
-                                    }
-                                    isCloudNativeSoftware={
-                                        formData.step1?.softwareType === "cloud"
-                                    }
-                                    evtActionSubmit={evtActionSubmitStep}
-                                />
-                            );
-                        case 4:
-                            return (
-                                <SoftwareCreationFormStep4
-                                    initialFormData={formData.step4}
-                                    evtActionSubmit={evtActionSubmitStep.pipe(
-                                        () => step === 4
-                                    )}
-                                    onSubmit={formData =>
-                                        softwareForm.setStep4DataAndSubmit({
-                                            "formDataStep4": formData
-                                        })
-                                    }
-                                    getWikidataOptions={softwareForm.getWikidataOptions}
-                                />
-                            );
+                <SoftwareCreationFormStep1
+                    className={classes.step1}
+                    initialFormData={formData.step1}
+                    onSubmit={formData =>
+                        softwareForm.setStep1Data({
+                            "formDataStep1": formData
+                        })
                     }
-                })()}
+                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 1)}
+                />
+                <SoftwareCreationFormStep2
+                    className={classes.step2}
+                    isUpdateForm={route.name === "softwareUpdateForm"}
+                    initialFormData={formData.step2}
+                    onSubmit={formData =>
+                        softwareForm.setStep2Data({
+                            "formDataStep2": formData
+                        })
+                    }
+                    getAutofillDataFromWikidata={softwareForm.getAutofillData}
+                    getWikidataOptions={softwareForm.getWikidataOptions}
+                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 2)}
+                />
+                <SoftwareCreationFormStep3
+                    className={classes.step3}
+                    initialFormData={formData.step3}
+                    onSubmit={formData =>
+                        softwareForm.setStep3Data({
+                            "formDataStep3": formData
+                        })
+                    }
+                    isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
+                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 3)}
+                />
+                <SoftwareCreationFormStep4
+                    className={classes.step4}
+                    initialFormData={formData.step4}
+                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 4)}
+                    onSubmit={formData =>
+                        softwareForm.setStep4DataAndSubmit({
+                            "formDataStep4": formData
+                        })
+                    }
+                    getWikidataOptions={softwareForm.getWikidataOptions}
+                />
             </div>
             <div className={classes.footer}>
                 <div className={cx(fr.cx("fr-container"), classes.footerContainer)}>
@@ -219,7 +201,19 @@ export function SoftwareForm(props: Props) {
 
 const useStyles = makeStyles<{ step: number | undefined }>({
     "name": { SoftwareForm }
-})(theme => ({
+})((theme, { step }) => ({
+    "step1": {
+        "display": step !== 1 ? "none" : undefined
+    },
+    "step2": {
+        "display": step !== 2 ? "none" : undefined
+    },
+    "step3": {
+        "display": step !== 3 ? "none" : undefined
+    },
+    "step4": {
+        "display": step !== 4 ? "none" : undefined
+    },
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
     },
