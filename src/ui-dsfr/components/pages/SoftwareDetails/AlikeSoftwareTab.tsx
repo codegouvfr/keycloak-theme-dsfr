@@ -2,7 +2,6 @@ import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
-import { makeStyles } from "tss-react/dsfr";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import { SoftwareCatalogState } from "../../../../core-dsfr/usecases/softwareCatalog";
@@ -54,6 +53,10 @@ export const AlikeSoftwareTab = (props: Props) => {
                             onClick: () => {}
                         }}
                         softwareDetails={{
+                            href: "",
+                            onClick: () => {}
+                        }}
+                        softwareUserAndReferent={{
                             href: "",
                             onClick: () => {}
                         }}

@@ -62,7 +62,9 @@ const {
                 "add software": "Add software",
                 "add software or service": "Add software or service",
                 "add instance": "Add instance",
-                "required": "Ce champs est requis"
+                "required": "Ce champs est requis",
+                "all": "All",
+                "allFeminine": "All"
             },
             "Homepage": {
                 "title": (
@@ -367,7 +369,9 @@ const {
                 "add software": "Ajouter un logiciel",
                 "add software or service": "Ajouter un logiciel ou un service",
                 "add instance": "Ajouter une instance",
-                "required": "Ce champs est requis"
+                "required": "Ce champs est requis",
+                "all": "Tous",
+                "allFeminine": "Toutes"
             },
             "Homepage": {
                 "title": (
