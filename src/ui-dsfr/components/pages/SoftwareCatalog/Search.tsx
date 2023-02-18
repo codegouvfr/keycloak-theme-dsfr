@@ -59,6 +59,8 @@ export function Search(props: Props) {
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
     const { t } = useTranslation({ Search });
+    const commoni18n = useTranslation({ "App": "App" });
+
     const { classes, cx } = useStyles();
 
     return (
@@ -99,12 +101,20 @@ export function Search(props: Props) {
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
-                        {organizations.map(organization => (
+                        {[undefined, ...organizations].map(organization => (
                             <option
-                                value={organization.organization}
-                                key={organization.organization}
+                                value={organization?.organization ?? ""}
+                                key={organization?.organization ?? 0}
                             >
-                                {organization.organization} ({organization.softwareCount})
+                                {organization ? (
+                                    <>
+                                        {" "}
+                                        {organization.organization} (
+                                        {organization.softwareCount})
+                                    </>
+                                ) : (
+                                    commoni18n.t("allFeminine")
+                                )}
                             </option>
                         ))}
                     </Select>
@@ -117,9 +127,19 @@ export function Search(props: Props) {
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
-                        {categories.map(category => (
-                            <option value={category.category} key={category.category}>
-                                {category.category} ({category.softwareCount})
+                        {[undefined, ...categories].map(category => (
+                            <option
+                                value={category?.category ?? ""}
+                                key={category?.category ?? 0}
+                            >
+                                {category ? (
+                                    <>
+                                        {" "}
+                                        {category.category} ({category.softwareCount})
+                                    </>
+                                ) : (
+                                    commoni18n.t("allFeminine")
+                                )}
                             </option>
                         ))}
                     </Select>
@@ -135,12 +155,20 @@ export function Search(props: Props) {
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
-                        {environments.map(environment => (
+                        {[undefined, ...environments].map(environment => (
                             <option
-                                value={environment.environment}
-                                key={environment.environment}
+                                value={environment?.environment ?? ""}
+                                key={environment?.environment ?? 0}
                             >
-                                {environment.environment}
+                                {environment ? (
+                                    <>
+                                        {" "}
+                                        {environment.environment} (
+                                        {environment.softwareCount})
+                                    </>
+                                ) : (
+                                    commoni18n.t("all")
+                                )}
                             </option>
                         ))}
                     </Select>
@@ -164,13 +192,20 @@ export function Search(props: Props) {
                             className={cx(fr.cx("fr-select"), classes.multiSelect)}
                             input={<InputBase />}
                         >
-                            {prerogatives.map(prerogative => (
+                            {[undefined, ...prerogatives].map(prerogative => (
                                 <MenuItem
-                                    key={prerogative.prerogative}
-                                    value={prerogative.prerogative}
+                                    key={prerogative?.prerogative ?? ""}
+                                    value={prerogative?.prerogative ?? 0}
                                 >
-                                    {prerogative.prerogative} ({prerogative.softwareCount}
-                                    )
+                                    {prerogative ? (
+                                        <>
+                                            {" "}
+                                            {prerogative.prerogative} (
+                                            {prerogative.softwareCount})
+                                        </>
+                                    ) : (
+                                        commoni18n.t("all")
+                                    )}
                                 </MenuItem>
                             ))}
                         </SelectMui>
