@@ -36,4 +36,4 @@ package-lock.json
 
 /public/dsfr/
 /public/index.html
-/src/index.tsx
+/src/index.ts
