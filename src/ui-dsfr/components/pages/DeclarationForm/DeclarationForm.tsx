@@ -11,6 +11,7 @@ import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
 import { DeclarationFormStep1 } from "./Step1";
 import { DeclarationFormStep2User } from "./Step2User";
+import { DeclarationFormStep2Referent } from "./Step2Referent";
 import { makeStyles } from "tss-react/dsfr";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
@@ -81,7 +82,21 @@ export function DeclarationForm(props: Props) {
                 onSubmit={formData => declarationForm.submit({ formData })}
                 softwareType={software.softwareType}
             />
-            <div className={classes.step2Referent}>TODO</div>
+            <DeclarationFormStep2Referent
+                className={classes.step2Referent}
+                evtActionSubmit={evtActionSubmitStep.pipe(
+                    () => step === 2 && declarationType === "referent"
+                )}
+                onSubmit={formData => declarationForm.submit({ formData })}
+                softwareType={(() => {
+                    switch (software.softwareType) {
+                        case "cloud":
+                            return "cloud";
+                        default:
+                            return "other";
+                    }
+                })()}
+            />
             {step === 2 && (
                 <Button
                     onClick={() => declarationForm.navigateToPreviousStep()}

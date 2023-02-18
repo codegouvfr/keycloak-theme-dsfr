@@ -152,7 +152,7 @@ export namespace SillApiClient {
             isTechnicalExpert: boolean;
             usecaseDescription: string;
             /** NOTE: Can be not undefined only if cloud */
-            serviceUr: string | undefined;
+            serviceUrl: string | undefined;
         };
     }
 }
