@@ -9,6 +9,14 @@ const { meta, getStory } = getStoryFactory({
 
 export default meta;
 
-export const VueCreation = getStory({
+export const WithCloudSoftware = getStory({
     "route": createMockRoute("declarationForm", { "name": "NextCloud" })
+});
+
+export const WithDesktopSoftware = getStory({
+    "route": createMockRoute("declarationForm", { "name": "LibreOffice" })
+});
+
+export const WithOtherSoftware = getStory({
+    "route": createMockRoute("declarationForm", { "name": "Debian" })
 });

@@ -7,16 +7,15 @@ import type { FormData } from "core-dsfr/usecases/declarationForm";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 
-export type DeclareUserProps = {
+type Props = {
     className?: string;
-    initialFormData: FormData.User | undefined;
     onSubmit: (formData: FormData.User) => void;
     evtActionSubmit: NonPostableEvt<void>;
     softwareType: "desktop" | "cloud" | "other";
 };
 
-export function DeclareUser(props: DeclareUserProps) {
-    const { className, initialFormData, onSubmit, evtActionSubmit, softwareType } = props;
+export function DeclarationFormStep2User(props: Props) {
+    const { className, onSubmit, evtActionSubmit, softwareType } = props;
 
     const {
         handleSubmit,
@@ -28,18 +27,9 @@ export function DeclareUser(props: DeclareUserProps) {
         version: string;
         serviceUrlInputValue: string;
     }>({
-        "defaultValues": (() => {
-            if (initialFormData === undefined) {
-                return undefined;
-            }
-
-            return {
-                "usecaseDescription": initialFormData.usecaseDescription,
-                "os": initialFormData.os === undefined ? "" : initialFormData.os,
-                "version": initialFormData.version,
-                "serviceUrlInputValue": initialFormData.serviceUrl ?? ""
-            };
-        })()
+        "defaultValues": {
+            "osSelectValue": ""
+        }
     });
 
     const [submitButtonElement, setSubmitButtonElement] =
@@ -84,7 +74,7 @@ export function DeclareUser(props: DeclareUserProps) {
             />
             {softwareType === "desktop" && (
                 <Select
-                    label="Label"
+                    label="Dans quel environnement utilisez-vous ce logiciel?"
                     nativeSelectProps={{
                         ...register("osSelectValue", { "required": true })
                     }}
@@ -116,7 +106,7 @@ export function DeclareUser(props: DeclareUserProps) {
                     state={
                         errors.serviceUrlInputValue !== undefined ? "error" : undefined
                     }
-                    stateRelatedMessage="Field required"
+                    stateRelatedMessage="Not a valid url"
                 />
             )}
             <button

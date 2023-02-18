@@ -76,6 +76,8 @@ export const { reducer, actions } = createSlice({
 
             assert(state.step === 1);
 
+            state.step = 2;
+
             state.declarationType = declarationType;
         },
         "navigatedToPreviousStep": state => {
@@ -83,12 +85,6 @@ export const { reducer, actions } = createSlice({
             assert(state.step === 2);
 
             state.step = 1;
-        },
-        "navigatedToNextStep": state => {
-            assert(state.stateDescription === "ready");
-            assert(state.step === 1);
-            assert(state.declarationType !== undefined);
-            state.step = 2;
         },
         "submissionStarted": state => {
             assert(state.stateDescription === "ready");
@@ -166,13 +162,6 @@ export const thunks = {
             const [dispatch] = args;
 
             dispatch(actions.navigatedToPreviousStep());
-        },
-    "navigateToNextStep":
-        (): ThunkAction<void> =>
-        (...args) => {
-            const [dispatch] = args;
-
-            dispatch(actions.navigatedToNextStep());
         },
     "submit":
         (props: { formData: FormData }): ThunkAction =>

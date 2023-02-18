@@ -7,9 +7,11 @@ import { useCoreFunctions, useCoreState, useCoreEvts, selectors } from "core-dsf
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
-import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
-//import { DeclareUser } from "./DeclareUser";
-//import { FormData } from "core-dsfr/usecases/declarationForm";
+import { useConst } from "powerhooks/useConst";
+import { Evt } from "evt";
+import { DeclarationFormStep1 } from "./Step1";
+import { DeclarationFormStep2User } from "./Step2User";
+import { makeStyles } from "tss-react/dsfr";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
 
@@ -51,8 +53,9 @@ export function DeclarationForm(props: Props) {
         []
     );
 
-    //const [userFromData, setUserFromData] = useState<FormData.User | undefined>(undefined);
-    //const [referentFromData, setReferentFromData] = useState<FormData.Referent | undefined>(undefined);
+    const evtActionSubmitStep = useConst(() => Evt.create());
+
+    const { classes } = useStyles({ step, declarationType });
 
     if (step === undefined) {
         return <CircularProgress />;
@@ -63,64 +66,22 @@ export function DeclarationForm(props: Props) {
     return (
         <div className={className}>
             <pre>{JSON.stringify(software, null, 2)}</pre>
-            {(() => {
-                switch (step) {
-                    case 1:
-                        return (
-                            <RadioButtons
-                                legend="Comment souhaitez-vous déclarer ?"
-                                name="radio"
-                                options={[
-                                    {
-                                        "label": "Je suis un utilisateur de ce logiciel",
-                                        "hintText": "Au sein de mon établissement",
-                                        "nativeInputProps": {
-                                            "checked": declarationType === "user",
-                                            "onChange": () =>
-                                                declarationForm.setDeclarationType({
-                                                    "declarationType": "user"
-                                                })
-                                        }
-                                    },
-                                    {
-                                        "label":
-                                            "Je souhaite devenir référent de ce logiciel",
-                                        "hintText":
-                                            "Comme garant et référence de l’utilisation du logiciel au sein de mon établissement",
-                                        "nativeInputProps": {
-                                            "checked": declarationType === "referent",
-                                            "onChange": () =>
-                                                declarationForm.setDeclarationType({
-                                                    "declarationType": "referent"
-                                                })
-                                        }
-                                    }
-                                ]}
-                            />
-                        );
-                    case 2:
-                        switch (declarationType) {
-                            case "user":
-                                return <h1>TODO</h1>;
-                            /*
-                                return <DeclareUser
-                                    softwareType={(() => {
-                                        switch (software.softwareType) {
-                                            case "cloud": return "cloud";
-                                            case "desktop": return "desktop";
-                                            default: return "other";
-                                        }
-                                    })()}
-                                    initialFormData={userFromData}
-                                    onSubmit={formData => { }}
-                                    evtActionSubmit={null as any}
-                                />;
-                                */
-                            case "referent":
-                                return <h1>TODO</h1>;
-                        }
+            <DeclarationFormStep1
+                className={classes.step1}
+                evtActionSubmit={evtActionSubmitStep.pipe(() => step === 1)}
+                onSubmit={({ declarationType }) =>
+                    declarationForm.setDeclarationType({ declarationType })
                 }
-            })()}
+            />
+            <DeclarationFormStep2User
+                className={classes.step2User}
+                evtActionSubmit={evtActionSubmitStep.pipe(
+                    () => step === 2 && declarationType === "user"
+                )}
+                onSubmit={formData => declarationForm.submit({ formData })}
+                softwareType={software.softwareType}
+            />
+            <div className={classes.step2Referent}>TODO</div>
             {step === 2 && (
                 <Button
                     onClick={() => declarationForm.navigateToPreviousStep()}
@@ -130,22 +91,27 @@ export function DeclarationForm(props: Props) {
                 </Button>
             )}
             <Button
-                onClick={(() => {
-                    switch (step) {
-                        case 1:
-                            return () => declarationForm.navigateToNextStep();
-                        case 2:
-                            return () =>
-                                declarationForm.submit({
-                                    "formData": null as any
-                                });
-                    }
-                })()}
+                onClick={() => evtActionSubmitStep.post()}
                 priority="primary"
-                disabled={isSubmitting || declarationType === undefined}
+                disabled={isSubmitting}
             >
                 {step === 1 ? "Next" : "Submit"}
             </Button>
         </div>
     );
 }
+
+const useStyles = makeStyles<{
+    step: 1 | 2 | undefined;
+    declarationType: "user" | "referent" | undefined;
+}>()((_theme, { step, declarationType }) => ({
+    "step1": {
+        "display": step !== 1 ? "none" : undefined
+    },
+    "step2User": {
+        "display": step !== 2 || declarationType !== "user" ? "none" : undefined
+    },
+    "step2Referent": {
+        "display": step !== 2 || declarationType !== "referent" ? "none" : undefined
+    }
+}));
