@@ -35,7 +35,8 @@ RUN npm i -g cra-envs@`node -e 'console.log(require("./cra-envs_package.json")["
 WORKDIR /usr/share/nginx
 COPY --from=build /app/build ./html
 COPY --from=build /app/.env .
-COPY --from=build /app/public_index.html ./public/index.html
+#COPY --from=build /app/public_index.html ./public/index.html
+COPY --from=build /app/public_index.html ./public/index-onyxia.html
 # Run as non-root
 RUN sed -i.orig -e '/user[[:space:]]\+nginx/d' -e 's@pid[[:space:]]\+.*@pid /tmp/nginx.pid;@' /etc/nginx/nginx.conf && \
     diff -u /etc/nginx/nginx.conf.orig /etc/nginx/nginx.conf ||: && \
