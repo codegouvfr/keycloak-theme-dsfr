@@ -25,7 +25,7 @@ namespace State {
             softwareName: string;
             referentCount: number;
             userCount: number;
-            softwareType: SillApiClient.Software["softwareType"]["type"];
+            softwareType: "desktop" | "cloud" | "other";
         };
     };
 }
@@ -136,7 +136,17 @@ export const thunks = {
                             ({ type }) => type === "referent"
                         ).length,
                         "userCount": software.users.filter(({ type }) => type === "user")
-                            .length
+                            .length,
+                        "softwareType": (() => {
+                            switch (software.softwareType.type) {
+                                case "cloud":
+                                    return "cloud";
+                                case "desktop":
+                                    return "desktop";
+                                case "library":
+                                    return "other";
+                            }
+                        })()
                     }
                 })
             );

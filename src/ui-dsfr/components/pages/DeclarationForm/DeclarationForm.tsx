@@ -121,11 +121,10 @@ export function DeclarationForm(props: Props) {
                         }
                 }
             })()}
-            {step === 1 && (
+            {step === 2 && (
                 <Button
                     onClick={() => declarationForm.navigateToPreviousStep()}
                     priority="secondary"
-                    disabled={step === 1}
                 >
                     back
                 </Button>
