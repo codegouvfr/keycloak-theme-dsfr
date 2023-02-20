@@ -108,7 +108,9 @@ export function SoftwareCatalog(props: Props) {
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "organization",
-            "value": route.params.organization
+            "value": route.params.organization?.length
+                ? route.params.organization
+                : undefined
         });
     }, [route.params.organization]);
 
@@ -128,7 +130,7 @@ export function SoftwareCatalog(props: Props) {
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "category",
-            "value": route.params.category
+            "value": route.params.category?.length ? route.params.category : undefined
         });
     }, [route.params.category]);
 
@@ -148,7 +150,9 @@ export function SoftwareCatalog(props: Props) {
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "environment",
-            "value": route.params.environment
+            "value": route.params.environment?.length
+                ? route.params.environment
+                : undefined
         });
     }, [route.params.environment]);
 

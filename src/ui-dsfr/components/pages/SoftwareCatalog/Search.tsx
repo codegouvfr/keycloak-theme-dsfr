@@ -192,10 +192,10 @@ export function Search(props: Props) {
                             className={cx(fr.cx("fr-select"), classes.multiSelect)}
                             input={<InputBase />}
                         >
-                            {[undefined, ...prerogatives].map(prerogative => (
+                            {prerogatives.map(prerogative => (
                                 <MenuItem
-                                    key={prerogative?.prerogative ?? ""}
-                                    value={prerogative?.prerogative ?? 0}
+                                    key={prerogative?.prerogative}
+                                    value={prerogative?.prerogative}
                                 >
                                     {prerogative ? (
                                         <>
