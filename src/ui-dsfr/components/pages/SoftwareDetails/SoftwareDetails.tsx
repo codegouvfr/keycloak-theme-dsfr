@@ -136,6 +136,7 @@ export function SoftwareDetails(props: Props) {
             <FooterDetailCard
                 usersCount={software.userCount ?? 0}
                 referentCount={software.referentCount ?? 0}
+                //TODO: Fix link
                 seeUserAndReferent={{
                     "href": "",
                     "onClick": () => {}

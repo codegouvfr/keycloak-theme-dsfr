@@ -128,6 +128,8 @@ export const { i18n } = declareComponentKeys<
     | "add software or service"
     | "add instance"
     | "required"
+    | "invalid url"
+    | "invalid version"
     | "all"
     | "allFeminine"
 >()({ "App": "App" });

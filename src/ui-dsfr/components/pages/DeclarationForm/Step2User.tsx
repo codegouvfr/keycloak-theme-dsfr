@@ -6,6 +6,8 @@ import { assert } from "tsafe/assert";
 import type { FormData } from "core-dsfr/usecases/declarationForm";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Select } from "@codegouvfr/react-dsfr/Select";
+import { useTranslation } from "../../../i18n";
+import { declareComponentKeys } from "i18nifty";
 
 type Props = {
     className?: string;
@@ -46,6 +48,9 @@ export function DeclarationFormStep2User(props: Props) {
         [evtActionSubmit, submitButtonElement]
     );
 
+    const { t } = useTranslation({ DeclarationFormStep2User });
+    const commoni18n = useTranslation({ "App": "App" });
+
     return (
         <form
             className={className}
@@ -65,21 +70,21 @@ export function DeclarationFormStep2User(props: Props) {
             )}
         >
             <Input
-                label="Décrivez en quelques mots votre cas d'usage"
+                label={t("useCase")}
                 nativeInputProps={{
                     ...register("usecaseDescription", { "required": true })
                 }}
                 state={errors.usecaseDescription !== undefined ? "error" : undefined}
-                stateRelatedMessage="Required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             {softwareType === "desktop" && (
                 <Select
-                    label="Dans quel environnement utilisez-vous ce logiciel?"
+                    label={t("environment")}
                     nativeSelectProps={{
                         ...register("osSelectValue", { "required": true })
                     }}
                     state={errors.osSelectValue !== undefined ? "error" : undefined}
-                    stateRelatedMessage="Field required"
+                    stateRelatedMessage={commoni18n.t("required")}
                 >
                     <option value="" disabled hidden></option>
                     <option value="windows">Windows</option>
@@ -88,16 +93,16 @@ export function DeclarationFormStep2User(props: Props) {
                 </Select>
             )}
             <Input
-                label="Quelle version du logiciel utilisez-vous? (Optionnel)"
+                label={t("version")}
                 nativeInputProps={{
                     ...register("version", { "pattern": /^(\d+)((\.{1}\d+)*)(\.{0})$/ })
                 }}
                 state={errors.version !== undefined ? "error" : undefined}
-                stateRelatedMessage="Version malformed"
+                stateRelatedMessage={commoni18n.t("invalid version")}
             />
             {softwareType === "cloud" && (
                 <Input
-                    label="Plus précisément, quelle instance du logiciel utilisez-vous?"
+                    label={t("service")}
                     nativeInputProps={{
                         ...register("serviceUrlInputValue", {
                             "pattern": /^http/
@@ -106,7 +111,7 @@ export function DeclarationFormStep2User(props: Props) {
                     state={
                         errors.serviceUrlInputValue !== undefined ? "error" : undefined
                     }
-                    stateRelatedMessage="Not a valid url"
+                    stateRelatedMessage={commoni18n.t("invalid url")}
                 />
             )}
             <button
@@ -117,3 +122,9 @@ export function DeclarationFormStep2User(props: Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    "useCase" | "environment" | "version" | "service"
+>()({
+    DeclarationFormStep2User
+});
