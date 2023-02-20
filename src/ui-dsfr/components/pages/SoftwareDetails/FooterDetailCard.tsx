@@ -48,13 +48,14 @@ export const FooterDetailCard = memo((props: Props) => {
                 <div className={classes.buttons}>
                     <Button
                         iconId="ri-share-forward-line"
-                        onClick={function noRefCheck() {}}
+                        linkProps={shareSoftware}
                         priority="secondary"
                         className={classes.shareSoftware}
                     >
                         {t("share software")}
                     </Button>
-                    <Button onClick={function noRefCheck() {}} priority="secondary">
+
+                    <Button priority="secondary" linkProps={declareUserOrReferent}>
                         {t("declare referent")}
                     </Button>
                 </div>

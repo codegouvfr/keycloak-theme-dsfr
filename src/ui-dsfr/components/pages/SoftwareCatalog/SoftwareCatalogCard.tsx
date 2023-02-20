@@ -27,7 +27,7 @@ export type Props = {
     userCount: number;
     referentCount: number;
     softwareUserAndReferent: Link;
-    declareUsageForm: Link;
+    declareForm: Link;
     testUrl?: string;
     softwareDetails: Link;
 };
@@ -44,7 +44,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         referentCount,
         softwareUserAndReferent,
         softwareDetails,
-        declareUsageForm,
+        declareForm,
         testUrl,
         ...rest
     } = props;
@@ -142,7 +142,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
                         classes.declareReferentOrUserButton
                     )}
-                    {...declareUsageForm}
+                    {...declareForm}
                 >
                     {t("declare oneself referent")}
                 </a>

@@ -48,7 +48,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                         testUrl={testUrl}
                         userCount={userCount}
                         referentCount={referentCount}
-                        declareUsageForm={{
+                        declareForm={{
                             href: "",
                             onClick: () => {}
                         }}

@@ -47,7 +47,7 @@ export function SoftwareCatalog(props: Props) {
                         "softwareDetails": routes.softwareDetails({
                             "name": softwareName
                         }).link,
-                        "declareUsageForm": routes.declareUsageForm({
+                        "declareUsageForm": routes.declarationForm({
                             "name": softwareName
                         }).link
                     }
