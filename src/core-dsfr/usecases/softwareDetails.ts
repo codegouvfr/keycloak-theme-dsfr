@@ -42,6 +42,7 @@ export namespace SoftwareDetailsState {
         referentCount: number;
         testUrl: string | undefined;
         instances: {
+            organization: string;
             instanceUrl: string;
             targetAudience: string;
         }[];
@@ -98,6 +99,7 @@ export const thunks = {
                             ? undefined
                             : apiSoftwareToSoftware({
                                   "apiSoftwares": await sillApiClient.getSoftwares(),
+                                  "apiInstances": await sillApiClient.getInstances(),
                                   softwareName
                               })
                 })
@@ -113,9 +115,10 @@ export const selectors = (() => {
 
 function apiSoftwareToSoftware(params: {
     apiSoftwares: SillApiClient.Software[];
+    apiInstances: SillApiClient.Instance[];
     softwareName: string;
 }): SoftwareDetailsState.Software {
-    const { apiSoftwares, softwareName } = params;
+    const { apiSoftwares, apiInstances, softwareName } = params;
 
     const apiSoftware = apiSoftwares.find(
         apiSoftware => apiSoftware.softwareName === softwareName
@@ -124,6 +127,7 @@ function apiSoftwareToSoftware(params: {
     assert(apiSoftware !== undefined);
 
     const {
+        softwareId,
         logoUrl,
         authors,
         officialWebsiteUrl,
@@ -189,7 +193,13 @@ function apiSoftwareToSoftware(params: {
         serviceProviderUrl,
         "compotoirDuLibreUrl": `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
         "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
-        "instances": [],
+        "instances": apiInstances
+            .filter(instance => instance.mainSoftwareSillId === softwareId)
+            .map(instance => ({
+                "instanceUrl": instance.publicUrl,
+                "organization": instance.organization,
+                "targetAudience": instance.targetAudience
+            })),
         "similarSoftwares": similarSoftwares_api.map(softwareRef => {
             const software = apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,

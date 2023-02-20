@@ -3,6 +3,10 @@ export type SillApiClient = {
         (): Promise<SillApiClient.Software[]>;
         clear: () => void;
     };
+    getInstances: {
+        (): Promise<SillApiClient.Instance[]>;
+        clear: () => void;
+    };
     getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (params: {
         wikidataId: string;
     }) => Promise<{
@@ -25,6 +29,18 @@ export type SillApiClient = {
     createUserOrReferent: (params: {
         formData: SillApiClient.DeclarationFormData;
     }) => Promise<void>;
+    createInstance: (params: CreateInstanceParam) => Promise<{ instanceId: number }>;
+    updateInstance: (
+        params: CreateInstanceParam & { instanceId: number }
+    ) => Promise<void>;
+};
+
+type CreateInstanceParam = {
+    mainSoftwareSillId: number;
+    organization: string;
+    targetAudience: string;
+    publicUrl: string | undefined;
+    otherSoftwareInvolvedWikidataIds: string[];
 };
 
 export namespace SillApiClient {
@@ -39,13 +55,7 @@ export namespace SillApiClient {
                   publicationTime: number;
               }
             | undefined;
-        parentSoftware:
-            | {
-                  wikidataLabel: string;
-                  wikidataDescription: string;
-                  wikidataId: string;
-              }
-            | undefined;
+        parentSoftware: WikidataEntry | undefined;
         testUrl: string | undefined;
         addedTime: number;
         updateTime: number;
@@ -68,11 +78,16 @@ export namespace SillApiClient {
         compotoirDuLibreId: number | undefined;
         wikidataId: string;
         softwareType: SoftwareType;
-        similarSoftwares: {
-            wikidataLabel: string;
-            wikidataDescription: string;
-            wikidataId: string;
-        }[];
+        similarSoftwares: WikidataEntry[];
+    };
+
+    export type Instance = {
+        instanceId: number;
+        mainSoftwareSillId: number;
+        organization: string;
+        targetAudience: string;
+        publicUrl: string;
+        otherSoftwaresInvolved: WikidataEntry[];
     };
 
     export type SoftwareType =

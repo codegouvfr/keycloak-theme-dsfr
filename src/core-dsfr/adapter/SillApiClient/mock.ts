@@ -710,7 +710,32 @@ export function createMockSillApiClient(): SillApiClient {
         },
         "createUserOrReferent": async ({ formData }) => {
             console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
-        }
+        },
+        "createInstance": async params => {
+            console.log(`Creating instance ${JSON.stringify(params)}`);
+            return {
+                "instanceId": 33
+            };
+        },
+        "updateInstance": async params => {
+            console.log(`Updating instance ${JSON.stringify(params)}`);
+        },
+        "getInstances": memoize(
+            async () => {
+                return [
+                    {
+                        "instanceId": 0,
+                        "mainSoftwareSillId": 9,
+                        "organization": "CNRS",
+                        "otherSoftwaresInvolved": [],
+                        "publicUrl": "https://videos.ahp-numerique.fr/",
+                        "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
+                l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`
+                    }
+                ];
+            },
+            { "promise": true }
+        )
     };
 }
 
