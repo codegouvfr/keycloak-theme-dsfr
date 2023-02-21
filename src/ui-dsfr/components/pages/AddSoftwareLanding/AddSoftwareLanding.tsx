@@ -77,9 +77,9 @@ export function AddSoftwareLanding(props: Props) {
                             {t("who can add software")}
                         </h2>
                         <div className={classes.whoCanAddButtonContainer}>
-                            <Button priority="primary">
+                            <a href="/add" className={fr.cx("fr-btn")}>
                                 {commoni18n.t("add software")}
-                            </Button>
+                            </a>
                             <Button priority="secondary">
                                 {commoni18n.t("add instance")}
                             </Button>
@@ -127,7 +127,7 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
         }
     },
     "illustration": {
-        "margin-left": fr.spacing("30v")
+        "marginLeft": fr.spacing("30v")
     },
     "whoCanAddBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default

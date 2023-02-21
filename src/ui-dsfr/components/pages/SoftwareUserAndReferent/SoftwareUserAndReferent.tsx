@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { createGroup } from "type-route";
 import type { Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
-import { ActionsFooter } from "../../shared/ActionsFooter";
+import { useTranslation } from "ui-dsfr/i18n";
+import { ActionsFooter } from "ui-dsfr/components/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
@@ -85,7 +85,13 @@ export function SoftwareUserAndReferent(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <div className={classes.header}>
-                    <a href={"/"} className={classes.backButton}>
+                    <a
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
+                        className={classes.backButton}
+                    >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                     </a>
                     <h4 className={classes.title}>{t("title")}</h4>

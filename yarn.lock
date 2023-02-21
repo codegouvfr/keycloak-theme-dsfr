@@ -14896,10 +14896,10 @@ type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-type-route@^0.7.1:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/type-route/-/type-route-0.7.2.tgz#164f4bbe003356da2e93b7b16bfeb6623d985169"
-  integrity sha512-HozHpHiOxlXl9Cy+6VniOZgPVv9omXtwPtyQB7iubSRxEyiop7D7HECnjVO/gItcSfNgOy7NEUskuymLWjBWJw==
+type-route@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/type-route/-/type-route-1.0.1.tgz#02164dddc72e62dbb88d083e539137279cdd5deb"
+  integrity sha512-8mVNfsQeMxlG2BoSU//VrDjNo74NeKAEI9p/7BH6H1VMYFJF8MgM+Q1eeTu1UsjZtr7jGA1whHVUe82fJb0V8w==
   dependencies:
     history "^5.3.0"
 

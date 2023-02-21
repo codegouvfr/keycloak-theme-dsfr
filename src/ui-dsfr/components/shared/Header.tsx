@@ -26,72 +26,72 @@ export const Header = memo((props: Props) => {
             brandTop={t("brand")}
             serviceTitle={t("title")}
             homeLinkProps={{
-                href: routes.home().link.href,
-                title: t("home title")
+                "href": routes.home().link.href,
+                "title": t("home title")
             }}
             quickAccessItems={[
                 {
-                    iconId: "fr-icon-bank-fill",
-                    linkProps: {
+                    "iconId": "fr-icon-bank-fill",
+                    "linkProps": {
                         href: "https://code.gouv.fr/"
                     },
-                    text: "Code Gouv"
+                    "text": "Code Gouv"
                 },
                 {
-                    iconId: "fr-icon-play-circle-fill",
-                    linkProps: {
-                        href: "#"
+                    "iconId": "fr-icon-play-circle-fill",
+                    "linkProps": {
+                        "href": "#"
                     },
-                    text: t("quick access test")
+                    "text": t("quick access test")
                 },
                 {
-                    iconId: "fr-icon-account-fill",
-                    linkProps: {
-                        href: "#",
-                        className: "fr-btn--tertiary"
+                    "iconId": "fr-icon-account-fill",
+                    "linkProps": {
+                        "href": "#",
+                        "className": "fr-btn--tertiary"
                     },
-                    text: isUserLoggedIn
+                    "text": isUserLoggedIn
                         ? t("quick access account")
                         : t("quick access connect")
                 }
             ]}
             navigation={[
                 {
-                    isActive: route.name === routes.home.name,
-                    linkProps: {
-                        href: routes.home().link.href,
-                        target: "_self"
+                    "isActive": route.name === routes.home.name,
+                    "linkProps": {
+                        "href": routes.home().link.href,
+                        "target": "_self"
                     },
-                    text: t("navigation welcome")
+                    "text": t("navigation welcome")
                 },
                 {
-                    isActive: route.name === routes.softwareCatalog.name,
-                    linkProps: {
-                        href: routes.softwareCatalog().link.href
+                    "isActive": route.name === routes.softwareCatalog.name,
+                    "linkProps": {
+                        "href": routes.softwareCatalog().link.href
                     },
-                    text: t("navigation catalog")
+                    "text": t("navigation catalog")
                 },
                 {
-                    isActive: route.name === routes.addSoftwareLanding.name,
-                    linkProps: {
-                        href: routes.addSoftwareLanding().link.href,
-                        target: "_self"
+                    "isActive": route.name === routes.addSoftwareLanding.name,
+                    "linkProps": {
+                        "href": routes.addSoftwareLanding().link.href,
+                        "target": "_self"
                     },
-                    text: t("navigation add software")
+                    "text": t("navigation add software")
                 },
                 {
-                    linkProps: {
-                        href: "#",
-                        target: "_self"
+                    "linkProps": {
+                        "href": "#",
+                        "target": "_self"
                     },
-                    text: t("navigation support request")
+                    "text": t("navigation support request")
                 },
                 {
-                    linkProps: {
-                        href: "#",
-                        target: "_self"
+                    "linkProps": {
+                        "href": "#",
+                        "target": "_self"
                     },
-                    text: t("navigation about")
+                    "text": t("navigation about")
                 }
             ]}
         />

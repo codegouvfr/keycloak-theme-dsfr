@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SoftwareFormStep1 } from "./Step1";
 import { SoftwareFormStep2 } from "./Step2";
@@ -96,7 +96,10 @@ export function SoftwareForm(props: Props) {
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
                     <a
-                        href={routes.addSoftwareLanding().link.href}
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
                         className={classes.backButton}
                     >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />

@@ -98,7 +98,12 @@ const routeDefs = {
     )
 };
 
-export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
+export const {
+    RouteProvider,
+    useRoute,
+    routes: realRoutes,
+    session
+} = createRouter(routeDefs);
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
     "routes": realRoutes

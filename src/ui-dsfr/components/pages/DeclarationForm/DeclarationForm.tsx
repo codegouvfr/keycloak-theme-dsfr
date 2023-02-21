@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useCoreFunctions, useCoreState, useCoreEvts, selectors } from "core-dsfr";
@@ -155,8 +155,13 @@ export function DeclarationForm(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
-                    {/*Todo: use history to go to previous page ? */}
-                    <a href={"/"} className={classes.backButton}>
+                    <a
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
+                        className={classes.backButton}
+                    >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                     </a>
                     <h4 className={classes.title}>
