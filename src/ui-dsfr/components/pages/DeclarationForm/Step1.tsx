@@ -4,6 +4,8 @@ import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { assert } from "tsafe/assert";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../../i18n";
 
 type Props = {
     className?: string;
@@ -40,6 +42,9 @@ export function DeclarationFormStep1(props: Props) {
         [evtActionSubmit, submitButtonElement]
     );
 
+    const { t } = useTranslation({ DeclarationFormStep1 });
+    const commoni18n = useTranslation({ "App": "App" });
+
     return (
         <form
             className={className}
@@ -50,21 +55,19 @@ export function DeclarationFormStep1(props: Props) {
             })}
         >
             <RadioButtons
-                legend="Comment souhaitez-vous déclarer ?"
                 name="radio"
                 options={[
                     {
-                        "label": "Je suis un utilisateur de ce logiciel",
-                        "hintText": "Au sein de mon établissement",
+                        "label": t("user type label"),
+                        "hintText": t("user type hint"),
                         "nativeInputProps": {
                             ...register("declarationType", { "required": true }),
                             "value": "user"
                         }
                     },
                     {
-                        "label": "Je souhaite devenir référent de ce logiciel",
-                        "hintText":
-                            "Comme garant et référence de l’utilisation du logiciel au sein de mon établissement",
+                        "label": t("referent type label"),
+                        "hintText": t("referent type label"),
                         "nativeInputProps": {
                             ...register("declarationType", { "required": true }),
                             "value": "referent"
@@ -72,7 +75,7 @@ export function DeclarationFormStep1(props: Props) {
                     }
                 ]}
                 state={errors.declarationType !== undefined ? "error" : undefined}
-                stateRelatedMessage="This is field is required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             <button
                 style={{ "display": "none" }}
@@ -82,3 +85,9 @@ export function DeclarationFormStep1(props: Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    "user type label" | "user type hint" | "referent type label" | "referent type hint"
+>()({
+    DeclarationFormStep1
+});

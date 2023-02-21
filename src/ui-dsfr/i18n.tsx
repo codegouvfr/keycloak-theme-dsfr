@@ -35,10 +35,10 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/FooterSoftwareUserAndReferent").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/DeclareUserOrReferent").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserTypeStep").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/UserStep").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DeclareUserOrReferent/ReferentStep").i18n
+    | typeof import("ui-dsfr/components/pages/DeclarationForm/DeclarationForm").i18n
+    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step1").i18n
+    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step2User").i18n
+    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step2Referent").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/components/pages/Homepage").i18n
@@ -56,13 +56,15 @@ const {
         "en": {
             "App": {
                 "yes": "Yes",
-                "no": "Non",
+                "no": "No",
                 "previous": "Previous",
                 "next": "Next",
                 "add software": "Add software",
                 "add software or service": "Add software or service",
                 "add instance": "Add instance",
-                "required": "Ce champs est requis",
+                "required": "This field is required",
+                "invalid url": 'Invalid url. It must start with "http"',
+                "invalid version": "The value must be numeric (Eg: 2.0.1)",
                 "all": "All",
                 "allFeminine": "All"
             },
@@ -297,27 +299,29 @@ const {
                 "declare user": "Se déclarer utilisateur",
                 "declare referent": "Se déclarer référent"
             },
-            "DeclareUserOrReferent": {
-                "title": "Declare yourself user or referent of the software",
+            "DeclarationForm": {
                 "catalog breadcrumb": "Software catalog",
                 "declare yourself user or referent breadcrumb":
                     "Declare yourself user or referent of the software",
-                "send": "Send"
+                "send": "Send my statement",
+                "title step 1": "How would you like to declare ?",
+                "title step 2 user": "About your usage",
+                "title step 2 referent": "About your referencing"
             },
-            "UserTypeStep": {
+            "DeclarationFormStep1": {
                 "user type label": "I'm a user of this software",
                 "user type hint": "Inside my organization",
                 "referent type label": "I would like to be referent of this software",
                 "referent type hint":
                     "As a guarantor and reference of the use of this software inside my organization"
             },
-            "UserStep": {
+            "DeclarationFormStep2User": {
                 "useCase": "Describe in a few words your use case",
                 "environment": "In which environment do you use your software ?",
                 "version": "Which version of the software do you use ? (Optionnel)",
                 "service": "More precisely, which service of the software do you use ?"
             },
-            "ReferentStep": {
+            "DeclarationFormStep2Referent": {
                 "legend title": "Are you a technical expert of this software ?",
                 "legend hint": "You are able to answer to questions of agents and of CIO",
                 "useCase": "Describe in a few words the use case of your administration",
@@ -370,6 +374,8 @@ const {
                 "add software or service": "Ajouter un logiciel ou un service",
                 "add instance": "Ajouter une instance",
                 "required": "Ce champs est requis",
+                "invalid url": 'URL invalide. Elle doit commencer par "http"',
+                "invalid version": "La valeur doit être numérique (Exemple : 2.0.1)",
                 "all": "Tous",
                 "allFeminine": "Toutes"
             },
@@ -609,27 +615,29 @@ const {
                 "declare user": "Se déclarer utilisateur",
                 "declare referent": "Se déclarer référent"
             },
-            "DeclareUserOrReferent": {
-                "title": "Se déclarer utilisateur ou référent du logiciel",
+            "DeclarationForm": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
                 "declare yourself user or referent breadcrumb":
                     "Se déclarer utilisateur ou référent du logiciel",
-                "send": "Envoyer"
+                "send": "Envoyer ma déclaration",
+                "title step 1": "Comment souhaitez-vous déclarer ?",
+                "title step 2 user": "À propos de votre usage",
+                "title step 2 referent": "À propos de votre référencement"
             },
-            "UserTypeStep": {
+            "DeclarationFormStep1": {
                 "user type label": "Je suis un utilisateur de ce logiciel",
                 "user type hint": "Au sein de mon établissement",
                 "referent type label": "Je souhaite devenir référent de ce logiciel",
                 "referent type hint":
                     "Comme garant et référence de l'utilisation du logiciel au sein de mon établissement"
             },
-            "UserStep": {
+            "DeclarationFormStep2User": {
                 "useCase": "Décrivez en quelques mots votre cas d'usage",
                 "environment": "Dans quel environnement utilisez-vous ce logiciel ?",
                 "version": "Quelle version du logiciel utilisez vous ? (Optionnel)",
                 "service": "Plus précisément, quel service du logiciel utilisez-vous ?"
             },
-            "ReferentStep": {
+            "DeclarationFormStep2Referent": {
                 "legend title": "Êtes-vous un expert technique concernant ce logiciel ?",
                 "legend hint":
                     "Vous pouvez répondre aux questions techniques d'agents et de DSI",

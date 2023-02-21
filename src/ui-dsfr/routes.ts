@@ -81,12 +81,6 @@ const routeDefs = {
         },
         () => `/detail`
     ),
-    "declareUsageForm": defineRoute(
-        {
-            "name": param.query.string
-        },
-        () => "/declaration"
-    ),
     "softwareCreationForm": defineRoute("/add"),
     "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update"),
     "addSoftwareLanding": defineRoute("/add-software"),

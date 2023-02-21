@@ -13,7 +13,7 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    "declareUsageForm": {
+    "declareForm": {
         href: "",
         onClick: () => {}
     },
@@ -43,7 +43,7 @@ export const VueDefault = getStory({
 });
 
 export const VueTooLongDescription = getStory({
-    "declareUsageForm": {
+    "declareForm": {
         href: "",
         onClick: () => {}
     },

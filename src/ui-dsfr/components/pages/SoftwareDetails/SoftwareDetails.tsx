@@ -61,7 +61,7 @@ export function SoftwareDetails(props: Props) {
                     segments={[
                         {
                             "linkProps": {
-                                "href": "#"
+                                "href": routes.softwareCatalog().href
                             },
                             "label": t("catalog breadcrumb")
                         }
@@ -136,18 +136,21 @@ export function SoftwareDetails(props: Props) {
             <FooterDetailCard
                 usersCount={software.userCount ?? 0}
                 referentCount={software.referentCount ?? 0}
-                seeUserAndReferent={{
-                    "href": "",
-                    "onClick": () => {}
-                }}
+                //TODO: Fix link
+                seeUserAndReferent={
+                    routes.softwareUsersAndReferents({
+                        "name": software.softwareName
+                    }).link
+                }
                 shareSoftware={{
                     "href": "",
                     "onClick": () => {}
                 }}
-                declareUserOrReferent={{
-                    "href": "",
-                    "onClick": () => {}
-                }}
+                declareUserOrReferent={
+                    routes.declarationForm({
+                        "name": software.softwareName
+                    }).link
+                }
             />
         </div>
     );

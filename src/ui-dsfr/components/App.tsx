@@ -8,6 +8,7 @@ import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLandin
 import { SoftwareDetails } from "./pages/SoftwareDetails";
 import { declareComponentKeys } from "i18nifty";
 import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
+import { DeclarationForm } from "./pages/DeclarationForm";
 
 export default function App() {
     const route = useRoute();
@@ -100,6 +101,19 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         }
     }
 
+    {
+        const Page = DeclarationForm;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
     return <h1>Not found 😢</h1>;
 }
 
@@ -128,6 +142,8 @@ export const { i18n } = declareComponentKeys<
     | "add software or service"
     | "add instance"
     | "required"
+    | "invalid url"
+    | "invalid version"
     | "all"
     | "allFeminine"
 >()({ "App": "App" });

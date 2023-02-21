@@ -143,6 +143,7 @@ export function SoftwareUserAndReferent(props: Props) {
                                                             tab.id === activeMenu
                                                     }
                                                 )}
+                                                key={tab.id}
                                             >
                                                 {/*@ts-ignore*/}
                                                 <a

@@ -110,7 +110,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
             <SoftwareCatalogCard
                 key={softwareName}
                 {...software}
-                declareUsageForm={declareUsageForm}
+                declareForm={declareUsageForm}
                 softwareDetails={softwareDetails}
                 softwareUserAndReferent={softwareUserAndReferent}
             />

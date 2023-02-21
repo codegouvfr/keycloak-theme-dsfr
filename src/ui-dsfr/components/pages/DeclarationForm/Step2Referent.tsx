@@ -6,6 +6,7 @@ import type { FormData } from "core-dsfr/usecases/declarationForm";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import { useTranslation } from "ui-dsfr/i18n";
+import { declareComponentKeys } from "i18nifty";
 
 type Props = {
     className?: string;
@@ -41,7 +42,8 @@ export function DeclarationFormStep2Referent(props: Props) {
         [evtActionSubmit, submitButtonElement]
     );
 
-    const { t: tCommon } = useTranslation({ "App": null });
+    const { t } = useTranslation({ DeclarationFormStep2Referent });
+    const commoni18n = useTranslation({ "App": "App" });
 
     return (
         <form
@@ -69,11 +71,11 @@ export function DeclarationFormStep2Referent(props: Props) {
             )}
         >
             <RadioButtons
-                legend="Êtes-vous expert technique concernant ce logiciel?"
-                hintText="Vous pouvez répondre à questions techniques d’agents et de DSI"
+                legend={t("legend title")}
+                hintText={t("legend hint")}
                 options={[
                     {
-                        "label": tCommon("yes"),
+                        "label": commoni18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isTechnicalExpertInputValue", {
                                 "required": true
@@ -82,7 +84,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                         }
                     },
                     {
-                        "label": tCommon("no"),
+                        "label": commoni18n.t("no"),
                         "nativeInputProps": {
                             ...register("isTechnicalExpertInputValue", {
                                 "required": true
@@ -91,19 +93,23 @@ export function DeclarationFormStep2Referent(props: Props) {
                         }
                     }
                 ]}
+                state={
+                    errors.isTechnicalExpertInputValue !== undefined ? "error" : undefined
+                }
+                stateRelatedMessage={commoni18n.t("required")}
             />
 
             <Input
-                label="Décrivez en quelques mots votre cas d'usage"
+                label={t("useCase")}
                 nativeInputProps={{
                     ...register("usecaseDescription", { "required": true })
                 }}
                 state={errors.usecaseDescription !== undefined ? "error" : undefined}
-                stateRelatedMessage="Required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             {softwareType === "cloud" && (
                 <Input
-                    label="Plus précisément, quelle instance du logiciel utilisez-vous?"
+                    label={t("service")}
                     nativeInputProps={{
                         ...register("serviceUrlInputValue", {
                             "pattern": /^http/
@@ -112,7 +118,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                     state={
                         errors.serviceUrlInputValue !== undefined ? "error" : undefined
                     }
-                    stateRelatedMessage="Not a valid url"
+                    stateRelatedMessage={commoni18n.t("invalid url")}
                 />
             )}
             <button
@@ -123,3 +129,9 @@ export function DeclarationFormStep2Referent(props: Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    "legend title" | "legend hint" | "useCase" | "service"
+>()({
+    DeclarationFormStep2Referent
+});
