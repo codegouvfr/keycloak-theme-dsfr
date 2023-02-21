@@ -8,7 +8,8 @@ import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "../../../i18n";
-import { FooterSoftwareUserAndReferent } from "./FooterSoftwareUserAndReferent";
+import { ActionsFooter } from "../../shared/ActionsFooter";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
 
@@ -130,9 +131,11 @@ export function SoftwareUserAndReferent(props: Props) {
                                         const ariaCurrent =
                                             tab.id === activeMenu
                                                 ? {
-                                                      "aria-current": "step"
+                                                      "aria-current": "step" as "step"
                                                   }
-                                                : {};
+                                                : {
+                                                      "aria-current": undefined
+                                                  };
 
                                         return (
                                             <li
@@ -145,7 +148,6 @@ export function SoftwareUserAndReferent(props: Props) {
                                                 )}
                                                 key={tab.id}
                                             >
-                                                {/*@ts-ignore*/}
                                                 <a
                                                     className={fr.cx("fr-sidemenu__link")}
                                                     href="#"
@@ -177,14 +179,19 @@ export function SoftwareUserAndReferent(props: Props) {
                     </div>
                 </div>
             </div>
-            <FooterSoftwareUserAndReferent
-                softwareDetails=""
-                declareUserOrReferent={{
-                    href: "",
-                    onClick: () => {}
-                }}
-                activeMenu={activeMenu}
-            />
+            <ActionsFooter className={classes.container}>
+                <Button
+                    iconId="fr-icon-eye-line"
+                    onClick={function noRefCheck() {}}
+                    priority="secondary"
+                    className={classes.softwareDetails}
+                >
+                    {t("softwareDetails")}
+                </Button>
+                <Button onClick={function noRefCheck() {}} priority="primary">
+                    {activeMenu === 0 ? t("declare user") : t("declare referent")}
+                </Button>
+            </ActionsFooter>
         </div>
     );
 }
@@ -233,6 +240,17 @@ const useStyles = makeStyles({
     },
     "contentMenuTab": {
         "flex": 2
+    },
+    "container": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "end"
+    },
+    "softwareDetails": {
+        "marginRight": fr.spacing("4v"),
+        "&&::before": {
+            "--icon-size": fr.spacing("6v")
+        }
     }
 }));
 
@@ -243,4 +261,7 @@ export const { i18n } = declareComponentKeys<
     | "tab user title"
     | "tab referent title"
     | "category"
+    | "softwareDetails"
+    | "declare referent"
+    | "declare user"
 >()({ SoftwareUserAndReferent });

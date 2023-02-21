@@ -31,9 +31,7 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/PreviewTab").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareDetails/AlikeSoftwareTab").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/FooterDetailCard").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/FooterSoftwareUserAndReferent").i18n
     | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
     | typeof import("ui-dsfr/components/pages/DeclarationForm/DeclarationForm").i18n
     | typeof import("ui-dsfr/components/pages/DeclarationForm/Step1").i18n
@@ -243,7 +241,9 @@ const {
                 "isRGAACompliant": "Is compliant with RGAA rules",
                 "service provider": "See service providers",
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
-                "wikiData sheet": "Open Wikidata sheet"
+                "wikiData sheet": "Open Wikidata sheet",
+                "share software": "Share the software",
+                "declare referent": "Declare yourself referent / user"
             },
             "HeaderDetailCard": {
                 "authors": "Authors : ",
@@ -282,19 +282,13 @@ const {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} users and ${referentCount} referents`
             },
-            "FooterDetailCard": {
-                "share software": "Share the software",
-                "declare referent": "Declare yourself referent / user"
-            },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",
                 "user and referent breadcrumb": "Users and referents",
                 "title": "Users and referents",
                 "tab user title": "Users",
                 "tab referent title": "Referents",
-                "category": "Category"
-            },
-            "FooterSoftwareUserAndReferent": {
+                "category": "Category",
                 "softwareDetails": "Voir la fiche logiciel",
                 "declare user": "Se déclarer utilisateur",
                 "declare referent": "Se déclarer référent"
@@ -559,7 +553,9 @@ const {
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
                 "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
-                "wikiData sheet": "Consulter la fiche de Wikidata"
+                "wikiData sheet": "Consulter la fiche de Wikidata",
+                "share software": "Partager la fiche",
+                "declare referent": "Se déclarer référent / utilisateur"
             },
             "HeaderDetailCard": {
                 "authors": "Auteurs : ",
@@ -598,19 +594,13 @@ const {
                 "userAndReferentCount": ({ userCount, referentCount }) =>
                     `${userCount} utilisateurs et ${referentCount} referents`
             },
-            "FooterDetailCard": {
-                "share software": "Partager la fiche",
-                "declare referent": "Se déclarer référent / utilisateur"
-            },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",
                 "user and referent breadcrumb": "Utilisateurs et référents",
                 "title": "Utilisateurs et référents",
                 "tab user title": "Utilisateurs",
                 "tab referent title": "Référents",
-                "category": "Catégorie"
-            },
-            "FooterSoftwareUserAndReferent": {
+                "category": "Catégorie",
                 "softwareDetails": "Voir la fiche logiciel",
                 "declare user": "Se déclarer utilisateur",
                 "declare referent": "Se déclarer référent"

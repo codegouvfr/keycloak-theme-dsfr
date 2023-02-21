@@ -19,6 +19,7 @@ import { DetailUsersAndReferents } from "ui-dsfr/components/shared/DetailUsersAn
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { useTranslation } from "../../../i18n";
 import { declareComponentKeys } from "i18nifty";
+import { ActionsFooter } from "../../shared/ActionsFooter";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
 
@@ -239,7 +240,7 @@ export function DeclarationForm(props: Props) {
                     </div>
                 </div>
             </div>
-            <div className={classes.buttonsContainer}>
+            {/*            <div className={classes.buttonsContainer}>
                 <div className={cx(fr.cx("fr-container"), classes.buttons)}>
                     <Button
                         onClick={onBackStep}
@@ -257,7 +258,24 @@ export function DeclarationForm(props: Props) {
                         {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
                     </Button>
                 </div>
-            </div>
+            </div>*/}
+            <ActionsFooter className={classes.buttons}>
+                <Button
+                    onClick={onBackStep}
+                    priority="secondary"
+                    className={classes.back}
+                    disabled={handleDisableBackButton()}
+                >
+                    {commoni18n.t("previous")}
+                </Button>
+                <Button
+                    onClick={onNextStep}
+                    priority="primary"
+                    disabled={handleDisableNextButton()}
+                >
+                    {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
+                </Button>
+            </ActionsFooter>
         </div>
     );
 }
@@ -341,17 +359,6 @@ const useStyles = makeStyles<{
     },
     "stepper": {
         "flex": "1"
-    },
-    "buttonsContainer": {
-        "position": "sticky",
-        "bottom": "0",
-        "marginTop": fr.spacing("6v"),
-        "boxShadow": `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`,
-        ...fr.spacing("padding", {
-            "top": "4v",
-            "bottom": "6v"
-        }),
-        "background": theme.decisions.background.default.grey.default
     },
     "buttons": {
         "display": "flex",
