@@ -101,9 +101,9 @@ const routeDefs = {
     "readme": defineRoute("/readme")
 };
 
-const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
+const { RouteProvider, useRoute, routes: realRoutes, session } = createRouter(routeDefs);
 
-export { RouteProvider, useRoute };
+export { RouteProvider, useRoute, session };
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
     "routes": realRoutes

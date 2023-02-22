@@ -252,7 +252,7 @@ export function Homepage(props: Props) {
     );
 }
 
-const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
+const useStyles = makeStyles()(theme => ({
     "section": {
         ...fr.spacing("padding", {
             "topBottom": "30v"

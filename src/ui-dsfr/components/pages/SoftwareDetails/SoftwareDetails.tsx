@@ -12,9 +12,11 @@ import { HeaderDetailCard } from "./HeaderDetailCard";
 import { PreviewTab } from "./PreviewTab";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import { FooterDetailCard } from "./FooterDetailCard";
 import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
 import { compact } from "lodash";
+import { ActionsFooter } from "../../shared/ActionsFooter";
+import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
 
@@ -32,7 +34,7 @@ export function SoftwareDetails(props: Props) {
 
     const { softwareDetails } = useCoreFunctions();
 
-    const { classes } = useStyles();
+    const { cx, classes } = useStyles();
 
     const { t } = useTranslation({ SoftwareDetails });
 
@@ -61,7 +63,7 @@ export function SoftwareDetails(props: Props) {
                     segments={[
                         {
                             "linkProps": {
-                                "href": routes.softwareCatalog().href
+                                ...routes.softwareCatalog().link
                             },
                             "label": t("catalog breadcrumb")
                         }
@@ -133,34 +135,75 @@ export function SoftwareDetails(props: Props) {
                     ]}
                 />
             </div>
-            <FooterDetailCard
-                usersCount={software.userCount ?? 0}
-                referentCount={software.referentCount ?? 0}
-                //TODO: Fix link
-                seeUserAndReferent={
-                    routes.softwareUsersAndReferents({
-                        "name": software.softwareName
-                    }).link
-                }
-                shareSoftware={{
-                    "href": "",
-                    "onClick": () => {}
-                }}
-                declareUserOrReferent={
-                    routes.declarationForm({
-                        "name": software.softwareName
-                    }).link
-                }
-            />
+            <ActionsFooter className={classes.container}>
+                <DetailUsersAndReferents
+                    className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
+                    seeUserAndReferent={
+                        routes.softwareUsersAndReferents({
+                            "name": software.softwareName
+                        }).link
+                    }
+                    referentCount={software.referentCount ?? 0}
+                    userCount={software.userCount ?? 0}
+                />
+                <div className={classes.buttons}>
+                    <Button
+                        iconId="ri-share-forward-line"
+                        linkProps={{
+                            "href": "",
+                            "onClick": () => {}
+                        }}
+                        priority="secondary"
+                        className={classes.shareSoftware}
+                    >
+                        {t("share software")}
+                    </Button>
+
+                    <Button
+                        priority="secondary"
+                        linkProps={
+                            routes.declarationForm({
+                                "name": software.softwareName
+                            }).link
+                        }
+                    >
+                        {t("declare referent")}
+                    </Button>
+                </div>
+            </ActionsFooter>
         </div>
     );
 }
 
 const useStyles = makeStyles({
     "name": { SoftwareDetails }
-})(() => ({
+})(theme => ({
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
+    },
+    "container": {
+        "display": "grid",
+        "gridTemplateColumns": `repeat(2, 1fr)`,
+        "columnGap": fr.spacing("6v"),
+        "marginBottom": fr.spacing("6v"),
+        [fr.breakpoints.down("md")]: {
+            "gridTemplateColumns": `repeat(1, 1fr)`,
+            "gridRowGap": fr.spacing("6v")
+        }
+    },
+    "buttons": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "end"
+    },
+    "shareSoftware": {
+        "marginRight": fr.spacing("4v"),
+        "&&::before": {
+            "--icon-size": fr.spacing("6v")
+        }
+    },
+    "detailUsersAndReferents": {
+        color: theme.decisions.text.actionHigh.blueFrance.default
     }
 }));
 
@@ -186,4 +229,6 @@ export const { i18n } = declareComponentKeys<
     | "service provider"
     | "comptoire du libre sheet"
     | "wikiData sheet"
+    | "share software"
+    | "declare referent"
 >()({ SoftwareDetails });

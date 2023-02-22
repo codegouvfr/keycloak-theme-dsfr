@@ -10,6 +10,7 @@ import { Search } from "./Search";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
+import { routes } from "ui-dsfr/routes";
 
 const sortOptions = [
     "added time",
@@ -101,10 +102,9 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         const { softwareName } = software;
 
         const { softwareDetails, declareUsageForm } = linksBySoftwareName[softwareName];
-        const softwareUserAndReferent: Link = {
-            "href": `/users-and-referents?name=${softwareName}`,
-            "onClick": () => {}
-        };
+        const softwareUserAndReferent: Link = routes.softwareUsersAndReferents({
+            name: softwareName
+        }).link;
 
         return (
             <SoftwareCatalogCard

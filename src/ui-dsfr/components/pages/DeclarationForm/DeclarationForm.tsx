@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useCoreFunctions, useCoreState, useCoreEvts, selectors } from "core-dsfr";
@@ -19,6 +19,7 @@ import { DetailUsersAndReferents } from "ui-dsfr/components/shared/DetailUsersAn
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { useTranslation } from "ui-dsfr/i18n";
 import { declareComponentKeys } from "i18nifty";
+import { ActionsFooter } from "../../shared/ActionsFooter";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
 
@@ -124,38 +125,37 @@ export function DeclarationForm(props: Props) {
         return null;
     }
 
-    console.log(
-        routes.softwareDetails({
-            "name": software.softwareName
-        }).link
-    );
-
     return (
         <div className={className}>
             <div className={fr.cx("fr-container")}>
                 <Breadcrumb
                     segments={[
                         {
-                            linkProps: {
-                                "href": routes.softwareCatalog().href
+                            "linkProps": {
+                                ...routes.softwareCatalog().link
                             },
-                            label: t("catalog breadcrumb")
+                            "label": t("catalog breadcrumb")
                         },
                         {
-                            linkProps: {
-                                href: routes.softwareDetails({
+                            "linkProps": {
+                                ...routes.softwareDetails({
                                     "name": software.softwareName
-                                }).link.href
+                                }).link
                             },
-                            label: software.softwareName
+                            "label": software.softwareName
                         }
                     ]}
                     currentPageLabel={t("declare yourself user or referent breadcrumb")}
                     className={classes.breadcrumb}
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
-                    {/*Todo: use history to go to previous page ? */}
-                    <a href={"/"} className={classes.backButton}>
+                    <a
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
+                        className={classes.backButton}
+                    >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                     </a>
                     <h4 className={classes.title}>
@@ -239,25 +239,23 @@ export function DeclarationForm(props: Props) {
                     </div>
                 </div>
             </div>
-            <div className={classes.buttonsContainer}>
-                <div className={cx(fr.cx("fr-container"), classes.buttons)}>
-                    <Button
-                        onClick={onBackStep}
-                        priority="secondary"
-                        className={classes.back}
-                        disabled={handleDisableBackButton()}
-                    >
-                        {commoni18n.t("previous")}
-                    </Button>
-                    <Button
-                        onClick={onNextStep}
-                        priority="primary"
-                        disabled={handleDisableNextButton()}
-                    >
-                        {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
-                    </Button>
-                </div>
-            </div>
+            <ActionsFooter className={classes.buttons}>
+                <Button
+                    onClick={onBackStep}
+                    priority="secondary"
+                    className={classes.back}
+                    disabled={handleDisableBackButton()}
+                >
+                    {commoni18n.t("previous")}
+                </Button>
+                <Button
+                    onClick={onNextStep}
+                    priority="primary"
+                    disabled={handleDisableNextButton()}
+                >
+                    {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
+                </Button>
+            </ActionsFooter>
         </div>
     );
 }
@@ -341,17 +339,6 @@ const useStyles = makeStyles<{
     },
     "stepper": {
         "flex": "1"
-    },
-    "buttonsContainer": {
-        "position": "sticky",
-        "bottom": "0",
-        "marginTop": fr.spacing("6v"),
-        "boxShadow": `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`,
-        ...fr.spacing("padding", {
-            "top": "4v",
-            "bottom": "6v"
-        }),
-        "background": theme.decisions.background.default.grey.default
     },
     "buttons": {
         "display": "flex",

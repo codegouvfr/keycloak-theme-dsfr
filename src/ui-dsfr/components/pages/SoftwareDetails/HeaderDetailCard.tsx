@@ -7,11 +7,12 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
+import { routes, session, useRoute } from "../../../routes";
 
 export type Props = {
     className?: string;
     softwareLogoUrl?: string;
-    softwareName?: string;
+    softwareName: string;
     authors?: {
         authorName: string;
         authorUrl: string;
@@ -41,7 +42,13 @@ export const HeaderDetailCard = memo((props: Props) => {
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.leftCol}>
-                <a href={"/"} className={classes.backButton}>
+                <a
+                    href={"#"}
+                    onClick={() => {
+                        session.back();
+                    }}
+                    className={classes.backButton}
+                >
                     <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                 </a>
                 <div className={classes.softwareInformation}>

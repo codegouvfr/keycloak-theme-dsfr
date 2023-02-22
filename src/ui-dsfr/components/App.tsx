@@ -13,6 +13,7 @@ import { declareComponentKeys } from "i18nifty";
 import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
 import { DeclarationForm } from "./pages/DeclarationForm";
 import { useCoreFunctions } from "core-dsfr";
+import { SoftwareForm } from "./pages/SoftwareForm";
 
 export default function App() {
     const route = useRoute();
@@ -128,6 +129,19 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
     {
         const Page = DeclarationForm;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = SoftwareForm;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {

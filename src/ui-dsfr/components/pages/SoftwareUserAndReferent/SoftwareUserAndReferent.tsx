@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { createGroup } from "type-route";
 import type { Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
-import { FooterSoftwareUserAndReferent } from "./FooterSoftwareUserAndReferent";
+import { ActionsFooter } from "ui-dsfr/components/shared/ActionsFooter";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
 
@@ -44,14 +45,18 @@ export function SoftwareUserAndReferent(props: Props) {
 
     const [activeMenu, setActiveMenu] = useState(0);
 
+    if (!software) {
+        return null;
+    }
+
     const MenuTabs = [
         {
             "id": 0,
-            "label": `${t("tab user title")} (${software?.userCount})`
+            "label": `${t("tab user title")} (${software.userCount})`
         },
         {
             "id": 1,
-            "label": `${t("tab referent title")} (${software?.referentCount})`
+            "label": `${t("tab referent title")} (${software.referentCount})`
         }
     ];
 
@@ -60,7 +65,7 @@ export function SoftwareUserAndReferent(props: Props) {
     };
 
     //TODO: Refacto when user and referent will be available in software data
-    const contentItems = activeMenu === 0 ? software?.authors : [];
+    const contentItems = activeMenu === 0 ? software.authors : [];
 
     return (
         <div>
@@ -77,14 +82,20 @@ export function SoftwareUserAndReferent(props: Props) {
                             linkProps: {
                                 href: "#"
                             },
-                            label: software?.softwareName
+                            label: software.softwareName
                         }
                     ]}
                     currentPageLabel={t("user and referent breadcrumb")}
                     className={classes.breadcrumb}
                 />
                 <div className={classes.header}>
-                    <a href={"/"} className={classes.backButton}>
+                    <a
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
+                        className={classes.backButton}
+                    >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                     </a>
                     <h4 className={classes.title}>{t("title")}</h4>
@@ -119,20 +130,22 @@ export function SoftwareUserAndReferent(props: Props) {
                                     id="fr-sidemenu-title"
                                 >
                                     <img
-                                        src={software?.logoUrl}
+                                        src={software.logoUrl}
                                         alt=""
                                         className={classes.logo}
                                     />
-                                    {software?.softwareName}
+                                    {software.softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
                                     {MenuTabs.map(tab => {
                                         const ariaCurrent =
                                             tab.id === activeMenu
                                                 ? {
-                                                      "aria-current": "step"
+                                                      "aria-current": "step" as "step"
                                                   }
-                                                : {};
+                                                : {
+                                                      "aria-current": undefined
+                                                  };
 
                                         return (
                                             <li
@@ -145,7 +158,6 @@ export function SoftwareUserAndReferent(props: Props) {
                                                 )}
                                                 key={tab.id}
                                             >
-                                                {/*@ts-ignore*/}
                                                 <a
                                                     className={fr.cx("fr-sidemenu__link")}
                                                     href="#"
@@ -177,14 +189,26 @@ export function SoftwareUserAndReferent(props: Props) {
                     </div>
                 </div>
             </div>
-            <FooterSoftwareUserAndReferent
-                softwareDetails=""
-                declareUserOrReferent={{
-                    href: "",
-                    onClick: () => {}
-                }}
-                activeMenu={activeMenu}
-            />
+            <ActionsFooter className={classes.container}>
+                <Button
+                    iconId="fr-icon-eye-line"
+                    priority="secondary"
+                    className={classes.softwareDetails}
+                    {...routes.softwareDetails({ name: software.softwareName }).link}
+                >
+                    {t("softwareDetails")}
+                </Button>
+                <Button
+                    priority="primary"
+                    linkProps={
+                        routes.declarationForm({
+                            "name": route.params.name
+                        }).link
+                    }
+                >
+                    {activeMenu === 0 ? t("declare user") : t("declare referent")}
+                </Button>
+            </ActionsFooter>
         </div>
     );
 }
@@ -233,6 +257,17 @@ const useStyles = makeStyles({
     },
     "contentMenuTab": {
         "flex": 2
+    },
+    "container": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "end"
+    },
+    "softwareDetails": {
+        "marginRight": fr.spacing("4v"),
+        "&&::before": {
+            "--icon-size": fr.spacing("6v")
+        }
     }
 }));
 
@@ -243,4 +278,7 @@ export const { i18n } = declareComponentKeys<
     | "tab user title"
     | "tab referent title"
     | "category"
+    | "softwareDetails"
+    | "declare referent"
+    | "declare user"
 >()({ SoftwareUserAndReferent });

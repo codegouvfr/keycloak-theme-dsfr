@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SoftwareFormStep1 } from "./Step1";
 import { SoftwareFormStep2 } from "./Step2";
@@ -19,6 +19,7 @@ import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
+import { ActionsFooter } from "../../shared/ActionsFooter";
 
 SoftwareForm.routeGroup = createGroup([
     routes.softwareCreationForm,
@@ -68,7 +69,7 @@ export function SoftwareForm(props: Props) {
         []
     );
 
-    const { cx, classes } = useStyles({ step });
+    const { classes } = useStyles({ step });
     const { t } = useTranslation({ SoftwareForm });
     const commoni18n = useTranslation({ "App": "App" });
 
@@ -85,7 +86,7 @@ export function SoftwareForm(props: Props) {
                     segments={[
                         {
                             "linkProps": {
-                                "href": routes.addSoftwareLanding().link.href
+                                ...routes.addSoftwareLanding().link
                             },
                             "label": commoni18n.t("add software or service")
                         }
@@ -95,7 +96,10 @@ export function SoftwareForm(props: Props) {
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
                     <a
-                        href={routes.addSoftwareLanding().link.href}
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
                         className={classes.backButton}
                     >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
@@ -163,45 +167,41 @@ export function SoftwareForm(props: Props) {
                     getWikidataOptions={softwareForm.getWikidataOptions}
                 />
             </div>
-            <div className={classes.footer}>
-                <div className={cx(fr.cx("fr-container"), classes.footerContainer)}>
-                    <Button
-                        onClick={() => softwareForm.returnToPreviousStep()}
-                        priority="secondary"
-                        className={classes.softwareDetails}
-                        disabled={step === 1}
-                    >
-                        {commoni18n.t("previous")}
-                    </Button>
-                    <Button
-                        onClick={() => evtActionSubmitStep.post()}
-                        priority="primary"
-                        disabled={isSubmitting}
-                    >
-                        {isLastStep ? (
-                            isSubmitting ? (
-                                <>
-                                    {t("submit")}
-                                    <CircularProgress
-                                        className={classes.progressSubmit}
-                                    />
-                                </>
-                            ) : (
-                                t("submit")
-                            )
+            <ActionsFooter className={classes.footerContainer}>
+                <Button
+                    onClick={() => softwareForm.returnToPreviousStep()}
+                    priority="secondary"
+                    className={classes.softwareDetails}
+                    disabled={step === 1}
+                >
+                    {commoni18n.t("previous")}
+                </Button>
+                <Button
+                    onClick={() => evtActionSubmitStep.post()}
+                    priority="primary"
+                    disabled={isSubmitting}
+                >
+                    {isLastStep ? (
+                        isSubmitting ? (
+                            <>
+                                {t("submit")}
+                                <CircularProgress className={classes.progressSubmit} />
+                            </>
                         ) : (
-                            commoni18n.t("next")
-                        )}
-                    </Button>
-                </div>
-            </div>
+                            t("submit")
+                        )
+                    ) : (
+                        commoni18n.t("next")
+                    )}
+                </Button>
+            </ActionsFooter>
         </div>
     );
 }
 
 const useStyles = makeStyles<{ step: number | undefined }>({
     "name": { SoftwareForm }
-})((theme, { step }) => ({
+})((_theme, { step }) => ({
     "step1": {
         "display": step !== 1 ? "none" : undefined
     },
@@ -237,17 +237,6 @@ const useStyles = makeStyles<{ step: number | undefined }>({
     },
     "stepper": {
         "flex": "1"
-    },
-    "footer": {
-        "position": "sticky",
-        "bottom": "0",
-        "marginTop": fr.spacing("6v"),
-        "boxShadow": `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`,
-        ...fr.spacing("padding", {
-            "top": "4v",
-            "bottom": "6v"
-        }),
-        "background": theme.decisions.background.default.grey.default
     },
     "footerContainer": {
         "display": "flex",

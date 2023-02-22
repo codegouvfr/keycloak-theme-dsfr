@@ -34,23 +34,23 @@ export const Header = memo((props: Props) => {
             brandTop={t("brand")}
             serviceTitle={t("title")}
             homeLinkProps={{
-                href: routes.home().link.href,
-                title: t("home title")
+                ...routes.home().link,
+                "title": t("home title")
             }}
             quickAccessItems={[
                 {
-                    iconId: "fr-icon-bank-fill",
-                    linkProps: {
+                    "iconId": "fr-icon-bank-fill",
+                    "linkProps": {
                         href: "https://code.gouv.fr/"
                     },
-                    text: "Code Gouv"
+                    "text": "Code Gouv"
                 },
                 {
-                    iconId: "fr-icon-play-circle-fill",
-                    linkProps: {
-                        href: "#"
+                    "iconId": "fr-icon-play-circle-fill",
+                    "linkProps": {
+                        "href": "#"
                     },
-                    text: t("quick access test")
+                    "text": t("quick access test")
                 },
                 {
                     "iconId": "fr-icon-account-fill",
@@ -74,41 +74,33 @@ export const Header = memo((props: Props) => {
             ]}
             navigation={[
                 {
-                    isActive: routeName === routes.home.name,
-                    linkProps: {
-                        href: routes.home().link.href,
-                        target: "_self"
-                    },
-                    text: t("navigation welcome")
+                    "isActive": routeName === routes.home.name,
+                    "linkProps": routes.home().link,
+                    "text": t("navigation welcome")
                 },
                 {
-                    isActive: routeName === routes.softwareCatalog.name,
-                    linkProps: {
-                        href: routes.softwareCatalog().link.href
-                    },
-                    text: t("navigation catalog")
+                    "isActive": routeName === routes.softwareCatalog.name,
+                    "linkProps": routes.softwareCatalog().link,
+                    "text": t("navigation catalog")
                 },
                 {
-                    isActive: routeName === routes.addSoftwareLanding.name,
-                    linkProps: {
-                        href: routes.addSoftwareLanding().link.href,
-                        target: "_self"
-                    },
-                    text: t("navigation add software")
+                    "isActive": routeName === routes.addSoftwareLanding.name,
+                    "linkProps": routes.addSoftwareLanding().link,
+                    "text": t("navigation add software")
                 },
                 {
-                    linkProps: {
-                        href: "#",
-                        target: "_self"
+                    "linkProps": {
+                        "href": "#",
+                        "target": "_self"
                     },
-                    text: t("navigation support request")
+                    "text": t("navigation support request")
                 },
                 {
-                    linkProps: {
-                        href: "#",
-                        target: "_self"
+                    "linkProps": {
+                        "href": "#",
+                        "target": "_self"
                     },
-                    text: t("navigation about")
+                    "text": t("navigation about")
                 }
             ]}
         />
