@@ -86,7 +86,7 @@ export function SoftwareForm(props: Props) {
                     segments={[
                         {
                             "linkProps": {
-                                "href": routes.addSoftwareLanding().link.href
+                                ...routes.addSoftwareLanding().link
                             },
                             "label": commoni18n.t("add software or service")
                         }

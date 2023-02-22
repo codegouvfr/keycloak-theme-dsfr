@@ -26,7 +26,7 @@ export const Header = memo((props: Props) => {
             brandTop={t("brand")}
             serviceTitle={t("title")}
             homeLinkProps={{
-                "href": routes.home().link.href,
+                ...routes.home().link,
                 "title": t("home title")
             }}
             quickAccessItems={[
@@ -59,23 +59,21 @@ export const Header = memo((props: Props) => {
                 {
                     "isActive": route.name === routes.home.name,
                     "linkProps": {
-                        "href": routes.home().link.href,
-                        "target": "_self"
+                        ...routes.home().link
                     },
                     "text": t("navigation welcome")
                 },
                 {
                     "isActive": route.name === routes.softwareCatalog.name,
                     "linkProps": {
-                        "href": routes.softwareCatalog().link.href
+                        ...routes.softwareCatalog().link
                     },
                     "text": t("navigation catalog")
                 },
                 {
                     "isActive": route.name === routes.addSoftwareLanding.name,
                     "linkProps": {
-                        "href": routes.addSoftwareLanding().link.href,
-                        "target": "_self"
+                        ...routes.addSoftwareLanding().link
                     },
                     "text": t("navigation add software")
                 },

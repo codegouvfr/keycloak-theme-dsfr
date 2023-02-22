@@ -63,7 +63,7 @@ export function SoftwareDetails(props: Props) {
                     segments={[
                         {
                             "linkProps": {
-                                "href": routes.softwareCatalog().href
+                                ...routes.softwareCatalog().link
                             },
                             "label": t("catalog breadcrumb")
                         }

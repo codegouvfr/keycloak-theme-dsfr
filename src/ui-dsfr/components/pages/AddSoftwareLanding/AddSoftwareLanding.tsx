@@ -3,9 +3,9 @@ import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { createGroup, Route } from "type-route";
-import { routes } from "../../../routes";
+import { routes } from "ui-dsfr/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -77,7 +77,10 @@ export function AddSoftwareLanding(props: Props) {
                             {t("who can add software")}
                         </h2>
                         <div className={classes.whoCanAddButtonContainer}>
-                            <a href="/add" className={fr.cx("fr-btn")}>
+                            <a
+                                {...routes.softwareCreationForm().link}
+                                className={fr.cx("fr-btn")}
+                            >
                                 {commoni18n.t("add software")}
                             </a>
                             <Button priority="secondary">

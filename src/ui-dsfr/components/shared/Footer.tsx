@@ -22,7 +22,7 @@ export const Footer = memo((props: Props) => {
             className={className}
             brandTop={t("brand")}
             homeLinkProps={{
-                href: routes.home().link.href,
+                ...routes.home().link,
                 title: t("home title")
             }}
             accessibility={"partially compliant"}

@@ -194,7 +194,14 @@ export function SoftwareUserAndReferent(props: Props) {
                 >
                     {t("softwareDetails")}
                 </Button>
-                <Button onClick={function noRefCheck() {}} priority="primary">
+                <Button
+                    priority="primary"
+                    linkProps={
+                        routes.declarationForm({
+                            "name": route.params.name
+                        }).link
+                    }
+                >
                     {activeMenu === 0 ? t("declare user") : t("declare referent")}
                 </Button>
             </ActionsFooter>
