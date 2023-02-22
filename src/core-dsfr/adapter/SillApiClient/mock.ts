@@ -2,9 +2,9 @@ import { Fzf } from "fzf";
 import memoize from "memoizee";
 import type { SillApiClient } from "../../ports/SillApiClient";
 import { id } from "tsafe/id";
-import LogoNextCloud from "../../assets/logo_nextcloud.png";
-import LogoLibreOffice from "../../assets/logo_libreoffice.png";
-import LogoWordpress from "../../assets/logo_wordpress.png";
+import LogoNextCloud from "./assets/logo_nextcloud.png";
+import LogoLibreOffice from "./assets/logo_libreoffice.png";
+import LogoWordpress from "./assets/logo_wordpress.png";
 
 export function createMockSillApiClient(): SillApiClient {
     return {
@@ -735,7 +735,31 @@ export function createMockSillApiClient(): SillApiClient {
                 ];
             },
             { "promise": true }
-        )
+        ),
+        "getOidcParams": memoize(
+            async () => ({
+                "keycloakParams": undefined,
+                "jwtClaims": {
+                    "agencyName": "a",
+                    "email": "b",
+                    "id": "c",
+                    "locale": "d"
+                },
+                "termsOfServicesUrl": "https://example.com/tos.ms"
+            }),
+            { "promise": true }
+        ),
+        "getVersion": memoize(async () => "0.0.0", { "promise": true }),
+        "updateAgencyName": async ({ newAgencyName }) => {
+            console.log(`Update agency name ${newAgencyName}`);
+        },
+        "updateEmail": async ({ newEmail }) => {
+            console.log(`Update email ${newEmail}`);
+        },
+        "getAllowedEmailRegexp": memoize(async () => "/gouv.fr$/", { "promise": true }),
+        "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
+            "promise": true
+        })
     };
 }
 

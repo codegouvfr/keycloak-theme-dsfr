@@ -8,7 +8,7 @@ import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { useCoreFunctions } from "core-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { SoftwareFormStep2 } from "./Step2";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 
 export type Step4Props = {
     className?: string;

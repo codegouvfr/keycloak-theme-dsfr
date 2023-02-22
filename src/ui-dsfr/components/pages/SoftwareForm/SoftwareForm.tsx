@@ -14,7 +14,7 @@ import { Evt } from "evt";
 import { useCoreFunctions, useCoreState, useCoreEvts, selectors } from "core-dsfr";
 import { useEvt } from "evt/hooks";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";

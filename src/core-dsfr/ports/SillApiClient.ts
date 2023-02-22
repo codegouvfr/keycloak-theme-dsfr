@@ -1,3 +1,7 @@
+import type { User } from "./UserApiClient";
+import type { Language } from "sill-api";
+import type { LocalizedString } from "i18nifty";
+
 export type SillApiClient = {
     getSoftwares: {
         (): Promise<SillApiClient.Software[]>;
@@ -33,6 +37,34 @@ export type SillApiClient = {
     updateInstance: (
         params: CreateInstanceParam & { instanceId: number }
     ) => Promise<void>;
+    getOidcParams: {
+        (): Promise<{
+            keycloakParams:
+                | {
+                      url: string;
+                      realm: string;
+                      clientId: string;
+                  }
+                | undefined;
+            jwtClaims: Record<keyof User, string>;
+            termsOfServicesUrl: LocalizedString<Language>;
+        }>;
+        clear: () => void;
+    };
+    getVersion: {
+        (): Promise<string>;
+        clear: () => void;
+    };
+    updateAgencyName: (params: { newAgencyName: string }) => Promise<void>;
+    updateEmail: (params: { newEmail: string }) => Promise<void>;
+    getAllowedEmailRegexp: {
+        (): Promise<string>;
+        clear: () => void;
+    };
+    getAgencyNames: {
+        (): Promise<string[]>;
+        clear: () => void;
+    };
 };
 
 type CreateInstanceParam = {

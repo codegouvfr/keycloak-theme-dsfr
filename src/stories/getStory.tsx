@@ -13,6 +13,7 @@ import { useRerenderOnStateChange } from "evt/hooks";
 import { createCoreProvider } from "core-dsfr";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+import { assert } from "tsafe/assert";
 
 const evtTriggerReRender = Evt.create(0);
 
@@ -24,11 +25,16 @@ setUseLang({
 });
 
 const { CoreProvider } = createCoreProvider({
-    "sillApi": "mock"
+    "apiUrl": "",
+    "evtUserActivity": new Evt(),
+    "transformUrlBeforeRedirectToLogin": () => {
+        assert(false);
+    },
+    "getCurrentLang": () => "fr"
 });
 
 export const { createMockRoute } = createMockRouteFactory({
-    "triggerStoriesReRender": () => {
+    "triggerReRender": () => {
         evtTriggerReRender.state++;
     }
 });

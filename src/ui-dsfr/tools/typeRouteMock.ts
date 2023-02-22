@@ -12,30 +12,30 @@ export function createTypeRouteMock<
         {
             [Name in keyof typeof routes]: {
                 name: Name;
-                params: Param0<typeof routes[Name]>;
+                params: Param0<(typeof routes)[Name]>;
             };
         }[keyof typeof routes]
     >();
 
-    function createMockRouteFactory(params: { triggerStoriesReRender: () => void }) {
-        const { triggerStoriesReRender } = params;
+    function createMockRouteFactory(params: { triggerReRender: () => void }) {
+        const { triggerReRender } = params;
 
         function createMockRoute<Name extends keyof typeof routes>(
             name: Name,
-            params: Param0<typeof routes[Name]>
-        ): ReturnType<typeof routes[Name]> {
+            params: Param0<(typeof routes)[Name]>
+        ): ReturnType<(typeof routes)[Name]> {
             evtRoutes.$attach(
                 routeEvent =>
                     routeEvent.name === name
-                        ? [routeEvent.params as Param0<typeof routes[Name]>]
+                        ? [routeEvent.params as Param0<(typeof routes)[Name]>]
                         : null,
                 newParams => {
                     params = newParams;
-                    triggerStoriesReRender();
+                    triggerReRender();
                 }
             );
 
-            return new Proxy({} as ReturnType<typeof routes[Name]>, {
+            return new Proxy({} as ReturnType<(typeof routes)[Name]>, {
                 "get": (...args) => {
                     const [, prop] = args;
 

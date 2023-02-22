@@ -7,7 +7,7 @@ import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { HeaderDetailCard } from "./HeaderDetailCard";
 import { PreviewTab } from "./PreviewTab";
 import { ReferencedInstancesTab } from "./ReferencedInstancesTab";

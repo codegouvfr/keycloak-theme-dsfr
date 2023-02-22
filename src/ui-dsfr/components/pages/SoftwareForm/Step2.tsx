@@ -11,7 +11,7 @@ import type { useCoreFunctions } from "core-dsfr";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { ReturnType } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 
 export type Step2Props = {
     className?: string;

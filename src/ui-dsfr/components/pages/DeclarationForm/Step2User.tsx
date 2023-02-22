@@ -6,7 +6,7 @@ import { assert } from "tsafe/assert";
 import type { FormData } from "core-dsfr/usecases/declarationForm";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Select } from "@codegouvfr/react-dsfr/Select";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { declareComponentKeys } from "i18nifty";
 
 type Props = {

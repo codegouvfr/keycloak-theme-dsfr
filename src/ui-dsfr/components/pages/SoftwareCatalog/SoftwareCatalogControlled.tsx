@@ -9,7 +9,7 @@ import { SoftwareCatalogCard } from "./SoftwareCatalogCard";
 import { Search } from "./Search";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 
 const sortOptions = [
     "added time",

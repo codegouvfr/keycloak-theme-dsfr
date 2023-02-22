@@ -12,8 +12,6 @@ export { declareComponentKeys };
 export { languages };
 export type { Language };
 
-console.log("ui!!!!!!!!!!");
-
 export const fallbackLanguage = "en";
 
 export type LocalizedString = Parameters<typeof resolveLocalizedString>[0];
@@ -931,7 +929,7 @@ export const zLocalizedString = z.union([
 ]);
 
 {
-    type Got = ReturnType<typeof zLocalizedString["parse"]>;
+    type Got = ReturnType<(typeof zLocalizedString)["parse"]>;
     type Expected = LocalizedString;
 
     assert<Equals<Got, Expected>>();

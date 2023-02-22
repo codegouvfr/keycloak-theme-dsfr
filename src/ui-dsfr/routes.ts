@@ -1,7 +1,7 @@
 import { createRouter, defineRoute, param, noMatch } from "type-route";
-import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
-import { createTypeRouteMock } from "ui/tools/typeRouteMock";
+import { createTypeRouteMock } from "ui-dsfr/tools/typeRouteMock";
 import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
+import { isStorybook } from "ui-dsfr/tools/isStorybook";
 import { z } from "zod";
 
 const routeDefs = {
@@ -95,10 +95,15 @@ const routeDefs = {
             "name": param.query.string
         },
         () => `/users-and-referents`
-    )
+    ),
+    "fourOhFour": defineRoute("/404"),
+    "terms": defineRoute("/terms"),
+    "readme": defineRoute("/readme")
 };
 
-export const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
+const { RouteProvider, useRoute, routes: realRoutes } = createRouter(routeDefs);
+
+export { RouteProvider, useRoute };
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
     "routes": realRoutes
@@ -106,6 +111,4 @@ const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
 
 export { createMockRouteFactory };
 
-export const routes = (window as any)["IS_STORYBOOK"] ? routesProxy : realRoutes;
-
-makeThisModuleAnExecutableRouteLister(routeDefs);
+export const routes = isStorybook ? routesProxy : realRoutes;

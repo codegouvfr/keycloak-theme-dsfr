@@ -3,29 +3,102 @@ import { createCoreFromUsecases } from "redux-clean-architecture";
 import type { GenericCreateEvt, GenericThunks } from "redux-clean-architecture";
 import { usecases } from "./usecases";
 import type { ReturnType } from "tsafe/ReturnType";
-import { createMockSillApiClient } from "./adapter/SillApiClient/mock";
+import {
+    createTrpcSillApiClient,
+    createMockSillApiClient
+} from "./adapter/SillApiClient";
+import { createKeycloakOidcClient, createPhonyOidcClient } from "./adapter/OidcClient";
+import { createJwtUserApiClient } from "./adapter/UserApiClient/jwt";
 import { assert } from "tsafe/assert";
+import type { LocalizedString } from "i18nifty";
+import type { Language } from "sill-api";
+import type { NonPostableEvt } from "evt";
+import type { OidcClient } from "./ports/OidcClient";
+import type { UserApiClient } from "./ports/UserApiClient";
+import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 
-type CoreParams = {
-    sillApi: "mock";
-};
+export async function createCore(params: {
+    apiUrl: string;
+    evtUserActivity: NonPostableEvt<void>;
+    transformUrlBeforeRedirectToLogin: (params: {
+        url: string;
+        termsOfServicesUrl: LocalizedString<Language>;
+    }) => string;
+    getCurrentLang: () => Language;
+}) {
+    const { apiUrl, transformUrlBeforeRedirectToLogin, evtUserActivity, getCurrentLang } =
+        params;
 
-export async function createCore(params: CoreParams) {
-    const { sillApi } = params;
+    let oidcClient: OidcClient | undefined = undefined;
 
-    assert(sillApi === "mock");
+    const sillApiClient =
+        apiUrl === ""
+            ? createMockSillApiClient()
+            : createTrpcSillApiClient({
+                  "url": apiUrl,
+                  "getOidcAccessToken": () => {
+                      if (oidcClient === undefined) {
+                          return undefined;
+                      }
+                      if (!oidcClient.isUserLoggedIn) {
+                          return undefined;
+                      }
+                      return oidcClient.accessToken;
+                  }
+              });
 
-    const thunksExtraArgument = {
-        "createCoreParams": params,
-        "sillApiClient": createMockSillApiClient()
-    };
+    const { keycloakParams, jwtClaims, termsOfServicesUrl } =
+        await sillApiClient.getOidcParams();
+
+    oidcClient =
+        keycloakParams === undefined
+            ? createPhonyOidcClient({
+                  "isUserInitiallyLoggedIn": false,
+                  jwtClaims,
+                  "user": {
+                      "agencyName": "DINUM",
+                      "email": "joseph.garrone@code.gouv.fr",
+                      "id": "xxxxx",
+                      "locale": "fr"
+                  }
+              })
+            : await createKeycloakOidcClient({
+                  ...keycloakParams,
+                  evtUserActivity,
+                  "transformUrlBeforeRedirect": url =>
+                      transformUrlBeforeRedirectToLogin({
+                          url,
+                          termsOfServicesUrl
+                      }),
+                  "getUiLocales": getCurrentLang
+              });
+
+    const userApiClient = oidcClient.isUserLoggedIn
+        ? createJwtUserApiClient({
+              jwtClaims,
+              "getOidcAccessToken": () => {
+                  assert(oidcClient !== undefined);
+                  assert(oidcClient.isUserLoggedIn);
+                  return oidcClient.accessToken;
+              }
+          })
+        : createObjectThatThrowsIfAccessed<UserApiClient>();
 
     const core = createCoreFromUsecases({
-        thunksExtraArgument,
-        usecases
+        usecases,
+        "thunksExtraArgument": {
+            "coreParams": params,
+            userApiClient,
+            oidcClient,
+            sillApiClient
+        }
     });
 
-    await core.dispatch(usecases.softwareCatalog.privateThunks.initialize());
+    await Promise.all([
+        core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
+        core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
+        core.dispatch(usecases.softwareCatalog.privateThunks.initialize())
+    ]);
 
     return core;
 }

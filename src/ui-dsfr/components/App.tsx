@@ -4,22 +4,45 @@ import { SoftwareCatalog } from "./pages/SoftwareCatalog";
 import { Homepage } from "./pages/Homepage";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
+import { Terms } from "./pages/Terms";
+import { Readme } from "./pages/Readme";
+import { FourOhFour } from "./pages/FourOhFour";
 import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLanding";
 import { SoftwareDetails } from "./pages/SoftwareDetails";
 import { declareComponentKeys } from "i18nifty";
 import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
 import { DeclarationForm } from "./pages/DeclarationForm";
+import { useCoreFunctions } from "core-dsfr";
 
 export default function App() {
     const route = useRoute();
 
     const { classes, cx } = useStyles();
 
-    const isUserLoggedIn = true;
+    const { userAuthentication } = useCoreFunctions();
 
     return (
         <div className={cx(classes.root)}>
-            <Header isUserLoggedIn={isUserLoggedIn} route={route} />
+            <Header
+                routeName={route.name}
+                authentication={
+                    userAuthentication.getIsUserLoggedIn()
+                        ? {
+                              "isUserLoggedIn": true,
+                              "myAccountLink": {
+                                  "onClick": () => {},
+                                  "href": "#"
+                              }
+                          }
+                        : {
+                              "isUserLoggedIn": false,
+                              "login": () =>
+                                  userAuthentication.login({
+                                      "doesCurrentHrefRequiresAuth": false
+                                  })
+                          }
+                }
+            />
             <main className={classes.main}>
                 <PageSelector route={route} />
             </main>
@@ -31,7 +54,9 @@ export default function App() {
 function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
     const { route } = props;
 
-    const isUserLoggedIn = true;
+    const { userAuthentication } = useCoreFunctions();
+
+    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
 
     /*
     Here is one of the few places in the codebase where we tolerate code duplication.
@@ -42,7 +67,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -55,7 +80,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -68,7 +93,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -80,7 +105,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -93,7 +118,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -106,7 +131,7 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -114,7 +139,33 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         }
     }
 
-    return <h1>Not found 😢</h1>;
+    {
+        const Page = Readme;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = Terms;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    return <FourOhFour />;
 }
 
 const useStyles = makeStyles({

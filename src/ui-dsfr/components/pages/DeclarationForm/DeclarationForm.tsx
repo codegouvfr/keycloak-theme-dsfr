@@ -17,7 +17,7 @@ import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { fr } from "@codegouvfr/react-dsfr";
 import { DetailUsersAndReferents } from "ui-dsfr/components/shared/DetailUsersAndReferents";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { declareComponentKeys } from "i18nifty";
 
 DeclarationForm.routeGroup = createGroup([routes.declarationForm]);

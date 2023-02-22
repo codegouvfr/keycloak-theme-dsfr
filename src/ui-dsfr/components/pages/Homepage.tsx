@@ -3,7 +3,7 @@ import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { createGroup, Route } from "type-route";
 import { routes } from "../../routes";
 import { fr } from "@codegouvfr/react-dsfr";

@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { Footer as FooterDS } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "../../routes";
 

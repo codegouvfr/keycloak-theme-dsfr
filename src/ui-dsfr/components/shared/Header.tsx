@@ -1,20 +1,28 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "../../routes";
-import { Route } from "type-route";
+import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
-    isUserLoggedIn: boolean;
-    route: Route<any>;
+    routeName: keyof typeof routes | false;
+    authentication:
+        | {
+              isUserLoggedIn: true;
+              myAccountLink: Link;
+          }
+        | {
+              isUserLoggedIn: false;
+              login: () => Promise<never>;
+          };
 };
 
 export const Header = memo((props: Props) => {
-    const { className, isUserLoggedIn, route, ...rest } = props;
+    const { className, routeName, authentication, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
@@ -45,19 +53,28 @@ export const Header = memo((props: Props) => {
                     text: t("quick access test")
                 },
                 {
-                    iconId: "fr-icon-account-fill",
-                    linkProps: {
-                        href: "#",
-                        className: "fr-btn--tertiary"
-                    },
-                    text: isUserLoggedIn
+                    "iconId": "fr-icon-account-fill",
+                    ...(authentication.isUserLoggedIn
+                        ? {
+                              "linkProps": {
+                                  "className": "fr-btn--tertiary",
+                                  ...authentication.myAccountLink
+                              }
+                          }
+                        : {
+                              "buttonProps": {
+                                  "className": "fr-btn--tertiary",
+                                  "onClick": authentication.login
+                              }
+                          }),
+                    "text": authentication.isUserLoggedIn
                         ? t("quick access account")
                         : t("quick access connect")
                 }
             ]}
             navigation={[
                 {
-                    isActive: route.name === routes.home.name,
+                    isActive: routeName === routes.home.name,
                     linkProps: {
                         href: routes.home().link.href,
                         target: "_self"
@@ -65,14 +82,14 @@ export const Header = memo((props: Props) => {
                     text: t("navigation welcome")
                 },
                 {
-                    isActive: route.name === routes.softwareCatalog.name,
+                    isActive: routeName === routes.softwareCatalog.name,
                     linkProps: {
                         href: routes.softwareCatalog().link.href
                     },
                     text: t("navigation catalog")
                 },
                 {
-                    isActive: route.name === routes.addSoftwareLanding.name,
+                    isActive: routeName === routes.addSoftwareLanding.name,
                     linkProps: {
                         href: routes.addSoftwareLanding().link.href,
                         target: "_self"

@@ -5,7 +5,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
 import { z } from "zod";
-import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
+import { createUnionSchema } from "ui-dsfr/tools/zod/createUnionSchema";
 
 export { declareComponentKeys };
 export { languages };
