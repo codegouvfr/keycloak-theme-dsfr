@@ -125,30 +125,24 @@ export function DeclarationForm(props: Props) {
         return null;
     }
 
-    console.log(
-        routes.softwareDetails({
-            "name": software.softwareName
-        }).link
-    );
-
     return (
         <div className={className}>
             <div className={fr.cx("fr-container")}>
                 <Breadcrumb
                     segments={[
                         {
-                            linkProps: {
-                                "href": routes.softwareCatalog().href
+                            "linkProps": {
+                                ...routes.softwareCatalog().link
                             },
-                            label: t("catalog breadcrumb")
+                            "label": t("catalog breadcrumb")
                         },
                         {
-                            linkProps: {
-                                href: routes.softwareDetails({
+                            "linkProps": {
+                                ...routes.softwareDetails({
                                     "name": software.softwareName
-                                }).link.href
+                                }).link
                             },
-                            label: software.softwareName
+                            "label": software.softwareName
                         }
                     ]}
                     currentPageLabel={t("declare yourself user or referent breadcrumb")}
@@ -245,25 +239,6 @@ export function DeclarationForm(props: Props) {
                     </div>
                 </div>
             </div>
-            {/*            <div className={classes.buttonsContainer}>
-                <div className={cx(fr.cx("fr-container"), classes.buttons)}>
-                    <Button
-                        onClick={onBackStep}
-                        priority="secondary"
-                        className={classes.back}
-                        disabled={handleDisableBackButton()}
-                    >
-                        {commoni18n.t("previous")}
-                    </Button>
-                    <Button
-                        onClick={onNextStep}
-                        priority="primary"
-                        disabled={handleDisableNextButton()}
-                    >
-                        {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
-                    </Button>
-                </div>
-            </div>*/}
             <ActionsFooter className={classes.buttons}>
                 <Button
                     onClick={onBackStep}

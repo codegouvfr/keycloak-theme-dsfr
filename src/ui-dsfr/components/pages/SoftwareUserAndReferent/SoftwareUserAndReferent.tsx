@@ -45,14 +45,18 @@ export function SoftwareUserAndReferent(props: Props) {
 
     const [activeMenu, setActiveMenu] = useState(0);
 
+    if (!software) {
+        return null;
+    }
+
     const MenuTabs = [
         {
             "id": 0,
-            "label": `${t("tab user title")} (${software?.userCount})`
+            "label": `${t("tab user title")} (${software.userCount})`
         },
         {
             "id": 1,
-            "label": `${t("tab referent title")} (${software?.referentCount})`
+            "label": `${t("tab referent title")} (${software.referentCount})`
         }
     ];
 
@@ -61,7 +65,7 @@ export function SoftwareUserAndReferent(props: Props) {
     };
 
     //TODO: Refacto when user and referent will be available in software data
-    const contentItems = activeMenu === 0 ? software?.authors : [];
+    const contentItems = activeMenu === 0 ? software.authors : [];
 
     return (
         <div>
@@ -78,7 +82,7 @@ export function SoftwareUserAndReferent(props: Props) {
                             linkProps: {
                                 href: "#"
                             },
-                            label: software?.softwareName
+                            label: software.softwareName
                         }
                     ]}
                     currentPageLabel={t("user and referent breadcrumb")}
@@ -126,11 +130,11 @@ export function SoftwareUserAndReferent(props: Props) {
                                     id="fr-sidemenu-title"
                                 >
                                     <img
-                                        src={software?.logoUrl}
+                                        src={software.logoUrl}
                                         alt=""
                                         className={classes.logo}
                                     />
-                                    {software?.softwareName}
+                                    {software.softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
                                     {MenuTabs.map(tab => {
@@ -188,9 +192,9 @@ export function SoftwareUserAndReferent(props: Props) {
             <ActionsFooter className={classes.container}>
                 <Button
                     iconId="fr-icon-eye-line"
-                    onClick={function noRefCheck() {}}
                     priority="secondary"
                     className={classes.softwareDetails}
+                    {...routes.softwareDetails({ name: software.softwareName }).link}
                 >
                     {t("softwareDetails")}
                 </Button>
