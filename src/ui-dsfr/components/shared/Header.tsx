@@ -16,7 +16,7 @@ export type Props = {
     authentication:
         | {
               isUserLoggedIn: true;
-              myAccountLink: Link;
+              logout: () => void;
           }
         | {
               isUserLoggedIn: false;
@@ -38,6 +38,8 @@ export const Header = memo((props: Props) => {
             e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
         );
     };
+
+    console.log(authentication);
 
     return (
         <HeaderDS
@@ -64,23 +66,29 @@ export const Header = memo((props: Props) => {
                     "text": t("quick access test")
                 },
                 {
-                    "iconId": "fr-icon-account-fill",
+                    "iconId": "fr-icon-lock-line",
                     ...(authentication.isUserLoggedIn
                         ? {
                               "linkProps": {
-                                  "className": "fr-btn--tertiary",
-                                  ...authentication.myAccountLink
+                                  "onClick": authentication.logout
                               }
                           }
                         : {
                               "buttonProps": {
-                                  "className": "fr-btn--tertiary",
                                   "onClick": authentication.login
                               }
                           }),
                     "text": authentication.isUserLoggedIn
-                        ? t("quick access account")
-                        : t("quick access connect")
+                        ? t("quick access logout")
+                        : t("quick access login")
+                },
+                {
+                    "iconId": "fr-icon-account-fill",
+                    "linkProps": {
+                        "className": "fr-btn--tertiary",
+                        ...routes.account().link
+                    },
+                    "text": t("quick access account")
                 },
                 {
                     "buttonProps": {
@@ -143,7 +151,8 @@ export const { i18n } = declareComponentKeys<
     | "navigation support request"
     | "navigation about"
     | "quick access test"
-    | "quick access connect"
+    | "quick access login"
+    | "quick access logout"
     | "quick access account"
     | "select language"
 >()({ Header });

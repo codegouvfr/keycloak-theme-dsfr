@@ -355,7 +355,8 @@ const {
                 "navigation support request": "Support request",
                 "navigation about": "About the site",
                 "quick access test": "Immediate test",
-                "quick access connect": "Sign in",
+                "quick access login": "Sign in",
+                "quick access logout": "Sign out",
                 "quick access account": "My account",
                 "select language": "Select language"
             },
@@ -678,7 +679,8 @@ const {
                 "navigation support request": "Demande d'accompagement",
                 "navigation about": "À propos du site",
                 "quick access test": "Test immédiat",
-                "quick access connect": "Se connecter",
+                "quick access login": "Se connecter",
+                "quick access logout": "Se déconnecter",
                 "quick access account": "Mon compte",
                 "select language": "Sélectionner une langue"
             },

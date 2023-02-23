@@ -31,10 +31,7 @@ export default function App() {
                     userAuthentication.getIsUserLoggedIn()
                         ? {
                               "isUserLoggedIn": true,
-                              "myAccountLink": {
-                                  "onClick": () => {},
-                                  "href": "#"
-                              }
+                              "logout": () => {}
                           }
                         : {
                               "isUserLoggedIn": false,
