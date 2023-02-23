@@ -15,8 +15,47 @@ import { DeclarationForm } from "./pages/DeclarationForm";
 import { useCoreFunctions } from "core-dsfr";
 import { SoftwareForm } from "./pages/SoftwareForm";
 import { Account } from "./pages/Account";
+import { RouteProvider } from "ui-dsfr/routes";
+import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
+import { id } from "tsafe/id";
+import { Evt } from "evt";
+import { evtLang } from "ui-dsfr/i18n";
+import {
+    addSillApiUrlToQueryParams,
+    addTermsOfServicesUrlToQueryParams
+} from "ui-dsfr/keycloakTheme/valuesTransferredOverUrl";
+import { createCoreProvider } from "core-dsfr";
+import { getConfiguration } from "configuration-dsfr";
+
+const { CoreProvider } = createCoreProvider({
+    "apiUrl": getConfiguration().apiUrl,
+    "evtUserActivity": Evt.merge([
+        Evt.from(document, "mousemove"),
+        Evt.from(document, "keydown")
+    ]).pipe(() => [id<void>(undefined)]),
+    "transformUrlBeforeRedirectToLogin": ({ url, termsOfServicesUrl }) =>
+        [url]
+            .map(injectGlobalStatesInSearchParams)
+            .map(url =>
+                addSillApiUrlToQueryParams({ url, "value": getConfiguration().apiUrl })
+            )
+            .map(url =>
+                addTermsOfServicesUrlToQueryParams({ url, "value": termsOfServicesUrl })
+            )[0],
+    "getCurrentLang": () => evtLang.state
+});
 
 export default function App() {
+    return (
+        <CoreProvider>
+            <RouteProvider>
+                <ContextualizedApp />
+            </RouteProvider>
+        </CoreProvider>
+    );
+}
+
+function ContextualizedApp() {
     const route = useRoute();
 
     const { classes, cx } = useStyles();
@@ -46,14 +85,14 @@ export default function App() {
                 }
             />
             <main className={classes.main}>
-                <PageSelector route={route} />
+                <Page route={route} />
             </main>
             <Footer />
         </div>
     );
 }
 
-function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
+function Page(props: { route: ReturnType<typeof useRoute> }) {
     const { route } = props;
 
     const { userAuthentication } = useCoreFunctions();
