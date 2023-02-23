@@ -14,6 +14,7 @@ import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
 import { DeclarationForm } from "./pages/DeclarationForm";
 import { useCoreFunctions } from "core-dsfr";
 import { SoftwareForm } from "./pages/SoftwareForm";
+import { Account } from "./pages/Account";
 
 export default function App() {
     const route = useRoute();
@@ -30,10 +31,10 @@ export default function App() {
                     userAuthentication.getIsUserLoggedIn()
                         ? {
                               "isUserLoggedIn": true,
-                              "myAccountLink": {
-                                  "onClick": () => {},
-                                  "href": "#"
-                              }
+                              "logout": () =>
+                                  userAuthentication.logout({
+                                      redirectTo: "home"
+                                  })
                           }
                         : {
                               "isUserLoggedIn": false,
@@ -146,6 +147,19 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
                 userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
+        const Page = Account;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 

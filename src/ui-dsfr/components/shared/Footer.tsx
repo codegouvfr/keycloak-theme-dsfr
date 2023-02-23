@@ -5,6 +5,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { Footer as FooterDS } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "../../routes";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 
 export type Props = {
     className?: string;
@@ -39,6 +40,7 @@ export const Footer = memo((props: Props) => {
             websiteMapLinkProps={{
                 href: "#"
             }}
+            bottomItems={[headerFooterDisplayItem]}
         />
     );
 });

@@ -1,11 +1,11 @@
-import { memo } from "react";
+import React, { memo, MouseEvent, useState } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "../../routes";
-import type { Link } from "type-route";
+import { LanguageSelector } from "./LanguageSelector";
 
 export type Props = {
     className?: string;
@@ -13,7 +13,7 @@ export type Props = {
     authentication:
         | {
               isUserLoggedIn: true;
-              myAccountLink: Link;
+              logout: () => void;
           }
         | {
               isUserLoggedIn: false;
@@ -27,6 +27,14 @@ export const Header = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ Header });
+    const [selectedLanguage, setSelectedLanguage] = useState("fr");
+
+    const onChangeLanguage = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        setSelectedLanguage(
+            e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
+        );
+    };
 
     return (
         <HeaderDS
@@ -53,23 +61,44 @@ export const Header = memo((props: Props) => {
                     "text": t("quick access test")
                 },
                 {
-                    "iconId": "fr-icon-account-fill",
+                    "iconId": "fr-icon-lock-line",
                     ...(authentication.isUserLoggedIn
                         ? {
                               "linkProps": {
-                                  "className": "fr-btn--tertiary",
-                                  ...authentication.myAccountLink
+                                  "onClick": authentication.logout
                               }
                           }
                         : {
                               "buttonProps": {
-                                  "className": "fr-btn--tertiary",
                                   "onClick": authentication.login
                               }
                           }),
                     "text": authentication.isUserLoggedIn
-                        ? t("quick access account")
-                        : t("quick access connect")
+                        ? t("quick access logout")
+                        : t("quick access login")
+                },
+                {
+                    "iconId": "fr-icon-account-fill",
+                    "linkProps": {
+                        "className": "fr-btn--tertiary",
+                        ...routes.account().link
+                    },
+                    "text": t("quick access account")
+                },
+                {
+                    "buttonProps": {
+                        "aria-controls": "translate-select",
+                        "aria-expanded": false,
+                        "title": t("select language"),
+                        "className": "fr-btn--tertiary fr-translate fr-nav"
+                    },
+                    "iconId": "fr-icon-translate-2",
+                    "text": (
+                        <LanguageSelector
+                            selectedLanguage={selectedLanguage}
+                            onChangeLanguage={onChangeLanguage}
+                        />
+                    )
                 }
             ]}
             navigation={[
@@ -117,6 +146,8 @@ export const { i18n } = declareComponentKeys<
     | "navigation support request"
     | "navigation about"
     | "quick access test"
-    | "quick access connect"
+    | "quick access login"
+    | "quick access logout"
     | "quick access account"
+    | "select language"
 >()({ Header });

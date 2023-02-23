@@ -46,6 +46,7 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step2").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step3").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step4").i18n
+    | typeof import("ui-dsfr/components/pages/Account/Account").i18n
     | typeof import("ui-dsfr/components/shared/Header").i18n
     | typeof import("ui-dsfr/components/shared/Footer").i18n
 >()(
@@ -333,6 +334,13 @@ const {
                 "what is franceConnect": "What is FranceConnect ?",
                 "what is franceConnect title": "What is FranceConnect - new window"
             },
+            "Account": {
+                "title": "My account",
+                "mail": "Email address",
+                "organization": "Name of the affiliated organization",
+                "update data": "Change account information (such as your password)",
+                "no organization": "No organization"
+            },
             "Inputs": {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
@@ -348,8 +356,10 @@ const {
                 "navigation support request": "Support request",
                 "navigation about": "About the site",
                 "quick access test": "Immediate test",
-                "quick access connect": "Sign in",
-                "quick access account": "My account"
+                "quick access login": "Sign in",
+                "quick access logout": "Sign out",
+                "quick access account": "My account",
+                "select language": "Select language"
             },
             "Footer": {
                 "brand": "DINUM",
@@ -648,6 +658,14 @@ const {
                 "what is franceConnect title":
                     "Qu'est ce que FranceConnect - nouvelle fenêtre"
             },
+            "Account": {
+                "title": "Mon compte",
+                "mail": "Adresse de courriel",
+                "organization": "Nom de l'établissement de rattachement",
+                "update data":
+                    "Modifier les informations du compte (comme par exemple votre mot de passe)",
+                "no organization": "Aucune organisation"
+            },
             "Inputs": {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
@@ -663,8 +681,10 @@ const {
                 "navigation support request": "Demande d'accompagement",
                 "navigation about": "À propos du site",
                 "quick access test": "Test immédiat",
-                "quick access connect": "Se connecter",
-                "quick access account": "Mon compte"
+                "quick access login": "Se connecter",
+                "quick access logout": "Se déconnecter",
+                "quick access account": "Mon compte",
+                "select language": "Sélectionner une langue"
             },
             "Footer": {
                 "brand": "DINUM",
