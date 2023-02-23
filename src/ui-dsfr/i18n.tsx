@@ -46,6 +46,7 @@ const {
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step2").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step3").i18n
     | typeof import("ui-dsfr/components/pages/SoftwareForm/Step4").i18n
+    | typeof import("ui-dsfr/components/pages/Account/Account").i18n
     | typeof import("ui-dsfr/components/shared/Header").i18n
     | typeof import("ui-dsfr/components/shared/Footer").i18n
 >()(
@@ -332,6 +333,12 @@ const {
                 "franceConnect": "FranceConnect",
                 "what is franceConnect": "What is FranceConnect ?",
                 "what is franceConnect title": "What is FranceConnect - new window"
+            },
+            "Account": {
+                "title": "My account",
+                "mail": "Email address",
+                "organization": "Name of the affiliated organization",
+                "update data": "Change account information (such as your password)"
             },
             "Inputs": {
                 "email": "Votre email personnel",
@@ -647,6 +654,13 @@ const {
                 "what is franceConnect": "Qu'est-ce que FranceConnect ?",
                 "what is franceConnect title":
                     "Qu'est ce que FranceConnect - nouvelle fenêtre"
+            },
+            "Account": {
+                "title": "Mon compte",
+                "mail": "Adresse de courriel",
+                "organization": "Nom de l'établissement de rattachement",
+                "update data":
+                    "Modifier les informations du compte (comme par exemple votre mot de passe)"
             },
             "Inputs": {
                 "email": "Votre email personnel",

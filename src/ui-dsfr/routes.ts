@@ -96,6 +96,7 @@ const routeDefs = {
         },
         () => `/users-and-referents`
     ),
+    "account": defineRoute("/account"),
     "fourOhFour": defineRoute("/404"),
     "terms": defineRoute("/terms"),
     "readme": defineRoute("/readme")

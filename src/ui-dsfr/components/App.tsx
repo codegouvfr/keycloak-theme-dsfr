@@ -14,6 +14,7 @@ import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
 import { DeclarationForm } from "./pages/DeclarationForm";
 import { useCoreFunctions } from "core-dsfr";
 import { SoftwareForm } from "./pages/SoftwareForm";
+import { Account } from "./pages/Account";
 
 export default function App() {
     const route = useRoute();
@@ -153,6 +154,20 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         }
     }
 
+    {
+        const Page = Account;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    return <h1>Not found 😢</h1>;
     {
         const Page = Readme;
 
