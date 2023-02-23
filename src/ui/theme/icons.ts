@@ -166,4 +166,4 @@ export const iconIds = [
     "storage"
 ] as const;
 
-assert<Equals<typeof iconIds[number], keyof typeof createIconParams>>();
+assert<Equals<(typeof iconIds)[number], keyof typeof createIconParams>>();

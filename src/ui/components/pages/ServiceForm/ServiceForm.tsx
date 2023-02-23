@@ -123,7 +123,7 @@ export function ServiceForm(props: Props) {
     assert(sillSoftwareNames !== undefined);
     assert(agencyNames !== undefined);
 
-    assert<Equals<typeof orderedFieldNames[number], keyof typeof formData>>();
+    assert<Equals<(typeof orderedFieldNames)[number], keyof typeof formData>>();
 
     return (
         <>

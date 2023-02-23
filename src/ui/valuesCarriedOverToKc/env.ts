@@ -19,7 +19,7 @@ import { getConfiguration } from "configuration";
 
 const paletteIds = ["onyxia", "france", "ultraviolet"] as const;
 
-export type PaletteId = typeof paletteIds[number];
+export type PaletteId = (typeof paletteIds)[number];
 
 const { API_URL, injectAPI_URLInSearchParams } = getTransferableEnv({
     "name": "API_URL" as const,

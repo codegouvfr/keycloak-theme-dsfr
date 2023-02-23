@@ -10,9 +10,9 @@ import { Evt } from "evt";
 import { evtLang } from "ui-dsfr/i18n";
 import {
     addSillApiUrlToQueryParams,
-    addTermsOfServicesUrlToQueryParams,
-    kcContext
-} from "ui-dsfr/KcApp";
+    addTermsOfServicesUrlToQueryParams
+} from "ui-dsfr/KcApp/valuesTransferredOverUrl";
+import { kcContext } from "ui-dsfr/KcApp/kcContext";
 startReactDsfr({ "defaultColorScheme": "system" });
 
 const App = lazy(() => import("ui-dsfr/App"));

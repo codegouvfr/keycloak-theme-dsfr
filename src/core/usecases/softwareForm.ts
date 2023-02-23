@@ -44,7 +44,7 @@ const fieldNames = [
     "alikeSoftwares"
 ] as const;
 
-assert<Equals<typeof fieldNames[number], FieldName>>();
+assert<Equals<(typeof fieldNames)[number], FieldName>>();
 
 export type FieldErrorMessageKey =
     | "mandatory field"
@@ -846,7 +846,7 @@ const softwareKeys = [
 ] as const;
 
 assert<
-    Equals<typeof softwareKeys[number], keyof CompiledData.Software.WithoutReferent>
+    Equals<(typeof softwareKeys)[number], keyof CompiledData.Software.WithoutReferent>
 >();
 
 const { getIsOptionalField } = (() => {
@@ -860,7 +860,7 @@ const { getIsOptionalField } = (() => {
 
     assert<
         Equals<
-            typeof optionalFields[number],
+            (typeof optionalFields)[number],
             keyof PickOptionals<SoftwareRowEditableByForm>
         >
     >();

@@ -65,7 +65,7 @@ const zConfiguration = z.object({
 });
 
 {
-    type Got = ReturnType<typeof zConfiguration["parse"]>;
+    type Got = ReturnType<(typeof zConfiguration)["parse"]>;
     type Expected = Configuration;
 
     assert<Equals<Got, Expected>>();
