@@ -5,9 +5,6 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "../../routes";
-import type { Link } from "type-route";
-import { makeStyles } from "tss-react/dsfr";
-import { fr } from "@codegouvfr/react-dsfr";
 import { LanguageSelector } from "./LanguageSelector";
 
 export type Props = {
@@ -38,8 +35,6 @@ export const Header = memo((props: Props) => {
             e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
         );
     };
-
-    console.log(authentication);
 
     return (
         <HeaderDS

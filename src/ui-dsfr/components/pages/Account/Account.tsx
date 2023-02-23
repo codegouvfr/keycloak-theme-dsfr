@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createGroup, type Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "ui-dsfr/i18n";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import Display from "@codegouvfr/react-dsfr/Display";
+import { useCoreFunctions } from "core-dsfr";
 
 Account.routeGroup = createGroup([routes.account]);
 type PageRoute = Route<typeof Account.routeGroup>;
@@ -24,8 +25,19 @@ export function Account(props: Props) {
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
+    const { userAuthentication } = useCoreFunctions();
+    const [agencyNames, setAgencyNames] = useState<string[]>([]);
+    const [keycloakAccountConfigurationUrl, setKeycloakAccountConfigurationUrl] =
+        useState();
+
     const { classes, cx } = useStyles();
     const { t } = useTranslation({ Account });
+
+    useEffect(() => {
+        userAuthentication.getAgencyNames().then(names => {
+            setAgencyNames(names);
+        });
+    }, []);
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
@@ -34,10 +46,15 @@ export function Account(props: Props) {
                 {t("mail")} : <span>address@foo.bar</span>
             </p>
             <p>
-                {t("organization")} : <span>etalab</span>
+                {t("organization")} :{" "}
+                {agencyNames.length ? (
+                    agencyNames.map(name => <span key={name}>{name}, </span>)
+                ) : (
+                    <span>{t("no organization")}</span>
+                )}
             </p>
             {/*TODO: Add link when auth is available*/}
-            <a href="#" target="_blank">
+            <a href={keycloakAccountConfigurationUrl} target="_blank">
                 {t("update data")}
             </a>
             <Display />
@@ -60,5 +77,5 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "title" | "mail" | "organization" | "update data"
+    "title" | "mail" | "organization" | "update data" | "no organization"
 >()({ Account });

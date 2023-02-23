@@ -31,7 +31,10 @@ export default function App() {
                     userAuthentication.getIsUserLoggedIn()
                         ? {
                               "isUserLoggedIn": true,
-                              "logout": () => {}
+                              "logout": () =>
+                                  userAuthentication.logout({
+                                      redirectTo: "home"
+                                  })
                           }
                         : {
                               "isUserLoggedIn": false,

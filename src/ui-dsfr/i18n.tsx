@@ -338,7 +338,8 @@ const {
                 "title": "My account",
                 "mail": "Email address",
                 "organization": "Name of the affiliated organization",
-                "update data": "Change account information (such as your password)"
+                "update data": "Change account information (such as your password)",
+                "no organization": "No organization"
             },
             "Inputs": {
                 "email": "Votre email personnel",
@@ -662,7 +663,8 @@ const {
                 "mail": "Adresse de courriel",
                 "organization": "Nom de l'établissement de rattachement",
                 "update data":
-                    "Modifier les informations du compte (comme par exemple votre mot de passe)"
+                    "Modifier les informations du compte (comme par exemple votre mot de passe)",
+                "no organization": "Aucune organisation"
             },
             "Inputs": {
                 "email": "Votre email personnel",
