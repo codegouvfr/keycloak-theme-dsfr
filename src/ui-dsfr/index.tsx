@@ -12,11 +12,11 @@ import {
     addSillApiUrlToQueryParams,
     addTermsOfServicesUrlToQueryParams,
     kcContext
-} from "./components/KcApp";
+} from "ui-dsfr/KcApp";
 startReactDsfr({ "defaultColorScheme": "system" });
 
-const App = lazy(() => import("./components/App"));
-const KcApp = lazy(() => import("./components/KcApp/KcApp"));
+const App = lazy(() => import("ui-dsfr/App"));
+const KcApp = lazy(() => import("ui-dsfr/KcApp/KcApp"));
 
 const { CoreProvider } = createCoreProvider({
     "apiUrl": getConfiguration().apiUrl,

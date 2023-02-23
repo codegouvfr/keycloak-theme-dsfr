@@ -4,7 +4,7 @@ import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
-import { routes } from "../../routes";
+import { routes } from "ui-dsfr/routes";
 import { LanguageSelector } from "./LanguageSelector";
 
 export type Props = {

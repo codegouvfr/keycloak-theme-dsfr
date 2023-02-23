@@ -7,7 +7,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-import { routes, session, useRoute } from "../../../routes";
+import { routes, session, useRoute } from "ui-dsfr/routes";
 
 export type Props = {
     className?: string;

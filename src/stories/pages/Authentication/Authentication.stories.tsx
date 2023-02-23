@@ -1,4 +1,4 @@
-import { Authentication } from "ui-dsfr/components/pages/Authentication/Authentication";
+import { Authentication } from "ui-dsfr/pages/Authentication/Authentication";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 

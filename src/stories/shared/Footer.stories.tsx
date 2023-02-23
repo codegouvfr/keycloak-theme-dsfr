@@ -1,4 +1,4 @@
-import { Footer } from "ui-dsfr/components/shared/Footer";
+import { Footer } from "ui-dsfr/shared/Footer";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 

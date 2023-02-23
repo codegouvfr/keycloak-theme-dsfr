@@ -22,33 +22,33 @@ const {
     $lang,
     useResolveLocalizedString
 } = createI18nApi<
-    | typeof import("ui-dsfr/components/App").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareCatalog/Search").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/SoftwareDetails").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/HeaderDetailCard").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/PreviewTab").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/ReferencedInstancesTab").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareDetails/AlikeSoftwareTab").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui-dsfr/components/pages/Catalog/DetailUsersAndReferents").i18n
-    | typeof import("ui-dsfr/components/pages/DeclarationForm/DeclarationForm").i18n
-    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step1").i18n
-    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step2User").i18n
-    | typeof import("ui-dsfr/components/pages/DeclarationForm/Step2Referent").i18n
-    | typeof import("ui-dsfr/components/pages/Authentication/Authentication").i18n
-    | typeof import("ui-dsfr/components/pages/Authentication/Inputs").i18n
-    | typeof import("ui-dsfr/components/pages/Homepage").i18n
-    | typeof import("ui-dsfr/components/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareForm/SoftwareForm").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step1").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step2").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step3").i18n
-    | typeof import("ui-dsfr/components/pages/SoftwareForm/Step4").i18n
-    | typeof import("ui-dsfr/components/pages/Account/Account").i18n
-    | typeof import("ui-dsfr/components/shared/Header").i18n
-    | typeof import("ui-dsfr/components/shared/Footer").i18n
+    | typeof import("ui-dsfr/App").i18n
+    | typeof import("ui-dsfr/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
+    | typeof import("ui-dsfr/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
+    | typeof import("ui-dsfr/pages/SoftwareCatalog/Search").i18n
+    | typeof import("ui-dsfr/pages/SoftwareDetails/SoftwareDetails").i18n
+    | typeof import("ui-dsfr/pages/SoftwareDetails/HeaderDetailCard").i18n
+    | typeof import("ui-dsfr/pages/SoftwareDetails/PreviewTab").i18n
+    | typeof import("ui-dsfr/pages/SoftwareDetails/ReferencedInstancesTab").i18n
+    | typeof import("ui-dsfr/pages/SoftwareDetails/AlikeSoftwareTab").i18n
+    | typeof import("ui-dsfr/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
+    | typeof import("ui-dsfr/pages/Catalog/DetailUsersAndReferents").i18n
+    | typeof import("ui-dsfr/pages/DeclarationForm/DeclarationForm").i18n
+    | typeof import("ui-dsfr/pages/DeclarationForm/Step1").i18n
+    | typeof import("ui-dsfr/pages/DeclarationForm/Step2User").i18n
+    | typeof import("ui-dsfr/pages/DeclarationForm/Step2Referent").i18n
+    | typeof import("ui-dsfr/pages/Authentication/Authentication").i18n
+    | typeof import("ui-dsfr/pages/Authentication/Inputs").i18n
+    | typeof import("ui-dsfr/pages/Homepage").i18n
+    | typeof import("ui-dsfr/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
+    | typeof import("ui-dsfr/pages/SoftwareForm/SoftwareForm").i18n
+    | typeof import("ui-dsfr/pages/SoftwareForm/Step1").i18n
+    | typeof import("ui-dsfr/pages/SoftwareForm/Step2").i18n
+    | typeof import("ui-dsfr/pages/SoftwareForm/Step3").i18n
+    | typeof import("ui-dsfr/pages/SoftwareForm/Step4").i18n
+    | typeof import("ui-dsfr/pages/Account/Account").i18n
+    | typeof import("ui-dsfr/shared/Header").i18n
+    | typeof import("ui-dsfr/shared/Footer").i18n
 >()(
     { languages, fallbackLanguage },
     {

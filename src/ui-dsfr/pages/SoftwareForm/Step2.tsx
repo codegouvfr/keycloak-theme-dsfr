@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { SearchInput } from "ui-dsfr/components/shared/SearchInput";
+import { SearchInput } from "ui-dsfr/shared/SearchInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { CircularProgressWrapper } from "ui-dsfr/components/shared/CircularProgressWrapper";
+import { CircularProgressWrapper } from "ui-dsfr/shared/CircularProgressWrapper";
 import { assert } from "tsafe/assert";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";

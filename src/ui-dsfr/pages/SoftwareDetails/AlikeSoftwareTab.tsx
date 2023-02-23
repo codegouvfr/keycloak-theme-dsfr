@@ -4,7 +4,7 @@ import { useTranslation } from "ui-dsfr/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
-import { SoftwareCatalogState } from "../../../../core-dsfr/usecases/softwareCatalog";
+import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { SoftwareCatalogCard } from "../SoftwareCatalog/SoftwareCatalogCard";
 
 export type Props = {

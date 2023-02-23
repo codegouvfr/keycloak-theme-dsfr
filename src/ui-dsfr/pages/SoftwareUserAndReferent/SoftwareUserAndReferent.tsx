@@ -8,7 +8,7 @@ import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
-import { ActionsFooter } from "ui-dsfr/components/shared/ActionsFooter";
+import { ActionsFooter } from "ui-dsfr/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 
 SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);

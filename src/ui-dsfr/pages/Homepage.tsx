@@ -5,7 +5,7 @@ import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { createGroup, Route } from "type-route";
-import { routes } from "../../routes";
+import { routes } from "ui-dsfr/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Select } from "@codegouvfr/react-dsfr/Select";

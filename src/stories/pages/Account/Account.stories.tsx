@@ -1,4 +1,4 @@
-import { Account } from "ui-dsfr/components/pages/Account";
+import { Account } from "ui-dsfr/pages/Account";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

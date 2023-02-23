@@ -1,8 +1,8 @@
-import { SoftwareCatalogCard } from "ui-dsfr/components/pages/SoftwareCatalog/SoftwareCatalogCard";
+import { SoftwareCatalogCard } from "ui-dsfr/pages/SoftwareCatalog/SoftwareCatalogCard";
 import { sectionName } from "./sectionName";
 import { getStoryFactory, logCallbacks } from "stories/getStory";
 import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";
-import LogoNextCloud from "../../../core-dsfr/assets/logo_nextcloud.png";
+import LogoNextCloud from "stories/assets/logo_nextcloud.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,

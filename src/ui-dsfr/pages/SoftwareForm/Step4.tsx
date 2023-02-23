@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
 import { fr } from "@codegouvfr/react-dsfr";
-import { SearchMultiInput } from "ui-dsfr/components/shared/SearchMultiInput";
+import { SearchMultiInput } from "ui-dsfr/shared/SearchMultiInput";
 import type { FormData } from "core-dsfr/usecases/softwareForm";
 import type { useCoreFunctions } from "core-dsfr";
 import { declareComponentKeys } from "i18nifty";

@@ -1,5 +1,5 @@
 import { makeStyles } from "tss-react/dsfr";
-import { useRoute } from "../routes";
+import { useRoute } from "ui-dsfr/routes";
 import { SoftwareCatalog } from "./pages/SoftwareCatalog";
 import { Homepage } from "./pages/Homepage";
 import { Header } from "./shared/Header";
