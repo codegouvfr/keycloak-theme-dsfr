@@ -6,10 +6,9 @@ import { useTranslation } from "ui-dsfr/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "../../routes";
 import type { Link } from "type-route";
-import { Route } from "type-route";
-import { HeaderProps } from "@codegouvfr/react-dsfr/src/Header";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
+import { LanguageSelector } from "./LanguageSelector";
 
 export type Props = {
     className?: string;
@@ -31,8 +30,14 @@ export const Header = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ Header });
+    const [selectedLanguage, setSelectedLanguage] = useState("fr");
 
-    console.log("render header");
+    const onChangeLanguage = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        setSelectedLanguage(
+            e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
+        );
+    };
 
     return (
         <HeaderDS
@@ -78,7 +83,19 @@ export const Header = memo((props: Props) => {
                         : t("quick access connect")
                 },
                 {
-                    ...(<languageSelector />)
+                    "buttonProps": {
+                        "aria-controls": "translate-select",
+                        "aria-expanded": false,
+                        "title": t("select language"),
+                        "className": "fr-btn--tertiary fr-translate fr-nav"
+                    },
+                    "iconId": "fr-icon-translate-2",
+                    "text": (
+                        <LanguageSelector
+                            selectedLanguage={selectedLanguage}
+                            onChangeLanguage={onChangeLanguage}
+                        />
+                    )
                 }
             ]}
             navigation={[
@@ -116,12 +133,6 @@ export const Header = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles()(() => ({
-    "menuLanguage": {
-        "right": 0
-    }
-}));
-
 export const { i18n } = declareComponentKeys<
     | "brand"
     | "home title"
@@ -134,110 +145,5 @@ export const { i18n } = declareComponentKeys<
     | "quick access test"
     | "quick access connect"
     | "quick access account"
+    | "select language"
 >()({ Header });
-
-//export const ActionsFooter = memo((props: Props) => {
-
-export const languageSelector = (): HeaderProps.QuickAccessItem.Button => {
-    return {
-        "buttonProps": {
-            "aria-controls": "translate-select",
-            "aria-expanded": false,
-            "title": "Sélectionner une langue",
-            "className": "fr-btn--tertiary fr-translate fr-nav"
-        },
-        "iconId": "fr-icon-translate-2",
-        "text": (() => {
-            const { cx, classes } = useStyles();
-
-            const [selectedLanguage, setSelectedLanguage] = useState("fr");
-
-            const languageOptions = [
-                {
-                    "hrefLang": "fr",
-                    "lang": "fr",
-                    "langShort": "FR",
-                    "langFull": "Français"
-                },
-                {
-                    "hrefLang": "en",
-                    "lang": "en",
-                    "langShort": "EN",
-                    "langFull": "English"
-                }
-            ];
-
-            const onChangeLanguage = (e: MouseEvent<HTMLAnchorElement>) => {
-                e.preventDefault();
-                setSelectedLanguage(
-                    e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
-                );
-            };
-
-            const ActiveLanguage = () => {
-                const findActiveLanguage = languageOptions.find(
-                    language => language.lang === selectedLanguage
-                ) ?? {
-                    "hrefLang": "fr",
-                    "lang": "fr",
-                    "langShort": "FR",
-                    "langFull": "Français"
-                };
-
-                return (
-                    <>
-                        {" "}
-                        {findActiveLanguage.langShort}
-                        <span className={fr.cx("fr-hidden-lg")}>
-                            {" "}
-                            - {findActiveLanguage.langFull}
-                        </span>{" "}
-                    </>
-                );
-            };
-
-            function Text() {
-                return (
-                    <>
-                        <div>
-                            <ActiveLanguage />
-                        </div>
-                        <div
-                            className={cx(
-                                fr.cx("fr-collapse", "fr-menu"),
-                                classes.menuLanguage
-                            )}
-                            id="translate-select"
-                        >
-                            <ul className={fr.cx("fr-menu__list")}>
-                                {languageOptions.map(language => (
-                                    <li key={language.lang}>
-                                        <a
-                                            className={fr.cx(
-                                                "fr-translate__language",
-                                                "fr-nav__link"
-                                            )}
-                                            hrefLang={language.hrefLang}
-                                            lang={language.lang}
-                                            href="#"
-                                            aria-current={
-                                                language.lang === selectedLanguage
-                                                    ? "true"
-                                                    : "false"
-                                            }
-                                            onClick={onChangeLanguage}
-                                        >
-                                            {language.langShort} - {language.langFull}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </>
-                );
-            }
-
-            return <Text />;
-        })()
-    };
-};

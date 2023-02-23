@@ -167,7 +167,6 @@ function PageSelector(props: { route: ReturnType<typeof useRoute> }) {
         }
     }
 
-    return <h1>Not found 😢</h1>;
     {
         const Page = Readme;
 

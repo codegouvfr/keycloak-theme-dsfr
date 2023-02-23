@@ -356,7 +356,8 @@ const {
                 "navigation about": "About the site",
                 "quick access test": "Immediate test",
                 "quick access connect": "Sign in",
-                "quick access account": "My account"
+                "quick access account": "My account",
+                "select language": "Select language"
             },
             "Footer": {
                 "brand": "DINUM",
@@ -678,7 +679,8 @@ const {
                 "navigation about": "À propos du site",
                 "quick access test": "Test immédiat",
                 "quick access connect": "Se connecter",
-                "quick access account": "Mon compte"
+                "quick access account": "Mon compte",
+                "select language": "Sélectionner une langue"
             },
             "Footer": {
                 "brand": "DINUM",
