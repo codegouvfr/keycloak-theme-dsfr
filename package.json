@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.code.gouv.fr",
     "name": "sill-web",
-    "version": "0.30.20",
+    "version": "0.30.21",
     "license": "MIT",
     "scripts": {
         "start": "yarn use-onyxia && ./.env.local.sh react-app-rewired start",
