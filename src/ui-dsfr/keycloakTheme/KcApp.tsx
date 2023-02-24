@@ -12,8 +12,9 @@ import type { KcContext } from "./kcContext";
 import { useI18n } from "./i18n";
 import { makeStyles } from "tss-react/dsfr";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import Template from "./Template";
 
-//const Login = lazy(() => import("./Login"));
+//const Login = lazy(() => import("keycloakify/lib/components/Login"));
 //const RegisterUserProfile = lazy(() => import("./RegisterUserProfile"));
 //const Terms = lazy(() => import("./Terms"));
 //const LoginUpdateProfile = lazy(() => import("./LoginUpdateProfile"));
@@ -58,7 +59,8 @@ export default function KcApp({ kcContext }: Props) {
         ...defaultKcProps,
         "kcHtmlClass": [...defaultKcProps.kcHtmlClass, classes.kcHtmlClass],
         "kcButtonPrimaryClass": [classes.kcButtonPrimaryClass, "fr-btn"],
-        "kcInputClass": ["fr-input"]
+        "kcInputClass": ["fr-input"],
+        Template
     };
 
     return (
@@ -66,8 +68,6 @@ export default function KcApp({ kcContext }: Props) {
             {(() => {
                 switch (kcContext.pageId) {
                     /*
-                    case "login.ftl":
-                        return <Login {...{ kcContext, ...props }} />;
                     case "terms.ftl":
                         return <Terms {...{ kcContext, ...props }} />;
                     case "login-update-profile.ftl":
@@ -76,7 +76,7 @@ export default function KcApp({ kcContext }: Props) {
                         return <RegisterUserProfile {...{ kcContext, ...props }} />;
                     */
                     default:
-                        return <Fallback {...{ kcContext, ...props }} />;
+                        return <Fallback {...{ kcContext, ...props, Template }} />;
                 }
             })()}
         </Suspense>
