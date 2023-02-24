@@ -64,8 +64,8 @@ export function Search(props: Props) {
     const { classes, cx } = useStyles();
 
     return (
-        <div className="fr-accordion">
-            <div className={cx(classes.root, className)}>
+        <div className={cx(fr.cx("fr-accordion"), classes.root)}>
+            <div className={cx(classes.basicSearch, className)}>
                 <SearchBar
                     className={classes.searchBar}
                     label={t("placeholder")}
@@ -87,10 +87,7 @@ export function Search(props: Props) {
                     {t("filters")}
                 </Button>
             </div>
-            <div
-                className={cx("fr-collapse", classes.filtersAccordion)}
-                id="accordion-filters"
-            >
+            <div className={cx("fr-collapse", classes.filters)} id="accordion-filters">
                 <div className={cx(classes.filtersWrapper)}>
                     <Select
                         label={t("organizationLabel")}
@@ -222,6 +219,11 @@ export function Search(props: Props) {
 
 const useStyles = makeStyles({ "name": { Search } })(theme => ({
     "root": {
+        "&:before": {
+            content: "none"
+        }
+    },
+    "basicSearch": {
         "display": "flex",
         "paddingTop": fr.spacing("6v")
     },
@@ -236,10 +238,13 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
         "color": theme.decisions.text.actionHigh.blueFrance.default,
         "marginLeft": fr.spacing("4v")
     },
-    "filtersAccordion": {
+    "filters": {
         "&&": {
-            "paddingLeft": 0,
-            "paddingRight": 0
+            "overflowX": "visible",
+            ...fr.spacing("padding", {
+                "rightLeft": "1v"
+            }),
+            "margin": 0
         }
     },
     "filtersWrapper": {
