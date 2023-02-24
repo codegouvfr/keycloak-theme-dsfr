@@ -17,7 +17,8 @@ WORKDIR /app
 # We use ADD instead of COPY because build/ is in .dockerignore
 ADD build.tar .
 COPY .env .
-COPY public/index.html ./public_index.html
+#COPY public/index.html ./public_index.html
+COPY public/index-onyxia.html ./public_index.html
 COPY nginx.conf .
 # We assume there is a cra-envs_package.json file contaning '{ "version": "X.Y.Z" }' 
 # 'X.Y.Z' beeing the version cra-envs in use in the project. See how it's optained:
