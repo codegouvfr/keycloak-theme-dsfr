@@ -1,20 +1,13 @@
-import {
-    useEffect,
-    //lazy,
-    Suspense
-} from "react";
+import { useEffect, lazy, Suspense } from "react";
 import KcAppBase, { defaultKcProps } from "keycloakify";
-import { useLang } from "ui-dsfr/i18n";
-import { typeGuard } from "tsafe/typeGuard";
-import { languages, type Language } from "sill-api";
-import { id } from "tsafe/id";
 import type { KcContext } from "./kcContext";
 import { useI18n } from "./i18n";
 import { makeStyles } from "tss-react/dsfr";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import Template from "./Template";
+import { fr } from "@codegouvfr/react-dsfr";
 
-//const Login = lazy(() => import("keycloakify/lib/components/Login"));
+const Login = lazy(() => import("./Login"));
 //const RegisterUserProfile = lazy(() => import("./RegisterUserProfile"));
 //const Terms = lazy(() => import("./Terms"));
 //const LoginUpdateProfile = lazy(() => import("./LoginUpdateProfile"));
@@ -25,27 +18,6 @@ export type Props = {
 
 export default function KcApp({ kcContext }: Props) {
     const i18n = useI18n({ kcContext });
-
-    {
-        const { setLang } = useLang();
-
-        useEffect(() => {
-            if (i18n === null) {
-                return;
-            }
-
-            if (
-                !typeGuard<Language>(
-                    i18n.currentLanguageTag,
-                    id<readonly string[]>(languages).includes(i18n.currentLanguageTag)
-                )
-            ) {
-                return;
-            }
-
-            setLang(i18n.currentLanguageTag);
-        }, [i18n]);
-    }
 
     const { classes } = useStyles();
 
@@ -58,8 +30,8 @@ export default function KcApp({ kcContext }: Props) {
         i18n,
         ...defaultKcProps,
         "kcHtmlClass": [...defaultKcProps.kcHtmlClass, classes.kcHtmlClass],
-        "kcButtonPrimaryClass": [classes.kcButtonPrimaryClass, "fr-btn"],
-        "kcInputClass": ["fr-input"],
+        "kcButtonPrimaryClass": [classes.kcButtonPrimaryClass, fr.cx("fr-btn")],
+        "kcInputClass": [fr.cx("fr-input")],
         Template
     };
 
@@ -67,6 +39,8 @@ export default function KcApp({ kcContext }: Props) {
         <Suspense>
             {(() => {
                 switch (kcContext.pageId) {
+                    case "login.ftl":
+                        return <Login {...{ kcContext, ...props }} />;
                     /*
                     case "terms.ftl":
                         return <Terms {...{ kcContext, ...props }} />;
@@ -76,7 +50,7 @@ export default function KcApp({ kcContext }: Props) {
                         return <RegisterUserProfile {...{ kcContext, ...props }} />;
                     */
                     default:
-                        return <Fallback {...{ kcContext, ...props, Template }} />;
+                        return <Fallback {...{ kcContext, ...props }} />;
                 }
             })()}
         </Suspense>

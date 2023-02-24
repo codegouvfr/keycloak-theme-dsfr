@@ -180,11 +180,18 @@ const Template = memo((props: TemplateProps) => {
                                     </span>
                                 </div>
                                 <div className="col-md-10">
-                                    <h1 id="kc-page-title">{headerNode}</h1>
+                                    <h1
+                                        id="kc-page-title"
+                                        style={{ border: "1px solid red" }}
+                                    >
+                                        {headerNode}
+                                    </h1>
                                 </div>
                             </div>
                         ) : (
-                            <h1 id="kc-page-title">{headerNode}</h1>
+                            <h1 id="kc-page-title" style={{ border: "1px solid red" }}>
+                                {headerNode}
+                            </h1>
                         )
                     ) : displayRequiredFields ? (
                         <div className={clsx(props.kcContentWrapperClass)}>
@@ -278,7 +285,7 @@ const Template = memo((props: TemplateProps) => {
                                     />
                                 </div>
                             )}
-                        {formNode}
+                        <div style={{ border: "1px solid red" }}>{formNode}</div>
                         {auth !== undefined &&
                             auth.showTryAnotherWayLink &&
                             showAnotherWayIfPresent && (

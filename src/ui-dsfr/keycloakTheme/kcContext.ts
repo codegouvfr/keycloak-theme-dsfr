@@ -13,6 +13,9 @@ export const { kcContext } = getKcContext<{
     "mockData": [
         {
             "pageId": "login.ftl",
+            "locale": {
+                "currentLanguageTag": "fr"
+            },
             "social": {
                 "providers": [
                     {
@@ -26,6 +29,10 @@ export const { kcContext } = getKcContext<{
             "realm": {
                 "loginWithEmailAllowed": true,
                 "registrationEmailAsUsername": true
+            },
+            "message": {
+                "summary": "Ca a foiré",
+                "type": "error"
             }
         },
         {
