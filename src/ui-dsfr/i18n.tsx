@@ -32,7 +32,7 @@ const {
     | typeof import("ui-dsfr/pages/SoftwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui-dsfr/pages/SoftwareDetails/AlikeSoftwareTab").i18n
     | typeof import("ui-dsfr/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui-dsfr/pages/Catalog/DetailUsersAndReferents").i18n
+    | typeof import("ui-dsfr/pages/SoftwareCatalog/DetailUsersAndReferents").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/DeclarationForm").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/Step1").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/Step2User").i18n
@@ -217,7 +217,8 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives"
+                "prerogativesLabel": "Prérogatives",
+                "filters": "Filters"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -538,7 +539,8 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives"
+                "prerogativesLabel": "Prérogatives",
+                "filters": "Filtres"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",

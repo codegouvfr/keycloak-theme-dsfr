@@ -64,8 +64,8 @@ export function Search(props: Props) {
     const { classes, cx } = useStyles();
 
     return (
-        <div className="fr-accordion">
-            <div className={cx(classes.root, className)}>
+        <div className={cx(fr.cx("fr-accordion"), classes.root)}>
+            <div className={cx(classes.basicSearch, className)}>
                 <SearchBar
                     className={classes.searchBar}
                     label={t("placeholder")}
@@ -84,13 +84,10 @@ export function Search(props: Props) {
                     aria-expanded="false"
                     aria-controls="accordion-filters"
                 >
-                    Filters
+                    {t("filters")}
                 </Button>
             </div>
-            <div
-                className={cx("fr-collapse", classes.filtersAccordion)}
-                id="accordion-filters"
-            >
+            <div className={cx("fr-collapse", classes.filters)} id="accordion-filters">
                 <div className={cx(classes.filtersWrapper)}>
                     <Select
                         label={t("organizationLabel")}
@@ -105,6 +102,7 @@ export function Search(props: Props) {
                             <option
                                 value={organization?.organization ?? ""}
                                 key={organization?.organization ?? 0}
+                                disabled={organization?.softwareCount === 0}
                             >
                                 {organization ? (
                                     <>
@@ -131,6 +129,7 @@ export function Search(props: Props) {
                             <option
                                 value={category?.category ?? ""}
                                 key={category?.category ?? 0}
+                                disabled={category?.softwareCount === 0}
                             >
                                 {category ? (
                                     <>
@@ -159,6 +158,7 @@ export function Search(props: Props) {
                             <option
                                 value={environment?.environment ?? ""}
                                 key={environment?.environment ?? 0}
+                                disabled={environment?.softwareCount === 0}
                             >
                                 {environment ? (
                                     <>
@@ -196,6 +196,7 @@ export function Search(props: Props) {
                                 <MenuItem
                                     key={prerogative?.prerogative}
                                     value={prerogative?.prerogative}
+                                    disabled={prerogative?.softwareCount === 0}
                                 >
                                     {prerogative ? (
                                         <>
@@ -218,6 +219,11 @@ export function Search(props: Props) {
 
 const useStyles = makeStyles({ "name": { Search } })(theme => ({
     "root": {
+        "&:before": {
+            content: "none"
+        }
+    },
+    "basicSearch": {
         "display": "flex",
         "paddingTop": fr.spacing("6v")
     },
@@ -232,10 +238,13 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
         "color": theme.decisions.text.actionHigh.blueFrance.default,
         "marginLeft": fr.spacing("4v")
     },
-    "filtersAccordion": {
+    "filters": {
         "&&": {
-            "paddingLeft": 0,
-            "paddingRight": 0
+            "overflowX": "visible",
+            ...fr.spacing("padding", {
+                "rightLeft": "1v"
+            }),
+            "margin": 0
         }
     },
     "filtersWrapper": {
@@ -271,6 +280,7 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
 }));
 
 export const { i18n } = declareComponentKeys<
+    | "filters"
     | "placeholder"
     | "filtersButton"
     | "organizationLabel"
