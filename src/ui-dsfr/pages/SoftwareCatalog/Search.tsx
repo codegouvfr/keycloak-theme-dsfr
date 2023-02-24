@@ -84,7 +84,7 @@ export function Search(props: Props) {
                     aria-expanded="false"
                     aria-controls="accordion-filters"
                 >
-                    Filters
+                    {t("filters")}
                 </Button>
             </div>
             <div
@@ -105,6 +105,7 @@ export function Search(props: Props) {
                             <option
                                 value={organization?.organization ?? ""}
                                 key={organization?.organization ?? 0}
+                                disabled={organization?.softwareCount === 0}
                             >
                                 {organization ? (
                                     <>
@@ -131,6 +132,7 @@ export function Search(props: Props) {
                             <option
                                 value={category?.category ?? ""}
                                 key={category?.category ?? 0}
+                                disabled={category?.softwareCount === 0}
                             >
                                 {category ? (
                                     <>
@@ -159,6 +161,7 @@ export function Search(props: Props) {
                             <option
                                 value={environment?.environment ?? ""}
                                 key={environment?.environment ?? 0}
+                                disabled={environment?.softwareCount === 0}
                             >
                                 {environment ? (
                                     <>
@@ -196,6 +199,7 @@ export function Search(props: Props) {
                                 <MenuItem
                                     key={prerogative?.prerogative}
                                     value={prerogative?.prerogative}
+                                    disabled={prerogative?.softwareCount === 0}
                                 >
                                     {prerogative ? (
                                         <>
@@ -271,6 +275,7 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
 }));
 
 export const { i18n } = declareComponentKeys<
+    | "filters"
     | "placeholder"
     | "filtersButton"
     | "organizationLabel"

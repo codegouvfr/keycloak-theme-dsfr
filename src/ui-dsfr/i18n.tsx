@@ -217,7 +217,8 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives"
+                "prerogativesLabel": "Prérogatives",
+                "filters": "Filters"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -538,7 +539,8 @@ const {
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives"
+                "prerogativesLabel": "Prérogatives",
+                "filters": "Filtres"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
