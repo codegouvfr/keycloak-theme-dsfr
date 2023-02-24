@@ -21,6 +21,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { useStateRef } from "powerhooks/useStateRef";
 import type { I18n } from "../i18n";
+import { Alert } from "onyxia-ui/Alert";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
@@ -155,6 +156,12 @@ const Login = memo(
                 i18n={i18n}
                 formNode={
                     <div className={classes.root}>
+                        <Alert severity="info" doDisplayCross>
+                            Nous avons migrer le site vers une nouvelle adresse
+                            (sill.code.gouv.fr) en conséquence il vous faut re taper votre
+                            email et votre mot de passe, mais vous n'avez pas besoin de
+                            crée un nouveau compte.
+                        </Alert>
                         {realm.password && social.providers !== undefined && (
                             <>
                                 <div>
