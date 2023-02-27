@@ -9,7 +9,7 @@ import { thermOfServicesPassedByClient } from "ui/valuesCarriedOverToKc/termsOfS
 import { createResolveLocalizedString } from "i18nifty";
 import { fallbackLanguage } from "ui/i18n";
 import type { I18n } from "./i18n";
-import { evtTermMarkdown } from "keycloakify/lib/components/Terms";
+import { evtTermMarkdown } from "keycloakify/lib/pages/Terms";
 import { useRerenderOnStateChange } from "evt/hooks";
 import { Markdown } from "keycloakify/lib/tools/Markdown";
 

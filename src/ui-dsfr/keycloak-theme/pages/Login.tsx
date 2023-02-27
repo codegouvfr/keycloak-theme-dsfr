@@ -1,16 +1,18 @@
-import { useState } from "react";
-import DefaultTemplate from "./Template";
+import { useState, type FormEventHandler } from "react";
 import { clsx } from "keycloakify/lib/tools/clsx";
-import { useConstCallback } from "powerhooks/useConstCallback";
-import type { FormEventHandler } from "react";
-import type { LoginProps } from "keycloakify/lib/components/Login";
+import { useConstCallback } from "keycloakify/lib/tools/useConstCallback";
+import type { PageProps } from "keycloakify/lib/KcProps";
+import type { KcContext } from "../kcContext";
+import type { I18n } from "../i18n";
 
-export default function Login(props: LoginProps) {
+export default function Login(
+    props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
+) {
     const {
         kcContext,
         i18n,
         doFetchDefaultThemeResources = true,
-        Template = DefaultTemplate,
+        Template,
         ...kcProps
     } = props;
 
@@ -53,7 +55,6 @@ export default function Login(props: LoginProps) {
             formNode={
                 <div
                     id="kc-form"
-                    style={{ backgroundColor: "pink" }}
                     className={clsx(
                         realm.password &&
                             social.providers !== undefined &&

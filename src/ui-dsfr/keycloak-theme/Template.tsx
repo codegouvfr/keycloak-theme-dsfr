@@ -1,15 +1,17 @@
-import { useReducer, useEffect, memo } from "react";
-import { assert } from "tsafe/assert";
-import { useCallbackFactory } from "powerhooks/useCallbackFactory";
-import { headInsert } from "keycloakify/lib/tools/headInsert";
-import { pathJoin } from "keycloakify/bin/tools/pathJoin";
-import { useConstCallback } from "powerhooks/useConstCallback";
-import { clsx } from "keycloakify/lib/tools/clsx";
-import type { I18n } from "./i18n";
-import type { TemplateProps } from "keycloakify/lib/components/Template";
-import type { KcContext } from "./kcContext";
+// Copy pasted from: https://github.com/InseeFrLab/keycloakify/blob/main/src/lib/components/shared/Template.tsx
 
-const Template = memo((props: TemplateProps) => {
+// You can replace all relative imports by cherry picking files from the keycloakify module.
+// For example, the following import:
+// import { assert } from "./tools/assert";
+// becomes:
+import { assert } from "keycloakify/lib/tools/assert";
+import { clsx } from "keycloakify/lib/tools/clsx";
+import type { TemplateProps } from "keycloakify/lib/KcProps";
+import { usePrepareTemplate } from "keycloakify/lib/Template";
+import type { KcContext } from "./kcContext";
+import type { I18n } from "./i18n";
+
+export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
         displayInfo = false,
         displayMessage = true,
@@ -20,88 +22,29 @@ const Template = memo((props: TemplateProps) => {
         showUsernameNode = null,
         formNode,
         infoNode = null,
-        doFetchDefaultThemeResources
+        kcContext,
+        i18n,
+        doFetchDefaultThemeResources,
+        stylesCommon,
+        styles,
+        scripts,
+        kcHtmlClass
     } = props;
-
-    const i18n = props.i18n as I18n;
-    const kcContext = props.kcContext as KcContext;
 
     const { msg, changeLocale, labelBySupportedLanguageTag, currentLanguageTag } = i18n;
 
-    const onChangeLanguageClickFactory = useCallbackFactory(([kcLanguageTag]: [string]) =>
-        changeLocale(kcLanguageTag)
-    );
-
-    const onTryAnotherWayClick = useConstCallback(
-        () => (document.forms["kc-select-try-another-way-form" as never].submit(), false)
-    );
-
     const { realm, locale, auth, url, message, isAppInitiatedAction } = kcContext;
 
-    const [isExtraCssLoaded, setExtraCssLoaded] = useReducer(() => true, false);
+    const { isReady } = usePrepareTemplate({
+        doFetchDefaultThemeResources,
+        stylesCommon,
+        styles,
+        scripts,
+        url,
+        kcHtmlClass
+    });
 
-    useEffect(() => {
-        if (!doFetchDefaultThemeResources) {
-            setExtraCssLoaded();
-            return;
-        }
-
-        let isUnmounted = false;
-        const cleanups: (() => void)[] = [];
-
-        const toArr = (x: string | readonly string[] | undefined) =>
-            typeof x === "string" ? x.split(" ") : x ?? [];
-
-        Promise.all(
-            [
-                ...toArr(props.stylesCommon).map(relativePath =>
-                    pathJoin(url.resourcesCommonPath, relativePath)
-                ),
-                ...toArr(props.styles).map(relativePath =>
-                    pathJoin(url.resourcesPath, relativePath)
-                )
-            ]
-                .reverse()
-                .map(href =>
-                    headInsert({
-                        "type": "css",
-                        href,
-                        "position": "prepend"
-                    })
-                )
-        ).then(() => {
-            if (isUnmounted) {
-                return;
-            }
-
-            setExtraCssLoaded();
-        });
-
-        toArr(props.scripts).forEach(relativePath =>
-            headInsert({
-                "type": "javascript",
-                "src": pathJoin(url.resourcesPath, relativePath)
-            })
-        );
-
-        if (props.kcHtmlClass !== undefined) {
-            const htmlClassList = document.getElementsByTagName("html")[0].classList;
-
-            const tokens = clsx(props.kcHtmlClass).split(" ");
-
-            htmlClassList.add(...tokens);
-
-            cleanups.push(() => htmlClassList.remove(...tokens));
-        }
-
-        return () => {
-            isUnmounted = true;
-
-            cleanups.forEach(f => f());
-        };
-    }, [props.kcHtmlClass]);
-
-    if (!isExtraCssLoaded) {
+    if (!isReady) {
         return null;
     }
 
@@ -129,6 +72,7 @@ const Template = memo((props: TemplateProps) => {
                                     className={clsx(props.kcLocaleWrapperClass)}
                                 >
                                     <div className="kc-dropdown" id="kc-locale-dropdown">
+                                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                         <a href="#" id="kc-current-locale-link">
                                             {
                                                 labelBySupportedLanguageTag[
@@ -142,11 +86,12 @@ const Template = memo((props: TemplateProps) => {
                                                     key={languageTag}
                                                     className="kc-dropdown-item"
                                                 >
+                                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                                     <a
                                                         href="#"
-                                                        onClick={onChangeLanguageClickFactory(
-                                                            languageTag
-                                                        )}
+                                                        onClick={() =>
+                                                            changeLocale(languageTag)
+                                                        }
                                                     >
                                                         {
                                                             labelBySupportedLanguageTag[
@@ -180,18 +125,11 @@ const Template = memo((props: TemplateProps) => {
                                     </span>
                                 </div>
                                 <div className="col-md-10">
-                                    <h1
-                                        id="kc-page-title"
-                                        style={{ border: "1px solid red" }}
-                                    >
-                                        {headerNode}
-                                    </h1>
+                                    <h1 id="kc-page-title">{headerNode}</h1>
                                 </div>
                             </div>
                         ) : (
-                            <h1 id="kc-page-title" style={{ border: "1px solid red" }}>
-                                {headerNode}
-                            </h1>
+                            <h1 id="kc-page-title">{headerNode}</h1>
                         )
                     ) : displayRequiredFields ? (
                         <div className={clsx(props.kcContentWrapperClass)}>
@@ -285,7 +223,7 @@ const Template = memo((props: TemplateProps) => {
                                     />
                                 </div>
                             )}
-                        <div style={{ border: "1px solid red" }}>{formNode}</div>
+                        {formNode}
                         {auth !== undefined &&
                             auth.showTryAnotherWayLink &&
                             showAnotherWayIfPresent && (
@@ -311,10 +249,16 @@ const Template = memo((props: TemplateProps) => {
                                                 name="tryAnotherWay"
                                                 value="on"
                                             />
+                                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                             <a
                                                 href="#"
                                                 id="try-another-way"
-                                                onClick={onTryAnotherWayClick}
+                                                onClick={() => {
+                                                    document.forms[
+                                                        "kc-select-try-another-way-form" as never
+                                                    ].submit();
+                                                    return false;
+                                                }}
                                             >
                                                 {msg("doTryAnotherWay")}
                                             </a>
@@ -337,6 +281,4 @@ const Template = memo((props: TemplateProps) => {
             </div>
         </div>
     );
-});
-
-export default Template;
+}

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import type { KcProps } from "keycloakify/lib/components/KcProps";
+import type { KcProps } from "keycloakify/lib/KcProps";
 import type { KcContext } from "./kcContext";
 import { Template } from "./Template";
 import { useStyles } from "ui/theme";

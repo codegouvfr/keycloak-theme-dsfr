@@ -23,7 +23,7 @@ import { evtLang } from "ui-dsfr/i18n";
 import {
     addSillApiUrlToQueryParams,
     addTermsOfServicesUrlToQueryParams
-} from "ui-dsfr/keycloakTheme/valuesTransferredOverUrl";
+} from "ui-dsfr/keycloak-theme/valuesTransferredOverUrl";
 import { createCoreProvider } from "core-dsfr";
 import { getConfiguration } from "configuration-dsfr";
 
@@ -264,4 +264,4 @@ export const { i18n } = declareComponentKeys<
     | "invalid version"
     | "all"
     | "allFeminine"
->()({ "App": "App" });
+>()({ "App": null });
