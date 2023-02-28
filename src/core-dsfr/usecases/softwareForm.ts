@@ -300,6 +300,7 @@ export const thunks = {
 
             dispatch(actions.navigatedToPreviousStep());
         },
+    /** Can be used even if the usecase isn't instantiated */
     "getWikidataOptions":
         (props: {
             queryString: string;

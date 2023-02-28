@@ -72,7 +72,7 @@ type CreateInstanceParam = {
     organization: string;
     targetAudience: string;
     publicUrl: string | undefined;
-    otherSoftwareInvolvedWikidataIds: string[];
+    otherSoftwares: SillApiClient.WikidataEntry[];
 };
 
 export namespace SillApiClient {
@@ -119,7 +119,7 @@ export namespace SillApiClient {
         organization: string;
         targetAudience: string;
         publicUrl: string;
-        otherSoftwaresInvolved: WikidataEntry[];
+        otherSoftwares: WikidataEntry[];
     };
 
     export type SoftwareType =
@@ -172,11 +172,7 @@ export namespace SillApiClient {
         softwareMinimalVersion: string;
         isPresentInSupportContract: boolean | undefined;
         isFromFrenchPublicService: boolean;
-        similarSoftwares: {
-            wikidataLabel: string;
-            wikidataDescription: string;
-            wikidataId: string;
-        }[];
+        similarSoftwares: WikidataEntry[];
     };
 
     export type DeclarationFormData =

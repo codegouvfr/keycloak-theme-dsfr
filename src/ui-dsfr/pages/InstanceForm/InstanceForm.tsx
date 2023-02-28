@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes, session } from "ui-dsfr/routes";
+import { routes } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { SoftwareFormStep1 } from "./Step1";
-import { SoftwareFormStep2 } from "./Step2";
-import { SoftwareFormStep3 } from "./Step3";
-import { SoftwareFormStep4 } from "./Step4";
+import { InstanceFormStep1 } from "./Step1";
+import { InstanceFormStep2 } from "./Step2";
 import { makeStyles } from "tss-react/dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -21,41 +19,54 @@ import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { ActionsFooter } from "../../shared/ActionsFooter";
 
-SoftwareForm.routeGroup = createGroup([
-    routes.softwareCreationForm,
-    routes.softwareUpdateForm
+InstanceForm.routeGroup = createGroup([
+    routes.instanceCreationForm,
+    routes.instanceUpdateForm
 ]);
 
-type PageRoute = Route<typeof SoftwareForm.routeGroup>;
+type PageRoute = Route<typeof InstanceForm.routeGroup>;
 
-SoftwareForm.getDoRequireUserLoggedIn = () => true;
+InstanceForm.getDoRequireUserLoggedIn = () => true;
 
 export type Props = {
     className?: string;
     route: PageRoute;
 };
 
-const STEP_COUNT = 4;
-
-export function SoftwareForm(props: Props) {
+export function InstanceForm(props: Props) {
     const { className, route, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const { step } = useCoreState(selectors.softwareForm.step);
-    const { formData } = useCoreState(selectors.softwareForm.formData);
+    const { step } = useCoreState(selectors.instanceForm.step);
+    const { initializationData } = useCoreState(
+        selectors.instanceForm.initializationData
+    );
+    const { allSillSoftwares } = useCoreState(selectors.instanceForm.allSillSoftwares);
     const { isSubmitting } = useCoreState(selectors.softwareForm.isSubmitting);
     const { isLastStep } = useCoreState(selectors.softwareForm.isLastStep);
     const { evtSoftwareForm } = useCoreEvts();
 
-    const { softwareForm } = useCoreFunctions();
+    const { instanceForm, softwareForm } = useCoreFunctions();
 
     useEffect(() => {
-        softwareForm.initialize({
-            "softwareName":
-                route.name === "softwareUpdateForm" ? route.params.name : undefined
-        });
+        instanceForm.initialize(
+            (() => {
+                switch (route.name) {
+                    case "instanceCreationForm":
+                        return {
+                            "type": "create",
+                            "softwareName": route.params.softwareName
+                        };
+                    case "instanceUpdateForm":
+                        return {
+                            "type": "update",
+                            "instanceId": route.params.id
+                        };
+                }
+            })()
+        );
     }, [route.name]);
 
     useEvt(
@@ -70,16 +81,16 @@ export function SoftwareForm(props: Props) {
     );
 
     const { classes } = useStyles({ step });
-    const { t } = useTranslation({ SoftwareForm });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commoni18n = useTranslation({ "App": null });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
-    if (formData === undefined) {
+    if (step === undefined) {
         return <CircularProgress />;
     }
 
-    assert(step !== undefined);
+    assert(initializationData !== undefined);
+    assert(allSillSoftwares !== undefined);
 
     return (
         <div className={className}>
@@ -93,80 +104,60 @@ export function SoftwareForm(props: Props) {
                             "label": commoni18n.t("add software or service")
                         }
                     ]}
-                    currentPageLabel={commoni18n.t("add software")}
+                    currentPageLabel={(() => {
+                        switch (route.name) {
+                            case "instanceCreationForm":
+                                return "reference new instance";
+                            case "instanceUpdateForm":
+                                return "update instance";
+                        }
+                    })()}
                     className={classes.breadcrumb}
                 />
-                <div className={classes.headerDeclareUserOrReferent}>
-                    <a
-                        href={"#"}
-                        onClick={() => {
-                            session.back();
-                        }}
-                        className={classes.backButton}
-                    >
-                        <i className={fr.cx("fr-icon-arrow-left-s-line")} />
-                    </a>
-                    <h4 className={classes.title}>
-                        {(() => {
-                            switch (route.name) {
-                                case "softwareCreationForm":
-                                    return commoni18n.t("add software");
-                                case "softwareUpdateForm":
-                                    return t("title software update form");
-                            }
-                        })()}
-                    </h4>
-                </div>
                 <Stepper
                     currentStep={step}
-                    stepCount={STEP_COUNT}
-                    title={t("stepper title", { "currentStepIndex": step })}
+                    stepCount={2}
+                    title={(() => {
+                        switch (step) {
+                            case 1:
+                                return "A propos du ou des logiciels";
+                            case 2:
+                                return "Ajouter une instance logiciel";
+                        }
+                    })()}
                     className={classes.stepper}
                 />
-                <SoftwareFormStep1
+                <InstanceFormStep1
                     className={classes.step1}
-                    initialFormData={formData.step1}
-                    onSubmit={formData =>
-                        softwareForm.setStep1Data({
-                            "formDataStep1": formData
+                    initialFormData={{
+                        "mainSoftwareSillId": initializationData.mainSoftwareSillId,
+                        "otherSoftwares": initializationData.otherSoftwares
+                    }}
+                    getWikidataOptions={softwareForm.getWikidataOptions}
+                    onSubmit={({ mainSoftwareSillId, otherSoftwares }) =>
+                        instanceForm.completeStep1({
+                            mainSoftwareSillId,
+                            otherSoftwares
                         })
                     }
+                    allSillSoftwares={allSillSoftwares}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 1)}
                 />
-                <SoftwareFormStep2
+                <InstanceFormStep2
                     className={classes.step2}
-                    isUpdateForm={route.name === "softwareUpdateForm"}
-                    initialFormData={formData.step2}
-                    onSubmit={formData =>
-                        softwareForm.setStep2Data({
-                            "formDataStep2": formData
+                    initialFormData={{
+                        "organization": initializationData.organization,
+                        "publicUrl": initializationData.publicUrl,
+                        "targetAudience": initializationData.targetAudience
+                    }}
+                    onSubmit={({ organization, publicUrl, targetAudience }) =>
+                        instanceForm.submit({
+                            organization,
+                            publicUrl,
+                            targetAudience
                         })
                     }
-                    getAutofillDataFromWikidata={softwareForm.getAutofillData}
-                    getWikidataOptions={softwareForm.getWikidataOptions}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 2)}
-                />
-                <SoftwareFormStep3
-                    className={classes.step3}
-                    initialFormData={formData.step3}
-                    onSubmit={formData =>
-                        softwareForm.setStep3Data({
-                            "formDataStep3": formData
-                        })
-                    }
-                    isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
-                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 3)}
-                />
-                <SoftwareFormStep4
-                    className={classes.step4}
-                    initialFormData={formData.step4}
-                    evtActionSubmit={evtActionSubmitStep.pipe(() => step === 4)}
-                    onSubmit={formData =>
-                        softwareForm.setStep4DataAndSubmit({
-                            "formDataStep4": formData
-                        })
-                    }
-                    getWikidataOptions={softwareForm.getWikidataOptions}
                 />
             </div>
             <ActionsFooter className={classes.footerContainer}>
@@ -185,7 +176,7 @@ export function SoftwareForm(props: Props) {
                 >
                     {isLastStep ? (
                         <>
-                            {t("submit")}{" "}
+                            {"submit"}{" "}
                             {isSubmitting && (
                                 <CircularProgress className={classes.progressSubmit} />
                             )}
@@ -200,7 +191,7 @@ export function SoftwareForm(props: Props) {
 }
 
 const useStyles = makeStyles<{ step: number | undefined }>({
-    "name": { SoftwareForm }
+    "name": { InstanceForm }
 })((_theme, { step }) => ({
     "step1": {
         "display": step !== 1 ? "none" : undefined
@@ -208,32 +199,8 @@ const useStyles = makeStyles<{ step: number | undefined }>({
     "step2": {
         "display": step !== 2 ? "none" : undefined
     },
-    "step3": {
-        "display": step !== 3 ? "none" : undefined
-    },
-    "step4": {
-        "display": step !== 4 ? "none" : undefined
-    },
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
-    },
-    "headerDeclareUserOrReferent": {
-        "display": "flex",
-        "alignItems": "center",
-        "marginBottom": fr.spacing("10v")
-    },
-    "backButton": {
-        "background": "none",
-        "marginRight": fr.spacing("4v"),
-
-        "&>i": {
-            "&::before": {
-                "--icon-size": fr.spacing("8v")
-            }
-        }
-    },
-    "title": {
-        "marginBottom": fr.spacing("1v")
     },
     "stepper": {
         "flex": "1"
@@ -258,4 +225,4 @@ export const { i18n } = declareComponentKeys<
     | "title software update form"
     | { K: "stepper title"; P: { currentStepIndex: number } }
     | "submit"
->()({ SoftwareForm });
+>()({ InstanceForm });

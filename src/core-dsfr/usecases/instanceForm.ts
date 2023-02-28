@@ -7,6 +7,8 @@ import { assert } from "tsafe/assert";
 import type { SillApiClient } from "../ports/SillApiClient";
 import type { Param0 } from "tsafe";
 
+export type WikidataEntry = SillApiClient.WikidataEntry;
+
 type State = State.NotInitialized | State.Ready;
 
 namespace State {
@@ -19,9 +21,28 @@ namespace State {
         stateDescription: "ready";
         step: 1 | 2;
         /** Defined when update */
-        instanceId: number | undefined;
-        mainSoftwareSillId: number | undefined;
-        otherSoftwareInvolvedWikidataIds: string[];
+        preFillData:
+            | {
+                  type: "update";
+                  instanceId: number;
+                  mainSoftwareSillId: number;
+                  otherSoftwares: WikidataEntry[];
+                  organization: string;
+                  publicUrl: string | undefined;
+                  targetAudience: string;
+              }
+            | {
+                  type: "navigated from software form";
+                  justRegisteredSoftwareSillId: number;
+                  userOrganization: string;
+              }
+            | undefined;
+        step1Data:
+            | {
+                  mainSoftwareSillId: number;
+                  otherSoftwares: WikidataEntry[];
+              }
+            | undefined;
         isSubmitting: boolean;
         allSillSoftwares: {
             softwareName: string;
@@ -49,9 +70,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                instanceId: number | undefined;
-                mainSoftwareSillId: number | undefined;
-                otherSoftwareInvolvedWikidataIds: string[];
+                preFillData: State.Ready["preFillData"];
                 allSillSoftwares: {
                     softwareName: string;
                     softwareSillId: number;
@@ -59,19 +78,13 @@ export const { reducer, actions } = createSlice({
                 }[];
             }>
         ) => {
-            const {
-                instanceId,
-                mainSoftwareSillId,
-                otherSoftwareInvolvedWikidataIds,
-                allSillSoftwares
-            } = payload;
+            const { preFillData, allSillSoftwares } = payload;
 
             return {
                 "stateDescription": "ready",
                 "step": 1,
-                instanceId,
-                mainSoftwareSillId,
-                otherSoftwareInvolvedWikidataIds,
+                preFillData,
+                "step1Data": undefined,
                 "isSubmitting": false,
                 allSillSoftwares
             };
@@ -81,16 +94,14 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                mainSoftwareSillId: number;
-                otherSoftwareInvolvedWikidataIds: string[];
+                step1Data: NonNullable<State.Ready["step1Data"]>;
             }>
         ) => {
-            const { mainSoftwareSillId, otherSoftwareInvolvedWikidataIds } = payload;
+            const { step1Data } = payload;
 
             assert(state.stateDescription === "ready");
 
-            state.mainSoftwareSillId = mainSoftwareSillId;
-            state.otherSoftwareInvolvedWikidataIds = otherSoftwareInvolvedWikidataIds;
+            state.step1Data = step1Data;
         },
         "navigatedToPreviousStep": state => {
             assert(state.stateDescription === "ready");
@@ -128,7 +139,7 @@ export const thunks = {
                   }
         ): ThunkAction =>
         async (...args) => {
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApiClient, userApiClient }] = args;
 
             const state = getState()[name];
 
@@ -159,12 +170,15 @@ export const thunks = {
                     dispatch(
                         actions.initialized({
                             allSillSoftwares,
-                            "instanceId": instance.instanceId,
-                            "mainSoftwareSillId": instance.mainSoftwareSillId,
-                            "otherSoftwareInvolvedWikidataIds":
-                                instance.otherSoftwaresInvolved.map(
-                                    ({ wikidataId }) => wikidataId
-                                )
+                            "preFillData": {
+                                "type": "update",
+                                "instanceId": instance.instanceId,
+                                "mainSoftwareSillId": instance.mainSoftwareSillId,
+                                "otherSoftwares": instance.otherSoftwares,
+                                "organization": instance.organization,
+                                "publicUrl": instance.publicUrl,
+                                "targetAudience": instance.targetAudience
+                            }
                         })
                     );
 
@@ -178,32 +192,42 @@ export const thunks = {
                                       software.softwareName === params.softwareName
                               );
 
+                    const user = await userApiClient.getUser();
+
                     dispatch(
                         actions.initialized({
                             allSillSoftwares,
-                            "instanceId": undefined,
-                            "mainSoftwareSillId": software?.softwareId,
-                            "otherSoftwareInvolvedWikidataIds": []
+                            "preFillData":
+                                software === undefined
+                                    ? undefined
+                                    : {
+                                          "type": "navigated from software form",
+                                          "justRegisteredSoftwareSillId":
+                                              software.softwareId,
+                                          "userOrganization": user.agencyName
+                                      }
                         })
                     );
 
                     break;
             }
         },
-    "step1Completed":
+    "completeStep1":
         (props: {
             mainSoftwareSillId: number;
-            otherSoftwareInvolvedWikidataIds: string[];
+            otherSoftwares: WikidataEntry[];
         }): ThunkAction<void> =>
         (...args) => {
-            const { mainSoftwareSillId, otherSoftwareInvolvedWikidataIds } = props;
+            const { mainSoftwareSillId, otherSoftwares } = props;
 
             const [dispatch] = args;
 
             dispatch(
                 actions.step1Completed({
-                    mainSoftwareSillId,
-                    otherSoftwareInvolvedWikidataIds
+                    "step1Data": {
+                        mainSoftwareSillId,
+                        otherSoftwares
+                    }
                 })
             );
         },
@@ -222,20 +246,22 @@ export const thunks = {
 
             assert(state.stateDescription === "ready");
 
-            const { mainSoftwareSillId, otherSoftwareInvolvedWikidataIds } = state;
+            const { step1Data } = state;
 
-            assert(mainSoftwareSillId !== undefined);
-            assert(otherSoftwareInvolvedWikidataIds !== undefined);
+            assert(step1Data !== undefined);
 
             const instanceDescription = {
-                mainSoftwareSillId,
+                "mainSoftwareSillId": step1Data.mainSoftwareSillId,
                 organization,
-                otherSoftwareInvolvedWikidataIds,
+                "otherSoftwares": step1Data.otherSoftwares,
                 publicUrl,
                 targetAudience
             };
 
-            let instanceId = state.instanceId;
+            let instanceId =
+                state.preFillData?.type !== "update"
+                    ? undefined
+                    : state.preFillData.instanceId;
 
             dispatch(actions.submissionStarted());
 
@@ -259,17 +285,6 @@ export const thunks = {
             const [dispatch] = args;
 
             dispatch(actions.navigatedToPreviousStep());
-        },
-    "getWikidataOptions":
-        (props: {
-            queryString: string;
-        }): ThunkAction<ReturnType<SillApiClient["getWikidataOptions"]>> =>
-        (...args) => {
-            const { queryString } = props;
-
-            const [, , { sillApiClient }] = args;
-
-            return sillApiClient.getWikidataOptions({ queryString });
         }
 };
 
@@ -286,18 +301,55 @@ export const selectors = (() => {
 
     const step = createSelector(readyState, readyState => readyState?.step);
 
-    const initializationData = createSelector(readyState, readyState => {
-        if (readyState === undefined) {
-            return undefined;
+    const initializationData = createSelector(
+        readyState,
+        (
+            readyState
+        ):
+            | undefined
+            | {
+                  mainSoftwareSillId: number | undefined;
+                  otherSoftwares: WikidataEntry[];
+                  organization: string | undefined;
+                  publicUrl: string | undefined;
+                  targetAudience: string | undefined;
+              } => {
+            if (readyState === undefined) {
+                return undefined;
+            }
+
+            const { preFillData } = readyState;
+
+            if (preFillData === undefined) {
+                return {
+                    "mainSoftwareSillId": undefined,
+                    "otherSoftwares": [],
+                    "organization": undefined,
+                    "publicUrl": undefined,
+                    "targetAudience": undefined
+                };
+            }
+
+            switch (preFillData.type) {
+                case "update":
+                    return {
+                        "mainSoftwareSillId": preFillData.mainSoftwareSillId,
+                        "otherSoftwares": preFillData.otherSoftwares,
+                        "organization": preFillData.organization,
+                        "publicUrl": preFillData.publicUrl,
+                        "targetAudience": preFillData.targetAudience
+                    };
+                case "navigated from software form":
+                    return {
+                        "mainSoftwareSillId": preFillData.justRegisteredSoftwareSillId,
+                        "otherSoftwares": [],
+                        "organization": undefined,
+                        "publicUrl": undefined,
+                        "targetAudience": undefined
+                    };
+            }
         }
-
-        const { mainSoftwareSillId, otherSoftwareInvolvedWikidataIds } = readyState;
-
-        return {
-            mainSoftwareSillId,
-            otherSoftwareInvolvedWikidataIds
-        };
-    });
+    );
 
     const isSubmitting = createSelector(
         readyState,
@@ -309,7 +361,9 @@ export const selectors = (() => {
         readyState => readyState?.allSillSoftwares
     );
 
-    return { step, initializationData, allSillSoftwares, isSubmitting };
+    const isLastStep = createSelector(readyState, readyState => readyState?.step === 2);
+
+    return { step, initializationData, allSillSoftwares, isSubmitting, isLastStep };
 })();
 
 export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {

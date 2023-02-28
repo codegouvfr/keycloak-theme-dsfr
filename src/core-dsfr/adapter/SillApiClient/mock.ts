@@ -727,7 +727,7 @@ export function createMockSillApiClient(): SillApiClient {
                         "instanceId": 0,
                         "mainSoftwareSillId": 9,
                         "organization": "CNRS",
-                        "otherSoftwaresInvolved": [],
+                        "otherSoftwares": [],
                         "publicUrl": "https://videos.ahp-numerique.fr/",
                         "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
                 l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`

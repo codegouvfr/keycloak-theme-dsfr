@@ -83,6 +83,18 @@ const routeDefs = {
     ),
     "softwareCreationForm": defineRoute("/add"),
     "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update"),
+    "instanceCreationForm": defineRoute(
+        {
+            "softwareName": param.query.optional.string
+        },
+        () => "/add-instance"
+    ),
+    "instanceUpdateForm": defineRoute(
+        {
+            "id": param.query.number
+        },
+        () => "/update-instance"
+    ),
     "addSoftwareLanding": defineRoute("/add-software"),
     "declarationForm": defineRoute(
         {
