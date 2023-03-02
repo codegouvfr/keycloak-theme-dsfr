@@ -15,9 +15,6 @@ import { Evt } from "evt";
 import { evtLang } from "ui/i18n";
 
 import "./valuesCarriedOverToKc/env";
-//For jwt-simple
-import { Buffer } from "buffer";
-(window as any).Buffer = Buffer;
 
 const App = lazy(() => import("./components/App"));
 const KcApp = lazy(() => import("./components/KcApp"));

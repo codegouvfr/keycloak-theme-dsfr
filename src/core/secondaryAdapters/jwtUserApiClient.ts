@@ -1,7 +1,7 @@
 import type { UserApiClient, User } from "../ports/UserApiClient";
 import { parseJwtPayload } from "sill-api";
 import { zParsedJwtTokenPayload } from "sill-api";
-import * as jwtSimple from "jwt-simple";
+import { decodeJwt } from "core-dsfr/tools/jwt";
 
 export function createJwtUserApiClient(params: {
     jwtClaims: Record<keyof User, string>;
@@ -14,7 +14,7 @@ export function createJwtUserApiClient(params: {
             Promise.resolve(
                 parseJwtPayload({
                     jwtClaims,
-                    "jwtPayload": jwtSimple.decode(getOidcAccessToken(), "", true),
+                    "jwtPayload": decodeJwt(getOidcAccessToken()),
                     zParsedJwtTokenPayload
                 })
             )

@@ -3,7 +3,7 @@ import keycloak_js from "keycloak-js";
 import { id } from "tsafe/id";
 import { createKeycloakAdapter } from "keycloakify";
 import type { NonPostableEvt } from "evt";
-import * as jwtSimple from "core-dsfr/tools/jwt-siple";
+import { decodeJwt } from "core-dsfr/tools/jwt";
 import type { Param0, ReturnType } from "tsafe";
 import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 
@@ -104,7 +104,7 @@ export async function createKeycloakOidcClient(params: {
 
     (function callee() {
         const msBeforeExpiration =
-            jwtSimple.decode(oidcClient.accessToken, "", true)["exp"] * 1000 - Date.now();
+            decodeJwt<{ exp: number }>(oidcClient.accessToken)["exp"] * 1000 - Date.now();
 
         setTimeout(async () => {
             log?.(

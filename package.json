@@ -69,13 +69,11 @@
         "@trpc/client": "^9.24.0",
         "@types/color": "^3.0.3",
         "@types/react-form": "^4.0.2",
-        "buffer": "^6.0.3",
         "comment-json": "^3.0.0",
         "cra-envs": "^1.2.8",
         "evt": "^2.4.6",
         "fzf": "^0.5.1",
         "i18nifty": "^1.3.26",
-        "jwt-simple": "^0.5.6",
         "keycloak-js": "^18.0.0",
         "keycloakify": "^6.12.1",
         "little-state-machine": "^4.8.0",
@@ -101,7 +99,8 @@
         "type-route": "^1.0.1",
         "unorm": "^1.6.0",
         "url-join-ts": "^1.0.5",
-        "zod": "^3.17.3"
+        "zod": "^3.17.3",
+        "jwt-decode": "^3.1.2"
     },
     "resolutions": {
         "powerhooks": "^0.22.0"

@@ -1,7 +1,7 @@
 import "minimal-polyfills/Object.fromEntries";
 import type { OidcClient } from "../ports/OidcClient";
 import { id } from "tsafe/id";
-import * as jwtSimple from "jwt-simple";
+import { encodeJwt } from "core-dsfr/tools/jwt";
 import { addParamToUrl, retrieveParamFromUrl } from "powerhooks/tools/urlSearchParams";
 import { objectKeys } from "tsafe/objectKeys";
 import type { User } from "../ports/UserApiClient";
@@ -44,11 +44,10 @@ export function createPhonyOidcClient(params: {
         ...(() => {
             const { jwtClaims, user } = params;
 
-            const accessToken = jwtSimple.encode(
+            const accessToken = encodeJwt(
                 Object.fromEntries(
                     objectKeys(jwtClaims).map(key => [jwtClaims[key], user[key]])
-                ),
-                "xxx"
+                )
             );
 
             return { accessToken };

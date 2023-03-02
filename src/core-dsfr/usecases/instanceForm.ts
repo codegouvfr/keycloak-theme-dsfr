@@ -139,7 +139,8 @@ export const thunks = {
                   }
         ): ThunkAction =>
         async (...args) => {
-            const [dispatch, getState, { sillApiClient, userApiClient }] = args;
+            const [dispatch, getState, { sillApiClient, userApiClient, oidcClient }] =
+                args;
 
             const state = getState()[name];
 
@@ -191,6 +192,8 @@ export const thunks = {
                                   software =>
                                       software.softwareName === params.softwareName
                               );
+
+                    assert(oidcClient.isUserLoggedIn);
 
                     const user = await userApiClient.getUser();
 

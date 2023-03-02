@@ -15,9 +15,6 @@ module.exports = function override(config) {
         config.resolve.fallback= {};
     }
 
-    //jwt-simple imports it but don't use it
-    config.resolve.fallback["crypto"]= false;
-
     if (!config.plugins) {
         config.plugins = [];
     }

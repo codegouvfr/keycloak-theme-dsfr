@@ -18,7 +18,10 @@ import type { UserApiClient } from "./ports/UserApiClient";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 
 export async function createCore(params: {
+    /** Empty string for using mock */
     apiUrl: string;
+    /** Default: false, only considered if using mocks */
+    isUserInitiallyLoggedIn?: boolean;
     evtUserActivity: NonPostableEvt<void>;
     transformUrlBeforeRedirectToLogin: (params: {
         url: string;
@@ -26,8 +29,13 @@ export async function createCore(params: {
     }) => string;
     getCurrentLang: () => Language;
 }) {
-    const { apiUrl, transformUrlBeforeRedirectToLogin, evtUserActivity, getCurrentLang } =
-        params;
+    const {
+        apiUrl,
+        isUserInitiallyLoggedIn = false,
+        transformUrlBeforeRedirectToLogin,
+        evtUserActivity,
+        getCurrentLang
+    } = params;
 
     let oidcClient: OidcClient | undefined = undefined;
 
@@ -53,7 +61,7 @@ export async function createCore(params: {
     oidcClient =
         keycloakParams === undefined
             ? createPhonyOidcClient({
-                  "isUserInitiallyLoggedIn": false,
+                  isUserInitiallyLoggedIn,
                   jwtClaims,
                   "user": {
                       "agencyName": "DINUM",
