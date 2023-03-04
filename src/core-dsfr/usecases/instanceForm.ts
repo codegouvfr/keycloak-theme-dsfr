@@ -102,6 +102,7 @@ export const { reducer, actions } = createSlice({
             assert(state.stateDescription === "ready");
 
             state.step1Data = step1Data;
+            state.step = 2;
         },
         "navigatedToPreviousStep": state => {
             assert(state.stateDescription === "ready");
