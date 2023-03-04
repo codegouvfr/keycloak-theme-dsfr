@@ -48,7 +48,10 @@ export function InstanceForm(props: Props) {
     const { isLastStep } = useCoreState(selectors.softwareForm.isLastStep);
     const { evtSoftwareForm } = useCoreEvts();
 
-    const { instanceForm, softwareForm } = useCoreFunctions();
+    const {
+        instanceForm,
+        softwareForm: { getWikidataOptions }
+    } = useCoreFunctions();
 
     useEffect(() => {
         instanceForm.initialize(
@@ -133,7 +136,7 @@ export function InstanceForm(props: Props) {
                         "mainSoftwareSillId": initializationData.mainSoftwareSillId,
                         "otherSoftwares": initializationData.otherSoftwares
                     }}
-                    getWikidataOptions={softwareForm.getWikidataOptions}
+                    getWikidataOptions={getWikidataOptions}
                     onSubmit={({ mainSoftwareSillId, otherSoftwares }) =>
                         instanceForm.completeStep1({
                             mainSoftwareSillId,
@@ -162,7 +165,7 @@ export function InstanceForm(props: Props) {
             </div>
             <ActionsFooter className={classes.footerContainer}>
                 <Button
-                    onClick={() => softwareForm.returnToPreviousStep()}
+                    onClick={() => instanceForm.returnToPreviousStep()}
                     priority="secondary"
                     className={classes.softwareDetails}
                     disabled={step === 1}

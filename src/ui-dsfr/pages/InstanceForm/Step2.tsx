@@ -68,7 +68,7 @@ export function InstanceFormStep2(props: Step1Props) {
             onSubmit={handleSubmit(({ organization, publicUrl, targetAudience }) =>
                 onSubmit({
                     organization,
-                    publicUrl,
+                    "publicUrl": publicUrl || undefined,
                     targetAudience
                 })
             )}
