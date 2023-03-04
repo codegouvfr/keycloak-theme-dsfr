@@ -121,7 +121,7 @@ export function InstanceFormStep1(props: Step1Props) {
                         noOptionText="No result"
                         dsfrInputProps={{
                             "label":
-                                "Il y a il d'autre logiciel mobilisé par votre instance",
+                                "Quel est le logiciel principal utilisé et déployé par votre instance?",
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,

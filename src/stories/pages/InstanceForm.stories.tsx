@@ -10,6 +10,10 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueCreation = getStory({
+    "route": createMockRoute("instanceCreationForm", {})
+});
+
+export const VueCreationPreselectedSoftware = getStory({
     "route": createMockRoute("instanceCreationForm", {
         "softwareName": "NextCloud"
     })
