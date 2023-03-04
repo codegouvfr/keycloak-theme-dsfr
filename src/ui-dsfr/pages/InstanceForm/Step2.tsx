@@ -31,14 +31,18 @@ export function InstanceFormStep2(props: Step1Props) {
         watch
     } = useForm<{
         organization: string;
-        isPublicInstanceInputValue: "true" | "false";
+        isPublicInstanceInputValue: "true" | "false" | null;
         publicUrl: string | undefined;
         targetAudience: string;
     }>({
         "defaultValues": {
             "organization": initialFormData.organization,
             "isPublicInstanceInputValue":
-                initialFormData.publicUrl !== undefined ? "true" : "false",
+                initialFormData.organization === undefined
+                    ? null
+                    : initialFormData.publicUrl !== undefined
+                    ? "true"
+                    : "false",
             "publicUrl": initialFormData.publicUrl,
             "targetAudience": initialFormData.targetAudience
         }
@@ -123,9 +127,9 @@ export function InstanceFormStep2(props: Step1Props) {
                 label="Organization?"
                 hintText="Quelle est l'organization étatique qui maintien cette instance"
                 nativeInputProps={{
-                    ...register("targetAudience", { "required": true })
+                    ...register("organization", { "required": true })
                 }}
-                state={errors.targetAudience !== undefined ? "error" : undefined}
+                state={errors.organization !== undefined ? "error" : undefined}
                 stateRelatedMessage="This field is required"
             />
             <Input
