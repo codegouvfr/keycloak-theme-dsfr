@@ -5,6 +5,7 @@ import * as declarationForm from "./declarationForm";
 import * as instanceForm from "./instanceForm";
 import * as userAuthentication from "./userAuthentication";
 import * as sillApiVersion from "./sillApiVersion";
+import * as softwareUserAndReferent from "./softwareUserAndReferent";
 
 export const usecases = {
     softwareCatalog,
@@ -13,5 +14,6 @@ export const usecases = {
     declarationForm,
     instanceForm,
     userAuthentication,
-    sillApiVersion
+    sillApiVersion,
+    softwareUserAndReferent
 };

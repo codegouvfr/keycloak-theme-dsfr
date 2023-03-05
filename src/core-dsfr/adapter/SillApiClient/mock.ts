@@ -638,6 +638,7 @@ const softwares = [
 export function createMockSillApiClient(): SillApiClient {
     return {
         "getSoftwares": memoize(() => Promise.resolve(softwares), { "promise": true }),
+        "getAgents": memoize(() => Promise.resolve([]), { "promise": true }),
         "createSoftware": async ({ formData }) => {
             console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
 

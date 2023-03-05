@@ -65,6 +65,10 @@ export type SillApiClient = {
         (): Promise<string[]>;
         clear: () => void;
     };
+    getAgents: {
+        (): Promise<SillApiClient.Agent[]>;
+        clear: () => void;
+    };
 };
 
 type CreateInstanceParam = {
@@ -110,6 +114,14 @@ export namespace SillApiClient {
         wikidataId: string | undefined;
         softwareType: SoftwareType;
         similarSoftwares: WikidataEntry[];
+    };
+
+    export type Agent = {
+        agentId: string;
+        //NOTE: Undefined if the agent isn't referent of at least one software
+        email: string | undefined;
+        organization: string;
+        declarations: (DeclarationFormData & { softwareName: string })[];
     };
 
     export type Instance = {
