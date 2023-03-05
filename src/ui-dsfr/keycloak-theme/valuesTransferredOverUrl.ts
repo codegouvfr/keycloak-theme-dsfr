@@ -10,7 +10,7 @@ import { capitalize } from "tsafe/capitalize";
 export const { addTermsOfServicesUrlToQueryParams, termsOfServicesUrl } = (() => {
     const queryParamName = "termsOfServicesUrl";
 
-    const value = JSON.stringify(read({ queryParamName })) as LocalizedString;
+    const value = JSON.parse(read({ queryParamName })) as LocalizedString;
 
     function addToUrlQueryParams(params: {
         url: string;
@@ -36,7 +36,7 @@ export const { addTermsOfServicesUrlToQueryParams, termsOfServicesUrl } = (() =>
 export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
     const queryParamName = "sillApiUrl";
 
-    const value = JSON.stringify(read({ queryParamName })) as string;
+    const value = JSON.parse(read({ queryParamName })) as string;
 
     function addToUrlQueryParams(params: { url: string; value: string }): string {
         const { url, value } = params;
