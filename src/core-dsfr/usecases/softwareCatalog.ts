@@ -15,20 +15,20 @@ import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import type { SillApiClient } from "../ports/SillApiClient";
 import { exclude } from "tsafe/exclude";
 
-export type SoftwareCatalogState = {
-    softwares: SoftwareCatalogState.Software.Internal[];
+export type State = {
+    softwares: State.Software.Internal[];
 
     search: string;
-    sort: SoftwareCatalogState.Sort | undefined;
+    sort: State.Sort | undefined;
     /** Used in organizations: E.g: DINUM */
     organization: string | undefined;
     /** E.g: JavaScript */
     category: string | undefined;
-    environment: SoftwareCatalogState.Environment | undefined;
-    prerogatives: SoftwareCatalogState.Prerogative[];
+    environment: State.Environment | undefined;
+    prerogatives: State.Prerogative[];
 };
 
-export namespace SoftwareCatalogState {
+export namespace State {
     export type Sort =
         | "added time"
         | "update time"
@@ -92,23 +92,21 @@ export const name = "softwareCatalog" as const;
 
 export type ChangeValueParams<K extends ChangeValueParams.Key = ChangeValueParams.Key> = {
     key: K;
-    value: SoftwareCatalogState[K];
+    value: State[K];
 };
 
 export namespace ChangeValueParams {
-    export type Key = keyof Omit<SoftwareCatalogState, "softwares">;
+    export type Key = keyof Omit<State, "softwares">;
 }
 
 export const { reducer, actions } = createSlice({
     name,
-    "initialState": createObjectThatThrowsIfAccessed<SoftwareCatalogState>(),
-    //"initialState": {} as any as SoftwareCatalogState,
+    "initialState": createObjectThatThrowsIfAccessed<State>(),
+    //"initialState": {} as any as State,
     "reducers": {
         "initialized": (
             _state,
-            {
-                payload
-            }: PayloadAction<{ softwares: SoftwareCatalogState.Software.Internal[] }>
+            { payload }: PayloadAction<{ softwares: State.Software.Internal[] }>
         ) => {
             const { softwares } = payload;
 
@@ -121,6 +119,28 @@ export const { reducer, actions } = createSlice({
                 "environment": undefined,
                 "prerogatives": []
             };
+        },
+        "softwareAdded": (
+            state,
+            { payload }: PayloadAction<{ software: State.Software.Internal }>
+        ) => {
+            const { software } = payload;
+
+            state.softwares.push(software);
+        },
+        "softwareUpdated": (
+            state,
+            { payload }: PayloadAction<{ software: State.Software.Internal }>
+        ) => {
+            const { software } = payload;
+
+            const index = state.softwares.findIndex(
+                ({ softwareName }) => softwareName === software.softwareName
+            );
+
+            assert(index !== -1);
+
+            state.softwares[index] = software;
         },
         "valueUpdated": (state, { payload }: PayloadAction<ChangeValueParams>) => {
             const { key, value } = payload;
@@ -145,7 +165,7 @@ export const privateThunks = {
     "initialize":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , { sillApiClient }] = args;
+            const [dispatch, , { sillApiClient, evtAction }] = args;
 
             const apiSoftwares = await sillApiClient.getSoftwares();
 
@@ -164,6 +184,50 @@ export const privateThunks = {
             });
 
             dispatch(actions.initialized({ softwares }));
+
+            evtAction.$attach(
+                action =>
+                    action.sliceName === "softwareForm" &&
+                    action.actionName === "formSubmitted"
+                        ? [action.payload]
+                        : null,
+                ({ type, apiSoftware }) => {
+                    switch (type) {
+                        case "create":
+                            apiSoftwares.push(apiSoftware);
+                            break;
+                        case "update":
+                            {
+                                const index = apiSoftwares.findIndex(
+                                    ({ softwareId }) =>
+                                        softwareId === apiSoftware.softwareId
+                                );
+                                assert(index !== -1);
+                                apiSoftwares[index] = apiSoftware;
+                            }
+                            break;
+                    }
+
+                    const software = apiSoftwareToInternalSoftware({
+                        apiSoftwares,
+                        "softwareRef": {
+                            "type": "name",
+                            "softwareName": apiSoftware.softwareName
+                        }
+                    });
+
+                    assert(software !== undefined);
+
+                    switch (type) {
+                        case "create":
+                            dispatch(actions.softwareAdded({ software }));
+                            break;
+                        case "update":
+                            dispatch(actions.softwareUpdated({ software }));
+                            break;
+                    }
+                }
+            );
         }
 };
 
@@ -179,13 +243,13 @@ export const selectors = (() => {
 
     const { filterBySearch } = (() => {
         const getFzf = memoize(
-            (softwares: SoftwareCatalogState.Software.Internal[]) =>
+            (softwares: State.Software.Internal[]) =>
                 new Fzf(softwares, { "selector": ({ search }) => search }),
             { "max": 1 }
         );
 
         const filterBySearchMemoized = memoize(
-            (softwares: SoftwareCatalogState.Software.Internal[], search: string) =>
+            (softwares: State.Software.Internal[], search: string) =>
                 new Set(
                     getFzf(softwares)
                         .find(search)
@@ -195,7 +259,7 @@ export const selectors = (() => {
         );
 
         function filterBySearch(params: {
-            softwares: SoftwareCatalogState.Software.Internal[];
+            softwares: State.Software.Internal[];
             search: string;
         }) {
             const { softwares, search } = params;
@@ -209,7 +273,7 @@ export const selectors = (() => {
     })();
 
     function filterByOrganization(params: {
-        softwares: SoftwareCatalogState.Software.Internal[];
+        softwares: State.Software.Internal[];
         organization: string;
     }) {
         const { softwares, organization } = params;
@@ -220,7 +284,7 @@ export const selectors = (() => {
     }
 
     function filterByCategory(params: {
-        softwares: SoftwareCatalogState.Software.Internal[];
+        softwares: State.Software.Internal[];
         category: string;
     }) {
         const { softwares, category } = params;
@@ -229,8 +293,8 @@ export const selectors = (() => {
     }
 
     function filterByEnvironnement(params: {
-        softwares: SoftwareCatalogState.Software.Internal[];
-        environment: SoftwareCatalogState.Environment;
+        softwares: State.Software.Internal[];
+        environment: State.Environment;
     }) {
         const { softwares, environment } = params;
 
@@ -251,8 +315,8 @@ export const selectors = (() => {
     }
 
     function filterByPrerogative(params: {
-        softwares: SoftwareCatalogState.Software.Internal[];
-        prerogative: SoftwareCatalogState.Prerogative;
+        softwares: State.Software.Internal[];
+        prerogative: State.Prerogative;
     }) {
         const { softwares, prerogative } = params;
 
@@ -324,59 +388,45 @@ export const selectors = (() => {
                 (() => {
                     switch (sort ?? "last version publication date") {
                         case "added time":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software => software.addedTime,
-                                    "order": "descending"
-                                }
-                            );
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.addedTime,
+                                "order": "descending"
+                            });
                         case "update time":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.updateTime,
+                                "order": "descending"
+                            });
+                        case "last version publication date":
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software =>
+                                    software.lastVersion?.publicationTime ?? 0,
+                                "order": "descending",
+                                "tieBreaker": createCompareFn({
                                     "getWeight": software => software.updateTime,
                                     "order": "descending"
-                                }
-                            );
-                        case "last version publication date":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software =>
-                                        software.lastVersion?.publicationTime ?? 0,
-                                    "order": "descending",
-                                    "tieBreaker": createCompareFn({
-                                        "getWeight": software => software.updateTime,
-                                        "order": "descending"
-                                    })
-                                }
-                            );
+                                })
+                            });
                         case "referent count":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software => software.referentCount,
-                                    "order": "descending"
-                                }
-                            );
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.referentCount,
+                                "order": "descending"
+                            });
                         case "referent count ASC":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software => software.referentCount,
-                                    "order": "ascending"
-                                }
-                            );
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.referentCount,
+                                "order": "ascending"
+                            });
                         case "user count":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software => software.userCount,
-                                    "order": "descending"
-                                }
-                            );
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.userCount,
+                                "order": "descending"
+                            });
                         case "user count ASC":
-                            return createCompareFn<SoftwareCatalogState.Software.Internal>(
-                                {
-                                    "getWeight": software => software.userCount,
-                                    "order": "ascending"
-                                }
-                            );
+                            return createCompareFn<State.Software.Internal>({
+                                "getWeight": software => software.userCount,
+                                "order": "ascending"
+                            });
                     }
                 })()
             );
@@ -534,28 +584,24 @@ export const selectors = (() => {
             organization,
             category,
             prerogatives
-        ): { environment: SoftwareCatalogState.Environment; softwareCount: number }[] => {
+        ): { environment: State.Environment; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByEnvironment = new Map(
                 Array.from(
                     new Set(
                         internalSoftwares
-                            .map(
-                                ({
-                                    softwareType
-                                }): SoftwareCatalogState.Environment[] => {
-                                    switch (softwareType.type) {
-                                        case "cloud":
-                                            return ["browser"];
-                                        case "library":
-                                            return ["library" as const];
-                                        case "desktop":
-                                            return objectKeys(softwareType.os).filter(
-                                                os => softwareType.os[os]
-                                            );
-                                    }
-                                    assert(false);
+                            .map(({ softwareType }): State.Environment[] => {
+                                switch (softwareType.type) {
+                                    case "cloud":
+                                        return ["browser"];
+                                    case "library":
+                                        return ["library" as const];
+                                    case "desktop":
+                                        return objectKeys(softwareType.os).filter(
+                                            os => softwareType.os[os]
+                                        );
                                 }
-                            )
+                                assert(false);
+                            })
                             .reduce((prev, curr) => [...prev, ...curr], [])
                     )
                 ).map(environment => [environment, id<number>(0)] as const)
@@ -639,7 +685,7 @@ export const selectors = (() => {
             organization,
             category,
             environment
-        ): { prerogative: SoftwareCatalogState.Prerogative; softwareCount: number }[] => {
+        ): { prerogative: State.Prerogative; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByPrerogative = new Map(
                 Array.from(
                     new Set(
@@ -725,7 +771,7 @@ function apiSoftwareToInternalSoftware(params: {
               type: "name";
               softwareName: string;
           };
-}): SoftwareCatalogState.Software.Internal | undefined {
+}): State.Software.Internal | undefined {
     const { apiSoftwares, softwareRef } = params;
 
     const apiSoftware = apiSoftwares.find(apiSoftware => {
@@ -759,40 +805,38 @@ function apiSoftwareToInternalSoftware(params: {
     assert<
         Equals<
             SillApiClient.Software["prerogatives"],
-            SoftwareCatalogState.Software.Internal["prerogatives"]
+            State.Software.Internal["prerogatives"]
         >
     >();
 
     const referentCount = users.filter(user => user.type === "referent").length;
 
-    const parentSoftware: SoftwareCatalogState.Software.Internal["parentSoftware"] =
-        (() => {
-            if (parentSoftwareWikidataRef === undefined) {
-                return undefined;
-            }
+    const parentSoftware: State.Software.Internal["parentSoftware"] = (() => {
+        if (parentSoftwareWikidataRef === undefined) {
+            return undefined;
+        }
 
-            in_sill: {
-                const software = apiSoftwares.find(
-                    software =>
-                        software.wikidataId === parentSoftwareWikidataRef.wikidataId
-                );
+        in_sill: {
+            const software = apiSoftwares.find(
+                software => software.wikidataId === parentSoftwareWikidataRef.wikidataId
+            );
 
-                if (software === undefined) {
-                    break in_sill;
-                }
-
-                return {
-                    "softwareName": software.softwareName,
-                    "isInSill": true
-                };
+            if (software === undefined) {
+                break in_sill;
             }
 
             return {
-                "isInSill": false,
-                "softwareName": parentSoftwareWikidataRef.wikidataLabel,
-                "url": `https://www.wikidata.org/wiki/${parentSoftwareWikidataRef.wikidataId}`
+                "softwareName": software.softwareName,
+                "isInSill": true
             };
-        })();
+        }
+
+        return {
+            "isInSill": false,
+            "softwareName": parentSoftwareWikidataRef.wikidataLabel,
+            "url": `https://www.wikidata.org/wiki/${parentSoftwareWikidataRef.wikidataId}`
+        };
+    })();
 
     return {
         logoUrl,
@@ -833,8 +877,8 @@ function apiSoftwareToInternalSoftware(params: {
 }
 
 function internalSoftwareToExternalSoftware(
-    software: SoftwareCatalogState.Software.Internal
-): SoftwareCatalogState.Software.External {
+    software: State.Software.Internal
+): State.Software.External {
     const {
         logoUrl,
         softwareName,
@@ -882,7 +926,7 @@ function internalSoftwareToExternalSoftware(
 export function apiSoftwareToExternalCatalogSoftware(params: {
     apiSoftwares: SillApiClient.Software[];
     wikidataId: string;
-}): SoftwareCatalogState.Software.External | undefined {
+}): State.Software.External | undefined {
     const { apiSoftwares, wikidataId } = params;
 
     const internalSoftware = apiSoftwareToInternalSoftware({

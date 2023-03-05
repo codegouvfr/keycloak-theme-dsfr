@@ -8,7 +8,7 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { useTranslation } from "ui-dsfr/i18n";
-import { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
+import { State as SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import Environment = SoftwareCatalogState.Environment;
 import Prerogative = SoftwareCatalogState.Prerogative;
 import MenuItem from "@mui/material/MenuItem";

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { makeStyles } from "tss-react/dsfr";
-import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
+import type { State as SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import type { Link } from "type-route";

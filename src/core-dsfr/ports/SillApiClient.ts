@@ -25,11 +25,11 @@ export type SillApiClient = {
     }) => Promise<SillApiClient.WikidataEntry[]>;
     createSoftware: (params: {
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<void>;
+    }) => Promise<SillApiClient.Software>;
     updateSoftware: (params: {
         softwareSillId: number;
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<void>;
+    }) => Promise<SillApiClient.Software>;
     createUserOrReferent: (params: {
         formData: SillApiClient.DeclarationFormData;
     }) => Promise<void>;
@@ -101,14 +101,13 @@ export namespace SillApiClient {
             authorName: string;
             authorUrl: string;
         }[];
-        officialWebsiteUrl: string;
-        codeRepositoryUrl: string;
+        officialWebsiteUrl: string | undefined;
+        codeRepositoryUrl: string | undefined;
         versionMin: string;
         license: string;
         serviceProviderCount: number;
-        serviceProviderUrl: string;
         compotoirDuLibreId: number | undefined;
-        wikidataId: string;
+        wikidataId: string | undefined;
         softwareType: SoftwareType;
         similarSoftwares: WikidataEntry[];
     };
@@ -130,7 +129,7 @@ export namespace SillApiClient {
     export namespace SoftwareType {
         export type Desktop = {
             type: "desktop";
-            os: Record<"windows" | "linux" | "mac", boolean>;
+            os: Record<Os, boolean>;
         };
 
         export type CloudNative = {
@@ -156,14 +155,7 @@ export namespace SillApiClient {
     export type Os = "windows" | "linux" | "mac";
 
     export type SoftwareFormData = {
-        softwareType:
-            | {
-                  softwareType: "cloud" | "library";
-              }
-            | {
-                  softwareType: "desktop";
-                  os: Record<Os, boolean>;
-              };
+        softwareType: SoftwareType;
         wikidataId: string | undefined;
         comptoirDuLibreId: number | undefined;
         softwareName: string;

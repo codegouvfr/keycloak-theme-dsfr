@@ -36,10 +36,10 @@ export function SoftwareFormStep1(props: Step1Props) {
             }
 
             return {
-                "softwareType": initialFormData.softwareType,
+                "softwareType": initialFormData.softwareType.type,
                 "osCheckboxValues":
-                    initialFormData.softwareType === "desktop"
-                        ? Object.entries(initialFormData.os)
+                    initialFormData.softwareType.type === "desktop"
+                        ? Object.entries(initialFormData.softwareType.os)
                               .filter(([, value]) => value)
                               .map(([key]) => key)
                         : undefined
@@ -71,16 +71,20 @@ export function SoftwareFormStep1(props: Step1Props) {
                               assert(osCheckboxValues !== undefined);
 
                               return {
-                                  softwareType,
-                                  "os": {
-                                      "windows": osCheckboxValues.includes("windows"),
-                                      "mac": osCheckboxValues.includes("mac"),
-                                      "linux": osCheckboxValues.includes("linux")
+                                  "softwareType": {
+                                      "type": softwareType,
+                                      "os": {
+                                          "windows": osCheckboxValues.includes("windows"),
+                                          "mac": osCheckboxValues.includes("mac"),
+                                          "linux": osCheckboxValues.includes("linux")
+                                      }
                                   }
                               };
                           })()
                         : {
-                              softwareType
+                              "softwareType": {
+                                  "type": softwareType
+                              }
                           }
                 )
             )}

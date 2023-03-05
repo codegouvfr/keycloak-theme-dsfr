@@ -1,6 +1,6 @@
 import { createRouter, defineRoute, param, noMatch } from "type-route";
 import { createTypeRouteMock } from "ui-dsfr/tools/typeRouteMock";
-import type { SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
+import type { State as SoftwareCatalogState } from "core-dsfr/usecases/softwareCatalog";
 import { isStorybook } from "ui-dsfr/tools/isStorybook";
 import { z } from "zod";
 

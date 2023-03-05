@@ -154,7 +154,7 @@ export function SoftwareForm(props: Props) {
                             "formDataStep3": formData
                         })
                     }
-                    isCloudNativeSoftware={formData.step1?.softwareType === "cloud"}
+                    isCloudNativeSoftware={formData.step1?.softwareType.type === "cloud"}
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 3)}
                 />
                 <SoftwareFormStep4

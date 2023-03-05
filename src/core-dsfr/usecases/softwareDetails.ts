@@ -5,7 +5,7 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { SillApiClient } from "../ports/SillApiClient";
 import {
-    type SoftwareCatalogState,
+    type State as SoftwareCatalogState,
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 
@@ -140,7 +140,6 @@ function apiSoftwareToSoftware(params: {
         prerogatives,
         users,
         serviceProviderCount,
-        serviceProviderUrl,
         compotoirDuLibreId,
         similarSoftwares: similarSoftwares_api,
         wikidataId,
@@ -190,7 +189,7 @@ function apiSoftwareToSoftware(params: {
         "userCount": users.length - referentCount,
         parentSoftware,
         addedTime,
-        serviceProviderUrl,
+        "serviceProviderUrl": `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,
         "compotoirDuLibreUrl": `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
         "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
         "instances": apiInstances

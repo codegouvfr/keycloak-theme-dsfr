@@ -25,14 +25,9 @@ namespace SoftwareFormState {
 }
 
 export type FormData = {
-    step1:
-        | {
-              softwareType: "cloud" | "library";
-          }
-        | {
-              softwareType: "desktop";
-              os: Record<"windows" | "linux" | "mac", boolean>;
-          };
+    step1: {
+        softwareType: SillApiClient.SoftwareType;
+    };
     step2: {
         wikidataId: string | undefined;
         comptoirDuLibreId: number | undefined;
@@ -151,9 +146,11 @@ export const { reducer, actions } = createSlice({
         "formSubmitted": (
             _state,
             {
+                //NOTE: To be registered by SoftwareCatalog
                 payload: _payload
             }: PayloadAction<{
-                softwareName: string;
+                type: "create" | "update";
+                apiSoftware: SillApiClient.Software;
             }>
         ) => {
             return {
@@ -195,15 +192,9 @@ export const thunks = {
                 actions.initializedForUpdate({
                     "softwareSillId": software.softwareId,
                     "formData": {
-                        "step1":
-                            software.softwareType.type === "desktop"
-                                ? {
-                                      "softwareType": "desktop",
-                                      "os": software.softwareType.os
-                                  }
-                                : {
-                                      "softwareType": software.softwareType.type
-                                  },
+                        "step1": {
+                            "softwareType": software.softwareType
+                        },
                         "step2": {
                             "wikidataId": software.wikidataId,
                             "comptoirDuLibreId": software.compotoirDuLibreId,
@@ -270,26 +261,32 @@ export const thunks = {
             assert(step3 !== undefined);
 
             const formData = {
-                "softwareType": step1,
+                ...step1,
                 ...step2,
                 ...step3,
                 ...formDataStep4
             };
 
-            if (state.softwareSillId !== undefined) {
-                await sillApiClient.updateSoftware({
-                    "softwareSillId": state.softwareSillId,
-                    formData
-                });
-            } else {
-                await sillApiClient.createSoftware({
-                    formData
-                });
-            }
+            const [type, apiSoftware] =
+                state.softwareSillId !== undefined
+                    ? ([
+                          "update",
+                          await sillApiClient.updateSoftware({
+                              "softwareSillId": state.softwareSillId,
+                              formData
+                          })
+                      ] as const)
+                    : ([
+                          "create",
+                          await sillApiClient.createSoftware({
+                              formData
+                          })
+                      ] as const);
 
             dispatch(
                 actions.formSubmitted({
-                    "softwareName": step2.softwareName
+                    type,
+                    apiSoftware
                 })
             );
         },
@@ -362,7 +359,7 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
             ? [
                   {
                       "action": "redirect" as const,
-                      "softwareName": action.payload.softwareName
+                      "softwareName": action.payload.apiSoftware.softwareName
                   }
               ]
             : null
