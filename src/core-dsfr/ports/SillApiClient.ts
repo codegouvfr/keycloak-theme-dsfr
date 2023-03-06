@@ -25,11 +25,11 @@ export type SillApiClient = {
     }) => Promise<SillApiClient.WikidataEntry[]>;
     createSoftware: (params: {
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<SillApiClient.Software>;
+    }) => Promise<void>;
     updateSoftware: (params: {
         softwareSillId: number;
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<SillApiClient.Software>;
+    }) => Promise<void>;
     createUserOrReferent: (params: {
         formData: SillApiClient.DeclarationFormData;
     }) => Promise<void>;

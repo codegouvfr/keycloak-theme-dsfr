@@ -149,8 +149,7 @@ export const { reducer, actions } = createSlice({
                 //NOTE: To be registered by SoftwareCatalog
                 payload: _payload
             }: PayloadAction<{
-                type: "create" | "update";
-                apiSoftware: SillApiClient.Software;
+                softwareName: string;
             }>
         ) => {
             return {
@@ -293,28 +292,20 @@ export const thunks = {
                 ...formDataStep4
             };
 
-            const [type, apiSoftware] =
-                state.softwareSillId !== undefined
-                    ? ([
-                          "update",
-                          await sillApiClient.updateSoftware({
-                              "softwareSillId": state.softwareSillId,
-                              formData
-                          })
-                      ] as const)
-                    : ([
-                          "create",
-                          await sillApiClient.createSoftware({
-                              formData
-                          })
-                      ] as const);
+            await (state.softwareSillId !== undefined
+                ? sillApiClient.updateSoftware({
+                      "softwareSillId": state.softwareSillId,
+                      formData
+                  })
+                : sillApiClient.createSoftware({
+                      formData
+                  }));
 
             sillApiClient.getSoftwares.clear();
 
             dispatch(
                 actions.formSubmitted({
-                    type,
-                    apiSoftware
+                    "softwareName": step2.softwareName
                 })
             );
         },
@@ -387,7 +378,7 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
             ? [
                   {
                       "action": "redirect" as const,
-                      "softwareName": action.payload.apiSoftware.softwareName
+                      "softwareName": action.payload.softwareName
                   }
               ]
             : null

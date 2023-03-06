@@ -677,8 +677,6 @@ export function createMockSillApiClient(): SillApiClient {
             };
 
             softwares.push(software);
-
-            return software;
         },
         "updateSoftware": async ({ formData, softwareSillId }) => {
             const index = softwares.findIndex(
@@ -723,8 +721,6 @@ export function createMockSillApiClient(): SillApiClient {
                     "users": []
                 })
             };
-
-            return softwares[index];
         },
         "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({
             wikidataId
