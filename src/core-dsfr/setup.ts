@@ -102,6 +102,8 @@ export async function createCore(params: {
         }
     });
 
+    core.dispatch(usecases.softwareUserAndReferent.privateThunks.initialize());
+
     await Promise.all([
         core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
         core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
