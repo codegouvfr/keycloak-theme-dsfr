@@ -30,6 +30,10 @@ export function SoftwareUserAndReferent(props: Props) {
 
     useEffect(() => {
         softwareUserAndReferent.setSoftware({ "softwareName": route.params.name });
+
+        return () => {
+            softwareUserAndReferent.clear();
+        };
     }, [route.params.name]);
 
     useEffect(() => {

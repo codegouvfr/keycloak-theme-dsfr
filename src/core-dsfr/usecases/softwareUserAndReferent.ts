@@ -88,7 +88,11 @@ export const { reducer, actions } = createSlice({
                 users,
                 referents
             };
-        }
+        },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "currentlyInitializingForSoftwareName": undefined
+        })
     }
 });
 
@@ -183,6 +187,21 @@ export const thunks = {
                     referents
                 })
             );
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState().softwareUserAndReferent;
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         }
 };
 
