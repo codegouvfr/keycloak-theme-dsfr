@@ -150,7 +150,7 @@ export const thunks = {
                                     return "cloud";
                                 case "desktop":
                                     return "desktop";
-                                case "library":
+                                case "stack":
                                     return "other";
                             }
                         })()

@@ -37,7 +37,7 @@ export namespace State {
         | "user count ASC"
         | "referent count ASC";
 
-    export type Environment = "linux" | "windows" | "mac" | "browser" | "library";
+    export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
     export type Prerogative =
         | "isPresentInSupportContract"
@@ -256,8 +256,8 @@ export const selectors = (() => {
                     );
                 case "browser":
                     return softwareType.type === "cloud";
-                case "library":
-                    return softwareType.type === "library";
+                case "stack":
+                    return softwareType.type === "stack";
             }
         });
     }
@@ -541,8 +541,8 @@ export const selectors = (() => {
                                 switch (softwareType.type) {
                                     case "cloud":
                                         return ["browser"];
-                                    case "library":
-                                        return ["library" as const];
+                                    case "stack":
+                                        return ["stack" as const];
                                     case "desktop":
                                         return objectKeys(softwareType.os).filter(
                                             os => softwareType.os[os]
@@ -593,10 +593,10 @@ export const selectors = (() => {
                             softwareCountInCurrentFilterByEnvironment.get("browser")! + 1
                         );
                         break;
-                    case "library":
+                    case "stack":
                         softwareCountInCurrentFilterByEnvironment.set(
-                            "library",
-                            softwareCountInCurrentFilterByEnvironment.get("library")! + 1
+                            "stack",
+                            softwareCountInCurrentFilterByEnvironment.get("stack")! + 1
                         );
                         break;
                     case "desktop":

@@ -136,7 +136,7 @@ export namespace SillApiClient {
     export type SoftwareType =
         | SoftwareType.Desktop
         | SoftwareType.CloudNative
-        | SoftwareType.Library;
+        | SoftwareType.Stack;
 
     export namespace SoftwareType {
         export type Desktop = {
@@ -148,8 +148,8 @@ export namespace SillApiClient {
             type: "cloud";
         };
 
-        export type Library = {
-            type: "library";
+        export type Stack = {
+            type: "stack";
         };
     }
 
