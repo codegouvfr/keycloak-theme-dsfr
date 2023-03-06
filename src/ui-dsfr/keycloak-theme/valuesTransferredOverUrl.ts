@@ -7,15 +7,22 @@ import {
 import type { LocalizedString } from "ui-dsfr/i18n";
 import { capitalize } from "tsafe/capitalize";
 
-export const { addTermsOfServicesUrlToQueryParams, termsOfServicesUrl } = (() => {
+export const { termsOfServicesUrl, addTermsOfServicesUrlToQueryParams } = (() => {
     const queryParamName = "termsOfServicesUrl";
 
-    const value = JSON.parse(read({ queryParamName })) as LocalizedString;
+    type Type = LocalizedString;
 
-    function addToUrlQueryParams(params: {
-        url: string;
-        value: LocalizedString;
-    }): string {
+    const value = (() => {
+        const unparsedValue = read({ queryParamName });
+
+        if (unparsedValue === undefined) {
+            return undefined;
+        }
+
+        return JSON.parse(unparsedValue) as Type;
+    })();
+
+    function addToUrlQueryParams(params: { url: string; value: Type }): string {
         const { url, value } = params;
 
         return addParamToUrl({
@@ -36,9 +43,19 @@ export const { addTermsOfServicesUrlToQueryParams, termsOfServicesUrl } = (() =>
 export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
     const queryParamName = "sillApiUrl";
 
-    const value = JSON.parse(read({ queryParamName })) as string;
+    type Type = string;
 
-    function addToUrlQueryParams(params: { url: string; value: string }): string {
+    const value = (() => {
+        const unparsedValue = read({ queryParamName });
+
+        if (unparsedValue === undefined) {
+            return undefined;
+        }
+
+        return JSON.parse(unparsedValue) as Type;
+    })();
+
+    function addToUrlQueryParams(params: { url: string; value: Type }): string {
         const { url, value } = params;
 
         return addParamToUrl({
@@ -56,10 +73,10 @@ export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
     return out;
 })();
 
-function read(params: { queryParamName: string }) {
+function read(params: { queryParamName: string }): string | undefined {
     if (kcContext === undefined || process.env.NODE_ENV !== "production") {
         //NOTE: We do something only if we are really in Keycloak
-        return "";
+        return undefined;
     }
 
     const { queryParamName } = params;
