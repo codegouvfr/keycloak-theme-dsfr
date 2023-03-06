@@ -29,7 +29,7 @@ export function SoftwareUserAndReferent(props: Props) {
     const { softwareDetails, softwareUserAndReferent } = useCoreFunctions();
 
     useEffect(() => {
-        softwareUserAndReferent.setSoftware({ "softwareName": route.params.name });
+        softwareUserAndReferent.initialize({ "softwareName": route.params.name });
 
         return () => {
             softwareUserAndReferent.clear();
@@ -37,14 +37,11 @@ export function SoftwareUserAndReferent(props: Props) {
     }, [route.params.name]);
 
     useEffect(() => {
-        softwareDetails.setSoftware({
+        softwareDetails.initialize({
             "softwareName": route.params.name
         });
 
-        return () =>
-            softwareDetails.setSoftware({
-                "softwareName": undefined
-            });
+        return () => softwareDetails.clear();
     }, [route.params.name]);
 
     const { classes, cx } = useStyles();

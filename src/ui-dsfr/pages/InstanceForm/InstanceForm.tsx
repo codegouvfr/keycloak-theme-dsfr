@@ -70,6 +70,8 @@ export function InstanceForm(props: Props) {
                 }
             })()
         );
+
+        return () => instanceForm.clear();
     }, [route.name]);
 
     useEvt(

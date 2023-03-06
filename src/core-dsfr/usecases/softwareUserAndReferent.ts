@@ -12,7 +12,7 @@ export type State = State.NotReady | State.Ready;
 export namespace State {
     export type NotReady = {
         stateDescription: "not ready";
-        currentlyInitializingForSoftwareName: string | undefined;
+        isInitializing: boolean;
     };
 
     export type Ready = {
@@ -49,37 +49,25 @@ export const { reducer, actions } = createSlice({
     name,
     "initialState": id<State>({
         "stateDescription": "not ready",
-        "currentlyInitializingForSoftwareName": undefined
+        "isInitializing": false
     }),
     "reducers": {
-        "setSoftwareStart": (
+        "initializationStarted": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": true
+        }),
+        "initializationCompleted": (
             _state,
-            { payload }: PayloadAction<{ softwareName: string }>
-        ) => {
-            const { softwareName } = payload;
-
-            return {
-                "stateDescription": "not ready",
-                "currentlyInitializingForSoftwareName": softwareName
-            };
-        },
-        "setSoftwareCompleted": (
-            state,
             {
                 payload
             }: PayloadAction<{
+                softwareName: string;
                 logoUrl: string | undefined;
                 users: State.SoftwareUser[];
                 referents: State.SoftwareReferent[];
             }>
         ) => {
-            const { logoUrl, users, referents } = payload;
-
-            assert(state.stateDescription === "not ready");
-
-            const softwareName = state.currentlyInitializingForSoftwareName;
-
-            assert(softwareName !== undefined);
+            const { softwareName, logoUrl, users, referents } = payload;
 
             return {
                 "stateDescription": "ready",
@@ -91,13 +79,13 @@ export const { reducer, actions } = createSlice({
         },
         "cleared": () => ({
             "stateDescription": "not ready" as const,
-            "currentlyInitializingForSoftwareName": undefined
+            "isInitializing": false
         })
     }
 });
 
 export const thunks = {
-    "setSoftware":
+    "initialize":
         (params: { softwareName: string }): ThunkAction<void> =>
         async (...args) => {
             const { softwareName } = params;
@@ -105,17 +93,14 @@ export const thunks = {
             const [dispatch, getState, { sillApiClient }] = args;
 
             {
-                const state = getState().softwareUserAndReferent;
+                const state = getState()[name];
 
-                if (
-                    state.stateDescription === "not ready" &&
-                    state.currentlyInitializingForSoftwareName === softwareName
-                ) {
+                if (state.stateDescription === "not ready" && state.isInitializing) {
                     return;
                 }
             }
 
-            dispatch(actions.setSoftwareStart({ softwareName }));
+            dispatch(actions.initializationStarted());
 
             const agents = await sillApiClient.getAgents();
 
@@ -181,7 +166,8 @@ export const thunks = {
             assert(software !== undefined);
 
             dispatch(
-                actions.setSoftwareCompleted({
+                actions.initializationCompleted({
+                    softwareName,
                     "logoUrl": software.logoUrl,
                     users,
                     referents
@@ -194,7 +180,7 @@ export const thunks = {
             const [dispatch, getState] = args;
 
             {
-                const state = getState().softwareUserAndReferent;
+                const state = getState()[name];
 
                 if (state.stateDescription === "not ready") {
                     return;
@@ -202,21 +188,6 @@ export const thunks = {
             }
 
             dispatch(actions.cleared());
-        }
-};
-
-export const privateThunks = {
-    "initialize":
-        (): ThunkAction =>
-        async (...args) => {
-            const [, , { evtAction, sillApiClient }] = args;
-
-            evtAction.attach(
-                action =>
-                    action.sliceName === "declarationForm" &&
-                    action.actionName === "formSubmitted",
-                () => sillApiClient.getAgents.clear()
-            );
         }
 };
 

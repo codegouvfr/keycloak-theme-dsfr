@@ -11,7 +11,7 @@ type State = State.NotInitialized | State.Ready;
 
 namespace State {
     export type NotInitialized = {
-        stateDescription: "not initialized";
+        stateDescription: "not ready";
         isInitializing: boolean;
     };
 
@@ -42,15 +42,15 @@ export const name = "declarationForm" as const;
 export const { reducer, actions } = createSlice({
     name,
     "initialState": id<State>({
-        "stateDescription": "not initialized",
+        "stateDescription": "not ready",
         "isInitializing": false
     }),
     "reducers": {
         "initializationStarted": state => {
-            assert(state.stateDescription === "not initialized");
+            assert(state.stateDescription === "not ready");
             state.isInitializing = true;
         },
-        "initialized": (
+        "initializationCompleted": (
             _state,
             { payload }: PayloadAction<{ software: State.Ready["software"] }>
         ) => {
@@ -64,6 +64,10 @@ export const { reducer, actions } = createSlice({
                 software
             });
         },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": false
+        }),
         "declarationTypeSet": (
             state,
             {
@@ -95,7 +99,7 @@ export const { reducer, actions } = createSlice({
             _state,
             { payload: _payload }: PayloadAction<{ softwareName: string }>
         ) => ({
-            "stateDescription": "not initialized",
+            "stateDescription": "not ready",
             "isInitializing": false
         })
     }
@@ -109,10 +113,17 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState().softwareForm;
+            {
+                const state = getState()[name];
 
-            if (state.stateDescription === "ready" || state.isInitializing) {
-                return;
+                assert(
+                    state.stateDescription === "not ready",
+                    "The clear function should have been called"
+                );
+
+                if (state.isInitializing) {
+                    return;
+                }
             }
 
             dispatch(actions.initializationStarted());
@@ -124,7 +135,7 @@ export const thunks = {
             assert(software !== undefined);
 
             dispatch(
-                actions.initialized({
+                actions.initializationCompleted({
                     "software": {
                         "logoUrl": software.logoUrl,
                         softwareName,
@@ -146,6 +157,21 @@ export const thunks = {
                     }
                 })
             );
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState()[name];
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         },
     "setDeclarationType":
         (props: { declarationType: State.Ready["declarationType"] }): ThunkAction<void> =>
@@ -180,6 +206,9 @@ export const thunks = {
 
             await sillApiClient.createUserOrReferent({ formData });
 
+            sillApiClient.getAgents.clear();
+            sillApiClient.getSoftwares.clear();
+
             dispatch(
                 actions.formSubmitted({ "softwareName": state.software.softwareName })
             );
@@ -190,7 +219,7 @@ export const selectors = (() => {
     const readyState = (rootState: RootState) => {
         const state = rootState[name];
 
-        if (state.stateDescription === "not initialized") {
+        if (state.stateDescription === "not ready") {
             return undefined;
         }
 

@@ -4,16 +4,24 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { SillApiClient } from "../ports/SillApiClient";
+import { createSelector } from "@reduxjs/toolkit";
 import {
     type State as SoftwareCatalogState,
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 
-export type SoftwareDetailsState = {
-    software: SoftwareDetailsState.Software | undefined;
-};
+export type State = State.NotReady | State.Ready;
 
-export namespace SoftwareDetailsState {
+export namespace State {
+    export type NotReady = {
+        stateDescription: "not ready";
+        isInitializing: boolean;
+    };
+
+    export type Ready = {
+        stateDescription: "ready";
+        software: Software;
+    };
     export type Software = {
         softwareName: string;
         softwareDescription: string;
@@ -69,46 +77,93 @@ export const name = "softwareDetails" as const;
 
 export const { reducer, actions } = createSlice({
     name,
-    "initialState": id<SoftwareDetailsState>({ "software": undefined }),
+    "initialState": id<State>({
+        "stateDescription": "not ready",
+        "isInitializing": false
+    }),
     "reducers": {
-        "softwareSet": (
+        "initializationStarted": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": true
+        }),
+        "initializationCompleted": (
             _state,
-            {
-                payload
-            }: PayloadAction<{ software: SoftwareDetailsState.Software | undefined }>
+            { payload }: PayloadAction<{ software: State.Software }>
         ) => {
             const { software } = payload;
 
-            return { software };
-        }
+            return {
+                "stateDescription": "ready",
+                software
+            };
+        },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": false
+        })
     }
 });
 
 export const thunks = {
-    "setSoftware":
-        (params: { softwareName: string | undefined }): ThunkAction<void> =>
+    "initialize":
+        (params: { softwareName: string }): ThunkAction<void> =>
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, , { sillApiClient }] = args;
+            const [dispatch, getState, { sillApiClient }] = args;
 
-            dispatch(
-                actions.softwareSet({
-                    "software":
-                        softwareName === undefined
-                            ? undefined
-                            : apiSoftwareToSoftware({
-                                  "apiSoftwares": await sillApiClient.getSoftwares(),
-                                  "apiInstances": await sillApiClient.getInstances(),
-                                  softwareName
-                              })
-                })
-            );
+            {
+                const state = getState()[name];
+
+                assert(
+                    state.stateDescription === "not ready",
+                    "The clear function should have been called"
+                );
+
+                if (state.isInitializing) {
+                    return;
+                }
+            }
+
+            dispatch(actions.initializationStarted());
+
+            const software = apiSoftwareToSoftware({
+                "apiSoftwares": await sillApiClient.getSoftwares(),
+                "apiInstances": await sillApiClient.getInstances(),
+                softwareName
+            });
+
+            dispatch(actions.initializationCompleted({ software }));
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState()[name];
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         }
 };
 
 export const selectors = (() => {
-    const software = (rootState: RootState) => rootState.softwareDetails.software;
+    const readyState = (rootState: RootState) => {
+        const state = rootState[name];
+
+        if (state.stateDescription !== "ready") {
+            return undefined;
+        }
+
+        return state;
+    };
+
+    const software = createSelector(readyState, readyState => readyState?.software);
 
     return { software };
 })();
@@ -117,7 +172,7 @@ function apiSoftwareToSoftware(params: {
     apiSoftwares: SillApiClient.Software[];
     apiInstances: SillApiClient.Instance[];
     softwareName: string;
-}): SoftwareDetailsState.Software {
+}): State.Software {
     const { apiSoftwares, apiInstances, softwareName } = params;
 
     const apiSoftware = apiSoftwares.find(
@@ -150,7 +205,7 @@ function apiSoftwareToSoftware(params: {
 
     const referentCount = users.filter(user => user.type === "referent").length;
 
-    const parentSoftware: SoftwareDetailsState.Software["parentSoftware"] = (() => {
+    const parentSoftware: State.Software["parentSoftware"] = (() => {
         if (parentSoftwareWikidata_api === undefined) {
             return undefined;
         }
