@@ -635,10 +635,53 @@ const softwares = [
     })
 ];
 
+const users: SillApiClient.Agent[] = [
+    {
+        organization: "Développement durable",
+        email: "agent1@codegouv.fr",
+        declarations: [
+            {
+                serviceUrl: "",
+                declarationType: "user",
+                os: "windows",
+                softwareName: "LibreOffice",
+                version: "1.1.1",
+                usecaseDescription: "Usecase description"
+            }
+        ]
+    },
+    {
+        organization: "Babel",
+        email: "agent2@codegouv.fr",
+        declarations: [
+            {
+                serviceUrl: "",
+                declarationType: "referent",
+                softwareName: "LibreOffice",
+                isTechnicalExpert: true,
+                usecaseDescription: "Usecase description"
+            }
+        ]
+    },
+    {
+        organization: "Éducation nationale",
+        email: "agent3@codegouv.fr",
+        declarations: [
+            {
+                serviceUrl: "",
+                declarationType: "referent",
+                softwareName: "LibreOffice",
+                isTechnicalExpert: true,
+                usecaseDescription: "Usecase description"
+            }
+        ]
+    }
+];
+
 export function createMockSillApiClient(): SillApiClient {
     return {
         "getSoftwares": memoize(() => Promise.resolve(softwares), { "promise": true }),
-        "getAgents": memoize(() => Promise.resolve([]), { "promise": true }),
+        "getAgents": memoize(() => Promise.resolve(users), { "promise": true }),
         "createSoftware": async ({ formData }) => {
             console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
 

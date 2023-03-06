@@ -70,11 +70,11 @@ export function SoftwareUserAndReferent(props: Props) {
     const MenuTabs = [
         {
             "id": 0,
-            "label": `${t("tab user title")} (${software.userCount})`
+            "label": `${t("tab user title")} (${users.length})`
         },
         {
             "id": 1,
-            "label": `${t("tab referent title")} (${software.referentCount})`
+            "label": `${t("tab referent title")} (${referents.length})`
         }
     ];
 
@@ -83,7 +83,7 @@ export function SoftwareUserAndReferent(props: Props) {
     };
 
     //TODO: Refacto when user and referent will be available in software data
-    const contentItems = activeMenu === 0 ? software.authors : [];
+    const contentItems = activeMenu === 0 ? users : referents;
 
     return (
         <div>
@@ -147,11 +147,7 @@ export function SoftwareUserAndReferent(props: Props) {
                                     )}
                                     id="fr-sidemenu-title"
                                 >
-                                    <img
-                                        src={software.logoUrl}
-                                        alt=""
-                                        className={classes.logo}
-                                    />
+                                    <img src={logoUrl} alt="" className={classes.logo} />
                                     {software.softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
@@ -196,10 +192,10 @@ export function SoftwareUserAndReferent(props: Props) {
                     </nav>
                     <div className={classes.contentMenuTab}>
                         <ul>
-                            {contentItems?.map(author => {
+                            {contentItems?.map(user => {
                                 return (
-                                    <li key={author.authorName}>
-                                        <a href={author.authorUrl}>{author.authorName}</a>
+                                    <li key={user.organization}>
+                                        <a href={user.serviceUrl}>{user.organization}</a>
                                     </li>
                                 );
                             })}
