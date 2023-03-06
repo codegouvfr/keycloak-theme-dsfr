@@ -37,6 +37,7 @@ const {
     | typeof import("ui-dsfr/pages/DeclarationForm/Step1").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/Step2User").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/Step2Referent").i18n
+    | typeof import("ui-dsfr/keycloak-theme/pages/Login").i18n
     | typeof import("ui-dsfr/pages/Authentication/Authentication").i18n
     | typeof import("ui-dsfr/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/pages/Homepage").i18n
@@ -324,6 +325,17 @@ const {
                 "service":
                     "More precisely, which service of the software do you declare yourself referent"
             },
+            "Login": {
+                "connect": "Se connecter",
+                "back": "Retour",
+                "selfCredentials": "Ou utiliser vos identifiants",
+                "forget password": "Mot de passe oublié ?",
+                "no account": "Pas encore de compte ?",
+                "log with": "Identify with",
+                "franceConnect": "FranceConnect",
+                "what is franceConnect": "What is FranceConnect ?",
+                "what is franceConnect title": "What is FranceConnect - new window"
+            },
             "Authentication": {
                 "connect": "Se connecter",
                 "back": "Retour",
@@ -348,7 +360,7 @@ const {
                 "password": "Votre mot de passe"
             },
             "Header": {
-                "brand": "DINUM",
+                "brand": "SILL",
                 "home title": "Home - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Welcome to the SILL",
@@ -648,6 +660,18 @@ const {
                 "service":
                     "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?"
             },
+            "Login": {
+                "connect": "Se connecter",
+                "back": "Retour",
+                "selfCredentials": "Ou utilisez vos identifiants",
+                "forget password": "Mot de passe oublié ?",
+                "no account": "Pas encore de compte ?",
+                "log with": "S'identifier avec",
+                "franceConnect": "FranceConnect",
+                "what is franceConnect": "Qu'est-ce que FranceConnect ?",
+                "what is franceConnect title":
+                    "Qu'est ce que FranceConnect - nouvelle fenêtre"
+            },
             "Authentication": {
                 "connect": "Se connecter",
                 "back": "Retour",
@@ -674,7 +698,7 @@ const {
                 "password": "Votre mot de passe"
             },
             "Header": {
-                "brand": "DINUM",
+                "brand": "SILL",
                 "home title": "Accueil - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Bienvenue sur le SILL",

@@ -1,9 +1,15 @@
-import { useState, type FormEventHandler } from "react";
+import React, { useState, type FormEventHandler } from "react";
 import { clsx } from "keycloakify/lib/tools/clsx";
 import { useConstCallback } from "keycloakify/lib/tools/useConstCallback";
 import type { PageProps } from "keycloakify/lib/KcProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
+import { makeStyles } from "tss-react/dsfr";
+import { fr } from "@codegouvfr/react-dsfr";
+import { Button } from "@codegouvfr/react-dsfr/Button";
+import { useTranslation } from "ui-dsfr/i18n";
+import { declareComponentKeys } from "i18nifty";
+import { Input } from "@codegouvfr/react-dsfr/Input";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -27,6 +33,8 @@ export default function Login(
     } = kcContext;
 
     const { msg, msgStr } = i18n;
+    const { t } = useTranslation({ Login });
+    const { classes, cx } = useStyles();
 
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
 
@@ -51,34 +59,93 @@ export default function Login(
             {...{ kcContext, i18n, doFetchDefaultThemeResources, ...kcProps }}
             displayInfo={social.displayInfo}
             displayWide={realm.password && social.providers !== undefined}
-            headerNode={msg("doLogIn")}
+            headerNode={msg("connect")}
             formNode={
-                <div
-                    id="kc-form"
-                    className={clsx(
-                        realm.password &&
-                            social.providers !== undefined &&
-                            kcProps.kcContentWrapperClass
-                    )}
-                >
-                    <div
-                        id="kc-form-wrapper"
-                        className={clsx(
-                            realm.password &&
-                                social.providers && [
-                                    kcProps.kcFormSocialAccountContentClass,
-                                    kcProps.kcFormSocialAccountClass
-                                ]
-                        )}
-                    >
+                <div id="kc-form">
+                    <div id="kc-form-wrapper">
                         {realm.password && (
                             <form
                                 id="kc-form-login"
                                 onSubmit={onSubmit}
                                 action={url.loginAction}
                                 method="post"
+                                className={classes.centerCol}
                             >
-                                <div className={clsx(kcProps.kcFormGroupClass)}>
+                                {realm.password && social.providers !== undefined && (
+                                    <div
+                                        id="kc-social-providers"
+                                        className={classes.agentConnect}
+                                    >
+                                        <ul
+                                            className={clsx(
+                                                kcProps.kcFormSocialAccountListClass,
+                                                social.providers.length > 4 &&
+                                                    kcProps.kcFormSocialAccountDoubleListClass
+                                            )}
+                                        >
+                                            {social.providers.map(p => (
+                                                <li key={p.providerId}>
+                                                    {p.displayName
+                                                        .toLocaleLowerCase()
+                                                        .replace(/ /g, "")
+                                                        .includes("agentconnect") ? (
+                                                        <div
+                                                            className={cx(
+                                                                fr.cx("fr-connect-group"),
+                                                                classes.franceConnect
+                                                            )}
+                                                        >
+                                                            <button
+                                                                className={fr.cx(
+                                                                    "fr-connect"
+                                                                )}
+                                                            >
+                                                                <span
+                                                                    className={fr.cx(
+                                                                        "fr-connect__login"
+                                                                    )}
+                                                                >
+                                                                    {t("log with")}
+                                                                </span>
+                                                                <span
+                                                                    className={fr.cx(
+                                                                        "fr-connect__brand"
+                                                                    )}
+                                                                >
+                                                                    {t("franceConnect")}
+                                                                </span>
+                                                            </button>
+                                                            <p>
+                                                                <a
+                                                                    href="https://franceconnect.gouv.fr/"
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    title={t(
+                                                                        "what is franceConnect title"
+                                                                    )}
+                                                                >
+                                                                    {t(
+                                                                        "what is franceConnect"
+                                                                    )}
+                                                                </a>
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <Button
+                                                            linkProps={{
+                                                                "href": p.loginUrl
+                                                            }}
+                                                        >
+                                                            {p.displayName}
+                                                        </Button>
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                <h5>{msgStr("selfCredentials")}</h5>
+                                <div className={classes.inputs}>
                                     {(() => {
                                         const label = !realm.loginWithEmailAllowed
                                             ? "username"
@@ -92,91 +159,62 @@ export default function Login(
                                                 : label;
 
                                         return (
-                                            <>
-                                                <label
-                                                    htmlFor={autoCompleteHelper}
-                                                    className={clsx(kcProps.kcLabelClass)}
-                                                >
-                                                    {msg(label)}
-                                                </label>
-                                                <input
-                                                    tabIndex={1}
-                                                    id={autoCompleteHelper}
-                                                    className={clsx(kcProps.kcInputClass)}
-                                                    //NOTE: This is used by Google Chrome auto fill so we use it to tell
-                                                    //the browser how to pre fill the form but before submit we put it back
-                                                    //to username because it is what keycloak expects.
-                                                    name={autoCompleteHelper}
-                                                    defaultValue={login.username ?? ""}
-                                                    type="text"
-                                                    {...(usernameEditDisabled
+                                            <Input
+                                                nativeInputProps={{
+                                                    "tabIndex": 1,
+                                                    "id": autoCompleteHelper,
+                                                    "name": autoCompleteHelper,
+                                                    "type": "email",
+                                                    "defaultValue": login.username ?? "",
+                                                    ...(usernameEditDisabled
                                                         ? { "disabled": true }
                                                         : {
                                                               "autoFocus": true,
                                                               "autoComplete": "off"
-                                                          })}
-                                                />
-                                            </>
+                                                          })
+                                                }}
+                                                label={msgStr("email")}
+                                                hintText={msgStr("email hint")}
+                                            />
                                         );
                                     })()}
-                                </div>
-                                <div className={clsx(kcProps.kcFormGroupClass)}>
-                                    <label
-                                        htmlFor="password"
-                                        className={clsx(kcProps.kcLabelClass)}
-                                    >
-                                        {msg("password")}
-                                    </label>
-                                    <input
-                                        tabIndex={2}
-                                        id="password"
-                                        className={clsx(kcProps.kcInputClass)}
-                                        name="password"
-                                        type="password"
-                                        autoComplete="off"
+                                    <Input
+                                        nativeInputProps={{
+                                            "tabIndex": 2,
+                                            "id": "password",
+                                            "name": "password",
+                                            "type": "password",
+                                            "autoComplete": "off"
+                                        }}
+                                        label={msgStr("password")}
                                     />
-                                </div>
-                                <div
-                                    className={clsx(
-                                        kcProps.kcFormGroupClass,
-                                        kcProps.kcFormSettingClass
-                                    )}
-                                >
-                                    <div id="kc-form-options">
-                                        {realm.rememberMe && !usernameEditDisabled && (
-                                            <div className="checkbox">
-                                                <label>
-                                                    <input
-                                                        tabIndex={3}
-                                                        id="rememberMe"
-                                                        name="rememberMe"
-                                                        type="checkbox"
-                                                        {...(login.rememberMe
-                                                            ? {
-                                                                  "checked": true
-                                                              }
-                                                            : {})}
-                                                    />
-                                                    {msg("rememberMe")}
-                                                </label>
-                                            </div>
-                                        )}
-                                    </div>
                                     <div
                                         className={clsx(
-                                            kcProps.kcFormOptionsWrapperClass
+                                            kcProps.kcFormGroupClass,
+                                            kcProps.kcFormSettingClass
                                         )}
                                     >
-                                        {realm.resetPasswordAllowed && (
-                                            <span>
-                                                <a
-                                                    tabIndex={5}
-                                                    href={url.loginResetCredentialsUrl}
-                                                >
-                                                    {msg("doForgotPassword")}
-                                                </a>
-                                            </span>
-                                        )}
+                                        <div id="kc-form-options">
+                                            {realm.rememberMe &&
+                                                !usernameEditDisabled && (
+                                                    <div className="checkbox">
+                                                        <label>
+                                                            <input
+                                                                tabIndex={3}
+                                                                id="rememberMe"
+                                                                name="rememberMe"
+                                                                type="checkbox"
+                                                                {...(login.rememberMe
+                                                                    ? {
+                                                                          "checked": true
+                                                                      }
+                                                                    : {})}
+                                                            />
+                                                            {msg("rememberMe")}
+                                                        </label>
+                                                    </div>
+                                                )}
+                                        </div>
                                     </div>
                                 </div>
                                 <div
@@ -204,63 +242,97 @@ export default function Login(
                                         name="login"
                                         id="kc-login"
                                         type="submit"
-                                        value={msgStr("doLogIn")}
+                                        value={msgStr("connect")}
                                         disabled={isLoginButtonDisabled}
                                     />
                                 </div>
                             </form>
                         )}
                     </div>
-                    {realm.password && social.providers !== undefined && (
-                        <div
-                            id="kc-social-providers"
-                            className={clsx(
-                                kcProps.kcFormSocialAccountContentClass,
-                                kcProps.kcFormSocialAccountClass
-                            )}
-                        >
-                            <ul
-                                className={clsx(
-                                    kcProps.kcFormSocialAccountListClass,
-                                    social.providers.length > 4 &&
-                                        kcProps.kcFormSocialAccountDoubleListClass
-                                )}
-                            >
-                                {social.providers.map(p => (
-                                    <li
-                                        key={p.providerId}
-                                        className={clsx(
-                                            kcProps.kcFormSocialAccountListLinkClass
-                                        )}
-                                    >
-                                        <a
-                                            href={p.loginUrl}
-                                            id={`zocial-${p.alias}`}
-                                            className={clsx("zocial", p.providerId)}
-                                        >
-                                            <span>{p.displayName}</span>
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
                 </div>
             }
             infoNode={
-                realm.password &&
-                realm.registrationAllowed &&
-                !registrationDisabled && (
-                    <div id="kc-registration">
-                        <span>
-                            {msg("noAccount")}
-                            <a tabIndex={6} href={url.registrationUrl}>
-                                {msg("doRegister")}
+                <div className={classes.resetAndRegister}>
+                    {realm.resetPasswordAllowed && (
+                        <a
+                            tabIndex={5}
+                            href={url.loginResetCredentialsUrl}
+                            className={cx(
+                                fr.cx(
+                                    "fr-link",
+                                    "fr-icon-arrow-right-line",
+                                    "fr-link--icon-right"
+                                ),
+                                classes.forgotPassword
+                            )}
+                        >
+                            {msgStr("doForgotPassword")}
+                        </a>
+                    )}
+                    {realm.password &&
+                        realm.registrationAllowed &&
+                        !registrationDisabled && (
+                            <a
+                                tabIndex={6}
+                                href={url.registrationUrl}
+                                className={fr.cx(
+                                    "fr-link",
+                                    "fr-icon-arrow-right-line",
+                                    "fr-link--icon-right"
+                                )}
+                            >
+                                {msgStr("noAccount")}
                             </a>
-                        </span>
-                    </div>
-                )
+                        )}
+                </div>
             }
         />
     );
 }
+
+const useStyles = makeStyles({
+    "name": { Login }
+})(() => ({
+    "centerCol": {
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center"
+    },
+    "inputs": {
+        "display": "flex",
+        "flexDirection": "column",
+        "width": "50%"
+    },
+    "agentConnect": {
+        "&&&": {
+            "borderRight": "none"
+        }
+    },
+    "franceConnect": {
+        "display": "flex",
+        "alignItems": "center",
+        "flexDirection": "column"
+    },
+    "forgotPassword": {
+        "marginRight": fr.spacing("6v")
+    },
+    "resetAndRegister": {
+        "display": "flex",
+        "justifyContent": "center",
+        "marginTop": fr.spacing("6v")
+    }
+}));
+
+export const { i18n } = declareComponentKeys<
+    | "back"
+    | "connect"
+    | "selfCredentials"
+    | "forget password"
+    | "no account"
+    | "log with"
+    | "franceConnect"
+    | "what is franceConnect"
+    | "what is franceConnect title"
+>()({
+    Login
+});
