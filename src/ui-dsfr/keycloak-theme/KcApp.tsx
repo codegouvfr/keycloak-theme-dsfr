@@ -50,6 +50,10 @@ export default function KcApp(props: { kcContext: KcContext }) {
 
 const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
     "kcHtmlClass": {
+        "fontSize": "unset",
+        "& label": {
+            "fontWeight": "unset"
+        },
         "& body": {
             "background": "unset"
         },

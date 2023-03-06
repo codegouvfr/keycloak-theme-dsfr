@@ -29,11 +29,11 @@ export const { kcContext } = getKcContext<{
             "realm": {
                 "loginWithEmailAllowed": true,
                 "registrationEmailAsUsername": true
-            },
-            "message": {
+            }
+            /*            "message": {
                 "summary": "Ca a foiré",
                 "type": "error"
-            }
+            }*/
         },
         {
             "pageId": "register-user-profile.ftl",
