@@ -5,6 +5,7 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import { exclude } from "tsafe/exclude";
 import { createSelector } from "@reduxjs/toolkit";
+import type { SillApiClient } from "../ports/SillApiClient";
 
 export type State = State.NotReady | State.Ready;
 
@@ -17,6 +18,7 @@ export namespace State {
     export type Ready = {
         stateDescription: "ready";
         softwareName: string;
+        logoUrl: string | undefined;
         users: SoftwareUser[];
         referents: SoftwareReferent[];
     };
@@ -25,7 +27,7 @@ export namespace State {
         organization: string;
         usecaseDescription: string;
         /** NOTE: undefined if the software is not of type desktop */
-        os: "windows" | "linux" | "mac" | undefined;
+        os: SillApiClient.Os | undefined;
         version: string;
         /** NOTE: Defined only when software is cloud */
         serviceUrl: string | undefined;
@@ -66,11 +68,12 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
+                logoUrl: string | undefined;
                 users: State.SoftwareUser[];
                 referents: State.SoftwareReferent[];
             }>
         ) => {
-            const { users, referents } = payload;
+            const { logoUrl, users, referents } = payload;
 
             assert(state.stateDescription === "not ready");
 
@@ -81,6 +84,7 @@ export const { reducer, actions } = createSlice({
             return {
                 "stateDescription": "ready",
                 softwareName,
+                logoUrl,
                 users,
                 referents
             };
@@ -166,8 +170,15 @@ export const thunks = {
                 }
             }
 
+            const software = (await sillApiClient.getSoftwares()).find(
+                software => software.softwareName === softwareName
+            );
+
+            assert(software !== undefined);
+
             dispatch(
                 actions.setSoftwareCompleted({
+                    "logoUrl": software.logoUrl,
                     users,
                     referents
                 })
@@ -186,8 +197,10 @@ export const selectors = (() => {
         return state;
     };
 
+    const isReady = createSelector(readyState, readyState => readyState !== undefined);
+    const logoUrl = createSelector(readyState, readyState => readyState?.logoUrl);
     const users = createSelector(readyState, readyState => readyState?.users);
     const referents = createSelector(readyState, readyState => readyState?.referents);
 
-    return { users, referents };
+    return { isReady, logoUrl, users, referents };
 })();
