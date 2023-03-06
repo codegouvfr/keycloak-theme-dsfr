@@ -117,8 +117,8 @@ export namespace SillApiClient {
     };
 
     export type Agent = {
-        agentId: string;
         //NOTE: Undefined if the agent isn't referent of at least one software
+        // If it's the user the email is never undefined.
         email: string | undefined;
         organization: string;
         declarations: (DeclarationFormData & { softwareName: string })[];
