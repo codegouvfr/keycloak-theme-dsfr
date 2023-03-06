@@ -271,7 +271,7 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "library"
+            "type": "stack"
         },
         "testUrl": undefined,
         "addedTime": 1674739365178,
@@ -520,7 +520,7 @@ const softwares = [
         "updateTime": 1674739365178,
         "categories": ["cloud"],
         "softwareType": {
-            "type": "library"
+            "type": "stack"
         },
         "prerogatives": {
             "doRespectRgaa": false,
@@ -677,8 +677,6 @@ export function createMockSillApiClient(): SillApiClient {
             };
 
             softwares.push(software);
-
-            return software;
         },
         "updateSoftware": async ({ formData, softwareSillId }) => {
             const index = softwares.findIndex(
@@ -723,8 +721,6 @@ export function createMockSillApiClient(): SillApiClient {
                     "users": []
                 })
             };
-
-            return softwares[index];
         },
         "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({
             wikidataId

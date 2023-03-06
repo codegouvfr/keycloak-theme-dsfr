@@ -25,11 +25,11 @@ export type SillApiClient = {
     }) => Promise<SillApiClient.WikidataEntry[]>;
     createSoftware: (params: {
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<SillApiClient.Software>;
+    }) => Promise<void>;
     updateSoftware: (params: {
         softwareSillId: number;
         formData: SillApiClient.SoftwareFormData;
-    }) => Promise<SillApiClient.Software>;
+    }) => Promise<void>;
     createUserOrReferent: (params: {
         formData: SillApiClient.DeclarationFormData;
     }) => Promise<void>;
@@ -136,7 +136,7 @@ export namespace SillApiClient {
     export type SoftwareType =
         | SoftwareType.Desktop
         | SoftwareType.CloudNative
-        | SoftwareType.Library;
+        | SoftwareType.Stack;
 
     export namespace SoftwareType {
         export type Desktop = {
@@ -148,8 +148,8 @@ export namespace SillApiClient {
             type: "cloud";
         };
 
-        export type Library = {
-            type: "library";
+        export type Stack = {
+            type: "stack";
         };
     }
 

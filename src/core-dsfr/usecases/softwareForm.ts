@@ -11,7 +11,7 @@ type SoftwareFormState = SoftwareFormState.NotInitialized | SoftwareFormState.Re
 
 namespace SoftwareFormState {
     export type NotInitialized = {
-        stateDescription: "not initialized";
+        stateDescription: "not ready";
         isInitializing: boolean;
     };
 
@@ -54,7 +54,7 @@ export const name = "softwareForm" as const;
 export const { reducer, actions } = createSlice({
     name,
     "initialState": id<SoftwareFormState>({
-        "stateDescription": "not initialized",
+        "stateDescription": "not ready",
         "isInitializing": false
     }),
     "reducers": {
@@ -86,7 +86,7 @@ export const { reducer, actions } = createSlice({
             };
         },
         "initializationStarted": state => {
-            assert(state.stateDescription === "not initialized");
+            assert(state.stateDescription === "not ready");
             state.isInitializing = true;
         },
         "step1DataSet": (
@@ -149,15 +149,18 @@ export const { reducer, actions } = createSlice({
                 //NOTE: To be registered by SoftwareCatalog
                 payload: _payload
             }: PayloadAction<{
-                type: "create" | "update";
-                apiSoftware: SillApiClient.Software;
+                softwareName: string;
             }>
         ) => {
             return {
-                "stateDescription": "not initialized",
+                "stateDescription": "not ready",
                 "isInitializing": false
             };
-        }
+        },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": false
+        })
     }
 });
 
@@ -169,10 +172,17 @@ export const thunks = {
 
             const [dispatch, getState, { sillApiClient }] = args;
 
-            const state = getState()[name];
+            {
+                const state = getState()[name];
 
-            if (state.stateDescription === "ready" || state.isInitializing) {
-                return;
+                assert(
+                    state.stateDescription === "not ready",
+                    "The clear function should have been called"
+                );
+
+                if (state.isInitializing) {
+                    return;
+                }
             }
 
             if (softwareName === undefined) {
@@ -215,6 +225,21 @@ export const thunks = {
                     }
                 })
             );
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState()[name];
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         },
     "setStep1Data":
         (props: { formDataStep1: FormData["step1"] }): ThunkAction<void> =>
@@ -267,26 +292,20 @@ export const thunks = {
                 ...formDataStep4
             };
 
-            const [type, apiSoftware] =
-                state.softwareSillId !== undefined
-                    ? ([
-                          "update",
-                          await sillApiClient.updateSoftware({
-                              "softwareSillId": state.softwareSillId,
-                              formData
-                          })
-                      ] as const)
-                    : ([
-                          "create",
-                          await sillApiClient.createSoftware({
-                              formData
-                          })
-                      ] as const);
+            await (state.softwareSillId !== undefined
+                ? sillApiClient.updateSoftware({
+                      "softwareSillId": state.softwareSillId,
+                      formData
+                  })
+                : sillApiClient.createSoftware({
+                      formData
+                  }));
+
+            sillApiClient.getSoftwares.clear();
 
             dispatch(
                 actions.formSubmitted({
-                    type,
-                    apiSoftware
+                    "softwareName": step2.softwareName
                 })
             );
         },
@@ -332,7 +351,7 @@ export const selectors = (() => {
     const readyState = (rootState: RootState) => {
         const state = rootState[name];
 
-        if (state.stateDescription === "not initialized") {
+        if (state.stateDescription !== "ready") {
             return undefined;
         }
 
@@ -359,7 +378,7 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
             ? [
                   {
                       "action": "redirect" as const,
-                      "softwareName": action.payload.apiSoftware.softwareName
+                      "softwareName": action.payload.softwareName
                   }
               ]
             : null

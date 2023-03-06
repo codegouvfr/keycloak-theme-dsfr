@@ -50,6 +50,7 @@ export function DeclarationForm(props: Props) {
 
     useEffect(() => {
         declarationForm.initialize({ "softwareName": route.params.name });
+        return () => declarationForm.clear();
     }, [route.name]);
 
     useEvt(

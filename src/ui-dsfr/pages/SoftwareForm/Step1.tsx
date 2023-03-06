@@ -27,7 +27,7 @@ export function SoftwareFormStep1(props: Step1Props) {
         formState: { errors },
         watch
     } = useForm<{
-        softwareType: "cloud" | "library" | "desktop";
+        softwareType: "cloud" | "stack" | "desktop";
         osCheckboxValues: string[] | undefined;
     }>({
         "defaultValues": (() => {
@@ -114,7 +114,7 @@ export function SoftwareFormStep1(props: Step1Props) {
                         "hintText": t("module hint"),
                         "nativeInputProps": {
                             ...register("softwareType", { "required": true }),
-                            "value": "library"
+                            "value": "stack"
                         }
                     }
                 ]}

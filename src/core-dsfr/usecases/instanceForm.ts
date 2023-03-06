@@ -13,7 +13,7 @@ type State = State.NotInitialized | State.Ready;
 
 namespace State {
     export type NotInitialized = {
-        stateDescription: "not initialized";
+        stateDescription: "not ready";
         isInitializing: boolean;
     };
 
@@ -57,15 +57,15 @@ export const name = "instanceForm" as const;
 export const { reducer, actions } = createSlice({
     name,
     "initialState": id<State>({
-        "stateDescription": "not initialized",
+        "stateDescription": "not ready",
         "isInitializing": false
     }),
     "reducers": {
         "initializationStarted": state => {
-            assert(state.stateDescription === "not initialized");
+            assert(state.stateDescription === "not ready");
             state.isInitializing = true;
         },
-        "initialized": (
+        "initializationCompleted": (
             _state,
             {
                 payload
@@ -89,6 +89,10 @@ export const { reducer, actions } = createSlice({
                 allSillSoftwares
             };
         },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": false
+        }),
         "step1Completed": (
             state,
             {
@@ -120,7 +124,7 @@ export const { reducer, actions } = createSlice({
                 instanceId: number;
             }>
         ) => ({
-            "stateDescription": "not initialized",
+            "stateDescription": "not ready",
             "isInitializing": false
         })
     }
@@ -143,10 +147,17 @@ export const thunks = {
             const [dispatch, getState, { sillApiClient, userApiClient, oidcClient }] =
                 args;
 
-            const state = getState()[name];
+            {
+                const state = getState()[name];
 
-            if (state.stateDescription === "ready" || state.isInitializing) {
-                return;
+                assert(
+                    state.stateDescription === "not ready",
+                    "The clear function should have been called"
+                );
+
+                if (state.isInitializing) {
+                    return;
+                }
             }
 
             dispatch(actions.initializationStarted());
@@ -170,7 +181,7 @@ export const thunks = {
                     assert(instance !== undefined);
 
                     dispatch(
-                        actions.initialized({
+                        actions.initializationCompleted({
                             allSillSoftwares,
                             "preFillData": {
                                 "type": "update",
@@ -199,7 +210,7 @@ export const thunks = {
                     const user = await userApiClient.getUser();
 
                     dispatch(
-                        actions.initialized({
+                        actions.initializationCompleted({
                             allSillSoftwares,
                             "preFillData":
                                 software === undefined
@@ -215,6 +226,21 @@ export const thunks = {
 
                     break;
             }
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState()[name];
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         },
     "completeStep1":
         (props: {
@@ -296,7 +322,7 @@ export const selectors = (() => {
     const readyState = (rootState: RootState) => {
         const state = rootState[name];
 
-        if (state.stateDescription === "not initialized") {
+        if (state.stateDescription === "not ready") {
             return undefined;
         }
 

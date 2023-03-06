@@ -103,8 +103,8 @@ export async function createCore(params: {
     });
 
     await Promise.all([
-        core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
         core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
+        core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
         core.dispatch(usecases.softwareCatalog.privateThunks.initialize())
     ]);
 

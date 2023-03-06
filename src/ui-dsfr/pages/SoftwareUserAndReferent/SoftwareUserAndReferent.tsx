@@ -10,6 +10,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui-dsfr/i18n";
 import { ActionsFooter } from "ui-dsfr/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
+import { assert } from "tsafe/assert";
 
 SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
 
@@ -25,17 +26,22 @@ export type Props = {
 export function SoftwareUserAndReferent(props: Props) {
     const { route } = props;
 
-    const { softwareDetails } = useCoreFunctions();
+    const { softwareDetails, softwareUserAndReferent } = useCoreFunctions();
 
     useEffect(() => {
-        softwareDetails.setSoftware({
+        softwareUserAndReferent.initialize({ "softwareName": route.params.name });
+
+        return () => {
+            softwareUserAndReferent.clear();
+        };
+    }, [route.params.name]);
+
+    useEffect(() => {
+        softwareDetails.initialize({
             "softwareName": route.params.name
         });
 
-        return () =>
-            softwareDetails.setSoftware({
-                "softwareName": undefined
-            });
+        return () => softwareDetails.clear();
     }, [route.params.name]);
 
     const { classes, cx } = useStyles();
@@ -45,7 +51,19 @@ export function SoftwareUserAndReferent(props: Props) {
 
     const [activeMenu, setActiveMenu] = useState(0);
 
-    if (!software) {
+    const { isReady } = useCoreState(selectors.softwareUserAndReferent.isReady);
+    const { users } = useCoreState(selectors.softwareUserAndReferent.users);
+    const { referents } = useCoreState(selectors.softwareUserAndReferent.referents);
+    const { logoUrl } = useCoreState(selectors.softwareUserAndReferent.logoUrl);
+
+    if (!isReady) {
+        return null;
+    }
+
+    assert(users !== undefined);
+    assert(referents !== undefined);
+
+    if (software === undefined) {
         return null;
     }
 
@@ -141,7 +159,7 @@ export function SoftwareUserAndReferent(props: Props) {
                                         const ariaCurrent =
                                             tab.id === activeMenu
                                                 ? {
-                                                      "aria-current": "step" as "step"
+                                                      "aria-current": "step" as const
                                                   }
                                                 : {
                                                       "aria-current": undefined

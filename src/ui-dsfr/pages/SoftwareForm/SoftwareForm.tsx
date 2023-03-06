@@ -56,6 +56,7 @@ export function SoftwareForm(props: Props) {
             "softwareName":
                 route.name === "softwareUpdateForm" ? route.params.name : undefined
         });
+        return () => softwareForm.clear();
     }, [route.name]);
 
     useEvt(

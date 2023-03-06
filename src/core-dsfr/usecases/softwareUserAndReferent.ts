@@ -5,18 +5,20 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import { exclude } from "tsafe/exclude";
 import { createSelector } from "@reduxjs/toolkit";
+import type { SillApiClient } from "../ports/SillApiClient";
 
 export type State = State.NotReady | State.Ready;
 
 export namespace State {
     export type NotReady = {
         stateDescription: "not ready";
-        currentlyInitializingForSoftwareName: string | undefined;
+        isInitializing: boolean;
     };
 
     export type Ready = {
         stateDescription: "ready";
         softwareName: string;
+        logoUrl: string | undefined;
         users: SoftwareUser[];
         referents: SoftwareReferent[];
     };
@@ -25,7 +27,7 @@ export namespace State {
         organization: string;
         usecaseDescription: string;
         /** NOTE: undefined if the software is not of type desktop */
-        os: "windows" | "linux" | "mac" | undefined;
+        os: SillApiClient.Os | undefined;
         version: string;
         /** NOTE: Defined only when software is cloud */
         serviceUrl: string | undefined;
@@ -47,49 +49,43 @@ export const { reducer, actions } = createSlice({
     name,
     "initialState": id<State>({
         "stateDescription": "not ready",
-        "currentlyInitializingForSoftwareName": undefined
+        "isInitializing": false
     }),
     "reducers": {
-        "setSoftwareStart": (
+        "initializationStarted": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": true
+        }),
+        "initializationCompleted": (
             _state,
-            { payload }: PayloadAction<{ softwareName: string }>
-        ) => {
-            const { softwareName } = payload;
-
-            return {
-                "stateDescription": "not ready",
-                "currentlyInitializingForSoftwareName": softwareName
-            };
-        },
-        "setSoftwareCompleted": (
-            state,
             {
                 payload
             }: PayloadAction<{
+                softwareName: string;
+                logoUrl: string | undefined;
                 users: State.SoftwareUser[];
                 referents: State.SoftwareReferent[];
             }>
         ) => {
-            const { users, referents } = payload;
-
-            assert(state.stateDescription === "not ready");
-
-            const softwareName = state.currentlyInitializingForSoftwareName;
-
-            assert(softwareName !== undefined);
+            const { softwareName, logoUrl, users, referents } = payload;
 
             return {
                 "stateDescription": "ready",
                 softwareName,
+                logoUrl,
                 users,
                 referents
             };
-        }
+        },
+        "cleared": () => ({
+            "stateDescription": "not ready" as const,
+            "isInitializing": false
+        })
     }
 });
 
 export const thunks = {
-    "setSoftware":
+    "initialize":
         (params: { softwareName: string }): ThunkAction<void> =>
         async (...args) => {
             const { softwareName } = params;
@@ -97,17 +93,14 @@ export const thunks = {
             const [dispatch, getState, { sillApiClient }] = args;
 
             {
-                const state = getState().softwareUserAndReferent;
+                const state = getState()[name];
 
-                if (
-                    state.stateDescription === "not ready" &&
-                    state.currentlyInitializingForSoftwareName === softwareName
-                ) {
+                if (state.stateDescription === "not ready" && state.isInitializing) {
                     return;
                 }
             }
 
-            dispatch(actions.setSoftwareStart({ softwareName }));
+            dispatch(actions.initializationStarted());
 
             const agents = await sillApiClient.getAgents();
 
@@ -166,12 +159,35 @@ export const thunks = {
                 }
             }
 
+            const software = (await sillApiClient.getSoftwares()).find(
+                software => software.softwareName === softwareName
+            );
+
+            assert(software !== undefined);
+
             dispatch(
-                actions.setSoftwareCompleted({
+                actions.initializationCompleted({
+                    softwareName,
+                    "logoUrl": software.logoUrl,
                     users,
                     referents
                 })
             );
+        },
+    "clear":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch, getState] = args;
+
+            {
+                const state = getState()[name];
+
+                if (state.stateDescription === "not ready") {
+                    return;
+                }
+            }
+
+            dispatch(actions.cleared());
         }
 };
 
@@ -186,8 +202,10 @@ export const selectors = (() => {
         return state;
     };
 
+    const isReady = createSelector(readyState, readyState => readyState !== undefined);
+    const logoUrl = createSelector(readyState, readyState => readyState?.logoUrl);
     const users = createSelector(readyState, readyState => readyState?.users);
     const referents = createSelector(readyState, readyState => readyState?.referents);
 
-    return { users, referents };
+    return { isReady, logoUrl, users, referents };
 })();

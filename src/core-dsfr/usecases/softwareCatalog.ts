@@ -17,7 +17,6 @@ import { exclude } from "tsafe/exclude";
 
 export type State = {
     softwares: State.Software.Internal[];
-
     search: string;
     sort: State.Sort | undefined;
     /** Used in organizations: E.g: DINUM */
@@ -38,7 +37,7 @@ export namespace State {
         | "user count ASC"
         | "referent count ASC";
 
-    export type Environment = "linux" | "windows" | "mac" | "browser" | "library";
+    export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
     export type Prerogative =
         | "isPresentInSupportContract"
@@ -90,12 +89,14 @@ export namespace State {
 
 export const name = "softwareCatalog" as const;
 
-export type ChangeValueParams<K extends ChangeValueParams.Key = ChangeValueParams.Key> = {
+export type UpdateFilterParams<
+    K extends UpdateFilterParams.Key = UpdateFilterParams.Key
+> = {
     key: K;
     value: State[K];
 };
 
-export namespace ChangeValueParams {
+export namespace UpdateFilterParams {
     export type Key = keyof Omit<State, "softwares">;
 }
 
@@ -120,29 +121,7 @@ export const { reducer, actions } = createSlice({
                 "prerogatives": []
             };
         },
-        "softwareAdded": (
-            state,
-            { payload }: PayloadAction<{ software: State.Software.Internal }>
-        ) => {
-            const { software } = payload;
-
-            state.softwares.push(software);
-        },
-        "softwareUpdated": (
-            state,
-            { payload }: PayloadAction<{ software: State.Software.Internal }>
-        ) => {
-            const { software } = payload;
-
-            const index = state.softwares.findIndex(
-                ({ softwareName }) => softwareName === software.softwareName
-            );
-
-            assert(index !== -1);
-
-            state.softwares[index] = software;
-        },
-        "valueUpdated": (state, { payload }: PayloadAction<ChangeValueParams>) => {
+        "filterUpdated": (state, { payload }: PayloadAction<UpdateFilterParams>) => {
             const { key, value } = payload;
 
             (state as any)[key] = value;
@@ -152,12 +131,12 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "updateFilter":
-        <K extends ChangeValueParams.Key>(
-            params: ChangeValueParams<K>
+        <K extends UpdateFilterParams.Key>(
+            params: UpdateFilterParams<K>
         ): ThunkAction<void> =>
         (...args) => {
             const [dispatch] = args;
-            dispatch(actions.valueUpdated(params));
+            dispatch(actions.filterUpdated(params));
         }
 };
 
@@ -167,66 +146,35 @@ export const privateThunks = {
         async (...args) => {
             const [dispatch, , { sillApiClient, evtAction }] = args;
 
-            const apiSoftwares = await sillApiClient.getSoftwares();
+            const initialize = async () => {
+                const apiSoftwares = await sillApiClient.getSoftwares();
 
-            const softwares = apiSoftwares.map(({ softwareName }) => {
-                const software = apiSoftwareToInternalSoftware({
-                    apiSoftwares,
-                    "softwareRef": {
-                        "type": "name",
-                        softwareName
-                    }
-                });
-
-                assert(software !== undefined);
-
-                return software;
-            });
-
-            dispatch(actions.initialized({ softwares }));
-
-            evtAction.$attach(
-                action =>
-                    action.sliceName === "softwareForm" &&
-                    action.actionName === "formSubmitted"
-                        ? [action.payload]
-                        : null,
-                ({ type, apiSoftware }) => {
-                    switch (type) {
-                        case "create":
-                            apiSoftwares.push(apiSoftware);
-                            break;
-                        case "update":
-                            {
-                                const index = apiSoftwares.findIndex(
-                                    ({ softwareId }) =>
-                                        softwareId === apiSoftware.softwareId
-                                );
-                                assert(index !== -1);
-                                apiSoftwares[index] = apiSoftware;
-                            }
-                            break;
-                    }
-
+                const softwares = apiSoftwares.map(({ softwareName }) => {
                     const software = apiSoftwareToInternalSoftware({
                         apiSoftwares,
                         "softwareRef": {
                             "type": "name",
-                            "softwareName": apiSoftware.softwareName
+                            softwareName
                         }
                     });
 
                     assert(software !== undefined);
 
-                    switch (type) {
-                        case "create":
-                            dispatch(actions.softwareAdded({ software }));
-                            break;
-                        case "update":
-                            dispatch(actions.softwareUpdated({ software }));
-                            break;
-                    }
-                }
+                    return software;
+                });
+
+                dispatch(actions.initialized({ softwares }));
+            };
+
+            initialize();
+
+            evtAction.attach(
+                action =>
+                    (action.sliceName === "softwareForm" &&
+                        action.actionName === "formSubmitted") ||
+                    (action.sliceName === "declarationForm" &&
+                        action.actionName === "formSubmitted"),
+                () => initialize()
             );
         }
 };
@@ -308,8 +256,8 @@ export const selectors = (() => {
                     );
                 case "browser":
                     return softwareType.type === "cloud";
-                case "library":
-                    return softwareType.type === "library";
+                case "stack":
+                    return softwareType.type === "stack";
             }
         });
     }
@@ -593,8 +541,8 @@ export const selectors = (() => {
                                 switch (softwareType.type) {
                                     case "cloud":
                                         return ["browser"];
-                                    case "library":
-                                        return ["library" as const];
+                                    case "stack":
+                                        return ["stack" as const];
                                     case "desktop":
                                         return objectKeys(softwareType.os).filter(
                                             os => softwareType.os[os]
@@ -645,10 +593,10 @@ export const selectors = (() => {
                             softwareCountInCurrentFilterByEnvironment.get("browser")! + 1
                         );
                         break;
-                    case "library":
+                    case "stack":
                         softwareCountInCurrentFilterByEnvironment.set(
-                            "library",
-                            softwareCountInCurrentFilterByEnvironment.get("library")! + 1
+                            "stack",
+                            softwareCountInCurrentFilterByEnvironment.get("stack")! + 1
                         );
                         break;
                     case "desktop":

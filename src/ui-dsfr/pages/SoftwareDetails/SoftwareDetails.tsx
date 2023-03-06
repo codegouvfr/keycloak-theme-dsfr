@@ -41,14 +41,11 @@ export function SoftwareDetails(props: Props) {
     const { software } = useCoreState(selectors.softwareDetails.software);
 
     useEffect(() => {
-        softwareDetails.setSoftware({
+        softwareDetails.initialize({
             "softwareName": route.params.name
         });
 
-        return () =>
-            softwareDetails.setSoftware({
-                "softwareName": undefined
-            });
+        return () => softwareDetails.clear();
     }, [route.params.name]);
 
     //TODO: Add fallback if no software
