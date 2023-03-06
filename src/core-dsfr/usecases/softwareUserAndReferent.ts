@@ -205,6 +205,21 @@ export const thunks = {
         }
 };
 
+export const privateThunks = {
+    "initialize":
+        (): ThunkAction =>
+        async (...args) => {
+            const [, , { evtAction, sillApiClient }] = args;
+
+            evtAction.attach(
+                action =>
+                    action.sliceName === "declarationForm" &&
+                    action.actionName === "formSubmitted",
+                () => sillApiClient.getAgents.clear()
+            );
+        }
+};
+
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
         const state = rootState[name];
