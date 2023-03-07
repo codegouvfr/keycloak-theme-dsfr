@@ -188,7 +188,7 @@ export namespace SillApiClient {
             declarationType: "user";
             usecaseDescription: string;
             /** NOTE: undefined if the software is not of type desktop */
-            os: "windows" | "linux" | "mac" | undefined;
+            os: Os | undefined;
             version: string;
             /** NOTE: Defined only when software is cloud */
             serviceUrl: string | undefined;
