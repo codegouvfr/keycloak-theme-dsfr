@@ -8,7 +8,6 @@ import { createGroup, Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
 
 AddSoftwareLanding.routeGroup = createGroup([routes.addSoftwareLanding]);
@@ -83,9 +82,12 @@ export function AddSoftwareLanding(props: Props) {
                             >
                                 {commoni18n.t("add software")}
                             </a>
-                            <Button priority="secondary">
+                            <a
+                                {...routes.instanceCreationForm().link}
+                                className={fr.cx("fr-btn", "fr-btn--secondary")}
+                            >
                                 {commoni18n.t("add instance")}
-                            </Button>
+                            </a>
                         </div>
                     </div>
 

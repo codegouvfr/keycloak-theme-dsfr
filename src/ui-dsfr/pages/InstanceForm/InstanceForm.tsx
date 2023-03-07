@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { createGroup, type Route } from "type-route";
-import { routes } from "ui-dsfr/routes";
+import { routes, session } from "ui-dsfr/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { InstanceFormStep1 } from "./Step1";
 import { InstanceFormStep2 } from "./Step2";
@@ -85,7 +85,8 @@ export function InstanceForm(props: Props) {
         []
     );
 
-    const { classes } = useStyles({ step });
+    const { classes, cx } = useStyles({ step });
+    const { t } = useTranslation({ InstanceForm });
     const commoni18n = useTranslation({ "App": null });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
@@ -112,28 +113,42 @@ export function InstanceForm(props: Props) {
                     currentPageLabel={(() => {
                         switch (route.name) {
                             case "instanceCreationForm":
-                                return "reference new instance";
+                                return t("breadcrumb add instance");
                             case "instanceUpdateForm":
-                                return "update instance";
+                                return t("breadcrumb update instance");
                         }
                     })()}
                     className={classes.breadcrumb}
                 />
+                <div className={classes.headerDeclareUserOrReferent}>
+                    <a
+                        href={"#"}
+                        onClick={() => {
+                            session.back();
+                        }}
+                        className={classes.backButton}
+                    >
+                        <i className={fr.cx("fr-icon-arrow-left-s-line")} />
+                    </a>
+                    <h4 className={classes.title}>
+                        {(() => {
+                            switch (route.name) {
+                                case "instanceCreationForm":
+                                    return t("title add instance form");
+                                case "instanceUpdateForm":
+                                    return t("title update instance form");
+                            }
+                        })()}
+                    </h4>
+                </div>
                 <Stepper
                     currentStep={step}
                     stepCount={2}
-                    title={(() => {
-                        switch (step) {
-                            case 1:
-                                return "A propos du ou des logiciels";
-                            case 2:
-                                return "Ajouter une instance logiciel";
-                        }
-                    })()}
+                    title={t("stepper title", { "currentStepIndex": step })}
                     className={classes.stepper}
                 />
                 <InstanceFormStep1
-                    className={classes.step1}
+                    className={cx(classes.step, classes.step1)}
                     initialFormData={{
                         "mainSoftwareSillId": initializationData.mainSoftwareSillId,
                         "otherSoftwares": initializationData.otherSoftwares
@@ -149,7 +164,7 @@ export function InstanceForm(props: Props) {
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 1)}
                 />
                 <InstanceFormStep2
-                    className={classes.step2}
+                    className={cx(classes.step, classes.step2)}
                     initialFormData={{
                         "organization": initializationData.organization,
                         "publicUrl": initializationData.publicUrl,
@@ -198,14 +213,41 @@ export function InstanceForm(props: Props) {
 const useStyles = makeStyles<{ step: number | undefined }>({
     "name": { InstanceForm }
 })((_theme, { step }) => ({
+    "step": {
+        "flexDirection": "column",
+        "gap": fr.spacing("8v")
+    },
     "step1": {
-        "display": step !== 1 ? "none" : undefined
+        "display": step !== 1 ? "none" : "flex"
     },
     "step2": {
-        "display": step !== 2 ? "none" : undefined
+        "display": step !== 2 ? "none" : "flex",
+        "& .fr-input-group, & .fr-fieldset": {
+            ...fr.spacing("margin", {
+                "topBottom": 0
+            })
+        }
     },
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
+    },
+    "headerDeclareUserOrReferent": {
+        "display": "flex",
+        "alignItems": "center",
+        "marginBottom": fr.spacing("10v")
+    },
+    "backButton": {
+        "background": "none",
+        "marginRight": fr.spacing("4v"),
+
+        "&>i": {
+            "&::before": {
+                "--icon-size": fr.spacing("8v")
+            }
+        }
+    },
+    "title": {
+        "marginBottom": fr.spacing("1v")
     },
     "stepper": {
         "flex": "1"
@@ -227,7 +269,11 @@ const useStyles = makeStyles<{ step: number | undefined }>({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "title software update form"
+    | "breadcrumb add instance"
+    | "breadcrumb update instance"
+    | "title add instance form"
+    | "title add instance form"
+    | "title update instance form"
     | { K: "stepper title"; P: { currentStepIndex: number } }
     | "submit"
 >()({ InstanceForm });

@@ -47,6 +47,9 @@ const {
     | typeof import("ui-dsfr/pages/SoftwareForm/Step2").i18n
     | typeof import("ui-dsfr/pages/SoftwareForm/Step3").i18n
     | typeof import("ui-dsfr/pages/SoftwareForm/Step4").i18n
+    | typeof import("ui-dsfr/pages/InstanceForm/InstanceForm").i18n
+    | typeof import("ui-dsfr/pages/InstanceForm/Step1").i18n
+    | typeof import("ui-dsfr/pages/InstanceForm/Step2").i18n
     | typeof import("ui-dsfr/pages/Account/Account").i18n
     | typeof import("ui-dsfr/shared/Header").i18n
     | typeof import("ui-dsfr/shared/Footer").i18n
@@ -66,7 +69,9 @@ const {
                 "invalid url": 'Invalid url. It must start with "http"',
                 "invalid version": "The value must be numeric (Eg: 2.0.1)",
                 "all": "All",
-                "allFeminine": "All"
+                "allFeminine": "All",
+                "loading": "Loading...",
+                "no result": "No result"
             },
             "Homepage": {
                 "title": (
@@ -198,6 +203,41 @@ const {
                 "similar software": "This software is an alternative to ...",
                 "similar software hint":
                     "Associate the software with similar software, proprietary or not"
+            },
+            "InstanceForm": {
+                "breadcrumb add instance": "Add instance",
+                "breadcrumb update instance": "Update instance",
+                "title add instance form": "Add software instance",
+                "title update instance form": "Update software instance",
+                "stepper title": ({ currentStepIndex }) => {
+                    switch (currentStepIndex) {
+                        case 1:
+                            return "About the instantiated software";
+                        case 2:
+                            return "About the instance";
+                        default:
+                            return "";
+                    }
+                },
+                "submit": "Add instance"
+            },
+            "InstanceFormStep1": {
+                "software instance":
+                    "What is the primary software used and deployed by your instance?",
+                "other software": "Are there other software mobilized by your instance?"
+            },
+            "InstanceFormStep2": {
+                "is in public access label": "Is your instance publicly accessible?*",
+                "is in public access hint": "*Within the public service",
+                "instance url label": "If so, what is the URL of the instance ?",
+                "instance url hint":
+                    "In order to offer quick access to the service offered",
+                "organization label": "Which organization is involved?",
+                "organization hint":
+                    "What is the state organization that maintains this instance?",
+                "targeted public label": "Who is the target audience?",
+                "targeted public hint":
+                    "Describe in a few words to whom the service offer is proposed"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -394,7 +434,9 @@ const {
                 "invalid url": 'URL invalide. Elle doit commencer par "http"',
                 "invalid version": "La valeur doit être numérique (Exemple : 2.0.1)",
                 "all": "Tous",
-                "allFeminine": "Toutes"
+                "allFeminine": "Toutes",
+                "loading": "Chargement...",
+                "no result": "Aucun résultat"
             },
             "Homepage": {
                 "title": (
@@ -530,6 +572,43 @@ const {
                 "similar software": "Ce logiciel est une alternative à ...",
                 "similar software hint":
                     "Associez le logiciel à des logiciel similaire, propriétaire ou non"
+            },
+            "InstanceForm": {
+                "breadcrumb add instance": "Ajouter une instance",
+                "breadcrumb update instance": "Mettre à jour une instance",
+                "title add instance form": "Ajouter une instance de logiciel",
+                "title update instance form": "Mettre à jour une instance de logiciel",
+                "stepper title": ({ currentStepIndex }) => {
+                    switch (currentStepIndex) {
+                        case 1:
+                            return "À propos du logiciel instancié";
+                        case 2:
+                            return "À propos de l'instance";
+                        default:
+                            return "";
+                    }
+                },
+                "submit": "Add instance"
+            },
+            "InstanceFormStep1": {
+                "software instance":
+                    "Quel est le logiciel principal utilisé et déployé par votre instance ?",
+                "other software":
+                    "Y a-t-il d'autres logiciels mobilisés par votre instance ?"
+            },
+            "InstanceFormStep2": {
+                "is in public access label":
+                    "Votre instance est-elle accessible publiquement ?",
+                "is in public access hint": "*Au sein du service public",
+                "instance url label": "Si oui, quel est l'URL de l'instance ?",
+                "instance url hint":
+                    "Afin de proposer un accès rapide au service proposé",
+                "organization label": "Quelle est l'organisation concernée ?",
+                "organization hint":
+                    "Quelle est l'organization étatique qui maintient cette instance ?",
+                "targeted public label": "Quel est le public concerné ?",
+                "targeted public hint":
+                    "Décrivez en quelques mots à qui l'offre de service est proposée"
             },
             "SoftwareCatalogCard": {
                 "last version": "Dernière version",

@@ -8,6 +8,8 @@ import { AutocompleteInput } from "ui-dsfr/shared/AutocompleteInput";
 import { SearchMultiInput } from "ui-dsfr/shared/SearchMultiInput";
 import type { useCoreFunctions } from "core-dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../i18n";
 
 export type Step1Props = {
     className?: string;
@@ -39,6 +41,9 @@ export function InstanceFormStep1(props: Step1Props) {
         getWikidataOptions,
         allSillSoftwares
     } = props;
+
+    const { t } = useTranslation({ InstanceFormStep1 });
+    const commoni18n = useTranslation({ "App": null });
 
     const {
         handleSubmit,
@@ -120,8 +125,7 @@ export function InstanceFormStep1(props: Step1Props) {
                         )}
                         noOptionText="No result"
                         dsfrInputProps={{
-                            "label":
-                                "Quel est le logiciel principal utilisé et déployé par votre instance?",
+                            "label": t("software instance"),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -129,7 +133,7 @@ export function InstanceFormStep1(props: Step1Props) {
                             },
                             "state":
                                 errors.mainSoftware === undefined ? undefined : "error",
-                            "stateRelatedMessage": "Field required"
+                            "stateRelatedMessage": commoni18n.t("required")
                         }}
                     />
                 )}
@@ -158,11 +162,10 @@ export function InstanceFormStep1(props: Step1Props) {
                                 </div>
                             </li>
                         )}
-                        noOptionText="No result"
-                        loadingText="Loading..."
+                        noOptionText={commoni18n.t("no result")}
+                        loadingText={commoni18n.t("loading")}
                         dsfrInputProps={{
-                            "label":
-                                "Il y a il d'autre logiciel mobilisé par votre instance",
+                            "label": t("other software"),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -181,3 +184,7 @@ export function InstanceFormStep1(props: Step1Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<"software instance" | "other software">()({
+    InstanceFormStep1
+});

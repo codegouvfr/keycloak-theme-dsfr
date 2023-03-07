@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { NonPostableEvt } from "evt";
 import { useEvt } from "evt/hooks";
-import { fr } from "@codegouvfr/react-dsfr";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import { Input } from "@codegouvfr/react-dsfr/Input";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "../../i18n";
 
 export type Step1Props = {
     className?: string;
@@ -51,6 +52,9 @@ export function InstanceFormStep2(props: Step1Props) {
     const [submitButtonElement, setSubmitButtonElement] =
         useState<HTMLButtonElement | null>(null);
 
+    const { t } = useTranslation({ InstanceFormStep2 });
+    const commoni18n = useTranslation({ "App": null });
+
     useEvt(
         ctx => {
             if (submitButtonElement === null) {
@@ -74,10 +78,11 @@ export function InstanceFormStep2(props: Step1Props) {
             )}
         >
             <RadioButtons
-                legend="Votre instance est-elle accessible publiquement* ?"
+                legend={t("is in public access label")}
+                hintText={t("is in public access hint")}
                 options={[
                     {
-                        "label": "Oui",
+                        "label": commoni18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isPublicInstanceInputValue", {
                                 "required": true
@@ -86,7 +91,7 @@ export function InstanceFormStep2(props: Step1Props) {
                         }
                     },
                     {
-                        "label": "Non",
+                        "label": commoni18n.t("no"),
                         "nativeInputProps": {
                             ...register("isPublicInstanceInputValue", {
                                 "required": true
@@ -98,15 +103,12 @@ export function InstanceFormStep2(props: Step1Props) {
                 state={
                     errors.isPublicInstanceInputValue !== undefined ? "error" : undefined
                 }
-                stateRelatedMessage="This field is required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             {watch("isPublicInstanceInputValue") === "true" && (
                 <Input
-                    style={{
-                        "marginTop": fr.spacing("4v")
-                    }}
-                    label="Quel est l’URL de l’instance?"
-                    hintText="Afin de proposer un accès rapide au service proposé"
+                    label={t("instance url label")}
+                    hintText={t("instance url hint")}
                     nativeInputProps={{
                         ...register("publicUrl", {
                             "required": true,
@@ -115,34 +117,30 @@ export function InstanceFormStep2(props: Step1Props) {
                     }}
                     state={errors.publicUrl !== undefined ? "error" : undefined}
                     stateRelatedMessage={
-                        errors.publicUrl ? "Malformed" : "This field is required"
+                        errors.publicUrl
+                            ? commoni18n.t("invalid url")
+                            : commoni18n.t("required")
                     }
                 />
             )}
 
             <Input
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                label="Organization?"
-                hintText="Quelle est l'organization étatique qui maintien cette instance"
+                label={t("organization label")}
+                hintText={t("organization hint")}
                 nativeInputProps={{
                     ...register("organization", { "required": true })
                 }}
                 state={errors.organization !== undefined ? "error" : undefined}
-                stateRelatedMessage="This field is required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             <Input
-                style={{
-                    "marginTop": fr.spacing("4v")
-                }}
-                label="Quel est le public concerné?"
-                hintText="Décrivez en quelques mots à qui l’offre de service est proposé"
+                label={t("targeted public label")}
+                hintText={t("targeted public hint")}
                 nativeInputProps={{
                     ...register("targetAudience", { "required": true })
                 }}
                 state={errors.targetAudience !== undefined ? "error" : undefined}
-                stateRelatedMessage="This field is required"
+                stateRelatedMessage={commoni18n.t("required")}
             />
             <button
                 style={{ "display": "none" }}
@@ -152,3 +150,14 @@ export function InstanceFormStep2(props: Step1Props) {
         </form>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    | "is in public access label"
+    | "is in public access hint"
+    | "instance url label"
+    | "instance url hint"
+    | "organization label"
+    | "organization hint"
+    | "targeted public label"
+    | "targeted public hint"
+>()({ InstanceFormStep2 });

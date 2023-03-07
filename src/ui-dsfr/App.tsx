@@ -26,6 +26,7 @@ import {
 } from "ui-dsfr/keycloak-theme/valuesTransferredOverUrl";
 import { createCoreProvider } from "core-dsfr";
 import { getConfiguration } from "configuration-dsfr";
+import { InstanceForm } from "./pages/InstanceForm";
 
 const { CoreProvider } = createCoreProvider({
     "apiUrl": getConfiguration().apiUrl,
@@ -194,11 +195,24 @@ function Page(props: { route: ReturnType<typeof useRoute> }) {
     }
 
     {
+        const Page = InstanceForm;
+
+        if (Page.routeGroup.has(route)) {
+            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                return null;
+            }
+
+            return <Page route={route} />;
+        }
+    }
+
+    {
         const Page = Account;
 
         if (Page.routeGroup.has(route)) {
             if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                //userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
                 return null;
             }
 
@@ -264,4 +278,6 @@ export const { i18n } = declareComponentKeys<
     | "invalid version"
     | "all"
     | "allFeminine"
+    | "loading"
+    | "no result"
 >()({ "App": null });
