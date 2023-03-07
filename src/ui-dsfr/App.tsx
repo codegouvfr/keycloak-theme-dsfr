@@ -271,6 +271,7 @@ export const { i18n } = declareComponentKeys<
     | "previous"
     | "next"
     | "add software"
+    | "update software"
     | "add software or service"
     | "add instance"
     | "required"

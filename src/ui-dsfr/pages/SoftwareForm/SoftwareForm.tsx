@@ -81,7 +81,6 @@ export function SoftwareForm(props: Props) {
     }
 
     assert(step !== undefined);
-
     return (
         <div className={className}>
             <div className={fr.cx("fr-container")}>
@@ -94,7 +93,14 @@ export function SoftwareForm(props: Props) {
                             "label": commoni18n.t("add software or service")
                         }
                     ]}
-                    currentPageLabel={commoni18n.t("add software")}
+                    currentPageLabel={(() => {
+                        switch (route.name) {
+                            case "softwareCreationForm":
+                                return commoni18n.t("add software");
+                            case "softwareUpdateForm":
+                                return commoni18n.t("update software");
+                        }
+                    })()}
                     className={classes.breadcrumb}
                 />
                 <div className={classes.headerDeclareUserOrReferent}>

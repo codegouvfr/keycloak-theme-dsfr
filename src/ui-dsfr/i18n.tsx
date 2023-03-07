@@ -38,8 +38,6 @@ const {
     | typeof import("ui-dsfr/pages/DeclarationForm/Step2User").i18n
     | typeof import("ui-dsfr/pages/DeclarationForm/Step2Referent").i18n
     | typeof import("ui-dsfr/keycloak-theme/pages/Login").i18n
-    | typeof import("ui-dsfr/pages/Authentication/Authentication").i18n
-    | typeof import("ui-dsfr/pages/Authentication/Inputs").i18n
     | typeof import("ui-dsfr/pages/Homepage").i18n
     | typeof import("ui-dsfr/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
     | typeof import("ui-dsfr/pages/SoftwareForm/SoftwareForm").i18n
@@ -63,6 +61,7 @@ const {
                 "previous": "Previous",
                 "next": "Next",
                 "add software": "Add software",
+                "update software": "Update software",
                 "add software or service": "Add software or service",
                 "add instance": "Add instance",
                 "required": "This field is required",
@@ -332,9 +331,9 @@ const {
                 "tab user title": "Users",
                 "tab referent title": "Referents",
                 "category": "Category",
-                "softwareDetails": "Voir la fiche logiciel",
-                "declare user": "Se déclarer utilisateur",
-                "declare referent": "Se déclarer référent"
+                "softwareDetails": "See the software sheet",
+                "declare user": "Declare yourself as a user",
+                "declare referent": "Declare yourself as a referent"
             },
             "DeclarationForm": {
                 "catalog breadcrumb": "Software catalog",
@@ -366,22 +365,11 @@ const {
                     "More precisely, which service of the software do you declare yourself referent"
             },
             "Login": {
-                "connect": "Se connecter",
-                "back": "Retour",
-                "selfCredentials": "Ou utiliser vos identifiants",
-                "forget password": "Mot de passe oublié ?",
-                "no account": "Pas encore de compte ?",
-                "log with": "Identify with",
-                "franceConnect": "FranceConnect",
-                "what is franceConnect": "What is FranceConnect ?",
-                "what is franceConnect title": "What is FranceConnect - new window"
-            },
-            "Authentication": {
-                "connect": "Se connecter",
-                "back": "Retour",
-                "selfCredentials": "Ou utiliser vos identifiants",
-                "forget password": "Mot de passe oublié ?",
-                "no account": "Pas encore de compte ?",
+                "connect": "Log in",
+                "back": "Back",
+                "selfCredentials": "Or use your credentials",
+                "forget password": "Forgot your password ?",
+                "no account": "No account yet?",
                 "log with": "Identify with",
                 "franceConnect": "FranceConnect",
                 "what is franceConnect": "What is FranceConnect ?",
@@ -393,11 +381,6 @@ const {
                 "organization": "Name of the affiliated organization",
                 "update data": "Change account information (such as your password)",
                 "no organization": "No organization"
-            },
-            "Inputs": {
-                "email": "Votre email personnel",
-                "email hint": "Par exemple : nom@exemple.com",
-                "password": "Votre mot de passe"
             },
             "Header": {
                 "brand": "SILL",
@@ -428,6 +411,7 @@ const {
                 "previous": "Précedent",
                 "next": "Suivant",
                 "add software": "Ajouter un logiciel",
+                "update software": "Mettre à jour un logiciel",
                 "add software or service": "Ajouter un logiciel ou un service",
                 "add instance": "Ajouter une instance",
                 "required": "Ce champs est requis",
@@ -751,18 +735,6 @@ const {
                 "what is franceConnect title":
                     "Qu'est ce que FranceConnect - nouvelle fenêtre"
             },
-            "Authentication": {
-                "connect": "Se connecter",
-                "back": "Retour",
-                "selfCredentials": "Ou utilisez vos identifiants",
-                "forget password": "Mot de passe oublié ?",
-                "no account": "Pas encore de compte ?",
-                "log with": "S'identifier avec",
-                "franceConnect": "FranceConnect",
-                "what is franceConnect": "Qu'est-ce que FranceConnect ?",
-                "what is franceConnect title":
-                    "Qu'est ce que FranceConnect - nouvelle fenêtre"
-            },
             "Account": {
                 "title": "Mon compte",
                 "mail": "Adresse de courriel",
@@ -770,11 +742,6 @@ const {
                 "update data":
                     "Modifier les informations du compte (comme par exemple votre mot de passe)",
                 "no organization": "Aucune organisation"
-            },
-            "Inputs": {
-                "email": "Votre email personnel",
-                "email hint": "Par exemple : nom@exemple.com",
-                "password": "Votre mot de passe"
             },
             "Header": {
                 "brand": "SILL",
