@@ -20,7 +20,8 @@ export function useI18n(props: Props) {
                 "email": "Your personal email",
                 "email hint": "For example : name@example.com",
                 "password": "Your password",
-                "noAccount": "No account yet"
+                "noAccount": "No account yet",
+                "backToLogin": "Back to login"
             },
             "fr": {
                 /* spell-checker: disable */
@@ -36,7 +37,8 @@ export function useI18n(props: Props) {
                 "email": "Votre email personnel",
                 "email hint": "Par exemple : nom@exemple.com",
                 "password": "Votre mot de passe",
-                "noAccount": "Pas encore de compte"
+                "noAccount": "Pas encore de compte",
+                "backToLogin": "Retour à la connexion"
                 /* spell-checker: enable */
             }
         }

@@ -7,6 +7,7 @@ import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 
 const Login = lazy(() => import("./pages/Login"));
+const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"));
 
 export default function KcApp(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -40,6 +41,8 @@ export default function KcApp(props: { kcContext: KcContext }) {
                 switch (kcContext.pageId) {
                     case "login.ftl":
                         return <Login {...{ kcContext, ...pageProps }} />;
+                    case "register-user-profile.ftl":
+                        return <RegisterUserProfile {...{ kcContext, ...pageProps }} />;
                     default:
                         return <Fallback {...{ kcContext, ...pageProps }} />;
                 }

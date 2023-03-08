@@ -5,7 +5,7 @@ export const { kcContext } = getKcContext<{
     pageId: "register.ftl";
     authorizedMailDomains: string[];
 }>({
-    //"mockPageId": "login.ftl",
+    "mockPageId": "register-user-profile.ftl",
     /**
      * Customize the simulated kcContext that will let us
      * dev the page outside keycloak (with auto-reload)
