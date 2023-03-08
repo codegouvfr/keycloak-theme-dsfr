@@ -8,6 +8,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 
 const Login = lazy(() => import("./pages/Login"));
 const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"));
+const Terms = lazy(() => import("./pages/Terms"));
 
 export default function KcApp(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -43,6 +44,8 @@ export default function KcApp(props: { kcContext: KcContext }) {
                         return <Login {...{ kcContext, ...pageProps }} />;
                     case "register-user-profile.ftl":
                         return <RegisterUserProfile {...{ kcContext, ...pageProps }} />;
+                    case "terms.ftl":
+                        return <Terms {...{ kcContext, ...pageProps }} />;
                     default:
                         return <Fallback {...{ kcContext, ...pageProps }} />;
                 }
