@@ -62,21 +62,16 @@ export const privateThunks = {
                 );
             };
 
-            init();
-
             evtAction.attach(
                 action =>
                     (action.sliceName === "softwareForm" &&
                         action.actionName === "formSubmitted") ||
                     (action.sliceName === "declarationForm" &&
                         action.actionName === "formSubmitted"),
-                () => {
-                    sillApiClient.getSoftwares.clear();
-                    sillApiClient.getTotalReferentCount.clear();
-
-                    init();
-                }
+                () => init()
             );
+
+            await init();
         }
 };
 
