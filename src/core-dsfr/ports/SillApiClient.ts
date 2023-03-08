@@ -69,6 +69,14 @@ export type SillApiClient = {
         (): Promise<SillApiClient.Agent[]>;
         clear: () => void;
     };
+    getTotalReferentCount: {
+        (): Promise<number>;
+        clear: () => void;
+    };
+    getRegisteredUserCount: {
+        (): Promise<number>;
+        clear: () => void;
+    };
 };
 
 type CreateInstanceParam = {

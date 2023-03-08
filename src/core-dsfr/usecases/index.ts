@@ -6,6 +6,7 @@ import * as instanceForm from "./instanceForm";
 import * as userAuthentication from "./userAuthentication";
 import * as sillApiVersion from "./sillApiVersion";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
+import * as generalStats from "./generalStats";
 
 export const usecases = {
     softwareCatalog,
@@ -15,5 +16,6 @@ export const usecases = {
     instanceForm,
     userAuthentication,
     sillApiVersion,
-    softwareUserAndReferent
+    softwareUserAndReferent,
+    generalStats
 };

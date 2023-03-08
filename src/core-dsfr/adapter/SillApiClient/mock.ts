@@ -841,7 +841,9 @@ export function createMockSillApiClient(): SillApiClient {
         "getAllowedEmailRegexp": memoize(async () => "/gouv.fr$/", { "promise": true }),
         "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
             "promise": true
-        })
+        }),
+        "getTotalReferentCount": memoize(async () => 322, { "promise": true }),
+        "getRegisteredUserCount": memoize(async () => 500, { "promise": true })
     };
 }
 
