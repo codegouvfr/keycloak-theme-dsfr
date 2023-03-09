@@ -1,12 +1,17 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import type { KcProps } from "keycloakify/lib/KcProps";
 import type { Attribute } from "keycloakify/lib/getKcContext/KcContextBase";
 import { clsx } from "keycloakify/lib/tools/clsx";
 import { useCallbackFactory } from "keycloakify/lib/tools/useCallbackFactory";
 import { useFormValidationSlice } from "keycloakify/lib/useFormValidationSlice";
-import type { I18n } from "../../i18n";
+import type { I18n } from "ui-dsfr/keycloak-theme/i18n";
+import { Input } from "@codegouvfr/react-dsfr/Input";
+import { useTranslation } from "ui-dsfr/i18n";
+import { declareComponentKeys } from "i18nifty";
+import { AutocompleteInput } from "ui-dsfr/keycloak-theme/pages/shared/AutocompleteInput";
+import { fr } from "@codegouvfr/react-dsfr";
 
-export type UserProfileFormFieldsProps = {
+export type UserProfileCommonsProps = {
     kcContext: Parameters<typeof useFormValidationSlice>[0]["kcContext"];
     i18n: I18n;
 } & KcProps &
@@ -19,15 +24,19 @@ export type UserProfileFormFieldsProps = {
         onIsFormSubmittableValueChange: (isFormSubmittable: boolean) => void;
     };
 
-export function UserProfileFormFields({
+const contactEmail = "sill@code.gouv.fr";
+
+export function UserProfileCommons({
     kcContext,
     onIsFormSubmittableValueChange,
     i18n,
     BeforeField,
     AfterField,
     ...props
-}: UserProfileFormFieldsProps) {
+}: UserProfileCommonsProps) {
     const { advancedMsg } = i18n;
+
+    const { t } = useTranslation({ UserProfileCommons });
 
     const {
         formValidationState: { fieldStateByAttributeName, isFormSubmittable },
@@ -43,14 +52,7 @@ export function UserProfileFormFields({
     }, [isFormSubmittable]);
 
     const onChangeFactory = useCallbackFactory(
-        (
-            [name]: [string],
-            [
-                {
-                    target: { value }
-                }
-            ]: [React.ChangeEvent<HTMLInputElement | HTMLSelectElement>]
-        ) =>
+        ([name]: [string], [{ value }]: [{ value: string }]) =>
             formValidationReducer({
                 "action": "update value",
                 name,
@@ -65,141 +67,108 @@ export function UserProfileFormFields({
         })
     );
 
-    let currentGroup = "";
+    const organizationOptions = ["organization1", "organization2"];
 
     return (
         <>
-            {attributesWithPassword.map((attribute, i) => {
-                const {
-                    group = "",
-                    groupDisplayHeader = "",
-                    groupDisplayDescription = ""
-                } = attribute;
+            {attributesWithPassword.map(attribute => {
+                console.group(attribute.displayName);
+                console.log(attribute);
+                console.groupEnd();
 
                 const { value, displayableErrors } =
                     fieldStateByAttributeName[attribute.name];
 
-                const formGroupClassName = clsx(
-                    props.kcFormGroupClass,
-                    displayableErrors.length !== 0 && props.kcFormGroupErrorClass
-                );
+                if (attribute.name === "agencyName") {
+                    return (
+                        <AutocompleteInput
+                            className={fr.cx("fr-input-group")}
+                            freeSolo
+                            options={organizationOptions}
+                            value={value}
+                            onValueChange={value =>
+                                onChangeFactory(attribute.name)({ value: value ?? "" })
+                            }
+                            getOptionLabel={entry => entry}
+                            renderOption={(liProps, entry) => (
+                                <li {...liProps}>
+                                    <span>{entry}</span>
+                                </li>
+                            )}
+                            noOptionText="No result"
+                            dsfrInputProps={{
+                                "label": advancedMsg(attribute.displayName ?? ""),
+                                "nativeInputProps": {
+                                    "type": "text",
+                                    "id": attribute.name,
+                                    "name": attribute.name,
+                                    "value": value,
+                                    "onChange": event =>
+                                        onChangeFactory(attribute.name)({
+                                            value: event.currentTarget.value
+                                        }),
+                                    "className": clsx(props.kcInputClass),
+                                    "aria-invalid": displayableErrors.length !== 0,
+                                    "disabled": attribute.readOnly,
+                                    "autoComplete": attribute.autocomplete,
+                                    "onBlur": onBlurFactory(attribute.name)
+                                }
+                            }}
+                        />
+                    );
+                }
 
                 return (
-                    <Fragment key={i}>
-                        {group !== currentGroup && (currentGroup = group) !== "" && (
-                            <div className={formGroupClassName}>
-                                <div className={clsx(props.kcContentWrapperClass)}>
-                                    <label
-                                        id={`header-${group}`}
-                                        className={clsx(props.kcFormGroupHeader)}
-                                    >
-                                        {advancedMsg(groupDisplayHeader) || currentGroup}
-                                    </label>
-                                </div>
-                                {groupDisplayDescription !== "" && (
-                                    <div className={clsx(props.kcLabelWrapperClass)}>
-                                        <label
-                                            id={`description-${group}`}
-                                            className={`${clsx(props.kcLabelClass)}`}
-                                        >
-                                            {advancedMsg(groupDisplayDescription)}
-                                        </label>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {BeforeField && <BeforeField attribute={attribute} />}
-
-                        <div className={formGroupClassName}>
-                            <div className={clsx(props.kcLabelWrapperClass)}>
-                                <label
-                                    htmlFor={attribute.name}
-                                    className={clsx(props.kcLabelClass)}
-                                >
-                                    {advancedMsg(attribute.displayName ?? "")}
-                                </label>
-                                {attribute.required && <>*</>}
-                            </div>
-                            <div className={clsx(props.kcInputWrapperClass)}>
-                                {(() => {
-                                    const { options } = attribute.validators;
-
-                                    if (options !== undefined) {
-                                        return (
-                                            <select
-                                                id={attribute.name}
-                                                name={attribute.name}
-                                                onChange={onChangeFactory(attribute.name)}
-                                                onBlur={onBlurFactory(attribute.name)}
-                                                value={value}
-                                            >
-                                                {options.options.map(option => (
-                                                    <option key={option} value={option}>
-                                                        {option}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        );
-                                    }
-
-                                    return (
-                                        <input
-                                            type={(() => {
-                                                switch (attribute.name) {
-                                                    case "password-confirm":
-                                                    case "password":
-                                                        return "password";
-                                                    default:
-                                                        return "text";
-                                                }
-                                            })()}
-                                            id={attribute.name}
-                                            name={attribute.name}
-                                            value={value}
-                                            onChange={onChangeFactory(attribute.name)}
-                                            className={clsx(props.kcInputClass)}
-                                            aria-invalid={displayableErrors.length !== 0}
-                                            disabled={attribute.readOnly}
-                                            autoComplete={attribute.autocomplete}
-                                            onBlur={onBlurFactory(attribute.name)}
-                                        />
-                                    );
-                                })()}
-                                {displayableErrors.length !== 0 &&
-                                    (() => {
-                                        const divId = `input-error-${attribute.name}`;
-
-                                        return (
-                                            <>
-                                                <style>{`#${divId} > span: { display: block; }`}</style>
-                                                <span
-                                                    id={divId}
-                                                    className={clsx(
-                                                        props.kcInputErrorMessageClass
-                                                    )}
-                                                    style={{
-                                                        "position":
-                                                            displayableErrors.length === 1
-                                                                ? "absolute"
-                                                                : undefined
-                                                    }}
-                                                    aria-live="polite"
-                                                >
-                                                    {displayableErrors.map(
-                                                        ({ errorMessage }) => errorMessage
-                                                    )}
-                                                </span>
-                                            </>
-                                        );
-                                    })()}
-                            </div>
-                        </div>
-
-                        {AfterField && <AfterField attribute={attribute} />}
-                    </Fragment>
+                    <Input
+                        key={attribute.name}
+                        label={advancedMsg(attribute.displayName ?? "")}
+                        nativeInputProps={{
+                            "type": (() => {
+                                switch (attribute.name) {
+                                    case "password-confirm":
+                                    case "password":
+                                        return "password";
+                                    default:
+                                        return "text";
+                                }
+                            })(),
+                            "id": attribute.name,
+                            "name": attribute.name,
+                            "value": value,
+                            "onChange": event =>
+                                onChangeFactory(attribute.name)({
+                                    value: event.currentTarget.value
+                                }),
+                            "className": clsx(props.kcInputClass),
+                            "aria-invalid": displayableErrors.length !== 0,
+                            "disabled": attribute.readOnly,
+                            "autoComplete": attribute.autocomplete,
+                            "onBlur": onBlurFactory(attribute.name)
+                        }}
+                        state={displayableErrors.length !== 0 ? "error" : "default"}
+                        stateRelatedMessage={
+                            attribute.name === "email" &&
+                            displayableErrors[0]?.validatorName === "pattern"
+                                ? t("you domain isn't allowed yet", {
+                                      "mailtoHref": `mailto:${contactEmail}?subject=${encodeURIComponent(
+                                          t("mail subject")
+                                      )}&body=${encodeURIComponent(t("mail body"))}`,
+                                      contactEmail
+                                  })
+                                : displayableErrors[0]?.errorMessageStr
+                        }
+                    />
                 );
             })}
         </>
     );
 }
+export const { i18n } = declareComponentKeys<
+    | {
+          K: "you domain isn't allowed yet";
+          P: { mailtoHref: string; contactEmail: string };
+          R: JSX.Element;
+      }
+    | "mail subject"
+    | "mail body"
+>()({ UserProfileCommons });

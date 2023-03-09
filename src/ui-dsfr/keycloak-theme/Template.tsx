@@ -91,12 +91,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                         </span>
                                     </div>
                                     <div className="col-md-10">
-                                        <h1
-                                            id="kc-page-title"
-                                            style={{ border: "1px solid purple" }}
-                                        >
-                                            {headerNode}
-                                        </h1>
+                                        <h1 id="kc-page-title">{headerNode}</h1>
                                     </div>
                                 </div>
                             ) : (
@@ -262,63 +257,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                         className={clsx(props.kcInfoAreaWrapperClass)}
                                     >
                                         {infoNode}
-                                        {realm.internationalizationEnabled &&
-                                            (assert(locale !== undefined), true) &&
-                                            locale.supported.length > 1 && (
-                                                <div id="kc-locale">
-                                                    <div
-                                                        id="kc-locale-wrapper"
-                                                        className={clsx(
-                                                            props.kcLocaleWrapperClass
-                                                        )}
-                                                    >
-                                                        <div
-                                                            className="kc-dropdown"
-                                                            id="kc-locale-dropdown"
-                                                        >
-                                                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                                            <a
-                                                                href="#"
-                                                                id="kc-current-locale-link"
-                                                            >
-                                                                {
-                                                                    labelBySupportedLanguageTag[
-                                                                        currentLanguageTag
-                                                                    ]
-                                                                }
-                                                            </a>
-                                                            <ul>
-                                                                {locale.supported.map(
-                                                                    ({ languageTag }) => (
-                                                                        <li
-                                                                            key={
-                                                                                languageTag
-                                                                            }
-                                                                            className="kc-dropdown-item"
-                                                                        >
-                                                                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                                                            <a
-                                                                                href="#"
-                                                                                onClick={() =>
-                                                                                    changeLocale(
-                                                                                        languageTag
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    labelBySupportedLanguageTag[
-                                                                                        languageTag
-                                                                                    ]
-                                                                                }
-                                                                            </a>
-                                                                        </li>
-                                                                    )
-                                                                )}
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
                                     </div>
                                 </div>
                             )}

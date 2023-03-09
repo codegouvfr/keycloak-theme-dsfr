@@ -6,6 +6,7 @@ import type { Equals } from "tsafe";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
 import { z } from "zod";
 import { createUnionSchema } from "ui-dsfr/tools/zod/createUnionSchema";
+import MuiLink from "@mui/material/Link";
 
 export { declareComponentKeys };
 export { languages };
@@ -51,6 +52,7 @@ const {
     | typeof import("ui-dsfr/pages/Account/Account").i18n
     | typeof import("ui-dsfr/shared/Header").i18n
     | typeof import("ui-dsfr/shared/Footer").i18n
+    | typeof import("ui-dsfr/keycloak-theme/pages/shared/UserProfileCommons").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -401,6 +403,23 @@ const {
                 "brand": "DINUM",
                 "home title": "Home - Socle interministériel de logiciels libres",
                 "description": "Texte descriptif footer à modifier"
+            },
+            "UserProfileCommons": {
+                "you domain isn't allowed yet": ({ mailtoHref, contactEmail }) => {
+                    return (
+                        <>
+                            Your email domain isn't allowed yet. Contact us at{" "}
+                            <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+                        </>
+                    );
+                },
+                "mail subject": "[SILL] Adding new mail domain to the accept list",
+                "mail body": `
+                    Hello, 
+                    Would you, assuming it's granted, add my domain to the accept list.  
+        
+                    Best regards,
+                    `
             }
         },
         "fr": {
@@ -762,6 +781,24 @@ const {
                 "brand": "DINUM",
                 "home title": "Acceuil - Socle interministériel de logiciels libres",
                 "description": "Texte descriptif footer à modifier"
+            },
+            "UserProfileCommons": {
+                "you domain isn't allowed yet": ({ contactEmail, mailtoHref }) => (
+                    <>
+                        Votre domaine n'est pas encore autorisé. Contactez-nous à{" "}
+                        <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+                    </>
+                ),
+                "mail subject":
+                    "[SILL] Autorisation d'un nouveau domaine pour l'inscription",
+                "mail body": `
+                    Bonjour, 
+        
+                    veuillez, sous réserve qu'il soit éligible, ajouter mon nom de domaine
+                    à la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.  
+        
+                    Cordialement,
+                `
             }
             /* spell-checker: enable */
         }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
@@ -14,6 +14,7 @@ import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
+import { useCoreState, selectors } from "../../core-dsfr";
 
 Homepage.routeGroup = createGroup([routes.home]);
 
@@ -38,6 +39,8 @@ export function Homepage(props: Props) {
     const [selectedUserType, setSelectedUserType] = useState("");
     const [selectedSearchType, setSelectedSearchType] = useState("");
 
+    const { stats } = useCoreState(selectors.generalStats.stats);
+
     const onUserTypeChange = (value: string) => {
         setSelectedUserType(value);
     };
@@ -49,15 +52,24 @@ export function Homepage(props: Props) {
     const softwareSelectionList = [
         {
             "title": t("last added"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                sort: "added time"
+            }).href
         },
         {
             "title": t("most used"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                sort: "user count"
+            }).href
         },
         {
             "title": t("essential"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                prerogatives: ["isInstallableOnUserTerminal"]
+            }).href
         },
         {
             "title": t("selection of the month"),
@@ -65,11 +77,17 @@ export function Homepage(props: Props) {
         },
         {
             "title": t("waiting for referent"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                referentCount: 0
+            }).href
         },
         {
             "title": t("in support market"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                prerogatives: ["isPresentInSupportContract"]
+            }).href
         }
     ];
 
@@ -94,19 +112,19 @@ export function Homepage(props: Props) {
 
     const sillNumbers = [
         {
-            "number": 322,
+            "number": stats.softwareCount,
             "label": t("referenced software")
         },
         {
-            "number": 500,
+            "number": stats.registeredUserCount,
             "label": t("user")
         },
         {
-            "number": 100,
+            "number": stats.agentReferentCount,
             "label": t("referent")
         },
         {
-            "number": 37,
+            "number": stats.organizationCount,
             "label": t("organization")
         }
     ];

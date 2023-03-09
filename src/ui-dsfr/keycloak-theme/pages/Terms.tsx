@@ -7,6 +7,9 @@ import tos_fr_url from "../assets/tos_fr.md";
 import type { PageProps } from "keycloakify/lib/KcProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
+import { makeStyles } from "tss-react/dsfr";
+import App from "../../App";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export default function Terms(
     props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>
@@ -20,6 +23,7 @@ export default function Terms(
     } = props;
 
     const { msg, msgStr } = i18n;
+    const { classes, cx } = useStyles();
 
     useDownloadTerms({
         kcContext,
@@ -59,7 +63,11 @@ export default function Terms(
                             <Markdown>{evtTermMarkdown.state}</Markdown>
                         )}
                     </div>
-                    <form className="form-actions" action={url.loginAction} method="POST">
+                    <form
+                        className={cx("form-actions", classes.formActions)}
+                        action={url.loginAction}
+                        method="POST"
+                    >
                         <input
                             className={clsx(
                                 kcProps.kcButtonClass,
@@ -91,3 +99,12 @@ export default function Terms(
         />
     );
 }
+
+const useStyles = makeStyles({
+    "name": { Terms }
+})({
+    "formActions": {
+        "display": "flex",
+        "gap": fr.spacing("4v")
+    }
+});
