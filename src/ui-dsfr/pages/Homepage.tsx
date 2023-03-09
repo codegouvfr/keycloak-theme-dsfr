@@ -77,7 +77,10 @@ export function Homepage(props: Props) {
         },
         {
             "title": t("waiting for referent"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                referentCount: 0
+            }).href
         },
         {
             "title": t("in support market"),

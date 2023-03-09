@@ -48,6 +48,7 @@ const routeDefs = {
                 },
                 "stringify": value => value
             }),
+            "referentCount": param.query.optional.number,
             "prerogatives": param.query.optional
                 .ofType({
                     "parse": raw => {

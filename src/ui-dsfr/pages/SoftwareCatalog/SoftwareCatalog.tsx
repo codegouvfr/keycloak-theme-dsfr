@@ -176,6 +176,13 @@ export function SoftwareCatalog(props: Props) {
         });
     }, [route.params.prerogatives]);
 
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "referentCount",
+            "value": route.params.referentCount
+        });
+    }, [route.params.referentCount]);
+
     return (
         <SoftwareCatalogControlled
             className={className}
