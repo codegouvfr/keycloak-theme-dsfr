@@ -14,6 +14,7 @@ import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
+import { useCoreState, selectors } from "../../core-dsfr";
 
 Homepage.routeGroup = createGroup([routes.home]);
 
@@ -37,6 +38,8 @@ export function Homepage(props: Props) {
 
     const [selectedUserType, setSelectedUserType] = useState("");
     const [selectedSearchType, setSelectedSearchType] = useState("");
+
+    const { stats } = useCoreState(selectors.generalStats.stats);
 
     const onUserTypeChange = (value: string) => {
         setSelectedUserType(value);
@@ -94,19 +97,19 @@ export function Homepage(props: Props) {
 
     const sillNumbers = [
         {
-            "number": 322,
+            "number": stats.softwareCount,
             "label": t("referenced software")
         },
         {
-            "number": 500,
+            "number": stats.registeredUserCount,
             "label": t("user")
         },
         {
-            "number": 100,
+            "number": stats.agentReferentCount,
             "label": t("referent")
         },
         {
-            "number": 37,
+            "number": stats.organizationCount,
             "label": t("organization")
         }
     ];
