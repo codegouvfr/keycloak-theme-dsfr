@@ -111,17 +111,15 @@ export async function createCore(params: {
     return core;
 }
 
-export type Core = ReturnType<typeof createCore>;
+type Core = ReturnType<typeof createCore>;
 
 export type State = ReturnType<Core["getState"]>;
-
-export type ThunksExtraArgument = Core["thunksExtraArgument"];
 
 /** @deprecated: Use Thunks as soon as we cas use 'satisfy' from TS 4.9 */
 export type ThunkAction<RtnType = Promise<void>> = ReduxGenericThunkAction<
     RtnType,
     State,
-    ThunksExtraArgument,
+    Core["thunksExtraArgument"],
     Action<string>
 >;
 
