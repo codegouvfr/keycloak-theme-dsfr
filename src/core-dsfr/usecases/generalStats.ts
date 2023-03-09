@@ -51,7 +51,9 @@ export const privateThunks = {
                             agentReferentCount,
                             "organizationCount": softwares
                                 .map(software =>
-                                    software.users.map(user => user.organization)
+                                    Object.keys(
+                                        software.userAndReferentCountByOrganization
+                                    )
                                 )
                                 .flat()
                                 .reduce(...removeDuplicates()).length,

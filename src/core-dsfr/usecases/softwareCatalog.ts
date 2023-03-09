@@ -11,7 +11,6 @@ import { Fzf } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
-import { removeDuplicates } from "evt/tools/reducers/removeDuplicates";
 import type { SillApiClient } from "../ports/SillApiClient";
 import { exclude } from "tsafe/exclude";
 
@@ -771,7 +770,7 @@ function apiSoftwareToInternalSoftware(params: {
         categories,
         prerogatives,
         softwareType,
-        users
+        userAndReferentCountByOrganization
     } = apiSoftware;
 
     assert<
@@ -780,8 +779,6 @@ function apiSoftwareToInternalSoftware(params: {
             State.Software.Internal["prerogatives"]
         >
     >();
-
-    const referentCount = users.filter(user => user.type === "referent").length;
 
     const parentSoftware: State.Software.Internal["parentSoftware"] = (() => {
         if (parentSoftwareWikidataRef === undefined) {
@@ -815,17 +812,18 @@ function apiSoftwareToInternalSoftware(params: {
         softwareName,
         softwareDescription,
         lastVersion,
-        referentCount,
-        "userCount": users.length - referentCount,
+        "referentCount": Object.values(userAndReferentCountByOrganization)
+            .map(({ referentCount }) => referentCount)
+            .reduce((prev, curr) => prev + curr, 0),
+        "userCount": Object.values(userAndReferentCountByOrganization)
+            .map(({ userCount }) => userCount)
+            .reduce((prev, curr) => prev + curr, 0),
         testUrl,
         addedTime,
         updateTime,
         categories,
-        "organizations": users
-            .map(user => user.organization)
-            .flat()
-            .reduce(...removeDuplicates<string>()),
-        "parentSoftware": null as any,
+        "organizations": objectKeys(userAndReferentCountByOrganization),
+        parentSoftware,
         softwareType,
         prerogatives,
         "search": [

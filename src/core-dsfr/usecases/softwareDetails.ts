@@ -193,17 +193,15 @@ function apiSoftwareToSoftware(params: {
         testUrl,
         addedTime,
         prerogatives,
-        users,
         serviceProviderCount,
         compotoirDuLibreId,
         similarSoftwares: similarSoftwares_api,
         wikidataId,
         license,
         versionMin,
-        softwareType
+        softwareType,
+        userAndReferentCountByOrganization
     } = apiSoftware;
-
-    const referentCount = users.filter(user => user.type === "referent").length;
 
     const parentSoftware: State.Software["parentSoftware"] = (() => {
         if (parentSoftwareWikidata_api === undefined) {
@@ -240,8 +238,12 @@ function apiSoftwareToSoftware(params: {
         softwareName,
         softwareDescription,
         lastVersion,
-        referentCount,
-        "userCount": users.length - referentCount,
+        "referentCount": Object.values(userAndReferentCountByOrganization)
+            .map(({ referentCount }) => referentCount)
+            .reduce((prev, curr) => prev + curr, 0),
+        "userCount": Object.values(userAndReferentCountByOrganization)
+            .map(({ userCount }) => userCount)
+            .reduce((prev, curr) => prev + curr, 0),
         parentSoftware,
         addedTime,
         "serviceProviderUrl": `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,

@@ -139,11 +139,16 @@ export const thunks = {
                     "software": {
                         "logoUrl": software.logoUrl,
                         softwareName,
-                        "referentCount": software.users.filter(
-                            ({ type }) => type === "referent"
-                        ).length,
-                        "userCount": software.users.filter(({ type }) => type === "user")
-                            .length,
+                        "referentCount": Object.values(
+                            software.userAndReferentCountByOrganization
+                        )
+                            .map(({ referentCount }) => referentCount)
+                            .reduce((prev, curr) => prev + curr, 0),
+                        "userCount": Object.values(
+                            software.userAndReferentCountByOrganization
+                        )
+                            .map(({ userCount }) => userCount)
+                            .reduce((prev, curr) => prev + curr, 0),
                         "softwareType": (() => {
                             switch (software.softwareType.type) {
                                 case "cloud":

@@ -55,24 +55,11 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": true
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            },
-            {
-                "type": "referent",
-                "organization": "CC Pays de Pouzauges"
-            },
-            {
-                "type": "referent",
-                "organization": "ENSEA"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -122,12 +109,9 @@ const softwares = [
                 "windows": true
             }
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 1, "userCount": 0 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoWordpress,
@@ -173,16 +157,11 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "Abbeville - Mairie d'Abbeville"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -229,16 +208,7 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "Abbeville - Mairie d'Abbeville"
-            },
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            }
-        ]
+        "userAndReferentCountByOrganization": {}
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -282,20 +252,11 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "Abbeville - Mairie d'Abbeville"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            },
-            {
-                "type": "referent",
-                "organization": "Arles logiciels libres"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -352,16 +313,11 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -404,16 +360,10 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            },
-            {
-                "type": "user",
-                "organization": "CC du Pays Réuni d'Orange"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -472,20 +422,9 @@ const softwares = [
             }
         },
         "similarSoftwares": [],
-        "users": [
-            {
-                "type": "user",
-                "organization": "CA du Puy-en-Velay"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            },
-            {
-                "type": "referent",
-                "organization": "ENSEA"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -527,16 +466,9 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "CC du Pays Réuni d'Orange"
-            },
-            {
-                "type": "user",
-                "organization": "CNRS-ICMCB"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -575,16 +507,11 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "Fontaine"
-            },
-            {
-                "type": "user",
-                "organization": "Ville d'Échirolles"
-            }
-        ]
+        "userAndReferentCountByOrganization": {
+            "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+            "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+            "DINUM": { "referentCount": 2, "userCount": 43 }
+        }
     }),
     id<SillApiClient.Software>({
         "logoUrl": LogoLibreOffice,
@@ -622,16 +549,7 @@ const softwares = [
             "isFromFrenchPublicServices": false,
             "isPresentInSupportContract": false
         },
-        "users": [
-            {
-                "type": "user",
-                "organization": "Centre de Gestion du Nord"
-            },
-            {
-                "type": "user",
-                "organization": "CB"
-            }
-        ]
+        "userAndReferentCountByOrganization": {}
     })
 ];
 
@@ -716,7 +634,11 @@ export function createMockSillApiClient(): SillApiClient {
                     "isPresentInSupportContract":
                         formData.isPresentInSupportContract ?? false
                 },
-                "users": []
+                "userAndReferentCountByOrganization": {
+                    "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+                    "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+                    "DINUM": { "referentCount": 2, "userCount": 43 }
+                }
             };
 
             softwares.push(software);
@@ -761,7 +683,11 @@ export function createMockSillApiClient(): SillApiClient {
                         "isPresentInSupportContract":
                             formData.isPresentInSupportContract ?? false
                     },
-                    "users": []
+                    "userAndReferentCountByOrganization": {
+                        "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+                        "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+                        "DINUM": { "referentCount": 2, "userCount": 43 }
+                    }
                 })
             };
         },

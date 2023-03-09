@@ -105,10 +105,10 @@ export namespace SillApiClient {
         updateTime: number;
         categories: string[];
         prerogatives: Record<Prerogative, boolean>;
-        users: {
-            type: "user" | "referent";
-            organization: string;
-        }[];
+        userAndReferentCountByOrganization: Record<
+            string,
+            { userCount: number; referentCount: number }
+        >;
         authors: {
             authorName: string;
             authorUrl: string;
