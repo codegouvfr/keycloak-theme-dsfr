@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
@@ -52,15 +52,24 @@ export function Homepage(props: Props) {
     const softwareSelectionList = [
         {
             "title": t("last added"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                sort: "added time"
+            }).href
         },
         {
             "title": t("most used"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                sort: "user count"
+            }).href
         },
         {
             "title": t("essential"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                prerogatives: ["isInstallableOnUserTerminal"]
+            }).href
         },
         {
             "title": t("selection of the month"),
@@ -72,7 +81,10 @@ export function Homepage(props: Props) {
         },
         {
             "title": t("in support market"),
-            "href": ""
+            "href": routes.softwareCatalog({
+                ...route.params,
+                prerogatives: ["isPresentInSupportContract"]
+            }).href
         }
     ];
 
