@@ -7,6 +7,7 @@ import * as userAuthentication from "./userAuthentication";
 import * as sillApiVersion from "./sillApiVersion";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
 import * as generalStats from "./generalStats";
+import * as searchSoftwareByName from "./searchSoftwareByName";
 
 export const usecases = {
     softwareCatalog,
@@ -17,5 +18,6 @@ export const usecases = {
     userAuthentication,
     sillApiVersion,
     softwareUserAndReferent,
-    generalStats
+    generalStats,
+    searchSoftwareByName
 };

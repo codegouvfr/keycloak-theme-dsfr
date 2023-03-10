@@ -7,7 +7,6 @@ import { useTranslation } from "ui-dsfr/i18n";
 import { createGroup, Route } from "type-route";
 import { routes } from "ui-dsfr/routes";
 import { fr } from "@codegouvfr/react-dsfr";
-import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import Tile from "@codegouvfr/react-dsfr/Tile";
@@ -15,6 +14,7 @@ import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "../../core-dsfr";
+import { AutocompleteInput } from "../shared/AutocompleteInput";
 
 Homepage.routeGroup = createGroup([routes.home]);
 
@@ -38,8 +38,18 @@ export function Homepage(props: Props) {
 
     const [selectedUserType, setSelectedUserType] = useState("");
     const [selectedSearchType, setSelectedSearchType] = useState("");
+    const [search, setSearch] = useState<
+        | { softwareName: string; softwareSillId: number; softwareDescription: string }
+        | undefined
+    >(undefined);
 
     const { stats } = useCoreState(selectors.generalStats.stats);
+
+    const [, startTransition] = useTransition();
+
+    const { allSillSoftwares } = useCoreState(
+        selectors.searchSoftwareByNameForm.allSillSoftwares
+    );
 
     const onUserTypeChange = (value: string) => {
         setSelectedUserType(value);
@@ -47,6 +57,30 @@ export function Homepage(props: Props) {
 
     const onSearchTypeChange = (value: string) => {
         setSelectedSearchType(value);
+    };
+
+    const onSearchChange = (
+        value:
+            | {
+                  softwareName: string;
+                  softwareSillId: number;
+                  softwareDescription: string;
+              }
+            | undefined
+    ) => {
+        console.log("search change : ", value);
+        setSearch(value);
+    };
+
+    const onSubmitSearch = () => {
+        startTransition(() =>
+            routes
+                .softwareCatalog({
+                    ...route.params,
+                    search: search?.softwareName ?? ""
+                })
+                .replace()
+        );
     };
 
     const softwareSelectionList = [
@@ -185,10 +219,35 @@ export function Homepage(props: Props) {
                             <option>Un agent</option>
                         </Select>
 
-                        <SearchBar
-                            className={classes.searchGroup}
-                            label={t("research placeholder")}
-                        />
+                        <form
+                            className={fr.cx("fr-search-bar")}
+                            onSubmit={onSubmitSearch}
+                        >
+                            <AutocompleteInput
+                                value={search}
+                                options={allSillSoftwares ?? []}
+                                onValueChange={value => onSearchChange(value)}
+                                getOptionLabel={entry => entry.softwareName}
+                                renderOption={(liProps, entry) => (
+                                    <li {...liProps}>
+                                        <div>
+                                            <span>{entry.softwareName}</span>
+                                        </div>
+                                    </li>
+                                )}
+                                noOptionText="No result"
+                                dsfrInputProps={{
+                                    "label": undefined,
+                                    "nativeInputProps": {
+                                        "name": "search",
+                                        "role": "search"
+                                    }
+                                }}
+                            />
+                            <button className="fr-btn" title="Rechercher" type={"submit"}>
+                                Chercher
+                            </button>
+                        </form>
                     </div>
                     <span className={""}>{t("or")}</span>
                     <Button iconId={"fr-icon-account-circle-fill"} priority={"tertiary"}>

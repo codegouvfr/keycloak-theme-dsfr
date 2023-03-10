@@ -106,7 +106,8 @@ export async function createCore(params: {
         core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
         core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
         core.dispatch(usecases.softwareCatalog.privateThunks.initialize()),
-        core.dispatch(usecases.generalStats.privateThunks.initialize())
+        core.dispatch(usecases.generalStats.privateThunks.initialize()),
+        core.dispatch(usecases.searchSoftwareByName.privateThunks.initialize())
     ]);
 
     return core;
