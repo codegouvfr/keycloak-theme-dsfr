@@ -1,4 +1,4 @@
-import React, { useState, useTransition } from "react";
+import { useState, useTransition, FormEvent } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
@@ -27,6 +27,8 @@ export type Props = {
     route: Pick<PageRoute, "params">;
 };
 
+type Profile = "agent" | "DSI";
+
 export function Homepage(props: Props) {
     const { className, route, ...rest } = props;
 
@@ -36,8 +38,10 @@ export function Homepage(props: Props) {
     const { t } = useTranslation({ Homepage });
     const commoni18n = useTranslation({ "App": "App" });
 
-    const [selectedUserType, setSelectedUserType] = useState("");
-    const [selectedSearchType, setSelectedSearchType] = useState("");
+    const [selectedUserProfile, setSelectedUserProfile] = useState<Profile>("agent");
+    const [selectedSearchSubject, setSelectedSearchSubject] = useState(
+        "Un type de logiciel libre spécifique"
+    );
     const [search, setSearch] = useState<
         | { softwareName: string; softwareSillId: number; softwareDescription: string }
         | undefined
@@ -51,12 +55,15 @@ export function Homepage(props: Props) {
         selectors.searchSoftwareByNameForm.allSillSoftwares
     );
 
-    const onUserTypeChange = (value: string) => {
-        setSelectedUserType(value);
+    const onProfileChange = (value: Profile) => {
+        setSelectedUserProfile(value);
     };
 
-    const onSearchTypeChange = (value: string) => {
-        setSelectedSearchType(value);
+    const onSearchSubjectChange = (value: string) => {
+        setSelectedSearchSubject(value);
+        searchOptions.search_subject[selectedUserProfile]
+            .find(subject => subject.label === value)
+            ?.action?.();
     };
 
     const onSearchChange = (
@@ -68,19 +75,193 @@ export function Homepage(props: Props) {
               }
             | undefined
     ) => {
-        console.log("search change : ", value);
         setSearch(value);
     };
 
-    const onSubmitSearch = () => {
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    search: search?.softwareName ?? ""
-                })
-                .replace()
-        );
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        searchOptions.search_subject[selectedUserProfile]
+            .find(subject => subject.label === selectedSearchSubject)
+            ?.actionOnSubmit?.();
+    };
+
+    type searchOptionsType = {
+        "profile": Profile[];
+        "search_subject": {
+            [key in Profile]: {
+                "label": string;
+                "action"?: () => void;
+                "actionOnSubmit"?: () => void;
+                "searchRequired": boolean;
+            }[];
+        };
+    };
+
+    const searchOptions: searchOptionsType = {
+        "profile": ["agent", "DSI"],
+        "search_subject": {
+            "agent": [
+                {
+                    "label": "Un type de logiciel libre spécifique",
+                    "actionOnSubmit": () => {
+                        startTransition(() =>
+                            routes
+                                .softwareCatalog({
+                                    ...route.params,
+                                    search: search?.softwareName ?? ""
+                                })
+                                .replace()
+                        );
+                    },
+                    "searchRequired": true
+                },
+                {
+                    "label":
+                        "Une alternative libre à mon logiciel de travail propriétaire",
+                    "actionOnSubmit": () => {
+                        startTransition(() =>
+                            routes
+                                .softwareCatalog({
+                                    ...route.params,
+                                    search: search?.softwareName ?? ""
+                                })
+                                .replace()
+                        );
+                    },
+                    "searchRequired": true
+                },
+                {
+                    "label": "À référencer un usage de logiciel",
+                    "actionOnSubmit": () => {
+                        if (search) {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        search: search?.softwareName ?? ""
+                                    })
+                                    .replace()
+                            );
+                        } else {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        sort: "user count"
+                                    })
+                                    .replace()
+                            );
+                        }
+                    },
+                    "searchRequired": false
+                },
+                {
+                    "label": "À devenir référent d'un logiciel",
+                    "actionOnSubmit": () => {
+                        if (search) {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        referentCount: 0
+                                    })
+                                    .replace()
+                            );
+                        } else {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        sort: "user count"
+                                    })
+                                    .replace()
+                            );
+                        }
+                    },
+                    "searchRequired": false
+                },
+                {
+                    "label": "À ajouter un logiciel",
+                    "action": () => {
+                        /*console.log(selectedSearchSubject)*/
+                        startTransition(() => routes.softwareCreationForm().replace());
+                    },
+                    "searchRequired": false
+                }
+            ],
+            "DSI": [
+                {
+                    "label":
+                        "Un type de logiciel spécifique (avec des contraintes spécifiques)",
+                    "actionOnSubmit": () => {
+                        startTransition(() =>
+                            routes
+                                .softwareCatalog({
+                                    ...route.params,
+                                    search: search?.softwareName ?? ""
+                                })
+                                .replace()
+                        );
+                    },
+                    "searchRequired": true
+                },
+                {
+                    "label": "Une alternative libre au logiciel de tracail de mes agents",
+                    "actionOnSubmit": () => {
+                        startTransition(() =>
+                            routes
+                                .softwareCatalog({
+                                    ...route.params,
+                                    search: search?.softwareName ?? ""
+                                })
+                                .replace()
+                        );
+                    },
+                    "searchRequired": true
+                },
+                {
+                    "label":
+                        "À référencer un usage de logiciels au sein de mon établissement",
+                    "actionOnSubmit": () => {
+                        if (search) {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        search: search?.softwareName ?? ""
+                                    })
+                                    .replace()
+                            );
+                        } else {
+                            startTransition(() =>
+                                routes
+                                    .softwareCatalog({
+                                        ...route.params,
+                                        sort: "user count"
+                                    })
+                                    .replace()
+                            );
+                        }
+                    },
+                    "searchRequired": false
+                },
+                {
+                    "label":
+                        "À référencer l'instance d'un service et son usage au sein de mon établissement",
+                    "action": () => {
+                        startTransition(() => routes.instanceCreationForm().replace());
+                    },
+                    "searchRequired": false
+                },
+                {
+                    "label": "Un accompagnement vers la transition vers le libre",
+                    "action": () => {
+                        window.location.href = "mailto:contact@code.gouv.fr";
+                    },
+                    "searchRequired": false
+                }
+            ]
+        }
     };
 
     const softwareSelectionList = [
@@ -196,33 +377,36 @@ export function Homepage(props: Props) {
                 </div>
 
                 <div className={cx(fr.cx("fr-container"), classes.searchForm)}>
-                    <div className={classes.searchInputs}>
+                    <form className={classes.searchInputs} onSubmit={onSubmit}>
                         <Select
                             label={t("agent label")}
                             nativeSelectProps={{
-                                "onChange": event => onUserTypeChange(event.target.value),
-                                "defaultValue": selectedUserType ?? ""
+                                "onChange": event =>
+                                    onProfileChange(event.target.value as Profile),
+                                "defaultValue": selectedUserProfile ?? ""
                             }}
                             className={classes.searchGroup}
                         >
-                            <option>Un agent</option>
+                            {searchOptions.profile.map(option => (
+                                <option key={option}>{option}</option>
+                            ))}
                         </Select>
                         <Select
                             label={t("search label")}
                             nativeSelectProps={{
                                 "onChange": event =>
-                                    onSearchTypeChange(event.target.value),
-                                "defaultValue": selectedSearchType ?? ""
+                                    onSearchSubjectChange(event.target.value),
+                                "defaultValue": selectedSearchSubject ?? ""
                             }}
                             className={classes.searchGroup}
                         >
-                            <option>Un agent</option>
+                            {searchOptions.search_subject[selectedUserProfile].map(
+                                option => (
+                                    <option key={option.label}>{option.label}</option>
+                                )
+                            )}
                         </Select>
-
-                        <form
-                            className={fr.cx("fr-search-bar")}
-                            onSubmit={onSubmitSearch}
-                        >
+                        <div className={fr.cx("fr-search-bar")}>
                             <AutocompleteInput
                                 value={search}
                                 options={allSillSoftwares ?? []}
@@ -240,15 +424,21 @@ export function Homepage(props: Props) {
                                     "label": undefined,
                                     "nativeInputProps": {
                                         "name": "search",
-                                        "role": "search"
+                                        "role": "search",
+                                        "required": searchOptions.search_subject[
+                                            selectedUserProfile
+                                        ].find(
+                                            subject =>
+                                                subject.label === selectedSearchSubject
+                                        )?.searchRequired
                                     }
                                 }}
                             />
                             <button className="fr-btn" title="Rechercher" type={"submit"}>
                                 Chercher
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                     <span className={""}>{t("or")}</span>
                     <Button iconId={"fr-icon-account-circle-fill"} priority={"tertiary"}>
                         {t("sign in")}
