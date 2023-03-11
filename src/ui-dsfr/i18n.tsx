@@ -263,7 +263,15 @@ const {
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
-                    `${count} free software${count === 1 ? "" : "s"}`
+                    `${count} free software${count === 1 ? "" : "s"}`,
+                "sort by": "Sort by",
+                "added time": "Last added",
+                "update time": "Last updated",
+                "referent count": "Referent count",
+                "referent count ASC": "Referent count ASC",
+                "user count": "User count",
+                "user count ASC": "User count ASC",
+                "last version publication date": "Last publicated version"
             },
             "SoftwareCatalogCard": {
                 "last version": "Last version",
@@ -666,7 +674,15 @@ const {
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
-                    `${count} logiciel libre${count === 1 ? "" : "s"}`
+                    `${count} logiciel libre${count === 1 ? "" : "s"}`,
+                "sort by": "Trier par",
+                "added time": "Dernier ajouté",
+                "update time": "Dernier mis à jour",
+                "referent count": "Nombre de référent",
+                "referent count ASC": "Nombre de référent croissant",
+                "user count": "Nombre d'utilisateur",
+                "user count ASC": "Nombre d'utilisateur croissant",
+                "last version publication date": "Dernière version publiée"
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",

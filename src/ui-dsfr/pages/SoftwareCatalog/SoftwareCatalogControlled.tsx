@@ -117,6 +117,18 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         );
     });
 
+    const mappedSortOption: {
+        [key in SoftwareCatalogState.Sort]: string;
+    } = {
+        "added time": t("added time"),
+        "update time": t("update time"),
+        "referent count": t("referent count"),
+        "referent count ASC": t("referent count ASC"),
+        "user count": t("user count"),
+        "user count ASC": t("user count ASC"),
+        "last version publication date": t("last version publication date")
+    };
+
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <Search
@@ -143,7 +155,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                         })}
                     </h6>
                     <Select
-                        label="Trier par"
+                        label={t("sort by")}
                         nativeSelectProps={{
                             "onChange": event =>
                                 onSortChange(
@@ -155,7 +167,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                     >
                         {sortOptions.map(sort => (
                             <option value={sort} key={sort}>
-                                {sort}
+                                {mappedSortOption[sort]}
                             </option>
                         ))}
                     </Select>
@@ -214,7 +226,17 @@ const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
     }
 });
 
-export const { i18n } = declareComponentKeys<{
-    K: "search results";
-    P: { count: number };
-}>()({ SoftwareCatalogControlled });
+export const { i18n } = declareComponentKeys<
+    | {
+          K: "search results";
+          P: { count: number };
+      }
+    | "sort by"
+    | "added time"
+    | "update time"
+    | "referent count"
+    | "referent count ASC"
+    | "user count"
+    | "user count ASC"
+    | "last version publication date"
+>()({ SoftwareCatalogControlled });
