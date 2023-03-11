@@ -70,6 +70,13 @@ export function SoftwareCatalog(props: Props) {
             )
     );
 
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "sort",
+            "value": route.params.sort?.length ? route.params.sort : undefined
+        });
+    }, [route.params.sort]);
+
     const onSearchChange = useConstCallback<
         SoftwareCatalogControlledProps["onSearchChange"]
     >(search =>
