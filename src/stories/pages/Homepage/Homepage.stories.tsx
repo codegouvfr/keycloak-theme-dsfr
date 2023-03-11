@@ -1,4 +1,4 @@
-import { Homepage } from "ui-dsfr/pages/Homepage";
+import { Homepage } from "ui-dsfr/pages/Homepage/Homepage";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

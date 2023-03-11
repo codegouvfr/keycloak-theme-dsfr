@@ -1,7 +1,7 @@
 import { makeStyles } from "tss-react/dsfr";
 import { useRoute } from "ui-dsfr/routes";
 import { SoftwareCatalog } from "./pages/SoftwareCatalog";
-import { Homepage } from "./pages/Homepage";
+import { Homepage } from "./pages/Homepage/Homepage";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { Terms } from "./pages/Terms";
@@ -281,4 +281,5 @@ export const { i18n } = declareComponentKeys<
     | "allFeminine"
     | "loading"
     | "no result"
+    | "search"
 >()({ "App": null });
