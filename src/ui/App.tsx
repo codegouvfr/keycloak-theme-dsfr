@@ -25,11 +25,13 @@ import {
     addTermsOfServicesUrlToQueryParams
 } from "ui/keycloak-theme/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
-import { getConfiguration } from "configuration-dsfr";
+import { getEnv } from "../env";
 import { InstanceForm } from "./pages/InstanceForm";
 
+const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
+
 const { CoreProvider } = createCoreProvider({
-    "apiUrl": getConfiguration().apiUrl,
+    apiUrl,
     "evtUserActivity": Evt.merge([
         Evt.from(document, "mousemove"),
         Evt.from(document, "keydown")
@@ -37,9 +39,7 @@ const { CoreProvider } = createCoreProvider({
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServicesUrl }) =>
         [url]
             .map(injectGlobalStatesInSearchParams)
-            .map(url =>
-                addSillApiUrlToQueryParams({ url, "value": getConfiguration().apiUrl })
-            )
+            .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl }))
             .map(url =>
                 addTermsOfServicesUrlToQueryParams({ url, "value": termsOfServicesUrl })
             )[0],

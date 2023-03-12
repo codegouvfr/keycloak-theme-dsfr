@@ -10,7 +10,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
-import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
+import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "../../../core";
 import { SearchByProfile } from "./SearchByProfile";
 

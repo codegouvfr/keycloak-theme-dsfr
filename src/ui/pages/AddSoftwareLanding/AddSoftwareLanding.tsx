@@ -8,7 +8,7 @@ import { createGroup, Route } from "type-route";
 import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
-import illustration_sill from "ui-dsfr/assets/illustration_sill.svg";
+import illustration_sill from "ui/assets/illustration_sill.svg";
 
 AddSoftwareLanding.routeGroup = createGroup([routes.addSoftwareLanding]);
 
