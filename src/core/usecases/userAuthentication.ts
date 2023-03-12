@@ -1,6 +1,6 @@
 import { assert } from "tsafe/assert";
 import type { User } from "../ports/UserApiClient";
-import type { ThunkAction } from "../setup";
+import type { ThunkAction } from "../core";
 import { createUsecaseContextApi } from "redux-clean-architecture";
 import { urlJoin } from "url-join-ts";
 import { createSlice } from "@reduxjs/toolkit";
@@ -125,12 +125,12 @@ export const thunks = {
 
             return oidcClient.logout({ redirectTo });
         },
-    "getTermsOfServices":
-        (): ThunkAction<LocalizedString<Language> | undefined> =>
+    "getTermsOfServicesUrl":
+        (): ThunkAction<LocalizedString<Language>> =>
         (...args) => {
             const [, , extraArgs] = args;
 
-            return getContext(extraArgs).thermsOfServices;
+            return getContext(extraArgs).termsOfServicesUrl;
         },
     "getKeycloakAccountConfigurationUrl":
         (): ThunkAction<string | undefined> =>
@@ -200,11 +200,11 @@ export const privateThunks = {
             setContext(extraArg, {
                 "immutableUserFields": user,
                 ...(await (async () => {
-                    const { keycloakParams } =
+                    const { termsOfServicesUrl, keycloakParams } =
                         await extraArg.sillApiClient.getOidcParams();
 
                     return {
-                        "thermsOfServices": keycloakParams?.termsOfServices,
+                        termsOfServicesUrl,
                         "keycloakAccountConfigurationUrl":
                             keycloakParams === undefined
                                 ? undefined
@@ -223,7 +223,7 @@ export const privateThunks = {
 const { getContext, setContext } = createUsecaseContextApi<{
     /** undefined when not authenticated */
     immutableUserFields: Omit<User, "agencyName" | "email"> | undefined;
-    thermsOfServices: LocalizedString<Language> | undefined;
+    termsOfServicesUrl: LocalizedString<Language>;
     /** Undefined it authentication is not keycloak */
     keycloakAccountConfigurationUrl: string | undefined;
 }>();

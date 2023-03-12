@@ -1,17 +1,12 @@
 {
     "homepage": "https://sill.code.gouv.fr",
     "name": "sill-web",
-    "version": "0.30.21",
+    "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "start": "yarn use-onyxia && ./.env.local.sh react-app-rewired start",
-        "start-dsfr": "yarn use-dsfr && ./.env-dsfr.local.sh react-app-rewired start",
-        "build": "yarn use-onyxia && react-app-rewired build",
-        "build-dsfr": "yarn use-dsfr && react-app-rewired build",
-        "use-dsfr": "cp public/index-dsfr.html public/index.html && cp src/index-dsfr.ts src/index.ts",
-        "use-onyxia": "cp public/index-onyxia.html public/index.html && cp src/index-onyxia.ts src/index.ts",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
         "build-keycloak-theme": "yarn build && keycloakify",
-        "build-keycloak-theme-dsfr": "yarn build-dsfr && keycloakify",
         "prestorybook": "only-include-used-icons",
         "storybook": "start-storybook -p 6006",
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
@@ -59,6 +54,7 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
+        "@codegouvfr/sill": "^0.0.1",
         "@codegouvfr/react-dsfr": "^0.32.0",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
@@ -93,7 +89,6 @@
         "react-scripts": "5.0.1",
         "redux-clean-architecture": "^3.2.5",
         "run-exclusive": "^2.2.16",
-        "sill-api": "0.29.2",
         "tsafe": "^1.1.3",
         "tss-react": "^4.4.1",
         "type-route": "^1.0.1",

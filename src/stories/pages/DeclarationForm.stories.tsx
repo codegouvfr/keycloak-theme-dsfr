@@ -1,4 +1,4 @@
-import { DeclarationForm } from "ui-dsfr/pages/DeclarationForm";
+import { DeclarationForm } from "ui/pages/DeclarationForm";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

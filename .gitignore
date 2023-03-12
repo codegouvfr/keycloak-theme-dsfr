@@ -35,5 +35,3 @@ package-lock.json
 /.yarn_home
 
 /public/dsfr/
-/public/index.html
-/src/index.ts

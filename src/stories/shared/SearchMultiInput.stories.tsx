@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SearchMultiInput } from "ui-dsfr/shared/SearchMultiInput";
+import { SearchMultiInput } from "ui/shared/SearchMultiInput";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 import { symToStr } from "tsafe/symToStr";

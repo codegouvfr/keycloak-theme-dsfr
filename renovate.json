@@ -14,7 +14,7 @@
         {
             "packagePatterns": ["*"],
             "excludePackagePatterns": [
-                "sill-api",
+                "@codegouvfr/sill",
                 "minimal-polyfills",
                 "cra-envs",
                 "evt",
@@ -31,7 +31,7 @@
         },
         {
             "packagePatterns": [
-                "sill-api",
+                "@codegouvfr/sill",
                 "minimal-polyfills",
                 "cra-envs",
                 "evt",

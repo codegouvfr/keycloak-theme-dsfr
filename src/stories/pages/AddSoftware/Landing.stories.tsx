@@ -1,4 +1,4 @@
-import { AddSoftwareLanding } from "ui-dsfr/pages/AddSoftwareLanding/AddSoftwareLanding";
+import { AddSoftwareLanding } from "ui/pages/AddSoftwareLanding/AddSoftwareLanding";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

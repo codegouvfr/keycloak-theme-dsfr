@@ -1,4 +1,4 @@
-import { SoftwareUserAndReferent } from "ui-dsfr/pages/SoftwareUserAndReferent/SoftwareUserAndReferent";
+import { SoftwareUserAndReferent } from "ui/pages/SoftwareUserAndReferent/SoftwareUserAndReferent";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

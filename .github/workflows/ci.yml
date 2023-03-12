@@ -151,4 +151,4 @@ jobs:
       with:
         token: ${{ secrets.PAT_PRIVATE_REPO_DISPATCH }}
         event-type: update_sill_web
-        repository: etalab/paris-sspcloud
+        repository: codegouvfr/paris-sspcloud

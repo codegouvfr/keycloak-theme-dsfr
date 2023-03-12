@@ -1,4 +1,4 @@
-import { Header } from "ui-dsfr/shared/Header";
+import { Header } from "ui/shared/Header";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 

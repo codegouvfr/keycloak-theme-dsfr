@@ -1,17 +1,23 @@
-import * as catalog from "./catalog";
-import * as serviceCatalog from "./serviceCatalog";
-import * as userAuthentication from "./userAuthentication";
+import * as softwareCatalog from "./softwareCatalog";
+import * as softwareDetails from "./softwareDetails";
 import * as softwareForm from "./softwareForm";
-import * as apiInfo from "./apiInfo";
-import * as fetchProxy from "./fetchProxy";
-import * as serviceForm from "./serviceForm";
+import * as declarationForm from "./declarationForm";
+import * as instanceForm from "./instanceForm";
+import * as userAuthentication from "./userAuthentication";
+import * as sillApiVersion from "./sillApiVersion";
+import * as softwareUserAndReferent from "./softwareUserAndReferent";
+import * as generalStats from "./generalStats";
+import * as searchSoftwareByName from "./searchSoftwareByName";
 
 export const usecases = {
-    catalog,
-    serviceCatalog,
-    userAuthentication,
+    softwareCatalog,
+    softwareDetails,
     softwareForm,
-    apiInfo,
-    fetchProxy,
-    serviceForm
+    declarationForm,
+    instanceForm,
+    userAuthentication,
+    sillApiVersion,
+    softwareUserAndReferent,
+    generalStats,
+    searchSoftwareByName
 };

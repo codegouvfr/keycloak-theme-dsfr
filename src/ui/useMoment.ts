@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useReducer } from "react";
 import moment from "moment";
 import "moment/locale/fr";
-import { useLang } from "ui/i18n";
+import { useLang } from "ui-dsfr/i18n";
 import { assert } from "tsafe/assert";
 import type { Language } from "sill-api";
 import { capitalize } from "tsafe/capitalize";
@@ -382,11 +382,18 @@ export const { useFromNow } = (() => {
     return { useFromNow };
 })();
 
-export const shortEndMonthDate = (params: { time: number }): string => {
-    const { time } = params;
+export const shortEndMonthDate = (params: { time: number; lang: string }): string => {
+    const { time, lang } = params;
 
-    const date = new Date(time);
-    const { lang } = useLang();
+    return moment(time * 1000)
+        .locale(lang)
+        .format(`MMM YYYY`);
+};
 
-    return moment(date).locale(lang).format(`MMM YYYY`);
+export const monthDate = (params: { time: number; lang: string }): string => {
+    const { time, lang } = params;
+
+    return moment(time * 1000)
+        .locale(lang)
+        .format(`MMMM YYYY`);
 };

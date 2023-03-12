@@ -1,72 +1,128 @@
 import { createRouter, defineRoute, param, noMatch } from "type-route";
-import type { ValueSerializer } from "type-route";
-import { id } from "tsafe/id";
-import type { AccountTabId } from "ui/components/pages/Account/accountTabIds";
-//NOTE: This import needs to stay relative for github-pages-plugin-for-type-route
-import { accountTabIds } from "./components/pages/Account/accountTabIds";
-import { makeThisModuleAnExecutableRouteLister } from "github-pages-plugin-for-type-route";
+import { createTypeRouteMock } from "ui/tools/typeRouteMock";
+import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
+import { isStorybook } from "ui/tools/isStorybook";
+import { z } from "zod";
 
 const routeDefs = {
     "home": defineRoute("/"),
-    "account": defineRoute(
+    "softwareCatalog": defineRoute(
         {
-            "tabId": param.query.optional
-                .ofType(
-                    id<ValueSerializer<AccountTabId>>({
-                        "parse": raw =>
-                            !id<readonly string[]>(accountTabIds).includes(raw)
-                                ? noMatch
-                                : (raw as AccountTabId),
-                        "stringify": value => value
-                    })
-                )
-                .default(accountTabIds[0])
+            "search": param.query.optional.string.default(""),
+            "sort": param.query.optional.ofType({
+                "parse": raw => {
+                    const schema: z.Schema<SoftwareCatalogState.Sort> = z.union([
+                        z.literal("added time"),
+                        z.literal("update time"),
+                        z.literal("last version publication date"),
+                        z.literal("user count"),
+                        z.literal("referent count"),
+                        z.literal("user count ASC"),
+                        z.literal("referent count ASC")
+                    ]);
+
+                    try {
+                        return schema.parse(raw);
+                    } catch {
+                        return noMatch;
+                    }
+                },
+                "stringify": value => value
+            }),
+            "organization": param.query.optional.string,
+            "category": param.query.optional.string,
+            "environment": param.query.optional.ofType({
+                "parse": raw => {
+                    const schema: z.Schema<SoftwareCatalogState.Environment> = z.union([
+                        z.literal("linux"),
+                        z.literal("windows"),
+                        z.literal("mac"),
+                        z.literal("browser")
+                    ]);
+
+                    try {
+                        return schema.parse(raw);
+                    } catch {
+                        return noMatch;
+                    }
+                },
+                "stringify": value => value
+            }),
+            "referentCount": param.query.optional.number,
+            "prerogatives": param.query.optional
+                .ofType({
+                    "parse": raw => {
+                        const schema: z.Schema<
+                            SoftwareCatalogState["prerogatives"][number][]
+                        > = z.array(
+                            z.enum([
+                                "isPresentInSupportContract",
+                                "isFromFrenchPublicServices",
+                                "doRespectRgaa",
+                                "isInstallableOnUserTerminal",
+                                "isTestable"
+                            ] as const)
+                        );
+
+                        try {
+                            return schema.parse(JSON.parse(raw));
+                        } catch {
+                            return noMatch;
+                        }
+                    },
+                    "stringify": value => JSON.stringify(value)
+                })
+                .default([])
         },
-        () => `/account`
+        () => `/list`
     ),
-    "catalog": defineRoute(
+    "softwareDetails": defineRoute(
         {
-            "q": param.query.optional.string.default("")
-        },
-        () => `/software`
-    ),
-    "serviceCatalog": defineRoute(
-        {
-            "q": param.query.optional.string.default("")
-        },
-        () => `/services`
-    ),
-    "card": defineRoute(
-        {
-            /** Can be the software name (string) or it's `${id}` (for legacy route compat)  */
             "name": param.query.string
         },
-        () => `/software`
+        () => `/detail`
     ),
-    "form": defineRoute(
+    "softwareCreationForm": defineRoute("/add"),
+    "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update"),
+    "instanceCreationForm": defineRoute(
         {
-            "softwareId": param.query.optional.number
+            "softwareName": param.query.optional.string
         },
-        () => `/form`
+        () => "/add-instance"
     ),
-    "serviceForm": defineRoute(
+    "instanceUpdateForm": defineRoute(
         {
-            "serviceId": param.query.optional.number
+            "id": param.query.number
         },
-        () => `/service-form`
+        () => "/update-instance"
     ),
-    "legacyRoute": defineRoute(
+    "addSoftwareLanding": defineRoute("/add-software"),
+    "declarationForm": defineRoute(
         {
-            "lang": param.path.string,
-            "id": param.query.optional.number
+            "name": param.query.string
         },
-        ({ lang }) => `/${lang}/software`
+        () => `/declaration`
     ),
+    "softwareUsersAndReferents": defineRoute(
+        {
+            "name": param.query.string
+        },
+        () => `/users-and-referents`
+    ),
+    "account": defineRoute("/account"),
     "fourOhFour": defineRoute("/404"),
     "terms": defineRoute("/terms"),
     "readme": defineRoute("/readme")
 };
 
-export const { RouteProvider, useRoute, routes } = createRouter(routeDefs);
+const { RouteProvider, useRoute, routes: realRoutes, session } = createRouter(routeDefs);
 
-makeThisModuleAnExecutableRouteLister(routeDefs);
+export { RouteProvider, useRoute, session };
+
+const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
+    "routes": realRoutes
+});
+
+export { createMockRouteFactory };
+
+export const routes = isStorybook ? routesProxy : realRoutes;

@@ -1,4 +1,4 @@
-import { SoftwareCatalog } from "ui-dsfr/pages/SoftwareCatalog/SoftwareCatalog";
+import { SoftwareCatalog } from "ui/pages/SoftwareCatalog/SoftwareCatalog";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 
