@@ -48,7 +48,7 @@ const { CoreProvider } = createCoreProvider({
 
 export default function App() {
     return (
-        <CoreProvider>
+        <CoreProvider fallback={null}>
             <RouteProvider>
                 <ContextualizedApp />
             </RouteProvider>
