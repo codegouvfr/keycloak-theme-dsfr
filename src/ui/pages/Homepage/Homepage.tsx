@@ -3,7 +3,6 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { createGroup, Route } from "type-route";
 import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -13,19 +12,14 @@ import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "../../../core";
 import { SearchByProfile } from "./SearchByProfile";
+import type { PageRoute } from "./route";
 
-Homepage.routeGroup = createGroup([routes.home]);
-
-type PageRoute = Route<typeof Homepage.routeGroup>;
-
-Homepage.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
-export function Homepage(props: Props) {
+export default function Homepage(props: Props) {
     const { className, route, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();

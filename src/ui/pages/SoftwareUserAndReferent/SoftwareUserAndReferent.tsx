@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { createGroup } from "type-route";
-import type { Route } from "type-route";
+import { useEffect, useState } from "react";
 import { routes, session } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
@@ -11,19 +9,14 @@ import { useTranslation } from "ui/i18n";
 import { ActionsFooter } from "ui/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
-
-SoftwareUserAndReferent.routeGroup = createGroup([routes.softwareUsersAndReferents]);
-
-type PageRoute = Route<typeof SoftwareUserAndReferent.routeGroup>;
-
-SoftwareUserAndReferent.getDoRequireUserLoggedIn = () => false;
+import type { PageRoute } from "./route";
 
 export type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
-export function SoftwareUserAndReferent(props: Props) {
+export default function SoftwareUserAndReferent(props: Props) {
     const { route } = props;
 
     const { softwareDetails, softwareUserAndReferent } = useCoreFunctions();

@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { createGroup } from "type-route";
-import type { Route } from "type-route";
+import { useEffect } from "react";
 import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
@@ -17,19 +15,14 @@ import { compact } from "lodash";
 import { ActionsFooter } from "../../shared/ActionsFooter";
 import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
 import { Button } from "@codegouvfr/react-dsfr/Button";
+import type { PageRoute } from "./route";
 
-SoftwareDetails.routeGroup = createGroup([routes.softwareDetails]);
-
-type PageRoute = Route<typeof SoftwareDetails.routeGroup>;
-
-SoftwareDetails.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
-export function SoftwareDetails(props: Props) {
+export default function SoftwareDetails(props: Props) {
     const { route } = props;
 
     const { softwareDetails } = useCoreFunctions();

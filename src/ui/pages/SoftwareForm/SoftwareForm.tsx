@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { createGroup, type Route } from "type-route";
+import { useEffect } from "react";
 import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SoftwareFormStep1 } from "./Step1";
@@ -20,24 +19,16 @@ import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { ActionsFooter } from "../../shared/ActionsFooter";
+import type { PageRoute } from "./route";
 
-SoftwareForm.routeGroup = createGroup([
-    routes.softwareCreationForm,
-    routes.softwareUpdateForm
-]);
-
-type PageRoute = Route<typeof SoftwareForm.routeGroup>;
-
-SoftwareForm.getDoRequireUserLoggedIn = () => true;
-
-export type Props = {
+type Props = {
     className?: string;
     route: PageRoute;
 };
 
-const STEP_COUNT = 4;
+const stepCount = 4;
 
-export function SoftwareForm(props: Props) {
+export default function SoftwareForm(props: Props) {
     const { className, route, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
@@ -126,7 +117,7 @@ export function SoftwareForm(props: Props) {
                 </div>
                 <Stepper
                     currentStep={step}
-                    stepCount={STEP_COUNT}
+                    stepCount={stepCount}
                     title={t("stepper title", { "currentStepIndex": step })}
                     className={classes.stepper}
                 />

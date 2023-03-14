@@ -1,4 +1,4 @@
-import { SoftwareForm } from "ui/pages/SoftwareForm";
+import { SoftwareForm } from "ui/pages/softwareForm";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

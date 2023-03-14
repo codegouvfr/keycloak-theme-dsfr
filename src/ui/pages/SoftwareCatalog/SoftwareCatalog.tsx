@@ -1,27 +1,20 @@
 import { useEffect, useTransition, useMemo } from "react";
-import { createGroup } from "type-route";
-import type { Route } from "type-route";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { SoftwareCatalogControlled } from "./SoftwareCatalogControlled";
 import { Props as SoftwareCatalogControlledProps } from "./SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
+import type { PageRoute } from "./route";
 
-SoftwareCatalog.routeGroup = createGroup([routes.softwareCatalog]);
-
-type PageRoute = Route<typeof SoftwareCatalog.routeGroup>;
-
-SoftwareCatalog.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
 const { useDebounce } = createUseDebounce({ "delay": 400 });
 
-export function SoftwareCatalog(props: Props) {
+export default function SoftwareCatalog(props: Props) {
     const { className, route } = props;
 
     const { softwareCatalog } = useCoreFunctions();

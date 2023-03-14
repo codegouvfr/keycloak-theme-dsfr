@@ -24,33 +24,33 @@ const {
     useResolveLocalizedString
 } = createI18nApi<
     | typeof import("ui/App").i18n
-    | typeof import("ui/pages/SoftwareCatalog/SoftwareCatalogControlled").i18n
-    | typeof import("ui/pages/SoftwareCatalog/SoftwareCatalogCard").i18n
-    | typeof import("ui/pages/SoftwareCatalog/Search").i18n
-    | typeof import("ui/pages/SoftwareDetails/SoftwareDetails").i18n
-    | typeof import("ui/pages/SoftwareDetails/HeaderDetailCard").i18n
-    | typeof import("ui/pages/SoftwareDetails/PreviewTab").i18n
-    | typeof import("ui/pages/SoftwareDetails/ReferencedInstancesTab").i18n
-    | typeof import("ui/pages/SoftwareDetails/AlikeSoftwareTab").i18n
-    | typeof import("ui/pages/SoftwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui/pages/SoftwareCatalog/DetailUsersAndReferents").i18n
-    | typeof import("ui/pages/DeclarationForm/DeclarationForm").i18n
-    | typeof import("ui/pages/DeclarationForm/Step1").i18n
-    | typeof import("ui/pages/DeclarationForm/Step2User").i18n
-    | typeof import("ui/pages/DeclarationForm/Step2Referent").i18n
+    | typeof import("ui/pages/softwareCatalog/SoftwareCatalogControlled").i18n
+    | typeof import("ui/pages/softwareCatalog/SoftwareCatalogCard").i18n
+    | typeof import("ui/pages/softwareCatalog/Search").i18n
+    | typeof import("ui/pages/softwareDetails/SoftwareDetails").i18n
+    | typeof import("ui/pages/softwareDetails/HeaderDetailCard").i18n
+    | typeof import("ui/pages/softwareDetails/PreviewTab").i18n
+    | typeof import("ui/pages/softwareDetails/ReferencedInstancesTab").i18n
+    | typeof import("ui/pages/softwareDetails/AlikeSoftwareTab").i18n
+    | typeof import("ui/pages/softwareUserAndReferent/SoftwareUserAndReferent").i18n
+    | typeof import("ui/pages/softwareCatalog/DetailUsersAndReferents").i18n
+    | typeof import("ui/pages/declarationForm/DeclarationForm").i18n
+    | typeof import("ui/pages/declarationForm/Step1").i18n
+    | typeof import("ui/pages/declarationForm/Step2User").i18n
+    | typeof import("ui/pages/declarationForm/Step2Referent").i18n
     | typeof import("ui/keycloak-theme/pages/Login").i18n
-    | typeof import("ui/pages/Homepage/Homepage").i18n
-    | typeof import("ui/pages/Homepage/SearchByProfile").i18n
-    | typeof import("ui/pages/AddSoftwareLanding/AddSoftwareLanding").i18n
-    | typeof import("ui/pages/SoftwareForm/SoftwareForm").i18n
-    | typeof import("ui/pages/SoftwareForm/Step1").i18n
-    | typeof import("ui/pages/SoftwareForm/Step2").i18n
-    | typeof import("ui/pages/SoftwareForm/Step3").i18n
-    | typeof import("ui/pages/SoftwareForm/Step4").i18n
-    | typeof import("ui/pages/InstanceForm/InstanceForm").i18n
-    | typeof import("ui/pages/InstanceForm/Step1").i18n
-    | typeof import("ui/pages/InstanceForm/Step2").i18n
-    | typeof import("ui/pages/Account/Account").i18n
+    | typeof import("ui/pages/homepage/Homepage").i18n
+    | typeof import("ui/pages/homepage/SearchByProfile").i18n
+    | typeof import("ui/pages/addSoftwareLanding/AddSoftwareLanding").i18n
+    | typeof import("ui/pages/softwareForm/SoftwareForm").i18n
+    | typeof import("ui/pages/softwareForm/Step1").i18n
+    | typeof import("ui/pages/softwareForm/Step2").i18n
+    | typeof import("ui/pages/softwareForm/Step3").i18n
+    | typeof import("ui/pages/softwareForm/Step4").i18n
+    | typeof import("ui/pages/instanceForm/InstanceForm").i18n
+    | typeof import("ui/pages/instanceForm/Step1").i18n
+    | typeof import("ui/pages/instanceForm/Step2").i18n
+    | typeof import("ui/pages/account/Account").i18n
     | typeof import("ui/shared/Header").i18n
     | typeof import("ui/shared/Footer").i18n
     | typeof import("ui/keycloak-theme/pages/shared/UserProfileCommons").i18n

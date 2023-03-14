@@ -1,20 +1,10 @@
+import { Suspense } from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { useRoute } from "ui/routes";
-import { SoftwareCatalog } from "./pages/SoftwareCatalog";
-import { Homepage } from "./pages/Homepage/Homepage";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
-import { Terms } from "./pages/Terms";
-import { Readme } from "./pages/Readme";
-import { FourOhFour } from "./pages/FourOhFour";
-import { AddSoftwareLanding } from "./pages/AddSoftwareLanding/AddSoftwareLanding";
-import { SoftwareDetails } from "./pages/SoftwareDetails";
 import { declareComponentKeys } from "i18nifty";
-import { SoftwareUserAndReferent } from "./pages/SoftwareUserAndReferent";
-import { DeclarationForm } from "./pages/DeclarationForm";
 import { useCoreFunctions } from "core";
-import { SoftwareForm } from "./pages/SoftwareForm";
-import { Account } from "./pages/Account";
 import { RouteProvider } from "ui/routes";
 import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
 import { id } from "tsafe/id";
@@ -26,7 +16,7 @@ import {
 } from "ui/keycloak-theme/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
 import { getEnv } from "../env";
-import { InstanceForm } from "./pages/InstanceForm";
+import { pages, page404 } from "ui/pages";
 
 const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
 
@@ -86,167 +76,13 @@ function ContextualizedApp() {
                 }
             />
             <main className={classes.main}>
-                <Page route={route} />
+                <Suspense>
+                    <Page route={route} />
+                </Suspense>
             </main>
             <Footer />
         </div>
     );
-}
-
-function Page(props: { route: ReturnType<typeof useRoute> }) {
-    const { route } = props;
-
-    const { userAuthentication } = useCoreFunctions();
-
-    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
-
-    /*
-    Here is one of the few places in the codebase where we tolerate code duplication.
-    We sacrifice dryness for the sake of type safety and flexibility.
-    */
-    {
-        const Page = Homepage;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = SoftwareCatalog;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = AddSoftwareLanding;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-    {
-        const Page = SoftwareDetails;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = SoftwareUserAndReferent;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = DeclarationForm;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = SoftwareForm;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = InstanceForm;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = Account;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = Readme;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    {
-        const Page = Terms;
-
-        if (Page.routeGroup.has(route)) {
-            if (Page.getDoRequireUserLoggedIn() && !isUserLoggedIn) {
-                userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-                return null;
-            }
-
-            return <Page route={route} />;
-        }
-    }
-
-    return <FourOhFour />;
 }
 
 const useStyles = makeStyles({
@@ -283,3 +119,154 @@ export const { i18n } = declareComponentKeys<
     | "no result"
     | "search"
 >()({ "App": null });
+
+function Page(props: { route: ReturnType<typeof useRoute> }) {
+    const { route } = props;
+
+    const { userAuthentication } = useCoreFunctions();
+
+    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
+
+    const login = () => {
+        userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
+        return null;
+    };
+
+    /*
+    Here is one of the few places in the codebase where we tolerate code duplication.
+    We sacrifice dryness for the sake of type safety and flexibility.
+    */
+    {
+        const page = pages.account;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.addSoftwareLanding;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.declarationForm;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.homepage;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.instanceForm;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.readme;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.softwareCatalog;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.softwareDetails;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.softwareForm;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.softwareUserAndReferent;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    {
+        const page = pages.terms;
+
+        if (page.routeGroup.has(route)) {
+            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
+                return login();
+            }
+
+            return <page.LazyComponent route={route} />;
+        }
+    }
+
+    return <page404.LazyComponent />;
+}

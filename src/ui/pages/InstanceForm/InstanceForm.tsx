@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { createGroup, type Route } from "type-route";
+import { useEffect } from "react";
 import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { InstanceFormStep1 } from "./Step1";
@@ -18,22 +17,14 @@ import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { ActionsFooter } from "../../shared/ActionsFooter";
-
-InstanceForm.routeGroup = createGroup([
-    routes.instanceCreationForm,
-    routes.instanceUpdateForm
-]);
-
-type PageRoute = Route<typeof InstanceForm.routeGroup>;
-
-InstanceForm.getDoRequireUserLoggedIn = () => true;
+import type { PageRoute } from "./route";
 
 export type Props = {
     className?: string;
     route: PageRoute;
 };
 
-export function InstanceForm(props: Props) {
+export default function InstanceForm(props: Props) {
     const { className, route, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */

@@ -1,7 +1,4 @@
 import { useEffect } from "react";
-import type { Route } from "type-route";
-import { createGroup } from "type-route";
-import { routes } from "ui/routes";
 import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
 import { useQuery } from "react-query";
@@ -9,22 +6,17 @@ import { useCoreFunctions } from "core";
 import { makeStyles } from "tss-react/dsfr";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { fr } from "@codegouvfr/react-dsfr";
+import type { PageRoute } from "./route";
 const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
 
-Readme.routeGroup = createGroup([routes.readme]);
-
-type PageRoute = Route<typeof Readme.routeGroup>;
-
-Readme.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
     route: PageRoute;
 };
 
 const queryClient = new QueryClient();
 
-export function Readme(props: Props) {
+export default function Readme(props: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <ReadmeExpectQueryContext {...props} />
@@ -72,7 +64,7 @@ function ReadmeExpectQueryContext(props: Props) {
     );
 }
 
-export const useStyles = makeStyles()(theme => ({
+export const useStyles = makeStyles({ "name": { Readme } })(theme => ({
     "root": {
         "display": "flex",
         "justifyContent": "center"

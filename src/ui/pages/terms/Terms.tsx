@@ -2,9 +2,6 @@ import { useEffect, useMemo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useConst } from "powerhooks/useConst";
 import { useCoreFunctions } from "core";
-import type { Route } from "type-route";
-import { createGroup } from "type-route";
-import { routes } from "ui/routes";
 import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
 import { useQuery } from "react-query";
@@ -13,21 +10,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useLang, fallbackLanguage } from "ui/i18n";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
+import type { PageRoute } from "./route";
 
-Terms.routeGroup = createGroup([routes.terms]);
-
-type PageRoute = Route<typeof Terms.routeGroup>;
-
-Terms.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
     route: PageRoute;
 };
 
 const queryClient = new QueryClient();
 
-export function Terms(props: Props) {
+export default function Terms(props: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <TermsExpectQueryContext {...props} />

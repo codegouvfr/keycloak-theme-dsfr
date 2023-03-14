@@ -1,20 +1,19 @@
-import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { Link } from "type-route";
 import { useTranslation } from "ui/i18n";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
-import { Equals } from "tsafe";
+import type { Equals } from "tsafe";
 
-export type Props = {
+type Props = {
     className?: string;
     seeUserAndReferent: Link;
     referentCount: number;
     userCount: number;
 };
 
-export const DetailUsersAndReferents = (props: Props) => {
+export function DetailUsersAndReferents(props: Props) {
     const { className, seeUserAndReferent, referentCount, userCount, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
@@ -38,11 +37,9 @@ export const DetailUsersAndReferents = (props: Props) => {
             <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
         </a>
     );
-};
+}
 
-const useStyles = makeStyles({
-    "name": { DetailUsersAndReferents }
-})(() => ({
+const useStyles = makeStyles({ "name": { DetailUsersAndReferents } })(() => ({
     "root": {
         "display": "flex",
         "alignItems": "center",

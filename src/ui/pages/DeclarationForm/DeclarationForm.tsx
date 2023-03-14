@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { createGroup, type Route } from "type-route";
+import { useEffect, type MouseEvent } from "react";
 import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -20,21 +19,16 @@ import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { useTranslation } from "ui/i18n";
 import { declareComponentKeys } from "i18nifty";
 import { ActionsFooter } from "../../shared/ActionsFooter";
+import type { PageRoute } from "./route";
 
-DeclarationForm.routeGroup = createGroup([routes.declarationForm]);
-
-type PageRoute = Route<typeof DeclarationForm.routeGroup>;
-
-DeclarationForm.getDoRequireUserLoggedIn = () => true;
-
-export type Props = {
+type Props = {
     className?: string;
     route: PageRoute;
 };
 
-const STEP_COUNT = 2;
+const stepCount = 2;
 
-export function DeclarationForm(props: Props) {
+export default function DeclarationForm(props: Props) {
     const { className, route, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
@@ -75,12 +69,12 @@ export function DeclarationForm(props: Props) {
         return <CircularProgress />;
     }
 
-    const onBackStep = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const onBackStep = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         declarationForm.navigateToPreviousStep();
     };
 
-    const onNextStep = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const onNextStep = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         evtActionSubmitStep.post();
     };
@@ -193,7 +187,7 @@ export function DeclarationForm(props: Props) {
                     <div className={cx("fr-form-group", classes.rightCol)}>
                         <Stepper
                             currentStep={step}
-                            stepCount={STEP_COUNT}
+                            stepCount={stepCount}
                             title={title}
                             className={classes.stepper}
                         />
@@ -254,7 +248,7 @@ export function DeclarationForm(props: Props) {
                     priority="primary"
                     disabled={handleDisableNextButton()}
                 >
-                    {step === STEP_COUNT ? t("send") : commoni18n.t("next")}
+                    {step === stepCount ? t("send") : commoni18n.t("next")}
                 </Button>
             </ActionsFooter>
         </div>

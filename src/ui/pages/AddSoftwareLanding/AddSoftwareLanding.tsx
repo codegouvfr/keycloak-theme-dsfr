@@ -1,34 +1,27 @@
-import React from "react";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { createGroup, Route } from "type-route";
+import type { PageRoute } from "./route";
 import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 
-AddSoftwareLanding.routeGroup = createGroup([routes.addSoftwareLanding]);
-
-type PageRoute = Route<typeof AddSoftwareLanding.routeGroup>;
-
-AddSoftwareLanding.getDoRequireUserLoggedIn = () => false;
-
-export type Props = {
+type Props = {
     className?: string;
-    route: Pick<PageRoute, "params">;
+    route: PageRoute;
 };
 
-export function AddSoftwareLanding(props: Props) {
+export default function AddSoftwareLanding(props: Props) {
     const { className, route, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ AddSoftwareLanding });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": undefined });
 
     const whoCanAddAccordionList = [
         {
@@ -80,13 +73,13 @@ export function AddSoftwareLanding(props: Props) {
                                 {...routes.softwareCreationForm().link}
                                 className={fr.cx("fr-btn")}
                             >
-                                {commoni18n.t("add software")}
+                                {commonI18n.t("add software")}
                             </a>
                             <a
                                 {...routes.instanceCreationForm().link}
                                 className={fr.cx("fr-btn", "fr-btn--secondary")}
                             >
-                                {commoni18n.t("add instance")}
+                                {commonI18n.t("add instance")}
                             </a>
                         </div>
                     </div>

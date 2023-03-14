@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createGroup, type Route } from "type-route";
-import { routes } from "ui/routes";
+import { useEffect, useState } from "react";
+import type { PageRoute } from "./route";
 import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useTranslation } from "ui/i18n";
@@ -10,16 +9,12 @@ import { declareComponentKeys } from "i18nifty";
 import Display from "@codegouvfr/react-dsfr/Display";
 import { useCoreFunctions } from "core";
 
-Account.routeGroup = createGroup([routes.account]);
-type PageRoute = Route<typeof Account.routeGroup>;
-Account.getDoRequireUserLoggedIn = () => false;
-
 export type Props = {
     className?: string;
     route: PageRoute;
 };
 
-export function Account(props: Props) {
+export default function Account(props: Props) {
     const { className, route, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */

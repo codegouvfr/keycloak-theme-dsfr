@@ -5,7 +5,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
-import { SoftwareCatalogCard } from "../SoftwareCatalog/SoftwareCatalogCard";
+import { SoftwareCatalogCard } from "../softwareCatalog/SoftwareCatalogCard";
 
 export type Props = {
     className?: string;
