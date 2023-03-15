@@ -41,7 +41,7 @@ export function createOidc(params: {
 
     return id<Oidc.LoggedIn>({
         "isUserLoggedIn": true,
-        ...(() => {
+        "getAccessToken": (() => {
             const { jwtClaims, user } = params;
 
             const accessToken = encodeJwt(
@@ -50,7 +50,7 @@ export function createOidc(params: {
                 )
             );
 
-            return { accessToken };
+            return () => accessToken;
         })(),
         "logout": () => {
             const { newUrl } = addParamToUrl({
