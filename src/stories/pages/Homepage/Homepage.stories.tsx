@@ -1,4 +1,4 @@
-import { Homepage } from "ui/pages/homepage/Homepage";
+import Homepage from "ui/pages/homepage/Homepage";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

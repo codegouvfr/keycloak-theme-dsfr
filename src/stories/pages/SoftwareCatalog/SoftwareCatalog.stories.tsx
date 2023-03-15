@@ -1,4 +1,4 @@
-import { SoftwareCatalog } from "ui/pages/softwareCatalog/SoftwareCatalog";
+import SoftwareCatalog from "ui/pages/softwareCatalog/SoftwareCatalog";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

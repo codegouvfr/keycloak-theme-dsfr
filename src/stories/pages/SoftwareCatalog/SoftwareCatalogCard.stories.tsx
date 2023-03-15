@@ -1,7 +1,6 @@
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
 import { sectionName } from "./sectionName";
-import { getStoryFactory, logCallbacks } from "stories/getStory";
-import LibreOfficeLogo from "stories/assets/logo_libreoffice.png";
+import { getStoryFactory } from "stories/getStory";
 import LogoNextCloud from "stories/assets/logo_nextcloud.png";
 
 const { meta, getStory } = getStoryFactory({

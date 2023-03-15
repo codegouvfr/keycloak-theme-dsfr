@@ -11,7 +11,7 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    authentication: {
+    userAuthenticationApi: {
         "isUserLoggedIn": false,
         "login": () => {
             console.log("Logging in");

@@ -1,4 +1,4 @@
-import { SoftwareDetails } from "ui/pages/softwareDetails/SoftwareDetails";
+import SoftwareDetails from "ui/pages/softwareDetails/SoftwareDetails";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

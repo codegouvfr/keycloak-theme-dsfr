@@ -1,4 +1,4 @@
-import { AddSoftwareLanding } from "ui/pages/addSoftwareLanding/AddSoftwareLanding";
+import AddSoftwareLanding from "ui/pages/addSoftwareLanding/AddSoftwareLanding";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

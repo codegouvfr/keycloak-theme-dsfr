@@ -1,4 +1,4 @@
-import { InstanceForm } from "ui/pages/instanceForm";
+import InstanceForm from "ui/pages/instanceForm/InstanceForm";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 
