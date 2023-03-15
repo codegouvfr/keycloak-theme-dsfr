@@ -1,30 +1,23 @@
-import type { OidcClient } from "../../ports/OidcClient";
+import type { Oidc } from "../ports/Oidc";
 import keycloak_js from "keycloak-js";
 import { id } from "tsafe/id";
 import { createKeycloakAdapter } from "keycloakify";
-import type { NonPostableEvt } from "evt";
 import { decodeJwt } from "core/tools/jwt";
 import type { Param0, ReturnType } from "tsafe";
 import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
+import { assert } from "tsafe/assert";
+import { Evt } from "evt";
 
-export async function createKeycloakOidcClient(params: {
+export async function createOidc(params: {
     url: string;
     realm: string;
     clientId: string;
     transformUrlBeforeRedirect: (url: string) => string;
-    evtUserActivity: NonPostableEvt<void>;
     getUiLocales: () => string;
     log?: typeof console.log;
-}): Promise<OidcClient> {
-    const {
-        url,
-        realm,
-        clientId,
-        transformUrlBeforeRedirect,
-        evtUserActivity,
-        getUiLocales,
-        log
-    } = params;
+}): Promise<Oidc> {
+    const { url, realm, clientId, transformUrlBeforeRedirect, getUiLocales, log } =
+        params;
 
     const keycloakInstance = keycloak_js({ url, realm, clientId });
 
@@ -59,9 +52,7 @@ export async function createKeycloakOidcClient(params: {
         throw isAuthenticated;
     }
 
-    const login: OidcClient.NotLoggedIn["login"] = async ({
-        doesCurrentHrefRequiresAuth
-    }) => {
+    const login: Oidc.NotLoggedIn["login"] = async ({ doesCurrentHrefRequiresAuth }) => {
         if (doesCurrentHrefRequiresAuth) {
             redirectMethod = "location.replace";
         }
@@ -72,15 +63,19 @@ export async function createKeycloakOidcClient(params: {
     };
 
     if (!isAuthenticated) {
-        return id<OidcClient.NotLoggedIn>({
+        return id<Oidc.NotLoggedIn>({
             "isUserLoggedIn": false,
             login
         });
     }
 
-    const oidcClient = id<OidcClient.LoggedIn>({
+    assert(keycloakInstance.token !== undefined);
+
+    let currentAccessToken = keycloakInstance.token;
+
+    const Oidc = id<Oidc.LoggedIn>({
         "isUserLoggedIn": true,
-        "accessToken": keycloakInstance.token!,
+        "getAccessToken": () => currentAccessToken,
         "logout": async ({ redirectTo }) => {
             await keycloakInstance.logout({
                 "redirectUri": (() => {
@@ -98,20 +93,25 @@ export async function createKeycloakOidcClient(params: {
         "updateTokenInfo": async () => {
             await keycloakInstance.updateToken(-1);
 
-            oidcClient.accessToken = keycloakInstance.token!;
+            assert(keycloakInstance.token !== undefined);
+
+            currentAccessToken = keycloakInstance.token;
         }
     });
 
     (function callee() {
         const msBeforeExpiration =
-            decodeJwt<{ exp: number }>(oidcClient.accessToken)["exp"] * 1000 - Date.now();
+            decodeJwt<{ exp: number }>(currentAccessToken)["exp"] * 1000 - Date.now();
 
         setTimeout(async () => {
             log?.(
                 `OIDC access token will expire in ${minValiditySecond} seconds, waiting for user activity before renewing`
             );
 
-            await evtUserActivity.waitFor();
+            await Evt.merge([
+                Evt.from(document, "mousemove"),
+                Evt.from(document, "keydown")
+            ]).waitFor();
 
             log?.("User activity detected. Refreshing access token now");
 
@@ -126,13 +126,15 @@ export async function createKeycloakOidcClient(params: {
                 await login({ "doesCurrentHrefRequiresAuth": true });
             }
 
-            oidcClient.accessToken = keycloakInstance.token!;
+            assert(keycloakInstance.token !== undefined);
+
+            currentAccessToken = keycloakInstance.token;
 
             callee();
         }, msBeforeExpiration - minValiditySecond * 1000);
     })();
 
-    return oidcClient;
+    return Oidc;
 }
 
 const minValiditySecond = 25;

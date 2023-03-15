@@ -5,7 +5,7 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import { exclude } from "tsafe/exclude";
 import { createSelector } from "@reduxjs/toolkit";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 
 export type State = State.NotReady | State.Ready;
 
@@ -27,7 +27,7 @@ export namespace State {
         organization: string;
         usecaseDescription: string;
         /** NOTE: undefined if the software is not of type desktop */
-        os: SillApiClient.Os | undefined;
+        os: SillApi.Os | undefined;
         version: string;
         /** NOTE: Defined only when software is cloud */
         serviceUrl: string | undefined;
@@ -90,7 +90,7 @@ export const thunks = {
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             {
                 const state = getState()[name];
@@ -102,7 +102,7 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
-            const agents = await sillApiClient.getAgents();
+            const agents = await sillApi.getAgents();
 
             const users: State.SoftwareUser[] = [];
             const referents: State.SoftwareReferent[] = [];
@@ -159,7 +159,7 @@ export const thunks = {
                 }
             }
 
-            const software = (await sillApiClient.getSoftwares()).find(
+            const software = (await sillApi.getSoftwares()).find(
                 software => software.softwareName === softwareName
             );
 

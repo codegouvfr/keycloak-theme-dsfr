@@ -3,14 +3,14 @@ import { id } from "tsafe/id";
 import { encodeJwt } from "core/tools/jwt";
 import { addParamToUrl, retrieveParamFromUrl } from "powerhooks/tools/urlSearchParams";
 import { objectKeys } from "tsafe/objectKeys";
-import type { OidcClient } from "../../ports/OidcClient";
-import type { User } from "../../ports/UserApiClient";
+import type { Oidc } from "../ports/Oidc";
+import type { User } from "../ports/GetUser";
 
-export function createPhonyOidcClient(params: {
+export function createOidc(params: {
     isUserInitiallyLoggedIn: boolean;
     jwtClaims: Record<keyof User, string>;
     user: User;
-}): OidcClient {
+}): Oidc {
     const isUserLoggedIn = (() => {
         const result = retrieveParamFromUrl({
             "url": window.location.href,
@@ -23,7 +23,7 @@ export function createPhonyOidcClient(params: {
     })();
 
     if (!isUserLoggedIn) {
-        return id<OidcClient.NotLoggedIn>({
+        return id<Oidc.NotLoggedIn>({
             "isUserLoggedIn": false,
             "login": async () => {
                 const { newUrl } = addParamToUrl({
@@ -39,7 +39,7 @@ export function createPhonyOidcClient(params: {
         });
     }
 
-    return id<OidcClient.LoggedIn>({
+    return id<Oidc.LoggedIn>({
         "isUserLoggedIn": true,
         ...(() => {
             const { jwtClaims, user } = params;

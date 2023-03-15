@@ -1,14 +1,14 @@
-import type { User } from "./UserApiClient";
+import type { User } from "./GetUser";
 import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
 
-export type SillApiClient = {
+export type SillApi = {
     getSoftwares: {
-        (): Promise<SillApiClient.Software[]>;
+        (): Promise<SillApi.Software[]>;
         clear: () => void;
     };
     getInstances: {
-        (): Promise<SillApiClient.Instance[]>;
+        (): Promise<SillApi.Instance[]>;
         clear: () => void;
     };
     getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (params: {
@@ -22,16 +22,14 @@ export type SillApiClient = {
     }>;
     getWikidataOptions: (params: {
         queryString: string;
-    }) => Promise<SillApiClient.WikidataEntry[]>;
-    createSoftware: (params: {
-        formData: SillApiClient.SoftwareFormData;
-    }) => Promise<void>;
+    }) => Promise<SillApi.WikidataEntry[]>;
+    createSoftware: (params: { formData: SillApi.SoftwareFormData }) => Promise<void>;
     updateSoftware: (params: {
         softwareSillId: number;
-        formData: SillApiClient.SoftwareFormData;
+        formData: SillApi.SoftwareFormData;
     }) => Promise<void>;
     createUserOrReferent: (params: {
-        formData: SillApiClient.DeclarationFormData;
+        formData: SillApi.DeclarationFormData;
     }) => Promise<void>;
     createInstance: (params: CreateInstanceParam) => Promise<{ instanceId: number }>;
     updateInstance: (
@@ -66,7 +64,7 @@ export type SillApiClient = {
         clear: () => void;
     };
     getAgents: {
-        (): Promise<SillApiClient.Agent[]>;
+        (): Promise<SillApi.Agent[]>;
         clear: () => void;
     };
     getTotalReferentCount: {
@@ -84,10 +82,10 @@ type CreateInstanceParam = {
     organization: string;
     targetAudience: string;
     publicUrl: string | undefined;
-    otherSoftwares: SillApiClient.WikidataEntry[];
+    otherSoftwares: SillApi.WikidataEntry[];
 };
 
-export namespace SillApiClient {
+export namespace SillApi {
     export type Software = {
         logoUrl: string | undefined;
         softwareId: number;

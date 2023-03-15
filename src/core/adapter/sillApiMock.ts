@@ -1,14 +1,225 @@
 import { Fzf } from "fzf";
 import memoize from "memoizee";
-import type { SillApiClient } from "../../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import { id } from "tsafe/id";
-import LogoNextCloud from "./assets/logo_nextcloud.png";
-import LogoLibreOffice from "./assets/logo_libreoffice.png";
-import LogoWordpress from "./assets/logo_wordpress.png";
+import LogoNextCloud from "ui/assets/logo_nextcloud.png";
+import LogoLibreOffice from "ui/assets/logo_libreoffice.png";
+import LogoWordpress from "ui/assets/logo_wordpress.png";
 import { assert } from "tsafe/assert";
 
+export const sillApi: SillApi = {
+    "getSoftwares": memoize(() => Promise.resolve([...softwares]), { "promise": true }),
+    "getAgents": memoize(() => Promise.resolve([...agents]), { "promise": true }),
+    "createSoftware": async ({ formData }) => {
+        console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
+
+        const software: SillApi.Software = {
+            "logoUrl": undefined,
+            "softwareId":
+                softwares
+                    .map(({ softwareId }) => softwareId)
+                    .sort()
+                    .reverse()[0] + 1,
+            "softwareName": formData.softwareName,
+            "codeRepositoryUrl": undefined,
+            "authors": [],
+            "versionMin": "3.9.0",
+            "serviceProviderCount": 0,
+            "compotoirDuLibreId": formData.comptoirDuLibreId,
+            "wikidataId": formData.wikidataId,
+            "license": formData.softwareLicense,
+            "officialWebsiteUrl": undefined,
+            "softwareDescription": formData.softwareDescription,
+            "lastVersion": undefined,
+            "parentSoftware": undefined,
+            "softwareType": formData.softwareType,
+            "similarSoftwares": formData.similarSoftwares,
+            "testUrl": undefined,
+            "addedTime": Date.now(),
+            "updateTime": Date.now(),
+            "categories": [],
+            "prerogatives": {
+                "doRespectRgaa": false,
+                "isFromFrenchPublicServices": formData.isFromFrenchPublicService,
+                "isPresentInSupportContract": formData.isPresentInSupportContract ?? false
+            },
+            "userAndReferentCountByOrganization": {
+                "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+                "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+                "DINUM": { "referentCount": 2, "userCount": 43 }
+            }
+        };
+
+        softwares.push(software);
+    },
+    "updateSoftware": async ({ formData, softwareSillId }) => {
+        const index = softwares.findIndex(
+            software => software.softwareId === softwareSillId
+        );
+
+        assert(index !== -1);
+
+        softwares[index] = {
+            ...softwares[index],
+            ...id<SillApi.Software>({
+                "logoUrl": undefined,
+                "softwareId":
+                    softwares
+                        .map(({ softwareId }) => softwareId)
+                        .sort()
+                        .reverse()[0] + 1,
+                "softwareName": formData.softwareName,
+                "codeRepositoryUrl": undefined,
+                "authors": [],
+                "versionMin": "3.9.0",
+                "serviceProviderCount": 0,
+                "compotoirDuLibreId": formData.comptoirDuLibreId,
+                "wikidataId": formData.wikidataId,
+                "license": formData.softwareLicense,
+                "officialWebsiteUrl": undefined,
+                "softwareDescription": formData.softwareDescription,
+                "lastVersion": undefined,
+                "parentSoftware": undefined,
+                "softwareType": formData.softwareType,
+                "similarSoftwares": formData.similarSoftwares,
+                "testUrl": undefined,
+                "addedTime": Date.now(),
+                "updateTime": Date.now(),
+                "categories": [],
+                "prerogatives": {
+                    "doRespectRgaa": false,
+                    "isFromFrenchPublicServices": formData.isFromFrenchPublicService,
+                    "isPresentInSupportContract":
+                        formData.isPresentInSupportContract ?? false
+                },
+                "userAndReferentCountByOrganization": {
+                    "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
+                    "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
+                    "DINUM": { "referentCount": 2, "userCount": 43 }
+                }
+            })
+        };
+    },
+    "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({ wikidataId }) => {
+        await new Promise(resolve => setTimeout(resolve, 1));
+
+        return {
+            wikidataId,
+            "comptoirDuLibreId": 123,
+            "softwareName": `Software ${wikidataId}`,
+            "softwareDescription": `Software ${wikidataId} description`,
+            "softwareLicense": `Software ${wikidataId} license`,
+            "softwareMinimalVersion": `1.3.4`
+        };
+    },
+    "getWikidataOptions": async ({ queryString }) => {
+        if (queryString === "") {
+            return [];
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        const entries = fzf.find("cd");
+
+        return entries.map(({ item }) => item);
+    },
+    "createUserOrReferent": async ({ formData }) => {
+        console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
+    },
+    "createInstance": async params => {
+        console.log(`Creating instance ${JSON.stringify(params)}`);
+        return {
+            "instanceId": 33
+        };
+    },
+    "updateInstance": async params => {
+        console.log(`Updating instance ${JSON.stringify(params)}`);
+    },
+    "getInstances": memoize(
+        async () => {
+            return [
+                {
+                    "instanceId": 0,
+                    "mainSoftwareSillId": 9,
+                    "organization": "CNRS",
+                    "otherSoftwares": [],
+                    "publicUrl": "https://videos.ahp-numerique.fr/",
+                    "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
+                l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`
+                }
+            ];
+        },
+        { "promise": true }
+    ),
+    "getOidcParams": memoize(
+        async () => ({
+            "keycloakParams": undefined,
+            "jwtClaims": {
+                "agencyName": "a",
+                "email": "b",
+                "id": "c",
+                "locale": "d"
+            },
+            "termsOfServicesUrl": "https://example.com/tos.ms"
+        }),
+        { "promise": true }
+    ),
+    "getVersion": memoize(async () => "0.0.0", { "promise": true }),
+    "updateAgencyName": async ({ newAgencyName }) => {
+        console.log(`Update agency name ${newAgencyName}`);
+    },
+    "updateEmail": async ({ newEmail }) => {
+        console.log(`Update email ${newEmail}`);
+    },
+    "getAllowedEmailRegexp": memoize(async () => "/gouv.fr$/", { "promise": true }),
+    "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
+        "promise": true
+    }),
+    "getTotalReferentCount": memoize(async () => 322, { "promise": true }),
+    "getRegisteredUserCount": memoize(async () => 500, { "promise": true })
+};
+
+const options: SillApi.WikidataEntry[] = [
+    {
+        "wikidataId": "Q110492908",
+        "wikidataLabel": "Onyxia",
+        "wikidataDescription": "A data science oriented container launcher"
+    },
+    {
+        "wikidataId": "Q107693197",
+        "wikidataLabel": "Keycloakify",
+        "wikidataDescription": "Build tool for creating Keycloak themes using React"
+    },
+    {
+        "wikidataId": "Q8038",
+        "wikidataDescription": "image retouching and editing tool",
+        "wikidataLabel": "GIMP"
+    },
+    {
+        "wikidataId": "Q10135",
+        "wikidataDescription": "office suite supported by the free software community",
+        "wikidataLabel": "LibreOffice"
+    },
+    {
+        "wikidataId": "Q19841877",
+        "wikidataDescription": "source code editor developed by Microsoft",
+        "wikidataLabel": "Visual Studio Code"
+    },
+    {
+        "wikidataId": "Q50938515",
+        "wikidataDescription":
+            "decentralized video hosting network, based on free/libre software",
+        "wikidataLabel": "PeerTube"
+    }
+];
+
+const fzf = new Fzf(options, {
+    "selector": item =>
+        `${item.wikidataLabel} ${item.wikidataDescription} ${item.wikidataId}`
+});
+
 const softwares = [
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoNextCloud,
         "softwareId": 0,
         "softwareName": "NextCloud",
@@ -61,7 +272,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 1,
         "softwareName": "LibreOffice",
@@ -113,7 +324,7 @@ const softwares = [
             "CA du Puy-en-Velay": { "referentCount": 1, "userCount": 0 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoWordpress,
         "softwareId": 2,
         "softwareName": "Wordpress",
@@ -163,7 +374,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 3,
         "softwareName": "VLC",
@@ -210,7 +421,7 @@ const softwares = [
         },
         "userAndReferentCountByOrganization": {}
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 4,
         "softwareName": "Debian",
@@ -258,7 +469,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 5,
         "softwareName": "Thunderbird",
@@ -319,7 +530,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 6,
         "softwareName": "Qgis",
@@ -365,7 +576,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 7,
         "softwareName": "Mozilla Firefox",
@@ -426,7 +637,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 8,
         "softwareName": "PostgreSQL",
@@ -470,7 +681,7 @@ const softwares = [
             "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 9,
         "softwareName": "Peertube",
@@ -513,7 +724,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApiClient.Software>({
+    id<SillApi.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 10,
         "softwareName": "Archifiltre",
@@ -553,7 +764,7 @@ const softwares = [
     })
 ];
 
-const users: SillApiClient.Agent[] = [
+const agents: SillApi.Agent[] = [
     {
         organization: "Développement durable",
         email: "agent1@codegouv.fr",
@@ -595,219 +806,3 @@ const users: SillApiClient.Agent[] = [
         ]
     }
 ];
-
-export function createMockSillApiClient(): SillApiClient {
-    return {
-        "getSoftwares": memoize(() => Promise.resolve(softwares), { "promise": true }),
-        "getAgents": memoize(() => Promise.resolve(users), { "promise": true }),
-        "createSoftware": async ({ formData }) => {
-            console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
-
-            const software: SillApiClient.Software = {
-                "logoUrl": undefined,
-                "softwareId":
-                    softwares
-                        .map(({ softwareId }) => softwareId)
-                        .sort()
-                        .reverse()[0] + 1,
-                "softwareName": formData.softwareName,
-                "codeRepositoryUrl": undefined,
-                "authors": [],
-                "versionMin": "3.9.0",
-                "serviceProviderCount": 0,
-                "compotoirDuLibreId": formData.comptoirDuLibreId,
-                "wikidataId": formData.wikidataId,
-                "license": formData.softwareLicense,
-                "officialWebsiteUrl": undefined,
-                "softwareDescription": formData.softwareDescription,
-                "lastVersion": undefined,
-                "parentSoftware": undefined,
-                "softwareType": formData.softwareType,
-                "similarSoftwares": formData.similarSoftwares,
-                "testUrl": undefined,
-                "addedTime": Date.now(),
-                "updateTime": Date.now(),
-                "categories": [],
-                "prerogatives": {
-                    "doRespectRgaa": false,
-                    "isFromFrenchPublicServices": formData.isFromFrenchPublicService,
-                    "isPresentInSupportContract":
-                        formData.isPresentInSupportContract ?? false
-                },
-                "userAndReferentCountByOrganization": {
-                    "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
-                    "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
-                    "DINUM": { "referentCount": 2, "userCount": 43 }
-                }
-            };
-
-            softwares.push(software);
-        },
-        "updateSoftware": async ({ formData, softwareSillId }) => {
-            const index = softwares.findIndex(
-                software => software.softwareId === softwareSillId
-            );
-
-            assert(index !== -1);
-
-            softwares[index] = {
-                ...softwares[index],
-                ...id<SillApiClient.Software>({
-                    "logoUrl": undefined,
-                    "softwareId":
-                        softwares
-                            .map(({ softwareId }) => softwareId)
-                            .sort()
-                            .reverse()[0] + 1,
-                    "softwareName": formData.softwareName,
-                    "codeRepositoryUrl": undefined,
-                    "authors": [],
-                    "versionMin": "3.9.0",
-                    "serviceProviderCount": 0,
-                    "compotoirDuLibreId": formData.comptoirDuLibreId,
-                    "wikidataId": formData.wikidataId,
-                    "license": formData.softwareLicense,
-                    "officialWebsiteUrl": undefined,
-                    "softwareDescription": formData.softwareDescription,
-                    "lastVersion": undefined,
-                    "parentSoftware": undefined,
-                    "softwareType": formData.softwareType,
-                    "similarSoftwares": formData.similarSoftwares,
-                    "testUrl": undefined,
-                    "addedTime": Date.now(),
-                    "updateTime": Date.now(),
-                    "categories": [],
-                    "prerogatives": {
-                        "doRespectRgaa": false,
-                        "isFromFrenchPublicServices": formData.isFromFrenchPublicService,
-                        "isPresentInSupportContract":
-                            formData.isPresentInSupportContract ?? false
-                    },
-                    "userAndReferentCountByOrganization": {
-                        "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 },
-                        "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
-                        "DINUM": { "referentCount": 2, "userCount": 43 }
-                    }
-                })
-            };
-        },
-        "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({
-            wikidataId
-        }) => {
-            await new Promise(resolve => setTimeout(resolve, 1));
-
-            return {
-                wikidataId,
-                "comptoirDuLibreId": 123,
-                "softwareName": `Software ${wikidataId}`,
-                "softwareDescription": `Software ${wikidataId} description`,
-                "softwareLicense": `Software ${wikidataId} license`,
-                "softwareMinimalVersion": `1.3.4`
-            };
-        },
-        "getWikidataOptions": async ({ queryString }) => {
-            if (queryString === "") {
-                return [];
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            const entries = fzf.find("cd");
-
-            return entries.map(({ item }) => item);
-        },
-        "createUserOrReferent": async ({ formData }) => {
-            console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
-        },
-        "createInstance": async params => {
-            console.log(`Creating instance ${JSON.stringify(params)}`);
-            return {
-                "instanceId": 33
-            };
-        },
-        "updateInstance": async params => {
-            console.log(`Updating instance ${JSON.stringify(params)}`);
-        },
-        "getInstances": memoize(
-            async () => {
-                return [
-                    {
-                        "instanceId": 0,
-                        "mainSoftwareSillId": 9,
-                        "organization": "CNRS",
-                        "otherSoftwares": [],
-                        "publicUrl": "https://videos.ahp-numerique.fr/",
-                        "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
-                l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`
-                    }
-                ];
-            },
-            { "promise": true }
-        ),
-        "getOidcParams": memoize(
-            async () => ({
-                "keycloakParams": undefined,
-                "jwtClaims": {
-                    "agencyName": "a",
-                    "email": "b",
-                    "id": "c",
-                    "locale": "d"
-                },
-                "termsOfServicesUrl": "https://example.com/tos.ms"
-            }),
-            { "promise": true }
-        ),
-        "getVersion": memoize(async () => "0.0.0", { "promise": true }),
-        "updateAgencyName": async ({ newAgencyName }) => {
-            console.log(`Update agency name ${newAgencyName}`);
-        },
-        "updateEmail": async ({ newEmail }) => {
-            console.log(`Update email ${newEmail}`);
-        },
-        "getAllowedEmailRegexp": memoize(async () => "/gouv.fr$/", { "promise": true }),
-        "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
-            "promise": true
-        }),
-        "getTotalReferentCount": memoize(async () => 322, { "promise": true }),
-        "getRegisteredUserCount": memoize(async () => 500, { "promise": true })
-    };
-}
-
-const options: SillApiClient.WikidataEntry[] = [
-    {
-        "wikidataId": "Q110492908",
-        "wikidataLabel": "Onyxia",
-        "wikidataDescription": "A data science oriented container launcher"
-    },
-    {
-        "wikidataId": "Q107693197",
-        "wikidataLabel": "Keycloakify",
-        "wikidataDescription": "Build tool for creating Keycloak themes using React"
-    },
-    {
-        "wikidataId": "Q8038",
-        "wikidataDescription": "image retouching and editing tool",
-        "wikidataLabel": "GIMP"
-    },
-    {
-        "wikidataId": "Q10135",
-        "wikidataDescription": "office suite supported by the free software community",
-        "wikidataLabel": "LibreOffice"
-    },
-    {
-        "wikidataId": "Q19841877",
-        "wikidataDescription": "source code editor developed by Microsoft",
-        "wikidataLabel": "Visual Studio Code"
-    },
-    {
-        "wikidataId": "Q50938515",
-        "wikidataDescription":
-            "decentralized video hosting network, based on free/libre software",
-        "wikidataLabel": "PeerTube"
-    }
-];
-
-const fzf = new Fzf(options, {
-    "selector": item =>
-        `${item.wikidataLabel} ${item.wikidataDescription} ${item.wikidataId}`
-});

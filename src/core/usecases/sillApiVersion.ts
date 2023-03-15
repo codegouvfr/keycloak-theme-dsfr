@@ -25,10 +25,10 @@ export const privateThunks = {
         async (...args) => {
             const [, , extraArg] = args;
 
-            const { sillApiClient } = extraArg;
+            const { sillApi } = extraArg;
 
             setContext(extraArg, {
-                "version": await sillApiClient.getVersion()
+                "version": await sillApi.getVersion()
             });
         }
 };

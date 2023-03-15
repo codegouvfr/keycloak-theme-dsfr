@@ -4,10 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import type { Param0 } from "tsafe";
 
-export type WikidataEntry = SillApiClient.WikidataEntry;
+export type WikidataEntry = SillApi.WikidataEntry;
 
 type State = State.NotInitialized | State.Ready;
 
@@ -144,8 +144,7 @@ export const thunks = {
                   }
         ): ThunkAction =>
         async (...args) => {
-            const [dispatch, getState, { sillApiClient, userApiClient, oidcClient }] =
-                args;
+            const [dispatch, getState, { sillApi, getUser, oidc }] = args;
 
             {
                 const state = getState()[name];
@@ -162,7 +161,7 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
-            const softwares = await sillApiClient.getSoftwares();
+            const softwares = await sillApi.getSoftwares();
 
             const allSillSoftwares = softwares.map(
                 ({ softwareName, softwareId, softwareDescription }) => ({
@@ -174,7 +173,7 @@ export const thunks = {
 
             switch (params.type) {
                 case "update":
-                    const instance = (await sillApiClient.getInstances()).find(
+                    const instance = (await sillApi.getInstances()).find(
                         instance => instance.instanceId === params.instanceId
                     );
 
@@ -205,9 +204,9 @@ export const thunks = {
                                       software.softwareName === params.softwareName
                               );
 
-                    assert(oidcClient.isUserLoggedIn);
+                    assert(oidc.isUserLoggedIn);
 
-                    const user = await userApiClient.getUser();
+                    const user = await getUser();
 
                     dispatch(
                         actions.initializationCompleted({
@@ -270,7 +269,7 @@ export const thunks = {
         async (...args) => {
             const { targetAudience, publicUrl, organization } = props;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             const state = getState()[name];
 
@@ -296,16 +295,16 @@ export const thunks = {
             dispatch(actions.submissionStarted());
 
             if (instanceId !== undefined) {
-                await sillApiClient.updateInstance({
+                await sillApi.updateInstance({
                     ...instanceDescription,
                     instanceId
                 });
             } else {
-                instanceId = (await sillApiClient.createInstance(instanceDescription))
+                instanceId = (await sillApi.createInstance(instanceDescription))
                     .instanceId;
             }
 
-            sillApiClient.getInstances.clear();
+            sillApi.getInstances.clear();
 
             dispatch(actions.formSubmitted({ instanceId }));
         },

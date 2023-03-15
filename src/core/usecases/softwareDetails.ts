@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import { createSelector } from "@reduxjs/toolkit";
 import {
     type State as SoftwareCatalogState,
@@ -110,7 +110,7 @@ export const thunks = {
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             {
                 const state = getState()[name];
@@ -128,8 +128,8 @@ export const thunks = {
             dispatch(actions.initializationStarted());
 
             const software = apiSoftwareToSoftware({
-                "apiSoftwares": await sillApiClient.getSoftwares(),
-                "apiInstances": await sillApiClient.getInstances(),
+                "apiSoftwares": await sillApi.getSoftwares(),
+                "apiInstances": await sillApi.getInstances(),
                 softwareName
             });
 
@@ -169,8 +169,8 @@ export const selectors = (() => {
 })();
 
 function apiSoftwareToSoftware(params: {
-    apiSoftwares: SillApiClient.Software[];
-    apiInstances: SillApiClient.Instance[];
+    apiSoftwares: SillApi.Software[];
+    apiInstances: SillApi.Instance[];
     softwareName: string;
 }): State.Software {
     const { apiSoftwares, apiInstances, softwareName } = params;

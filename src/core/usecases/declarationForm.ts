@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import type { Param0 } from "tsafe";
 
 type State = State.NotInitialized | State.Ready;
@@ -33,11 +33,11 @@ namespace State {
 export type FormData = FormData.User | FormData.Referent;
 
 export namespace FormData {
-    export type User = SillApiClient.DeclarationFormData.User;
-    export type Referent = SillApiClient.DeclarationFormData.Referent;
+    export type User = SillApi.DeclarationFormData.User;
+    export type Referent = SillApi.DeclarationFormData.Referent;
 }
 
-export const name = "declarationForm" as const;
+export const name = "declarationForm";
 
 export const { reducer, actions } = createSlice({
     name,
@@ -111,7 +111,7 @@ export const thunks = {
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             {
                 const state = getState()[name];
@@ -128,7 +128,7 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
-            const software = (await sillApiClient.getSoftwares()).find(
+            const software = (await sillApi.getSoftwares()).find(
                 software => software.softwareName === softwareName
             );
 
@@ -199,7 +199,7 @@ export const thunks = {
         async (...args) => {
             const { formData } = props;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             const state = getState()[name];
 
@@ -209,10 +209,10 @@ export const thunks = {
 
             dispatch(actions.submissionStarted());
 
-            await sillApiClient.createUserOrReferent({ formData });
+            await sillApi.createUserOrReferent({ formData });
 
-            sillApiClient.getAgents.clear();
-            sillApiClient.getSoftwares.clear();
+            sillApi.getAgents.clear();
+            sillApi.getSoftwares.clear();
 
             dispatch(
                 actions.formSubmitted({ "softwareName": state.software.softwareName })

@@ -7,8 +7,6 @@ import { declareComponentKeys } from "i18nifty";
 import { useCoreFunctions } from "core";
 import { RouteProvider } from "ui/routes";
 import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
-import { id } from "tsafe/id";
-import { Evt } from "evt";
 import { evtLang } from "ui/i18n";
 import {
     addSillApiUrlToQueryParams,
@@ -22,10 +20,6 @@ const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
-    "evtUserActivity": Evt.merge([
-        Evt.from(document, "mousemove"),
-        Evt.from(document, "keydown")
-    ]).pipe(() => [id<void>(undefined)]),
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServicesUrl }) =>
         [url]
             .map(injectGlobalStatesInSearchParams)

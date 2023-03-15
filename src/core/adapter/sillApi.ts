@@ -1,14 +1,14 @@
-import type { SillApiClient } from "../../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import { createTRPCClient } from "@trpc/client";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import type { TrpcRouter } from "sill-api";
 //import memoize from "memoizee";
 
-export function createTrpcSillApiClient(params: {
+export function createSillApi(params: {
     url: string;
     getOidcAccessToken: () => string | undefined;
-}): SillApiClient {
+}): SillApi {
     const { url, getOidcAccessToken } = params;
 
     const trpcClient = createTRPCClient<TrpcRouter>({

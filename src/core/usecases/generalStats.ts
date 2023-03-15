@@ -35,14 +35,14 @@ export const privateThunks = {
         async (...args) => {
             const [dispatch, , extraArg] = args;
 
-            const { sillApiClient, evtAction } = extraArg;
+            const { sillApi, evtAction } = extraArg;
 
             const init = async () => {
                 const [agentReferentCount, softwares, registeredUserCount] =
                     await Promise.all([
-                        sillApiClient.getTotalReferentCount(),
-                        sillApiClient.getSoftwares(),
-                        sillApiClient.getRegisteredUserCount()
+                        sillApi.getTotalReferentCount(),
+                        sillApi.getSoftwares(),
+                        sillApi.getRegisteredUserCount()
                     ]);
 
                 dispatch(

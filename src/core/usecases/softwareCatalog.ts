@@ -11,7 +11,7 @@ import { Fzf } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import { exclude } from "tsafe/exclude";
 
 export type State = {
@@ -81,7 +81,7 @@ export namespace State {
                 Exclude<Prerogative, "isInstallableOnUserTerminal" | "isTestable">,
                 boolean
             >;
-            softwareType: SillApiClient.SoftwareType;
+            softwareType: SillApi.SoftwareType;
             search: string;
         };
     }
@@ -147,10 +147,10 @@ export const privateThunks = {
     "initialize":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , { sillApiClient, evtAction }] = args;
+            const [dispatch, , { sillApi, evtAction }] = args;
 
             const initialize = async () => {
-                const apiSoftwares = await sillApiClient.getSoftwares();
+                const apiSoftwares = await sillApi.getSoftwares();
 
                 const softwares = apiSoftwares.map(({ softwareName }) => {
                     const software = apiSoftwareToInternalSoftware({
@@ -732,7 +732,7 @@ export const selectors = (() => {
 })();
 
 function apiSoftwareToInternalSoftware(params: {
-    apiSoftwares: SillApiClient.Software[];
+    apiSoftwares: SillApi.Software[];
     softwareRef:
         | {
               type: "wikidataId";
@@ -774,10 +774,7 @@ function apiSoftwareToInternalSoftware(params: {
     } = apiSoftware;
 
     assert<
-        Equals<
-            SillApiClient.Software["prerogatives"],
-            State.Software.Internal["prerogatives"]
-        >
+        Equals<SillApi.Software["prerogatives"], State.Software.Internal["prerogatives"]>
     >();
 
     const parentSoftware: State.Software.Internal["parentSoftware"] = (() => {
@@ -894,7 +891,7 @@ function internalSoftwareToExternalSoftware(
 }
 
 export function apiSoftwareToExternalCatalogSoftware(params: {
-    apiSoftwares: SillApiClient.Software[];
+    apiSoftwares: SillApi.Software[];
     wikidataId: string;
 }): State.Software.External | undefined {
     const { apiSoftwares, wikidataId } = params;

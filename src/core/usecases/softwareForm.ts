@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 import type { Param0 } from "tsafe";
 
 type SoftwareFormState = SoftwareFormState.NotInitialized | SoftwareFormState.Ready;
@@ -26,7 +26,7 @@ namespace SoftwareFormState {
 
 export type FormData = {
     step1: {
-        softwareType: SillApiClient.SoftwareType;
+        softwareType: SillApi.SoftwareType;
     };
     step2: {
         wikidataId: string | undefined;
@@ -170,7 +170,7 @@ export const thunks = {
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             {
                 const state = getState()[name];
@@ -192,7 +192,7 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
-            const software = (await sillApiClient.getSoftwares()).find(
+            const software = (await sillApi.getSoftwares()).find(
                 software => software.softwareName === softwareName
             );
 
@@ -273,7 +273,7 @@ export const thunks = {
         async (...args) => {
             const { formDataStep4 } = props;
 
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             const state = getState()[name];
 
@@ -293,15 +293,15 @@ export const thunks = {
             };
 
             await (state.softwareSillId !== undefined
-                ? sillApiClient.updateSoftware({
+                ? sillApi.updateSoftware({
                       "softwareSillId": state.softwareSillId,
                       formData
                   })
-                : sillApiClient.createSoftware({
+                : sillApi.createSoftware({
                       formData
                   }));
 
-            sillApiClient.getSoftwares.clear();
+            sillApi.getSoftwares.clear();
 
             dispatch(
                 actions.formSubmitted({
@@ -320,28 +320,26 @@ export const thunks = {
     "getWikidataOptions":
         (props: {
             queryString: string;
-        }): ThunkAction<ReturnType<SillApiClient["getWikidataOptions"]>> =>
+        }): ThunkAction<ReturnType<SillApi["getWikidataOptions"]>> =>
         (...args) => {
             const { queryString } = props;
 
-            const [, , { sillApiClient }] = args;
+            const [, , { sillApi }] = args;
 
-            return sillApiClient.getWikidataOptions({ queryString });
+            return sillApi.getWikidataOptions({ queryString });
         },
     "getAutofillData":
         (props: {
             wikidataId: string;
         }): ThunkAction<
-            ReturnType<
-                SillApiClient["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]
-            >
+            ReturnType<SillApi["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]>
         > =>
         (...args) => {
             const { wikidataId } = props;
 
             const [, , extraArg] = args;
 
-            return extraArg.sillApiClient.getSoftwareFormAutoFillDataFromWikidataAndOtherSources(
+            return extraArg.sillApi.getSoftwareFormAutoFillDataFromWikidataAndOtherSources(
                 { wikidataId }
             );
         }

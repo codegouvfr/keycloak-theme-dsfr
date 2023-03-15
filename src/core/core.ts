@@ -3,26 +3,18 @@ import { createCoreFromUsecases } from "redux-clean-architecture";
 import type { GenericCreateEvt, GenericThunks } from "redux-clean-architecture";
 import { usecases } from "./usecases";
 import type { ReturnType } from "tsafe/ReturnType";
-import {
-    createTrpcSillApiClient,
-    createMockSillApiClient
-} from "./adapter/SillApiClient";
-import { createKeycloakOidcClient, createPhonyOidcClient } from "./adapter/OidcClient";
-import { createJwtUserApiClient } from "./adapter/UserApiClient/jwt";
-import { assert } from "tsafe/assert";
 import type { LocalizedString } from "i18nifty";
 import type { Language } from "sill-api";
-import type { NonPostableEvt } from "evt";
-import type { OidcClient } from "./ports/OidcClient";
-import type { UserApiClient } from "./ports/UserApiClient";
+import type { Oidc } from "./ports/Oidc";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
+import { createGetUser } from "core/adapter/getUser";
+import type { GetUser } from "core/ports/GetUser";
 
 export async function createCore(params: {
     /** Empty string for using mock */
     apiUrl: string;
     /** Default: false, only considered if using mocks */
     isUserInitiallyLoggedIn?: boolean;
-    evtUserActivity: NonPostableEvt<void>;
     transformUrlBeforeRedirectToLogin: (params: {
         url: string;
         termsOfServicesUrl: LocalizedString<Language>;
@@ -33,72 +25,85 @@ export async function createCore(params: {
         apiUrl,
         isUserInitiallyLoggedIn = false,
         transformUrlBeforeRedirectToLogin,
-        evtUserActivity,
         getCurrentLang
     } = params;
 
-    let oidcClient: OidcClient | undefined = undefined;
+    let oidc: Oidc | undefined = undefined;
 
-    const sillApiClient =
-        apiUrl === ""
-            ? createMockSillApiClient()
-            : createTrpcSillApiClient({
-                  "url": apiUrl,
-                  "getOidcAccessToken": () => {
-                      if (oidcClient === undefined) {
-                          return undefined;
-                      }
-                      if (!oidcClient.isUserLoggedIn) {
-                          return undefined;
-                      }
-                      return oidcClient.accessToken;
-                  }
-              });
+    const sillApi = await (async () => {
+        if (apiUrl === "") {
+            const { sillApi } = await import("core/adapter/sillApiMock");
+
+            return sillApi;
+        }
+
+        const { createSillApi } = await import("core/adapter/sillApi");
+
+        const sillApi = createSillApi({
+            "url": apiUrl,
+            "getOidcAccessToken": () => {
+                if (oidc === undefined || !oidc.isUserLoggedIn) {
+                    return undefined;
+                }
+                return oidc.getAccessToken();
+            }
+        });
+
+        return sillApi;
+    })();
 
     const { keycloakParams, jwtClaims, termsOfServicesUrl } =
-        await sillApiClient.getOidcParams();
+        await sillApi.getOidcParams();
 
-    oidcClient =
-        keycloakParams === undefined
-            ? createPhonyOidcClient({
-                  isUserInitiallyLoggedIn,
-                  jwtClaims,
-                  "user": {
-                      "agencyName": "DINUM",
-                      "email": "joseph.garrone@code.gouv.fr",
-                      "id": "xxxxx",
-                      "locale": "fr"
-                  }
-              })
-            : await createKeycloakOidcClient({
-                  ...keycloakParams,
-                  evtUserActivity,
-                  "transformUrlBeforeRedirect": url =>
-                      transformUrlBeforeRedirectToLogin({
-                          url,
-                          termsOfServicesUrl
-                      }),
-                  "getUiLocales": getCurrentLang
-              });
+    oidc = await (async () => {
+        if (keycloakParams === undefined) {
+            const { createOidc } = await import("core/adapter/oidcMock");
 
-    const userApiClient = oidcClient.isUserLoggedIn
-        ? createJwtUserApiClient({
-              jwtClaims,
-              "getOidcAccessToken": () => {
-                  assert(oidcClient !== undefined);
-                  assert(oidcClient.isUserLoggedIn);
-                  return oidcClient.accessToken;
-              }
-          })
-        : createObjectThatThrowsIfAccessed<UserApiClient>();
+            return createOidc({
+                isUserInitiallyLoggedIn,
+                jwtClaims,
+                "user": {
+                    "agencyName": "DINUM",
+                    "email": "joseph.garrone@code.gouv.fr",
+                    "id": "xxxxx",
+                    "locale": "fr"
+                }
+            });
+        }
+
+        const { createOidc } = await import("core/adapter/oidc");
+
+        return createOidc({
+            ...keycloakParams,
+            "transformUrlBeforeRedirect": url =>
+                transformUrlBeforeRedirectToLogin({
+                    url,
+                    termsOfServicesUrl
+                }),
+            "getUiLocales": getCurrentLang
+        });
+    })();
+
+    const getUser = (() => {
+        if (!oidc.isUserLoggedIn) {
+            return createObjectThatThrowsIfAccessed<GetUser>();
+        }
+
+        const { getUser } = createGetUser({
+            jwtClaims,
+            "getOidcAccessToken": oidc.getAccessToken
+        });
+
+        return getUser;
+    })();
 
     const core = createCoreFromUsecases({
         usecases,
         "thunksExtraArgument": {
             "coreParams": params,
-            userApiClient,
-            oidcClient,
-            sillApiClient
+            sillApi,
+            oidc,
+            getUser
         }
     });
 

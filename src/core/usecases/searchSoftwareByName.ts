@@ -4,9 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApiClient } from "../ports/SillApiClient";
+import type { SillApi } from "../ports/SillApi";
 
-export type WikidataEntry = SillApiClient.WikidataEntry;
+export type WikidataEntry = SillApi.WikidataEntry;
 
 type State = State.NotInitialized | State.Ready;
 
@@ -71,7 +71,7 @@ export const privateThunks = {
     "initialize":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, getState, { sillApiClient }] = args;
+            const [dispatch, getState, { sillApi }] = args;
 
             {
                 const state = getState()[name];
@@ -88,7 +88,7 @@ export const privateThunks = {
 
             dispatch(actions.initializationStarted());
 
-            const softwares = await sillApiClient.getSoftwares();
+            const softwares = await sillApi.getSoftwares();
 
             const allSillSoftwares = softwares.map(
                 ({ softwareName, softwareId, softwareDescription }) => ({
