@@ -3,6 +3,20 @@ import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
 
 export type SillApi = {
+    getOidcParams: {
+        (): Promise<{
+            keycloakParams:
+                | {
+                      url: string;
+                      realm: string;
+                      clientId: string;
+                  }
+                | undefined;
+            jwtClaims: Record<keyof User, string>;
+            termsOfServicesUrl: LocalizedString<Language>;
+        }>;
+        clear: () => void;
+    };
     getSoftwares: {
         (): Promise<SillApi.Software[]>;
         clear: () => void;
@@ -35,20 +49,6 @@ export type SillApi = {
     updateInstance: (
         params: CreateInstanceParam & { instanceId: number }
     ) => Promise<void>;
-    getOidcParams: {
-        (): Promise<{
-            keycloakParams:
-                | {
-                      url: string;
-                      realm: string;
-                      clientId: string;
-                  }
-                | undefined;
-            jwtClaims: Record<keyof User, string>;
-            termsOfServicesUrl: LocalizedString<Language>;
-        }>;
-        clear: () => void;
-    };
     getVersion: {
         (): Promise<string>;
         clear: () => void;

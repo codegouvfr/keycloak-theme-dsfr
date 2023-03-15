@@ -7,10 +7,10 @@ import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "ui/routes";
 import { LanguageSelector } from "./LanguageSelector";
 
-export type Props = {
+type Props = {
     className?: string;
     routeName: keyof typeof routes | false;
-    authentication:
+    userAuthenticationApi:
         | {
               isUserLoggedIn: true;
               logout: () => void;
@@ -22,7 +22,7 @@ export type Props = {
 };
 
 export const Header = memo((props: Props) => {
-    const { className, routeName, authentication, ...rest } = props;
+    const { className, routeName, userAuthenticationApi, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
@@ -62,18 +62,18 @@ export const Header = memo((props: Props) => {
                 },
                 {
                     "iconId": "fr-icon-lock-line",
-                    ...(authentication.isUserLoggedIn
+                    ...(userAuthenticationApi.isUserLoggedIn
                         ? {
                               "linkProps": {
-                                  "onClick": authentication.logout
+                                  "onClick": userAuthenticationApi.logout
                               }
                           }
                         : {
                               "buttonProps": {
-                                  "onClick": authentication.login
+                                  "onClick": userAuthenticationApi.login
                               }
                           }),
-                    "text": authentication.isUserLoggedIn
+                    "text": userAuthenticationApi.isUserLoggedIn
                         ? t("quick access logout")
                         : t("quick access login")
                 },

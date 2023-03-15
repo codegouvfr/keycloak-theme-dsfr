@@ -11,6 +11,9 @@ import * as softwareForm from "./softwareForm";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
 import * as terms from "./terms";
 
+import { objectKeys } from "tsafe/objectKeys";
+import type { UnionToIntersection } from "tsafe";
+
 export const pages = {
     account,
     addSoftwareLanding,
@@ -24,5 +27,13 @@ export const pages = {
     softwareUserAndReferent,
     terms
 };
+
+export const routeDefs = {} as UnionToIntersection<
+    (typeof pages)[keyof typeof pages]["routeDefs"]
+>;
+
+objectKeys(pages).forEach(pageName =>
+    Object.assign(routeDefs, pages[pageName].routeDefs)
+);
 
 export { page404 };

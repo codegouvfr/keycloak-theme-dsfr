@@ -1,8 +1,16 @@
-import { createGroup, type Route } from "type-route";
-import { routes } from "ui/routes";
+import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
 
-export const routeGroup = createGroup([routes.declarationForm]);
+export const routeDefs = {
+    "declarationForm": defineRoute(
+        {
+            "name": param.query.string
+        },
+        () => `/declaration`
+    )
+};
+
+export const routeGroup = createGroup(Object.values(createRouter(routeDefs).routes));
 
 export type PageRoute = Route<typeof routeGroup>;
 
-export const getDoRequireUserLoggedIn: (route: PageRoute) => boolean = () => true;
+export const getDoRequireUserLoggedIn: (route: PageRoute) => boolean = () => false;

@@ -15,6 +15,8 @@ import {
 import { createCoreProvider } from "core";
 import { getEnv } from "../env";
 import { pages, page404 } from "ui/pages";
+import { useConst } from "powerhooks/useConst";
+import { objectKeys } from "tsafe/objectKeys";
 
 const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
 
@@ -43,35 +45,53 @@ export default function App() {
 function ContextualizedApp() {
     const route = useRoute();
 
-    const { classes, cx } = useStyles();
-
     const { userAuthentication } = useCoreFunctions();
 
+    const headerUserAuthenticationApi = useConst(() =>
+        userAuthentication.getIsUserLoggedIn()
+            ? {
+                  "isUserLoggedIn": true as const,
+                  "logout": () => userAuthentication.logout({ "redirectTo": "home" })
+              }
+            : {
+                  "isUserLoggedIn": false as const,
+                  "login": () =>
+                      userAuthentication.login({ "doesCurrentHrefRequiresAuth": false })
+              }
+    );
+
+    const { classes } = useStyles();
+
     return (
-        <div className={cx(classes.root)}>
+        <div className={classes.root}>
             <Header
                 routeName={route.name}
-                authentication={
-                    userAuthentication.getIsUserLoggedIn()
-                        ? {
-                              "isUserLoggedIn": true,
-                              "logout": () =>
-                                  userAuthentication.logout({
-                                      redirectTo: "home"
-                                  })
-                          }
-                        : {
-                              "isUserLoggedIn": false,
-                              "login": () =>
-                                  userAuthentication.login({
-                                      "doesCurrentHrefRequiresAuth": false
-                                  })
-                          }
-                }
+                userAuthenticationApi={headerUserAuthenticationApi}
             />
             <main className={classes.main}>
                 <Suspense>
-                    <Page route={route} />
+                    {(() => {
+                        for (const pageName of objectKeys(pages)) {
+                            //You must be able to replace "homepage" by any other page and get no type error.
+                            const page = pages[pageName as "homepage"];
+
+                            if (page.routeGroup.has(route)) {
+                                if (
+                                    page.getDoRequireUserLoggedIn(route) &&
+                                    !userAuthentication.getIsUserLoggedIn()
+                                ) {
+                                    userAuthentication.login({
+                                        "doesCurrentHrefRequiresAuth": true
+                                    });
+                                    return null;
+                                }
+
+                                return <page.LazyComponent route={route} />;
+                            }
+                        }
+
+                        return <page404.LazyComponent />;
+                    })()}
                 </Suspense>
             </main>
             <Footer />
@@ -113,154 +133,3 @@ export const { i18n } = declareComponentKeys<
     | "no result"
     | "search"
 >()({ "App": null });
-
-function Page(props: { route: ReturnType<typeof useRoute> }) {
-    const { route } = props;
-
-    const { userAuthentication } = useCoreFunctions();
-
-    const isUserLoggedIn = userAuthentication.getIsUserLoggedIn();
-
-    const login = () => {
-        userAuthentication.login({ "doesCurrentHrefRequiresAuth": true });
-        return null;
-    };
-
-    /*
-    Here is one of the few places in the codebase where we tolerate code duplication.
-    We sacrifice dryness for the sake of type safety and flexibility.
-    */
-    {
-        const page = pages.account;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.addSoftwareLanding;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.declarationForm;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.homepage;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.instanceForm;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.readme;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.softwareCatalog;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.softwareDetails;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.softwareForm;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.softwareUserAndReferent;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    {
-        const page = pages.terms;
-
-        if (page.routeGroup.has(route)) {
-            if (page.getDoRequireUserLoggedIn(route) && !isUserLoggedIn) {
-                return login();
-            }
-
-            return <page.LazyComponent route={route} />;
-        }
-    }
-
-    return <page404.LazyComponent />;
-}

@@ -1,7 +1,15 @@
-import { createGroup, type Route } from "type-route";
-import { routes } from "ui/routes";
+import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
 
-export const routeGroup = createGroup([routes.softwareDetails]);
+export const routeDefs = {
+    "softwareDetails": defineRoute(
+        {
+            "name": param.query.string
+        },
+        () => `/detail`
+    )
+};
+
+export const routeGroup = createGroup(Object.values(createRouter(routeDefs).routes));
 
 export type PageRoute = Route<typeof routeGroup>;
 
