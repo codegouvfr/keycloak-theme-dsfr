@@ -3,6 +3,10 @@ import type { Language } from "sill-api";
 import type { LocalizedString } from "i18nifty";
 
 export type SillApi = {
+    getApiVersion: {
+        (): Promise<string>;
+        clear: () => void;
+    };
     getOidcParams: {
         (): Promise<{
             keycloakParams:
@@ -25,6 +29,9 @@ export type SillApi = {
         (): Promise<SillApi.Instance[]>;
         clear: () => void;
     };
+    getWikidataOptions: (params: {
+        queryString: string;
+    }) => Promise<SillApi.WikidataEntry[]>;
     getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (params: {
         wikidataId: string;
     }) => Promise<{
@@ -34,9 +41,6 @@ export type SillApi = {
         softwareLicense: string | undefined;
         softwareMinimalVersion: string | undefined;
     }>;
-    getWikidataOptions: (params: {
-        queryString: string;
-    }) => Promise<SillApi.WikidataEntry[]>;
     createSoftware: (params: { formData: SillApi.SoftwareFormData }) => Promise<void>;
     updateSoftware: (params: {
         softwareSillId: number;
@@ -45,14 +49,18 @@ export type SillApi = {
     createUserOrReferent: (params: {
         formData: SillApi.DeclarationFormData;
     }) => Promise<void>;
-    createInstance: (params: CreateInstanceParam) => Promise<{ instanceId: number }>;
-    updateInstance: (
-        params: CreateInstanceParam & { instanceId: number }
-    ) => Promise<void>;
-    getVersion: {
-        (): Promise<string>;
+    createInstance: (params: {
+        formData: SillApi.InstanceFormData;
+    }) => Promise<{ instanceId: number }>;
+    updateInstance: (params: {
+        instanceId: number;
+        formData: SillApi.InstanceFormData;
+    }) => Promise<void>;
+    getAgents: {
+        (): Promise<SillApi.Agent[]>;
         clear: () => void;
     };
+
     updateAgencyName: (params: { newAgencyName: string }) => Promise<void>;
     updateEmail: (params: { newEmail: string }) => Promise<void>;
     getAllowedEmailRegexp: {
@@ -63,10 +71,6 @@ export type SillApi = {
         (): Promise<string[]>;
         clear: () => void;
     };
-    getAgents: {
-        (): Promise<SillApi.Agent[]>;
-        clear: () => void;
-    };
     getTotalReferentCount: {
         (): Promise<number>;
         clear: () => void;
@@ -75,14 +79,6 @@ export type SillApi = {
         (): Promise<number>;
         clear: () => void;
     };
-};
-
-type CreateInstanceParam = {
-    mainSoftwareSillId: number;
-    organization: string;
-    targetAudience: string;
-    publicUrl: string | undefined;
-    otherSoftwares: SillApi.WikidataEntry[];
 };
 
 export namespace SillApi {
@@ -174,13 +170,13 @@ export namespace SillApi {
 
     export type SoftwareFormData = {
         softwareType: SoftwareType;
-        wikidataId: string | undefined;
-        comptoirDuLibreId: number | undefined;
+        wikidataId?: string;
+        comptoirDuLibreId?: number;
         softwareName: string;
         softwareDescription: string;
         softwareLicense: string;
         softwareMinimalVersion: string;
-        isPresentInSupportContract: boolean | undefined;
+        isPresentInSupportContract?: boolean;
         isFromFrenchPublicService: boolean;
         similarSoftwares: WikidataEntry[];
     };
@@ -208,4 +204,12 @@ export namespace SillApi {
             serviceUrl: string | undefined;
         };
     }
+
+    export type InstanceFormData = {
+        mainSoftwareSillId: number;
+        organization: string;
+        targetAudience: string;
+        publicUrl: string | undefined;
+        otherSoftwares: SillApi.WikidataEntry[];
+    };
 }

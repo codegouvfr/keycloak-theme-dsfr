@@ -279,7 +279,7 @@ export const thunks = {
 
             assert(step1Data !== undefined);
 
-            const instanceDescription = {
+            const formData: SillApi.InstanceFormData = {
                 "mainSoftwareSillId": step1Data.mainSoftwareSillId,
                 organization,
                 "otherSoftwares": step1Data.otherSoftwares,
@@ -296,12 +296,15 @@ export const thunks = {
 
             if (instanceId !== undefined) {
                 await sillApi.updateInstance({
-                    ...instanceDescription,
+                    formData,
                     instanceId
                 });
             } else {
-                instanceId = (await sillApi.createInstance(instanceDescription))
-                    .instanceId;
+                instanceId = (
+                    await sillApi.createInstance({
+                        formData
+                    })
+                ).instanceId;
             }
 
             sillApi.getInstances.clear();
