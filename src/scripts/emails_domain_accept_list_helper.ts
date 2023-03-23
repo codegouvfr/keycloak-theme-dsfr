@@ -9,7 +9,7 @@
 import {
     emailDomainsToRegExpStr
     //regExpStrToEmailDomains,
-} from "../ui/components/KcApp/emailDomainAcceptListHelper";
+} from "../ui/keycloak-theme/emailDomainAcceptListHelper";
 import { id } from "tsafe/id";
 import * as fetch from "node-fetch";
 

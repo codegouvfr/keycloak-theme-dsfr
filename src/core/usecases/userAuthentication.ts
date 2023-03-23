@@ -2,7 +2,6 @@ import { assert } from "tsafe/assert";
 import type { User } from "../ports/GetUser";
 import type { ThunkAction } from "../core";
 import { createUsecaseContextApi } from "redux-clean-architecture";
-import { urlJoin } from "url-join-ts";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -203,12 +202,12 @@ export const privateThunks = {
             const keycloakAccountConfigurationUrl =
                 keycloakParams === undefined
                     ? undefined
-                    : urlJoin(
-                          keycloakParams.url,
+                    : [
+                          keycloakParams.url.replace(/\/$/, ""),
                           "realms",
                           keycloakParams.realm,
                           "account"
-                      );
+                      ].join("/");
 
             setContext(extraArg, {
                 "immutableUserFields":
