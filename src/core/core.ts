@@ -1,5 +1,6 @@
+import type { Action, ThunkAction as ReduxGenericThunkAction } from "@reduxjs/toolkit";
 import { createCoreFromUsecases } from "redux-clean-architecture";
-import type { GenericCreateEvt, GenericThunks } from "redux-clean-architecture";
+import type { GenericCreateEvt } from "redux-clean-architecture";
 import { usecases } from "./usecases";
 import type { ReturnType } from "tsafe/ReturnType";
 import type { LocalizedString } from "i18nifty";
@@ -106,7 +107,6 @@ export async function createCore(params: {
         }
     });
 
-    /*
     await Promise.all([
         core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
         core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
@@ -114,7 +114,6 @@ export async function createCore(params: {
         core.dispatch(usecases.generalStats.privateThunks.initialize()),
         core.dispatch(usecases.searchSoftwareByName.privateThunks.initialize())
     ]);
-    */
 
     return core;
 }
@@ -123,6 +122,14 @@ type Core = ReturnType<typeof createCore>;
 
 export type State = ReturnType<Core["getState"]>;
 
-export type Thunks = GenericThunks<Core>;
+/** @deprecated: Use Thunks as soon as we cas use 'satisfy' from TS 4.9 */
+export type ThunkAction<RtnType = Promise<void>> = ReduxGenericThunkAction<
+    RtnType,
+    State,
+    Core["thunksExtraArgument"],
+    Action<string>
+>;
+
+//export type Thunks = GenericThunks<Core>;
 
 export type CreateEvt = GenericCreateEvt<Core>;
