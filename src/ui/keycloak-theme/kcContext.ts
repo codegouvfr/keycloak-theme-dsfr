@@ -1,15 +1,7 @@
 import { getKcContext } from "keycloakify/lib/getKcContext";
 
-/** It's the Keycloak context, it is undefined unless we are on Keycloak, rendering the login pages. */
-export const { kcContext } = getKcContext<{
-    pageId: "register.ftl";
-    authorizedMailDomains: string[];
-}>({
+export const { kcContext } = getKcContext({
     //"mockPageId": "terms.ftl",
-    /**
-     * Customize the simulated kcContext that will let us
-     * dev the page outside keycloak (with auto-reload)
-     */
     "mockData": [
         {
             "pageId": "login.ftl",
@@ -30,10 +22,6 @@ export const { kcContext } = getKcContext<{
                 "loginWithEmailAllowed": true,
                 "registrationEmailAsUsername": true
             }
-            /*            "message": {
-                "summary": "Ca a foiré",
-                "type": "error"
-            }*/
         },
         {
             "pageId": "register-user-profile.ftl",
