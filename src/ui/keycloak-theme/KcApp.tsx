@@ -1,11 +1,13 @@
 import { lazy, Suspense } from "react";
-import type { KcContext } from "./kcContext";
-import { useI18n } from "./i18n";
-import Fallback, { defaultKcProps, type KcProps, type PageProps } from "keycloakify";
-import Template from "./Template";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
+import Fallback, { type PageProps } from "keycloakify/login";
+import type { KcContext } from "./kcContext";
+import { useI18n } from "./i18n";
+// Leave it this way, it must always be evaluated.
+import {} from "./valuesTransferredOverUrl";
 
+const Template = lazy(() => import("./Template"));
 const Login = lazy(() => import("./pages/Login"));
 const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -15,14 +17,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
 
     const i18n = useI18n({ kcContext });
 
-    const { classes } = useStyles();
-
-    const kcProps: KcProps = {
-        ...defaultKcProps,
-        "kcHtmlClass": [...defaultKcProps.kcHtmlClass, classes.kcHtmlClass],
-        "kcButtonPrimaryClass": [classes.kcButtonPrimaryClass, fr.cx("fr-btn")],
-        "kcInputClass": fr.cx("fr-input")
-    };
+    const { classes, cx } = useStyles();
 
     //NOTE: Locales not yet downloaded
     if (i18n === null) {
@@ -32,8 +27,12 @@ export default function KcApp(props: { kcContext: KcContext }) {
     const pageProps: Omit<PageProps<any, typeof i18n>, "kcContext"> = {
         i18n,
         Template,
-        "doFetchDefaultThemeResources": true,
-        ...kcProps
+        "doUseDefaultCss": true,
+        "classes": {
+            "kcHtmlClass": classes.kcHtmlClass,
+            "kcButtonPrimaryClass": cx(classes.kcButtonPrimaryClass, fr.cx("fr-btn")),
+            "kcInputClass": fr.cx("fr-input")
+        }
     };
 
     return (

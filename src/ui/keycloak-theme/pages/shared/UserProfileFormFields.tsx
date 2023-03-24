@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormValidation } from "keycloakify/login/lib/useFormValidation";
 import type { I18n } from "ui/keycloak-theme/i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { AutocompleteInput } from "ui/keycloak-theme/pages/shared/AutocompleteInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
+import { createSillApi } from "core/adapter/sillApi";
+import { getSillApiUrl } from "../../valuesTransferredOverUrl";
 
 export type UserProfileFormFieldsProps = {
     kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];
@@ -38,7 +40,20 @@ export function UserProfileFormFields({
         onIsFormSubmittableValueChange(isFormSubmittable);
     }, [isFormSubmittable]);
 
-    const organizationOptions = ["organization1", "organization2"];
+    const { organizations } = (function () {
+        const [organizations, setOrganizations] = useState<string[]>([]);
+
+        useEffect(() => {
+            createSillApi({
+                "getOidcAccessToken": () => undefined,
+                "url": getSillApiUrl()
+            })
+                .getAgencyNames()
+                .then(setOrganizations);
+        }, []);
+
+        return { organizations };
+    })();
 
     return (
         <>
@@ -55,7 +70,7 @@ export function UserProfileFormFields({
                         <AutocompleteInput
                             className={fr.cx("fr-input-group")}
                             freeSolo
-                            options={organizationOptions}
+                            options={organizations}
                             value={value}
                             onValueChange={value =>
                                 formValidationDispatch({

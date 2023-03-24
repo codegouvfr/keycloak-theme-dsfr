@@ -6,8 +6,11 @@ import {
 } from "powerhooks/tools/urlSearchParams";
 import type { LocalizedString } from "ui/i18n";
 import { capitalize } from "tsafe/capitalize";
+import { assert } from "tsafe/assert";
 
-export const { termsOfServicesUrl, addTermsOfServicesUrlToQueryParams } = (() => {
+//This file must be imported in KcApp!
+
+export const { getTermsOfServicesUrl, addTermsOfServicesUrlToQueryParams } = (() => {
     const queryParamName = "termsOfServicesUrl";
 
     type Type = LocalizedString;
@@ -33,14 +36,17 @@ export const { termsOfServicesUrl, addTermsOfServicesUrlToQueryParams } = (() =>
     }
 
     const out = {
-        [queryParamName]: value,
+        [`get${capitalize(queryParamName)}` as const]: () => {
+            assert(value !== undefined);
+            return value;
+        },
         [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
     } as const;
 
     return out;
 })();
 
-export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
+export const { getSillApiUrl, addSillApiUrlToQueryParams } = (() => {
     const queryParamName = "sillApiUrl";
 
     type Type = string;
@@ -66,7 +72,10 @@ export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
     }
 
     const out = {
-        [queryParamName]: value,
+        [`get${capitalize(queryParamName)}` as const]: () => {
+            assert(value !== undefined);
+            return value;
+        },
         [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
     } as const;
 
