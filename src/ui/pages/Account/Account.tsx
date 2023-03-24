@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { PageRoute } from "./route";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useTranslation } from "ui/i18n";
 import { assert } from "tsafe/assert";

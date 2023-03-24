@@ -3,7 +3,7 @@ import { useSplashScreen } from "onyxia-ui";
 import { Markdown } from "onyxia-ui/Markdown";
 import { useQuery } from "react-query";
 import { useCoreFunctions } from "core";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";

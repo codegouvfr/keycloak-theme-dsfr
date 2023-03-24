@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 import { createResolveLocalizedString } from "i18nifty";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useLang, fallbackLanguage } from "ui/i18n";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
 

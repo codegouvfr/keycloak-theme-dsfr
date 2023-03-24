@@ -3,7 +3,7 @@ import type { KcContext } from "./kcContext";
 import { useI18n } from "./i18n";
 import Fallback, { defaultKcProps, type KcProps, type PageProps } from "keycloakify";
 import Template from "./Template";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 
 const Login = lazy(() => import("./pages/Login"));

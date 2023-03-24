@@ -13,7 +13,16 @@ export const { useI18n } = createUseI18n({
         "email hint": "For example : name@example.com",
         "password": "Your password",
         "noAccount": "No account yet",
-        "backToLogin": "Back to login"
+        "backToLogin": "Back to login",
+        "you domain isn't allowed yet":
+            "Your email domain isn't allowed yet. Contact us ",
+        "mail body": [
+            "Hello, ",
+            "Would you, assuming it's granted, add my domain to the accept list.  ",
+            "",
+            "Best regards,"
+        ].join("\n"),
+        "mail subject": "[SILL] Adding new mail domain to the accept list"
     },
     "fr": {
         /* spell-checker: disable */
@@ -28,9 +37,29 @@ export const { useI18n } = createUseI18n({
         "email hint": "Par exemple : nom@exemple.com",
         "password": "Votre mot de passe",
         "noAccount": "Pas encore de compte",
-        "backToLogin": "Retour à la connexion"
+        "backToLogin": "Retour à la connexion",
+        "you domain isn't allowed yet":
+            "Votre domaine n'est pas encore autorisé. Contactez-nous ",
+        "mail body": [
+            "Bonjour,",
+            "Veuillez, sous réserve qu'il soit éligible, ajouter mon nom de domaineà la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.",
+            "",
+            "Cordialement,"
+        ].join("\n"),
+        "mail subject": "[SILL] Autorisation d'un nouveau domaine pour l'inscription"
         /* spell-checker: enable */
     }
 });
 
 export type I18n = NonNullable<ReturnType<typeof useI18n>>;
+
+/*
+({ mailtoHref, contactEmail }) => {
+    return (
+        <>
+            {" "}
+            <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
+        </>
+    );
+},
+*/

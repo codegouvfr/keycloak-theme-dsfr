@@ -1,10 +1,9 @@
-import React, { useState, type FormEventHandler } from "react";
-import { clsx } from "keycloakify/lib/tools/clsx";
-import { useConstCallback } from "keycloakify/lib/tools/useConstCallback";
-import type { PageProps } from "keycloakify/lib/KcProps";
+import { useState, type FormEventHandler } from "react";
+import { useConstCallback } from "keycloakify/tools/useConstCallback";
+import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useTranslation } from "ui/i18n";

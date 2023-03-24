@@ -5,7 +5,7 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { fr } from "@codegouvfr/react-dsfr";
 import { AutocompleteInput } from "../../shared/AutocompleteInput";
 import { useTranslation } from "../../i18n";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { declareComponentKeys } from "i18nifty";
 import { Route } from "type-route";
 type PageRoute = Route<any>;

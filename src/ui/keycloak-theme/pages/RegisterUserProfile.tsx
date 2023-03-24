@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { clsx } from "keycloakify/lib/tools/clsx";
-import { UserProfileCommons } from "./shared/UserProfileCommons";
+import { UserProfileFormFields } from "./shared/UserProfileFormFields";
 import type { PageProps } from "keycloakify/lib/KcProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export default function RegisterUserProfile(

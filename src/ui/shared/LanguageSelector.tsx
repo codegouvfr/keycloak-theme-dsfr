@@ -1,6 +1,6 @@
 import React, { memo, useState, MouseEventHandler } from "react";
 import { fr } from "@codegouvfr/react-dsfr";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 
 type LangOption = {
     hrefLang: "fr" | "en" | "es" | "de";

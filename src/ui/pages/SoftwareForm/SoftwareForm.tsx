@@ -5,7 +5,7 @@ import { SoftwareFormStep1 } from "./Step1";
 import { SoftwareFormStep2 } from "./Step2";
 import { SoftwareFormStep3 } from "./Step3";
 import { SoftwareFormStep4 } from "./Step4";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useConst } from "powerhooks/useConst";

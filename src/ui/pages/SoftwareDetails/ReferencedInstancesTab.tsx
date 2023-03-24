@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
-import { makeStyles } from "tss-react/dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import type { Link } from "type-route";

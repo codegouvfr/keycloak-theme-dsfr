@@ -1,48 +1,42 @@
-import React, { useEffect } from "react";
-import type { KcProps } from "keycloakify/lib/KcProps";
-import type { Attribute } from "keycloakify/lib/getKcContext/KcContextBase";
-import { clsx } from "keycloakify/lib/tools/clsx";
+import { useEffect } from "react";
+import type { Attribute } from "keycloakify/login/kcContext/KcContext";
 import { useCallbackFactory } from "keycloakify/lib/tools/useCallbackFactory";
-import { useFormValidationSlice } from "keycloakify/lib/useFormValidationSlice";
+import { useFormValidation } from "keycloakify/login/lib/useFormValidation";
 import type { I18n } from "ui/keycloak-theme/i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { useTranslation } from "ui/i18n";
 import { declareComponentKeys } from "i18nifty";
 import { AutocompleteInput } from "ui/keycloak-theme/pages/shared/AutocompleteInput";
 import { fr } from "@codegouvfr/react-dsfr";
+import type { ClassKey } from "keycloakify/login/TemplateProps";
 
-export type UserProfileCommonsProps = {
-    kcContext: Parameters<typeof useFormValidationSlice>[0]["kcContext"];
+export type UserProfileFormFieldsProps = {
+    kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];
     i18n: I18n;
-} & KcProps &
-    Partial<
-        Record<
-            "BeforeField" | "AfterField",
-            (props: { attribute: Attribute }) => JSX.Element | null
-        >
-    > & {
-        onIsFormSubmittableValueChange: (isFormSubmittable: boolean) => void;
-    };
+    getClassName: (classKey: ClassKey) => string;
+    onIsFormSubmittableValueChange: (isFormSubmittable: boolean) => void;
+    BeforeField?: (props: { attribute: Attribute }) => JSX.Element | null;
+    AfterField?: (props: { attribute: Attribute }) => JSX.Element | null;
+};
 
 const contactEmail = "sill@code.gouv.fr";
 
-export function UserProfileCommons({
+export function UserProfileFormFields({
     kcContext,
     onIsFormSubmittableValueChange,
     i18n,
     BeforeField,
     AfterField,
+    getClassName,
     ...props
-}: UserProfileCommonsProps) {
+}: UserProfileFormFieldsProps) {
     const { advancedMsg } = i18n;
-
-    const { t } = useTranslation({ UserProfileCommons });
 
     const {
         formValidationState: { fieldStateByAttributeName, isFormSubmittable },
-        formValidationReducer,
+        formValidationDispatch,
         attributesWithPassword
-    } = useFormValidationSlice({
+    } = useFormValidation({
         kcContext,
         i18n
     });
@@ -51,17 +45,8 @@ export function UserProfileCommons({
         onIsFormSubmittableValueChange(isFormSubmittable);
     }, [isFormSubmittable]);
 
-    const onChangeFactory = useCallbackFactory(
-        ([name]: [string], [{ value }]: [{ value: string }]) =>
-            formValidationReducer({
-                "action": "update value",
-                name,
-                "newValue": value
-            })
-    );
-
     const onBlurFactory = useCallbackFactory(([name]: [string]) =>
-        formValidationReducer({
+        formValidationDispatch({
             "action": "focus lost",
             name
         })
@@ -87,7 +72,11 @@ export function UserProfileCommons({
                             options={organizationOptions}
                             value={value}
                             onValueChange={value =>
-                                onChangeFactory(attribute.name)({ value: value ?? "" })
+                                formValidationDispatch({
+                                    "action": "update value",
+                                    "name": attribute.name,
+                                    "newValue": value ?? ""
+                                })
                             }
                             getOptionLabel={entry => entry}
                             renderOption={(liProps, entry) => (
@@ -104,10 +93,12 @@ export function UserProfileCommons({
                                     "name": attribute.name,
                                     "value": value,
                                     "onChange": event =>
-                                        onChangeFactory(attribute.name)({
-                                            value: event.currentTarget.value
+                                        formValidationDispatch({
+                                            "action": "update value",
+                                            "name": attribute.name,
+                                            "newValue": event.currentTarget.value
                                         }),
-                                    "className": clsx(props.kcInputClass),
+                                    "className": getClassName("kcInputClass"),
                                     "aria-invalid": displayableErrors.length !== 0,
                                     "disabled": attribute.readOnly,
                                     "autoComplete": attribute.autocomplete,
@@ -136,10 +127,12 @@ export function UserProfileCommons({
                             "name": attribute.name,
                             "value": value,
                             "onChange": event =>
-                                onChangeFactory(attribute.name)({
-                                    value: event.currentTarget.value
+                                formValidationDispatch({
+                                    "action": "update value",
+                                    "name": attribute.name,
+                                    "newValue": event.currentTarget.value
                                 }),
-                            "className": clsx(props.kcInputClass),
+                            "className": getClassName("kcInputClass"),
                             "aria-invalid": displayableErrors.length !== 0,
                             "disabled": attribute.readOnly,
                             "autoComplete": attribute.autocomplete,
