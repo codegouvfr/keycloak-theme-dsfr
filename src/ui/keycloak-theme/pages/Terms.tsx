@@ -16,13 +16,7 @@ import type { I18n } from "../i18n";
 export default function Terms(
     props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>
 ) {
-    const {
-        kcContext,
-        i18n,
-        doUseDefaultCss = true,
-        Template,
-        classes: classes_props
-    } = props;
+    const { kcContext, i18n, doUseDefaultCss, Template, classes: classes_props } = props;
 
     const { msg, msgStr } = i18n;
     const { classes, cx } = useStyles();

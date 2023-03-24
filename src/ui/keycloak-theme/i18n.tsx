@@ -52,14 +52,3 @@ export const { useI18n } = createUseI18n({
 });
 
 export type I18n = NonNullable<ReturnType<typeof useI18n>>;
-
-/*
-({ mailtoHref, contactEmail }) => {
-    return (
-        <>
-            {" "}
-            <MuiLink href={mailtoHref}>{contactEmail}</MuiLink>
-        </>
-    );
-},
-*/

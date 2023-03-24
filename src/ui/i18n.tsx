@@ -1,12 +1,10 @@
 import { createI18nApi, declareComponentKeys } from "i18nifty";
-import { languages } from "sill-api";
-import type { Language } from "sill-api";
+import { languages, type Language } from "@codegouvfr/sill";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { statefulObservableToStatefulEvt } from "powerhooks/tools/StatefulObservable/statefulObservableToStatefulEvt";
 import { z } from "zod";
 import { createUnionSchema } from "ui/tools/zod/createUnionSchema";
-import MuiLink from "@mui/material/Link";
 
 export { declareComponentKeys };
 export { languages };

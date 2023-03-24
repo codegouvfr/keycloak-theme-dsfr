@@ -1,11 +1,7 @@
 import { useEffect } from "react";
-import type { Attribute } from "keycloakify/login/kcContext/KcContext";
-import { useCallbackFactory } from "keycloakify/lib/tools/useCallbackFactory";
 import { useFormValidation } from "keycloakify/login/lib/useFormValidation";
 import type { I18n } from "ui/keycloak-theme/i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { useTranslation } from "ui/i18n";
-import { declareComponentKeys } from "i18nifty";
 import { AutocompleteInput } from "ui/keycloak-theme/pages/shared/AutocompleteInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
@@ -15,8 +11,6 @@ export type UserProfileFormFieldsProps = {
     i18n: I18n;
     getClassName: (classKey: ClassKey) => string;
     onIsFormSubmittableValueChange: (isFormSubmittable: boolean) => void;
-    BeforeField?: (props: { attribute: Attribute }) => JSX.Element | null;
-    AfterField?: (props: { attribute: Attribute }) => JSX.Element | null;
 };
 
 const contactEmail = "sill@code.gouv.fr";
@@ -25,10 +19,7 @@ export function UserProfileFormFields({
     kcContext,
     onIsFormSubmittableValueChange,
     i18n,
-    BeforeField,
-    AfterField,
-    getClassName,
-    ...props
+    getClassName
 }: UserProfileFormFieldsProps) {
     const { advancedMsg } = i18n;
 
@@ -41,16 +32,11 @@ export function UserProfileFormFields({
         i18n
     });
 
+    const { msgStr } = i18n;
+
     useEffect(() => {
         onIsFormSubmittableValueChange(isFormSubmittable);
     }, [isFormSubmittable]);
-
-    const onBlurFactory = useCallbackFactory(([name]: [string]) =>
-        formValidationDispatch({
-            "action": "focus lost",
-            name
-        })
-    );
 
     const organizationOptions = ["organization1", "organization2"];
 
@@ -102,7 +88,11 @@ export function UserProfileFormFields({
                                     "aria-invalid": displayableErrors.length !== 0,
                                     "disabled": attribute.readOnly,
                                     "autoComplete": attribute.autocomplete,
-                                    "onBlur": onBlurFactory(attribute.name)
+                                    "onBlur": () =>
+                                        formValidationDispatch({
+                                            "action": "focus lost",
+                                            "name": attribute.name
+                                        })
                                 }
                             }}
                         />
@@ -136,19 +126,31 @@ export function UserProfileFormFields({
                             "aria-invalid": displayableErrors.length !== 0,
                             "disabled": attribute.readOnly,
                             "autoComplete": attribute.autocomplete,
-                            "onBlur": onBlurFactory(attribute.name)
+                            "onBlur": () =>
+                                formValidationDispatch({
+                                    "action": "focus lost",
+                                    "name": attribute.name
+                                })
                         }}
                         state={displayableErrors.length !== 0 ? "error" : "default"}
                         stateRelatedMessage={
                             attribute.name === "email" &&
-                            displayableErrors[0]?.validatorName === "pattern"
-                                ? t("you domain isn't allowed yet", {
-                                      "mailtoHref": `mailto:${contactEmail}?subject=${encodeURIComponent(
-                                          t("mail subject")
-                                      )}&body=${encodeURIComponent(t("mail body"))}`,
-                                      contactEmail
-                                  })
-                                : displayableErrors[0]?.errorMessageStr
+                            displayableErrors[0]?.validatorName === "pattern" ? (
+                                <>
+                                    {msgStr("you domain isn't allowed yet")}
+                                    <a
+                                        href={`mailto:${contactEmail}?subject=${encodeURIComponent(
+                                            msgStr("mail subject")
+                                        )}&body=${encodeURIComponent(
+                                            msgStr("mail body")
+                                        )}`}
+                                    >
+                                        {contactEmail}
+                                    </a>
+                                </>
+                            ) : (
+                                displayableErrors[0]?.errorMessageStr
+                            )
                         }
                     />
                 );
@@ -156,12 +158,3 @@ export function UserProfileFormFields({
         </>
     );
 }
-export const { i18n } = declareComponentKeys<
-    | {
-          K: "you domain isn't allowed yet";
-          P: { mailtoHref: string; contactEmail: string };
-          R: JSX.Element;
-      }
-    | "mail subject"
-    | "mail body"
->()({ UserProfileCommons });

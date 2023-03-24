@@ -1,22 +1,21 @@
 import { useState } from "react";
-import { clsx } from "keycloakify/lib/tools/clsx";
 import { UserProfileFormFields } from "./shared/UserProfileFormFields";
-import type { PageProps } from "keycloakify/lib/KcProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { fr } from "@codegouvfr/react-dsfr";
+import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 
 export default function RegisterUserProfile(
     props: PageProps<Extract<KcContext, { pageId: "register-user-profile.ftl" }>, I18n>
 ) {
-    const {
-        kcContext,
-        i18n,
-        doFetchDefaultThemeResources = true,
-        Template,
-        ...kcProps
-    } = props;
+    const { kcContext, i18n, doUseDefaultCss, Template, classes: classes_props } = props;
+
+    const { getClassName } = useGetClassName({
+        doUseDefaultCss,
+        "classes": classes_props
+    });
 
     const { url, messagesPerField, recaptchaRequired, recaptchaSiteKey } = kcContext;
 
@@ -27,52 +26,51 @@ export default function RegisterUserProfile(
 
     return (
         <Template
-            {...{ kcContext, i18n, doFetchDefaultThemeResources, ...kcProps }}
+            {...{ kcContext, i18n, doUseDefaultCss, "classes": classes_props }}
             displayMessage={messagesPerField.exists("global")}
             headerNode={msg("registerTitle")}
-            formNode={
-                <form
-                    id="kc-register-form"
-                    className={classes.centerCol}
-                    action={url.registrationAction}
-                    method="post"
-                >
-                    <div className={classes.inputs}>
-                        <UserProfileCommons
-                            kcContext={kcContext}
-                            onIsFormSubmittableValueChange={setIsFomSubmittable}
-                            i18n={i18n}
-                            {...kcProps}
-                        />
-                        {recaptchaRequired && (
-                            <div className="form-group">
-                                <div className={clsx(kcProps.kcInputWrapperClass)}>
-                                    <div
-                                        className="g-recaptcha"
-                                        data-size="compact"
-                                        data-sitekey={recaptchaSiteKey}
-                                    />
-                                </div>
+        >
+            <form
+                id="kc-register-form"
+                className={classes.centerCol}
+                action={url.registrationAction}
+                method="post"
+            >
+                <div className={classes.inputs}>
+                    <UserProfileFormFields
+                        kcContext={kcContext}
+                        onIsFormSubmittableValueChange={setIsFomSubmittable}
+                        i18n={i18n}
+                        getClassName={getClassName}
+                    />
+                    {recaptchaRequired && (
+                        <div className="form-group">
+                            <div className={getClassName("kcInputWrapperClass")}>
+                                <div
+                                    className="g-recaptcha"
+                                    data-size="compact"
+                                    data-sitekey={recaptchaSiteKey}
+                                />
                             </div>
-                        )}
-                        <div className={classes.buttons}>
-                            <a
-                                className={fr.cx("fr-btn", "fr-btn--secondary")}
-                                href={url.loginUrl}
-                            >
-                                {msgStr("backToLogin")}
-                            </a>
-                            <input
-                                className={fr.cx("fr-btn")}
-                                type="submit"
-                                value={msgStr("doRegister")}
-                                disabled={!isFomSubmittable}
-                            />
                         </div>
+                    )}
+                    <div className={classes.buttons}>
+                        <a
+                            className={fr.cx("fr-btn", "fr-btn--secondary")}
+                            href={url.loginUrl}
+                        >
+                            {msgStr("backToLogin")}
+                        </a>
+                        <input
+                            className={fr.cx("fr-btn")}
+                            type="submit"
+                            value={msgStr("doRegister")}
+                            disabled={!isFomSubmittable}
+                        />
                     </div>
-                </form>
-            }
-        />
+                </div>
+            </form>
+        </Template>
     );
 }
 
