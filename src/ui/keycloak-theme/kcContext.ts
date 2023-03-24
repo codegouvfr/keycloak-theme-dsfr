@@ -1,4 +1,4 @@
-import { getKcContext } from "keycloakify/lib/getKcContext";
+import { getKcContext } from "keycloakify/login";
 
 export const { kcContext } = getKcContext({
     //"mockPageId": "terms.ftl",
