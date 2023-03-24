@@ -22,10 +22,6 @@ export const { kcContext } = getKcContext({
                 "loginWithEmailAllowed": true,
                 "registrationEmailAsUsername": true
             }
-            /*            "message": {
-                "summary": "Ca a foiré",
-                "type": "error"
-            }*/
         },
         {
             "pageId": "register-user-profile.ftl",
