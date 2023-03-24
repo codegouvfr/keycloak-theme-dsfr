@@ -5,7 +5,7 @@ import { createUsecaseContextApi } from "redux-clean-architecture";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { Language } from "sill-api";
+import type { Language } from "@codegouvfr/sill";
 import type { LocalizedString } from "i18nifty";
 
 export type UserAuthenticationState = {

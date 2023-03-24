@@ -1,5 +1,5 @@
 import type { User } from "./GetUser";
-import type { Language } from "sill-api";
+import type { Language } from "@codegouvfr/sill";
 import type { LocalizedString } from "i18nifty";
 
 export type SillApi = {
