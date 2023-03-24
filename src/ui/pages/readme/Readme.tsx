@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { useSplashScreen } from "onyxia-ui";
-import { Markdown } from "onyxia-ui/Markdown";
+import { Markdown } from "keycloakify/tools/Markdown";
 import { useQuery } from "react-query";
 import { useCoreFunctions } from "core";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
@@ -19,12 +17,12 @@ const queryClient = new QueryClient();
 export default function Readme(props: Props) {
     return (
         <QueryClientProvider client={queryClient}>
-            <ReadmeExpectQueryContext {...props} />
+            <ContextualizedReadme {...props} />
         </QueryClientProvider>
     );
 }
 
-function ReadmeExpectQueryContext(props: Props) {
+function ContextualizedReadme(props: Props) {
     const { className } = props;
 
     const { fetchProxy } = useCoreFunctions();
@@ -36,20 +34,6 @@ function ReadmeExpectQueryContext(props: Props) {
                 .downloadCoreProtectedTextFile(readmeUrl)
                 .then(text => text.split("---").reverse()[0]) // Remove title that isn't standard Markdown
     );
-
-    {
-        const { showSplashScreen, hideSplashScreen } = useSplashScreen();
-
-        useEffect(() => {
-            if (typeof readme === "string") {
-                hideSplashScreen();
-            } else {
-                showSplashScreen({
-                    "enableTransparency": false
-                });
-            }
-        }, [readme]);
-    }
 
     const { classes, cx } = useStyles();
 

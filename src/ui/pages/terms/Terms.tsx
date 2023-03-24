@@ -1,9 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useConst } from "powerhooks/useConst";
 import { useCoreFunctions } from "core";
-import { useSplashScreen } from "onyxia-ui";
-import { Markdown } from "onyxia-ui/Markdown";
+import { Markdown } from "keycloakify/tools/Markdown";
 import { useQuery } from "react-query";
 import { createResolveLocalizedString } from "i18nifty";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -22,11 +21,11 @@ const queryClient = new QueryClient();
 export default function Terms(props: Props) {
     return (
         <QueryClientProvider client={queryClient}>
-            <TermsExpectQueryContext {...props} />
+            <ContextualizedTerms {...props} />
         </QueryClientProvider>
     );
 }
-function TermsExpectQueryContext(props: Props) {
+function ContextualizedTerms(props: Props) {
     const { className } = props;
 
     const { userAuthentication } = useCoreFunctions();
@@ -50,20 +49,6 @@ function TermsExpectQueryContext(props: Props) {
     const { data: tos } = useQuery(["tos", tosUrl], () =>
         tosUrl === undefined ? undefined : fetch(tosUrl).then(res => res.text())
     );
-
-    {
-        const { showSplashScreen, hideSplashScreen } = useSplashScreen();
-
-        useEffect(() => {
-            if (typeof tos === "string") {
-                hideSplashScreen();
-            } else {
-                showSplashScreen({
-                    "enableTransparency": false
-                });
-            }
-        }, [tos]);
-    }
 
     const { classes, cx } = useStyles();
 
