@@ -13,7 +13,7 @@
         "format": "npm run _format -- --write",
         "format:check": "npm run _format -- --list-different",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
-        "postinstall": "copy-dsfr-to-public && generate-env-getter",
+        "postinstall": "copy-dsfr-to-public && generate-env-getter && increase-typescript-instantiation-count",
         "prestart": "only-include-used-icons && generate-env-getter"
     },
     "dependencies": {
@@ -43,7 +43,7 @@
         "react-markdown": "^5.0.3",
         "react-query": "4.0.0-beta.23",
         "react-scripts": "5.0.1",
-        "redux-clean-architecture": "^3.2.5",
+        "redux-clean-architecture": "^3.4.1",
         "run-exclusive": "^2.2.16",
         "tsafe": "^1.5.1",
         "tss-react": "^4.4.1",
@@ -77,7 +77,7 @@
         "source-map-explorer": "^2.5.2",
         "storybook-dark-mode": "^2.0.5",
         "ts-node": "^10.2.1",
-        "typescript": "^4.8.2",
+        "typescript": "^5.0.2",
         "node-fetch": "^2.6.1"
     },
     "eslintConfig": {
