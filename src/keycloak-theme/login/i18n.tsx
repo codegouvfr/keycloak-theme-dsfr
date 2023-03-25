@@ -22,7 +22,10 @@ export const { useI18n } = createUseI18n({
             "",
             "Best regards,"
         ].join("\n"),
-        "mail subject": "[SILL] Adding new mail domain to the accept list"
+        "mail subject": "[SILL] Adding new mail domain to the accept list",
+        "login using": "Login using",
+        "what is franceConnect": "What is FranceConnect ?",
+        "what is franceConnect title": "What is FranceConnect - new window"
     },
     "fr": {
         /* spell-checker: disable */
@@ -46,7 +49,10 @@ export const { useI18n } = createUseI18n({
             "",
             "Cordialement,"
         ].join("\n"),
-        "mail subject": "[SILL] Autorisation d'un nouveau domaine pour l'inscription"
+        "mail subject": "[SILL] Autorisation d'un nouveau domaine pour l'inscription",
+        "login using": "S'identifier avec",
+        "what is franceConnect": "Qu'est-ce que FranceConnect ?",
+        "what is franceConnect title": "Qu'est ce que FranceConnect - nouvelle fenêtre"
         /* spell-checker: enable */
     }
 });

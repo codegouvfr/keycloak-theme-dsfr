@@ -36,7 +36,6 @@ const {
     | typeof import("ui/pages/declarationForm/Step1").i18n
     | typeof import("ui/pages/declarationForm/Step2User").i18n
     | typeof import("ui/pages/declarationForm/Step2Referent").i18n
-    | typeof import("ui/keycloak-theme/pages/Login").i18n
     | typeof import("ui/pages/homepage/Homepage").i18n
     | typeof import("ui/pages/homepage/SearchByProfile").i18n
     | typeof import("ui/pages/addSoftwareLanding/AddSoftwareLanding").i18n
@@ -391,17 +390,6 @@ const {
                 "useCase": "Describe in a few words the use case of your administration",
                 "service":
                     "More precisely, which service of the software do you declare yourself referent"
-            },
-            "Login": {
-                "connect": "Log in",
-                "back": "Back",
-                "selfCredentials": "Or use your credentials",
-                "forget password": "Forgot your password ?",
-                "no account": "No account yet?",
-                "log with": "Identify with",
-                "franceConnect": "FranceConnect",
-                "what is franceConnect": "What is FranceConnect ?",
-                "what is franceConnect title": "What is FranceConnect - new window"
             },
             "Account": {
                 "title": "My account",
@@ -778,18 +766,6 @@ const {
                     "Décrivez en quelques mots le cas d'usage de votre administration",
                 "service":
                     "Plus précisément, pour quel service du logiciel vous déclarez-vous référent ?"
-            },
-            "Login": {
-                "connect": "Se connecter",
-                "back": "Retour",
-                "selfCredentials": "Ou utilisez vos identifiants",
-                "forget password": "Mot de passe oublié ?",
-                "no account": "Pas encore de compte ?",
-                "log with": "S'identifier avec",
-                "franceConnect": "FranceConnect",
-                "what is franceConnect": "Qu'est-ce que FranceConnect ?",
-                "what is franceConnect title":
-                    "Qu'est ce que FranceConnect - nouvelle fenêtre"
             },
             "Account": {
                 "title": "Mon compte",

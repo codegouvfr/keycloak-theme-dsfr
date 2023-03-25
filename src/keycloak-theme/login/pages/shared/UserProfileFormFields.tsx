@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useFormValidation } from "keycloakify/login/lib/useFormValidation";
-import type { I18n } from "ui/keycloak-theme/i18n";
+import type { I18n } from "keycloak-theme/login/i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { AutocompleteInput } from "ui/keycloak-theme/pages/shared/AutocompleteInput";
+import { AutocompleteInput } from "keycloak-theme/login/pages/shared/AutocompleteInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
 import { createSillApi } from "core/adapter/sillApi";
-import { getSillApiUrl } from "../../valuesTransferredOverUrl";
+import { getSillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
 
 export type UserProfileFormFieldsProps = {
     kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];

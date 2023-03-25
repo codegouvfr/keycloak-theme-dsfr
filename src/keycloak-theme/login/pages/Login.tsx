@@ -1,15 +1,14 @@
 import { useState, type FormEventHandler } from "react";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import type { KcContext } from "../kcContext";
-import type { I18n } from "../i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { useTranslation } from "ui/i18n";
 import { declareComponentKeys } from "i18nifty";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
+import type { KcContext } from "../kcContext";
+import type { I18n } from "../i18n";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -32,7 +31,6 @@ export default function Login(
     } = kcContext;
 
     const { msg, msgStr } = i18n;
-    const { t } = useTranslation({ Login });
     const { classes, cx } = useStyles();
 
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
@@ -141,14 +139,14 @@ export default function Login(
                                                                     "fr-connect__login"
                                                                 )}
                                                             >
-                                                                {t("log with")}
+                                                                {msg("login using")}
                                                             </span>
                                                             <span
                                                                 className={fr.cx(
                                                                     "fr-connect__brand"
                                                                 )}
                                                             >
-                                                                {t("franceConnect")}
+                                                                France Connect
                                                             </span>
                                                         </button>
                                                         <p>
@@ -156,11 +154,11 @@ export default function Login(
                                                                 href="https://franceconnect.gouv.fr/"
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                title={t(
+                                                                title={msgStr(
                                                                     "what is franceConnect title"
                                                                 )}
                                                             >
-                                                                {t(
+                                                                {msg(
                                                                     "what is franceConnect"
                                                                 )}
                                                             </a>

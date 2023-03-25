@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { UserProfileFormFields } from "./shared/UserProfileFormFields";
-import type { KcContext } from "../kcContext";
-import type { I18n } from "../i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
+import type { KcContext } from "../kcContext";
+import type { I18n } from "../i18n";
 
 export default function RegisterUserProfile(
     props: PageProps<Extract<KcContext, { pageId: "register-user-profile.ftl" }>, I18n>
