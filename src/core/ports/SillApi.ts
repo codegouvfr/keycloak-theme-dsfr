@@ -1,215 +1,84 @@
-import type { User } from "./GetUser";
-import type { Language } from "@codegouvfr/sill";
-import type { LocalizedString } from "i18nifty";
+import { assert, type Equals } from "tsafe/assert";
+import type { TrpcRouterInput, TrpcRouterOutput } from "@codegouvfr/sill";
 
 export type SillApi = {
     getApiVersion: {
-        (): Promise<string>;
+        (): Promise<TrpcRouterOutput["getApiVersion"]>;
         clear: () => void;
     };
     getOidcParams: {
-        (): Promise<{
-            keycloakParams:
-                | {
-                      url: string;
-                      realm: string;
-                      clientId: string;
-                  }
-                | undefined;
-            jwtClaims: Record<keyof User, string>;
-            termsOfServicesUrl: LocalizedString<Language>;
-        }>;
+        (): Promise<TrpcRouterOutput["getOidcParams"]>;
         clear: () => void;
     };
     getSoftwares: {
-        (): Promise<SillApi.Software[]>;
+        (): Promise<TrpcRouterOutput["getSoftwares"]>;
         clear: () => void;
     };
     getInstances: {
-        (): Promise<SillApi.Instance[]>;
+        (): Promise<TrpcRouterOutput["getInstances"]>;
         clear: () => void;
     };
-    getWikidataOptions: (params: {
-        queryString: string;
-    }) => Promise<SillApi.WikidataEntry[]>;
-    getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (params: {
-        wikidataId: string;
-    }) => Promise<{
-        comptoirDuLibreId: number | undefined;
-        softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string | undefined;
-        softwareMinimalVersion: string | undefined;
-    }>;
-    createSoftware: (params: { formData: SillApi.SoftwareFormData }) => Promise<void>;
-    updateSoftware: (params: {
-        softwareSillId: number;
-        formData: SillApi.SoftwareFormData;
-    }) => Promise<void>;
-    createUserOrReferent: (params: {
-        formData: SillApi.DeclarationFormData;
-    }) => Promise<void>;
-    createInstance: (params: {
-        formData: SillApi.InstanceFormData;
-    }) => Promise<{ instanceId: number }>;
-    updateInstance: (params: {
-        instanceId: number;
-        formData: SillApi.InstanceFormData;
-    }) => Promise<void>;
+    getWikidataOptions: (
+        params: TrpcRouterInput["getWikidataOptions"]
+    ) => Promise<TrpcRouterOutput["getWikidataOptions"]>;
+    getSoftwareFormAutoFillDataFromWikidataAndOtherSources: (
+        params: TrpcRouterInput["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]
+    ) => Promise<
+        TrpcRouterOutput["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]
+    >;
+    createSoftware: (
+        params: TrpcRouterInput["createSoftware"]
+    ) => Promise<TrpcRouterOutput["createSoftware"]>;
+    updateSoftware: (
+        params: TrpcRouterInput["updateSoftware"]
+    ) => Promise<TrpcRouterOutput["updateSoftware"]>;
+    createUserOrReferent: (
+        params: TrpcRouterInput["createUserOrReferent"]
+    ) => Promise<TrpcRouterOutput["createUserOrReferent"]>;
+    createInstance: (
+        params: TrpcRouterInput["createInstance"]
+    ) => Promise<TrpcRouterOutput["createInstance"]>;
+    updateInstance: (
+        params: TrpcRouterInput["updateInstance"]
+    ) => Promise<TrpcRouterOutput["updateInstance"]>;
     getAgents: {
-        (): Promise<SillApi.Agent[]>;
+        (): Promise<TrpcRouterOutput["getAgents"]>;
         clear: () => void;
     };
+    changeAgentOrganization: (
+        params: TrpcRouterInput["changeAgentOrganization"]
+    ) => Promise<TrpcRouterOutput["changeAgentOrganization"]>;
 
-    updateAgencyName: (params: { newAgencyName: string }) => Promise<void>;
-    updateEmail: (params: { newEmail: string }) => Promise<void>;
+    updateEmail: (
+        params: TrpcRouterInput["updateEmail"]
+    ) => Promise<TrpcRouterOutput["updateEmail"]>;
+
     getAllowedEmailRegexp: {
-        (): Promise<string>;
+        (): Promise<TrpcRouterOutput["getAllowedEmailRegexp"]>;
         clear: () => void;
     };
     getAgencyNames: {
-        (): Promise<string[]>;
+        (): Promise<TrpcRouterOutput["getAgencyNames"]>;
         clear: () => void;
     };
     getTotalReferentCount: {
-        (): Promise<number>;
+        (): Promise<TrpcRouterOutput["getTotalReferentCount"]>;
         clear: () => void;
     };
     getRegisteredUserCount: {
-        (): Promise<number>;
+        (): Promise<TrpcRouterOutput["getRegisteredUserCount"]>;
         clear: () => void;
     };
+    downloadCorsProtectedTextFile: (
+        params: TrpcRouterInput["downloadCorsProtectedTextFile"]
+    ) => Promise<TrpcRouterOutput["downloadCorsProtectedTextFile"]>;
 };
 
-export namespace SillApi {
-    export type Software = {
-        logoUrl: string | undefined;
-        softwareId: number;
-        softwareName: string;
-        softwareDescription: string;
-        lastVersion:
-            | {
-                  semVer: string;
-                  publicationTime: number;
-              }
-            | undefined;
-        parentSoftware: WikidataEntry | undefined;
-        testUrl: string | undefined;
-        addedTime: number;
-        updateTime: number;
-        categories: string[];
-        prerogatives: Record<Prerogative, boolean>;
-        userAndReferentCountByOrganization: Record<
-            string,
-            { userCount: number; referentCount: number }
-        >;
-        authors: {
-            authorName: string;
-            authorUrl: string;
-        }[];
-        officialWebsiteUrl: string | undefined;
-        codeRepositoryUrl: string | undefined;
-        versionMin: string;
-        license: string;
-        serviceProviderCount: number;
-        compotoirDuLibreId: number | undefined;
-        wikidataId: string | undefined;
-        softwareType: SoftwareType;
-        similarSoftwares: WikidataEntry[];
-    };
+//NOTE: We make sure we don't forget queries
+{
+    type X = Exclude<keyof SillApi, keyof TrpcRouterInput>;
+    type Y = Exclude<keyof TrpcRouterInput, keyof SillApi>;
 
-    export type Agent = {
-        //NOTE: Undefined if the agent isn't referent of at least one software
-        // If it's the user the email is never undefined.
-        email: string | undefined;
-        organization: string;
-        declarations: (DeclarationFormData & { softwareName: string })[];
-    };
-
-    export type Instance = {
-        instanceId: number;
-        mainSoftwareSillId: number;
-        organization: string;
-        targetAudience: string;
-        publicUrl: string;
-        otherSoftwares: WikidataEntry[];
-    };
-
-    export type SoftwareType =
-        | SoftwareType.Desktop
-        | SoftwareType.CloudNative
-        | SoftwareType.Stack;
-
-    export namespace SoftwareType {
-        export type Desktop = {
-            type: "desktop";
-            os: Record<Os, boolean>;
-        };
-
-        export type CloudNative = {
-            type: "cloud";
-        };
-
-        export type Stack = {
-            type: "stack";
-        };
-    }
-
-    export type Prerogative =
-        | "isPresentInSupportContract"
-        | "isFromFrenchPublicServices"
-        | "doRespectRgaa";
-
-    export type WikidataEntry = {
-        wikidataLabel: string;
-        wikidataDescription: string;
-        wikidataId: string;
-    };
-
-    export type Os = "windows" | "linux" | "mac";
-
-    export type SoftwareFormData = {
-        softwareType: SoftwareType;
-        wikidataId?: string;
-        comptoirDuLibreId?: number;
-        softwareName: string;
-        softwareDescription: string;
-        softwareLicense: string;
-        softwareMinimalVersion: string;
-        isPresentInSupportContract?: boolean;
-        isFromFrenchPublicService: boolean;
-        similarSoftwares: WikidataEntry[];
-    };
-
-    export type DeclarationFormData =
-        | DeclarationFormData.User
-        | DeclarationFormData.Referent;
-
-    export namespace DeclarationFormData {
-        export type User = {
-            declarationType: "user";
-            usecaseDescription: string;
-            /** NOTE: undefined if the software is not of type desktop */
-            os: Os | undefined;
-            version: string;
-            /** NOTE: Defined only when software is cloud */
-            serviceUrl: string | undefined;
-        };
-
-        export type Referent = {
-            declarationType: "referent";
-            isTechnicalExpert: boolean;
-            usecaseDescription: string;
-            /** NOTE: Can be not undefined only if cloud */
-            serviceUrl: string | undefined;
-        };
-    }
-
-    export type InstanceFormData = {
-        mainSoftwareSillId: number;
-        organization: string;
-        targetAudience: string;
-        publicUrl: string | undefined;
-        otherSoftwares: SillApi.WikidataEntry[];
-    };
+    assert<Equals<X, never>>();
+    assert<Equals<Y, never>>();
 }

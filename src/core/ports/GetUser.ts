@@ -1,8 +1,4 @@
-export type GetUser = () => Promise<User>;
+import type { User } from "@codegouvfr/sill";
 
-export type User = {
-    id: string;
-    email: string;
-    agencyName: string;
-    locale?: string;
-};
+export type GetUser = () => Promise<User>;
+export type { User };

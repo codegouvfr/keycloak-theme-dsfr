@@ -2,7 +2,7 @@ import type { SillApi } from "../ports/SillApi";
 import { createTRPCClient } from "@trpc/client";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
-import type { TrpcRouter } from "sill-api";
+import type { TrpcRouter } from "@codegouvfr/sill";
 //import memoize from "memoizee";
 
 export function createSillApi(params: {
