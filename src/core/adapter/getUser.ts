@@ -1,19 +1,21 @@
 import type { GetUser, User } from "core/ports/GetUser";
-import { parseJwtPayload } from "sill-api";
-import { zParsedJwtTokenPayload } from "sill-api";
+import { createAccessTokenToUser } from "@codegouvfr/sill";
 import { decodeJwt } from "core/tools/jwt";
 
 export function createGetUser(params: {
-    jwtClaims: Record<keyof User, string>;
+    jwtClaimByUserKey: Record<keyof User, string>;
     getOidcAccessToken: () => string;
 }) {
-    const { jwtClaims, getOidcAccessToken } = params;
+    const { jwtClaimByUserKey, getOidcAccessToken } = params;
+
+    const { accessTokenToUser } = createAccessTokenToUser({
+        decodeJwt,
+        jwtClaimByUserKey
+    });
 
     const getUser: GetUser = async () =>
-        parseJwtPayload({
-            jwtClaims,
-            "jwtPayload": decodeJwt(getOidcAccessToken()),
-            zParsedJwtTokenPayload
+        accessTokenToUser({
+            "accessToken": getOidcAccessToken()
         });
 
     return { getUser };
