@@ -10,8 +10,8 @@ import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
 import { evtLang } from "ui/i18n";
 import {
     addSillApiUrlToQueryParams,
-    addtermsOfServiceUrlToQueryParams
-} from "ui/keycloak-theme/valuesTransferredOverUrl";
+    addTermsOfServiceUrlToQueryParams
+} from "keycloak-theme/login/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
 import { getEnv } from "../env";
 import { pages, page404 } from "ui/pages";
@@ -27,7 +27,7 @@ const { CoreProvider } = createCoreProvider({
             .map(injectGlobalStatesInSearchParams)
             .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl }))
             .map(url =>
-                addtermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl })
+                addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl })
             )[0],
     "getCurrentLang": () => evtLang.state
 });

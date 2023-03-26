@@ -52,7 +52,7 @@ export async function createCore(params: {
         return sillApi;
     })();
 
-    const { keycloakParams, jwtClaims, termsOfServiceUrl } =
+    const { keycloakParams, jwtClaimByUserKey, termsOfServiceUrl } =
         await sillApi.getOidcParams();
 
     oidc = await (async () => {
@@ -61,7 +61,7 @@ export async function createCore(params: {
 
             return createOidc({
                 isUserInitiallyLoggedIn,
-                jwtClaims,
+                jwtClaimByUserKey,
                 "user": {
                     "agencyName": "DINUM",
                     "email": "joseph.garrone@code.gouv.fr",
@@ -90,7 +90,7 @@ export async function createCore(params: {
         }
 
         const { getUser } = createGetUser({
-            jwtClaims,
+            jwtClaimByUserKey,
             "getOidcAccessToken": oidc.getAccessToken
         });
 

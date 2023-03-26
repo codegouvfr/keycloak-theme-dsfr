@@ -79,7 +79,7 @@
         "source-map-explorer": "^2.5.2",
         "storybook-dark-mode": "^2.0.5",
         "ts-node": "^10.2.1",
-        "typescript": "^5.0.2"
+        "typescript": "^4.1.6"
     },
     "eslintConfig": {
         "plugins": [

@@ -38,7 +38,7 @@ export const privateThunks = {
             const { sillApi, evtAction } = extraArg;
 
             const init = async () => {
-                const [agentReferentCount, softwares, registeredUserCount] =
+                const [{ referentCount }, softwares, registeredUserCount] =
                     await Promise.all([
                         sillApi.getTotalReferentCount(),
                         sillApi.getSoftwares(),
@@ -48,7 +48,7 @@ export const privateThunks = {
                 dispatch(
                     actions.update({
                         "state": {
-                            agentReferentCount,
+                            "agentReferentCount": referentCount,
                             "organizationCount": softwares
                                 .map(software =>
                                     Object.keys(

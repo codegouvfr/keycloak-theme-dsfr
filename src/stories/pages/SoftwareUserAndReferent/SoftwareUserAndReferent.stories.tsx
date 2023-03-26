@@ -1,4 +1,4 @@
-import { SoftwareUserAndReferent } from "ui/pages/softwareUserAndReferent/SoftwareUserAndReferent";
+import SoftwareUserAndReferent from "ui/pages/softwareUserAndReferent/SoftwareUserAndReferent";
 import { sectionName } from "./sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 

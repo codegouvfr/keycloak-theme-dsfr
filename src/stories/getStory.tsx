@@ -27,7 +27,6 @@ setUseLang({
 const { CoreProvider } = createCoreProvider({
     "apiUrl": "",
     "isUserInitiallyLoggedIn": true,
-    "evtUserActivity": new Evt(),
     "transformUrlBeforeRedirectToLogin": () => {
         assert(false);
     },

@@ -8,7 +8,7 @@ import type { User } from "../ports/GetUser";
 
 export function createOidc(params: {
     isUserInitiallyLoggedIn: boolean;
-    jwtClaims: Record<keyof User, string>;
+    jwtClaimByUserKey: Record<keyof User, string>;
     user: User;
 }): Oidc {
     const isUserLoggedIn = (() => {
@@ -42,11 +42,14 @@ export function createOidc(params: {
     return id<Oidc.LoggedIn>({
         "isUserLoggedIn": true,
         "getAccessToken": (() => {
-            const { jwtClaims, user } = params;
+            const { jwtClaimByUserKey, user } = params;
 
             const accessToken = encodeJwt(
                 Object.fromEntries(
-                    objectKeys(jwtClaims).map(key => [jwtClaims[key], user[key]])
+                    objectKeys(jwtClaimByUserKey).map(key => [
+                        jwtClaimByUserKey[key],
+                        user[key]
+                    ])
                 )
             );
 

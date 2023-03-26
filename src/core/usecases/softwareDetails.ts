@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApi } from "../ports/SillApi";
+import type { ApiTypes } from "@codegouvfr/sill";
 import { createSelector } from "@reduxjs/toolkit";
 import {
     type State as SoftwareCatalogState,
@@ -169,8 +169,8 @@ export const selectors = (() => {
 })();
 
 function apiSoftwareToSoftware(params: {
-    apiSoftwares: SillApi.Software[];
-    apiInstances: SillApi.Instance[];
+    apiSoftwares: ApiTypes.Software[];
+    apiInstances: ApiTypes.Instance[];
     softwareName: string;
 }): State.Software {
     const { apiSoftwares, apiInstances, softwareName } = params;

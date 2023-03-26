@@ -10,7 +10,7 @@ import { assert } from "tsafe/assert";
 
 //This file must be imported in KcApp!
 
-export const { getTermsOfServiceUrl, addtermsOfServiceUrlToQueryParams } = (() => {
+export const { getTermsOfServiceUrl, addTermsOfServiceUrlToQueryParams } = (() => {
     const queryParamName = "termsOfServiceUrl";
 
     type Type = LocalizedString;

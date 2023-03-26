@@ -28,7 +28,7 @@ export const privateThunks = {
             const { sillApi } = extraArg;
 
             setContext(extraArg, {
-                "version": await sillApi.getVersion()
+                "version": await sillApi.getApiVersion()
             });
         }
 };

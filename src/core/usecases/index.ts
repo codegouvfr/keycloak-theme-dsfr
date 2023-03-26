@@ -8,6 +8,7 @@ import * as sillApiVersion from "./sillApiVersion";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
 import * as generalStats from "./generalStats";
 import * as searchSoftwareByName from "./searchSoftwareByName";
+import * as fetchProxy from "./fetchProxy";
 
 export const usecases = {
     softwareCatalog,
@@ -19,5 +20,6 @@ export const usecases = {
     sillApiVersion,
     softwareUserAndReferent,
     generalStats,
-    searchSoftwareByName
+    searchSoftwareByName,
+    fetchProxy
 };
