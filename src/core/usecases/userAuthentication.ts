@@ -5,8 +5,7 @@ import { createUsecaseContextApi } from "redux-clean-architecture";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { Language } from "@codegouvfr/sill";
-import type { LocalizedString } from "i18nifty";
+import type { LocalizedString } from "@codegouvfr/sill";
 
 export type UserAuthenticationState = {
     agencyName: {
@@ -124,12 +123,12 @@ export const thunks = {
 
             return oidc.logout({ redirectTo });
         },
-    "getTermsOfServicesUrl":
-        (): ThunkAction<LocalizedString<Language>> =>
+    "getTermsOfServiceUrl":
+        (): ThunkAction<LocalizedString> =>
         (...args) => {
             const [, , extraArgs] = args;
 
-            return getContext(extraArgs).termsOfServicesUrl;
+            return getContext(extraArgs).termsOfServiceUrl;
         },
     "getKeycloakAccountConfigurationUrl":
         (): ThunkAction<string | undefined> =>
@@ -148,7 +147,7 @@ export const thunks = {
 
             switch (fieldName) {
                 case "agencyName":
-                    await sillApi.updateAgencyName({ "newAgencyName": value });
+                    await sillApi.changeAgentOrganization({ "newOrganization": value });
                     break;
                 case "email":
                     await sillApi.updateEmail({ "newEmail": value });
@@ -196,7 +195,7 @@ export const privateThunks = {
                 );
             }
 
-            const { termsOfServicesUrl, keycloakParams } =
+            const { termsOfServiceUrl, keycloakParams } =
                 await extraArg.sillApi.getOidcParams();
 
             const keycloakAccountConfigurationUrl =
@@ -217,7 +216,7 @@ export const privateThunks = {
                               "id": user.id,
                               "locale": user.locale
                           },
-                termsOfServicesUrl,
+                termsOfServiceUrl,
                 keycloakAccountConfigurationUrl
             });
         }
@@ -226,7 +225,7 @@ export const privateThunks = {
 const { getContext, setContext } = createUsecaseContextApi<{
     /** undefined when not authenticated */
     immutableUserFields: Pick<User, "id" | "locale"> | undefined;
-    termsOfServicesUrl: LocalizedString<Language>;
+    termsOfServiceUrl: LocalizedString;
     /** Undefined it authentication is not keycloak */
     keycloakAccountConfigurationUrl: string | undefined;
 }>();

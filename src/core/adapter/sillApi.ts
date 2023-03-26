@@ -1,9 +1,8 @@
 import type { SillApi } from "../ports/SillApi";
-import { createTRPCClient } from "@trpc/client";
-import { loggerLink } from "@trpc/client/links/loggerLink";
-import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
+import { createTRPCProxyClient, httpBatchLink, loggerLink } from "@trpc/client";
 import type { TrpcRouter } from "@codegouvfr/sill";
-//import memoize from "memoizee";
+import superjson from "superjson";
+import memoize from "memoizee";
 
 export function createSillApi(params: {
     url: string;
@@ -11,52 +10,67 @@ export function createSillApi(params: {
 }): SillApi {
     const { url, getOidcAccessToken } = params;
 
-    const trpcClient = createTRPCClient<TrpcRouter>({
-        "links": [loggerLink(), httpBatchLink({ url })],
-        "headers": () => {
-            const oidcAccessToken = getOidcAccessToken();
+    const trpcClient = createTRPCProxyClient<TrpcRouter>({
+        "transformer": superjson,
+        "links": [
+            loggerLink(),
+            httpBatchLink({
+                url,
+                // You can pass any HTTP headers you wish here
+                "headers": async () => {
+                    const oidcAccessToken = getOidcAccessToken();
 
-            if (oidcAccessToken === undefined) {
-                return {};
-            }
+                    if (oidcAccessToken === undefined) {
+                        return {};
+                    }
 
-            return {
-                "authorization": `Bearer ${oidcAccessToken}`
-            };
-        }
+                    return { "authorization": `Bearer ${oidcAccessToken}` };
+                }
+            })
+        ]
     });
 
-    console.log(trpcClient, "TODO");
-
-    return null as any;
-
-    /*
-	return {
-		"getVersion": memoize(() => trpcClient.query("getVersion"), { "promise": true }),
-		"getOidcParams": memoize(() => trpcClient.query("getOidcParams"), {
-			"promise": true
-		}),
-		"getCompiledData": () => trpcClient.query("getCompiledData"),
-		"getReferentsBySoftwareId": () => trpcClient.query("getReferentsBySoftwareId"),
-		"declareUserReferent": params =>
-			trpcClient.mutation("declareUserReferent", params),
-		"userNoLongerReferent": params =>
-			trpcClient.mutation("userNoLongerReferent", params),
-		"addSoftware": params => trpcClient.mutation("addSoftware", params),
-		"updateSoftware": params => trpcClient.mutation("updateSoftware", params),
-		"autoFillFormInfo": params => trpcClient.query("autoFillFormInfo", params),
-		"updateAgencyName": params => trpcClient.mutation("updateAgencyName", params),
-		"updateEmail": params => trpcClient.mutation("updateEmail", params),
-		"getAllowedEmailRegexp": () => trpcClient.query("getAllowedEmailRegexp"),
-		"getAgencyNames": () => trpcClient.query("getAgencyNames"),
-		"getTags": memoize(() => trpcClient.query("getTags"), { "promise": true }),
-		"dereferenceSoftware": params =>
-			trpcClient.mutation("dereferenceSoftware", params),
-		"downloadCorsProtectedTextFile": params =>
-			trpcClient.query("downloadCorsProtectedTextFile", params),
-		"deleteService": params => trpcClient.mutation("deleteService", params),
-		"addService": params => trpcClient.mutation("addService", params),
-		"updateService": params => trpcClient.mutation("updateService", params)
-	};
-	*/
+    return {
+        "getApiVersion": memoize(() => trpcClient.getApiVersion.query(), {
+            "promise": true
+        }),
+        "getOidcParams": memoize(() => trpcClient.getOidcParams.query(), {
+            "promise": true
+        }),
+        "getSoftwares": memoize(() => trpcClient.getSoftwares.query(), {
+            "promise": true
+        }),
+        "getInstances": memoize(() => trpcClient.getInstances.query(), {
+            "promise": true
+        }),
+        "getWikidataOptions": params => trpcClient.getWikidataOptions.query(params),
+        "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": params =>
+            trpcClient.getSoftwareFormAutoFillDataFromWikidataAndOtherSources.query(
+                params
+            ),
+        "createSoftware": params => trpcClient.createSoftware.mutate(params),
+        "updateSoftware": params => trpcClient.updateSoftware.mutate(params),
+        "createUserOrReferent": params => trpcClient.createUserOrReferent.mutate(params),
+        "createInstance": params => trpcClient.createInstance.mutate(params),
+        "updateInstance": params => trpcClient.updateInstance.mutate(params),
+        "getAgents": memoize(() => trpcClient.getAgents.query(), { "promise": true }),
+        "changeAgentOrganization": params =>
+            trpcClient.changeAgentOrganization.mutate(params),
+        "updateEmail": params => trpcClient.updateEmail.mutate(params),
+        "getAllowedEmailRegexp": memoize(() => trpcClient.getAllowedEmailRegexp.query(), {
+            "promise": true
+        }),
+        "getAgencyNames": memoize(() => trpcClient.getAgencyNames.query(), {
+            "promise": true
+        }),
+        "getTotalReferentCount": memoize(() => trpcClient.getTotalReferentCount.query(), {
+            "promise": true
+        }),
+        "getRegisteredUserCount": memoize(
+            () => trpcClient.getRegisteredUserCount.query(),
+            { "promise": true }
+        ),
+        "downloadCorsProtectedTextFile": params =>
+            trpcClient.downloadCorsProtectedTextFile.query(params)
+    };
 }

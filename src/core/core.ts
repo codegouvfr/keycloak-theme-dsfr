@@ -17,7 +17,7 @@ export async function createCore(params: {
     isUserInitiallyLoggedIn?: boolean;
     transformUrlBeforeRedirectToLogin: (params: {
         url: string;
-        termsOfServicesUrl: LocalizedString<Language>;
+        termsOfServiceUrl: LocalizedString<Language>;
     }) => string;
     getCurrentLang: () => Language;
 }) {
@@ -52,7 +52,7 @@ export async function createCore(params: {
         return sillApi;
     })();
 
-    const { keycloakParams, jwtClaims, termsOfServicesUrl } =
+    const { keycloakParams, jwtClaims, termsOfServiceUrl } =
         await sillApi.getOidcParams();
 
     oidc = await (async () => {
@@ -78,7 +78,7 @@ export async function createCore(params: {
             "transformUrlBeforeRedirect": url =>
                 transformUrlBeforeRedirectToLogin({
                     url,
-                    termsOfServicesUrl
+                    termsOfServiceUrl
                 }),
             "getUiLocales": getCurrentLang
         });

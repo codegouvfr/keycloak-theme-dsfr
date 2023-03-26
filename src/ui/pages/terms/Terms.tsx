@@ -32,9 +32,7 @@ function ContextualizedTerms(props: Props) {
 
     const tosUrl = (function useClosure() {
         const { lang } = useLang();
-        const termsOfServices = useConst(() =>
-            userAuthentication.getTermsOfServicesUrl()
-        );
+        const termsOfServices = useConst(() => userAuthentication.getTermsOfServiceUrl());
 
         return useMemo(() => {
             const { resolveLocalizedString } = createResolveLocalizedString({

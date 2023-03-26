@@ -6,14 +6,67 @@ import LogoNextCloud from "ui/assets/logo_nextcloud.png";
 import LogoLibreOffice from "ui/assets/logo_libreoffice.png";
 import LogoWordpress from "ui/assets/logo_wordpress.png";
 import { assert } from "tsafe/assert";
+import type { ApiTypes } from "@codegouvfr/sill";
 
 export const sillApi: SillApi = {
+    "getApiVersion": memoize(async () => "0.0.0", { "promise": true }),
+    "getOidcParams": memoize(
+        async () => ({
+            "keycloakParams": undefined,
+            "jwtClaimByUserKey": {
+                "agencyName": "a",
+                "email": "b",
+                "id": "c",
+                "locale": "d"
+            },
+            "termsOfServiceUrl": "https://example.com/tos.ms"
+        }),
+        { "promise": true }
+    ),
     "getSoftwares": memoize(() => Promise.resolve([...softwares]), { "promise": true }),
-    "getAgents": memoize(() => Promise.resolve([...agents]), { "promise": true }),
+    "getInstances": memoize(
+        async () => {
+            return id<ApiTypes.Instance[]>([
+                {
+                    "id": 0,
+                    "mainSoftwareSillId": 9,
+                    "organization": "CNRS",
+                    "otherSoftwares": [],
+                    "publicUrl": "https://videos.ahp-numerique.fr/",
+                    "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
+                l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`
+                }
+            ]);
+        },
+        { "promise": true }
+    ),
+    "getWikidataOptions": async ({ queryString }) => {
+        if (queryString === "") {
+            return [];
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        const entries = fzf.find(queryString);
+
+        return entries.map(({ item }) => item);
+    },
+    "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({ wikidataId }) => {
+        await new Promise(resolve => setTimeout(resolve, 1));
+
+        return {
+            wikidataId,
+            "comptoirDuLibreId": 123,
+            "softwareName": `Software ${wikidataId}`,
+            "softwareDescription": `Software ${wikidataId} description`,
+            "softwareLicense": `Software ${wikidataId} license`,
+            "softwareMinimalVersion": `1.3.4`
+        };
+    },
     "createSoftware": async ({ formData }) => {
         console.log(`Software created ${JSON.stringify(formData, null, 2)}`);
 
-        const software: SillApi.Software = {
+        const software: ApiTypes.Software = {
             "logoUrl": undefined,
             "softwareId":
                 softwares
@@ -61,7 +114,7 @@ export const sillApi: SillApi = {
 
         softwares[index] = {
             ...softwares[index],
-            ...id<SillApi.Software>({
+            ...id<ApiTypes.Software>({
                 "logoUrl": undefined,
                 "softwareId":
                     softwares
@@ -100,29 +153,6 @@ export const sillApi: SillApi = {
             })
         };
     },
-    "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({ wikidataId }) => {
-        await new Promise(resolve => setTimeout(resolve, 1));
-
-        return {
-            wikidataId,
-            "comptoirDuLibreId": 123,
-            "softwareName": `Software ${wikidataId}`,
-            "softwareDescription": `Software ${wikidataId} description`,
-            "softwareLicense": `Software ${wikidataId} license`,
-            "softwareMinimalVersion": `1.3.4`
-        };
-    },
-    "getWikidataOptions": async ({ queryString }) => {
-        if (queryString === "") {
-            return [];
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        const entries = fzf.find("cd");
-
-        return entries.map(({ item }) => item);
-    },
     "createUserOrReferent": async ({ formData }) => {
         console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
     },
@@ -135,38 +165,11 @@ export const sillApi: SillApi = {
     "updateInstance": async params => {
         console.log(`Updating instance ${JSON.stringify(params)}`);
     },
-    "getInstances": memoize(
-        async () => {
-            return [
-                {
-                    "instanceId": 0,
-                    "mainSoftwareSillId": 9,
-                    "organization": "CNRS",
-                    "otherSoftwares": [],
-                    "publicUrl": "https://videos.ahp-numerique.fr/",
-                    "targetAudience": `Plateforme vidéos des Archives Henri-Poincaré (laboratoire du CNRS, de l'Université de Lorraine et de 
-                l'Université de Strasbourg). Vous y trouverez des vidéos de philosophie et d'histoire des sciences et des techniques.`
-                }
-            ];
-        },
-        { "promise": true }
-    ),
-    "getOidcParams": memoize(
-        async () => ({
-            "keycloakParams": undefined,
-            "jwtClaims": {
-                "agencyName": "a",
-                "email": "b",
-                "id": "c",
-                "locale": "d"
-            },
-            "termsOfServicesUrl": "https://example.com/tos.ms"
-        }),
-        { "promise": true }
-    ),
-    "getVersion": memoize(async () => "0.0.0", { "promise": true }),
-    "updateAgencyName": async ({ newAgencyName }) => {
-        console.log(`Update agency name ${newAgencyName}`);
+    "getAgents": memoize(async () => ({ "agents": id<ApiTypes.Agent[]>([...agents]) }), {
+        "promise": true
+    }),
+    "changeAgentOrganization": async ({ newOrganization }) => {
+        console.log(`Update organization -> ${newOrganization}`);
     },
     "updateEmail": async ({ newEmail }) => {
         console.log(`Update email ${newEmail}`);
@@ -175,41 +178,50 @@ export const sillApi: SillApi = {
     "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
         "promise": true
     }),
-    "getTotalReferentCount": memoize(async () => 322, { "promise": true }),
-    "getRegisteredUserCount": memoize(async () => 500, { "promise": true })
+    "getTotalReferentCount": memoize(async () => ({ "referentCount": 322 }), {
+        "promise": true
+    }),
+    "getRegisteredUserCount": memoize(async () => 500, { "promise": true }),
+    "downloadCorsProtectedTextFile": ({ url }) => fetch(url).then(resp => resp.text())
 };
 
-const options: SillApi.WikidataEntry[] = [
+const options: (ApiTypes.WikidataEntry & { isInSill: boolean })[] = [
     {
         "wikidataId": "Q110492908",
         "wikidataLabel": "Onyxia",
-        "wikidataDescription": "A data science oriented container launcher"
+        "wikidataDescription": "A data science oriented container launcher",
+        "isInSill": true
     },
     {
         "wikidataId": "Q107693197",
         "wikidataLabel": "Keycloakify",
-        "wikidataDescription": "Build tool for creating Keycloak themes using React"
+        "wikidataDescription": "Build tool for creating Keycloak themes using React",
+        "isInSill": true
     },
     {
         "wikidataId": "Q8038",
         "wikidataDescription": "image retouching and editing tool",
-        "wikidataLabel": "GIMP"
+        "wikidataLabel": "GIMP",
+        "isInSill": true
     },
     {
         "wikidataId": "Q10135",
         "wikidataDescription": "office suite supported by the free software community",
-        "wikidataLabel": "LibreOffice"
+        "wikidataLabel": "LibreOffice",
+        "isInSill": true
     },
     {
         "wikidataId": "Q19841877",
         "wikidataDescription": "source code editor developed by Microsoft",
-        "wikidataLabel": "Visual Studio Code"
+        "wikidataLabel": "Visual Studio Code",
+        "isInSill": true
     },
     {
         "wikidataId": "Q50938515",
         "wikidataDescription":
             "decentralized video hosting network, based on free/libre software",
-        "wikidataLabel": "PeerTube"
+        "wikidataLabel": "PeerTube",
+        "isInSill": true
     }
 ];
 
@@ -219,7 +231,7 @@ const fzf = new Fzf(options, {
 });
 
 const softwares = [
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoNextCloud,
         "softwareId": 0,
         "softwareName": "NextCloud",
@@ -272,7 +284,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 1,
         "softwareName": "LibreOffice",
@@ -324,7 +336,7 @@ const softwares = [
             "CA du Puy-en-Velay": { "referentCount": 1, "userCount": 0 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoWordpress,
         "softwareId": 2,
         "softwareName": "Wordpress",
@@ -374,7 +386,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 3,
         "softwareName": "VLC",
@@ -421,7 +433,7 @@ const softwares = [
         },
         "userAndReferentCountByOrganization": {}
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 4,
         "softwareName": "Debian",
@@ -469,7 +481,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 5,
         "softwareName": "Thunderbird",
@@ -530,7 +542,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 6,
         "softwareName": "Qgis",
@@ -576,7 +588,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 7,
         "softwareName": "Mozilla Firefox",
@@ -637,7 +649,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 8,
         "softwareName": "PostgreSQL",
@@ -681,7 +693,7 @@ const softwares = [
             "CA du Puy-en-Velay": { "referentCount": 0, "userCount": 1 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 9,
         "softwareName": "Peertube",
@@ -724,7 +736,7 @@ const softwares = [
             "DINUM": { "referentCount": 2, "userCount": 43 }
         }
     }),
-    id<SillApi.Software>({
+    id<ApiTypes.Software>({
         "logoUrl": LogoLibreOffice,
         "softwareId": 10,
         "softwareName": "Archifiltre",
@@ -764,44 +776,44 @@ const softwares = [
     })
 ];
 
-const agents: SillApi.Agent[] = [
+const agents: ApiTypes.Agent[] = [
     {
-        organization: "Développement durable",
-        email: "agent1@codegouv.fr",
-        declarations: [
+        "organization": "Développement durable",
+        "email": "agent1@codegouv.fr",
+        "declarations": [
             {
-                serviceUrl: "",
-                declarationType: "user",
-                os: "windows",
-                softwareName: "LibreOffice",
-                version: "1.1.1",
-                usecaseDescription: "Usecase description"
+                "serviceUrl": "",
+                "declarationType": "user",
+                "os": "windows",
+                "softwareName": "LibreOffice",
+                "version": "1.1.1",
+                "usecaseDescription": "Usecase description"
             }
         ]
     },
     {
-        organization: "Babel",
-        email: "agent2@codegouv.fr",
-        declarations: [
+        "organization": "Babel",
+        "email": "agent2@codegouv.fr",
+        "declarations": [
             {
-                serviceUrl: "",
-                declarationType: "referent",
-                softwareName: "LibreOffice",
-                isTechnicalExpert: true,
-                usecaseDescription: "Usecase description"
+                "serviceUrl": "",
+                "declarationType": "referent",
+                "softwareName": "LibreOffice",
+                "isTechnicalExpert": true,
+                "usecaseDescription": "Usecase description"
             }
         ]
     },
     {
-        organization: "Éducation nationale",
-        email: "agent3@codegouv.fr",
-        declarations: [
+        "organization": "Éducation nationale",
+        "email": "agent3@codegouv.fr",
+        "declarations": [
             {
-                serviceUrl: "",
-                declarationType: "referent",
-                softwareName: "LibreOffice",
-                isTechnicalExpert: true,
-                usecaseDescription: "Usecase description"
+                "serviceUrl": "",
+                "declarationType": "referent",
+                "softwareName": "LibreOffice",
+                "isTechnicalExpert": true,
+                "usecaseDescription": "Usecase description"
             }
         ]
     }

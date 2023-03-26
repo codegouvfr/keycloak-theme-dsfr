@@ -143,7 +143,9 @@ export function SoftwareFormStep2(props: Step2Props) {
                     setValue("softwareMinimalVersion", softwareMinimalVersion);
                 }
 
-                setValue("softwareName", softwareName);
+                if (softwareName !== undefined) {
+                    setValue("softwareName", softwareName);
+                }
 
                 setIsAutocompleteInProgress(false);
             })();

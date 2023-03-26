@@ -4,9 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApi } from "../ports/SillApi";
+import type { ApiTypes } from "@codegouvfr/sill";
 
-export type WikidataEntry = SillApi.WikidataEntry;
+export type WikidataEntry = ApiTypes.WikidataEntry;
 
 type State = State.NotInitialized | State.Ready;
 

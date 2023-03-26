@@ -4,10 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApi } from "../ports/SillApi";
+import type { ApiTypes } from "@codegouvfr/sill";
 import type { Param0 } from "tsafe";
 
-export type WikidataEntry = SillApi.WikidataEntry;
+export type WikidataEntry = ApiTypes.WikidataEntry;
 
 type State = State.NotInitialized | State.Ready;
 
@@ -174,7 +174,7 @@ export const thunks = {
             switch (params.type) {
                 case "update":
                     const instance = (await sillApi.getInstances()).find(
-                        instance => instance.instanceId === params.instanceId
+                        instance => instance.id === params.instanceId
                     );
 
                     assert(instance !== undefined);
@@ -184,7 +184,7 @@ export const thunks = {
                             allSillSoftwares,
                             "preFillData": {
                                 "type": "update",
-                                "instanceId": instance.instanceId,
+                                "instanceId": instance.id,
                                 "mainSoftwareSillId": instance.mainSoftwareSillId,
                                 "otherSoftwares": instance.otherSoftwares,
                                 "organization": instance.organization,
@@ -279,7 +279,7 @@ export const thunks = {
 
             assert(step1Data !== undefined);
 
-            const formData: SillApi.InstanceFormData = {
+            const formData: ApiTypes.InstanceFormData = {
                 "mainSoftwareSillId": step1Data.mainSoftwareSillId,
                 organization,
                 "otherSoftwares": step1Data.otherSoftwares,

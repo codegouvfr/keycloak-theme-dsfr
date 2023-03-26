@@ -11,8 +11,8 @@ import { Fzf } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
-import type { SillApi } from "../ports/SillApi";
 import { exclude } from "tsafe/exclude";
+import type { ApiTypes } from "@codegouvfr/sill";
 
 export type State = {
     softwares: State.Software.Internal[];
@@ -81,7 +81,7 @@ export namespace State {
                 Exclude<Prerogative, "isInstallableOnUserTerminal" | "isTestable">,
                 boolean
             >;
-            softwareType: SillApi.SoftwareType;
+            softwareType: ApiTypes.SoftwareType;
             search: string;
         };
     }
@@ -732,7 +732,7 @@ export const selectors = (() => {
 })();
 
 function apiSoftwareToInternalSoftware(params: {
-    apiSoftwares: SillApi.Software[];
+    apiSoftwares: ApiTypes.Software[];
     softwareRef:
         | {
               type: "wikidataId";
@@ -774,7 +774,7 @@ function apiSoftwareToInternalSoftware(params: {
     } = apiSoftware;
 
     assert<
-        Equals<SillApi.Software["prerogatives"], State.Software.Internal["prerogatives"]>
+        Equals<ApiTypes.Software["prerogatives"], State.Software.Internal["prerogatives"]>
     >();
 
     const parentSoftware: State.Software.Internal["parentSoftware"] = (() => {
@@ -891,7 +891,7 @@ function internalSoftwareToExternalSoftware(
 }
 
 export function apiSoftwareToExternalCatalogSoftware(params: {
-    apiSoftwares: SillApi.Software[];
+    apiSoftwares: ApiTypes.Software[];
     wikidataId: string;
 }): State.Software.External | undefined {
     const { apiSoftwares, wikidataId } = params;

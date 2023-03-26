@@ -5,7 +5,7 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import { exclude } from "tsafe/exclude";
 import { createSelector } from "@reduxjs/toolkit";
-import type { SillApi } from "../ports/SillApi";
+import type { ApiTypes } from "@codegouvfr/sill";
 
 export type State = State.NotReady | State.Ready;
 
@@ -27,7 +27,7 @@ export namespace State {
         organization: string;
         usecaseDescription: string;
         /** NOTE: undefined if the software is not of type desktop */
-        os: SillApi.Os | undefined;
+        os: ApiTypes.Os | undefined;
         version: string;
         /** NOTE: Defined only when software is cloud */
         serviceUrl: string | undefined;
@@ -102,7 +102,7 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
-            const agents = await sillApi.getAgents();
+            const { agents } = await sillApi.getAgents();
 
             const users: State.SoftwareUser[] = [];
             const referents: State.SoftwareReferent[] = [];

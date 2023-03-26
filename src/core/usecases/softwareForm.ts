@@ -6,6 +6,7 @@ import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { SillApi } from "../ports/SillApi";
 import type { Param0 } from "tsafe";
+import type { ApiTypes } from "@codegouvfr/sill";
 
 type SoftwareFormState = SoftwareFormState.NotInitialized | SoftwareFormState.Ready;
 
@@ -26,7 +27,7 @@ namespace SoftwareFormState {
 
 export type FormData = {
     step1: {
-        softwareType: SillApi.SoftwareType;
+        softwareType: ApiTypes.SoftwareType;
     };
     step2: {
         wikidataId: string | undefined;
@@ -285,11 +286,17 @@ export const thunks = {
             assert(step2 !== undefined);
             assert(step3 !== undefined);
 
-            const formData = {
-                ...step1,
-                ...step2,
-                ...step3,
-                ...formDataStep4
+            const formData: ApiTypes.SoftwareFormData = {
+                "softwareType": step1.softwareType,
+                "wikidataId": step2.wikidataId,
+                "comptoirDuLibreId": step2.comptoirDuLibreId,
+                "softwareName": step2.softwareName,
+                "softwareDescription": step2.softwareDescription,
+                "softwareLicense": step2.softwareLicense,
+                "softwareMinimalVersion": step2.softwareMinimalVersion,
+                "isPresentInSupportContract": step3.isPresentInSupportContract ?? false,
+                "isFromFrenchPublicService": step3.isFromFrenchPublicService,
+                "similarSoftwares": formDataStep4.similarSoftwares
             };
 
             await (state.softwareSillId !== undefined

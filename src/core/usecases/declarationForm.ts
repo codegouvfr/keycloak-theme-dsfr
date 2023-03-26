@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApi } from "../ports/SillApi";
+import type { ApiTypes } from "@codegouvfr/sill";
 import type { Param0 } from "tsafe";
 
 type State = State.NotInitialized | State.Ready;
@@ -33,8 +33,8 @@ namespace State {
 export type FormData = FormData.User | FormData.Referent;
 
 export namespace FormData {
-    export type User = SillApi.DeclarationFormData.User;
-    export type Referent = SillApi.DeclarationFormData.Referent;
+    export type User = ApiTypes.DeclarationFormData.User;
+    export type Referent = ApiTypes.DeclarationFormData.Referent;
 }
 
 export const name = "declarationForm";
