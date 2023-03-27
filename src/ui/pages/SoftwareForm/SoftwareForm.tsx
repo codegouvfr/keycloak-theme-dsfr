@@ -63,7 +63,7 @@ export default function SoftwareForm(props: Props) {
 
     const { classes } = useStyles({ step });
     const { t } = useTranslation({ SoftwareForm });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": "App" });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
@@ -81,15 +81,15 @@ export default function SoftwareForm(props: Props) {
                             "linkProps": {
                                 ...routes.addSoftwareLanding().link
                             },
-                            "label": commoni18n.t("add software or service")
+                            "label": commonI18n.t("add software or service")
                         }
                     ]}
                     currentPageLabel={(() => {
                         switch (route.name) {
                             case "softwareCreationForm":
-                                return commoni18n.t("add software");
+                                return commonI18n.t("add software");
                             case "softwareUpdateForm":
-                                return commoni18n.t("update software");
+                                return commonI18n.t("update software");
                         }
                     })()}
                     className={classes.breadcrumb}
@@ -107,7 +107,7 @@ export default function SoftwareForm(props: Props) {
                         {(() => {
                             switch (route.name) {
                                 case "softwareCreationForm":
-                                    return commoni18n.t("add software");
+                                    return commonI18n.t("add software");
                                 case "softwareUpdateForm":
                                     return t("title software update form");
                             }
@@ -173,7 +173,7 @@ export default function SoftwareForm(props: Props) {
                     className={classes.softwareDetails}
                     disabled={step === 1}
                 >
-                    {commoni18n.t("previous")}
+                    {commonI18n.t("previous")}
                 </Button>
                 <Button
                     onClick={() => evtActionSubmitStep.post()}
@@ -188,7 +188,7 @@ export default function SoftwareForm(props: Props) {
                             )}
                         </>
                     ) : (
-                        commoni18n.t("next")
+                        commonI18n.t("next")
                     )}
                 </Button>
             </ActionsFooter>

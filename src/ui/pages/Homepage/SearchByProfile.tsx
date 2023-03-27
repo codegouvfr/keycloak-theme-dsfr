@@ -17,7 +17,7 @@ export type Props = {
 export function SearchByProfile(props: Props) {
     const { route } = props;
     const { t } = useTranslation({ SearchByProfile });
-    const commoni18n = useTranslation({ "App": null });
+    const commonI18n = useTranslation({ "App": null });
 
     type Profile = string;
     const [selectedUserProfile, setSelectedUserProfile] = useState<Profile>(t("agent"));
@@ -299,8 +299,8 @@ export function SearchByProfile(props: Props) {
                         }
                     }}
                 />
-                <button className="fr-btn" title={commoni18n.t("search")} type={"submit"}>
-                    {commoni18n.t("search")}
+                <button className="fr-btn" title={commonI18n.t("search")} type={"submit"}>
+                    {commonI18n.t("search")}
                 </button>
             </div>
         </form>

@@ -63,7 +63,7 @@ export default function DeclarationForm(props: Props) {
     const { classes, cx } = useStyles({ step, declarationType });
 
     const { t } = useTranslation({ DeclarationForm });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": "App" });
 
     if (step === undefined) {
         return <CircularProgress />;
@@ -240,14 +240,14 @@ export default function DeclarationForm(props: Props) {
                     className={classes.back}
                     disabled={handleDisableBackButton()}
                 >
-                    {commoni18n.t("previous")}
+                    {commonI18n.t("previous")}
                 </Button>
                 <Button
                     onClick={onNextStep}
                     priority="primary"
                     disabled={handleDisableNextButton()}
                 >
-                    {step === stepCount ? t("send") : commoni18n.t("next")}
+                    {step === stepCount ? t("send") : commonI18n.t("next")}
                 </Button>
             </ActionsFooter>
         </div>

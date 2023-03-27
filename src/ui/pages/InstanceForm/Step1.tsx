@@ -43,7 +43,7 @@ export function InstanceFormStep1(props: Step1Props) {
     } = props;
 
     const { t } = useTranslation({ InstanceFormStep1 });
-    const commoni18n = useTranslation({ "App": null });
+    const commonI18n = useTranslation({ "App": null });
 
     const {
         handleSubmit,
@@ -133,7 +133,7 @@ export function InstanceFormStep1(props: Step1Props) {
                             },
                             "state":
                                 errors.mainSoftware === undefined ? undefined : "error",
-                            "stateRelatedMessage": commoni18n.t("required")
+                            "stateRelatedMessage": commonI18n.t("required")
                         }}
                     />
                 )}
@@ -162,8 +162,8 @@ export function InstanceFormStep1(props: Step1Props) {
                                 </div>
                             </li>
                         )}
-                        noOptionText={commoni18n.t("no result")}
-                        loadingText={commoni18n.t("loading")}
+                        noOptionText={commonI18n.t("no result")}
+                        loadingText={commonI18n.t("loading")}
                         dsfrInputProps={{
                             "label": t("other software"),
                             "nativeInputProps": {

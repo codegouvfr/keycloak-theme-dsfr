@@ -78,7 +78,7 @@ export default function InstanceForm(props: Props) {
 
     const { classes, cx } = useStyles({ step });
     const { t } = useTranslation({ InstanceForm });
-    const commoni18n = useTranslation({ "App": null });
+    const commonI18n = useTranslation({ "App": null });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
@@ -98,7 +98,7 @@ export default function InstanceForm(props: Props) {
                             "linkProps": {
                                 ...routes.addSoftwareLanding().link
                             },
-                            "label": commoni18n.t("add software or service")
+                            "label": commonI18n.t("add software or service")
                         }
                     ]}
                     currentPageLabel={(() => {
@@ -177,7 +177,7 @@ export default function InstanceForm(props: Props) {
                     className={classes.softwareDetails}
                     disabled={step === 1}
                 >
-                    {commoni18n.t("previous")}
+                    {commonI18n.t("previous")}
                 </Button>
                 <Button
                     onClick={() => evtActionSubmitStep.post()}
@@ -192,7 +192,7 @@ export default function InstanceForm(props: Props) {
                             )}
                         </>
                     ) : (
-                        commoni18n.t("next")
+                        commonI18n.t("next")
                     )}
                 </Button>
             </ActionsFooter>

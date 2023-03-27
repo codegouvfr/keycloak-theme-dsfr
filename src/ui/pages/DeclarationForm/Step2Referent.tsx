@@ -43,7 +43,7 @@ export function DeclarationFormStep2Referent(props: Props) {
     );
 
     const { t } = useTranslation({ DeclarationFormStep2Referent });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": "App" });
 
     return (
         <form
@@ -75,7 +75,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                 hintText={t("legend hint")}
                 options={[
                     {
-                        "label": commoni18n.t("yes"),
+                        "label": commonI18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isTechnicalExpertInputValue", {
                                 "required": true
@@ -84,7 +84,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                         }
                     },
                     {
-                        "label": commoni18n.t("no"),
+                        "label": commonI18n.t("no"),
                         "nativeInputProps": {
                             ...register("isTechnicalExpertInputValue", {
                                 "required": true
@@ -96,7 +96,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                 state={
                     errors.isTechnicalExpertInputValue !== undefined ? "error" : undefined
                 }
-                stateRelatedMessage={commoni18n.t("required")}
+                stateRelatedMessage={commonI18n.t("required")}
             />
 
             <Input
@@ -105,7 +105,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                     ...register("usecaseDescription", { "required": true })
                 }}
                 state={errors.usecaseDescription !== undefined ? "error" : undefined}
-                stateRelatedMessage={commoni18n.t("required")}
+                stateRelatedMessage={commonI18n.t("required")}
             />
             {softwareType === "cloud" && (
                 <Input
@@ -118,7 +118,7 @@ export function DeclarationFormStep2Referent(props: Props) {
                     state={
                         errors.serviceUrlInputValue !== undefined ? "error" : undefined
                     }
-                    stateRelatedMessage={commoni18n.t("invalid url")}
+                    stateRelatedMessage={commonI18n.t("invalid url")}
                 />
             )}
             <button

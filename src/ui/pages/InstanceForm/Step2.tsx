@@ -53,7 +53,7 @@ export function InstanceFormStep2(props: Step1Props) {
         useState<HTMLButtonElement | null>(null);
 
     const { t } = useTranslation({ InstanceFormStep2 });
-    const commoni18n = useTranslation({ "App": null });
+    const commonI18n = useTranslation({ "App": null });
 
     useEvt(
         ctx => {
@@ -82,7 +82,7 @@ export function InstanceFormStep2(props: Step1Props) {
                 hintText={t("is in public access hint")}
                 options={[
                     {
-                        "label": commoni18n.t("yes"),
+                        "label": commonI18n.t("yes"),
                         "nativeInputProps": {
                             ...register("isPublicInstanceInputValue", {
                                 "required": true
@@ -91,7 +91,7 @@ export function InstanceFormStep2(props: Step1Props) {
                         }
                     },
                     {
-                        "label": commoni18n.t("no"),
+                        "label": commonI18n.t("no"),
                         "nativeInputProps": {
                             ...register("isPublicInstanceInputValue", {
                                 "required": true
@@ -103,7 +103,7 @@ export function InstanceFormStep2(props: Step1Props) {
                 state={
                     errors.isPublicInstanceInputValue !== undefined ? "error" : undefined
                 }
-                stateRelatedMessage={commoni18n.t("required")}
+                stateRelatedMessage={commonI18n.t("required")}
             />
             {watch("isPublicInstanceInputValue") === "true" && (
                 <Input
@@ -118,8 +118,8 @@ export function InstanceFormStep2(props: Step1Props) {
                     state={errors.publicUrl !== undefined ? "error" : undefined}
                     stateRelatedMessage={
                         errors.publicUrl
-                            ? commoni18n.t("invalid url")
-                            : commoni18n.t("required")
+                            ? commonI18n.t("invalid url")
+                            : commonI18n.t("required")
                     }
                 />
             )}
@@ -131,7 +131,7 @@ export function InstanceFormStep2(props: Step1Props) {
                     ...register("organization", { "required": true })
                 }}
                 state={errors.organization !== undefined ? "error" : undefined}
-                stateRelatedMessage={commoni18n.t("required")}
+                stateRelatedMessage={commonI18n.t("required")}
             />
             <Input
                 label={t("targeted public label")}
@@ -140,7 +140,7 @@ export function InstanceFormStep2(props: Step1Props) {
                     ...register("targetAudience", { "required": true })
                 }}
                 state={errors.targetAudience !== undefined ? "error" : undefined}
-                stateRelatedMessage={commoni18n.t("required")}
+                stateRelatedMessage={commonI18n.t("required")}
             />
             <button
                 style={{ "display": "none" }}

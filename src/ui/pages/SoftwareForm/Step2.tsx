@@ -39,7 +39,7 @@ export function SoftwareFormStep2(props: Step2Props) {
     } = props;
 
     const { t } = useTranslation({ SoftwareFormStep2 });
-    const commoni18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": "App" });
 
     const {
         handleSubmit,
@@ -249,7 +249,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commoni18n.t("required")}
+                        stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
             />
@@ -268,7 +268,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareDescription", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commoni18n.t("required")}
+                        stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
             />
@@ -287,7 +287,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareLicense", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commoni18n.t("required")}
+                        stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
             />
@@ -306,7 +306,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commoni18n.t("required")}
+                        stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
             />
