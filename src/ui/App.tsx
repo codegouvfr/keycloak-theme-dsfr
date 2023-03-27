@@ -17,6 +17,7 @@ import { getEnv } from "../env";
 import { pages, page404 } from "ui/pages";
 import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
+import { useLang } from "ui/i18n";
 
 const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
 
@@ -62,11 +63,14 @@ function ContextualizedApp() {
 
     const { classes } = useStyles();
 
+    const i18nApi = useLang();
+
     return (
         <div className={classes.root}>
             <Header
                 routeName={route.name}
                 userAuthenticationApi={headerUserAuthenticationApi}
+                i18nApi={i18nApi}
             />
             <main className={classes.main}>
                 <Suspense>

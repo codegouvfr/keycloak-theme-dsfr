@@ -1,31 +1,16 @@
-import React, { memo, useState, MouseEventHandler } from "react";
+import { memo } from "react";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
-
-type LangOption = {
-    hrefLang: "fr" | "en" | "es" | "de";
-    lang: "fr" | "en" | "es" | "de";
-    langFull: "Français" | "English" | "Español" | "Deutsch";
-};
-
-const languageOptionDefault: LangOption = {
-    "hrefLang": "fr",
-    "lang": "fr",
-    "langFull": "Français"
-};
-
-const languageOptions: LangOption[] = [
-    languageOptionDefault,
-    {
-        "hrefLang": "en",
-        "lang": "en",
-        "langFull": "English"
-    }
-];
+import { type Language, languages } from "ui/i18n";
 
 type Props = {
-    selectedLanguage: string;
-    onChangeLanguage: MouseEventHandler<HTMLAnchorElement>;
+    lang: Language;
+    setLang: (lang: Language) => void;
+};
+
+const fullNameByLang: Record<Language, string> = {
+    "fr": "Français",
+    "en": "English"
 };
 
 /**
@@ -34,56 +19,42 @@ type Props = {
  * - "aria-expanded": false,
  */
 export const LanguageSelector = memo((props: Props) => {
-    const { selectedLanguage, onChangeLanguage } = props;
+    const { lang, setLang } = props;
 
     const { cx, classes } = useStyles();
-
-    const ActiveLanguage = () => {
-        const findActiveLanguage =
-            languageOptions.find(language => language.lang === selectedLanguage) ??
-            languageOptionDefault;
-
-        return (
-            <>
-                {" "}
-                <span className={classes.langShort}>{findActiveLanguage.lang}</span>
-                <span className={fr.cx("fr-hidden-lg")}>
-                    {" "}
-                    - {findActiveLanguage.langFull}
-                </span>{" "}
-            </>
-        );
-    };
 
     return (
         <>
             <div>
-                <ActiveLanguage />
+                {" "}
+                <span className={classes.langShort}>{lang}</span>
+                <span className={fr.cx("fr-hidden-lg")}>
+                    {" "}
+                    -{fullNameByLang[lang]}
+                </span>{" "}
             </div>
             <div
                 className={cx(fr.cx("fr-collapse", "fr-menu"), classes.menuLanguage)}
                 id="translate-select"
             >
                 <ul className={fr.cx("fr-menu__list")}>
-                    {languageOptions.map(language => (
-                        <li key={language.lang}>
+                    {languages.map(lang_i => (
+                        <li key={lang_i}>
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                             <a
                                 className={fr.cx(
                                     "fr-translate__language",
                                     "fr-nav__link"
                                 )}
-                                hrefLang={language.hrefLang}
-                                lang={language.lang}
                                 href="#"
-                                aria-current={
-                                    language.lang === selectedLanguage
-                                        ? "true"
-                                        : undefined
-                                }
-                                onClick={onChangeLanguage}
+                                aria-current={lang_i === lang ? "true" : undefined}
+                                onClick={e => {
+                                    e.preventDefault();
+                                    setLang(lang_i);
+                                }}
                             >
-                                <span className={classes.langShort}>{language.lang}</span>{" "}
-                                - {language.langFull}
+                                <span className={classes.langShort}>{lang_i}</span>
+                                &nbsp;-&nbsp;{fullNameByLang[lang_i]}
                             </a>
                         </li>
                     ))}
@@ -93,7 +64,7 @@ export const LanguageSelector = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles({ "name": { LanguageSelector } })(() => ({
     "menuLanguage": {
         "right": 0
     },

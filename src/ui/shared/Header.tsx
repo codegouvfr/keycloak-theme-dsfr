@@ -1,4 +1,4 @@
-import React, { memo, MouseEvent, useState } from "react";
+import { memo } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
@@ -6,6 +6,7 @@ import { useTranslation } from "ui/i18n";
 import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "ui/routes";
 import { LanguageSelector } from "./LanguageSelector";
+import type { Language } from "ui/i18n";
 
 type Props = {
     className?: string;
@@ -19,22 +20,18 @@ type Props = {
               isUserLoggedIn: false;
               login: () => Promise<never>;
           };
+    i18nApi: {
+        lang: Language;
+        setLang: (lang: Language) => void;
+    };
 };
 
 export const Header = memo((props: Props) => {
-    const { className, routeName, userAuthenticationApi, ...rest } = props;
+    const { className, routeName, userAuthenticationApi, i18nApi, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ Header });
-    const [selectedLanguage, setSelectedLanguage] = useState("fr");
-
-    const onChangeLanguage = (e: MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        setSelectedLanguage(
-            e.currentTarget.attributes.getNamedItem("lang")?.value ?? "fr"
-        );
-    };
 
     return (
         <HeaderDS
@@ -49,7 +46,7 @@ export const Header = memo((props: Props) => {
                 {
                     "iconId": "fr-icon-bank-fill",
                     "linkProps": {
-                        href: "https://code.gouv.fr/"
+                        "href": "https://code.gouv.fr/"
                     },
                     "text": "Code Gouv"
                 },
@@ -94,10 +91,7 @@ export const Header = memo((props: Props) => {
                     },
                     "iconId": "fr-icon-translate-2",
                     "text": (
-                        <LanguageSelector
-                            selectedLanguage={selectedLanguage}
-                            onChangeLanguage={onChangeLanguage}
-                        />
+                        <LanguageSelector lang={i18nApi.lang} setLang={i18nApi.setLang} />
                     )
                 }
             ]}
