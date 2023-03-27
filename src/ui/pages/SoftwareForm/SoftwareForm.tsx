@@ -95,11 +95,10 @@ export default function SoftwareForm(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <div className={classes.headerDeclareUserOrReferent}>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                         href={"#"}
-                        onClick={() => {
-                            session.back();
-                        }}
+                        onClick={() => session.back()}
                         className={classes.backButton}
                     >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type { PageRoute } from "./route";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -6,10 +5,8 @@ import { useTranslation } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import Display from "@codegouvfr/react-dsfr/Display";
-import { useCoreFunctions } from "core";
 
-export type Props = {
+type Props = {
     className?: string;
     route: PageRoute;
 };
@@ -20,19 +17,8 @@ export default function Account(props: Props) {
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const { userAuthentication } = useCoreFunctions();
-    const [agencyNames, setAgencyNames] = useState<string[]>([]);
-    const [keycloakAccountConfigurationUrl, setKeycloakAccountConfigurationUrl] =
-        useState();
-
     const { classes, cx } = useStyles();
     const { t } = useTranslation({ Account });
-
-    useEffect(() => {
-        userAuthentication.getAgencyNames().then(names => {
-            setAgencyNames(names);
-        });
-    }, []);
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
@@ -40,19 +26,7 @@ export default function Account(props: Props) {
             <p>
                 {t("mail")} : <span>address@foo.bar</span>
             </p>
-            <p>
-                {t("organization")} :{" "}
-                {agencyNames.length ? (
-                    agencyNames.map(name => <span key={name}>{name}, </span>)
-                ) : (
-                    <span>{t("no organization")}</span>
-                )}
-            </p>
-            {/*TODO: Add link when auth is available*/}
-            <a href={keycloakAccountConfigurationUrl} target="_blank">
-                {t("update data")}
-            </a>
-            <Display />
+            <p>{t("organization")} : </p>
         </div>
     );
 }
@@ -71,6 +45,6 @@ const useStyles = makeStyles({
     }
 }));
 
-export const { i18n } = declareComponentKeys<
-    "title" | "mail" | "organization" | "update data" | "no organization"
->()({ Account });
+export const { i18n } = declareComponentKeys<"title" | "mail" | "organization">()({
+    Account
+});

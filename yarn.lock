@@ -1182,17 +1182,17 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.41.0":
-  version "0.41.0"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.41.0.tgz#689eb37e71bbe37193159cab2e0eb6b6f3570cc0"
-  integrity sha512-1PyPZk31dsjOzY8l1JwONXXmUjH3nDbK1dy4ae2glRHy/rcMY6PSSdQvm6KydbzHx2cJTiA3sj/CQ1UMRtNjbQ==
+"@codegouvfr/react-dsfr@^0.43.1":
+  version "0.43.1"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.43.1.tgz#0cdfe53b3bb1567f390602414d92c997dd0388e3"
+  integrity sha512-l4ETmgetcpX3I1ys3AsFw8d/xnnbHYiU64dw9F2og08cQiyOl4d3haU9VSKP/208AnVEjmYIEWrhKus4LD8/FA==
   dependencies:
     tsafe "^1.6.0"
 
-"@codegouvfr/sill@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/sill/-/sill-0.1.0.tgz#9cbdf1b9a0a354980e548de86f74ef7a7b64c2be"
-  integrity sha512-DmI+/tpdLZ3p9P7P5DcbT5+EdIhuOYhNaNwATmwpI+uCq9jNuPAAk7eIWul0JzdEvNgKcSmdjSO/yZFWBPQGhQ==
+"@codegouvfr/sill@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/sill/-/sill-0.1.1.tgz#44c9b865b040e8fefce70ec9db885b120d4f804d"
+  integrity sha512-3UgVlwXJYMV0Lkdp0ljMzUhutzcn5kAt7kuoA6jvhTOFmzEz5Lw58FX8PxklkpvGka0pczSYpaLlG0S4fo3msQ==
   dependencies:
     "@trpc/server" "^10.18.0"
     jwt-decode "^3.1.2"

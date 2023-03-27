@@ -394,9 +394,7 @@ const {
             "Account": {
                 "title": "My account",
                 "mail": "Email address",
-                "organization": "Name of the affiliated organization",
-                "update data": "Change account information (such as your password)",
-                "no organization": "No organization"
+                "organization": "Name of the affiliated organization"
             },
             "Header": {
                 "brand": "SILL",
@@ -770,10 +768,7 @@ const {
             "Account": {
                 "title": "Mon compte",
                 "mail": "Adresse de courriel",
-                "organization": "Nom de l'établissement de rattachement",
-                "update data":
-                    "Modifier les informations du compte (comme par exemple votre mot de passe)",
-                "no organization": "Aucune organisation"
+                "organization": "Nom de l'établissement de rattachement"
             },
             "Header": {
                 "brand": "SILL",

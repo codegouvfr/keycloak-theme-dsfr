@@ -9,6 +9,7 @@ import {
     type State as SoftwareCatalogState,
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
+import { exclude } from "tsafe/exclude";
 
 export type State = State.NotReady | State.Ready;
 
@@ -251,11 +252,16 @@ function apiSoftwareToSoftware(params: {
         "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
         "instances": apiInstances
             .filter(instance => instance.mainSoftwareSillId === softwareId)
-            .map(instance => ({
-                "instanceUrl": instance.publicUrl,
-                "organization": instance.organization,
-                "targetAudience": instance.targetAudience
-            })),
+            .map(instance =>
+                instance.publicUrl === undefined
+                    ? undefined
+                    : {
+                          "instanceUrl": instance.publicUrl,
+                          "organization": instance.organization,
+                          "targetAudience": instance.targetAudience
+                      }
+            )
+            .filter(exclude(undefined)),
         "similarSoftwares": similarSoftwares_api.map(softwareRef => {
             const software = apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,

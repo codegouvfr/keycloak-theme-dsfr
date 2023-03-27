@@ -2,7 +2,7 @@
 import type { ThunkAction, State as RootState } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture/tools/createObjectThatThrowsIfAccessed";
+import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { objectKeys } from "tsafe/objectKeys";
 import memoize from "memoizee";

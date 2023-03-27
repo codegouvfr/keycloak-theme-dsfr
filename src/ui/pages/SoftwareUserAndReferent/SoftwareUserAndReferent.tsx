@@ -100,11 +100,10 @@ export default function SoftwareUserAndReferent(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <div className={classes.header}>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                         href={"#"}
-                        onClick={() => {
-                            session.back();
-                        }}
+                        onClick={() => session.back()}
                         className={classes.backButton}
                     >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
@@ -165,6 +164,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                                                 )}
                                                 key={tab.id}
                                             >
+                                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                                 <a
                                                     className={fr.cx("fr-sidemenu__link")}
                                                     href="#"

@@ -17,8 +17,8 @@
         "prestart": "only-include-used-icons && generate-env-getter"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^0.41.0",
-        "@codegouvfr/sill": "^0.1.0",
+        "@codegouvfr/react-dsfr": "^0.43.1",
+        "@codegouvfr/sill": "^0.1.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",

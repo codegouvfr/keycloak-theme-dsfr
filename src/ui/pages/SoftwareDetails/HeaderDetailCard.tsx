@@ -1,13 +1,11 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import type { Link } from "type-route";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
-import { routes, session, useRoute } from "ui/routes";
+import { session } from "ui/routes";
 
 export type Props = {
     className?: string;
@@ -42,11 +40,10 @@ export const HeaderDetailCard = memo((props: Props) => {
     return (
         <div className={cx(classes.root, className)}>
             <div className={classes.leftCol}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                     href={"#"}
-                    onClick={() => {
-                        session.back();
-                    }}
+                    onClick={() => session.back()}
                     className={classes.backButton}
                 >
                     <i className={fr.cx("fr-icon-arrow-left-s-line")} />
