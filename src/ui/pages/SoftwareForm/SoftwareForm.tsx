@@ -63,7 +63,7 @@ export default function SoftwareForm(props: Props) {
 
     const { classes } = useStyles({ step });
     const { t } = useTranslation({ SoftwareForm });
-    const commonI18n = useTranslation({ "App": "App" });
+    const commonI18n = useTranslation({ "App": undefined });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
