@@ -209,7 +209,10 @@ export const thunks = {
 
             dispatch(actions.submissionStarted());
 
-            await sillApi.createUserOrReferent({ formData });
+            await sillApi.createUserOrReferent({
+                formData,
+                "softwareName": state.software.softwareName
+            });
 
             sillApi.getAgents.clear();
             sillApi.getSoftwares.clear();
