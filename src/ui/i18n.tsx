@@ -397,7 +397,6 @@ const {
                 "organization": "Name of the affiliated organization"
             },
             "Header": {
-                "brand": "SILL",
                 "home title": "Home - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Welcome to the SILL",
@@ -771,7 +770,6 @@ const {
                 "organization": "Nom de l'établissement de rattachement"
             },
             "Header": {
-                "brand": "SILL",
                 "home title": "Accueil - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Bienvenue sur le SILL",

@@ -8,6 +8,7 @@ import { routes } from "ui/routes";
 import { LanguageSelector } from "./LanguageSelector";
 import type { Language } from "ui/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 
 type Props = {
     className?: string;
@@ -34,10 +35,16 @@ export const Header = memo((props: Props) => {
 
     const { t } = useTranslation({ Header });
 
+    const { classes, cx } = useStyles({ "isOnPageMyAccount": routeName === "account" });
+
     return (
         <HeaderDsfr
             className={className}
-            brandTop={t("brand")}
+            brandTop={
+                <>
+                    République <br /> Française
+                </>
+            }
             serviceTitle={t("title")}
             homeLinkProps={{
                 ...routes.home().link,
@@ -51,6 +58,7 @@ export const Header = memo((props: Props) => {
                     },
                     "text": "Code Gouv"
                 },
+                /*
                 {
                     "iconId": "fr-icon-play-circle-fill",
                     "linkProps": {
@@ -58,12 +66,14 @@ export const Header = memo((props: Props) => {
                     },
                     "text": t("quick access test")
                 },
+                */
                 {
                     "iconId": "fr-icon-lock-line",
                     ...(userAuthenticationApi.isUserLoggedIn
                         ? {
                               "linkProps": {
-                                  "onClick": userAuthenticationApi.logout
+                                  "onClick": userAuthenticationApi.logout,
+                                  "href": "#"
                               }
                           }
                         : {
@@ -81,7 +91,10 @@ export const Header = memo((props: Props) => {
                           {
                               "iconId": "fr-icon-account-fill",
                               "linkProps": {
-                                  "className": "fr-btn--tertiary",
+                                  "className": cx(
+                                      fr.cx("fr-btn--tertiary"),
+                                      classes.myAccountButton
+                                  ),
                                   ...routes.account().link
                               },
                               "text": t("quick access account")
@@ -135,8 +148,19 @@ export const Header = memo((props: Props) => {
     );
 });
 
+const useStyles = makeStyles<{ isOnPageMyAccount: boolean }>()(
+    (theme, { isOnPageMyAccount }) => ({
+        "myAccountButton": {
+            "&&": {
+                "backgroundColor": !isOnPageMyAccount
+                    ? undefined
+                    : theme.decisions.background.default.grey.hover
+            }
+        }
+    })
+);
+
 export const { i18n } = declareComponentKeys<
-    | "brand"
     | "home title"
     | "title"
     | "navigation welcome"
