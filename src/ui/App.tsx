@@ -18,6 +18,7 @@ import { pages, page404 } from "ui/pages";
 import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
 
@@ -35,7 +36,20 @@ const { CoreProvider } = createCoreProvider({
 
 export default function App() {
     return (
-        <CoreProvider fallback={null}>
+        <CoreProvider
+            fallback={
+                <div
+                    style={{
+                        "display": "flex",
+                        "justifyContent": "center",
+                        "height": "100vh",
+                        "alignItems": "center"
+                    }}
+                >
+                    <CircularProgress />
+                </div>
+            }
+        >
             <RouteProvider>
                 <ContextualizedApp />
             </RouteProvider>
