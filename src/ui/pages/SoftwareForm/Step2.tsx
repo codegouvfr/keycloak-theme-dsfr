@@ -191,7 +191,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                         onValueChange={field.onChange}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}
                         renderOption={(liProps, wikidataEntity) => (
-                            <li {...liProps}>
+                            <li {...liProps} key={wikidataEntity.wikidataId}>
                                 <div>
                                     <span>{wikidataEntity.wikidataLabel}</span>
                                     <br />

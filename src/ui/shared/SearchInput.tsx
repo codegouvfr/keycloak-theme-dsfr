@@ -64,7 +64,12 @@ export function SearchInput<T extends string | Record<string, unknown>>(
     })();
 
     useDebounce(() => {
-        let active = true;
+        if (inputValue === "") {
+            setOptions([]);
+            return;
+        }
+
+        let isActive = true;
 
         (async () => {
             setOptions([]);
@@ -72,7 +77,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
 
             const options = await getOptions(inputValue);
 
-            if (!active) {
+            if (!isActive) {
                 return;
             }
 
@@ -81,7 +86,7 @@ export function SearchInput<T extends string | Record<string, unknown>>(
         })();
 
         return () => {
-            active = false;
+            isActive = false;
         };
     }, [inputValue]);
 
