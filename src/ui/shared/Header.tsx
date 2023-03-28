@@ -3,10 +3,11 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { Header as HeaderDS } from "@codegouvfr/react-dsfr/Header";
+import { Header as HeaderDsfr } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "ui/routes";
 import { LanguageSelector } from "./LanguageSelector";
 import type { Language } from "ui/i18n";
+import { fr } from "@codegouvfr/react-dsfr";
 
 type Props = {
     className?: string;
@@ -34,7 +35,7 @@ export const Header = memo((props: Props) => {
     const { t } = useTranslation({ Header });
 
     return (
-        <HeaderDS
+        <HeaderDsfr
             className={className}
             brandTop={t("brand")}
             serviceTitle={t("title")}
@@ -74,20 +75,24 @@ export const Header = memo((props: Props) => {
                         ? t("quick access logout")
                         : t("quick access login")
                 },
-                {
-                    "iconId": "fr-icon-account-fill",
-                    "linkProps": {
-                        "className": "fr-btn--tertiary",
-                        ...routes.account().link
-                    },
-                    "text": t("quick access account")
-                },
+                ...(!userAuthenticationApi.isUserLoggedIn
+                    ? []
+                    : [
+                          {
+                              "iconId": "fr-icon-account-fill",
+                              "linkProps": {
+                                  "className": "fr-btn--tertiary",
+                                  ...routes.account().link
+                              },
+                              "text": t("quick access account")
+                          } as const
+                      ]),
                 {
                     "buttonProps": {
                         "aria-controls": "translate-select",
                         "aria-expanded": false,
                         "title": t("select language"),
-                        "className": "fr-btn--tertiary fr-translate fr-nav"
+                        "className": fr.cx("fr-btn--tertiary", "fr-translate", "fr-nav")
                     },
                     "iconId": "fr-icon-translate-2",
                     "text": (
