@@ -185,7 +185,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                 rules={{ "required": false }}
                 render={({ field }) => (
                     <SearchInput
-                        debounceDelay={800}
+                        debounceDelay={400}
                         getOptions={getWikidataOptions}
                         value={field.value}
                         onValueChange={field.onChange}
