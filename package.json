@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@codegouvfr/react-dsfr": "^0.43.3",
-        "@codegouvfr/sill": "^0.1.1",
+        "@codegouvfr/sill": "^0.3.2",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",
@@ -33,7 +33,7 @@
         "i18nifty": "^1.3.26",
         "jwt-decode": "^3.1.2",
         "keycloak-js": "^18.0.0",
-        "keycloakify": "^7.0.3",
+        "keycloakify": "^7.3.0",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "path": "^0.12.7",

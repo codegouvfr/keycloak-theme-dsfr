@@ -1189,10 +1189,10 @@
   dependencies:
     tsafe "^1.6.0"
 
-"@codegouvfr/sill@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/sill/-/sill-0.1.1.tgz#44c9b865b040e8fefce70ec9db885b120d4f804d"
-  integrity sha512-3UgVlwXJYMV0Lkdp0ljMzUhutzcn5kAt7kuoA6jvhTOFmzEz5Lw58FX8PxklkpvGka0pczSYpaLlG0S4fo3msQ==
+"@codegouvfr/sill@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/sill/-/sill-0.3.2.tgz#1dd8a3bd08248ecab389d83ca07e0e17fcc94963"
+  integrity sha512-KWHsTI1TSK56dY/25U6jGDJ+WFzsCkaF+Fq5WIcJvZFFa8lu6owtc1HhWKuFKLboSulhWFRV5Q8Z4zMuMicyxw==
   dependencies:
     "@trpc/server" "^10.18.0"
     jwt-decode "^3.1.2"
@@ -10109,10 +10109,10 @@ keycloak-js@^18.0.0:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
 
-keycloakify@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-7.0.3.tgz#c73d13618b533c125d2941435f05b5668bfcebef"
-  integrity sha512-sGW9rPS9W7/KEAPwsk+bzHbX03YgKUIgAhwbPSPOa9x1SdqpttJSrd/kWMH3t1j/0AJ+fI8lSlRfpz1PgCW+ww==
+keycloakify@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-7.3.0.tgz#bf443cd0697232f2e5d17a84caed5885a3799b48"
+  integrity sha512-xGqaHNjMly8A3iCZB69gZmlVCp0GvfGr1MJjnp5lvtb5cVJpGyuVAIWoe9LHWA0RSuUaGKdrOyhfT4kSaKAIdA==
   dependencies:
     "@octokit/rest" "^18.12.0"
     cheerio "^1.0.0-rc.5"
