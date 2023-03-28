@@ -7,6 +7,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
 import { createSillApi } from "core/adapter/sillApi";
 import { getSillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
+import { contactEmail } from "ui/shared/contactEmail";
 
 export type UserProfileFormFieldsProps = {
     kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];
@@ -14,8 +15,6 @@ export type UserProfileFormFieldsProps = {
     getClassName: (classKey: ClassKey) => string;
     onIsFormSubmittableValueChange: (isFormSubmittable: boolean) => void;
 };
-
-const contactEmail = "sill@code.gouv.fr";
 
 export function UserProfileFormFields({
     kcContext,

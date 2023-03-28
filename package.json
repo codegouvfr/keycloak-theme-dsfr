@@ -13,11 +13,11 @@
         "format": "npm run _format -- --write",
         "format:check": "npm run _format -- --list-different",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
-        "postinstall": "copy-dsfr-to-public && generate-env-getter && increase-typescript-instantiation-count",
+        "postinstall": "copy-dsfr-to-public && generate-env-getter",
         "prestart": "only-include-used-icons && generate-env-getter"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^0.43.1",
+        "@codegouvfr/react-dsfr": "^0.43.3",
         "@codegouvfr/sill": "^0.1.1",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",

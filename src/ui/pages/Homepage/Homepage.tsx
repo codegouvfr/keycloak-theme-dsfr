@@ -11,7 +11,7 @@ import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "../../../core";
-import { SearchByProfile } from "./SearchByProfile";
+//import { SearchByProfile } from "./SearchByProfile";
 import type { PageRoute } from "./route";
 
 type Props = {
@@ -33,42 +33,42 @@ export default function Homepage(props: Props) {
     const softwareSelectionList = [
         {
             "title": t("last added"),
-            "href": routes.softwareCatalog({
+            "linkProps": routes.softwareCatalog({
                 ...route.params,
-                sort: "added time"
-            }).href
+                "sort": "added time"
+            }).link
         },
         {
             "title": t("most used"),
-            "href": routes.softwareCatalog({
+            "linkProps": routes.softwareCatalog({
                 ...route.params,
-                sort: "user count"
-            }).href
+                "sort": "user count"
+            }).link
         },
         {
             "title": t("essential"),
-            "href": routes.softwareCatalog({
+            "linkProps": routes.softwareCatalog({
                 ...route.params,
-                prerogatives: ["isInstallableOnUserTerminal"]
-            }).href
+                "prerogatives": ["isInstallableOnUserTerminal"]
+            }).link
         },
         {
             "title": t("selection of the month"),
-            "href": ""
+            "linkProps": {}
         },
         {
             "title": t("waiting for referent"),
-            "href": routes.softwareCatalog({
+            "linkProps": routes.softwareCatalog({
                 ...route.params,
-                referentCount: 0
-            }).href
+                "referentCount": 0
+            }).link
         },
         {
             "title": t("in support market"),
-            "href": routes.softwareCatalog({
+            "linkProps": routes.softwareCatalog({
                 ...route.params,
-                prerogatives: ["isPresentInSupportContract"]
-            }).href
+                "prerogatives": ["isPresentInSupportContract"]
+            }).link
         }
     ];
 
@@ -142,6 +142,7 @@ export default function Homepage(props: Props) {
                     <img src={illustration_sill} alt="Illustration du SILL" />
                 </div>
 
+                {/*
                 <div className={cx(fr.cx("fr-container"), classes.searchForm)}>
                     <SearchByProfile route={route} />
                     <span className={""}>{t("or")}</span>
@@ -149,17 +150,14 @@ export default function Homepage(props: Props) {
                         {t("sign in")}
                     </Button>
                 </div>
+                */}
             </div>
             <section className={cx(classes.softwareSelectionBackground, classes.section)}>
                 <div className={fr.cx("fr-container")}>
                     <h2 className={classes.titleSection}>{t("software selection")}</h2>
                     <div className={classes.softwareSelection}>
-                        {softwareSelectionList.map(software => (
-                            <Tile
-                                key={software.title}
-                                title={software.title}
-                                linkProps={{ href: software.href }}
-                            />
+                        {softwareSelectionList.map(({ title, linkProps }) => (
+                            <Tile key={title} title={title} linkProps={linkProps} />
                         ))}
                     </div>
                 </div>
@@ -251,12 +249,14 @@ const useStyles = makeStyles()(theme => ({
             color: theme.decisions.text.title.blueFrance.default
         }
     },
+    /*
     "searchForm": {
         "display": "flex",
         "flexDirection": "column",
         "alignItems": "center",
         "gap": fr.spacing("4v")
     },
+    */
     "softwareSelectionBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default
     },
