@@ -48,19 +48,17 @@ function ContextualizedReadme(props: Props) {
     );
 }
 
-export const useStyles = makeStyles({ "name": { Readme } })(theme => ({
+export const useStyles = makeStyles({ "name": { Readme } })({
     "root": {
         "display": "flex",
         "justifyContent": "center"
     },
     "markdown": {
         "borderRadius": fr.spacing("2v"),
-        "backgroundColor": theme.decisions.background.actionHigh.beigeGrisGalet.default,
         "maxWidth": 900,
         "padding": fr.spacing("4v"),
-        "&:hover": {
-            "boxShadow": "0px 6px 10px 0px rgba(0,0,0,0.14)"
-        },
-        "marginBottom": fr.spacing("2v")
+        ...fr.spacing("margin", {
+            "topBottom": "6v"
+        })
     }
-}));
+});

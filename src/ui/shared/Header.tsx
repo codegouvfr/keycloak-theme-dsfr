@@ -137,10 +137,8 @@ export const Header = memo((props: Props) => {
                     "text": t("navigation support request")
                 },
                 {
-                    "linkProps": {
-                        "href": "#",
-                        "target": "_self"
-                    },
+                    "isActive": routeName === routes.readme.name,
+                    "linkProps": routes.readme().link,
                     "text": t("navigation about")
                 }
             ]}
