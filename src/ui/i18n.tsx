@@ -70,7 +70,8 @@ const {
                 "allFeminine": "All",
                 "loading": "Loading...",
                 "no result": "No result",
-                "search": "Search"
+                "search": "Search",
+                "validate": "Validate"
             },
             "Homepage": {
                 "title": (
@@ -394,7 +395,9 @@ const {
             "Account": {
                 "title": "My account",
                 "mail": "Email address",
-                "organization": "Name of the affiliated organization"
+                "organization": "Name of the affiliated organization",
+                "update data": "Change account information (such as your password)",
+                "no organization": "No organization"
             },
             "Header": {
                 "home title": "Home - Socle interministériel de logiciels libres",
@@ -434,7 +437,8 @@ const {
                 "allFeminine": "Toutes",
                 "loading": "Chargement...",
                 "no result": "Aucun résultat",
-                "search": "Rechercher"
+                "search": "Rechercher",
+                "validate": "Validate"
             },
             "Homepage": {
                 "title": (
@@ -767,7 +771,10 @@ const {
             "Account": {
                 "title": "Mon compte",
                 "mail": "Adresse de courriel",
-                "organization": "Nom de l'établissement de rattachement"
+                "organization": "Nom de l'établissement de rattachement",
+                "update data":
+                    "Modifier les informations du compte (comme par exemple votre mot de passe)",
+                "no organization": "Aucune organisation"
             },
             "Header": {
                 "home title": "Accueil - Socle interministériel de logiciels libres",
