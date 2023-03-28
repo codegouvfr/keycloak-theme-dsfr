@@ -22,9 +22,13 @@ export type Step2Props = {
     getAutofillDataFromWikidata: ReturnType<
         typeof useCoreFunctions
     >["softwareForm"]["getAutofillData"];
-    getWikidataOptions: ReturnType<
-        typeof useCoreFunctions
-    >["softwareForm"]["getWikidataOptions"];
+    getWikidataOptions: (
+        queryString: string
+    ) => Promise<
+        ReturnType<
+            ReturnType<typeof useCoreFunctions>["softwareForm"]["getWikidataOptions"]
+        >
+    >;
 };
 
 export function SoftwareFormStep2(props: Step2Props) {
@@ -182,9 +186,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                 render={({ field }) => (
                     <SearchInput
                         debounceDelay={400}
-                        getOptions={inputText =>
-                            getWikidataOptions({ "queryString": inputText })
-                        }
+                        getOptions={getWikidataOptions}
                         value={field.value}
                         onValueChange={field.onChange}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}

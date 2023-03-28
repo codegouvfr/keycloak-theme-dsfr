@@ -18,6 +18,7 @@ import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { ActionsFooter } from "../../shared/ActionsFooter";
 import type { PageRoute } from "./route";
+import { useLang } from "ui/i18n";
 
 export type Props = {
     className?: string;
@@ -82,6 +83,8 @@ export default function InstanceForm(props: Props) {
 
     const evtActionSubmitStep = useConst(() => Evt.create());
 
+    const { lang } = useLang();
+
     if (step === undefined) {
         return <CircularProgress />;
     }
@@ -143,7 +146,9 @@ export default function InstanceForm(props: Props) {
                         "mainSoftwareSillId": initializationData.mainSoftwareSillId,
                         "otherSoftwares": initializationData.otherSoftwares
                     }}
-                    getWikidataOptions={getWikidataOptions}
+                    getWikidataOptions={queryString =>
+                        getWikidataOptions({ queryString, "language": lang })
+                    }
                     onSubmit={({ mainSoftwareSillId, otherSoftwares }) =>
                         instanceForm.completeStep1({
                             mainSoftwareSillId,

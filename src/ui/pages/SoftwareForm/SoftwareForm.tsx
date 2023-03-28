@@ -20,6 +20,7 @@ import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { ActionsFooter } from "../../shared/ActionsFooter";
 import type { PageRoute } from "./route";
+import { useLang } from "ui/i18n";
 
 type Props = {
     className?: string;
@@ -66,6 +67,8 @@ export default function SoftwareForm(props: Props) {
     const commonI18n = useTranslation({ "App": undefined });
 
     const evtActionSubmitStep = useConst(() => Evt.create());
+
+    const { lang } = useLang();
 
     if (formData === undefined) {
         return <CircularProgress />;
@@ -140,7 +143,9 @@ export default function SoftwareForm(props: Props) {
                         })
                     }
                     getAutofillDataFromWikidata={softwareForm.getAutofillData}
-                    getWikidataOptions={softwareForm.getWikidataOptions}
+                    getWikidataOptions={queryString =>
+                        softwareForm.getWikidataOptions({ "language": lang, queryString })
+                    }
                     evtActionSubmit={evtActionSubmitStep.pipe(() => step === 2)}
                 />
                 <SoftwareFormStep3
@@ -163,7 +168,9 @@ export default function SoftwareForm(props: Props) {
                             "formDataStep4": formData
                         })
                     }
-                    getWikidataOptions={softwareForm.getWikidataOptions}
+                    getWikidataOptions={queryString =>
+                        softwareForm.getWikidataOptions({ "language": lang, queryString })
+                    }
                 />
             </div>
             <ActionsFooter className={classes.footerContainer}>

@@ -7,17 +7,21 @@ import { SearchMultiInput } from "ui/shared/SearchMultiInput";
 import type { FormData } from "core/usecases/softwareForm";
 import type { useCoreFunctions } from "core";
 import { declareComponentKeys } from "i18nifty";
-import { SoftwareFormStep2 } from "./Step2";
 import { useTranslation } from "ui/i18n";
+import type { ReturnType } from "tsafe";
 
 export type Step4Props = {
     className?: string;
     initialFormData: FormData["step4"] | undefined;
     onSubmit: (formData: FormData["step4"]) => void;
     evtActionSubmit: NonPostableEvt<void>;
-    getWikidataOptions: ReturnType<
-        typeof useCoreFunctions
-    >["softwareForm"]["getWikidataOptions"];
+    getWikidataOptions: (
+        queryString: string
+    ) => Promise<
+        ReturnType<
+            ReturnType<typeof useCoreFunctions>["softwareForm"]["getWikidataOptions"]
+        >
+    >;
 };
 
 export function SoftwareFormStep4(props: Step4Props) {
@@ -62,9 +66,7 @@ export function SoftwareFormStep4(props: Step4Props) {
                 render={({ field }) => (
                     <SearchMultiInput
                         debounceDelay={400}
-                        getOptions={inputText =>
-                            getWikidataOptions({ "queryString": inputText })
-                        }
+                        getOptions={getWikidataOptions}
                         value={field.value}
                         onValueChange={value => field.onChange(value)}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}

@@ -27,9 +27,11 @@ export type Step1Props = {
         softwareDescription: string;
     }[];
     evtActionSubmit: NonPostableEvt<void>;
-    getWikidataOptions: ReturnType<
-        typeof useCoreFunctions
-    >["softwareForm"]["getWikidataOptions"];
+    getWikidataOptions: (
+        queryString: string
+    ) => ReturnType<
+        ReturnType<typeof useCoreFunctions>["softwareForm"]["getWikidataOptions"]
+    >;
 };
 
 export function InstanceFormStep1(props: Step1Props) {
@@ -145,9 +147,7 @@ export function InstanceFormStep1(props: Step1Props) {
                 render={({ field }) => (
                     <SearchMultiInput
                         debounceDelay={400}
-                        getOptions={inputText =>
-                            getWikidataOptions({ "queryString": inputText })
-                        }
+                        getOptions={getWikidataOptions}
                         value={field.value}
                         onValueChange={value => field.onChange(value)}
                         getOptionLabel={wikidataEntry => wikidataEntry.wikidataLabel}

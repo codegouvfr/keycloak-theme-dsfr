@@ -7,6 +7,7 @@ import { assert } from "tsafe/assert";
 import type { SillApi } from "../ports/SillApi";
 import type { Param0 } from "tsafe";
 import type { ApiTypes } from "@codegouvfr/sill";
+import type { Language } from "@codegouvfr/sill";
 
 type SoftwareFormState = SoftwareFormState.NotInitialized | SoftwareFormState.Ready;
 
@@ -327,13 +328,14 @@ export const thunks = {
     "getWikidataOptions":
         (props: {
             queryString: string;
+            language: Language;
         }): ThunkAction<ReturnType<SillApi["getWikidataOptions"]>> =>
         (...args) => {
-            const { queryString } = props;
+            const { queryString, language } = props;
 
             const [, , { sillApi }] = args;
 
-            return sillApi.getWikidataOptions({ queryString });
+            return sillApi.getWikidataOptions({ queryString, language });
         },
     "getAutofillData":
         (props: {
