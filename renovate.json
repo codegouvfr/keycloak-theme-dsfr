@@ -16,7 +16,6 @@
             "excludePackagePatterns": [
                 "@codegouvfr/sill",
                 "minimal-polyfills",
-                "cra-envs",
                 "evt",
                 "i18nifty",
                 "keycloakify",
@@ -32,7 +31,6 @@
             "packagePatterns": [
                 "@codegouvfr/sill",
                 "minimal-polyfills",
-                "cra-envs",
                 "evt",
                 "i18nifty",
                 "keycloakify",

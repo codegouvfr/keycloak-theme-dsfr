@@ -13,14 +13,13 @@ import {
     addTermsOfServiceUrlToQueryParams
 } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
-import { getEnv } from "../env";
 import { pages, page404 } from "ui/pages";
 import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const apiUrl = getEnv().API_URL ?? `${window.location.origin}/api`;
+const apiUrl = process.env["REACT_APP_API_URL"] ?? "/api";
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
