@@ -1,11 +1,12 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import Fallback, { type PageProps } from "keycloakify/login";
 import type { KcContext } from "./kcContext";
 import { useI18n } from "./i18n";
 // Leave it this way, it must always be evaluated.
-import {} from "./valuesTransferredOverUrl";
+import { isDark as isAppDark } from "./valuesTransferredOverUrl";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 
 const Template = lazy(() => import("./Template"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,6 +19,18 @@ export default function KcApp(props: { kcContext: KcContext }) {
     const i18n = useI18n({ kcContext });
 
     const { classes, cx } = useStyles();
+
+    {
+        const { setIsDark } = useIsDark();
+
+        useEffect(() => {
+            if (isAppDark === undefined) {
+                return;
+            }
+
+            setIsDark(isAppDark);
+        }, [isAppDark]);
+    }
 
     //NOTE: Locales not yet downloaded
     if (i18n === null) {

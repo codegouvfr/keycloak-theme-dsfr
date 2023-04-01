@@ -6,7 +6,7 @@ import { AutocompleteInput } from "keycloak-theme/login/pages/shared/Autocomplet
 import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
 import { createSillApi } from "core/adapter/sillApi";
-import { getSillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
+import { sillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { contactEmail } from "ui/shared/contactEmail";
 
 export type UserProfileFormFieldsProps = {
@@ -45,7 +45,7 @@ export function UserProfileFormFields({
         useEffect(() => {
             createSillApi({
                 "getOidcAccessToken": () => undefined,
-                "url": getSillApiUrl()
+                "url": sillApiUrl
             })
                 .getAgencyNames()
                 .then(setOrganizations);

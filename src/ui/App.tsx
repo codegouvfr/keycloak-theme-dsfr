@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { useEffect, Suspense } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { useRoute } from "ui/routes";
 import { Header } from "./shared/Header";
@@ -10,7 +10,8 @@ import { injectGlobalStatesInSearchParams } from "powerhooks/useGlobalState";
 import { evtLang } from "ui/i18n";
 import {
     addSillApiUrlToQueryParams,
-    addTermsOfServiceUrlToQueryParams
+    addTermsOfServiceUrlToQueryParams,
+    addIsDarkToQueryParams
 } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
 import { pages, page404 } from "ui/pages";
@@ -19,8 +20,9 @@ import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import CircularProgress from "@mui/material/CircularProgress";
 import { assert } from "tsafe/assert";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 
-console.log(process.env);
+let isDark: boolean;
 
 const apiUrl = process.env["REACT_APP_API_URL"] ?? "/api";
 
@@ -30,6 +32,7 @@ const { CoreProvider } = createCoreProvider({
         [url]
             .map(injectGlobalStatesInSearchParams)
             .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl }))
+            .map(url => addIsDarkToQueryParams({ url, "value": isDark }))
             .map(url =>
                 addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl })
             )[0],
@@ -60,6 +63,14 @@ export default function App() {
 }
 
 function ContextualizedApp() {
+    {
+        const { isDark: isDark_ } = useIsDark();
+
+        useEffect(() => {
+            isDark = isDark_;
+        }, [isDark_]);
+    }
+
     const route = useRoute();
 
     const { userAuthentication, sillApiVersion } = useCoreFunctions();

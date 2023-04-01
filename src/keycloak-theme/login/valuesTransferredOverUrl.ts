@@ -6,11 +6,10 @@ import {
 } from "powerhooks/tools/urlSearchParams";
 import type { LocalizedString } from "ui/i18n";
 import { capitalize } from "tsafe/capitalize";
-import { assert } from "tsafe/assert";
 
 //This file must be imported in KcApp!
 
-export const { getTermsOfServiceUrl, addTermsOfServiceUrlToQueryParams } = (() => {
+export const { termsOfServiceUrl, addTermsOfServiceUrlToQueryParams } = (() => {
     const queryParamName = "termsOfServiceUrl";
 
     type Type = LocalizedString;
@@ -36,17 +35,14 @@ export const { getTermsOfServiceUrl, addTermsOfServiceUrlToQueryParams } = (() =
     }
 
     const out = {
-        [`get${capitalize(queryParamName)}` as const]: () => {
-            assert(value !== undefined);
-            return value;
-        },
+        [queryParamName]: value ?? "https://sill-preprod.lab.sspcloud.fr/terms",
         [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
     } as const;
 
     return out;
 })();
 
-export const { getSillApiUrl, addSillApiUrlToQueryParams } = (() => {
+export const { sillApiUrl, addSillApiUrlToQueryParams } = (() => {
     const queryParamName = "sillApiUrl";
 
     type Type = string;
@@ -72,10 +68,40 @@ export const { getSillApiUrl, addSillApiUrlToQueryParams } = (() => {
     }
 
     const out = {
-        [`get${capitalize(queryParamName)}` as const]: () => {
-            assert(value !== undefined);
-            return value;
-        },
+        [queryParamName]: value ?? "http://localhost:8080/api",
+        [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
+    } as const;
+
+    return out;
+})();
+
+export const { isDark, addIsDarkToQueryParams } = (() => {
+    const queryParamName = "isDark";
+
+    type Type = boolean | undefined;
+
+    const value = (() => {
+        const unparsedValue = read({ queryParamName });
+
+        if (unparsedValue === undefined) {
+            return undefined;
+        }
+
+        return JSON.parse(unparsedValue) as Type;
+    })();
+
+    function addToUrlQueryParams(params: { url: string; value: Type }): string {
+        const { url, value } = params;
+
+        return addParamToUrl({
+            url,
+            "name": queryParamName,
+            "value": JSON.stringify(value)
+        }).newUrl;
+    }
+
+    const out = {
+        [queryParamName]: value,
         [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
     } as const;
 
