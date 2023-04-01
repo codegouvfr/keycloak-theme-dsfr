@@ -18,6 +18,9 @@ import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import CircularProgress from "@mui/material/CircularProgress";
+import { assert } from "tsafe/assert";
+
+console.log(process.env);
 
 const apiUrl = process.env["REACT_APP_API_URL"] ?? "/api";
 
@@ -59,7 +62,7 @@ export default function App() {
 function ContextualizedApp() {
     const route = useRoute();
 
-    const { userAuthentication } = useCoreFunctions();
+    const { userAuthentication, sillApiVersion } = useCoreFunctions();
 
     const headerUserAuthenticationApi = useConst(() =>
         userAuthentication.getIsUserLoggedIn()
@@ -111,7 +114,14 @@ function ContextualizedApp() {
                     })()}
                 </Suspense>
             </main>
-            <Footer />
+            <Footer
+                webVersion={(() => {
+                    const webVersion = process.env.VERSION;
+                    assert(webVersion !== undefined);
+                    return webVersion;
+                })()}
+                apiVersion={sillApiVersion.getSillApiVersion()}
+            />
         </div>
     );
 }

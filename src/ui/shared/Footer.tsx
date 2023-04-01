@@ -1,53 +1,53 @@
 import { memo } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
-import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { Footer as FooterDS } from "@codegouvfr/react-dsfr/Footer";
+import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
+import { brandTop } from "./Header";
 
 export type Props = {
     className?: string;
+    apiVersion: string;
+    webVersion: string;
 };
 
 export const Footer = memo((props: Props) => {
-    const { className, ...rest } = props;
+    const { className, apiVersion, webVersion, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
-    const { t } = useTranslation({ Footer });
+    const { t } = useTranslation({ "Header": undefined });
 
     return (
         <>
-            <FooterDS
+            <DsfrFooter
                 className={className}
-                brandTop={t("brand")}
+                brandTop={brandTop}
                 homeLinkProps={{
                     ...routes.home().link,
                     title: t("home title")
                 }}
-                accessibility={"partially compliant"}
-                contentDescription={t("description")}
-                cookiesManagementLinkProps={{
-                    href: "#"
-                }}
-                personalDataLinkProps={{
-                    href: "#"
-                }}
-                termsLinkProps={{
-                    href: "#"
-                }}
-                websiteMapLinkProps={{
-                    href: "#"
-                }}
-                bottomItems={[headerFooterDisplayItem]}
+                accessibility="fully compliant"
+                termsLinkProps={routes.terms().link}
+                bottomItems={[
+                    {
+                        "text": `sill-api: v${apiVersion}`,
+                        "linkProps": {
+                            "href": `https://github.com/codegouvfr/sill-api/tree/v${apiVersion}`
+                        }
+                    },
+                    {
+                        "text": `sill-web: v${webVersion}`,
+                        "linkProps": {
+                            "href": `https://github.com/codegouvfr/sill-web/tree/v${webVersion}`
+                        }
+                    },
+                    headerFooterDisplayItem
+                ]}
             />
             <Display />
         </>
     );
-});
-
-export const { i18n } = declareComponentKeys<"brand" | "home title" | "description">()({
-    Footer
 });

@@ -49,7 +49,6 @@ const {
     | typeof import("ui/pages/instanceForm/Step2").i18n
     | typeof import("ui/pages/account/Account").i18n
     | typeof import("ui/shared/Header").i18n
-    | typeof import("ui/shared/Footer").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -412,11 +411,6 @@ const {
                 "quick access logout": "Sign out",
                 "quick access account": "My account",
                 "select language": "Select language"
-            },
-            "Footer": {
-                "brand": "DINUM",
-                "home title": "Home - Socle interministériel de logiciels libres",
-                "description": "Texte descriptif footer à modifier"
             }
         },
         "fr": {
@@ -789,11 +783,6 @@ const {
                 "quick access logout": "Se déconnecter",
                 "quick access account": "Mon compte",
                 "select language": "Sélectionner une langue"
-            },
-            "Footer": {
-                "brand": "DINUM",
-                "home title": "Acceuil - Socle interministériel de logiciels libres",
-                "description": "Texte descriptif footer à modifier"
             }
             /* spell-checker: enable */
         }

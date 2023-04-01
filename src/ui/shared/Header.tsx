@@ -29,6 +29,12 @@ type Props = {
     };
 };
 
+export const brandTop = (
+    <>
+        République <br /> Française
+    </>
+);
+
 export const Header = memo((props: Props) => {
     const { className, routeName, userAuthenticationApi, i18nApi, ...rest } = props;
 
@@ -41,11 +47,7 @@ export const Header = memo((props: Props) => {
     return (
         <HeaderDsfr
             className={className}
-            brandTop={
-                <>
-                    République <br /> Française
-                </>
-            }
+            brandTop={brandTop}
             serviceTitle={t("title")}
             homeLinkProps={{
                 ...routes.home().link,
