@@ -33,7 +33,7 @@
         "i18nifty": "^1.3.26",
         "jwt-decode": "^3.1.2",
         "keycloak-js": "^18.0.0",
-        "keycloakify": "^7.3.3",
+        "keycloakify": "^7.6.0",
         "memoizee": "^0.4.14",
         "moment": "^2.29.1",
         "path": "^0.12.7",
@@ -80,6 +80,9 @@
         "storybook-dark-mode": "^2.0.5",
         "ts-node": "^10.2.1",
         "typescript": "^4.1.6"
+    },
+    "keycloakify": {
+        "themeName": "dsfr"
     },
     "eslintConfig": {
         "plugins": [

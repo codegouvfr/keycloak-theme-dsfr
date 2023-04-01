@@ -35,3 +35,4 @@ package-lock.json
 /.yarn_home
 
 /public/dsfr/
+/storybook-static/
