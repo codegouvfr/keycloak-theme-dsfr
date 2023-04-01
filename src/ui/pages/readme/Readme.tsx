@@ -5,6 +5,7 @@ import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
+import { CircularProgress } from "ui/shared/CircularProgress";
 const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
 
 type Props = {
@@ -38,7 +39,7 @@ function ContextualizedReadme(props: Props) {
     const { classes, cx } = useStyles();
 
     if (readme === undefined) {
-        return null;
+        return <CircularProgress />;
     }
 
     return (

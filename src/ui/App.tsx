@@ -18,9 +18,9 @@ import { pages, page404 } from "ui/pages";
 import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
-import CircularProgress from "@mui/material/CircularProgress";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { CircularProgress } from "ui/shared/CircularProgress";
 
 let isDark: boolean;
 
@@ -41,20 +41,7 @@ const { CoreProvider } = createCoreProvider({
 
 export default function App() {
     return (
-        <CoreProvider
-            fallback={
-                <div
-                    style={{
-                        "display": "flex",
-                        "justifyContent": "center",
-                        "height": "100vh",
-                        "alignItems": "center"
-                    }}
-                >
-                    <CircularProgress />
-                </div>
-            }
-        >
+        <CoreProvider fallback={<CircularProgress fullPage />}>
             <RouteProvider>
                 <ContextualizedApp />
             </RouteProvider>
