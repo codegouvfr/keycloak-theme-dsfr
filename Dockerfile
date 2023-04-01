@@ -1,10 +1,10 @@
 # build environment
-FROM node:14-alpine as build
+FROM node:18-alpine as build
 WORKDIR /app
 COPY package.json yarn.lock .env ./
 COPY public ./public
 RUN yarn install --frozen-lockfile
-COPY config-overrides.js  tsconfig.json ./
+COPY config-overrides.js tsconfig.json ./
 COPY src ./src
 RUN yarn build
 COPY nginx.conf ./
