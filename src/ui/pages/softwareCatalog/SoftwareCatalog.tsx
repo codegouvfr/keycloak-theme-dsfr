@@ -183,6 +183,21 @@ export default function SoftwareCatalog(props: Props) {
         });
     }, [route.params.referentCount]);
 
+    const onResetFilters = useConstCallback(() => {
+        softwareCatalog.resetFilters();
+        return startTransition(() =>
+            routes
+                .softwareCatalog({
+                    ...route.params,
+                    organization: undefined,
+                    category: undefined,
+                    environment: undefined,
+                    prerogatives: []
+                })
+                .replace()
+        );
+    });
+
     return (
         <SoftwareCatalogControlled
             className={className}
@@ -204,6 +219,7 @@ export default function SoftwareCatalog(props: Props) {
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
             onPrerogativesChange={onPrerogativesChange}
+            onResetFilters={onResetFilters}
         />
     );
 }

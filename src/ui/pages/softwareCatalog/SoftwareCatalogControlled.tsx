@@ -67,6 +67,7 @@ export type Props = {
     }[];
     prerogatives: SoftwareCatalogState.Prerogative[];
     onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
+    onResetFilters: () => void;
 };
 
 export const SoftwareCatalogControlled = memo((props: Props) => {
@@ -90,6 +91,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         prerogativesOptions,
         prerogatives,
         onPrerogativesChange,
+        onResetFilters,
         ...rest
     } = props;
 
@@ -146,6 +148,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                 prerogatives={prerogativesOptions}
                 onPrerogativesChange={onPrerogativesChange}
                 selectedPrerogatives={prerogatives}
+                onResetFilters={onResetFilters}
             />
             <div>
                 <div className={classes.header}>

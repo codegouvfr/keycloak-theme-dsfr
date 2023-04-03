@@ -31,6 +31,7 @@ export type Props = {
     prerogatives: { prerogative: Prerogative; softwareCount: number }[];
     onPrerogativesChange: (prerogatives: Prerogative[]) => void;
     selectedPrerogatives: Prerogative[];
+    onResetFilters: () => void;
 };
 
 export function Search(props: Props) {
@@ -50,6 +51,7 @@ export function Search(props: Props) {
         prerogatives,
         onPrerogativesChange,
         selectedPrerogatives,
+        onResetFilters,
         ...rest
     } = props;
 
@@ -62,6 +64,13 @@ export function Search(props: Props) {
     const commonI18n = useTranslation({ "App": "App" });
 
     const { classes, cx } = useStyles();
+
+    const onClickFilters = () => {
+        if (areFiltersOpen) {
+            onResetFilters();
+        }
+        setAreFiltersOpen(!areFiltersOpen);
+    };
 
     return (
         <div className={cx(fr.cx("fr-accordion"), classes.root)}>
@@ -80,7 +89,7 @@ export function Search(props: Props) {
                         areFiltersOpen ? "ri-arrow-up-s-fill" : "ri-arrow-down-s-fill"
                     }
                     iconPosition="right"
-                    onClick={() => setAreFiltersOpen(!areFiltersOpen)}
+                    onClick={onClickFilters}
                     aria-expanded="false"
                     aria-controls="accordion-filters"
                 >
@@ -94,7 +103,7 @@ export function Search(props: Props) {
                         disabled={!organizations.length}
                         nativeSelectProps={{
                             "onChange": event => onOrganizationChange(event.target.value),
-                            "defaultValue": selectedOrganization ?? ""
+                            "value": selectedOrganization ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
@@ -121,7 +130,7 @@ export function Search(props: Props) {
                         disabled={!categories.length}
                         nativeSelectProps={{
                             "onChange": event => onCategoriesChange(event.target.value),
-                            "defaultValue": selectedCategories ?? ""
+                            "value": selectedCategories ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
@@ -150,7 +159,7 @@ export function Search(props: Props) {
                                 onEnvironmentsChange(
                                     event.currentTarget.value as Environment
                                 ),
-                            "defaultValue": selectedEnvironment ?? ""
+                            "value": selectedEnvironment ?? ""
                         }}
                         className={cx(classes.filterSelectGroup)}
                     >
