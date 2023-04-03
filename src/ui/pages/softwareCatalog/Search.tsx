@@ -77,7 +77,7 @@ export function Search(props: Props) {
                 <Button
                     className={classes.filterButton}
                     iconId={
-                        areFiltersOpen ? "ri-arrow-down-s-fill" : "ri-arrow-up-s-fill"
+                        areFiltersOpen ? "ri-arrow-up-s-fill" : "ri-arrow-down-s-fill"
                     }
                     iconPosition="right"
                     onClick={() => setAreFiltersOpen(!areFiltersOpen)}
