@@ -72,6 +72,16 @@ export function Search(props: Props) {
         setAreFiltersOpen(!areFiltersOpen);
     };
 
+    const mappedPrerogativesOption: {
+        [key in SoftwareCatalogState.Prerogative]: string;
+    } = {
+        "doRespectRgaa": t("doRespectRgaa"),
+        "isFromFrenchPublicServices": t("isFromFrenchPublicServices"),
+        "isInstallableOnUserTerminal": t("isInstallableOnUserTerminal"),
+        "isTestable": t("isTestable"),
+        "isPresentInSupportContract": t("isPresentInSupportContract")
+    };
+
     return (
         <div className={cx(fr.cx("fr-accordion"), classes.root)}>
             <div className={cx(classes.basicSearch, className)}>
@@ -210,8 +220,12 @@ export function Search(props: Props) {
                                     {prerogative ? (
                                         <>
                                             {" "}
-                                            {prerogative.prerogative} (
-                                            {prerogative.softwareCount})
+                                            {
+                                                mappedPrerogativesOption[
+                                                    prerogative.prerogative
+                                                ]
+                                            }
+                                            ({prerogative.softwareCount})
                                         </>
                                     ) : (
                                         commonI18n.t("all")
@@ -296,4 +310,9 @@ export const { i18n } = declareComponentKeys<
     | "categoriesLabel"
     | "contextLabel"
     | "prerogativesLabel"
+    | "isInstallableOnUserTerminal"
+    | "isPresentInSupportContract"
+    | "isFromFrenchPublicServices"
+    | "doRespectRgaa"
+    | "isTestable"
 >()({ Search });

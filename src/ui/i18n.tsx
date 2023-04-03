@@ -285,7 +285,12 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-                "filters": "Filters"
+                "filters": "Filters",
+                "isInstallableOnUserTerminal": "Can be installed on user terminal",
+                "isFromFrenchPublicServices": "Is from French public services",
+                "doRespectRgaa": "Is compliant with RGAA rules",
+                "isPresentInSupportContract": "Is present in support contract",
+                "isTestable": "Is testable"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -654,7 +659,12 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-                "filters": "Filtres"
+                "filters": "Filtres",
+                "isInstallableOnUserTerminal": "Installable sur un poste agent",
+                "isFromFrenchPublicServices": "Développé par le service public",
+                "doRespectRgaa": "Respecte les normes RGAA",
+                "isPresentInSupportContract": "Présent dans le marché de support",
+                "isTestable": "Est essayable"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
