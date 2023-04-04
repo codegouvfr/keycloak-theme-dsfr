@@ -237,16 +237,7 @@ const softwares = [
         "softwareId": 0,
         "softwareName": "NextCloud",
         "codeRepositoryUrl": "https://github.com/nextcloud/server",
-        "authors": [
-            {
-                "authorName": "Frank Karlitschek",
-                "authorUrl": "https://www.wikidata.org/wiki/Q5487635"
-            },
-            {
-                "authorName": "Nextcloud GmbH",
-                "authorUrl": "https://www.wikidata.org/wiki/Q110707544"
-            }
-        ],
+        "authors": [],
         "versionMin": "17.0.3",
         "serviceProviderCount": 29,
         "compotoirDuLibreId": 117,
