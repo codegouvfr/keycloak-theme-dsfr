@@ -5,6 +5,7 @@ import { id } from "tsafe/id";
 import LogoNextCloud from "ui/assets/logo_nextcloud.png";
 import LogoLibreOffice from "ui/assets/logo_libreoffice.png";
 import LogoWordpress from "ui/assets/logo_wordpress.png";
+import LogoNeovim from "ui/assets/logo_neovim.png";
 import { assert } from "tsafe/assert";
 import type { ApiTypes } from "@codegouvfr/sill";
 
@@ -260,7 +261,8 @@ const softwares = [
         "wikidataId": "Q25874683",
         "license": "AGPL-3.0-or-later",
         "officialWebsiteUrl": "https://nextcloud.com/",
-        "softwareDescription": "Partage de fichiers",
+        "softwareDescription":
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat, ex sit amet pretium blandit, tortor eros dapibus sem, ultricies tempor nunc magna in dolor. Curabitur non tincidunt ex. Nulla facilisi. Integer vestibulum ultricies risus eu blandit. Duis accumsan dolor sit amet arcu semper ultrices. Cras tincidunt commodo mauris quis iaculis. Morbi iaculis massa sit amet nunc porttitor malesuada. Sed venenatis congue dolor eu posuere. Praesent nec pulvinar massa. Ut id diam congue, elementum nulla in, varius mi.",
         "lastVersion": {
             "semVer": "25.0.2",
             "publicationTime": 1669985280
@@ -337,9 +339,9 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoWordpress,
+        "logoUrl": undefined,
         "softwareId": 2,
-        "softwareName": "Wordpress",
+        "softwareName": "ARX Data Anonymization Tool",
         "codeRepositoryUrl": "https://core.trac.wordpress.org/browser",
         "authors": [
             {
@@ -387,7 +389,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": undefined,
         "softwareId": 3,
         "softwareName": "VLC",
         "codeRepositoryUrl": "https://code.videolan.org/videolan/vlc",
@@ -434,7 +436,7 @@ const softwares = [
         "userAndReferentCountByOrganization": {}
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": undefined,
         "softwareId": 4,
         "softwareName": "Debian",
         "codeRepositoryUrl": "https://sources.debian.org/",
@@ -482,7 +484,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": undefined,
         "softwareId": 5,
         "softwareName": "Thunderbird",
         "codeRepositoryUrl": "https://hg.mozilla.org/comm-central",
@@ -543,7 +545,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": undefined,
         "softwareId": 6,
         "softwareName": "Qgis",
         "codeRepositoryUrl": "https://github.com/qgis/QGIS",
@@ -589,7 +591,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": undefined,
         "softwareId": 7,
         "softwareName": "Mozilla Firefox",
         "codeRepositoryUrl": "https://hg.mozilla.org/mozilla-central/",
@@ -650,7 +652,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": LogoNeovim,
         "softwareId": 8,
         "softwareName": "PostgreSQL",
         "codeRepositoryUrl": "https://git.postgresql.org/gitweb/?p=postgresql.git",
@@ -694,7 +696,7 @@ const softwares = [
         }
     }),
     id<ApiTypes.Software>({
-        "logoUrl": LogoLibreOffice,
+        "logoUrl": LogoWordpress,
         "softwareId": 9,
         "softwareName": "Peertube",
         "codeRepositoryUrl": "https://github.com/Chocobozzz/PeerTube",
@@ -740,6 +742,272 @@ const softwares = [
         "logoUrl": LogoLibreOffice,
         "softwareId": 10,
         "softwareName": "Archifiltre",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 11,
+        "softwareName": "Synfig",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 12,
+        "softwareName": "StackStorm",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 13,
+        "softwareName": "restic",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 14,
+        "softwareName": "Khartis",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 15,
+        "softwareName": "Penpot",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 16,
+        "softwareName": "Zabbix",
+        "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
+        "authors": [],
+        "versionMin": "2.0.x",
+        "serviceProviderCount": 1,
+        "compotoirDuLibreId": 368,
+        "wikidataId": "Q77064547",
+        "license": "MIT",
+        "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
+        "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
+        "lastVersion": {
+            "semVer": "Dernière stable",
+            "publicationTime": 1633524542
+        },
+        "parentSoftware": undefined,
+        "softwareType": {
+            "type": "desktop",
+            "os": {
+                "windows": true,
+                "mac": true,
+                "linux": true
+            }
+        },
+        "similarSoftwares": [],
+        "testUrl": undefined,
+        "addedTime": 1674739365178,
+        "updateTime": 1674739365178,
+        "categories": ["cloud"],
+        "prerogatives": {
+            "doRespectRgaa": false,
+            "isFromFrenchPublicServices": false,
+            "isPresentInSupportContract": false
+        },
+        "userAndReferentCountByOrganization": {}
+    }),
+    id<ApiTypes.Software>({
+        "logoUrl": LogoLibreOffice,
+        "softwareId": 17,
+        "softwareName": "CodeIgniter",
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",

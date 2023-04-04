@@ -217,14 +217,14 @@ const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
     },
     "cardList": {
         "display": "grid",
-        "gridTemplateColumns": `repeat(3, 1fr)`,
+        "gridTemplateColumns": `repeat(3, minmax(0, 1fr))`,
         "columnGap": fr.spacing("4v"),
         "rowGap": fr.spacing("3v"),
         [fr.breakpoints.down("xl")]: {
-            "gridTemplateColumns": `repeat(2, 1fr)`
+            "gridTemplateColumns": `repeat(2, minmax(0, 1fr))`
         },
         [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, 1fr)`
+            "gridTemplateColumns": `repeat(1, minmax(0, 1fr))`
         }
     }
 });
