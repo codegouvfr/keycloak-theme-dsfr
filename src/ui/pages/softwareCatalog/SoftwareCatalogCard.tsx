@@ -237,8 +237,8 @@ const useStyles = makeStyles({
         "color": theme.decisions.text.default.grey.default,
         "overflow": "hidden",
         "display": "-webkit-box",
-        "-webkitBoxOrient": "vertical",
-        "-webkitLineClamp": "3",
+        "WebkitBoxOrient": "vertical",
+        "WebkitLineClamp": "3",
         "whiteSpace": "pre-wrap"
     },
     "detailUsersAndReferents": {
