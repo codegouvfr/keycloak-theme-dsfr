@@ -61,11 +61,14 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
             <div className={classes.cardBody}>
                 <div className={cx(classes.headerContainer)}>
-                    <img
-                        className={cx(classes.logo)}
-                        src={logoUrl}
-                        alt="Logo du logiciel"
-                    />
+                    <div className={classes.logoWrapper}>
+                        <img
+                            className={cx(classes.logo)}
+                            src={logoUrl}
+                            alt="Logo du logiciel"
+                        />
+                    </div>
+
                     <div className={cx(classes.header)}>
                         <div className={cx(classes.titleContainer)}>
                             <h3 className={cx(classes.title)}>{softwareName}</h3>
@@ -147,9 +150,6 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     {t("declare oneself referent")}
                 </a>
                 <div className={cx(classes.footerActionsContainer)}>
-                    <a className={cx(classes.footerActionLink)} href={testUrl}>
-                        <i className={fr.cx("fr-icon-play-circle-line")} />
-                    </a>
                     <a className={cx(classes.footerActionLink)} {...softwareDetails}>
                         <i className={fr.cx("fr-icon-arrow-right-line")} />
                     </a>
@@ -189,14 +189,19 @@ const useStyles = makeStyles({
     "header": {
         "width": "100%"
     },
-    "logo": {
+    "logoWrapper": {
         "height": fr.spacing("10v"),
         "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
         "marginRight": fr.spacing("3v"),
+        "overflow": "hidden",
         [fr.breakpoints.down("md")]: {
             "height": fr.spacing("5v"),
             "width": fr.spacing("5v")
         }
+    },
+    "logo": {
+        "height": "100%"
     },
     "titleContainer": {
         "display": "flex",
