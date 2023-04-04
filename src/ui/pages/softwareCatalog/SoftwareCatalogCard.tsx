@@ -9,6 +9,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
 import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 export type Props = {
     className?: string;
@@ -64,7 +65,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     <div className={classes.logoWrapper}>
                         <img
                             className={cx(classes.logo)}
-                            src={logoUrl}
+                            src={logoUrl ?? softwareLogoPlaceholder}
                             alt="Logo du logiciel"
                         />
                     </div>
