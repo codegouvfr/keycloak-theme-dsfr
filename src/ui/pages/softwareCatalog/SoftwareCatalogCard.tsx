@@ -270,7 +270,7 @@ const useStyles = makeStyles({
         "display": "flex",
         "marginLeft": fr.spacing("4v"),
         "flex": 1,
-        "justifyContent": "space-between",
+        "justifyContent": "flex-end",
         "color": theme.decisions.text.title.blueFrance.default,
         [fr.breakpoints.down("md")]: {
             "marginLeft": 0,
