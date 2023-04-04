@@ -70,7 +70,8 @@ const {
                 "loading": "Loading...",
                 "no result": "No result",
                 "search": "Search",
-                "validate": "Validate"
+                "validate": "Validate",
+                "not provided": "Not provided"
             },
             "Homepage": {
                 "title": (
@@ -437,7 +438,8 @@ const {
                 "loading": "Chargement...",
                 "no result": "Aucun résultat",
                 "search": "Rechercher",
-                "validate": "Validate"
+                "validate": "Valider",
+                "not provided": "Pas renseigné"
             },
             "Homepage": {
                 "title": (

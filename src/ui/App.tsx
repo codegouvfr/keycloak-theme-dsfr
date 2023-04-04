@@ -158,4 +158,5 @@ export const { i18n } = declareComponentKeys<
     | "no result"
     | "search"
     | "validate"
+    | "not provided"
 >()({ "App": null });

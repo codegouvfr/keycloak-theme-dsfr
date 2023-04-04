@@ -54,6 +54,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ SoftwareCatalogCard });
+    const { t: tCommon } = useTranslation({ App: null });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
     const { lang } = useLang();
@@ -95,36 +96,40 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                 )}
                             </div>
                         </div>
-                        {lastVersion && (
-                            <div>
-                                <p
+                        <div>
+                            <p
+                                className={cx(
+                                    fr.cx("fr-card__detail"),
+                                    classes.softwareVersionContainer
+                                )}
+                            >
+                                {t("last version")} :
+                                <span
                                     className={cx(
-                                        fr.cx("fr-card__detail"),
-                                        classes.softwareVersionContainer
+                                        fr.cx(
+                                            {
+                                                "fr-badge--no-icon":
+                                                    lastVersion?.semVer === undefined,
+                                                "fr-badge--yellow-tournesol":
+                                                    lastVersion?.semVer !== undefined
+                                            },
+                                            "fr-badge",
+                                            "fr-badge--sm"
+                                        ),
+                                        classes.badgeVersion
                                     )}
                                 >
-                                    {t("last version")} :
-                                    <span
-                                        className={cx(
-                                            fr.cx(
-                                                "fr-badge",
-                                                "fr-badge--yellow-tournesol",
-                                                "fr-badge--sm"
-                                            ),
-                                            classes.badgeVersion
-                                        )}
-                                    >
-                                        {lastVersion.semVer}
-                                    </span>
-                                    {t("last version date", {
+                                    {lastVersion?.semVer ?? tCommon("not provided")}
+                                </span>
+                                {lastVersion &&
+                                    t("last version date", {
                                         date: shortEndMonthDate({
                                             time: lastVersion.publicationTime,
                                             lang
                                         })
                                     })}
-                                </p>
-                            </div>
-                        )}
+                            </p>
+                        </div>
                     </div>
                 </div>
 

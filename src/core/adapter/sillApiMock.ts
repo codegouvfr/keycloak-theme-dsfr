@@ -254,10 +254,7 @@ const softwares = [
         "officialWebsiteUrl": "https://nextcloud.com/",
         "softwareDescription":
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat, ex sit amet pretium blandit, tortor eros dapibus sem, ultricies tempor nunc magna in dolor. Curabitur non tincidunt ex. Nulla facilisi. Integer vestibulum ultricies risus eu blandit. Duis accumsan dolor sit amet arcu semper ultrices. Cras tincidunt commodo mauris quis iaculis. Morbi iaculis massa sit amet nunc porttitor malesuada. Sed venenatis congue dolor eu posuere. Praesent nec pulvinar massa. Ut id diam congue, elementum nulla in, varius mi.",
-        "lastVersion": {
-            "semVer": "25.0.2",
-            "publicationTime": 1669985280
-        },
+        "lastVersion": undefined,
         "parentSoftware": undefined as any,
         "testUrl": undefined,
         "addedTime": 1670416144,
