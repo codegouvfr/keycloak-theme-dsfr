@@ -11,7 +11,7 @@ export type Props = {
     className?: string;
     softwareLogoUrl?: string;
     softwareName: string;
-    authors?: {
+    authors: {
         authorName: string;
         authorUrl: string;
     }[];
@@ -54,22 +54,24 @@ export const HeaderDetailCard = memo((props: Props) => {
                         src={softwareLogoUrl}
                         alt="Logo du logiciel"
                     />
-                    <div>
+                    <div className={classes.mainInfo}>
                         <h4 className={classes.softwareName}>{softwareName}</h4>
-                        <span>
-                            <span className={classes.authors}>{t("authors")}</span>
-                            <span>
-                                {authors?.map(author => (
-                                    <a
-                                        href={author.authorUrl}
-                                        className={classes.authorLink}
-                                        key={author.authorName}
-                                    >
-                                        {author.authorName}
-                                    </a>
-                                ))}
-                            </span>
-                        </span>
+                        {authors.length > 0 && (
+                            <div>
+                                <span className={classes.authors}>{t("authors")}</span>
+                                <span>
+                                    {authors.map(author => (
+                                        <a
+                                            href={author.authorUrl}
+                                            className={classes.authorLink}
+                                            key={author.authorName}
+                                        >
+                                            {author.authorName}
+                                        </a>
+                                    ))}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -134,6 +136,12 @@ const useStyles = makeStyles({
     "softwareInformation": {
         "display": "flex",
         "flex": "1"
+    },
+    "mainInfo": {
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "flex-start",
+        "justifyContent": "center"
     },
     "logo": {
         "width": "50px",

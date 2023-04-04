@@ -41,7 +41,6 @@ export default function SoftwareDetails(props: Props) {
         return () => softwareDetails.clear();
     }, [route.params.name]);
 
-    //TODO: Add fallback if no software
     if (software === undefined) {
         return null;
     }
