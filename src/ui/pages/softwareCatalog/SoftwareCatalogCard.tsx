@@ -229,8 +229,11 @@ const useStyles = makeStyles({
         "marginTop": 0,
         "marginBottom": fr.spacing("3v"),
         "color": theme.decisions.text.default.grey.default,
-        "height": fr.spacing("20v"),
-        "overflowY": "auto"
+        "overflow": "hidden",
+        "display": "-webkit-box",
+        "-webkitBoxOrient": "vertical",
+        "-webkitLineClamp": "3",
+        "whiteSpace": "pre-wrap"
     },
     "detailUsersAndReferents": {
         "order": 4,
