@@ -31,7 +31,6 @@ const {
     | typeof import("ui/pages/softwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui/pages/softwareDetails/AlikeSoftwareTab").i18n
     | typeof import("ui/pages/softwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui/pages/softwareCatalog/DetailUsersAndReferents").i18n
     | typeof import("ui/pages/declarationForm/DeclarationForm").i18n
     | typeof import("ui/pages/declarationForm/Step1").i18n
     | typeof import("ui/pages/declarationForm/Step2User").i18n
@@ -48,6 +47,7 @@ const {
     | typeof import("ui/pages/instanceForm/Step1").i18n
     | typeof import("ui/pages/instanceForm/Step2").i18n
     | typeof import("ui/pages/account/Account").i18n
+    | typeof import("ui/shared/DetailUsersAndReferents").i18n
     | typeof import("ui/shared/Header").i18n
 >()(
     { languages, fallbackLanguage },

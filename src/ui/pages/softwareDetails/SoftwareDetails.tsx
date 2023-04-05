@@ -13,7 +13,7 @@ import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
 import { compact } from "lodash";
 import { ActionsFooter } from "../../shared/ActionsFooter";
-import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 
@@ -128,26 +128,16 @@ export default function SoftwareDetails(props: Props) {
                 <DetailUsersAndReferents
                     className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
                     seeUserAndReferent={
-                        routes.softwareUsersAndReferents({
-                            "name": software.softwareName
-                        }).link
+                        software.referentCount > 0 || software.userCount > 0
+                            ? routes.softwareUsersAndReferents({
+                                  "name": software.softwareName
+                              }).link
+                            : undefined
                     }
                     referentCount={software.referentCount ?? 0}
                     userCount={software.userCount ?? 0}
                 />
                 <div className={classes.buttons}>
-                    <Button
-                        iconId="ri-share-forward-line"
-                        linkProps={{
-                            "href": "",
-                            "onClick": () => {}
-                        }}
-                        priority="secondary"
-                        className={classes.shareSoftware}
-                    >
-                        {t("share software")}
-                    </Button>
-
                     <Button
                         priority="secondary"
                         linkProps={

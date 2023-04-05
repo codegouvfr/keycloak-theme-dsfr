@@ -8,7 +8,7 @@ import { shortEndMonthDate } from "ui/useMoment";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
-import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 export type Props = {
@@ -139,7 +139,11 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         : "software.function"}
                 </p>
                 <DetailUsersAndReferents
-                    seeUserAndReferent={softwareUserAndReferent}
+                    seeUserAndReferent={
+                        referentCount > 0 || userCount > 0
+                            ? softwareUserAndReferent
+                            : undefined
+                    }
                     referentCount={referentCount}
                     userCount={userCount}
                     className={classes.detailUsersAndReferents}
