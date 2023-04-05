@@ -65,14 +65,13 @@ export const { i18n } = declareComponentKeys<"no terms">()({
     Terms
 });
 
-export const useStyles = makeStyles()(theme => ({
+export const useStyles = makeStyles()(() => ({
     "root": {
         "display": "flex",
         "justifyContent": "center"
     },
     "markdown": {
         "borderRadius": fr.spacing("2v"),
-        "backgroundColor": theme.decisions.background.actionHigh.beigeGrisGalet.default,
         "maxWidth": 900,
         "padding": fr.spacing("4v"),
         "&:hover": {
