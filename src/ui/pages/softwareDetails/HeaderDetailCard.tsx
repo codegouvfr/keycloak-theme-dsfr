@@ -49,11 +49,13 @@ export const HeaderDetailCard = memo((props: Props) => {
                     <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                 </a>
                 <div className={classes.softwareInformation}>
-                    <img
-                        className={cx(classes.logo)}
-                        src={softwareLogoUrl}
-                        alt="Logo du logiciel"
-                    />
+                    <div className={classes.logoWrapper}>
+                        <img
+                            className={classes.logo}
+                            src={softwareLogoUrl}
+                            alt="Logo du logiciel"
+                        />
+                    </div>
                     <div className={classes.mainInfo}>
                         <h4 className={classes.softwareName}>{softwareName}</h4>
                         {authors.length > 0 && (
@@ -143,10 +145,19 @@ const useStyles = makeStyles({
         "alignItems": "flex-start",
         "justifyContent": "center"
     },
+    "logoWrapper": {
+        "height": fr.spacing("10v"),
+        "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
+        "marginRight": fr.spacing("2v"),
+        "overflow": "hidden",
+        [fr.breakpoints.down("md")]: {
+            "height": fr.spacing("5v"),
+            "width": fr.spacing("5v")
+        }
+    },
     "logo": {
-        "width": "50px",
-        "height": "50px",
-        "marginRight": fr.spacing("2v")
+        "height": "100%"
     },
     "softwareName": {
         "marginBottom": fr.spacing("1v")

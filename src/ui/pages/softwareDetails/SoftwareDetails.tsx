@@ -16,6 +16,7 @@ import { ActionsFooter } from "../../shared/ActionsFooter";
 import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 type Props = {
     className?: string;
@@ -61,7 +62,7 @@ export default function SoftwareDetails(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <HeaderDetailCard
-                    softwareLogoUrl={software.logoUrl}
+                    softwareLogoUrl={software.logoUrl ?? softwareLogoPlaceholder}
                     softwareName={software.softwareName}
                     authors={software.authors}
                     officialWebsite={software.officialWebsiteUrl}
@@ -174,12 +175,6 @@ const useStyles = makeStyles({
         "display": "flex",
         "alignItems": "center",
         "justifyContent": "end"
-    },
-    "shareSoftware": {
-        "marginRight": fr.spacing("4v"),
-        "&&::before": {
-            "--icon-size": fr.spacing("6v")
-        }
     },
     "detailUsersAndReferents": {
         color: theme.decisions.text.actionHigh.blueFrance.default

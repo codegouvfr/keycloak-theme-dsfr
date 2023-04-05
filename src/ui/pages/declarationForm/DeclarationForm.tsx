@@ -20,6 +20,7 @@ import { useTranslation } from "ui/i18n";
 import { declareComponentKeys } from "i18nifty";
 import { ActionsFooter } from "../../shared/ActionsFooter";
 import type { PageRoute } from "./route";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 type Props = {
     className?: string;
@@ -159,11 +160,13 @@ export default function DeclarationForm(props: Props) {
                 <div className={classes.formContainer}>
                     <div className={classes.leftCol}>
                         <div className={classes.softwareNameContainer}>
-                            <img
-                                className={cx(classes.logo)}
-                                src={software.logoUrl}
-                                alt="Logo du logiciel"
-                            />
+                            <div className={classes.logoWrapper}>
+                                <img
+                                    className={classes.logo}
+                                    src={software.logoUrl ?? softwareLogoPlaceholder}
+                                    alt="Logo du logiciel"
+                                />
+                            </div>
                             <h4 className={classes.softwareName}>
                                 {software.softwareName}
                             </h4>
@@ -312,10 +315,19 @@ const useStyles = makeStyles<{
         "alignItems": "center",
         "marginBottom": fr.spacing("3v")
     },
+    "logoWrapper": {
+        "height": fr.spacing("10v"),
+        "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
+        "marginRight": fr.spacing("2v"),
+        "overflow": "hidden",
+        [fr.breakpoints.down("md")]: {
+            "height": fr.spacing("5v"),
+            "width": fr.spacing("5v")
+        }
+    },
     "logo": {
-        "width": "50px",
-        "height": "50px",
-        "marginRight": fr.spacing("2v")
+        "height": "100%"
     },
     "softwareName": {
         "marginBottom": 0
