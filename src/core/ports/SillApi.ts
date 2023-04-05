@@ -3,15 +3,27 @@ import type { TrpcRouterInput, TrpcRouterOutput } from "@codegouvfr/sill";
 
 export type SillApi = {
     getApiVersion: {
-        (): Promise<TrpcRouterOutput["getApiVersion"]>;
+        (params: TrpcRouterInput["getApiVersion"]): Promise<
+            TrpcRouterOutput["getApiVersion"]
+        >;
         clear: () => void;
     };
     getOidcParams: {
-        (): Promise<TrpcRouterOutput["getOidcParams"]>;
+        (params: TrpcRouterInput["getOidcParams"]): Promise<
+            TrpcRouterOutput["getOidcParams"]
+        >;
+        clear: () => void;
+    };
+    getOrganizationUserProfileAttributeName: {
+        (params: TrpcRouterInput["getOrganizationUserProfileAttributeName"]): Promise<
+            TrpcRouterOutput["getOrganizationUserProfileAttributeName"]
+        >;
         clear: () => void;
     };
     getSoftwares: {
-        (): Promise<TrpcRouterOutput["getSoftwares"]>;
+        (params: TrpcRouterInput["getSoftwares"]): Promise<
+            TrpcRouterOutput["getSoftwares"]
+        >;
         clear: () => void;
     };
     getInstances: {
@@ -42,7 +54,7 @@ export type SillApi = {
         params: TrpcRouterInput["updateInstance"]
     ) => Promise<TrpcRouterOutput["updateInstance"]>;
     getAgents: {
-        (): Promise<TrpcRouterOutput["getAgents"]>;
+        (params: TrpcRouterInput["getAgents"]): Promise<TrpcRouterOutput["getAgents"]>;
         clear: () => void;
     };
     changeAgentOrganization: (
@@ -57,21 +69,33 @@ export type SillApi = {
         (): Promise<TrpcRouterOutput["getAllowedEmailRegexp"]>;
         clear: () => void;
     };
-    getAgencyNames: {
-        (): Promise<TrpcRouterOutput["getAgencyNames"]>;
+    getAllOrganizations: {
+        (params: TrpcRouterInput["getAllOrganizations"]): Promise<
+            TrpcRouterOutput["getAllOrganizations"]
+        >;
         clear: () => void;
     };
     getTotalReferentCount: {
-        (): Promise<TrpcRouterOutput["getTotalReferentCount"]>;
+        (params: TrpcRouterInput["getTotalReferentCount"]): Promise<
+            TrpcRouterOutput["getTotalReferentCount"]
+        >;
         clear: () => void;
     };
     getRegisteredUserCount: {
-        (): Promise<TrpcRouterOutput["getRegisteredUserCount"]>;
+        (params: TrpcRouterInput["getRegisteredUserCount"]): Promise<
+            TrpcRouterOutput["getRegisteredUserCount"]
+        >;
         clear: () => void;
     };
-    downloadCorsProtectedTextFile: (
-        params: TrpcRouterInput["downloadCorsProtectedTextFile"]
-    ) => Promise<TrpcRouterOutput["downloadCorsProtectedTextFile"]>;
+    getTermsOfServiceUrl: {
+        (params: TrpcRouterInput["getTermsOfServiceUrl"]): Promise<
+            TrpcRouterOutput["getTermsOfServiceUrl"]
+        >;
+        clear: () => void;
+    };
+    getMarkdown: (
+        params: TrpcRouterInput["getMarkdown"]
+    ) => Promise<TrpcRouterOutput["getMarkdown"]>;
 };
 
 //NOTE: We make sure we don't forget queries

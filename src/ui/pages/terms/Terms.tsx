@@ -1,12 +1,8 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useConst } from "powerhooks/useConst";
-import { useCoreFunctions } from "core";
+import { useCoreFunctions, useCoreState, selectors } from "core";
 import { Markdown } from "keycloakify/tools/Markdown";
-import { useQuery } from "react-query";
-import { createResolveLocalizedString } from "i18nifty";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useLang, fallbackLanguage } from "ui/i18n";
+import { useLang } from "ui/i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
@@ -16,47 +12,28 @@ type Props = {
     route: PageRoute;
 };
 
-const queryClient = new QueryClient();
-
 export default function Terms(props: Props) {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <ContextualizedTerms {...props} />
-        </QueryClientProvider>
-    );
-}
-function ContextualizedTerms(props: Props) {
     const { className } = props;
-
-    const { userAuthentication } = useCoreFunctions();
-
-    const tosUrl = (function useClosure() {
-        const { lang } = useLang();
-        const termsOfServices = useConst(() => userAuthentication.getTermsOfServiceUrl());
-
-        return useMemo(() => {
-            const { resolveLocalizedString } = createResolveLocalizedString({
-                "currentLanguage": lang,
-                fallbackLanguage
-            });
-
-            return resolveLocalizedString(termsOfServices);
-        }, [lang]);
-    })();
-
-    const { data: tos } = useQuery(["tos", tosUrl], () =>
-        tosUrl === undefined ? undefined : fetch(tosUrl).then(res => res.text())
-    );
 
     const { classes, cx } = useStyles();
 
-    if (tos === undefined) {
+    const { termsOfServices } = useCoreFunctions();
+
+    const { lang } = useLang();
+
+    useEffect(() => {
+        termsOfServices.initialize({ lang });
+    }, [lang]);
+
+    const { markdown } = useCoreState(selectors.termsOfServices.markdown);
+
+    if (markdown === undefined) {
         return null;
     }
 
     return (
         <div className={cx(classes.root, className)}>
-            <Markdown className={classes.markdown}>{tos}</Markdown>
+            <Markdown className={classes.markdown}>{markdown}</Markdown>
         </div>
     );
 }

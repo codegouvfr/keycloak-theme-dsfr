@@ -14,13 +14,17 @@ export const sillApi: SillApi = {
         async () => ({
             "keycloakParams": undefined,
             "jwtClaimByUserKey": {
-                "agencyName": "a",
+                "organization": "a",
                 "email": "b",
-                "id": "c",
-                "locale": "d"
-            },
-            "termsOfServiceUrl": "https://example.com/tos.ms"
+                "id": "c"
+            }
         }),
+        { "promise": true }
+    ),
+    "getOrganizationUserProfileAttributeName": memoize(
+        async () => {
+            throw new Error("not implemented");
+        },
         { "promise": true }
     ),
     "getSoftwares": memoize(() => Promise.resolve([...softwares]), { "promise": true }),
@@ -175,14 +179,18 @@ export const sillApi: SillApi = {
         console.log(`Update email ${newEmail}`);
     },
     "getAllowedEmailRegexp": memoize(async () => "/gouv.fr$/", { "promise": true }),
-    "getAgencyNames": memoize(async () => ["DINUM", "CNRS", "ESR"], {
+    "getAllOrganizations": memoize(async () => ["DINUM", "CNRS", "ESR"], {
         "promise": true
     }),
     "getTotalReferentCount": memoize(async () => ({ "referentCount": 322 }), {
         "promise": true
     }),
     "getRegisteredUserCount": memoize(async () => 500, { "promise": true }),
-    "downloadCorsProtectedTextFile": ({ url }) => fetch(url).then(resp => resp.text())
+    "getTermsOfServiceUrl": memoize(
+        async () => "https://sill-preprod.lab.sspcloud.fr/readme",
+        { "promise": true }
+    ),
+    "getMarkdown": async ({ language, name }) => `Markdown for ${language} and ${name}`
 };
 
 const options: (ApiTypes.WikidataEntry & { isInSill: boolean })[] = [

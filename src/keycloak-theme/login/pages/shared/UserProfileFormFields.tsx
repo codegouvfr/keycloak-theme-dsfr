@@ -8,6 +8,7 @@ import type { ClassKey } from "keycloakify/login/TemplateProps";
 import { createSillApi } from "core/adapter/sillApi";
 import { sillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { contactEmail } from "ui/shared/contactEmail";
+import MuiCircularProgress from "@mui/material/CircularProgress";
 
 export type UserProfileFormFieldsProps = {
     kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];
@@ -39,20 +40,49 @@ export function UserProfileFormFields({
         onIsFormSubmittableValueChange(isFormSubmittable);
     }, [isFormSubmittable]);
 
-    const { organizations } = (function () {
-        const [organizations, setOrganizations] = useState<string[]>([]);
+    const { apiData } = (function () {
+        const [apiData, setApiData] = useState<
+            | {
+                  organizations: string[];
+                  organizationUserProfileAttributeName: string;
+              }
+            | undefined
+        >(undefined);
 
         useEffect(() => {
-            createSillApi({
+            const sillApi = createSillApi({
                 "getOidcAccessToken": () => undefined,
                 "url": sillApiUrl
-            })
-                .getAgencyNames()
-                .then(setOrganizations);
+            });
+
+            Promise.all([
+                sillApi.getAllOrganizations(),
+                sillApi.getOrganizationUserProfileAttributeName()
+            ]).then(([organizations, organizationUserProfileAttributeName]) =>
+                setApiData({
+                    organizations,
+                    organizationUserProfileAttributeName
+                })
+            );
         }, []);
 
-        return { organizations };
+        return { apiData };
     })();
+
+    if (apiData === undefined) {
+        return (
+            <div
+                style={{
+                    "display": "flex",
+                    "justifyContent": "center",
+                    "height": "100%",
+                    "alignItems": "center"
+                }}
+            >
+                <MuiCircularProgress />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -64,12 +94,12 @@ export function UserProfileFormFields({
                 const { value, displayableErrors } =
                     fieldStateByAttributeName[attribute.name];
 
-                if (attribute.name === "agencyName") {
+                if (attribute.name === apiData.organizationUserProfileAttributeName) {
                     return (
                         <AutocompleteInput
                             className={fr.cx("fr-input-group")}
                             freeSolo
-                            options={organizations}
+                            options={apiData.organizations}
                             value={value}
                             onValueChange={value =>
                                 formValidationDispatch({

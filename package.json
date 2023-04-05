@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@codegouvfr/react-dsfr": "^0.43.3",
-        "@codegouvfr/sill": "^0.3.2",
+        "@codegouvfr/sill": "^0.4.0",
         "@emotion/react": "^11.10.5",
         "@emotion/styled": "^11.10.5",
         "@mui/icons-material": "^5.0.4",
@@ -42,7 +42,6 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.43.0",
         "react-markdown": "^5.0.3",
-        "react-query": "4.0.0-beta.23",
         "react-scripts": "5.0.1",
         "redux-clean-architecture": "^3.4.1",
         "run-exclusive": "^2.2.16",

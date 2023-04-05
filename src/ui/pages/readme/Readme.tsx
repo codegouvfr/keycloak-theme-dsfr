@@ -1,50 +1,41 @@
+import { useEffect } from "react";
 import { Markdown } from "keycloakify/tools/Markdown";
-import { useQuery } from "react-query";
-import { useCoreFunctions } from "core";
+import { useCoreFunctions, useCoreState, selectors } from "core";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
 import { CircularProgress } from "ui/shared/CircularProgress";
-const readmeUrl = "https://git.sr.ht/~etalab/logiciels-libres/blob/master/sill.md";
+import { useLang } from "ui/i18n";
 
 type Props = {
     className?: string;
     route: PageRoute;
 };
 
-const queryClient = new QueryClient();
-
 export default function Readme(props: Props) {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <ContextualizedReadme {...props} />
-        </QueryClientProvider>
-    );
-}
-
-function ContextualizedReadme(props: Props) {
     const { className } = props;
 
-    const { fetchProxy } = useCoreFunctions();
+    const { readme } = useCoreFunctions();
 
-    const { data: readme } = useQuery(
-        ["readme", readmeUrl],
-        () =>
-            fetchProxy
-                .downloadCoreProtectedTextFile(readmeUrl)
-                .then(text => text.split("---").reverse()[0]) // Remove title that isn't standard Markdown
-    );
+    const { lang } = useLang();
+
+    useEffect(() => {
+        readme.initialize({ lang });
+    }, [lang]);
+
+    const { markdown } = useCoreState(selectors.readme.markdown);
 
     const { classes, cx } = useStyles();
 
-    if (readme === undefined) {
+    if (markdown === undefined) {
         return <CircularProgress />;
     }
 
     return (
         <div className={cx(classes.root, className)}>
-            <Markdown className={classes.markdown}>{readme}</Markdown>
+            <Markdown className={classes.markdown}>
+                {markdown.split("---").reverse()[0]}
+            </Markdown>
         </div>
     );
 }

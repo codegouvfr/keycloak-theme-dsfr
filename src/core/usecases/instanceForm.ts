@@ -218,7 +218,7 @@ export const thunks = {
                                           "type": "navigated from software form",
                                           "justRegisteredSoftwareSillId":
                                               software.softwareId,
-                                          "userOrganization": user.agencyName
+                                          "userOrganization": user.organization
                                       }
                         })
                     );

@@ -1,16 +1,17 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useTranslation } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
-import { useCoreFunctions, useCoreState } from "core";
+import { useCoreFunctions, useCoreState, selectors } from "core";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { z } from "zod";
 import { AutocompleteInput } from "ui/shared/AutocompleteInput";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
+import { CircularProgress } from "ui/shared/CircularProgress";
 
 type Props = {
     className?: string;
@@ -23,96 +24,61 @@ export default function Account(props: Props) {
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const { userAuthentication } = useCoreFunctions();
+    const { userAccountManagement } = useCoreFunctions();
+    const { readyState } = useCoreState(selectors.userAccountManagement.readyState);
+
+    useEffect(() => {
+        userAccountManagement.initialize();
+    }, []);
+
+    if (readyState === undefined) {
+        return <CircularProgress />;
+    }
+
+    return <AccountReady className={className} />;
+}
+
+function AccountReady(props: { className?: string }) {
+    const { className } = props;
 
     const { classes, cx } = useStyles();
     const { t } = useTranslation({ Account });
     const { t: tCommon } = useTranslation({ "App": null });
 
-    useEffect(() => {
-        triggerFetchAgencyNames();
-    }, []);
+    const {
+        allOrganizations,
+        email,
+        organization,
+        passwordResetUrl,
+        allowedEmailRegExp
+    } = (function useClosure() {
+        const { readyState } = useCoreState(selectors.userAccountManagement.readyState);
 
-    const { agencyNames, triggerFetchAgencyNames } = (function useClosure() {
-        const [agencyNames, setAgencyNames] = useState<string[]>([]);
-        const [isTriggered, triggerFetchAgencyNames] = useReducer(() => true, false);
+        assert(readyState !== undefined);
 
-        useEffect(() => {
-            if (!isTriggered) {
-                return;
-            }
+        const { allowedEmailRegexpStr, ...rest } = readyState;
 
-            let isCleanedUp = false;
-
-            userAuthentication.getAgencyNames().then(agencyNames => {
-                if (isCleanedUp) {
-                    return;
-                }
-
-                //NOTE: Just so that we do not have infinite loading for the first user
-                if (agencyNames.length === 0) {
-                    agencyNames = [""];
-                }
-
-                setAgencyNames(agencyNames);
-            });
-
-            return () => {
-                isCleanedUp = true;
-            };
-        }, [isTriggered]);
-
-        return { agencyNames, triggerFetchAgencyNames };
-    })();
-
-    const { allowedEmailRegexp } = (function useClosure() {
-        const [allowedEmailRegexp, setAllowedEmailRegexp] = useState<RegExp | undefined>(
-            undefined
+        const allowedEmailRegExp = useMemo(
+            () => new RegExp(allowedEmailRegexpStr),
+            [allowedEmailRegexpStr]
         );
 
-        useEffect(() => {
-            let isCleanedUp = false;
-
-            userAuthentication.getAllowedEmailRegexp().then(allowedEmailRegexp => {
-                if (isCleanedUp) {
-                    return;
-                }
-
-                setAllowedEmailRegexp(allowedEmailRegexp);
-            });
-
-            return () => {
-                isCleanedUp = true;
-            };
-        }, []);
-
-        return { allowedEmailRegexp };
+        return {
+            ...rest,
+            allowedEmailRegExp
+        };
     })();
 
-    const { value: agencyName, isBeingUpdated: isAgencyNameBeingUpdated } = useCoreState(
-        state => state.userAuthentication.agencyName
+    const { userAccountManagement } = useCoreFunctions();
+
+    const [emailInputValue, setEmailInputValue] = useState(email.value);
+    const [organizationInputValue, setOrganizationInputValue] = useState(
+        organization.value
     );
 
-    const { value: email, isBeingUpdated: isEmailBeingUpdated } = useCoreState(
-        state => state.userAuthentication.email
-    );
-
-    const [tempEmail, setTempEmail] = useState<string>(email);
-    const [tempAgencyName, setTempAgencyName] = useState<string>(agencyName);
-
-    const keycloakAccountConfigurationUrl =
-        userAuthentication.getKeycloakAccountConfigurationUrl();
-
-    const onRequestUpdateFieldFactory = (
-        fieldName: "agencyName" | "email",
-        value: string
-    ) => userAuthentication.updateField({ fieldName, value });
-
-    const isValidEmail = (value: string) => {
-        assert(allowedEmailRegexp !== undefined);
-
+    const validateEmail = (email: string) => {
         try {
-            z.string().email().parse(value);
+            z.string().email().parse(email);
         } catch {
             return {
                 "isValidValue": false,
@@ -120,7 +86,7 @@ export default function Account(props: Props) {
             };
         }
 
-        if (!allowedEmailRegexp.test(value)) {
+        if (!allowedEmailRegExp.test(email)) {
             return {
                 "isValidValue": false,
                 "message": "Your email domain isn't allowed yet"
@@ -130,10 +96,6 @@ export default function Account(props: Props) {
         return { "isValidValue": true };
     };
 
-    if (allowedEmailRegexp === undefined) {
-        return null;
-    }
-
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <h2 className={classes.title}>{t("title")}</h2>
@@ -141,18 +103,22 @@ export default function Account(props: Props) {
                 <Input
                     label={t("mail")}
                     nativeInputProps={{
-                        "onChange": event => setTempEmail(event.target.value),
-                        "value": tempEmail
+                        "onChange": event => setEmailInputValue(event.target.value),
+                        "value": emailInputValue
                     }}
-                    state={isValidEmail(tempEmail).isValidValue ? undefined : "error"}
-                    stateRelatedMessage={isValidEmail(tempEmail).message}
-                    disabled={isEmailBeingUpdated}
+                    state={
+                        validateEmail(emailInputValue).isValidValue ? undefined : "error"
+                    }
+                    stateRelatedMessage={validateEmail(emailInputValue).message}
+                    disabled={email.isBeingUpdated}
                 />
                 <Button
-                    onClick={() => {
-                        onRequestUpdateFieldFactory("email", tempEmail);
-                        setTempEmail(email);
-                    }}
+                    onClick={() =>
+                        userAccountManagement.updateField({
+                            "fieldName": "email",
+                            "value": emailInputValue
+                        })
+                    }
                 >
                     {tCommon("validate")}
                 </Button>
@@ -160,9 +126,9 @@ export default function Account(props: Props) {
             <div>
                 <AutocompleteInput
                     className={"fr-input-group"}
-                    options={agencyNames}
-                    value={agencyName}
-                    onValueChange={value => setTempAgencyName(value ?? "")}
+                    options={allOrganizations}
+                    value={organization.value}
+                    onValueChange={value => setOrganizationInputValue(value ?? "")}
                     getOptionLabel={entry => entry}
                     renderOption={(liProps, entry) => (
                         <li {...liProps}>
@@ -172,25 +138,23 @@ export default function Account(props: Props) {
                     noOptionText="No result"
                     dsfrInputProps={{
                         "label": t("organization"),
-                        "disabled": isAgencyNameBeingUpdated
+                        "disabled": organization.isBeingUpdated
                     }}
                 />
                 <Button
-                    onClick={() => {
-                        onRequestUpdateFieldFactory("agencyName", tempAgencyName);
-                        setTempAgencyName(agencyName);
-                    }}
+                    onClick={() =>
+                        userAccountManagement.updateField({
+                            "fieldName": "organization",
+                            "value": organizationInputValue
+                        })
+                    }
                 >
                     {tCommon("validate")}
                 </Button>
             </div>
-            {keycloakAccountConfigurationUrl !== undefined && (
-                <a
-                    href={keycloakAccountConfigurationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    {t("update data")}
+            {passwordResetUrl !== undefined && (
+                <a href={passwordResetUrl} target="_blank" rel="noreferrer">
+                    {t("change password")}
                 </a>
             )}
         </div>
@@ -215,5 +179,5 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "title" | "mail" | "organization" | "update data" | "no organization"
+    "title" | "mail" | "organization" | "change password" | "no organization"
 >()({ Account });

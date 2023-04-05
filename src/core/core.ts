@@ -52,8 +52,10 @@ export async function createCore(params: {
         return sillApi;
     })();
 
-    const { keycloakParams, jwtClaimByUserKey, termsOfServiceUrl } =
-        await sillApi.getOidcParams();
+    const [{ keycloakParams, jwtClaimByUserKey }, termsOfServiceUrl] = await Promise.all([
+        sillApi.getOidcParams(),
+        sillApi.getTermsOfServiceUrl()
+    ]);
 
     oidc = await (async () => {
         if (keycloakParams === undefined) {
@@ -63,10 +65,9 @@ export async function createCore(params: {
                 isUserInitiallyLoggedIn,
                 jwtClaimByUserKey,
                 "user": {
-                    "agencyName": "DINUM",
+                    "organization": "DINUM",
                     "email": "joseph.garrone@code.gouv.fr",
-                    "id": "xxxxx",
-                    "locale": "fr"
+                    "id": "xxxxx"
                 }
             });
         }
@@ -109,7 +110,6 @@ export async function createCore(params: {
 
     await Promise.all([
         core.dispatch(usecases.sillApiVersion.privateThunks.initialize()),
-        core.dispatch(usecases.userAuthentication.privateThunks.initialize()),
         core.dispatch(usecases.softwareCatalog.privateThunks.initialize()),
         core.dispatch(usecases.generalStats.privateThunks.initialize()),
         core.dispatch(usecases.searchSoftwareByName.privateThunks.initialize())

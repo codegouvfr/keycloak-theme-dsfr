@@ -37,6 +37,12 @@ export function createSillApi(params: {
         "getOidcParams": memoize(() => trpcClient.getOidcParams.query(), {
             "promise": true
         }),
+        "getOrganizationUserProfileAttributeName": memoize(
+            () => trpcClient.getOrganizationUserProfileAttributeName.query(),
+            {
+                "promise": true
+            }
+        ),
         "getSoftwares": memoize(() => trpcClient.getSoftwares.query(), {
             "promise": true
         }),
@@ -60,7 +66,7 @@ export function createSillApi(params: {
         "getAllowedEmailRegexp": memoize(() => trpcClient.getAllowedEmailRegexp.query(), {
             "promise": true
         }),
-        "getAgencyNames": memoize(() => trpcClient.getAgencyNames.query(), {
+        "getAllOrganizations": memoize(() => trpcClient.getAllOrganizations.query(), {
             "promise": true
         }),
         "getTotalReferentCount": memoize(() => trpcClient.getTotalReferentCount.query(), {
@@ -70,7 +76,9 @@ export function createSillApi(params: {
             () => trpcClient.getRegisteredUserCount.query(),
             { "promise": true }
         ),
-        "downloadCorsProtectedTextFile": params =>
-            trpcClient.downloadCorsProtectedTextFile.query(params)
+        "getTermsOfServiceUrl": memoize(() => trpcClient.getTermsOfServiceUrl.query(), {
+            "promise": true
+        }),
+        "getMarkdown": params => trpcClient.getMarkdown.query(params)
     };
 }

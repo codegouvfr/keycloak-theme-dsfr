@@ -395,7 +395,7 @@ const {
                 "title": "My account",
                 "mail": "Email address",
                 "organization": "Name of the affiliated organization",
-                "update data": "Change account information (such as your password)",
+                "change password": "Change your password",
                 "no organization": "No organization"
             },
             "Header": {
@@ -766,8 +766,7 @@ const {
                 "title": "Mon compte",
                 "mail": "Adresse de courriel",
                 "organization": "Nom de l'établissement de rattachement",
-                "update data":
-                    "Modifier les informations du compte (comme par exemple votre mot de passe)",
+                "change password": "Changez votre mot de passe",
                 "no organization": "Aucune organisation"
             },
             "Header": {
