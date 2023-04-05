@@ -5,7 +5,7 @@ import { useEvt } from "evt/hooks";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "ui/i18n";
 
 export type Step1Props = {
     className?: string;

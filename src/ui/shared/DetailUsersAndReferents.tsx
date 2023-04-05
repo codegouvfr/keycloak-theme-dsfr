@@ -1,4 +1,3 @@
-import React from "react";
 import { declareComponentKeys } from "i18nifty";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { Link } from "type-route";
@@ -9,7 +8,7 @@ import { Equals } from "tsafe";
 
 export type Props = {
     className?: string;
-    seeUserAndReferent: Link;
+    seeUserAndReferent: Link | undefined;
     referentCount: number;
     userCount: number;
 };

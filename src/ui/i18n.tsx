@@ -31,7 +31,6 @@ const {
     | typeof import("ui/pages/softwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui/pages/softwareDetails/AlikeSoftwareTab").i18n
     | typeof import("ui/pages/softwareUserAndReferent/SoftwareUserAndReferent").i18n
-    | typeof import("ui/pages/softwareCatalog/DetailUsersAndReferents").i18n
     | typeof import("ui/pages/declarationForm/DeclarationForm").i18n
     | typeof import("ui/pages/declarationForm/Step1").i18n
     | typeof import("ui/pages/declarationForm/Step2User").i18n
@@ -48,6 +47,7 @@ const {
     | typeof import("ui/pages/instanceForm/Step1").i18n
     | typeof import("ui/pages/instanceForm/Step2").i18n
     | typeof import("ui/pages/account/Account").i18n
+    | typeof import("ui/shared/DetailUsersAndReferents").i18n
     | typeof import("ui/shared/Header").i18n
 >()(
     { languages, fallbackLanguage },
@@ -70,7 +70,8 @@ const {
                 "loading": "Loading...",
                 "no result": "No result",
                 "search": "Search",
-                "validate": "Validate"
+                "validate": "Validate",
+                "not provided": "Not provided"
             },
             "Homepage": {
                 "title": (
@@ -180,8 +181,7 @@ const {
                 "module": "Brick or technical modules",
                 "module hint": "For example proxies, HTTP servers or plugins",
                 "checkbox legend":
-                    "Operating system on which the software can be installed",
-                "required": "This field is required"
+                    "Operating system on which the software can be installed"
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Wikidata ID",
@@ -207,7 +207,7 @@ const {
                 "minimal version": "Minimum version",
                 "minimal version hint":
                     "Earliest version still acceptable to have in production",
-                "url or numeric id": "This field must be a URL or an ID number", //TODO: move to common keys,
+                "url or numeric id": "This field must be a URL or an ID number",
                 "autofill notice":
                     "This information will automatically populate other fields"
             },
@@ -285,7 +285,12 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-                "filters": "Filters"
+                "filters": "Filters",
+                "isInstallableOnUserTerminal": "Can be installed on user terminal",
+                "isFromFrenchPublicServices": "Is from French public services",
+                "doRespectRgaa": "Is compliant with RGAA rules",
+                "isPresentInSupportContract": "Is present in support contract",
+                "isTestable": "Is testable"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -432,7 +437,8 @@ const {
                 "loading": "Chargement...",
                 "no result": "Aucun résultat",
                 "search": "Rechercher",
-                "validate": "Validate"
+                "validate": "Valider",
+                "not provided": "Pas renseigné"
             },
             "Homepage": {
                 "title": (
@@ -545,8 +551,7 @@ const {
                 "module": "Brique ou modules techniques",
                 "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
                 "checkbox legend":
-                    "Système d'exploitation sur lequel le logiciel peut être installé",
-                "required": "Ce champs est required" //TODO: move to common keys
+                    "Système d'exploitation sur lequel le logiciel peut être installé"
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
@@ -573,7 +578,7 @@ const {
                 "minimal version hint":
                     "Version la plus ancienne encore acceptable d'avoir en production",
                 "url or numeric id":
-                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                    "Ce champs doit être une url ou un numéro d'identifiant",
                 "autofill notice":
                     "Cette information remplira automatiquement d'autres champs"
             },
@@ -654,7 +659,12 @@ const {
                 "categoriesLabel": "Catégories",
                 "contextLabel": "Contexte",
                 "prerogativesLabel": "Prérogatives",
-                "filters": "Filtres"
+                "filters": "Filtres",
+                "isInstallableOnUserTerminal": "Installable sur un poste agent",
+                "isFromFrenchPublicServices": "Développé par le service public",
+                "doRespectRgaa": "Respecte les normes RGAA",
+                "isPresentInSupportContract": "Présent dans le marché de support",
+                "isTestable": "Est essayable"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",

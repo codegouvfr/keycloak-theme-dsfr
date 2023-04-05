@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { InstanceFormStep1 } from "./Step1";
-import { InstanceFormStep2 } from "./Step2";
+import { InstanceFormStep1 } from "ui/pages/instanceForm/Step1";
+import { InstanceFormStep2 } from "ui/pages/instanceForm/Step2";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -16,7 +16,7 @@ import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
-import { ActionsFooter } from "../../shared/ActionsFooter";
+import { ActionsFooter } from "ui/shared/ActionsFooter";
 import type { PageRoute } from "./route";
 import { useLang } from "ui/i18n";
 
@@ -266,7 +266,6 @@ const useStyles = makeStyles<{ step: number | undefined }>({
 export const { i18n } = declareComponentKeys<
     | "breadcrumb add instance"
     | "breadcrumb update instance"
-    | "title add instance form"
     | "title add instance form"
     | "title update instance form"
     | { K: "stepper title"; P: { currentStepIndex: number } }

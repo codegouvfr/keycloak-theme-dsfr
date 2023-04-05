@@ -2,8 +2,10 @@ import { useEffect, useTransition, useMemo } from "react";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
-import { SoftwareCatalogControlled } from "./SoftwareCatalogControlled";
-import { Props as SoftwareCatalogControlledProps } from "./SoftwareCatalogControlled";
+import {
+    SoftwareCatalogControlled,
+    Props as SoftwareCatalogControlledProps
+} from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { PageRoute } from "./route";
 
@@ -183,6 +185,21 @@ export default function SoftwareCatalog(props: Props) {
         });
     }, [route.params.referentCount]);
 
+    const onResetFilters = useConstCallback(() => {
+        softwareCatalog.resetFilters();
+        return startTransition(() =>
+            routes
+                .softwareCatalog({
+                    ...route.params,
+                    organization: undefined,
+                    category: undefined,
+                    environment: undefined,
+                    prerogatives: []
+                })
+                .replace()
+        );
+    });
+
     return (
         <SoftwareCatalogControlled
             className={className}
@@ -204,6 +221,7 @@ export default function SoftwareCatalog(props: Props) {
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
             onPrerogativesChange={onPrerogativesChange}
+            onResetFilters={onResetFilters}
         />
     );
 }

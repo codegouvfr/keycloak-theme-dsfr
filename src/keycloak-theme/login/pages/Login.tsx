@@ -9,6 +9,7 @@ import { Input } from "@codegouvfr/react-dsfr/Input";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
+import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -108,7 +109,7 @@ export default function Login(
                                     id="kc-social-providers"
                                     className={classes.agentConnect}
                                 >
-                                    <ul
+                                    <div
                                         className={cx(
                                             getClassName("kcFormSocialAccountListClass"),
                                             social.providers.length > 4 &&
@@ -118,7 +119,7 @@ export default function Login(
                                         )}
                                     >
                                         {social.providers.map(p => (
-                                            <li key={p.providerId}>
+                                            <div key={p.providerId}>
                                                 {p.displayName
                                                     .toLocaleLowerCase()
                                                     .replace(/ /g, "")
@@ -173,9 +174,9 @@ export default function Login(
                                                         {p.displayName}
                                                     </Button>
                                                 )}
-                                            </li>
+                                            </div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             )}
                             <h5>{msgStr("selfCredentials")}</h5>
@@ -228,22 +229,23 @@ export default function Login(
                                 >
                                     <div id="kc-form-options">
                                         {realm.rememberMe && !usernameEditDisabled && (
-                                            <div className="checkbox">
-                                                <label>
-                                                    <input
-                                                        tabIndex={3}
-                                                        id="rememberMe"
-                                                        name="rememberMe"
-                                                        type="checkbox"
-                                                        {...(login.rememberMe
-                                                            ? {
-                                                                  "checked": true
-                                                              }
-                                                            : {})}
-                                                    />
-                                                    {msg("rememberMe")}
-                                                </label>
-                                            </div>
+                                            <Checkbox
+                                                options={[
+                                                    {
+                                                        label: msg("rememberMe"),
+                                                        nativeInputProps: {
+                                                            tabIndex: 3,
+                                                            id: "rememberMe",
+                                                            name: "rememberMe",
+                                                            ...(login.rememberMe
+                                                                ? {
+                                                                      "checked": true
+                                                                  }
+                                                                : {})
+                                                        }
+                                                    }
+                                                ]}
+                                            />
                                         )}
                                     </div>
                                 </div>

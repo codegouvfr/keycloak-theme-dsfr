@@ -11,7 +11,7 @@ export type Props = {
     className?: string;
     softwareLogoUrl?: string;
     softwareName: string;
-    authors?: {
+    authors: {
         authorName: string;
         authorUrl: string;
     }[];
@@ -49,56 +49,64 @@ export const HeaderDetailCard = memo((props: Props) => {
                     <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                 </a>
                 <div className={classes.softwareInformation}>
-                    <img
-                        className={cx(classes.logo)}
-                        src={softwareLogoUrl}
-                        alt="Logo du logiciel"
-                    />
-                    <div>
+                    <div className={classes.logoWrapper}>
+                        <img
+                            className={classes.logo}
+                            src={softwareLogoUrl}
+                            alt="Logo du logiciel"
+                        />
+                    </div>
+                    <div className={classes.mainInfo}>
                         <h4 className={classes.softwareName}>{softwareName}</h4>
-                        <span>
-                            <span className={classes.authors}>{t("authors")}</span>
-                            <span>
-                                {authors?.map(author => (
-                                    <a
-                                        href={author.authorUrl}
-                                        className={classes.authorLink}
-                                        key={author.authorName}
-                                    >
-                                        {author.authorName}
-                                    </a>
-                                ))}
-                            </span>
-                        </span>
+                        {authors.length > 0 && (
+                            <div>
+                                <span className={classes.authors}>{t("authors")}</span>
+                                <span>
+                                    {authors.map(author => (
+                                        <a
+                                            href={author.authorUrl}
+                                            className={classes.authorLink}
+                                            key={author.authorName}
+                                        >
+                                            {author.authorName}
+                                        </a>
+                                    ))}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
             <div className={classes.externalLinkButtons}>
-                <a
-                    href={officialWebsite}
-                    className={cx(
-                        fr.cx(
-                            "fr-icon-global-line",
+                {officialWebsite && (
+                    <a
+                        href={officialWebsite}
+                        className={cx(
+                            fr.cx(
+                                "fr-icon-global-line",
+                                "fr-btn",
+                                "fr-btn--secondary",
+                                "fr-btn--icon-left"
+                            ),
+                            classes.officialWebsiteButton
+                        )}
+                    >
+                        {t("website")}
+                    </a>
+                )}
+                {sourceCodeRepository && (
+                    <a
+                        href={sourceCodeRepository}
+                        className={fr.cx(
+                            "fr-icon-code-s-slash-line",
                             "fr-btn",
                             "fr-btn--secondary",
                             "fr-btn--icon-left"
-                        ),
-                        classes.officialWebsiteButton
-                    )}
-                >
-                    {t("website")}
-                </a>
-                <a
-                    href={sourceCodeRepository}
-                    className={fr.cx(
-                        "fr-icon-code-s-slash-line",
-                        "fr-btn",
-                        "fr-btn--secondary",
-                        "fr-btn--icon-left"
-                    )}
-                >
-                    {t("repository")}
-                </a>
+                        )}
+                    >
+                        {t("repository")}
+                    </a>
+                )}
             </div>
         </div>
     );
@@ -135,10 +143,25 @@ const useStyles = makeStyles({
         "display": "flex",
         "flex": "1"
     },
+    "mainInfo": {
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "flex-start",
+        "justifyContent": "center"
+    },
+    "logoWrapper": {
+        "height": fr.spacing("10v"),
+        "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
+        "marginRight": fr.spacing("2v"),
+        "overflow": "hidden",
+        [fr.breakpoints.down("md")]: {
+            "height": fr.spacing("5v"),
+            "width": fr.spacing("5v")
+        }
+    },
     "logo": {
-        "width": "50px",
-        "height": "50px",
-        "marginRight": fr.spacing("2v")
+        "height": "100%"
     },
     "softwareName": {
         "marginBottom": fr.spacing("1v")

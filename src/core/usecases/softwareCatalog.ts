@@ -128,6 +128,14 @@ export const { reducer, actions } = createSlice({
             const { key, value } = payload;
 
             (state as any)[key] = value;
+        },
+        "filterReset": state => {
+            state.prerogatives = [];
+            state.organization = undefined;
+            state.category = undefined;
+            state.environment = undefined;
+            state.prerogatives = [];
+            state.referentCount = undefined;
         }
     }
 });
@@ -140,6 +148,12 @@ export const thunks = {
         (...args) => {
             const [dispatch] = args;
             dispatch(actions.filterUpdated(params));
+        },
+    "resetFilters":
+        (): ThunkAction<void> =>
+        (...args) => {
+            const [dispatch] = args;
+            dispatch(actions.filterReset());
         }
 };
 

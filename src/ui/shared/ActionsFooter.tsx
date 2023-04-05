@@ -17,14 +17,14 @@ export const ActionsFooter = memo((props: Props) => {
     const { classes, cx } = useStyles();
 
     return (
-        <div className={classes.wrapper}>
+        <div className={classes.root}>
             <div className={cx(fr.cx("fr-container"), className)}>{children}</div>
         </div>
     );
 });
 
 const useStyles = makeStyles()(theme => ({
-    "wrapper": {
+    "root": {
         "position": "sticky",
         "bottom": "0",
         "marginTop": fr.spacing("6v"),

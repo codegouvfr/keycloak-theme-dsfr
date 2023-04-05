@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
-import { SoftwareFormStep1 } from "./Step1";
-import { SoftwareFormStep2 } from "./Step2";
-import { SoftwareFormStep3 } from "./Step3";
-import { SoftwareFormStep4 } from "./Step4";
+import { SoftwareFormStep1 } from "ui/pages/softwareForm/Step1";
+import { SoftwareFormStep2 } from "ui/pages/softwareForm/Step2";
+import { SoftwareFormStep3 } from "ui/pages/softwareForm/Step3";
+import { SoftwareFormStep4 } from "ui/pages/softwareForm/Step4";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -18,7 +18,7 @@ import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
-import { ActionsFooter } from "../../shared/ActionsFooter";
+import { ActionsFooter } from "ui/shared/ActionsFooter";
 import type { PageRoute } from "./route";
 import { useLang } from "ui/i18n";
 

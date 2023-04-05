@@ -10,6 +10,7 @@ import { ActionsFooter } from "ui/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 export type Props = {
     className?: string;
@@ -75,7 +76,6 @@ export default function SoftwareUserAndReferent(props: Props) {
         setActiveMenu(id);
     };
 
-    //TODO: Refacto when user and referent will be available in software data
     const contentItems = activeMenu === 0 ? users : referents;
 
     return (
@@ -139,7 +139,13 @@ export default function SoftwareUserAndReferent(props: Props) {
                                     )}
                                     id="fr-sidemenu-title"
                                 >
-                                    <img src={logoUrl} alt="" className={classes.logo} />
+                                    <div className={classes.logoWrapper}>
+                                        <img
+                                            className={classes.logo}
+                                            src={logoUrl ?? softwareLogoPlaceholder}
+                                            alt="Logo du logiciel"
+                                        />
+                                    </div>
                                     {software.softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
@@ -257,10 +263,19 @@ const useStyles = makeStyles({
         "display": "flex",
         "alignItems": "center"
     },
+    "logoWrapper": {
+        "height": fr.spacing("10v"),
+        "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
+        "marginRight": fr.spacing("2v"),
+        "overflow": "hidden",
+        [fr.breakpoints.down("md")]: {
+            "height": fr.spacing("5v"),
+            "width": fr.spacing("5v")
+        }
+    },
     "logo": {
-        "width": "50px",
-        "height": "50px",
-        "marginRight": fr.spacing("2v")
+        "height": "100%"
     },
     "contentMenuTab": {
         "flex": 2

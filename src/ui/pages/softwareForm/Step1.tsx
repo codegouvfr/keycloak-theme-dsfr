@@ -20,6 +20,7 @@ export function SoftwareFormStep1(props: Step1Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
     const { t } = useTranslation({ SoftwareFormStep1 });
+    const { t: tCommon } = useTranslation({ App: null });
 
     const {
         handleSubmit,
@@ -123,7 +124,7 @@ export function SoftwareFormStep1(props: Step1Props) {
                 <Checkbox
                     legend={t("checkbox legend")}
                     state={errors.osCheckboxValues !== undefined ? "error" : undefined}
-                    stateRelatedMessage={t("required")}
+                    stateRelatedMessage={tCommon("required")}
                     options={[
                         {
                             "label": "Windows",
@@ -165,5 +166,4 @@ export const { i18n } = declareComponentKeys<
     | "module"
     | "module hint"
     | "checkbox legend"
-    | "required"
 >()({ SoftwareFormStep1 });

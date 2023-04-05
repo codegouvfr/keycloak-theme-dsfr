@@ -8,7 +8,8 @@ import { shortEndMonthDate } from "ui/useMoment";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
-import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 export type Props = {
     className?: string;
@@ -53,6 +54,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ SoftwareCatalogCard });
+    const { t: tCommon } = useTranslation({ App: null });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
     const { lang } = useLang();
@@ -61,11 +63,14 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
             <div className={classes.cardBody}>
                 <div className={cx(classes.headerContainer)}>
-                    <img
-                        className={cx(classes.logo)}
-                        src={logoUrl}
-                        alt="Logo du logiciel"
-                    />
+                    <div className={classes.logoWrapper}>
+                        <img
+                            className={cx(classes.logo)}
+                            src={logoUrl ?? softwareLogoPlaceholder}
+                            alt="Logo du logiciel"
+                        />
+                    </div>
+
                     <div className={cx(classes.header)}>
                         <div className={cx(classes.titleContainer)}>
                             <h3 className={cx(classes.title)}>{softwareName}</h3>
@@ -91,36 +96,40 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                 )}
                             </div>
                         </div>
-                        {lastVersion && (
-                            <div>
-                                <p
+                        <div>
+                            <p
+                                className={cx(
+                                    fr.cx("fr-card__detail"),
+                                    classes.softwareVersionContainer
+                                )}
+                            >
+                                {t("last version")} :
+                                <span
                                     className={cx(
-                                        fr.cx("fr-card__detail"),
-                                        classes.softwareVersionContainer
+                                        fr.cx(
+                                            {
+                                                "fr-badge--no-icon":
+                                                    lastVersion?.semVer === undefined,
+                                                "fr-badge--yellow-tournesol":
+                                                    lastVersion?.semVer !== undefined
+                                            },
+                                            "fr-badge",
+                                            "fr-badge--sm"
+                                        ),
+                                        classes.badgeVersion
                                     )}
                                 >
-                                    {t("last version")} :
-                                    <span
-                                        className={cx(
-                                            fr.cx(
-                                                "fr-badge",
-                                                "fr-badge--yellow-tournesol",
-                                                "fr-badge--sm"
-                                            ),
-                                            classes.badgeVersion
-                                        )}
-                                    >
-                                        {lastVersion.semVer}
-                                    </span>
-                                    {t("last version date", {
+                                    {lastVersion?.semVer ?? tCommon("not provided")}
+                                </span>
+                                {lastVersion &&
+                                    t("last version date", {
                                         date: shortEndMonthDate({
                                             time: lastVersion.publicationTime,
                                             lang
                                         })
                                     })}
-                                </p>
-                            </div>
-                        )}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -130,7 +139,11 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         : "software.function"}
                 </p>
                 <DetailUsersAndReferents
-                    seeUserAndReferent={softwareUserAndReferent}
+                    seeUserAndReferent={
+                        referentCount > 0 || userCount > 0
+                            ? softwareUserAndReferent
+                            : undefined
+                    }
                     referentCount={referentCount}
                     userCount={userCount}
                     className={classes.detailUsersAndReferents}
@@ -147,9 +160,6 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     {t("declare oneself referent")}
                 </a>
                 <div className={cx(classes.footerActionsContainer)}>
-                    <a className={cx(classes.footerActionLink)} href={testUrl}>
-                        <i className={fr.cx("fr-icon-play-circle-line")} />
-                    </a>
                     <a className={cx(classes.footerActionLink)} {...softwareDetails}>
                         <i className={fr.cx("fr-icon-arrow-right-line")} />
                     </a>
@@ -189,14 +199,19 @@ const useStyles = makeStyles({
     "header": {
         "width": "100%"
     },
-    "logo": {
+    "logoWrapper": {
         "height": fr.spacing("10v"),
         "width": fr.spacing("10v"),
+        "minWidth": fr.spacing("10v"),
         "marginRight": fr.spacing("3v"),
+        "overflow": "hidden",
         [fr.breakpoints.down("md")]: {
             "height": fr.spacing("5v"),
             "width": fr.spacing("5v")
         }
+    },
+    "logo": {
+        "height": "100%"
     },
     "titleContainer": {
         "display": "flex",
@@ -229,8 +244,11 @@ const useStyles = makeStyles({
         "marginTop": 0,
         "marginBottom": fr.spacing("3v"),
         "color": theme.decisions.text.default.grey.default,
-        "height": fr.spacing("20v"),
-        "overflowY": "auto"
+        "overflow": "hidden",
+        "display": "-webkit-box",
+        "WebkitBoxOrient": "vertical",
+        "WebkitLineClamp": "3",
+        "whiteSpace": "pre-wrap"
     },
     "detailUsersAndReferents": {
         "order": 4,
@@ -256,7 +274,7 @@ const useStyles = makeStyles({
         "display": "flex",
         "marginLeft": fr.spacing("4v"),
         "flex": 1,
-        "justifyContent": "space-between",
+        "justifyContent": "flex-end",
         "color": theme.decisions.text.title.blueFrance.default,
         [fr.breakpoints.down("md")]: {
             "marginLeft": 0,

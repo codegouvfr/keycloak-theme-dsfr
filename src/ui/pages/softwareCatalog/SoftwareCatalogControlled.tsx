@@ -5,8 +5,8 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
-import { SoftwareCatalogCard } from "./SoftwareCatalogCard";
-import { Search } from "./Search";
+import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
+import { Search } from "ui/pages/softwareCatalog/Search";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
@@ -67,6 +67,7 @@ export type Props = {
     }[];
     prerogatives: SoftwareCatalogState.Prerogative[];
     onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
+    onResetFilters: () => void;
 };
 
 export const SoftwareCatalogControlled = memo((props: Props) => {
@@ -90,6 +91,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         prerogativesOptions,
         prerogatives,
         onPrerogativesChange,
+        onResetFilters,
         ...rest
     } = props;
 
@@ -146,6 +148,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                 prerogatives={prerogativesOptions}
                 onPrerogativesChange={onPrerogativesChange}
                 selectedPrerogatives={prerogatives}
+                onResetFilters={onResetFilters}
             />
             <div>
                 <div className={classes.header}>
@@ -214,14 +217,14 @@ const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
     },
     "cardList": {
         "display": "grid",
-        "gridTemplateColumns": `repeat(3, 1fr)`,
+        "gridTemplateColumns": `repeat(3, minmax(0, 1fr))`,
         "columnGap": fr.spacing("4v"),
         "rowGap": fr.spacing("3v"),
         [fr.breakpoints.down("xl")]: {
-            "gridTemplateColumns": `repeat(2, 1fr)`
+            "gridTemplateColumns": `repeat(2, minmax(0, 1fr))`
         },
         [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, 1fr)`
+            "gridTemplateColumns": `repeat(1, minmax(0, 1fr))`
         }
     }
 });

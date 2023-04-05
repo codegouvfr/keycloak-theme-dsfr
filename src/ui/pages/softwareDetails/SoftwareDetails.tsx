@@ -6,16 +6,17 @@ import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { HeaderDetailCard } from "./HeaderDetailCard";
-import { PreviewTab } from "./PreviewTab";
-import { ReferencedInstancesTab } from "./ReferencedInstancesTab";
+import { HeaderDetailCard } from "ui/pages/softwareDetails/HeaderDetailCard";
+import { PreviewTab } from "ui/pages/softwareDetails/PreviewTab";
+import { ReferencedInstancesTab } from "ui/pages/softwareDetails/ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import { AlikeSoftwareTab } from "./AlikeSoftwareTab";
+import { AlikeSoftwareTab } from "ui/pages/softwareDetails/AlikeSoftwareTab";
 import { compact } from "lodash";
-import { ActionsFooter } from "../../shared/ActionsFooter";
-import { DetailUsersAndReferents } from "./DetailUsersAndReferents";
+import { ActionsFooter } from "ui/shared/ActionsFooter";
+import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
+import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 type Props = {
     className?: string;
@@ -41,7 +42,6 @@ export default function SoftwareDetails(props: Props) {
         return () => softwareDetails.clear();
     }, [route.params.name]);
 
-    //TODO: Add fallback if no software
     if (software === undefined) {
         return null;
     }
@@ -62,7 +62,7 @@ export default function SoftwareDetails(props: Props) {
                     className={classes.breadcrumb}
                 />
                 <HeaderDetailCard
-                    softwareLogoUrl={software.logoUrl}
+                    softwareLogoUrl={software.logoUrl ?? softwareLogoPlaceholder}
                     softwareName={software.softwareName}
                     authors={software.authors}
                     officialWebsite={software.officialWebsiteUrl}
@@ -129,26 +129,16 @@ export default function SoftwareDetails(props: Props) {
                 <DetailUsersAndReferents
                     className={cx(fr.cx("fr-text--lg"), classes.detailUsersAndReferents)}
                     seeUserAndReferent={
-                        routes.softwareUsersAndReferents({
-                            "name": software.softwareName
-                        }).link
+                        software.referentCount > 0 || software.userCount > 0
+                            ? routes.softwareUsersAndReferents({
+                                  "name": software.softwareName
+                              }).link
+                            : undefined
                     }
                     referentCount={software.referentCount ?? 0}
                     userCount={software.userCount ?? 0}
                 />
                 <div className={classes.buttons}>
-                    <Button
-                        iconId="ri-share-forward-line"
-                        linkProps={{
-                            "href": "",
-                            "onClick": () => {}
-                        }}
-                        priority="secondary"
-                        className={classes.shareSoftware}
-                    >
-                        {t("share software")}
-                    </Button>
-
                     <Button
                         priority="secondary"
                         linkProps={
@@ -185,12 +175,6 @@ const useStyles = makeStyles({
         "display": "flex",
         "alignItems": "center",
         "justifyContent": "end"
-    },
-    "shareSoftware": {
-        "marginRight": fr.spacing("4v"),
-        "&&::before": {
-            "--icon-size": fr.spacing("6v")
-        }
     },
     "detailUsersAndReferents": {
         color: theme.decisions.text.actionHigh.blueFrance.default

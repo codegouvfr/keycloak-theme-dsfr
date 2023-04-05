@@ -1,10 +1,10 @@
 import { FormEvent, useState, useTransition } from "react";
-import { selectors, useCoreState } from "../../../core";
-import { routes } from "../../routes";
+import { selectors, useCoreState } from "core";
+import { routes } from "ui/routes";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { fr } from "@codegouvfr/react-dsfr";
-import { AutocompleteInput } from "../../shared/AutocompleteInput";
-import { useTranslation } from "../../i18n";
+import { AutocompleteInput } from "ui/shared/AutocompleteInput";
+import { useTranslation } from "ui/i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { declareComponentKeys } from "i18nifty";
 import { Route } from "type-route";
@@ -307,7 +307,7 @@ export function SearchByProfile(props: Props) {
     );
 }
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles({ "name": { SearchByProfile } })(theme => ({
     "searchInputs": {
         "display": "grid",
         "gridTemplateColumns": "repeat(3, 1fr)",

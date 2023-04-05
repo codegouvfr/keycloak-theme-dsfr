@@ -4,7 +4,7 @@ import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { same } from "evt/tools/inDepth/same";
 import { useRerenderOnChange } from "powerhooks/tools/StatefulObservable/hooks/useRerenderOnChange";
-import { CircularProgressWrapper } from "./CircularProgressWrapper";
+import { CircularProgressWrapper } from "ui/shared/CircularProgressWrapper";
 
 export type SearchInputProps<T extends string | Record<string, unknown>> = {
     className?: string;

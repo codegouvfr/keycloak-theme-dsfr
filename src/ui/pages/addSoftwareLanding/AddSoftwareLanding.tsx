@@ -43,7 +43,7 @@ export default function AddSoftwareLanding(props: Props) {
     ];
 
     return (
-        <div className={cx(classes.root, className)}>
+        <div className={className}>
             <div className={classes.section}>
                 <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
                     <div>
@@ -98,7 +98,6 @@ export default function AddSoftwareLanding(props: Props) {
 }
 
 const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
-    "root": {},
     "section": {
         ...fr.spacing("padding", {
             "topBottom": "30v"
