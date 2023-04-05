@@ -251,7 +251,7 @@ const softwares = [
         ],
         "wikidataId": "Q25874683",
         "license": "AGPL-3.0-or-later",
-        "officialWebsiteUrl": "https://nextcloud.com/",
+        "officialWebsiteUrl": undefined,
         "softwareDescription":
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat, ex sit amet pretium blandit, tortor eros dapibus sem, ultricies tempor nunc magna in dolor. Curabitur non tincidunt ex. Nulla facilisi. Integer vestibulum ultricies risus eu blandit. Duis accumsan dolor sit amet arcu semper ultrices. Cras tincidunt commodo mauris quis iaculis. Morbi iaculis massa sit amet nunc porttitor malesuada. Sed venenatis congue dolor eu posuere. Praesent nec pulvinar massa. Ut id diam congue, elementum nulla in, varius mi.",
         "lastVersion": undefined,
@@ -278,7 +278,7 @@ const softwares = [
         "logoUrl": LogoLibreOffice,
         "softwareId": 1,
         "softwareName": "LibreOffice",
-        "codeRepositoryUrl": "https://git.libreoffice.org/core",
+        "codeRepositoryUrl": undefined,
         "authors": [
             {
                 "authorName": "TDF",

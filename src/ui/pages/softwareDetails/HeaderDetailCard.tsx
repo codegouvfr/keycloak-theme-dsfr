@@ -78,31 +78,35 @@ export const HeaderDetailCard = memo((props: Props) => {
                 </div>
             </div>
             <div className={classes.externalLinkButtons}>
-                <a
-                    href={officialWebsite}
-                    className={cx(
-                        fr.cx(
-                            "fr-icon-global-line",
+                {officialWebsite && (
+                    <a
+                        href={officialWebsite}
+                        className={cx(
+                            fr.cx(
+                                "fr-icon-global-line",
+                                "fr-btn",
+                                "fr-btn--secondary",
+                                "fr-btn--icon-left"
+                            ),
+                            classes.officialWebsiteButton
+                        )}
+                    >
+                        {t("website")}
+                    </a>
+                )}
+                {sourceCodeRepository && (
+                    <a
+                        href={sourceCodeRepository}
+                        className={fr.cx(
+                            "fr-icon-code-s-slash-line",
                             "fr-btn",
                             "fr-btn--secondary",
                             "fr-btn--icon-left"
-                        ),
-                        classes.officialWebsiteButton
-                    )}
-                >
-                    {t("website")}
-                </a>
-                <a
-                    href={sourceCodeRepository}
-                    className={fr.cx(
-                        "fr-icon-code-s-slash-line",
-                        "fr-btn",
-                        "fr-btn--secondary",
-                        "fr-btn--icon-left"
-                    )}
-                >
-                    {t("repository")}
-                </a>
+                        )}
+                    >
+                        {t("repository")}
+                    </a>
+                )}
             </div>
         </div>
     );
