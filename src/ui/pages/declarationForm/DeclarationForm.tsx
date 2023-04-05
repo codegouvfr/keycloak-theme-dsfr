@@ -8,9 +8,9 @@ import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
-import { DeclarationFormStep1 } from "./Step1";
-import { DeclarationFormStep2User } from "./Step2User";
-import { DeclarationFormStep2Referent } from "./Step2Referent";
+import { DeclarationFormStep1 } from "ui/pages/declarationForm/Step1";
+import { DeclarationFormStep2User } from "ui/pages/declarationForm/Step2User";
+import { DeclarationFormStep2Referent } from "ui/pages/declarationForm/Step2Referent";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -18,7 +18,7 @@ import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import { Stepper } from "@codegouvfr/react-dsfr/Stepper";
 import { useTranslation } from "ui/i18n";
 import { declareComponentKeys } from "i18nifty";
-import { ActionsFooter } from "../../shared/ActionsFooter";
+import { ActionsFooter } from "ui/shared/ActionsFooter";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
@@ -116,7 +116,6 @@ export default function DeclarationForm(props: Props) {
         </legend>
     );
 
-    //TODO: Add fallback if no software
     if (software === undefined) {
         return null;
     }
@@ -260,7 +259,7 @@ export default function DeclarationForm(props: Props) {
 const useStyles = makeStyles<{
     step: 1 | 2 | undefined;
     declarationType: "user" | "referent" | undefined;
-}>()((theme, { step, declarationType }) => ({
+}>({ "name": { DeclarationForm } })((theme, { step, declarationType }) => ({
     "step1": {
         "display": step !== 1 ? "none" : undefined
     },

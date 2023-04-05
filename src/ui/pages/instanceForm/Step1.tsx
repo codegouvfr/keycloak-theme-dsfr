@@ -9,7 +9,7 @@ import { SearchMultiInput } from "ui/shared/SearchMultiInput";
 import type { useCoreFunctions } from "core";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "ui/i18n";
 
 export type Step1Props = {
     className?: string;

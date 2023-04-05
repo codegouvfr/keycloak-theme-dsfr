@@ -65,7 +65,7 @@ export const { i18n } = declareComponentKeys<"no terms">()({
     Terms
 });
 
-export const useStyles = makeStyles()(() => ({
+export const useStyles = makeStyles({ "name": { Terms } })(() => ({
     "root": {
         "display": "flex",
         "justifyContent": "center"

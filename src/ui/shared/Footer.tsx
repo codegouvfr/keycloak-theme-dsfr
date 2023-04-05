@@ -5,7 +5,7 @@ import { useTranslation } from "ui/i18n";
 import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
-import { brandTop } from "./Header";
+import { brandTop } from "ui/shared/Header";
 
 export type Props = {
     className?: string;

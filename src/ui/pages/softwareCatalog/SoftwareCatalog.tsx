@@ -2,8 +2,10 @@ import { useEffect, useTransition, useMemo } from "react";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
-import { SoftwareCatalogControlled } from "./SoftwareCatalogControlled";
-import { Props as SoftwareCatalogControlledProps } from "./SoftwareCatalogControlled";
+import {
+    SoftwareCatalogControlled,
+    Props as SoftwareCatalogControlledProps
+} from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { PageRoute } from "./route";
 

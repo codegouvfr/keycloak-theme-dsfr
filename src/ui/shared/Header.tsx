@@ -61,15 +61,6 @@ export const Header = memo((props: Props) => {
                     },
                     "text": "Code Gouv"
                 },
-                /*
-                {
-                    "iconId": "fr-icon-play-circle-fill",
-                    "linkProps": {
-                        "href": "#"
-                    },
-                    "text": t("quick access test")
-                },
-                */
                 {
                     "iconId": "fr-icon-lock-line",
                     ...(userAuthenticationApi.isUserLoggedIn
@@ -150,7 +141,7 @@ export const Header = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles<{ isOnPageMyAccount: boolean }>()(
+const useStyles = makeStyles<{ isOnPageMyAccount: boolean }>({ "name": { Header } })(
     (theme, { isOnPageMyAccount }) => ({
         "myAccountButton": {
             "&&": {

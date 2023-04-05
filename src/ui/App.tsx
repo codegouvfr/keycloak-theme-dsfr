@@ -1,8 +1,8 @@
 import { useEffect, Suspense } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { useRoute } from "ui/routes";
-import { Header } from "./shared/Header";
-import { Footer } from "./shared/Footer";
+import { Header } from "ui/shared/Header";
+import { Footer } from "ui/shared/Footer";
 import { declareComponentKeys } from "i18nifty";
 import { useCoreFunctions } from "core";
 import { RouteProvider } from "ui/routes";

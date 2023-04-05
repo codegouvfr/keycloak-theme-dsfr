@@ -10,7 +10,7 @@ import Tile from "@codegouvfr/react-dsfr/Tile";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
-import { useCoreState, selectors } from "../../../core";
+import { useCoreState, selectors } from "core";
 //import { SearchByProfile } from "./SearchByProfile";
 import type { PageRoute } from "./route";
 
@@ -222,7 +222,7 @@ export default function Homepage(props: Props) {
     );
 }
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     "section": {
         ...fr.spacing("padding", {
             "topBottom": "30v"
