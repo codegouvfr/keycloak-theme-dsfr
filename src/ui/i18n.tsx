@@ -181,8 +181,7 @@ const {
                 "module": "Brick or technical modules",
                 "module hint": "For example proxies, HTTP servers or plugins",
                 "checkbox legend":
-                    "Operating system on which the software can be installed",
-                "required": "This field is required"
+                    "Operating system on which the software can be installed"
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Wikidata ID",
@@ -208,7 +207,7 @@ const {
                 "minimal version": "Minimum version",
                 "minimal version hint":
                     "Earliest version still acceptable to have in production",
-                "url or numeric id": "This field must be a URL or an ID number", //TODO: move to common keys,
+                "url or numeric id": "This field must be a URL or an ID number",
                 "autofill notice":
                     "This information will automatically populate other fields"
             },
@@ -552,8 +551,7 @@ const {
                 "module": "Brique ou modules techniques",
                 "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
                 "checkbox legend":
-                    "Système d'exploitation sur lequel le logiciel peut être installé",
-                "required": "Ce champs est required" //TODO: move to common keys
+                    "Système d'exploitation sur lequel le logiciel peut être installé"
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
@@ -580,7 +578,7 @@ const {
                 "minimal version hint":
                     "Version la plus ancienne encore acceptable d'avoir en production",
                 "url or numeric id":
-                    "Ce champs doit être une url ou un numéro d'identifiant", //TODO: move to common keys,
+                    "Ce champs doit être une url ou un numéro d'identifiant",
                 "autofill notice":
                     "Cette information remplira automatiquement d'autres champs"
             },

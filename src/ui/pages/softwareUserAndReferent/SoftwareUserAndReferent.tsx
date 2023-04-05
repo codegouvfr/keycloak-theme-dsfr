@@ -76,7 +76,6 @@ export default function SoftwareUserAndReferent(props: Props) {
         setActiveMenu(id);
     };
 
-    //TODO: Refacto when user and referent will be available in software data
     const contentItems = activeMenu === 0 ? users : referents;
 
     return (
