@@ -80,6 +80,8 @@ export const HeaderDetailCard = memo((props: Props) => {
             <div className={classes.externalLinkButtons}>
                 {officialWebsite && (
                     <a
+                        target="_blank"
+                        rel="noreferrer"
                         href={officialWebsite}
                         className={cx(
                             fr.cx(
@@ -96,6 +98,8 @@ export const HeaderDetailCard = memo((props: Props) => {
                 )}
                 {sourceCodeRepository && (
                     <a
+                        target="_blank"
+                        rel="noreferrer"
                         href={sourceCodeRepository}
                         className={fr.cx(
                             "fr-icon-code-s-slash-line",
