@@ -10,7 +10,7 @@
     </a>
     </br>
     <a href="https://etalab-2.gitbook.io/sill/">Documentation</a>
-    --
+    -
     <a href="https://sill-preprod.lab.sspcloud.fr">Pre prod</a>
 </p>
 
