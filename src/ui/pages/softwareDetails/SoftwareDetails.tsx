@@ -140,6 +140,15 @@ export default function SoftwareDetails(props: Props) {
                 />
                 <div className={classes.buttons}>
                     <Button
+                        linkProps={
+                            routes.softwareUpdateForm({
+                                "name": software.softwareName
+                            }).link
+                        }
+                    >
+                        {t("edit software")}
+                    </Button>
+                    <Button
                         priority="secondary"
                         linkProps={
                             routes.declarationForm({
@@ -205,4 +214,5 @@ export const { i18n } = declareComponentKeys<
     | "wikiData sheet"
     | "share software"
     | "declare referent"
+    | "edit software"
 >()({ SoftwareDetails });
