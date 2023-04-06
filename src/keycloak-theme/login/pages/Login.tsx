@@ -235,7 +235,6 @@ export default function Login(
                                                         label: msg("rememberMe"),
                                                         nativeInputProps: {
                                                             tabIndex: 3,
-                                                            id: "rememberMe",
                                                             name: "rememberMe",
                                                             ...(login.rememberMe
                                                                 ? {

@@ -40,7 +40,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
     const pageProps: Omit<PageProps<any, typeof i18n>, "kcContext"> = {
         i18n,
         Template,
-        "doUseDefaultCss": true,
+        "doUseDefaultCss": false,
         "classes": {
             "kcHtmlClass": classes.kcHtmlClass,
             "kcButtonPrimaryClass": cx(classes.kcButtonPrimaryClass, fr.cx("fr-btn")),
