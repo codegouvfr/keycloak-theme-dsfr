@@ -10,6 +10,7 @@ import type { Language } from "ui/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { contactEmail } from "ui/shared/contactEmail";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 
 type Props = {
     className?: string;
@@ -55,6 +56,19 @@ export const Header = memo((props: Props) => {
             }}
             quickAccessItems={[
                 {
+                    "buttonProps": {
+                        "aria-controls": "translate-select",
+                        "aria-expanded": false,
+                        "title": t("select language"),
+                        "className": fr.cx("fr-btn--tertiary", "fr-translate", "fr-nav")
+                    },
+                    "iconId": "fr-icon-translate-2",
+                    "text": (
+                        <LanguageSelector lang={i18nApi.lang} setLang={i18nApi.setLang} />
+                    )
+                },
+                headerFooterDisplayItem,
+                {
                     "iconId": "fr-icon-bank-fill",
                     "linkProps": {
                         "href": "https://code.gouv.fr/"
@@ -93,19 +107,7 @@ export const Header = memo((props: Props) => {
                               },
                               "text": t("quick access account")
                           } as const
-                      ]),
-                {
-                    "buttonProps": {
-                        "aria-controls": "translate-select",
-                        "aria-expanded": false,
-                        "title": t("select language"),
-                        "className": fr.cx("fr-btn--tertiary", "fr-translate", "fr-nav")
-                    },
-                    "iconId": "fr-icon-translate-2",
-                    "text": (
-                        <LanguageSelector lang={i18nApi.lang} setLang={i18nApi.setLang} />
-                    )
-                }
+                      ])
             ]}
             navigation={[
                 {
