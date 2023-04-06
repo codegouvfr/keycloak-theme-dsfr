@@ -50,6 +50,8 @@ export function UserProfileFormFields({
         >(undefined);
 
         useEffect(() => {
+            console.log({ sillApiUrl });
+
             const sillApi = createSillApi({
                 "getOidcAccessToken": () => undefined,
                 "url": sillApiUrl
@@ -87,10 +89,6 @@ export function UserProfileFormFields({
     return (
         <>
             {attributesWithPassword.map(attribute => {
-                console.group(attribute.displayName);
-                console.log(attribute);
-                console.groupEnd();
-
                 const { value, displayableErrors } =
                     fieldStateByAttributeName[attribute.name];
 
