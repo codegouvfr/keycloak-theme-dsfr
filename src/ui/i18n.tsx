@@ -317,7 +317,8 @@ const {
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
                 "wikiData sheet": "Open Wikidata sheet",
                 "share software": "Share the software",
-                "declare referent": "Declare yourself referent / user"
+                "declare referent": "Declare yourself referent / user",
+                "edit software": "Edit software"
             },
             "HeaderDetailCard": {
                 "authors": "Authors : ",
@@ -691,7 +692,8 @@ const {
                 "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
                 "wikiData sheet": "Consulter la fiche de Wikidata",
                 "share software": "Partager la fiche",
-                "declare referent": "Se déclarer référent / utilisateur"
+                "declare referent": "Se déclarer référent / utilisateur",
+                "edit software": "Éditer la fiche logiciel"
             },
             "HeaderDetailCard": {
                 "authors": "Auteurs : ",

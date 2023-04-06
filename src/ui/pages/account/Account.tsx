@@ -8,7 +8,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useCoreFunctions, useCoreState, selectors } from "core";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { z } from "zod";
-import { AutocompleteInput } from "ui/shared/AutocompleteInput";
+import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { CircularProgress } from "ui/shared/CircularProgress";
@@ -124,7 +124,7 @@ function AccountReady(props: { className?: string }) {
                 </Button>
             </div>
             <div>
-                <AutocompleteInput
+                <AutocompleteInputFree
                     className={"fr-input-group"}
                     options={allOrganizations}
                     value={organization.value}

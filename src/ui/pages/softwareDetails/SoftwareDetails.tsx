@@ -142,6 +142,15 @@ export default function SoftwareDetails(props: Props) {
                     <Button
                         priority="secondary"
                         linkProps={
+                            routes.softwareUpdateForm({
+                                "name": software.softwareName
+                            }).link
+                        }
+                    >
+                        {t("edit software")}
+                    </Button>
+                    <Button
+                        linkProps={
                             routes.declarationForm({
                                 "name": software.softwareName
                             }).link
@@ -174,7 +183,8 @@ const useStyles = makeStyles({
     "buttons": {
         "display": "flex",
         "alignItems": "center",
-        "justifyContent": "end"
+        "justifyContent": "end",
+        "gap": fr.spacing("4v")
     },
     "detailUsersAndReferents": {
         color: theme.decisions.text.actionHigh.blueFrance.default
@@ -205,4 +215,5 @@ export const { i18n } = declareComponentKeys<
     | "wikiData sheet"
     | "share software"
     | "declare referent"
+    | "edit software"
 >()({ SoftwareDetails });

@@ -1,4 +1,4 @@
-import React, { memo, ReactNode } from "react";
+import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -11,24 +11,54 @@ export type Props = {
 
 export const ActionsFooter = memo((props: Props) => {
     const { className, children, ...rest } = props;
-
     assert<Equals<typeof rest, {}>>();
 
-    const { classes, cx } = useStyles();
+    const [isSticky, setIsSticky] = useState(true);
+    const { classes, cx } = useStyles({ isSticky });
+    const ref = useRef<HTMLDivElement>(null);
+
+    const handleResize = () => {
+        if (ref.current) {
+            const bottomAnchorPosition =
+                window.innerHeight - ref.current.getBoundingClientRect().bottom;
+
+            if (bottomAnchorPosition === 0) {
+                setIsSticky(true);
+            }
+            if (bottomAnchorPosition > 0) {
+                setIsSticky(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleResize);
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("scroll", handleResize);
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [ref]);
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} ref={ref}>
             <div className={cx(fr.cx("fr-container"), className)}>{children}</div>
         </div>
     );
 });
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles<{ isSticky: boolean }>()((theme, { isSticky }) => ({
     "root": {
         "position": "sticky",
         "bottom": "0",
         "marginTop": fr.spacing("6v"),
-        "boxShadow": `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`,
+        "boxShadow": `${
+            isSticky
+                ? `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`
+                : `0 0 5px -5px ${theme.decisions.background.overlap.grey.active}`
+        }`,
+        "transition": "box-shadow 0.3s ease",
         ...fr.spacing("padding", {
             "top": "4v",
             "bottom": "6v"
