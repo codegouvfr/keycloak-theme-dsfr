@@ -1184,10 +1184,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.43.3":
-  version "0.43.3"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.43.3.tgz#6b68cc6a6848c10fe3f27bfb6274c39f42d15f7f"
-  integrity sha512-7++9BCTeJfYP67dCvzpWYSWWIM16JRepHYO2Kx9OcHM5g7aH8kV4ZAMnvmc244Hk+UMtE/tJOLEeH017QfjcSQ==
+"@codegouvfr/react-dsfr@^0.46.0":
+  version "0.46.0"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.46.0.tgz#75ba36e48fded94c7459d92477620c17ca9593ee"
+  integrity sha512-BPKdEWDGjoICF6MRKppf63V+9CZAjoDX7TVJtXwWSFi70KSHwhD8wNN/unAEcP3C9hoqIyhP5ymcD/pGzOeT6A==
   dependencies:
     tsafe "^1.6.0"
 
@@ -3232,6 +3232,18 @@
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
+
+"@tanstack/react-virtual@3.0.0-beta.39":
+  version "3.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.39.tgz#5356f63f5633e1da90ed9fb3d13b615bc730a1bb"
+  integrity sha512-odun31XKT4gQyJXw0ipsNmXL7AAO+mbg2omoxZyW+JJyqU5m1S3BeLpZQKMCv+Ek59mPGeGWPZXxaZd7TalnHg==
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.39"
+
+"@tanstack/virtual-core@3.0.0-beta.39":
+  version "3.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.39.tgz#f767c3a2abb76485e4eff2d471e5e714dc46c0b4"
+  integrity sha512-VZ1ESIo+PAPOsxqGzccFPWDD/gsJAViSTU6glhd5pLSMkYDsmtdklfYrE3bWLC3dsbLWI689yzpLgh436v26mQ==
 
 "@tootallnate/once@1":
   version "1.1.2"
