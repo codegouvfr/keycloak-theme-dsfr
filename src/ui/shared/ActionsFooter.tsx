@@ -58,7 +58,7 @@ const useStyles = makeStyles<{ isSticky: boolean }>()((theme, { isSticky }) => (
                 ? `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`
                 : `0 0 5px -5px ${theme.decisions.background.overlap.grey.active}`
         }`,
-        "transition": "all 0.125s ease-in-out",
+        "transition": "box-shadow 0.3s ease",
         ...fr.spacing("padding", {
             "top": "4v",
             "bottom": "6v"
