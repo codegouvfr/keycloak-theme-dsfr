@@ -140,6 +140,7 @@ export default function SoftwareDetails(props: Props) {
                 />
                 <div className={classes.buttons}>
                     <Button
+                        priority="secondary"
                         linkProps={
                             routes.softwareUpdateForm({
                                 "name": software.softwareName
@@ -149,7 +150,6 @@ export default function SoftwareDetails(props: Props) {
                         {t("edit software")}
                     </Button>
                     <Button
-                        priority="secondary"
                         linkProps={
                             routes.declarationForm({
                                 "name": software.softwareName
@@ -183,7 +183,8 @@ const useStyles = makeStyles({
     "buttons": {
         "display": "flex",
         "alignItems": "center",
-        "justifyContent": "end"
+        "justifyContent": "end",
+        "gap": fr.spacing("4v")
     },
     "detailUsersAndReferents": {
         color: theme.decisions.text.actionHigh.blueFrance.default
