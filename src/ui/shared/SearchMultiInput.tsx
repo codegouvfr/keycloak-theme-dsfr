@@ -143,6 +143,28 @@ export function SearchMultiInput<T extends string | Record<string, unknown>>(
                                                 (ref as any).current = element;
                                             }
                                         }),
+                                    "onKeyDown": (...args) => {
+                                        {
+                                            const [event] = args;
+
+                                            if (
+                                                event.key === "Backspace" &&
+                                                (event.target as { value?: unknown })
+                                                    ?.value === ""
+                                            ) {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                                return;
+                                            }
+                                        }
+
+                                        return (
+                                            params.inputProps.onKeyDown?.(...args) ??
+                                            dsfrInputProps.nativeInputProps?.onKeyDown?.(
+                                                ...args
+                                            )
+                                        );
+                                    },
                                     "onBlur": (...args) =>
                                         params.inputProps.onBlur?.(...args) ??
                                         dsfrInputProps.nativeInputProps?.onBlur?.(
