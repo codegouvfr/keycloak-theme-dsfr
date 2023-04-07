@@ -137,7 +137,9 @@ function NonMemoizedNonForwardedSelect<T extends SelectProps.Option[]>(
                             placeholder === undefined
                                 ? t("select an option")
                                 : placeholder,
-                        "selected": true,
+                        ...(nativeSelectProps?.value !== undefined
+                            ? undefined
+                            : { "selected": true }),
                         "value": "",
                         "disabled": true,
                         "hidden": true
