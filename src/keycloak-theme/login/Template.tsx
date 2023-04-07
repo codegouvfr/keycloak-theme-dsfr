@@ -12,6 +12,7 @@ import type { I18n } from "./i18n";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import Header from "@codegouvfr/react-dsfr/Header";
+import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
@@ -172,52 +173,18 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         )}
                     </header>
                     <div id="kc-content">
-                        <div id="kc-content-wrapper">
+                        <div id="kc-content-wrapper" className={classes.contentWrapper}>
                             {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
                             {displayMessage &&
                                 message !== undefined &&
                                 (message.type !== "warning" || !isAppInitiatedAction) && (
-                                    <div
-                                        className={clsx("alert", `alert-${message.type}`)}
-                                    >
-                                        {message.type === "success" && (
-                                            <span
-                                                className={getClassName(
-                                                    "kcFeedbackSuccessIcon"
-                                                )}
-                                            />
-                                        )}
-                                        {message.type === "warning" && (
-                                            <span
-                                                className={getClassName(
-                                                    "kcFeedbackWarningIcon"
-                                                )}
-                                            />
-                                        )}
-                                        {message.type === "error" && (
-                                            <span
-                                                className={getClassName(
-                                                    "kcFeedbackErrorIcon"
-                                                )}
-                                            />
-                                        )}
-                                        {message.type === "info" && (
-                                            <span
-                                                className={getClassName(
-                                                    "kcFeedbackInfoIcon"
-                                                )}
-                                            />
-                                        )}
-                                        <p
-                                            className={cx(
-                                                classes.feedback,
-                                                "kc-feedback-text"
-                                            )}
-                                            dangerouslySetInnerHTML={{
-                                                "__html": message.summary
-                                            }}
-                                        />
-                                    </div>
+                                    <Alert
+                                        closable
+                                        severity={message.type}
+                                        description={message.summary}
+                                        className={classes.feedback}
+                                        small
+                                    />
                                 )}
                             <div>{children}</div>
                             {auth !== undefined &&
@@ -304,6 +271,9 @@ const useStyles = makeStyles({
         "alignItems": "center"
     },
     "feedback": {
-        "textAlign": "center"
+        "marginBottom": fr.spacing("6v")
+    },
+    "contentWrapper": {
+        "width": "600px"
     }
 }));
