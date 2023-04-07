@@ -7,25 +7,13 @@ import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
 import { Search } from "ui/pages/softwareCatalog/Search";
-import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { routes } from "ui/routes";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
-
-const sortOptions = [
-    "added time",
-    "update time",
-    "last version publication date",
-    "user count",
-    "referent count",
-    "user count ASC",
-    "referent count ASC"
-] as const;
-
-assert<Equals<(typeof sortOptions)[number], SoftwareCatalogState.Sort>>();
+import { SelectNext } from "ui/shared/SelectNext";
 
 export type Props = {
     className?: string;
@@ -38,6 +26,7 @@ export type Props = {
     search: string;
     onSearchChange: (search: string) => void;
 
+    sortOptions: SoftwareCatalogState.Sort[];
     sort: SoftwareCatalogState.Sort | undefined;
     onSortChange: (sort: SoftwareCatalogState.Sort | undefined) => void;
 
@@ -80,6 +69,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
         linksBySoftwareName,
         search,
         onSearchChange,
+        sortOptions,
         sort,
         onSortChange,
         organizationOptions,
@@ -102,18 +92,6 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ SoftwareCatalogControlled });
-
-    const mappedSortOption: {
-        [key in SoftwareCatalogState.Sort]: string;
-    } = {
-        "added time": t("added time"),
-        "update time": t("update time"),
-        "referent count": t("referent count"),
-        "referent count ASC": t("referent count ASC"),
-        "user count": t("user count"),
-        "user count ASC": t("user count ASC"),
-        "last version publication date": t("last version publication date")
-    };
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
@@ -141,23 +119,37 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                             count: softwares.length
                         })}
                     </h6>
-                    <Select
+                    <SelectNext
                         label={t("sort by")}
-                        nativeSelectProps={{
-                            "onChange": event =>
-                                onSortChange(
-                                    event.currentTarget.value as SoftwareCatalogState.Sort
-                                ),
-                            "defaultValue": sort ?? ""
-                        }}
                         className={classes.sort}
-                    >
-                        {sortOptions.map(sort => (
-                            <option value={sort} key={sort}>
-                                {mappedSortOption[sort]}
-                            </option>
-                        ))}
-                    </Select>
+                        nativeSelectProps={{
+                            "value": sort,
+                            "onChange": event => onSortChange(event.target.value)
+                        }}
+                        options={sortOptions.map(value => ({
+                            value,
+                            "label": (() => {
+                                switch (value) {
+                                    case "added time":
+                                        return t("added time");
+                                    case "update time":
+                                        return t("update time");
+                                    case "referent count":
+                                        return t("referent count");
+                                    case "referent count ASC":
+                                        return t("referent count ASC");
+                                    case "user count":
+                                        return t("user count");
+                                    case "user count ASC":
+                                        return t("user count ASC");
+                                    case "last version publication date":
+                                        return t("last version publication date");
+                                    case "best match":
+                                        return t("best match");
+                                }
+                            })()
+                        }))}
+                    />
                 </div>
                 {softwares.length === 0 ? (
                     <h1>No software found</h1>
@@ -355,4 +347,5 @@ export const { i18n } = declareComponentKeys<
     | "user count ASC"
     | "last version publication date"
     | "no software found"
+    | "best match"
 >()({ SoftwareCatalogControlled });

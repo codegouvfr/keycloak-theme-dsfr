@@ -1,13 +1,14 @@
 import { useEffect, useTransition, useMemo } from "react";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
-import { selectors, useCoreState, useCoreFunctions } from "core";
+import { selectors, useCoreState, useCoreFunctions, useCoreEvts } from "core";
 import {
     SoftwareCatalogControlled,
     Props as SoftwareCatalogControlledProps
 } from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { PageRoute } from "./route";
+import { useEvt } from "evt/hooks";
 
 type Props = {
     className?: string;
@@ -31,6 +32,27 @@ export default function SoftwareCatalog(props: Props) {
     );
     const { prerogativeFilterOptions } = useCoreState(
         selectors.softwareCatalog.prerogativeFilterOptions
+    );
+
+    const { sortOptions } = useCoreState(selectors.softwareCatalog.sortOptions);
+
+    const { evtSoftwareCatalog } = useCoreEvts();
+
+    useEvt(
+        ctx => {
+            evtSoftwareCatalog.attach(
+                ({ action }) => action === "set set route params to best match",
+                ctx,
+                () =>
+                    routes
+                        .softwareCatalog({
+                            ...route.params,
+                            "sort": "best match"
+                        })
+                        .replace()
+            );
+        },
+        [evtSoftwareCatalog]
     );
 
     const linksBySoftwareName = useMemo(
@@ -205,6 +227,7 @@ export default function SoftwareCatalog(props: Props) {
             className={className}
             softwares={softwares}
             linksBySoftwareName={linksBySoftwareName}
+            sortOptions={sortOptions}
             sort={route.params.sort}
             onSortChange={onSortChange}
             search={route.params.search}

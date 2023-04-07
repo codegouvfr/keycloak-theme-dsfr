@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import type { ThunkAction, State as RootState } from "../core";
+import type { ThunkAction, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
@@ -13,11 +13,12 @@ import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
 import type { ApiTypes } from "@codegouvfr/sill";
+import type { Param0 } from "tsafe";
 
 export type State = {
     softwares: State.Software.Internal[];
     search: string;
-    sort: State.Sort | undefined;
+    sort: State.Sort;
     /** Used in organizations: E.g: DINUM */
     organization: string | undefined;
     /** E.g: JavaScript */
@@ -35,7 +36,8 @@ export namespace State {
         | "user count"
         | "referent count"
         | "user count ASC"
-        | "referent count ASC";
+        | "referent count ASC"
+        | "best match";
 
     export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
@@ -116,7 +118,7 @@ export const { reducer, actions } = createSlice({
             return {
                 softwares,
                 "search": "",
-                "sort": undefined,
+                "sort": "referent count",
                 "organization": undefined,
                 "category": undefined,
                 "environment": undefined,
@@ -128,6 +130,9 @@ export const { reducer, actions } = createSlice({
             const { key, value } = payload;
 
             (state as any)[key] = value;
+        },
+        "notifyShortShouldBeSetToBestMatch": () => {
+            // NOTE: Nothing, it's for createEvt
         },
         "filterReset": state => {
             state.prerogatives = [];
@@ -147,7 +152,12 @@ export const thunks = {
         ): ThunkAction<void> =>
         (...args) => {
             const [dispatch] = args;
+
             dispatch(actions.filterUpdated(params));
+
+            if (params.key === "search" && params.value !== "") {
+                dispatch(actions.notifyShortShouldBeSetToBestMatch());
+            }
         },
     "resetFilters":
         (): ThunkAction<void> =>
@@ -197,16 +207,31 @@ export const privateThunks = {
 };
 
 export const selectors = (() => {
-    const internalSoftwares = (rootState: RootState) =>
-        rootState.softwareCatalog.softwares;
-    const search = (rootState: RootState) => rootState.softwareCatalog.search;
-    const sort = (rootState: RootState) => rootState.softwareCatalog.sort;
-    const organization = (rootState: RootState) => rootState.softwareCatalog.organization;
-    const category = (rootState: RootState) => rootState.softwareCatalog.category;
-    const environment = (rootState: RootState) => rootState.softwareCatalog.environment;
-    const prerogatives = (rootState: RootState) => rootState.softwareCatalog.prerogatives;
-    const referentCount = (rootState: RootState) =>
-        rootState.softwareCatalog.referentCount;
+    const internalSoftwares = (rootState: RootState) => rootState[name].softwares;
+    const search = (rootState: RootState) => rootState[name].search;
+    const sort = (rootState: RootState) => rootState[name].sort;
+    const organization = (rootState: RootState) => rootState[name].organization;
+    const category = (rootState: RootState) => rootState[name].category;
+    const environment = (rootState: RootState) => rootState[name].environment;
+    const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
+    const referentCount = (rootState: RootState) => rootState[name].referentCount;
+
+    const sortOptions = createSelector(search, (search): State.Sort[] => {
+        const sorts = [
+            ...(search !== "" ? ["best match" as const] : []),
+            "referent count" as const,
+            "user count" as const,
+            "added time" as const,
+            "update time" as const,
+            "last version publication date" as const,
+            "user count ASC" as const,
+            "referent count ASC" as const
+        ];
+
+        assert<Equals<(typeof sorts)[number], State.Sort>>();
+
+        return sorts;
+    });
 
     const { filterBySearch } = (() => {
         const getFzf = memoize(
@@ -369,52 +394,56 @@ export const selectors = (() => {
                 });
             }
 
-            tmpSoftwares = [...tmpSoftwares].sort(
-                (() => {
-                    switch (sort ?? "last version publication date") {
-                        case "added time":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.addedTime,
-                                "order": "descending"
-                            });
-                        case "update time":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.updateTime,
-                                "order": "descending"
-                            });
-                        case "last version publication date":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software =>
-                                    software.lastVersion?.publicationTime ?? 0,
-                                "order": "descending",
-                                "tieBreaker": createCompareFn({
+            if (sort !== "best match") {
+                tmpSoftwares = [...tmpSoftwares].sort(
+                    (() => {
+                        switch (sort) {
+                            case "added time":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.addedTime,
+                                    "order": "descending"
+                                });
+                            case "update time":
+                                return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.updateTime,
                                     "order": "descending"
-                                })
-                            });
-                        case "referent count":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.referentCount,
-                                "order": "descending"
-                            });
-                        case "referent count ASC":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.referentCount,
-                                "order": "ascending"
-                            });
-                        case "user count":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.userCount,
-                                "order": "descending"
-                            });
-                        case "user count ASC":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.userCount,
-                                "order": "ascending"
-                            });
-                    }
-                })()
-            );
+                                });
+                            case undefined:
+                            case "last version publication date":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software =>
+                                        software.lastVersion?.publicationTime ?? 0,
+                                    "order": "descending",
+                                    "tieBreaker": createCompareFn({
+                                        "getWeight": software => software.updateTime,
+                                        "order": "descending"
+                                    })
+                                });
+                            case "referent count":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.referentCount,
+                                    "order": "descending"
+                                });
+                            case "referent count ASC":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.referentCount,
+                                    "order": "ascending"
+                                });
+                            case "user count":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.userCount,
+                                    "order": "descending"
+                                });
+                            case "user count ASC":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.userCount,
+                                    "order": "ascending"
+                                });
+                        }
+                        assert<Equals<typeof sort, never>>(false);
+                    })()
+                );
+            }
 
             return tmpSoftwares.map(internalSoftwareToExternalSoftware);
         }
@@ -741,7 +770,8 @@ export const selectors = (() => {
         organizationOptions,
         categoryOptions,
         environmentOptions,
-        prerogativeFilterOptions
+        prerogativeFilterOptions,
+        sortOptions
     };
 })();
 
@@ -924,3 +954,12 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
 
     return internalSoftwareToExternalSoftware(internalSoftware);
 }
+
+export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
+    return evtAction.pipe(action =>
+        action.sliceName === name &&
+        action.actionName === "notifyShortShouldBeSetToBestMatch"
+            ? [{ "action": "set set route params to best match" as const }]
+            : null
+    );
+};

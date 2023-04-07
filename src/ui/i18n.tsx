@@ -268,7 +268,8 @@ const {
                 "user count": "User count",
                 "user count ASC": "User count ASC",
                 "last version publication date": "Last publicated version",
-                "no software found": "No software found"
+                "no software found": "No software found",
+                "best match": "Best match"
             },
             "SoftwareCatalogCard": {
                 "last version": "Last version",
@@ -653,7 +654,8 @@ const {
                 "user count": "Nombre d'utilisateur",
                 "user count ASC": "Nombre d'utilisateur croissant",
                 "last version publication date": "Dernière version publiée",
-                "no software found": "Aucun logiciel trouvé"
+                "no software found": "Aucun logiciel trouvé",
+                "best match": "Résultats les plus pertinents"
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
