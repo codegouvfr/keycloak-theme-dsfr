@@ -10,6 +10,7 @@ import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
+import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -130,9 +131,11 @@ export default function Login(
                                                             classes.franceConnect
                                                         )}
                                                     >
-                                                        <button
+                                                        <a
+                                                            href={p.loginUrl}
                                                             className={fr.cx(
-                                                                "fr-connect"
+                                                                "fr-connect",
+                                                                "fr-btn"
                                                             )}
                                                         >
                                                             <span
@@ -149,7 +152,7 @@ export default function Login(
                                                             >
                                                                 France Connect
                                                             </span>
-                                                        </button>
+                                                        </a>
                                                         <p>
                                                             <a
                                                                 href="https://franceconnect.gouv.fr/"
@@ -211,15 +214,14 @@ export default function Login(
                                         />
                                     );
                                 })()}
-                                <Input
+                                <PasswordInput
+                                    label={msgStr("password")}
                                     nativeInputProps={{
                                         "tabIndex": 2,
                                         "id": "password",
                                         "name": "password",
-                                        "type": "password",
                                         "autoComplete": "off"
                                     }}
-                                    label={msgStr("password")}
                                 />
                                 <div
                                     className={cx(
@@ -297,7 +299,7 @@ const useStyles = makeStyles({
     "inputs": {
         "display": "flex",
         "flexDirection": "column",
-        "width": "50%"
+        "width": "100%"
     },
     "agentConnect": {
         "&&&": {
