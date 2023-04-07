@@ -112,18 +112,6 @@ export default function SoftwareCatalog(props: Props) {
         });
     }, [route.params.prerogatives]);
 
-    const onResetFilters = useConstCallback(() =>
-        startTransition(() =>
-            updateRouteParams({
-                ...route.params,
-                "organization": undefined,
-                "category": undefined,
-                "environment": undefined,
-                "prerogatives": []
-            }).replace()
-        )
-    );
-
     const linksBySoftwareName = useMemo(
         () =>
             Object.fromEntries(
@@ -188,7 +176,17 @@ export default function SoftwareCatalog(props: Props) {
                     updateRouteParams({ ...route.params, prerogatives }).replace()
                 )
             }
-            onResetFilters={onResetFilters}
+            onResetFilters={() =>
+                startTransition(() =>
+                    updateRouteParams({
+                        ...route.params,
+                        "organization": undefined,
+                        "category": undefined,
+                        "environment": undefined,
+                        "prerogatives": []
+                    }).replace()
+                )
+            }
         />
     );
 }
