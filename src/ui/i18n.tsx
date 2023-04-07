@@ -267,7 +267,8 @@ const {
                 "referent count ASC": "Referent count ASC",
                 "user count": "User count",
                 "user count ASC": "User count ASC",
-                "last version publication date": "Last publicated version"
+                "last version publication date": "Last publicated version",
+                "no software found": "No software found"
             },
             "SoftwareCatalogCard": {
                 "last version": "Last version",
@@ -651,7 +652,8 @@ const {
                 "referent count ASC": "Nombre de référent croissant",
                 "user count": "Nombre d'utilisateur",
                 "user count ASC": "Nombre d'utilisateur croissant",
-                "last version publication date": "Dernière version publiée"
+                "last version publication date": "Dernière version publiée",
+                "no software found": "Aucun logiciel trouvé"
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",

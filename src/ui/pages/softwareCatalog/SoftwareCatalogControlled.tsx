@@ -159,10 +159,14 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                         ))}
                     </Select>
                 </div>
-                <RowVirtualizerDynamicWindow
-                    softwares={softwares}
-                    linksBySoftwareName={linksBySoftwareName}
-                />
+                {softwares.length === 0 ? (
+                    <h1>No software found</h1>
+                ) : (
+                    <RowVirtualizerDynamicWindow
+                        softwares={softwares}
+                        linksBySoftwareName={linksBySoftwareName}
+                    />
+                )}
             </div>
         </div>
     );
@@ -350,4 +354,5 @@ export const { i18n } = declareComponentKeys<
     | "user count"
     | "user count ASC"
     | "last version publication date"
+    | "no software found"
 >()({ SoftwareCatalogControlled });
