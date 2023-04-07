@@ -87,10 +87,6 @@ export function UserProfileFormFields({
     return (
         <>
             {attributesWithPassword.map(attribute => {
-                console.group(attribute.displayName);
-                console.log(attribute);
-                console.groupEnd();
-
                 const { value, displayableErrors } =
                     fieldStateByAttributeName[attribute.name];
 

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { useRef, useLayoutEffect, useMemo, memo } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
@@ -11,6 +11,9 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { routes } from "ui/routes";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
+import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
 
 const sortOptions = [
     "added time",
@@ -100,25 +103,6 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ SoftwareCatalogControlled });
 
-    const catalogCards = softwares.map(software => {
-        const { softwareName } = software;
-
-        const { softwareDetails, declareUsageForm } = linksBySoftwareName[softwareName];
-        const softwareUserAndReferent: Link = routes.softwareUsersAndReferents({
-            name: softwareName
-        }).link;
-
-        return (
-            <SoftwareCatalogCard
-                key={softwareName}
-                {...software}
-                declareForm={declareUsageForm}
-                softwareDetails={softwareDetails}
-                softwareUserAndReferent={softwareUserAndReferent}
-            />
-        );
-    });
-
     const mappedSortOption: {
         [key in SoftwareCatalogState.Sort]: string;
     } = {
@@ -175,11 +159,153 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                         ))}
                     </Select>
                 </div>
-                <div className={classes.cardList}>{catalogCards}</div>
+                <RowVirtualizerDynamicWindow
+                    softwares={softwares}
+                    linksBySoftwareName={linksBySoftwareName}
+                />
             </div>
         </div>
     );
 });
+
+function RowVirtualizerDynamicWindow(props: {
+    softwares: SoftwareCatalogState.Software.External[];
+    linksBySoftwareName: Record<
+        string,
+        Record<"softwareDetails" | "declareUsageForm", Link>
+    >;
+}) {
+    const { softwares, linksBySoftwareName } = props;
+
+    const { columnCount } = (function useClosure() {
+        const { breakpointsValues } = useBreakpointsValues();
+
+        const { windowInnerWidth } = useWindowInnerSize();
+
+        const columnCount = (() => {
+            if (windowInnerWidth < breakpointsValues.md) {
+                return 1;
+            }
+
+            if (windowInnerWidth < breakpointsValues.xl) {
+                return 2;
+            }
+
+            return 3;
+        })();
+
+        return { columnCount };
+    })();
+
+    const softwaresGroupedByLine = useMemo(() => {
+        const groupedSoftwares: (SoftwareCatalogState.Software.External | undefined)[][] =
+            [];
+
+        for (let i = 0; i < softwares.length; i += columnCount) {
+            const row: SoftwareCatalogState.Software.External[] = [];
+
+            for (let j = 0; j < columnCount; j++) {
+                row.push(softwares[i + j]);
+            }
+
+            groupedSoftwares.push(row);
+        }
+
+        return groupedSoftwares;
+    }, [softwares, columnCount]);
+
+    const parentRef = useRef<HTMLDivElement>(null);
+
+    const parentOffsetRef = useRef(0);
+
+    useLayoutEffect(() => {
+        parentOffsetRef.current = parentRef.current?.offsetTop ?? 0;
+    }, []);
+
+    const virtualizer = useWindowVirtualizer({
+        "count": softwaresGroupedByLine.length,
+        "estimateSize": () => 250,
+        "scrollMargin": parentOffsetRef.current
+    });
+    const items = virtualizer.getVirtualItems();
+
+    const { css } = useStyles();
+
+    const gutter = fr.spacing("4v");
+
+    return (
+        <div ref={parentRef}>
+            <div
+                style={{
+                    "height": virtualizer.getTotalSize(),
+                    "position": "relative"
+                }}
+            >
+                <div
+                    style={{
+                        "position": "absolute",
+                        "top": 0,
+                        "left": 0,
+                        "width": "100%",
+                        "transform": `translateY(${
+                            items[0].start - virtualizer.options.scrollMargin
+                        }px)`
+                    }}
+                >
+                    {items.map(virtualRow => (
+                        <div
+                            key={virtualRow.key}
+                            data-index={virtualRow.index}
+                            ref={virtualizer.measureElement}
+                        >
+                            <div
+                                className={css({
+                                    "display": "flex",
+                                    "marginTop": gutter,
+                                    "& > *": {
+                                        "width": `calc(${
+                                            100 / columnCount
+                                        }% - 2*${gutter})`
+                                    },
+                                    "& > *:not(:first-child)": {
+                                        "marginLeft": gutter
+                                    }
+                                })}
+                            >
+                                {softwaresGroupedByLine[virtualRow.index].map(
+                                    (software, i) => {
+                                        if (software === undefined) {
+                                            return <div key={i} />;
+                                        }
+
+                                        const { softwareName } = software;
+
+                                        const { softwareDetails, declareUsageForm } =
+                                            linksBySoftwareName[softwareName];
+
+                                        return (
+                                            <SoftwareCatalogCard
+                                                key={softwareName}
+                                                declareForm={declareUsageForm}
+                                                softwareDetails={softwareDetails}
+                                                softwareUserAndReferent={
+                                                    routes.softwareUsersAndReferents({
+                                                        "name": softwareName
+                                                    }).link
+                                                }
+                                                {...software}
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
     "root": {
@@ -213,18 +339,6 @@ const useStyles = makeStyles({ "name": { SoftwareCatalogControlled } })({
         },
         [fr.breakpoints.down("md")]: {
             "marginTop": fr.spacing("4v")
-        }
-    },
-    "cardList": {
-        "display": "grid",
-        "gridTemplateColumns": `repeat(3, minmax(0, 1fr))`,
-        "columnGap": fr.spacing("4v"),
-        "rowGap": fr.spacing("3v"),
-        [fr.breakpoints.down("xl")]: {
-            "gridTemplateColumns": `repeat(2, minmax(0, 1fr))`
-        },
-        [fr.breakpoints.down("md")]: {
-            "gridTemplateColumns": `repeat(1, minmax(0, 1fr))`
         }
     }
 });

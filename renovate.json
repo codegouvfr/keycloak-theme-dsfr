@@ -15,6 +15,7 @@
             "packagePatterns": ["*"],
             "excludePackagePatterns": [
                 "@codegouvfr/sill",
+                "@codegouvfr/react-dsfr",
                 "minimal-polyfills",
                 "evt",
                 "i18nifty",
@@ -30,6 +31,7 @@
         {
             "packagePatterns": [
                 "@codegouvfr/sill",
+                "@codegouvfr/react-dsfr",
                 "minimal-polyfills",
                 "evt",
                 "i18nifty",

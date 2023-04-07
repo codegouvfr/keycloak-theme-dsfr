@@ -14,6 +14,7 @@ import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import Header from "@codegouvfr/react-dsfr/Header";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
+import { appLocationOrigin } from "keycloak-theme/login/valuesTransferredOverUrl";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -63,10 +64,16 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
                 return (
                     <Header
-                        brandTop="SILL"
+                        brandTop={
+                            <>
+                                République
+                                <br />
+                                Française
+                            </>
+                        }
                         serviceTitle={serviceTitle}
                         homeLinkProps={{
-                            "href": "https://sill.etalab.gouv.fr/",
+                            "href": appLocationOrigin,
                             "title": `${msgStr("home")} - ${serviceTitle}`
                         }}
                     />

@@ -3233,6 +3233,18 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@tanstack/react-virtual@3.0.0-beta.39":
+  version "3.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.39.tgz#5356f63f5633e1da90ed9fb3d13b615bc730a1bb"
+  integrity sha512-odun31XKT4gQyJXw0ipsNmXL7AAO+mbg2omoxZyW+JJyqU5m1S3BeLpZQKMCv+Ek59mPGeGWPZXxaZd7TalnHg==
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.39"
+
+"@tanstack/virtual-core@3.0.0-beta.39":
+  version "3.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.39.tgz#f767c3a2abb76485e4eff2d471e5e714dc46c0b4"
+  integrity sha512-VZ1ESIo+PAPOsxqGzccFPWDD/gsJAViSTU6glhd5pLSMkYDsmtdklfYrE3bWLC3dsbLWI689yzpLgh436v26mQ==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -3738,6 +3750,13 @@
   integrity sha512-6i0aC7jV6QzQB8ne1joVZ0eSFIstHsCrobmOtghM11yGlH0j43FKL2UhWdELkyps0zuf7qVTUVCCR+tgSlyLLw==
   dependencies:
     "@types/yargs-parser" "*"
+
+"@types/yazl@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/yazl/-/yazl-2.4.2.tgz#d5f8a4752261badbf1a36e8b49e042dc18ec84bc"
+  integrity sha512-T+9JH8O2guEjXNxqmybzQ92mJUh2oCwDDMSSimZSe1P+pceZiFROZLYmcbqkzV5EUwz6VwcKXCO2S2yUpra6XQ==
+  dependencies:
+    "@types/node" "*"
 
 "@typescript-eslint/eslint-plugin@^4.24.0":
   version "4.33.0"
@@ -10074,12 +10093,13 @@ keycloak-js@^18.0.0:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
 
-keycloakify@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-7.6.0.tgz#f1f14ba0a3861aaf0df062da525ad77e0df2eaa2"
-  integrity sha512-KMZ85nq1jJjjPSODFdaIsDzr905chlUC7Z6c7Ew1eHu13DxAcScW99SWa+5G5QKa4qo40KlDatvqPAI1ghXccw==
+keycloakify@^7.6.6:
+  version "7.6.6"
+  resolved "https://registry.yarnpkg.com/keycloakify/-/keycloakify-7.6.6.tgz#e44a586fa45893a8988db482e970536ebb5b633f"
+  integrity sha512-e5muv92OjrqofsPTAdHcFtbmX9EWmN1Ef/Y+cpfSrwZBJX/HE7OmhwK1pXtcrIT6+e4gW/dONOKVBVrxxS50Cg==
   dependencies:
     "@octokit/rest" "^18.12.0"
+    "@types/yazl" "^2.4.2"
     cheerio "^1.0.0-rc.5"
     cli-select "^1.1.2"
     evt "^2.4.18"
@@ -10091,6 +10111,7 @@ keycloakify@^7.6.0:
     rfc4648 "^1.5.2"
     tsafe "^1.6.0"
     yauzl "^2.10.0"
+    yazl "^2.5.1"
     zod "^3.17.10"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
@@ -16082,6 +16103,13 @@ yauzl@^2.10.0:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
+
+yazl@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/yazl/-/yazl-2.5.1.tgz#a3d65d3dd659a5b0937850e8609f22fffa2b5c35"
+  integrity sha512-phENi2PLiHnHb6QBVot+dJnaAZ0xosj7p3fWl+znIjBDlnMI2PsZCJZ306BPTFOaHf5qdDEI8x5qFrSOBN5vrw==
+  dependencies:
+    buffer-crc32 "~0.2.3"
 
 yn@3.1.1:
   version "3.1.1"
