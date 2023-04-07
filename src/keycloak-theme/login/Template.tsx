@@ -63,7 +63,13 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
                 return (
                     <Header
-                        brandTop="SILL"
+                        brandTop={
+                            <>
+                                République
+                                <br />
+                                Française
+                            </>
+                        }
                         serviceTitle={serviceTitle}
                         homeLinkProps={{
                             "href": appLocationOrigin,

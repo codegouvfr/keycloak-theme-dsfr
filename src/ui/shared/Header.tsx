@@ -126,17 +126,18 @@ export const Header = memo((props: Props) => {
                     "text": t("navigation add software")
                 },
                 {
+                    "isActive": routeName === routes.readme.name,
+                    "linkProps": routes.readme().link,
+                    "text": t("navigation about")
+                },
+                {
                     "linkProps": {
+                        "target": "_blank",
                         "href": `mailto:${contactEmail}?subject=${encodeURIComponent(
                             "Demande d'accompagnement"
                         )}`
                     },
                     "text": t("navigation support request")
-                },
-                {
-                    "isActive": routeName === routes.readme.name,
-                    "linkProps": routes.readme().link,
-                    "text": t("navigation about")
                 }
             ]}
         />
