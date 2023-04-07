@@ -2,10 +2,7 @@ import { useEffect, useTransition, useMemo } from "react";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions, useCoreEvts } from "core";
-import {
-    SoftwareCatalogControlled,
-    Props as SoftwareCatalogControlledProps
-} from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
+import { SoftwareCatalogControlled } from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { PageRoute } from "./route";
 import { useEvt } from "evt/hooks";
@@ -67,52 +64,6 @@ export default function SoftwareCatalog(props: Props) {
         );
     }
 
-    const linksBySoftwareName = useMemo(
-        () =>
-            Object.fromEntries(
-                softwares.map(({ softwareName }) => [
-                    softwareName,
-                    {
-                        "softwareDetails": routes.softwareDetails({
-                            "name": softwareName
-                        }).link,
-                        "declareUsageForm": routes.declarationForm({
-                            "name": softwareName
-                        }).link
-                    }
-                ])
-            ),
-        [softwares]
-    );
-
-    const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
-        sort =>
-            startTransition(() =>
-                updateRouteParams({
-                    ...route.params,
-                    sort
-                }).replace()
-            )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "sort",
-            "value": route.params.sort?.length ? route.params.sort : undefined
-        });
-    }, [route.params.sort]);
-
-    const onSearchChange = useConstCallback<
-        SoftwareCatalogControlledProps["onSearchChange"]
-    >(search =>
-        startTransition(() =>
-            updateRouteParams({
-                ...route.params,
-                search
-            }).replace()
-        )
-    );
-
     useDebounce(
         () =>
             softwareCatalog.updateFilter({
@@ -122,16 +73,12 @@ export default function SoftwareCatalog(props: Props) {
         [route.params.search]
     );
 
-    const onOrganizationChange = useConstCallback<
-        SoftwareCatalogControlledProps["onOrganizationChange"]
-    >(organization =>
-        startTransition(() =>
-            updateRouteParams({
-                ...route.params,
-                organization
-            }).replace()
-        )
-    );
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "sort",
+            "value": route.params.sort?.length ? route.params.sort : undefined
+        });
+    }, [route.params.sort]);
 
     useEffect(() => {
         softwareCatalog.updateFilter({
@@ -142,34 +89,12 @@ export default function SoftwareCatalog(props: Props) {
         });
     }, [route.params.organization]);
 
-    const onCategoryFilterChange = useConstCallback<
-        SoftwareCatalogControlledProps["onCategoryFilterChange"]
-    >(category =>
-        startTransition(() =>
-            updateRouteParams({
-                ...route.params,
-                category
-            }).replace()
-        )
-    );
-
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "category",
             "value": route.params.category?.length ? route.params.category : undefined
         });
     }, [route.params.category]);
-
-    const onEnvironmentChange = useConstCallback<
-        SoftwareCatalogControlledProps["onEnvironmentChange"]
-    >(environment =>
-        startTransition(() =>
-            updateRouteParams({
-                ...route.params,
-                environment
-            }).replace()
-        )
-    );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
@@ -179,19 +104,6 @@ export default function SoftwareCatalog(props: Props) {
                 : undefined
         });
     }, [route.params.environment]);
-
-    const onPrerogativesChange = useConstCallback<
-        SoftwareCatalogControlledProps["onPrerogativesChange"]
-    >(prerogatives =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    prerogatives
-                })
-                .replace()
-        )
-    );
 
     useEffect(() => {
         softwareCatalog.updateFilter({
@@ -212,6 +124,24 @@ export default function SoftwareCatalog(props: Props) {
         )
     );
 
+    const linksBySoftwareName = useMemo(
+        () =>
+            Object.fromEntries(
+                softwares.map(({ softwareName }) => [
+                    softwareName,
+                    {
+                        "softwareDetails": routes.softwareDetails({
+                            "name": softwareName
+                        }).link,
+                        "declareUsageForm": routes.declarationForm({
+                            "name": softwareName
+                        }).link
+                    }
+                ])
+            ),
+        [softwares]
+    );
+
     return (
         <SoftwareCatalogControlled
             className={className}
@@ -219,21 +149,45 @@ export default function SoftwareCatalog(props: Props) {
             linksBySoftwareName={linksBySoftwareName}
             sortOptions={sortOptions}
             sort={route.params.sort}
-            onSortChange={onSortChange}
+            onSortChange={sort =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, sort }).replace()
+                )
+            }
             search={route.params.search}
-            onSearchChange={onSearchChange}
+            onSearchChange={search =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, search }).replace()
+                )
+            }
             organizationOptions={organizationOptions}
             organization={route.params.organization}
-            onOrganizationChange={onOrganizationChange}
+            onOrganizationChange={organization =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, organization }).replace()
+                )
+            }
             categoryFilerOptions={categoryOptions}
             category={route.params.category}
-            onCategoryFilterChange={onCategoryFilterChange}
+            onCategoryFilterChange={category =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, category }).replace()
+                )
+            }
             environmentOptions={environmentOptions}
             environment={route.params.environment}
-            onEnvironmentChange={onEnvironmentChange}
+            onEnvironmentChange={environment =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, environment }).replace()
+                )
+            }
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
-            onPrerogativesChange={onPrerogativesChange}
+            onPrerogativesChange={prerogatives =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, prerogatives }).replace()
+                )
+            }
             onResetFilters={onResetFilters}
         />
     );

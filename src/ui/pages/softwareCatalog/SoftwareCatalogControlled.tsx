@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useMemo, memo } from "react";
+import { useRef, useLayoutEffect, useMemo } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
@@ -62,7 +62,7 @@ export type Props = {
     onResetFilters: () => void;
 };
 
-export const SoftwareCatalogControlled = memo((props: Props) => {
+export function SoftwareCatalogControlled(props: Props) {
     const {
         className,
         softwares,
@@ -162,7 +162,7 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
             </div>
         </div>
     );
-});
+}
 
 function RowVirtualizerDynamicWindow(props: {
     softwares: SoftwareCatalogState.Software.External[];
