@@ -26,6 +26,7 @@ export type State = {
     environment: State.Environment | undefined;
     referentCount: number | undefined;
     prerogatives: State.Prerogative[];
+    sortBackup: State.Sort;
 };
 
 export namespace State {
@@ -115,10 +116,13 @@ export const { reducer, actions } = createSlice({
         ) => {
             const { softwares } = payload;
 
+            const sort = "referent count";
+
             return {
                 softwares,
                 "search": "",
-                "sort": "referent count",
+                sort,
+                "sortBackup": sort,
                 "organization": undefined,
                 "category": undefined,
                 "environment": undefined,
@@ -131,8 +135,16 @@ export const { reducer, actions } = createSlice({
 
             (state as any)[key] = value;
         },
-        "notifyShortShouldBeSetToBestMatch": () => {
-            // NOTE: Nothing, it's for createEvt
+        // NOTE: This is first and foremost an action for evtAction
+        "notifyRequestChangeSort": (
+            state,
+            { payload }: PayloadAction<{ sort: State.Sort }>
+        ) => {
+            const { sort } = payload;
+
+            if (sort === "best match" && state.sort !== "best match") {
+                state.sortBackup = state.sort;
+            }
         },
         "filterReset": state => {
             state.prerogatives = [];
@@ -153,12 +165,26 @@ export const thunks = {
         (...args) => {
             const [dispatch, getState] = args;
 
-            if (
-                params.key === "search" &&
-                getState()[name].search === "" &&
-                params.value !== ""
-            ) {
-                dispatch(actions.notifyShortShouldBeSetToBestMatch());
+            if (params.key === "search") {
+                const { search: currentSearch, sortBackup } = getState()[name];
+
+                const newSearch = params.value;
+
+                if (currentSearch === "" && newSearch !== "") {
+                    dispatch(
+                        actions.notifyRequestChangeSort({
+                            "sort": "best match"
+                        })
+                    );
+                }
+
+                if (newSearch === "" && currentSearch !== "") {
+                    dispatch(
+                        actions.notifyRequestChangeSort({
+                            "sort": sortBackup
+                        })
+                    );
+                }
             }
 
             dispatch(actions.filterUpdated(params));
@@ -220,10 +246,9 @@ export const selectors = (() => {
     const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
     const referentCount = (rootState: RootState) => rootState[name].referentCount;
 
-    const sortOptions = createSelector(search, (): State.Sort[] => {
+    const sortOptions = createSelector(search, sort, (search, sort): State.Sort[] => {
         const sorts = [
-            //...(search !== "" ? ["best match" as const] : []),
-            "best match" as const,
+            ...(search !== "" || sort === "best match" ? ["best match" as const] : []),
             "referent count" as const,
             "user count" as const,
             "added time" as const,
@@ -962,9 +987,8 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
 
 export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
     return evtAction.pipe(action =>
-        action.sliceName === name &&
-        action.actionName === "notifyShortShouldBeSetToBestMatch"
-            ? [{ "action": "set set route params to best match" as const }]
+        action.sliceName === name && action.actionName === "notifyRequestChangeSort"
+            ? [{ "action": "change sort" as const, sort: action.payload.sort }]
             : null
     );
 };

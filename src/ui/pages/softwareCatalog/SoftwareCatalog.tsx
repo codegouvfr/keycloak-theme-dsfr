@@ -46,16 +46,14 @@ export default function SoftwareCatalog(props: Props) {
         useEvt(
             ctx => {
                 evtSoftwareCatalog.attach(
-                    ({ action }) => action === "set set route params to best match",
+                    ({ action }) => action === "change sort",
                     ctx,
-                    () =>
+                    ({ sort }) =>
                         startTransition(() => {
-                            console.log("set best match");
-
                             routes
                                 .softwareCatalog({
                                     ...getRoutParams(),
-                                    "sort": "best match"
+                                    sort
                                 })
                                 .replace();
                         })
