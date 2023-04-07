@@ -50,8 +50,6 @@ export function UserProfileFormFields({
         >(undefined);
 
         useEffect(() => {
-            console.log({ sillApiUrl });
-
             const sillApi = createSillApi({
                 "getOidcAccessToken": () => undefined,
                 "url": sillApiUrl
