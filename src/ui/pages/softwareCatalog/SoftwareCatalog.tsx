@@ -9,6 +9,7 @@ import {
 import { useConstCallback } from "powerhooks/useConstCallback";
 import type { PageRoute } from "./route";
 import { useEvt } from "evt/hooks";
+import { type Param0 } from "tsafe";
 
 type Props = {
     className?: string;
@@ -40,6 +41,11 @@ export default function SoftwareCatalog(props: Props) {
 
     const [, startTransition] = useTransition();
 
+    const updateRouteParams = useConstCallback(
+        (params: Param0<(typeof routes)["softwareCatalog"]>) =>
+            routes.softwareCatalog(params)
+    );
+
     {
         const getRoutParams = useConstCallback(() => route.params);
 
@@ -50,12 +56,10 @@ export default function SoftwareCatalog(props: Props) {
                     ctx,
                     ({ sort }) =>
                         startTransition(() => {
-                            routes
-                                .softwareCatalog({
-                                    ...getRoutParams(),
-                                    sort
-                                })
-                                .replace();
+                            updateRouteParams({
+                                ...getRoutParams(),
+                                sort
+                            }).replace();
                         })
                 );
             },
@@ -84,12 +88,10 @@ export default function SoftwareCatalog(props: Props) {
     const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
         sort =>
             startTransition(() =>
-                routes
-                    .softwareCatalog({
-                        ...route.params,
-                        sort
-                    })
-                    .replace()
+                updateRouteParams({
+                    ...route.params,
+                    sort
+                }).replace()
             )
     );
 
@@ -104,12 +106,10 @@ export default function SoftwareCatalog(props: Props) {
         SoftwareCatalogControlledProps["onSearchChange"]
     >(search =>
         startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    search
-                })
-                .replace()
+            updateRouteParams({
+                ...route.params,
+                search
+            }).replace()
         )
     );
 
@@ -126,12 +126,10 @@ export default function SoftwareCatalog(props: Props) {
         SoftwareCatalogControlledProps["onOrganizationChange"]
     >(organization =>
         startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    organization
-                })
-                .replace()
+            updateRouteParams({
+                ...route.params,
+                organization
+            }).replace()
         )
     );
 
@@ -148,12 +146,10 @@ export default function SoftwareCatalog(props: Props) {
         SoftwareCatalogControlledProps["onCategoryFilterChange"]
     >(category =>
         startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    category
-                })
-                .replace()
+            updateRouteParams({
+                ...route.params,
+                category
+            }).replace()
         )
     );
 
@@ -168,12 +164,10 @@ export default function SoftwareCatalog(props: Props) {
         SoftwareCatalogControlledProps["onEnvironmentChange"]
     >(environment =>
         startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    environment
-                })
-                .replace()
+            updateRouteParams({
+                ...route.params,
+                environment
+            }).replace()
         )
     );
 
@@ -206,27 +200,17 @@ export default function SoftwareCatalog(props: Props) {
         });
     }, [route.params.prerogatives]);
 
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "referentCount",
-            "value": route.params.referentCount
-        });
-    }, [route.params.referentCount]);
-
-    const onResetFilters = useConstCallback(() => {
-        softwareCatalog.resetFilters();
-        return startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    organization: undefined,
-                    category: undefined,
-                    environment: undefined,
-                    prerogatives: []
-                })
-                .replace()
-        );
-    });
+    const onResetFilters = useConstCallback(() =>
+        startTransition(() =>
+            updateRouteParams({
+                ...route.params,
+                "organization": undefined,
+                "category": undefined,
+                "environment": undefined,
+                "prerogatives": []
+            }).replace()
+        )
+    );
 
     return (
         <SoftwareCatalogControlled

@@ -356,8 +356,14 @@ const {
                 "alike software proprietary": "Alike proprietary software"
             },
             "DetailUsersAndReferents": {
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} users and ${referentCount} referents`
+                "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
+                    <>
+                        {userCount} users and{" "}
+                        <span style={{ "color": referentColor }}>
+                            {referentCount} referents
+                        </span>
+                    </>
+                )
             },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",
@@ -733,8 +739,14 @@ const {
                 "alike software proprietary": "Logiciels équivalents propriétaires"
             },
             "DetailUsersAndReferents": {
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} utilisateurs et ${referentCount} referents`
+                "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
+                    <>
+                        {userCount} utilisateurs et{" "}
+                        <span style={{ "color": referentColor }}>
+                            {referentCount} referents
+                        </span>
+                    </>
+                )
             },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",

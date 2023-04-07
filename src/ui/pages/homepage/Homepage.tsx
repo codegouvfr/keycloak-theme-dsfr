@@ -60,7 +60,7 @@ export default function Homepage(props: Props) {
             "title": t("waiting for referent"),
             "linkProps": routes.softwareCatalog({
                 ...route.params,
-                "referentCount": 0
+                "sort": "referent count ASC"
             }).link
         },
         {

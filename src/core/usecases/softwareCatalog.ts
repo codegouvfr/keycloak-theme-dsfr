@@ -24,7 +24,6 @@ export type State = {
     /** E.g: JavaScript */
     category: string | undefined;
     environment: State.Environment | undefined;
-    referentCount: number | undefined;
     prerogatives: State.Prerogative[];
     sortBackup: State.Sort;
 };
@@ -152,7 +151,6 @@ export const { reducer, actions } = createSlice({
             state.category = undefined;
             state.environment = undefined;
             state.prerogatives = [];
-            state.referentCount = undefined;
         }
     }
 });
@@ -188,12 +186,6 @@ export const thunks = {
             }
 
             dispatch(actions.filterUpdated(params));
-        },
-    "resetFilters":
-        (): ThunkAction<void> =>
-        (...args) => {
-            const [dispatch] = args;
-            dispatch(actions.filterReset());
         }
 };
 
@@ -244,7 +236,6 @@ export const selectors = (() => {
     const category = (rootState: RootState) => rootState[name].category;
     const environment = (rootState: RootState) => rootState[name].environment;
     const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
-    const referentCount = (rootState: RootState) => rootState[name].referentCount;
 
     const sortOptions = createSelector(search, sort, (search, sort): State.Sort[] => {
         const sorts = [
@@ -352,15 +343,6 @@ export const selectors = (() => {
         );
     }
 
-    function filterByReferentCount(params: {
-        softwares: State.Software.Internal[];
-        referentCount: State.referentCount;
-    }) {
-        const { softwares, referentCount } = params;
-
-        return softwares.filter(software => software.referentCount === referentCount);
-    }
-
     const softwares = createSelector(
         internalSoftwares,
         search,
@@ -369,7 +351,6 @@ export const selectors = (() => {
         category,
         environment,
         prerogatives,
-        referentCount,
         (
             internalSoftwares,
             search,
@@ -377,8 +358,7 @@ export const selectors = (() => {
             organization,
             category,
             environment,
-            prerogatives,
-            referentCount
+            prerogatives
         ) => {
             let tmpSoftwares = internalSoftwares;
 
@@ -414,13 +394,6 @@ export const selectors = (() => {
                 tmpSoftwares = filterByPrerogative({
                     "softwares": tmpSoftwares,
                     prerogative
-                });
-            }
-
-            if (referentCount !== undefined) {
-                tmpSoftwares = filterByReferentCount({
-                    "softwares": tmpSoftwares,
-                    referentCount
                 });
             }
 

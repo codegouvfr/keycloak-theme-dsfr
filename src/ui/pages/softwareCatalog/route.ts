@@ -10,6 +10,12 @@ import type { State } from "core/usecases/softwareCatalog";
 import { z } from "zod";
 import { assert, type Equals } from "tsafe";
 
+export const routeParamsDefault = {
+    "search": "",
+    "sort": "referent count",
+    "prerogatives": []
+};
+
 export const routeDefs = {
     "softwareCatalog": defineRoute(
         {
@@ -60,7 +66,6 @@ export const routeDefs = {
                 },
                 "stringify": value => value
             }),
-            "referentCount": param.query.optional.number,
             "prerogatives": param.query.optional
                 .ofType({
                     "parse": raw => {

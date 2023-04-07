@@ -149,7 +149,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     className={classes.detailUsersAndReferents}
                 />
             </div>
-            <div className={cx(classes.footer)}>
+            <div className={classes.footer}>
                 <a
                     className={cx(
                         fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
