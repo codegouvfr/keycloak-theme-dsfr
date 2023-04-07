@@ -31,9 +31,11 @@ type Props = {
 };
 
 export const brandTop = (
+    /* cSpell:disable */
     <>
         République <br /> Française
     </>
+    /* cSpell:enable */
 );
 
 export const Header = memo((props: Props) => {
@@ -116,12 +118,17 @@ export const Header = memo((props: Props) => {
                     "text": t("navigation welcome")
                 },
                 {
-                    "isActive": routeName === routes.softwareCatalog.name,
+                    "isActive":
+                        routeName === routes.softwareCatalog.name ||
+                        routeName === routes.softwareDetails.name,
                     "linkProps": routes.softwareCatalog().link,
                     "text": t("navigation catalog")
                 },
                 {
-                    "isActive": routeName === routes.addSoftwareLanding.name,
+                    "isActive":
+                        routeName === routes.addSoftwareLanding.name ||
+                        routeName === routes.softwareUpdateForm.name ||
+                        routeName === routes.softwareCreationForm.name,
                     "linkProps": routes.addSoftwareLanding().link,
                     "text": t("navigation add software")
                 },
@@ -133,9 +140,11 @@ export const Header = memo((props: Props) => {
                 {
                     "linkProps": {
                         "target": "_blank",
+                        /* cSpell:disable */
                         "href": `mailto:${contactEmail}?subject=${encodeURIComponent(
                             "Demande d'accompagnement"
                         )}`
+                        /* cSpell:enable */
                     },
                     "text": t("navigation support request")
                 }
