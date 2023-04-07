@@ -25,7 +25,7 @@ export const LanguageSelector = memo((props: Props) => {
 
     return (
         <>
-            <div>
+            <div className={classes.root}>
                 {" "}
                 <span className={classes.langShort}>{lang}</span>
                 <span className={fr.cx("fr-hidden-lg")}>
@@ -65,6 +65,9 @@ export const LanguageSelector = memo((props: Props) => {
 });
 
 const useStyles = makeStyles({ "name": { LanguageSelector } })(() => ({
+    "root": {
+        display: "inline-flex"
+    },
     "menuLanguage": {
         "right": 0
     },
