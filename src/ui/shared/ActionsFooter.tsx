@@ -41,6 +41,10 @@ export const ActionsFooter = memo((props: Props) => {
         };
     }, [ref]);
 
+    useEffect(() => {
+        handleResize();
+    }, []);
+
     return (
         <div className={classes.root} ref={ref}>
             <div className={cx(fr.cx("fr-container"), className)}>{children}</div>

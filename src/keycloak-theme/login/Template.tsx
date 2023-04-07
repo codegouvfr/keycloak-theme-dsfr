@@ -15,6 +15,7 @@ import Header from "@codegouvfr/react-dsfr/Header";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
 import { appLocationOrigin } from "keycloak-theme/login/valuesTransferredOverUrl";
+import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -42,6 +43,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { auth, url, message, isAppInitiatedAction } = kcContext;
 
+    const { breakpointsValues } = useBreakpointsValues();
+
     const { isReady } = usePrepareTemplate({
         "doFetchDefaultThemeResources": doUseDefaultCss,
         url,
@@ -51,7 +54,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         "bodyClassName": undefined
     });
 
-    const { classes, cx } = useStyles();
+    const { classes, cx } = useStyles({ contentWidth: breakpointsValues.sm });
 
     if (!isReady) {
         return null;
@@ -266,9 +269,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<{ contentWidth: number }>({
     "name": { Template }
-})(() => ({
+})((_theme, { contentWidth }) => ({
     "container": {
         "marginTop": fr.spacing("10v")
     },
@@ -281,6 +284,6 @@ const useStyles = makeStyles({
         "marginBottom": fr.spacing("6v")
     },
     "contentWrapper": {
-        "width": "600px"
+        "width": `${contentWidth}px`
     }
 }));
