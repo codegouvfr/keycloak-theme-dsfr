@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { SearchInput } from "ui/shared/SearchInput";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useForm, Controller } from "react-hook-form";
@@ -99,6 +99,8 @@ export function SoftwareFormStep2(props: Step2Props) {
         [evtActionSubmit, submitButtonElement]
     );
 
+    const wikidataInputId = useId();
+
     const { isAutocompleteInProgress } = (function useClosure() {
         const [isAutocompleteInProgress, setIsAutocompleteInProgress] = useState(false);
 
@@ -126,6 +128,15 @@ export function SoftwareFormStep2(props: Step2Props) {
 
                 if (!isActive) {
                     return;
+                }
+
+                {
+                    const [wikidataInputElement] =
+                        document.getElementsByClassName(wikidataInputId);
+
+                    assert(wikidataInputElement !== null);
+
+                    wikidataInputElement.scrollIntoView({ "behavior": "smooth" });
                 }
 
                 if (comptoirDuLibreId !== undefined) {
@@ -185,6 +196,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                 rules={{ "required": false }}
                 render={({ field }) => (
                     <SearchInput
+                        className={wikidataInputId}
                         debounceDelay={400}
                         getOptions={getWikidataOptions}
                         value={field.value}
