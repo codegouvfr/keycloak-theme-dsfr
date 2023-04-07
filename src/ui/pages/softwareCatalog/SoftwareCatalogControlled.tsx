@@ -27,8 +27,8 @@ export type Props = {
     onSearchChange: (search: string) => void;
 
     sortOptions: SoftwareCatalogState.Sort[];
-    sort: SoftwareCatalogState.Sort | undefined;
-    onSortChange: (sort: SoftwareCatalogState.Sort | undefined) => void;
+    sort: SoftwareCatalogState.Sort;
+    onSortChange: (sort: SoftwareCatalogState.Sort) => void;
 
     organizationOptions: {
         organization: string;

@@ -38,22 +38,32 @@ export default function SoftwareCatalog(props: Props) {
 
     const { evtSoftwareCatalog } = useCoreEvts();
 
-    useEvt(
-        ctx => {
-            evtSoftwareCatalog.attach(
-                ({ action }) => action === "set set route params to best match",
-                ctx,
-                () =>
-                    routes
-                        .softwareCatalog({
-                            ...route.params,
-                            "sort": "best match"
+    const [, startTransition] = useTransition();
+
+    {
+        const getRoutParams = useConstCallback(() => route.params);
+
+        useEvt(
+            ctx => {
+                evtSoftwareCatalog.attach(
+                    ({ action }) => action === "set set route params to best match",
+                    ctx,
+                    () =>
+                        startTransition(() => {
+                            console.log("set best match");
+
+                            routes
+                                .softwareCatalog({
+                                    ...getRoutParams(),
+                                    "sort": "best match"
+                                })
+                                .replace();
                         })
-                        .replace()
-            );
-        },
-        [evtSoftwareCatalog]
-    );
+                );
+            },
+            [evtSoftwareCatalog]
+        );
+    }
 
     const linksBySoftwareName = useMemo(
         () =>
@@ -72,8 +82,6 @@ export default function SoftwareCatalog(props: Props) {
             ),
         [softwares]
     );
-
-    const [, startTransition] = useTransition();
 
     const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
         sort =>

@@ -151,13 +151,17 @@ export const thunks = {
             params: UpdateFilterParams<K>
         ): ThunkAction<void> =>
         (...args) => {
-            const [dispatch] = args;
+            const [dispatch, getState] = args;
 
-            dispatch(actions.filterUpdated(params));
-
-            if (params.key === "search" && params.value !== "") {
+            if (
+                params.key === "search" &&
+                getState()[name].search === "" &&
+                params.value !== ""
+            ) {
                 dispatch(actions.notifyShortShouldBeSetToBestMatch());
             }
+
+            dispatch(actions.filterUpdated(params));
         },
     "resetFilters":
         (): ThunkAction<void> =>
@@ -216,9 +220,10 @@ export const selectors = (() => {
     const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
     const referentCount = (rootState: RootState) => rootState[name].referentCount;
 
-    const sortOptions = createSelector(search, (search): State.Sort[] => {
+    const sortOptions = createSelector(search, (): State.Sort[] => {
         const sorts = [
-            ...(search !== "" ? ["best match" as const] : []),
+            //...(search !== "" ? ["best match" as const] : []),
+            "best match" as const,
             "referent count" as const,
             "user count" as const,
             "added time" as const,
