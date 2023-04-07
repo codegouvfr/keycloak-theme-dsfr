@@ -232,7 +232,11 @@ export function SoftwareFormStep2(props: Step2Props) {
                                 "pattern": /^[0-9]{1,5}$|^http/
                             })
                         }}
-                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        state={
+                            errors.comptoirDuLibreIdInputValue !== undefined
+                                ? "error"
+                                : undefined
+                        }
                         stateRelatedMessage={t("url or numeric id")}
                     />
                 )}
@@ -269,7 +273,9 @@ export function SoftwareFormStep2(props: Step2Props) {
                         nativeInputProps={{
                             ...register("softwareDescription", { "required": true })
                         }}
-                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        state={
+                            errors.softwareDescription !== undefined ? "error" : undefined
+                        }
                         stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
@@ -288,7 +294,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                         nativeInputProps={{
                             ...register("softwareLicense", { "required": true })
                         }}
-                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        state={errors.softwareLicense !== undefined ? "error" : undefined}
                         stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
@@ -307,7 +313,11 @@ export function SoftwareFormStep2(props: Step2Props) {
                         nativeInputProps={{
                             ...register("softwareMinimalVersion", { "required": true })
                         }}
-                        state={errors.softwareName !== undefined ? "error" : undefined}
+                        state={
+                            errors.softwareMinimalVersion !== undefined
+                                ? "error"
+                                : undefined
+                        }
                         stateRelatedMessage={commonI18n.t("required")}
                     />
                 )}
