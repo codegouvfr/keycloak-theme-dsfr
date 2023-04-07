@@ -4,7 +4,7 @@ import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions, useCoreEvts } from "core";
 import { SoftwareCatalogControlled } from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import type { PageRoute } from "./route";
+import { type PageRoute } from "./route";
 import { useEvt } from "evt/hooks";
 import { type Param0 } from "tsafe";
 
@@ -38,9 +38,26 @@ export default function SoftwareCatalog(props: Props) {
 
     const [, startTransition] = useTransition();
 
+    //TODO: Submit an issue to type route, we shouldn't have to do this
+    // This function could be removed it would still work but the url would be
+    // less clean
     const updateRouteParams = useConstCallback(
-        (params: Param0<(typeof routes)["softwareCatalog"]>) =>
-            routes.softwareCatalog(params)
+        (params: Param0<(typeof routes)["softwareCatalog"]>) => {
+            if (params.search === "") {
+                delete params.search;
+            }
+
+            //TODO: Duplicated source of truth!
+            if (params.sort === "referent_count") {
+                delete params.sort;
+            }
+
+            if (params.prerogatives?.length === 0) {
+                delete params.prerogatives;
+            }
+
+            return routes.softwareCatalog(params);
+        }
     );
 
     {

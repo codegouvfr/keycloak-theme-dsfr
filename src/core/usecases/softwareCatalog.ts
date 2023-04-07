@@ -30,14 +30,14 @@ export type State = {
 
 export namespace State {
     export type Sort =
-        | "added time"
-        | "update time"
-        | "last version publication date"
-        | "user count"
-        | "referent count"
-        | "user count ASC"
-        | "referent count ASC"
-        | "best match";
+        | "added_time"
+        | "update_time"
+        | "last_version_publication_date"
+        | "user_count"
+        | "referent_count"
+        | "user_count_ASC"
+        | "referent_count_ASC"
+        | "best_match";
 
     export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
@@ -115,7 +115,7 @@ export const { reducer, actions } = createSlice({
         ) => {
             const { softwares } = payload;
 
-            const sort = "referent count";
+            const sort = "referent_count";
 
             return {
                 softwares,
@@ -141,7 +141,7 @@ export const { reducer, actions } = createSlice({
         ) => {
             const { sort } = payload;
 
-            if (sort === "best match" && state.sort !== "best match") {
+            if (sort === "best_match" && state.sort !== "best_match") {
                 state.sortBackup = state.sort;
             }
         },
@@ -171,7 +171,7 @@ export const thunks = {
                 if (currentSearch === "" && newSearch !== "") {
                     dispatch(
                         actions.notifyRequestChangeSort({
-                            "sort": "best match"
+                            "sort": "best_match"
                         })
                     );
                 }
@@ -239,14 +239,14 @@ export const selectors = (() => {
 
     const sortOptions = createSelector(search, sort, (search, sort): State.Sort[] => {
         const sorts = [
-            ...(search !== "" || sort === "best match" ? ["best match" as const] : []),
-            "referent count" as const,
-            "user count" as const,
-            "added time" as const,
-            "update time" as const,
-            "last version publication date" as const,
-            "user count ASC" as const,
-            "referent count ASC" as const
+            ...(search !== "" || sort === "best_match" ? ["best_match" as const] : []),
+            "referent_count" as const,
+            "user_count" as const,
+            "added_time" as const,
+            "update_time" as const,
+            "last_version_publication_date" as const,
+            "user_count_ASC" as const,
+            "referent_count_ASC" as const
         ];
 
         assert<Equals<(typeof sorts)[number], State.Sort>>();
@@ -397,22 +397,22 @@ export const selectors = (() => {
                 });
             }
 
-            if (sort !== "best match") {
+            if (sort !== "best_match") {
                 tmpSoftwares = [...tmpSoftwares].sort(
                     (() => {
                         switch (sort) {
-                            case "added time":
+                            case "added_time":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.addedTime,
                                     "order": "descending"
                                 });
-                            case "update time":
+                            case "update_time":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.updateTime,
                                     "order": "descending"
                                 });
                             case undefined:
-                            case "last version publication date":
+                            case "last_version_publication_date":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software =>
                                         software.lastVersion?.publicationTime ?? 0,
@@ -422,22 +422,22 @@ export const selectors = (() => {
                                         "order": "descending"
                                     })
                                 });
-                            case "referent count":
+                            case "referent_count":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.referentCount,
                                     "order": "descending"
                                 });
-                            case "referent count ASC":
+                            case "referent_count_ASC":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.referentCount,
                                     "order": "ascending"
                                 });
-                            case "user count":
+                            case "user_count":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.userCount,
                                     "order": "descending"
                                 });
-                            case "user count ASC":
+                            case "user_count_ASC":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.userCount,
                                     "order": "ascending"

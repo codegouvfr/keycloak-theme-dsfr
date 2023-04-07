@@ -10,12 +10,6 @@ import type { State } from "core/usecases/softwareCatalog";
 import { z } from "zod";
 import { assert, type Equals } from "tsafe";
 
-export const routeParamsDefault = {
-    "search": "",
-    "sort": "referent count",
-    "prerogatives": []
-};
-
 export const routeDefs = {
     "softwareCatalog": defineRoute(
         {
@@ -24,14 +18,14 @@ export const routeDefs = {
                 .ofType({
                     "parse": raw => {
                         const schema = z.union([
-                            z.literal("added time"),
-                            z.literal("update time"),
-                            z.literal("last version publication date"),
-                            z.literal("user count"),
-                            z.literal("referent count"),
-                            z.literal("user count ASC"),
-                            z.literal("referent count ASC"),
-                            z.literal("best match")
+                            z.literal("added_time"),
+                            z.literal("update_time"),
+                            z.literal("last_version_publication_date"),
+                            z.literal("user_count"),
+                            z.literal("referent_count"),
+                            z.literal("user_count_ASC"),
+                            z.literal("referent_count_ASC"),
+                            z.literal("best_match")
                         ]);
 
                         assert<
@@ -46,7 +40,7 @@ export const routeDefs = {
                     },
                     "stringify": value => value
                 })
-                .default("referent count"),
+                .default("referent_count"),
             "organization": param.query.optional.string,
             "category": param.query.optional.string,
             "environment": param.query.optional.ofType({

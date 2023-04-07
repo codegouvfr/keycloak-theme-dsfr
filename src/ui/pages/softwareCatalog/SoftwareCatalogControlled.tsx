@@ -130,22 +130,22 @@ export function SoftwareCatalogControlled(props: Props) {
                             value,
                             "label": (() => {
                                 switch (value) {
-                                    case "added time":
-                                        return t("added time");
-                                    case "update time":
-                                        return t("update time");
-                                    case "referent count":
-                                        return t("referent count");
-                                    case "referent count ASC":
-                                        return t("referent count ASC");
-                                    case "user count":
-                                        return t("user count");
-                                    case "user count ASC":
-                                        return t("user count ASC");
-                                    case "last version publication date":
-                                        return t("last version publication date");
-                                    case "best match":
-                                        return t("best match");
+                                    case "added_time":
+                                        return t("added_time");
+                                    case "update_time":
+                                        return t("update_time");
+                                    case "referent_count":
+                                        return t("referent_count");
+                                    case "referent_count_ASC":
+                                        return t("referent_count_ASC");
+                                    case "user_count":
+                                        return t("user_count");
+                                    case "user_count_ASC":
+                                        return t("user_count_ASC");
+                                    case "last_version_publication_date":
+                                        return t("last_version_publication_date");
+                                    case "best_match":
+                                        return t("best_match");
                                 }
                             })()
                         }))}
@@ -339,13 +339,13 @@ export const { i18n } = declareComponentKeys<
           P: { count: number };
       }
     | "sort by"
-    | "added time"
-    | "update time"
-    | "referent count"
-    | "referent count ASC"
-    | "user count"
-    | "user count ASC"
-    | "last version publication date"
+    | "added_time"
+    | "update_time"
+    | "referent_count"
+    | "referent_count_ASC"
+    | "user_count"
+    | "user_count_ASC"
+    | "last_version_publication_date"
     | "no software found"
-    | "best match"
+    | "best_match"
 >()({ SoftwareCatalogControlled });
