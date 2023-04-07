@@ -11,7 +11,8 @@ import { evtLang } from "ui/i18n";
 import {
     addSillApiUrlToQueryParams,
     addTermsOfServiceUrlToQueryParams,
-    addIsDarkToQueryParams
+    addIsDarkToQueryParams,
+    addAppLocationOriginToQueryParams
 } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
 import { pages, page404 } from "ui/pages";
@@ -24,17 +25,42 @@ import { CircularProgress } from "ui/shared/CircularProgress";
 
 let isDark: boolean;
 
-const apiUrl = process.env["REACT_APP_API_URL"] ?? "/api";
+const defaultApiUrl = `${window.location.origin}/api`;
+
+const apiUrl = (() => {
+    const envValue = process.env["REACT_APP_API_URL"];
+
+    if (envValue === "") {
+        //Mock mode
+        return "";
+    }
+
+    if (envValue === undefined) {
+        //Production mode
+        return defaultApiUrl;
+    }
+
+    //Development mode using local api
+    return envValue;
+})();
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServiceUrl }) =>
         [url]
             .map(injectGlobalStatesInSearchParams)
-            .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl }))
+            .map(url =>
+                addSillApiUrlToQueryParams({ url, "value": apiUrl || defaultApiUrl })
+            )
             .map(url => addIsDarkToQueryParams({ url, "value": isDark }))
             .map(url =>
                 addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl })
+            )
+            .map(url =>
+                addAppLocationOriginToQueryParams({
+                    url,
+                    "value": window.location.origin
+                })
             )[0],
     "getCurrentLang": () => evtLang.state
 });

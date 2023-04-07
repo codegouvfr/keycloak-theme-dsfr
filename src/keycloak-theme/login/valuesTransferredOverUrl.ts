@@ -108,6 +108,39 @@ export const { isDark, addIsDarkToQueryParams } = (() => {
     return out;
 })();
 
+export const { appLocationOrigin, addAppLocationOriginToQueryParams } = (() => {
+    const queryParamName = "appLocationOrigin";
+
+    type Type = string;
+
+    const value = (() => {
+        const unparsedValue = read({ queryParamName });
+
+        if (unparsedValue === undefined) {
+            return undefined;
+        }
+
+        return JSON.parse(unparsedValue) as Type;
+    })();
+
+    function addToUrlQueryParams(params: { url: string; value: Type }): string {
+        const { url, value } = params;
+
+        return addParamToUrl({
+            url,
+            "name": queryParamName,
+            "value": JSON.stringify(value)
+        }).newUrl;
+    }
+
+    const out = {
+        [queryParamName]: value ?? window.location.origin,
+        [`add${capitalize(queryParamName)}ToQueryParams` as const]: addToUrlQueryParams
+    } as const;
+
+    return out;
+})();
+
 function read(params: { queryParamName: string }): string | undefined {
     if (kcContext === undefined || process.env.NODE_ENV !== "production") {
         //NOTE: We do something only if we are really in Keycloak
