@@ -260,16 +260,10 @@ function RowVirtualizerDynamicWindow(props: {
                         >
                             <div
                                 className={css({
-                                    "display": "flex",
-                                    "marginTop": gutter,
-                                    "& > *": {
-                                        "width": `calc(${
-                                            100 / columnCount
-                                        }% - 2*${gutter})`
-                                    },
-                                    "& > *:not(:first-child)": {
-                                        "marginLeft": gutter
-                                    }
+                                    "display": "grid",
+                                    "gridTemplateColumns": `repeat(${columnCount}, 1fr)`,
+                                    "gridGap": gutter,
+                                    "marginTop": gutter
                                 })}
                             >
                                 {softwaresGroupedByLine[virtualRow.index].map(
