@@ -8,13 +8,13 @@ import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { useTranslation } from "ui/i18n";
 import { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
-import Environment = SoftwareCatalogState.Environment;
-import Prerogative = SoftwareCatalogState.Prerogative;
 import MenuItem from "@mui/material/MenuItem";
 import SelectMui from "@mui/material/Select";
 import { InputBase } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { SelectNext } from "ui/shared/SelectNext";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 
 export type Props = {
     className?: string;
@@ -184,26 +184,13 @@ export function Search(props: Props) {
                         }}
                         options={[
                             {
-                                "label": tCommon("allFeminine"),
+                                "label": tCommon("all"),
                                 "value": "" as const
                             },
                             ...environmentOptions.map(
                                 ({ environment, softwareCount }) => ({
                                     "value": environment,
-                                    "label": `${(() => {
-                                        switch (environment) {
-                                            case "browser":
-                                                return t("browser");
-                                            case "linux":
-                                                return t("linux");
-                                            case "mac":
-                                                return t("mac");
-                                            case "stack":
-                                                return t("stack");
-                                            case "windows":
-                                                return t("windows");
-                                        }
-                                    })()} (${softwareCount})`
+                                    "label": `${t(environment)} (${softwareCount})`
                                 })
                             )
                         ]}
@@ -214,40 +201,56 @@ export function Search(props: Props) {
                             {t("prerogativesLabel")}
                         </label>
                         <SelectMui
-                            labelId="prerogatives-label"
-                            id="prerogatives"
                             multiple
-                            value={prerogatives ?? []}
-                            onChange={event =>
-                                onPrerogativesChange(
-                                    (typeof event.target.value === "string"
-                                        ? event.target.value.split(",")
-                                        : event.target.value) as Prerogative[]
-                                )
-                            }
+                            displayEmpty={true}
+                            value={prerogatives}
+                            onChange={event => {
+                                const prerogatives = event.target.value;
+
+                                assert(typeof prerogatives !== "string");
+
+                                onPrerogativesChange(prerogatives);
+                            }}
                             className={cx(fr.cx("fr-select"), classes.multiSelect)}
                             input={<InputBase />}
+                            renderValue={prerogatives =>
+                                t("number of prerogatives selected", {
+                                    "count": prerogatives.length
+                                })
+                            }
+                            placeholder="Placeholder"
                         >
                             {prerogativesOptions.map(({ prerogative, softwareCount }) => (
-                                <MenuItem
-                                    key={prerogative}
-                                    value={prerogative}
-                                    disabled={softwareCount === 0}
-                                >
-                                    {(() => {
-                                        switch (prerogative) {
-                                            case "doRespectRgaa":
-                                                return t("doRespectRgaa");
-                                            case "isFromFrenchPublicServices":
-                                                return t("isFromFrenchPublicServices");
-                                            case "isInstallableOnUserTerminal":
-                                                return t("isInstallableOnUserTerminal");
-                                            case "isTestable":
-                                                return t("isTestable");
-                                            case "isPresentInSupportContract":
-                                                return t("isPresentInSupportContract");
-                                        }
-                                    })()}
+                                <MenuItem key={prerogative} value={prerogative}>
+                                    <Checkbox
+                                        checked={prerogatives.indexOf(prerogative) !== -1}
+                                    />
+                                    <ListItemText
+                                        primary={(() => {
+                                            switch (prerogative) {
+                                                case "doRespectRgaa":
+                                                    return `${t(
+                                                        "doRespectRgaa"
+                                                    )} (${softwareCount})`;
+                                                case "isFromFrenchPublicServices":
+                                                    return `${t(
+                                                        "isFromFrenchPublicServices"
+                                                    )} (${softwareCount})`;
+                                                case "isInstallableOnUserTerminal":
+                                                    return `${t(
+                                                        "isInstallableOnUserTerminal"
+                                                    )} (${softwareCount})`;
+                                                case "isTestable":
+                                                    return `${t(
+                                                        "isTestable"
+                                                    )} (${softwareCount})`;
+                                                case "isPresentInSupportContract":
+                                                    return `${t(
+                                                        "isPresentInSupportContract"
+                                                    )} (${softwareCount})`;
+                                            }
+                                        })()}
+                                    />
                                 </MenuItem>
                             ))}
                         </SelectMui>
@@ -311,10 +314,10 @@ const useStyles = makeStyles({ "name": { Search } })(theme => ({
     "multiSelect": {
         "marginTop": fr.spacing("2v"),
         "paddingRight": 0,
-        "&&>.MuiInputBase-input": {
+        "& > .MuiInputBase-input": {
             "padding": 0
         },
-        "&&>.MuiSvgIcon-root": {
+        "& > .MuiSvgIcon-root": {
             "display": "none"
         }
     }
@@ -339,4 +342,8 @@ export const { i18n } = declareComponentKeys<
     | "windows"
     | "browser"
     | "stack"
+    | {
+          K: "number of prerogatives selected";
+          P: { count: number };
+      }
 >()({ Search });

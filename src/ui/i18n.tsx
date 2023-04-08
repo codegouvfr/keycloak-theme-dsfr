@@ -299,7 +299,9 @@ const {
                 "mac": "MacOS",
                 "windows": "Windows",
                 "browser": "Web browser",
-                "stack": "Library, Framework and other technical building blocks"
+                "stack": "Library, Framework and other technical building blocks",
+                "number of prerogatives selected": ({ count }) =>
+                    count === 0 ? "None" : `${count} selected`
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -690,7 +692,11 @@ const {
                 "windows": undefined,
                 "browser": "Navigateur internet (Ex: Jupiter Notebook)",
                 "stack":
-                    "Biblothèques, frameworks et autre briques techniques (Ex: Angular, Ngnix, etc.)"
+                    "Biblothèques, frameworks et autre briques techniques (Ex: Angular, Ngnix, etc.)",
+                "number of prerogatives selected": ({ count }) =>
+                    count === 0
+                        ? "Aucune"
+                        : `${count} sélectionnée${count === 1 ? "" : "s"}`
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
