@@ -152,7 +152,7 @@ export function SoftwareCatalogControlled(props: Props) {
                     />
                 </div>
                 {softwares.length === 0 ? (
-                    <h1>No software found</h1>
+                    <h1>{t("no software found")}</h1>
                 ) : (
                     <RowVirtualizerDynamicWindow
                         softwares={softwares}
