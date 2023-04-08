@@ -132,7 +132,7 @@ export function SearchByProfile(props: Props) {
                                 routes
                                     .softwareCatalog({
                                         ...route.params,
-                                        sort: "user count"
+                                        sort: "user_count"
                                     })
                                     .replace()
                             );
@@ -157,7 +157,7 @@ export function SearchByProfile(props: Props) {
                                 routes
                                     .softwareCatalog({
                                         ...route.params,
-                                        sort: "user count"
+                                        sort: "user_count"
                                     })
                                     .replace()
                             );
@@ -219,7 +219,7 @@ export function SearchByProfile(props: Props) {
                                 routes
                                     .softwareCatalog({
                                         ...route.params,
-                                        sort: "user count"
+                                        sort: "user_count"
                                     })
                                     .replace()
                             );

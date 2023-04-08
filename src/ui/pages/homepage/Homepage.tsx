@@ -35,14 +35,14 @@ export default function Homepage(props: Props) {
             "title": t("last added"),
             "linkProps": routes.softwareCatalog({
                 ...route.params,
-                "sort": "added time"
+                "sort": "added_time"
             }).link
         },
         {
             "title": t("most used"),
             "linkProps": routes.softwareCatalog({
                 ...route.params,
-                "sort": "user count"
+                "sort": "user_count"
             }).link
         },
         {
@@ -60,7 +60,7 @@ export default function Homepage(props: Props) {
             "title": t("waiting for referent"),
             "linkProps": routes.softwareCatalog({
                 ...route.params,
-                "referentCount": 0
+                "sort": "referent_count_ASC"
             }).link
         },
         {

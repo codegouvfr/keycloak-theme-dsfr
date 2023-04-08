@@ -13,14 +13,14 @@ export type Props = {
     userCount: number;
 };
 
-export const DetailUsersAndReferents = (props: Props) => {
+export function DetailUsersAndReferents(props: Props) {
     const { className, seeUserAndReferent, referentCount, userCount, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ DetailUsersAndReferents });
-    const { classes, cx } = useStyles();
+    const { classes, cx, theme } = useStyles();
 
     return (
         <a
@@ -30,14 +30,18 @@ export const DetailUsersAndReferents = (props: Props) => {
             <i className={cx(fr.cx("fr-icon-user-line"), classes.detailsUsersIcon)} />
             <span>
                 {t("userAndReferentCount", {
-                    referentCount: referentCount ?? 0,
-                    userCount: userCount ?? 0
+                    referentCount,
+                    userCount,
+                    "referentColor":
+                        referentCount !== 0
+                            ? undefined
+                            : theme.decisions.text.default.error.default
                 })}
             </span>
             <i className={cx(fr.cx("fr-icon-arrow-right-s-line"))} />
         </a>
     );
-};
+}
 
 const useStyles = makeStyles({
     "name": { DetailUsersAndReferents }
@@ -54,5 +58,6 @@ const useStyles = makeStyles({
 
 export const { i18n } = declareComponentKeys<{
     K: "userAndReferentCount";
-    P: { userCount: number; referentCount: number };
+    P: { userCount: number; referentCount: number; referentColor: string | undefined };
+    R: JSX.Element;
 }>()({ DetailUsersAndReferents });

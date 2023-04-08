@@ -1,13 +1,12 @@
 import { useEffect, useTransition, useMemo } from "react";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { routes } from "ui/routes";
-import { selectors, useCoreState, useCoreFunctions } from "core";
-import {
-    SoftwareCatalogControlled,
-    Props as SoftwareCatalogControlledProps
-} from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
+import { selectors, useCoreState, useCoreFunctions, useCoreEvts } from "core";
+import { SoftwareCatalogControlled } from "ui/pages/softwareCatalog/SoftwareCatalogControlled";
 import { useConstCallback } from "powerhooks/useConstCallback";
-import type { PageRoute } from "./route";
+import { type PageRoute } from "./route";
+import { useEvt } from "evt/hooks";
+import { type Param0 } from "tsafe";
 
 type Props = {
     className?: string;
@@ -33,6 +32,103 @@ export default function SoftwareCatalog(props: Props) {
         selectors.softwareCatalog.prerogativeFilterOptions
     );
 
+    const { sortOptions } = useCoreState(selectors.softwareCatalog.sortOptions);
+
+    const { evtSoftwareCatalog } = useCoreEvts();
+
+    const [, startTransition] = useTransition();
+
+    //TODO: Submit an issue to type route, we shouldn't have to do this
+    // This function could be removed it would still work but the url would be
+    // less clean
+    const updateRouteParams = useConstCallback(
+        (params: Param0<(typeof routes)["softwareCatalog"]>) => {
+            if (params.search === "") {
+                delete params.search;
+            }
+
+            //TODO: Duplicated source of truth!
+            if (params.sort === "referent_count") {
+                delete params.sort;
+            }
+
+            if (params.prerogatives?.length === 0) {
+                delete params.prerogatives;
+            }
+
+            return routes.softwareCatalog(params);
+        }
+    );
+
+    {
+        const getRoutParams = useConstCallback(() => route.params);
+
+        useEvt(
+            ctx => {
+                evtSoftwareCatalog.attach(
+                    ({ action }) => action === "change sort",
+                    ctx,
+                    ({ sort }) =>
+                        startTransition(() => {
+                            updateRouteParams({
+                                ...getRoutParams(),
+                                sort
+                            }).replace();
+                        })
+                );
+            },
+            [evtSoftwareCatalog]
+        );
+    }
+
+    useDebounce(
+        () =>
+            softwareCatalog.updateFilter({
+                "key": "search",
+                "value": route.params.search
+            }),
+        [route.params.search]
+    );
+
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "sort",
+            "value": route.params.sort?.length ? route.params.sort : undefined
+        });
+    }, [route.params.sort]);
+
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "organization",
+            "value": route.params.organization?.length
+                ? route.params.organization
+                : undefined
+        });
+    }, [route.params.organization]);
+
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "category",
+            "value": route.params.category?.length ? route.params.category : undefined
+        });
+    }, [route.params.category]);
+
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "environment",
+            "value": route.params.environment?.length
+                ? route.params.environment
+                : undefined
+        });
+    }, [route.params.environment]);
+
+    useEffect(() => {
+        softwareCatalog.updateFilter({
+            "key": "prerogatives",
+            "value": route.params.prerogatives
+        });
+    }, [route.params.prerogatives]);
+
     const linksBySoftwareName = useMemo(
         () =>
             Object.fromEntries(
@@ -51,177 +147,63 @@ export default function SoftwareCatalog(props: Props) {
         [softwares]
     );
 
-    const [, startTransition] = useTransition();
-
-    const onSortChange = useConstCallback<SoftwareCatalogControlledProps["onSortChange"]>(
-        sort =>
-            startTransition(() =>
-                routes
-                    .softwareCatalog({
-                        ...route.params,
-                        sort
-                    })
-                    .replace()
-            )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "sort",
-            "value": route.params.sort?.length ? route.params.sort : undefined
-        });
-    }, [route.params.sort]);
-
-    const onSearchChange = useConstCallback<
-        SoftwareCatalogControlledProps["onSearchChange"]
-    >(search =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    search
-                })
-                .replace()
-        )
-    );
-
-    useDebounce(
-        () =>
-            softwareCatalog.updateFilter({
-                "key": "search",
-                "value": route.params.search
-            }),
-        [route.params.search]
-    );
-
-    const onOrganizationChange = useConstCallback<
-        SoftwareCatalogControlledProps["onOrganizationChange"]
-    >(organization =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    organization
-                })
-                .replace()
-        )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "organization",
-            "value": route.params.organization?.length
-                ? route.params.organization
-                : undefined
-        });
-    }, [route.params.organization]);
-
-    const onCategoryFilterChange = useConstCallback<
-        SoftwareCatalogControlledProps["onCategoryFilterChange"]
-    >(category =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    category
-                })
-                .replace()
-        )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "category",
-            "value": route.params.category?.length ? route.params.category : undefined
-        });
-    }, [route.params.category]);
-
-    const onEnvironmentChange = useConstCallback<
-        SoftwareCatalogControlledProps["onEnvironmentChange"]
-    >(environment =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    environment
-                })
-                .replace()
-        )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "environment",
-            "value": route.params.environment?.length
-                ? route.params.environment
-                : undefined
-        });
-    }, [route.params.environment]);
-
-    const onPrerogativesChange = useConstCallback<
-        SoftwareCatalogControlledProps["onPrerogativesChange"]
-    >(prerogatives =>
-        startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    prerogatives
-                })
-                .replace()
-        )
-    );
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "prerogatives",
-            "value": route.params.prerogatives
-        });
-    }, [route.params.prerogatives]);
-
-    useEffect(() => {
-        softwareCatalog.updateFilter({
-            "key": "referentCount",
-            "value": route.params.referentCount
-        });
-    }, [route.params.referentCount]);
-
-    const onResetFilters = useConstCallback(() => {
-        softwareCatalog.resetFilters();
-        return startTransition(() =>
-            routes
-                .softwareCatalog({
-                    ...route.params,
-                    organization: undefined,
-                    category: undefined,
-                    environment: undefined,
-                    prerogatives: []
-                })
-                .replace()
-        );
-    });
-
     return (
         <SoftwareCatalogControlled
             className={className}
             softwares={softwares}
             linksBySoftwareName={linksBySoftwareName}
+            sortOptions={sortOptions}
             sort={route.params.sort}
-            onSortChange={onSortChange}
+            onSortChange={sort =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, sort }).replace()
+                )
+            }
             search={route.params.search}
-            onSearchChange={onSearchChange}
+            onSearchChange={search =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, search }).replace()
+                )
+            }
             organizationOptions={organizationOptions}
             organization={route.params.organization}
-            onOrganizationChange={onOrganizationChange}
+            onOrganizationChange={organization =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, organization }).replace()
+                )
+            }
             categoryFilerOptions={categoryOptions}
             category={route.params.category}
-            onCategoryFilterChange={onCategoryFilterChange}
+            onCategoryFilterChange={category =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, category }).replace()
+                )
+            }
             environmentOptions={environmentOptions}
             environment={route.params.environment}
-            onEnvironmentChange={onEnvironmentChange}
+            onEnvironmentChange={environment =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, environment }).replace()
+                )
+            }
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
-            onPrerogativesChange={onPrerogativesChange}
-            onResetFilters={onResetFilters}
+            onPrerogativesChange={prerogatives =>
+                startTransition(() =>
+                    updateRouteParams({ ...route.params, prerogatives }).replace()
+                )
+            }
+            onResetFilters={() =>
+                startTransition(() =>
+                    updateRouteParams({
+                        ...route.params,
+                        "organization": undefined,
+                        "category": undefined,
+                        "environment": undefined,
+                        "prerogatives": []
+                    }).replace()
+                )
+            }
         />
     );
 }

@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useMemo, memo } from "react";
+import { useRef, useLayoutEffect, useMemo } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
@@ -7,25 +7,13 @@ import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
 import { Search } from "ui/pages/softwareCatalog/Search";
-import { Select } from "@codegouvfr/react-dsfr/Select";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { routes } from "ui/routes";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
-
-const sortOptions = [
-    "added time",
-    "update time",
-    "last version publication date",
-    "user count",
-    "referent count",
-    "user count ASC",
-    "referent count ASC"
-] as const;
-
-assert<Equals<(typeof sortOptions)[number], SoftwareCatalogState.Sort>>();
+import { SelectNext } from "ui/shared/SelectNext";
 
 export type Props = {
     className?: string;
@@ -38,8 +26,9 @@ export type Props = {
     search: string;
     onSearchChange: (search: string) => void;
 
-    sort: SoftwareCatalogState.Sort | undefined;
-    onSortChange: (sort: SoftwareCatalogState.Sort | undefined) => void;
+    sortOptions: SoftwareCatalogState.Sort[];
+    sort: SoftwareCatalogState.Sort;
+    onSortChange: (sort: SoftwareCatalogState.Sort) => void;
 
     organizationOptions: {
         organization: string;
@@ -73,13 +62,14 @@ export type Props = {
     onResetFilters: () => void;
 };
 
-export const SoftwareCatalogControlled = memo((props: Props) => {
+export function SoftwareCatalogControlled(props: Props) {
     const {
         className,
         softwares,
         linksBySoftwareName,
         search,
         onSearchChange,
+        sortOptions,
         sort,
         onSortChange,
         organizationOptions,
@@ -102,18 +92,6 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ SoftwareCatalogControlled });
-
-    const mappedSortOption: {
-        [key in SoftwareCatalogState.Sort]: string;
-    } = {
-        "added time": t("added time"),
-        "update time": t("update time"),
-        "referent count": t("referent count"),
-        "referent count ASC": t("referent count ASC"),
-        "user count": t("user count"),
-        "user count ASC": t("user count ASC"),
-        "last version publication date": t("last version publication date")
-    };
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
@@ -141,32 +119,50 @@ export const SoftwareCatalogControlled = memo((props: Props) => {
                             count: softwares.length
                         })}
                     </h6>
-                    <Select
+                    <SelectNext
                         label={t("sort by")}
-                        nativeSelectProps={{
-                            "onChange": event =>
-                                onSortChange(
-                                    event.currentTarget.value as SoftwareCatalogState.Sort
-                                ),
-                            "defaultValue": sort ?? ""
-                        }}
                         className={classes.sort}
-                    >
-                        {sortOptions.map(sort => (
-                            <option value={sort} key={sort}>
-                                {mappedSortOption[sort]}
-                            </option>
-                        ))}
-                    </Select>
+                        nativeSelectProps={{
+                            "value": sort,
+                            "onChange": event => onSortChange(event.target.value)
+                        }}
+                        options={sortOptions.map(value => ({
+                            value,
+                            "label": (() => {
+                                switch (value) {
+                                    case "added_time":
+                                        return t("added_time");
+                                    case "update_time":
+                                        return t("update_time");
+                                    case "referent_count":
+                                        return t("referent_count");
+                                    case "referent_count_ASC":
+                                        return t("referent_count_ASC");
+                                    case "user_count":
+                                        return t("user_count");
+                                    case "user_count_ASC":
+                                        return t("user_count_ASC");
+                                    case "last_version_publication_date":
+                                        return t("last_version_publication_date");
+                                    case "best_match":
+                                        return t("best_match");
+                                }
+                            })()
+                        }))}
+                    />
                 </div>
-                <RowVirtualizerDynamicWindow
-                    softwares={softwares}
-                    linksBySoftwareName={linksBySoftwareName}
-                />
+                {softwares.length === 0 ? (
+                    <h1>{t("no software found")}</h1>
+                ) : (
+                    <RowVirtualizerDynamicWindow
+                        softwares={softwares}
+                        linksBySoftwareName={linksBySoftwareName}
+                    />
+                )}
             </div>
         </div>
     );
-});
+}
 
 function RowVirtualizerDynamicWindow(props: {
     softwares: SoftwareCatalogState.Software.External[];
@@ -343,11 +339,13 @@ export const { i18n } = declareComponentKeys<
           P: { count: number };
       }
     | "sort by"
-    | "added time"
-    | "update time"
-    | "referent count"
-    | "referent count ASC"
-    | "user count"
-    | "user count ASC"
-    | "last version publication date"
+    | "added_time"
+    | "update_time"
+    | "referent_count"
+    | "referent_count_ASC"
+    | "user_count"
+    | "user_count_ASC"
+    | "last_version_publication_date"
+    | "no software found"
+    | "best_match"
 >()({ SoftwareCatalogControlled });

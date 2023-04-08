@@ -261,13 +261,15 @@ const {
                 "search results": ({ count }) =>
                     `${count} free software${count === 1 ? "" : "s"}`,
                 "sort by": "Sort by",
-                "added time": "Last added",
-                "update time": "Last updated",
-                "referent count": "Referent count",
-                "referent count ASC": "Referent count ASC",
-                "user count": "User count",
-                "user count ASC": "User count ASC",
-                "last version publication date": "Last publicated version"
+                "added_time": "Last added",
+                "update_time": "Last updated",
+                "referent_count": "Referent count",
+                "referent_count_ASC": "Referent count ASC",
+                "user_count": "User count",
+                "user_count_ASC": "User count ASC",
+                "last_version_publication_date": "Last published version",
+                "no software found": "No software found",
+                "best_match": "Best match"
             },
             "SoftwareCatalogCard": {
                 "last version": "Last version",
@@ -354,8 +356,14 @@ const {
                 "alike software proprietary": "Alike proprietary software"
             },
             "DetailUsersAndReferents": {
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} users and ${referentCount} referents`
+                "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
+                    <>
+                        {userCount} users and{" "}
+                        <span style={{ "color": referentColor }}>
+                            {referentCount} referents
+                        </span>
+                    </>
+                )
             },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",
@@ -645,13 +653,15 @@ const {
                 "search results": ({ count }) =>
                     `${count} logiciel libre${count === 1 ? "" : "s"}`,
                 "sort by": "Trier par",
-                "added time": "Dernier ajouté",
-                "update time": "Dernier mis à jour",
-                "referent count": "Nombre de référent",
-                "referent count ASC": "Nombre de référent croissant",
-                "user count": "Nombre d'utilisateur",
-                "user count ASC": "Nombre d'utilisateur croissant",
-                "last version publication date": "Dernière version publiée"
+                "added_time": "Dernier ajouté",
+                "update_time": "Dernier mis à jour",
+                "referent_count": "Nombre de référent",
+                "referent_count_ASC": "Nombre de référent croissant",
+                "user_count": "Nombre d'utilisateur",
+                "user_count_ASC": "Nombre d'utilisateur croissant",
+                "last_version_publication_date": "Dernière version publiée",
+                "no software found": "Aucun logiciel trouvé",
+                "best_match": "Résultats les plus pertinents"
             },
             "Search": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
@@ -729,8 +739,14 @@ const {
                 "alike software proprietary": "Logiciels équivalents propriétaires"
             },
             "DetailUsersAndReferents": {
-                "userAndReferentCount": ({ userCount, referentCount }) =>
-                    `${userCount} utilisateurs et ${referentCount} referents`
+                "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
+                    <>
+                        {userCount} utilisateurs et{" "}
+                        <span style={{ "color": referentColor }}>
+                            {referentCount} referents
+                        </span>
+                    </>
+                )
             },
             "SoftwareUserAndReferent": {
                 "catalog breadcrumb": "Software catalog",

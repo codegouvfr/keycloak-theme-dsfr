@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import type { ThunkAction, State as RootState } from "../core";
+import type { ThunkAction, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
@@ -13,29 +13,31 @@ import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
 import type { ApiTypes } from "@codegouvfr/sill";
+import type { Param0 } from "tsafe";
 
 export type State = {
     softwares: State.Software.Internal[];
     search: string;
-    sort: State.Sort | undefined;
+    sort: State.Sort;
     /** Used in organizations: E.g: DINUM */
     organization: string | undefined;
     /** E.g: JavaScript */
     category: string | undefined;
     environment: State.Environment | undefined;
-    referentCount: number | undefined;
     prerogatives: State.Prerogative[];
+    sortBackup: State.Sort;
 };
 
 export namespace State {
     export type Sort =
-        | "added time"
-        | "update time"
-        | "last version publication date"
-        | "user count"
-        | "referent count"
-        | "user count ASC"
-        | "referent count ASC";
+        | "added_time"
+        | "update_time"
+        | "last_version_publication_date"
+        | "user_count"
+        | "referent_count"
+        | "user_count_ASC"
+        | "referent_count_ASC"
+        | "best_match";
 
     export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
@@ -113,10 +115,13 @@ export const { reducer, actions } = createSlice({
         ) => {
             const { softwares } = payload;
 
+            const sort = "referent_count";
+
             return {
                 softwares,
                 "search": "",
-                "sort": undefined,
+                sort,
+                "sortBackup": sort,
                 "organization": undefined,
                 "category": undefined,
                 "environment": undefined,
@@ -129,13 +134,23 @@ export const { reducer, actions } = createSlice({
 
             (state as any)[key] = value;
         },
+        // NOTE: This is first and foremost an action for evtAction
+        "notifyRequestChangeSort": (
+            state,
+            { payload }: PayloadAction<{ sort: State.Sort }>
+        ) => {
+            const { sort } = payload;
+
+            if (sort === "best_match" && state.sort !== "best_match") {
+                state.sortBackup = state.sort;
+            }
+        },
         "filterReset": state => {
             state.prerogatives = [];
             state.organization = undefined;
             state.category = undefined;
             state.environment = undefined;
             state.prerogatives = [];
-            state.referentCount = undefined;
         }
     }
 });
@@ -146,14 +161,31 @@ export const thunks = {
             params: UpdateFilterParams<K>
         ): ThunkAction<void> =>
         (...args) => {
-            const [dispatch] = args;
+            const [dispatch, getState] = args;
+
+            if (params.key === "search") {
+                const { search: currentSearch, sortBackup } = getState()[name];
+
+                const newSearch = params.value;
+
+                if (currentSearch === "" && newSearch !== "") {
+                    dispatch(
+                        actions.notifyRequestChangeSort({
+                            "sort": "best_match"
+                        })
+                    );
+                }
+
+                if (newSearch === "" && currentSearch !== "") {
+                    dispatch(
+                        actions.notifyRequestChangeSort({
+                            "sort": sortBackup
+                        })
+                    );
+                }
+            }
+
             dispatch(actions.filterUpdated(params));
-        },
-    "resetFilters":
-        (): ThunkAction<void> =>
-        (...args) => {
-            const [dispatch] = args;
-            dispatch(actions.filterReset());
         }
 };
 
@@ -197,16 +229,30 @@ export const privateThunks = {
 };
 
 export const selectors = (() => {
-    const internalSoftwares = (rootState: RootState) =>
-        rootState.softwareCatalog.softwares;
-    const search = (rootState: RootState) => rootState.softwareCatalog.search;
-    const sort = (rootState: RootState) => rootState.softwareCatalog.sort;
-    const organization = (rootState: RootState) => rootState.softwareCatalog.organization;
-    const category = (rootState: RootState) => rootState.softwareCatalog.category;
-    const environment = (rootState: RootState) => rootState.softwareCatalog.environment;
-    const prerogatives = (rootState: RootState) => rootState.softwareCatalog.prerogatives;
-    const referentCount = (rootState: RootState) =>
-        rootState.softwareCatalog.referentCount;
+    const internalSoftwares = (rootState: RootState) => rootState[name].softwares;
+    const search = (rootState: RootState) => rootState[name].search;
+    const sort = (rootState: RootState) => rootState[name].sort;
+    const organization = (rootState: RootState) => rootState[name].organization;
+    const category = (rootState: RootState) => rootState[name].category;
+    const environment = (rootState: RootState) => rootState[name].environment;
+    const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
+
+    const sortOptions = createSelector(search, sort, (search, sort): State.Sort[] => {
+        const sorts = [
+            ...(search !== "" || sort === "best_match" ? ["best_match" as const] : []),
+            "referent_count" as const,
+            "user_count" as const,
+            "added_time" as const,
+            "update_time" as const,
+            "last_version_publication_date" as const,
+            "user_count_ASC" as const,
+            "referent_count_ASC" as const
+        ];
+
+        assert<Equals<(typeof sorts)[number], State.Sort>>();
+
+        return sorts;
+    });
 
     const { filterBySearch } = (() => {
         const getFzf = memoize(
@@ -297,15 +343,6 @@ export const selectors = (() => {
         );
     }
 
-    function filterByReferentCount(params: {
-        softwares: State.Software.Internal[];
-        referentCount: State.referentCount;
-    }) {
-        const { softwares, referentCount } = params;
-
-        return softwares.filter(software => software.referentCount === referentCount);
-    }
-
     const softwares = createSelector(
         internalSoftwares,
         search,
@@ -314,7 +351,6 @@ export const selectors = (() => {
         category,
         environment,
         prerogatives,
-        referentCount,
         (
             internalSoftwares,
             search,
@@ -322,8 +358,7 @@ export const selectors = (() => {
             organization,
             category,
             environment,
-            prerogatives,
-            referentCount
+            prerogatives
         ) => {
             let tmpSoftwares = internalSoftwares;
 
@@ -362,59 +397,56 @@ export const selectors = (() => {
                 });
             }
 
-            if (referentCount !== undefined) {
-                tmpSoftwares = filterByReferentCount({
-                    "softwares": tmpSoftwares,
-                    referentCount
-                });
-            }
-
-            tmpSoftwares = [...tmpSoftwares].sort(
-                (() => {
-                    switch (sort ?? "last version publication date") {
-                        case "added time":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.addedTime,
-                                "order": "descending"
-                            });
-                        case "update time":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.updateTime,
-                                "order": "descending"
-                            });
-                        case "last version publication date":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software =>
-                                    software.lastVersion?.publicationTime ?? 0,
-                                "order": "descending",
-                                "tieBreaker": createCompareFn({
+            if (sort !== "best_match") {
+                tmpSoftwares = [...tmpSoftwares].sort(
+                    (() => {
+                        switch (sort) {
+                            case "added_time":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.addedTime,
+                                    "order": "descending"
+                                });
+                            case "update_time":
+                                return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.updateTime,
                                     "order": "descending"
-                                })
-                            });
-                        case "referent count":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.referentCount,
-                                "order": "descending"
-                            });
-                        case "referent count ASC":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.referentCount,
-                                "order": "ascending"
-                            });
-                        case "user count":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.userCount,
-                                "order": "descending"
-                            });
-                        case "user count ASC":
-                            return createCompareFn<State.Software.Internal>({
-                                "getWeight": software => software.userCount,
-                                "order": "ascending"
-                            });
-                    }
-                })()
-            );
+                                });
+                            case undefined:
+                            case "last_version_publication_date":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software =>
+                                        software.lastVersion?.publicationTime ?? 0,
+                                    "order": "descending",
+                                    "tieBreaker": createCompareFn({
+                                        "getWeight": software => software.updateTime,
+                                        "order": "descending"
+                                    })
+                                });
+                            case "referent_count":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.referentCount,
+                                    "order": "descending"
+                                });
+                            case "referent_count_ASC":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.referentCount,
+                                    "order": "ascending"
+                                });
+                            case "user_count":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.userCount,
+                                    "order": "descending"
+                                });
+                            case "user_count_ASC":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software => software.userCount,
+                                    "order": "ascending"
+                                });
+                        }
+                        assert<Equals<typeof sort, never>>(false);
+                    })()
+                );
+            }
 
             return tmpSoftwares.map(internalSoftwareToExternalSoftware);
         }
@@ -741,7 +773,8 @@ export const selectors = (() => {
         organizationOptions,
         categoryOptions,
         environmentOptions,
-        prerogativeFilterOptions
+        prerogativeFilterOptions,
+        sortOptions
     };
 })();
 
@@ -924,3 +957,11 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
 
     return internalSoftwareToExternalSoftware(internalSoftware);
 }
+
+export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
+    return evtAction.pipe(action =>
+        action.sliceName === name && action.actionName === "notifyRequestChangeSort"
+            ? [{ "action": "change sort" as const, sort: action.payload.sort }]
+            : null
+    );
+};
