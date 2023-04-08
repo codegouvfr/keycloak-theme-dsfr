@@ -84,14 +84,15 @@ export default function SoftwareUserAndReferent(props: Props) {
                 <Breadcrumb
                     segments={[
                         {
-                            linkProps: {
-                                href: "#"
+                            "linkProps": {
+                                ...routes.softwareCatalog().link
                             },
                             label: t("catalog breadcrumb")
                         },
                         {
-                            linkProps: {
-                                href: "#"
+                            "linkProps": {
+                                ...routes.softwareDetails({ name: software.softwareName })
+                                    .link
                             },
                             label: software.softwareName
                         }
