@@ -22,6 +22,7 @@ import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { CircularProgress } from "ui/shared/CircularProgress";
+import { GlobalStyles } from "@codegouvfr/react-dsfr/tss";
 
 let isDark: boolean;
 
@@ -67,11 +68,21 @@ const { CoreProvider } = createCoreProvider({
 
 export default function App() {
     return (
-        <CoreProvider fallback={<CircularProgress fullPage />}>
-            <RouteProvider>
-                <ContextualizedApp />
-            </RouteProvider>
-        </CoreProvider>
+        <>
+            <GlobalStyles
+                styles={{
+                    "html": {
+                        "overflow": "-moz-scrollbars-vertical",
+                        "overflowY": "scroll"
+                    }
+                }}
+            />
+            <CoreProvider fallback={<CircularProgress fullPage />}>
+                <RouteProvider>
+                    <ContextualizedApp />
+                </RouteProvider>
+            </CoreProvider>
+        </>
     );
 }
 
