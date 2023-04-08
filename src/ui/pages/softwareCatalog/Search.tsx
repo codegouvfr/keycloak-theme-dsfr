@@ -14,6 +14,7 @@ import Prerogative = SoftwareCatalogState.Prerogative;
 import MenuItem from "@mui/material/MenuItem";
 import SelectMui from "@mui/material/Select";
 import { InputBase } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 
 export type Props = {
     className?: string;
@@ -109,7 +110,14 @@ export function Search(props: Props) {
             <div className={cx("fr-collapse", classes.filters)} id="accordion-filters">
                 <div className={cx(classes.filtersWrapper)}>
                     <Select
-                        label={t("organizationLabel")}
+                        label={
+                            <>
+                                {t("organizationLabel")}{" "}
+                                <Tooltip title={t("organization filter hint")} arrow>
+                                    <i className={fr.cx("ri-question-line")} />
+                                </Tooltip>
+                            </>
+                        }
                         disabled={!organizations.length}
                         nativeSelectProps={{
                             "onChange": event => onOrganizationChange(event.target.value),
@@ -315,4 +323,5 @@ export const { i18n } = declareComponentKeys<
     | "isFromFrenchPublicServices"
     | "doRespectRgaa"
     | "isTestable"
+    | "organization filter hint"
 >()({ Search });

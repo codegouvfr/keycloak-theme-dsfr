@@ -281,18 +281,20 @@ const {
                 "isPresentInSupportMarket": "This software is present in support market"
             },
             "Search": {
-                "placeholder": "Rechercher un logiciel, un mot, une référence",
-                "filtersButton": "Filtres",
+                "placeholder": "Search a software, a word, a reference...",
+                "filtersButton": "Filters",
                 "organizationLabel": "Organization",
-                "categoriesLabel": "Catégories",
-                "contextLabel": "Contexte",
-                "prerogativesLabel": "Prérogatives",
+                "categoriesLabel": "Categories",
+                "contextLabel": "Context of use",
+                "prerogativesLabel": "Prerogatives",
                 "filters": "Filters",
                 "isInstallableOnUserTerminal": "Can be installed on user terminal",
                 "isFromFrenchPublicServices": "Is from French public services",
                 "doRespectRgaa": "Is compliant with RGAA rules",
                 "isPresentInSupportContract": "Is present in support contract",
-                "isTestable": "Is testable"
+                "isTestable": "Is testable",
+                "organization filter hint":
+                    "Only show software that have at least one referent from a given organization"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -668,14 +670,16 @@ const {
                 "filtersButton": "Filtres",
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
-                "contextLabel": "Contexte",
+                "contextLabel": "Contexte d'usage",
                 "prerogativesLabel": "Prérogatives",
                 "filters": "Filtres",
                 "isInstallableOnUserTerminal": "Installable sur un poste agent",
                 "isFromFrenchPublicServices": "Développé par le service public",
                 "doRespectRgaa": "Respecte les normes RGAA",
                 "isPresentInSupportContract": "Présent dans le marché de support",
-                "isTestable": "Est essayable"
+                "isTestable": "Est essayable",
+                "organization filter hint":
+                    "Afficher uniquement les logiciels aillant au mois référent dans une organisation donnée"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
