@@ -517,7 +517,7 @@ export const selectors = (() => {
                     organization,
                     softwareCount
                 }))
-                .sort((a, b) => a.softwareCount - b.softwareCount);
+                .sort((a, b) => b.softwareCount - a.softwareCount);
         }
     );
 
@@ -585,7 +585,7 @@ export const selectors = (() => {
                     category,
                     softwareCount
                 }))
-                .sort((a, b) => a.softwareCount - b.softwareCount);
+                .sort((a, b) => b.softwareCount - a.softwareCount);
         }
     );
 
@@ -686,7 +686,7 @@ export const selectors = (() => {
                     environment,
                     softwareCount
                 }))
-                .sort((a, b) => a.softwareCount - b.softwareCount);
+                .sort((a, b) => b.softwareCount - a.softwareCount);
         }
     );
 
