@@ -132,18 +132,22 @@ function NonMemoizedNonForwardedSelect<T extends SelectProps.Option[]>(
                 disabled={disabled}
             >
                 {[
-                    {
-                        "label":
-                            placeholder === undefined
-                                ? t("select an option")
-                                : placeholder,
-                        ...(nativeSelectProps?.value !== undefined
-                            ? undefined
-                            : { "selected": true }),
-                        "value": "",
-                        "disabled": true,
-                        "hidden": true
-                    },
+                    ...(options.map(o => o.value).indexOf("") !== -1
+                        ? []
+                        : [
+                              {
+                                  "label":
+                                      placeholder === undefined
+                                          ? t("select an option")
+                                          : placeholder,
+                                  ...(nativeSelectProps?.value !== undefined
+                                      ? undefined
+                                      : { "selected": true }),
+                                  "value": "",
+                                  "disabled": true,
+                                  "hidden": true
+                              }
+                          ]),
                     ...options
                 ].map((option, index) => (
                     <option {...option} key={`${option.value}-${index}`}>

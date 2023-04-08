@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { Select } from "@codegouvfr/react-dsfr/Select";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { useTranslation } from "ui/i18n";
@@ -15,44 +14,68 @@ import MenuItem from "@mui/material/MenuItem";
 import SelectMui from "@mui/material/Select";
 import { InputBase } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import { SelectNext } from "ui/shared/SelectNext";
 
 export type Props = {
     className?: string;
+
     search: string;
     onSearchChange: (search: string) => void;
-    organizations: { organization: string; softwareCount: number }[];
+
+    organizationOptions: {
+        organization: string;
+        softwareCount: number;
+    }[];
+    organization: string | undefined;
     onOrganizationChange: (organization: string | undefined) => void;
-    selectedOrganization: string | undefined;
-    categories: { category: string; softwareCount: number }[];
-    onCategoriesChange: (category: string | undefined) => void;
-    selectedCategories: string | undefined;
-    environments: { environment: Environment; softwareCount: number }[];
-    onEnvironmentsChange: (environmentsFilter: Environment | undefined) => void;
-    selectedEnvironment: string | undefined;
-    prerogatives: { prerogative: Prerogative; softwareCount: number }[];
-    onPrerogativesChange: (prerogatives: Prerogative[]) => void;
-    selectedPrerogatives: Prerogative[];
-    onResetFilters: () => void;
+
+    categoryOptions: {
+        category: string;
+        softwareCount: number;
+    }[];
+    category: string | undefined;
+    onCategoryChange: (category: string | undefined) => void;
+
+    environmentOptions: {
+        environment: SoftwareCatalogState.Environment;
+        softwareCount: number;
+    }[];
+    environment: SoftwareCatalogState.Environment | undefined;
+    onEnvironmentChange: (
+        environmentsFilter: SoftwareCatalogState.Environment | undefined
+    ) => void;
+
+    prerogativesOptions: {
+        prerogative: SoftwareCatalogState.Prerogative;
+        softwareCount: number;
+    }[];
+    prerogatives: SoftwareCatalogState.Prerogative[];
+    onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
 };
 
 export function Search(props: Props) {
     const {
         className,
+
         search,
         onSearchChange,
-        organizations,
+
+        organizationOptions,
+        organization,
         onOrganizationChange,
-        selectedOrganization,
-        categories,
-        onCategoriesChange,
-        selectedCategories,
-        environments,
-        onEnvironmentsChange,
-        selectedEnvironment,
+
+        categoryOptions,
+        category,
+        onCategoryChange,
+
+        environmentOptions,
+        environment,
+        onEnvironmentChange,
+
+        prerogativesOptions,
         prerogatives,
         onPrerogativesChange,
-        selectedPrerogatives,
-        onResetFilters,
+
         ...rest
     } = props;
 
@@ -62,26 +85,9 @@ export function Search(props: Props) {
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
     const { t } = useTranslation({ Search });
-    const { t: tCommon } = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": undefined });
 
     const { classes, cx } = useStyles();
-
-    const onClickFilters = () => {
-        if (areFiltersOpen) {
-            onResetFilters();
-        }
-        setAreFiltersOpen(!areFiltersOpen);
-    };
-
-    const mappedPrerogativesOption: {
-        [key in SoftwareCatalogState.Prerogative]: string;
-    } = {
-        "doRespectRgaa": t("doRespectRgaa"),
-        "isFromFrenchPublicServices": t("isFromFrenchPublicServices"),
-        "isInstallableOnUserTerminal": t("isInstallableOnUserTerminal"),
-        "isTestable": t("isTestable"),
-        "isPresentInSupportContract": t("isPresentInSupportContract")
-    };
 
     return (
         <div className={cx(fr.cx("fr-accordion"), classes.root)}>
@@ -100,7 +106,15 @@ export function Search(props: Props) {
                         areFiltersOpen ? "ri-arrow-up-s-fill" : "ri-arrow-down-s-fill"
                     }
                     iconPosition="right"
-                    onClick={onClickFilters}
+                    onClick={() => {
+                        if (areFiltersOpen) {
+                            onOrganizationChange(undefined);
+                            onCategoryChange(undefined);
+                            onEnvironmentChange(undefined);
+                            onPrerogativesChange([]);
+                        }
+                        setAreFiltersOpen(!areFiltersOpen);
+                    }}
                     aria-expanded="false"
                     aria-controls="accordion-filters"
                 >
@@ -109,7 +123,8 @@ export function Search(props: Props) {
             </div>
             <div className={cx("fr-collapse", classes.filters)} id="accordion-filters">
                 <div className={cx(classes.filtersWrapper)}>
-                    <Select
+                    <SelectNext
+                        className={classes.filterSelectGroup}
                         label={
                             <>
                                 {t("organizationLabel")}{" "}
@@ -118,87 +133,81 @@ export function Search(props: Props) {
                                 </Tooltip>
                             </>
                         }
-                        disabled={!organizations.length}
-                        nativeSelectProps={{
-                            "onChange": event => onOrganizationChange(event.target.value),
-                            "value": selectedOrganization ?? ""
-                        }}
-                        className={cx(classes.filterSelectGroup)}
-                    >
-                        {[undefined, ...organizations].map(organization => (
-                            <option
-                                value={organization?.organization ?? ""}
-                                key={organization?.organization ?? 0}
-                                disabled={organization?.softwareCount === 0}
-                            >
-                                {organization ? (
-                                    <>
-                                        {" "}
-                                        {organization.organization} (
-                                        {organization.softwareCount})
-                                    </>
-                                ) : (
-                                    tCommon("allFeminine")
-                                )}
-                            </option>
-                        ))}
-                    </Select>
-                    <Select
-                        label={t("categoriesLabel")}
-                        disabled={!categories.length}
-                        nativeSelectProps={{
-                            "onChange": event => onCategoriesChange(event.target.value),
-                            "value": selectedCategories ?? ""
-                        }}
-                        className={cx(classes.filterSelectGroup)}
-                    >
-                        {[undefined, ...categories].map(category => (
-                            <option
-                                value={category?.category ?? ""}
-                                key={category?.category ?? 0}
-                                disabled={category?.softwareCount === 0}
-                            >
-                                {category ? (
-                                    <>
-                                        {" "}
-                                        {category.category} ({category.softwareCount})
-                                    </>
-                                ) : (
-                                    tCommon("allFeminine")
-                                )}
-                            </option>
-                        ))}
-                    </Select>
-                    <Select
-                        label={t("contextLabel")}
-                        disabled={!environments.length}
                         nativeSelectProps={{
                             "onChange": event =>
-                                onEnvironmentsChange(
-                                    event.currentTarget.value as Environment
-                                ),
-                            "value": selectedEnvironment ?? ""
+                                onOrganizationChange(event.target.value || undefined),
+                            "value": organization ?? ""
                         }}
-                        className={cx(classes.filterSelectGroup)}
-                    >
-                        {[undefined, ...environments].map(environment => (
-                            <option
-                                value={environment?.environment ?? ""}
-                                key={environment?.environment ?? 0}
-                                disabled={environment?.softwareCount === 0}
-                            >
-                                {environment ? (
-                                    <>
-                                        {" "}
-                                        {environment.environment} (
-                                        {environment.softwareCount})
-                                    </>
-                                ) : (
-                                    tCommon("all")
-                                )}
-                            </option>
-                        ))}
-                    </Select>
+                        disabled={organizationOptions.length === 0}
+                        options={[
+                            {
+                                "label": tCommon("allFeminine"),
+                                "value": ""
+                            },
+                            ...organizationOptions.map(
+                                ({ organization, softwareCount }) => ({
+                                    "value": organization,
+                                    "label": `${organization} (${softwareCount})`
+                                })
+                            )
+                        ]}
+                    />
+
+                    <SelectNext
+                        className={classes.filterSelectGroup}
+                        label={t("categoriesLabel")}
+                        disabled={categoryOptions.length === 0}
+                        nativeSelectProps={{
+                            "onChange": event =>
+                                onCategoryChange(event.target.value || undefined),
+                            "value": category ?? ""
+                        }}
+                        options={[
+                            {
+                                "label": tCommon("allFeminine"),
+                                "value": ""
+                            },
+                            ...categoryOptions.map(({ category, softwareCount }) => ({
+                                "value": category,
+                                "label": `${category} (${softwareCount})`
+                            }))
+                        ]}
+                    />
+
+                    <SelectNext
+                        className={classes.filterSelectGroup}
+                        label={t("environnement label")}
+                        nativeSelectProps={{
+                            "onChange": event =>
+                                onEnvironmentChange(event.target.value || undefined),
+                            "value": environment ?? ""
+                        }}
+                        options={[
+                            {
+                                "label": tCommon("allFeminine"),
+                                "value": "" as const
+                            },
+                            ...environmentOptions.map(
+                                ({ environment, softwareCount }) => ({
+                                    "value": environment,
+                                    "label": `${(() => {
+                                        switch (environment) {
+                                            case "browser":
+                                                return t("browser");
+                                            case "linux":
+                                                return t("linux");
+                                            case "mac":
+                                                return t("mac");
+                                            case "stack":
+                                                return t("stack");
+                                            case "windows":
+                                                return t("windows");
+                                        }
+                                    })()} (${softwareCount})`
+                                })
+                            )
+                        ]}
+                    />
 
                     <div className={classes.filterSelectGroup}>
                         <label htmlFor="prerogatives-label">
@@ -208,7 +217,7 @@ export function Search(props: Props) {
                             labelId="prerogatives-label"
                             id="prerogatives"
                             multiple
-                            value={selectedPrerogatives ?? ""}
+                            value={prerogatives ?? []}
                             onChange={event =>
                                 onPrerogativesChange(
                                     (typeof event.target.value === "string"
@@ -219,25 +228,26 @@ export function Search(props: Props) {
                             className={cx(fr.cx("fr-select"), classes.multiSelect)}
                             input={<InputBase />}
                         >
-                            {prerogatives.map(prerogative => (
+                            {prerogativesOptions.map(({ prerogative, softwareCount }) => (
                                 <MenuItem
-                                    key={prerogative?.prerogative}
-                                    value={prerogative?.prerogative}
-                                    disabled={prerogative?.softwareCount === 0}
+                                    key={prerogative}
+                                    value={prerogative}
+                                    disabled={softwareCount === 0}
                                 >
-                                    {prerogative ? (
-                                        <>
-                                            {" "}
-                                            {
-                                                mappedPrerogativesOption[
-                                                    prerogative.prerogative
-                                                ]
-                                            }
-                                            ({prerogative.softwareCount})
-                                        </>
-                                    ) : (
-                                        tCommon("all")
-                                    )}
+                                    {(() => {
+                                        switch (prerogative) {
+                                            case "doRespectRgaa":
+                                                return t("doRespectRgaa");
+                                            case "isFromFrenchPublicServices":
+                                                return t("isFromFrenchPublicServices");
+                                            case "isInstallableOnUserTerminal":
+                                                return t("isInstallableOnUserTerminal");
+                                            case "isTestable":
+                                                return t("isTestable");
+                                            case "isPresentInSupportContract":
+                                                return t("isPresentInSupportContract");
+                                        }
+                                    })()}
                                 </MenuItem>
                             ))}
                         </SelectMui>
@@ -316,7 +326,7 @@ export const { i18n } = declareComponentKeys<
     | "filtersButton"
     | "organizationLabel"
     | "categoriesLabel"
-    | "contextLabel"
+    | "environnement label"
     | "prerogativesLabel"
     | "isInstallableOnUserTerminal"
     | "isPresentInSupportContract"
@@ -324,4 +334,9 @@ export const { i18n } = declareComponentKeys<
     | "doRespectRgaa"
     | "isTestable"
     | "organization filter hint"
+    | "linux"
+    | "mac"
+    | "windows"
+    | "browser"
+    | "stack"
 >()({ Search });

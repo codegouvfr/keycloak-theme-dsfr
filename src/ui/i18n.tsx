@@ -285,7 +285,7 @@ const {
                 "filtersButton": "Filters",
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Categories",
-                "contextLabel": "Context of use",
+                "environnement label": "Usage environnement ",
                 "prerogativesLabel": "Prerogatives",
                 "filters": "Filters",
                 "isInstallableOnUserTerminal": "Can be installed on user terminal",
@@ -294,7 +294,12 @@ const {
                 "isPresentInSupportContract": "Is present in support contract",
                 "isTestable": "Is testable",
                 "organization filter hint":
-                    "Only show software that have at least one referent from a given organization"
+                    "Only show software that have at least one referent from a given organization",
+                "linux": "GNU/Linux",
+                "mac": "MacOS",
+                "windows": "Windows",
+                "browser": "Web browser",
+                "stack": "Library, Framework and other technical building blocks"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -670,7 +675,7 @@ const {
                 "filtersButton": "Filtres",
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Catégories",
-                "contextLabel": "Contexte d'usage",
+                "environnement label": "Environement d'utilisation",
                 "prerogativesLabel": "Prérogatives",
                 "filters": "Filtres",
                 "isInstallableOnUserTerminal": "Installable sur un poste agent",
@@ -679,7 +684,13 @@ const {
                 "isPresentInSupportContract": "Présent dans le marché de support",
                 "isTestable": "Est essayable",
                 "organization filter hint":
-                    "Afficher uniquement les logiciels aillant au mois référent dans une organisation donnée"
+                    "Afficher uniquement les logiciels aillant au mois référent dans une organisation donnée",
+                "linux": undefined,
+                "mac": undefined,
+                "windows": undefined,
+                "browser": "Navigateur internet (Ex: Jupiter Notebook)",
+                "stack":
+                    "Biblothèques, frameworks et autre briques techniques (Ex: Angular, Ngnix, etc.)"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciel",

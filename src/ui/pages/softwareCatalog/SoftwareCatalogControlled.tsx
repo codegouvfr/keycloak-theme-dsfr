@@ -37,12 +37,12 @@ export type Props = {
     organization: string | undefined;
     onOrganizationChange: (organization: string | undefined) => void;
 
-    categoryFilerOptions: {
+    categoryOptions: {
         category: string;
         softwareCount: number;
     }[];
     category: string | undefined;
-    onCategoryFilterChange: (category: string | undefined) => void;
+    onCategoryChange: (category: string | undefined) => void;
 
     environmentOptions: {
         environment: SoftwareCatalogState.Environment;
@@ -59,7 +59,6 @@ export type Props = {
     }[];
     prerogatives: SoftwareCatalogState.Prerogative[];
     onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
-    onResetFilters: () => void;
 };
 
 export function SoftwareCatalogControlled(props: Props) {
@@ -75,16 +74,15 @@ export function SoftwareCatalogControlled(props: Props) {
         organizationOptions,
         organization,
         onOrganizationChange,
-        categoryFilerOptions,
+        categoryOptions,
         category,
-        onCategoryFilterChange,
+        onCategoryChange,
         environmentOptions,
         environment,
         onEnvironmentChange,
         prerogativesOptions,
         prerogatives,
         onPrerogativesChange,
-        onResetFilters,
         ...rest
     } = props;
 
@@ -98,19 +96,18 @@ export function SoftwareCatalogControlled(props: Props) {
             <Search
                 search={search}
                 onSearchChange={onSearchChange}
-                organizations={organizationOptions}
+                organizationOptions={organizationOptions}
+                organization={organization}
                 onOrganizationChange={onOrganizationChange}
-                selectedOrganization={organization}
-                categories={categoryFilerOptions}
-                onCategoriesChange={onCategoryFilterChange}
-                selectedCategories={category}
-                environments={environmentOptions}
-                onEnvironmentsChange={onEnvironmentChange}
-                selectedEnvironment={environment}
-                prerogatives={prerogativesOptions}
+                categoryOptions={categoryOptions}
+                category={category}
+                onCategoryChange={onCategoryChange}
+                environmentOptions={environmentOptions}
+                environment={environment}
+                onEnvironmentChange={onEnvironmentChange}
+                prerogativesOptions={prerogativesOptions}
+                prerogatives={prerogatives}
                 onPrerogativesChange={onPrerogativesChange}
-                selectedPrerogatives={prerogatives}
-                onResetFilters={onResetFilters}
             />
             <div>
                 <div className={classes.header}>

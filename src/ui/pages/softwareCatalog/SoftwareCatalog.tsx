@@ -172,9 +172,9 @@ export default function SoftwareCatalog(props: Props) {
                     updateRouteParams({ ...route.params, organization }).replace()
                 )
             }
-            categoryFilerOptions={categoryOptions}
+            categoryOptions={categoryOptions}
             category={route.params.category}
-            onCategoryFilterChange={category =>
+            onCategoryChange={category =>
                 startTransition(() =>
                     updateRouteParams({ ...route.params, category }).replace()
                 )
@@ -191,17 +191,6 @@ export default function SoftwareCatalog(props: Props) {
             onPrerogativesChange={prerogatives =>
                 startTransition(() =>
                     updateRouteParams({ ...route.params, prerogatives }).replace()
-                )
-            }
-            onResetFilters={() =>
-                startTransition(() =>
-                    updateRouteParams({
-                        ...route.params,
-                        "organization": undefined,
-                        "category": undefined,
-                        "environment": undefined,
-                        "prerogatives": []
-                    }).replace()
                 )
             }
         />
