@@ -367,7 +367,7 @@ const {
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
                     <>
-                        {userCount} users and{" "}
+                        {userCount !== 0 && <>{userCount} users and </>}
                         <span style={{ "color": referentColor }}>
                             {referentCount} referents
                         </span>
@@ -762,7 +762,7 @@ const {
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
                     <>
-                        {userCount} utilisateurs et{" "}
+                        {userCount !== 0 && <>{userCount} utilisateurs et </>}
                         <span style={{ "color": referentColor }}>
                             {referentCount} referents
                         </span>
