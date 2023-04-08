@@ -219,7 +219,12 @@ const useStyles = makeStyles({
     },
     "title": {
         "margin": 0,
-        "color": theme.decisions.text.title.grey.default
+        "color": theme.decisions.text.title.grey.default,
+        "display": "-webkit-box",
+        "WebkitBoxOrient": "vertical",
+        "WebkitLineClamp": "1",
+        "whiteSpace": "pre-wrap",
+        "overflow": "hidden"
     },
     "titleActionsContainer": {
         "display": "flex",
