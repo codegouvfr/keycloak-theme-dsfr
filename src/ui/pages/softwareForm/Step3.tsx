@@ -19,7 +19,7 @@ export function SoftwareFormStep3(props: Step2Props) {
     const { className, initialFormData, onSubmit, evtActionSubmit } = props;
 
     const { t } = useTranslation({ SoftwareFormStep3 });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     const {
         handleSubmit,
@@ -104,14 +104,14 @@ export function SoftwareFormStep3(props: Step2Props) {
                 legend={t("is present in support market")}
                 options={[
                     {
-                        "label": commonI18n.t("yes"),
+                        "label": tCommon("yes"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "true"
                         }
                     },
                     {
-                        "label": commonI18n.t("no"),
+                        "label": tCommon("no"),
                         "nativeInputProps": {
                             ...register("isPresentInSupportContractInputValue"),
                             "value": "false"
@@ -123,7 +123,7 @@ export function SoftwareFormStep3(props: Step2Props) {
                 legend={t("is from french public service")}
                 options={[
                     {
-                        "label": commonI18n.t("yes"),
+                        "label": tCommon("yes"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -132,7 +132,7 @@ export function SoftwareFormStep3(props: Step2Props) {
                         }
                     },
                     {
-                        "label": commonI18n.t("no"),
+                        "label": tCommon("no"),
                         "nativeInputProps": {
                             ...register("isFromFrenchPublicServiceInputValue", {
                                 "required": true
@@ -146,7 +146,7 @@ export function SoftwareFormStep3(props: Step2Props) {
                         ? "error"
                         : undefined
                 }
-                stateRelatedMessage={commonI18n.t("required")}
+                stateRelatedMessage={tCommon("required")}
             />
             <button
                 style={{ "display": "none" }}

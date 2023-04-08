@@ -61,7 +61,7 @@ export function Search(props: Props) {
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
     const { t } = useTranslation({ Search });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     const { classes, cx } = useStyles();
 
@@ -130,7 +130,7 @@ export function Search(props: Props) {
                                         {organization.softwareCount})
                                     </>
                                 ) : (
-                                    commonI18n.t("allFeminine")
+                                    tCommon("allFeminine")
                                 )}
                             </option>
                         ))}
@@ -156,7 +156,7 @@ export function Search(props: Props) {
                                         {category.category} ({category.softwareCount})
                                     </>
                                 ) : (
-                                    commonI18n.t("allFeminine")
+                                    tCommon("allFeminine")
                                 )}
                             </option>
                         ))}
@@ -186,7 +186,7 @@ export function Search(props: Props) {
                                         {environment.softwareCount})
                                     </>
                                 ) : (
-                                    commonI18n.t("all")
+                                    tCommon("all")
                                 )}
                             </option>
                         ))}
@@ -228,7 +228,7 @@ export function Search(props: Props) {
                                             ({prerogative.softwareCount})
                                         </>
                                     ) : (
-                                        commonI18n.t("all")
+                                        tCommon("all")
                                     )}
                                 </MenuItem>
                             ))}

@@ -49,7 +49,7 @@ export function DeclarationFormStep2User(props: Props) {
     );
 
     const { t } = useTranslation({ DeclarationFormStep2User });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     return (
         <form
@@ -75,7 +75,7 @@ export function DeclarationFormStep2User(props: Props) {
                     ...register("usecaseDescription", { "required": true })
                 }}
                 state={errors.usecaseDescription !== undefined ? "error" : undefined}
-                stateRelatedMessage={commonI18n.t("required")}
+                stateRelatedMessage={tCommon("required")}
             />
             {softwareType === "desktop" && (
                 <Select
@@ -84,7 +84,7 @@ export function DeclarationFormStep2User(props: Props) {
                         ...register("osSelectValue", { "required": true })
                     }}
                     state={errors.osSelectValue !== undefined ? "error" : undefined}
-                    stateRelatedMessage={commonI18n.t("required")}
+                    stateRelatedMessage={tCommon("required")}
                 >
                     <option value="" disabled hidden></option>
                     <option value="windows">Windows</option>
@@ -98,7 +98,7 @@ export function DeclarationFormStep2User(props: Props) {
                     ...register("version", { "pattern": /^(\d+)((\.{1}\d+)*)(\.{0})$/ })
                 }}
                 state={errors.version !== undefined ? "error" : undefined}
-                stateRelatedMessage={commonI18n.t("invalid version")}
+                stateRelatedMessage={tCommon("invalid version")}
             />
             {softwareType === "cloud" && (
                 <Input
@@ -111,7 +111,7 @@ export function DeclarationFormStep2User(props: Props) {
                     state={
                         errors.serviceUrlInputValue !== undefined ? "error" : undefined
                     }
-                    stateRelatedMessage={commonI18n.t("invalid url")}
+                    stateRelatedMessage={tCommon("invalid url")}
                 />
             )}
             <button

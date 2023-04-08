@@ -26,7 +26,7 @@ export default function Homepage(props: Props) {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ Homepage });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     const { stats } = useCoreState(selectors.generalStats.stats);
 
@@ -127,7 +127,7 @@ export default function Homepage(props: Props) {
         },
         {
             "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            "title": commonI18n.t("add software or service"),
+            "title": tCommon("add software or service"),
             "description": t("add software or service description"),
             "buttonLabel": t("complete form"),
             "href": ""

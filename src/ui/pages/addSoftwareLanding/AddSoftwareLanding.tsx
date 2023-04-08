@@ -21,7 +21,7 @@ export default function AddSoftwareLanding(props: Props) {
 
     const { cx, classes } = useStyles();
     const { t } = useTranslation({ AddSoftwareLanding });
-    const commonI18n = useTranslation({ "App": undefined });
+    const { t: tCommon } = useTranslation({ "App": undefined });
 
     const whoCanAddAccordionList = [
         {
@@ -73,13 +73,13 @@ export default function AddSoftwareLanding(props: Props) {
                                 {...routes.softwareCreationForm().link}
                                 className={fr.cx("fr-btn")}
                             >
-                                {commonI18n.t("add software")}
+                                {tCommon("add software")}
                             </a>
                             <a
                                 {...routes.instanceCreationForm().link}
                                 className={fr.cx("fr-btn", "fr-btn--secondary")}
                             >
-                                {commonI18n.t("add instance")}
+                                {tCommon("add instance")}
                             </a>
                         </div>
                     </div>

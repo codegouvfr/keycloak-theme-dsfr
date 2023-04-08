@@ -43,7 +43,7 @@ export function DeclarationFormStep1(props: Props) {
     );
 
     const { t } = useTranslation({ DeclarationFormStep1 });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     return (
         <form
@@ -75,7 +75,7 @@ export function DeclarationFormStep1(props: Props) {
                     }
                 ]}
                 state={errors.declarationType !== undefined ? "error" : undefined}
-                stateRelatedMessage={commonI18n.t("required")}
+                stateRelatedMessage={tCommon("required")}
             />
             <button
                 style={{ "display": "none" }}
