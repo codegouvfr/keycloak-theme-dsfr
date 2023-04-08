@@ -148,7 +148,7 @@ function AccountReady(props: { className?: string }) {
                             <span>{entry}</span>
                         </li>
                     )}
-                    noOptionText="No result"
+                    noOptionText={tCommon("no result")}
                     dsfrInputProps={{
                         "label": t("organization"),
                         "disabled": organization.isBeingUpdated,

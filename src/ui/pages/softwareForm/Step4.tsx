@@ -44,6 +44,8 @@ export function SoftwareFormStep4(props: Step4Props) {
     const [submitButtonElement, setSubmitButtonElement] =
         useState<HTMLButtonElement | null>(null);
 
+    const { t: tCommon } = useTranslation({ "App": null });
+
     useEvt(
         ctx => {
             if (submitButtonElement === null) {
@@ -81,7 +83,7 @@ export function SoftwareFormStep4(props: Step4Props) {
                                 </div>
                             </li>
                         )}
-                        noOptionText="No result"
+                        noOptionText={tCommon("no result")}
                         loadingText="Loading..."
                         dsfrInputProps={{
                             "label": t("similar software"),

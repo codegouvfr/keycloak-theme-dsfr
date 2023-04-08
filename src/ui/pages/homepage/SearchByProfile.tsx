@@ -17,7 +17,7 @@ export type Props = {
 export function SearchByProfile(props: Props) {
     const { route } = props;
     const { t } = useTranslation({ SearchByProfile });
-    const commonI18n = useTranslation({ "App": null });
+    const { t: tCommon } = useTranslation({ "App": null });
 
     type Profile = string;
     const [selectedUserProfile, setSelectedUserProfile] = useState<Profile>(t("agent"));
@@ -284,7 +284,7 @@ export function SearchByProfile(props: Props) {
                             </div>
                         </li>
                     )}
-                    noOptionText="No result"
+                    noOptionText={tCommon("no result")}
                     dsfrInputProps={{
                         "label": undefined,
                         "nativeInputProps": {
@@ -299,8 +299,8 @@ export function SearchByProfile(props: Props) {
                         }
                     }}
                 />
-                <button className="fr-btn" title={commonI18n.t("search")} type={"submit"}>
-                    {commonI18n.t("search")}
+                <button className="fr-btn" title={tCommon("search")} type={"submit"}>
+                    {tCommon("search")}
                 </button>
             </div>
         </form>

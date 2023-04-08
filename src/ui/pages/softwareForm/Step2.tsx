@@ -43,7 +43,7 @@ export function SoftwareFormStep2(props: Step2Props) {
     } = props;
 
     const { t } = useTranslation({ SoftwareFormStep2 });
-    const commonI18n = useTranslation({ "App": "App" });
+    const { t: tCommon } = useTranslation({ "App": "App" });
 
     const {
         handleSubmit,
@@ -213,7 +213,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                                 </div>
                             </li>
                         )}
-                        noOptionText={"No result"}
+                        noOptionText={tCommon("no result")}
                         loadingText={"Loading..."}
                         dsfrInputProps={{
                             "label": t("wikidata id"),
@@ -267,7 +267,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareName", { "required": true })
                         }}
                         state={errors.softwareName !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commonI18n.t("required")}
+                        stateRelatedMessage={tCommon("required")}
                     />
                 )}
             />
@@ -288,7 +288,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                         state={
                             errors.softwareDescription !== undefined ? "error" : undefined
                         }
-                        stateRelatedMessage={commonI18n.t("required")}
+                        stateRelatedMessage={tCommon("required")}
                     />
                 )}
             />
@@ -307,7 +307,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             ...register("softwareLicense", { "required": true })
                         }}
                         state={errors.softwareLicense !== undefined ? "error" : undefined}
-                        stateRelatedMessage={commonI18n.t("required")}
+                        stateRelatedMessage={tCommon("required")}
                     />
                 )}
             />
@@ -330,7 +330,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                                 ? "error"
                                 : undefined
                         }
-                        stateRelatedMessage={commonI18n.t("required")}
+                        stateRelatedMessage={tCommon("required")}
                     />
                 )}
             />
