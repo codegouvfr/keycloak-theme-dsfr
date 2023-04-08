@@ -221,7 +221,11 @@ export function Search(props: Props) {
                             placeholder="Placeholder"
                         >
                             {prerogativesOptions.map(({ prerogative, softwareCount }) => (
-                                <MenuItem key={prerogative} value={prerogative}>
+                                <MenuItem
+                                    key={prerogative}
+                                    value={prerogative}
+                                    disabled={softwareCount === 0}
+                                >
                                     <Checkbox
                                         checked={prerogatives.indexOf(prerogative) !== -1}
                                     />

@@ -696,12 +696,14 @@ export const selectors = (() => {
         organization,
         category,
         environment,
+        prerogatives,
         (
             internalSoftwares,
             search,
             organization,
             category,
-            environment
+            environment,
+            prerogatives
         ): { prerogative: State.Prerogative; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByPrerogative = new Map(
                 Array.from(
@@ -747,6 +749,13 @@ export const selectors = (() => {
                 });
             }
 
+            for (const prerogative of prerogatives) {
+                tmpSoftwares = filterByPrerogative({
+                    "softwares": tmpSoftwares,
+                    prerogative
+                });
+            }
+
             tmpSoftwares.forEach(({ prerogatives }) =>
                 objectKeys(prerogatives)
                     .filter(prerogative => prerogatives[prerogative])
@@ -759,12 +768,12 @@ export const selectors = (() => {
                     )
             );
 
-            return Array.from(softwareCountInCurrentFilterByPrerogative.entries())
-                .map(([prerogative, softwareCount]) => ({
+            return Array.from(softwareCountInCurrentFilterByPrerogative.entries()).map(
+                ([prerogative, softwareCount]) => ({
                     prerogative,
                     softwareCount
-                }))
-                .sort((a, b) => a.softwareCount - b.softwareCount);
+                })
+            );
         }
     );
 
