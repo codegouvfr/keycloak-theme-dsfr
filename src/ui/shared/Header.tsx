@@ -5,8 +5,6 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { Header as HeaderDsfr } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "ui/routes";
-import { LanguageSelector } from "./LanguageSelector";
-import type { Language } from "ui/i18n";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { contactEmail } from "ui/shared/contactEmail";
