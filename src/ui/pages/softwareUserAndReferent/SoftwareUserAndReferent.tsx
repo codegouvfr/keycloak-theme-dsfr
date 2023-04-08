@@ -64,11 +64,11 @@ export default function SoftwareUserAndReferent(props: Props) {
     const MenuTabs = [
         {
             "id": 0,
-            "label": `${t("tab user title")} (${users.length})`
+            "label": `${t("tab referent title")} (${referents.length})`
         },
         {
             "id": 1,
-            "label": `${t("tab referent title")} (${referents.length})`
+            "label": `${t("tab user title")} (${users.length})`
         }
     ];
 
@@ -76,7 +76,7 @@ export default function SoftwareUserAndReferent(props: Props) {
         setActiveMenu(id);
     };
 
-    const contentItems = activeMenu === 0 ? users : referents;
+    const contentItems = activeMenu === 0 ? referents : users;
 
     return (
         <div>
@@ -124,8 +124,8 @@ export default function SoftwareUserAndReferent(props: Props) {
                             >
                                 {t("category")} (
                                 {activeMenu === 0
-                                    ? t("tab user title")
-                                    : t("tab referent title")}
+                                    ? t("tab referent title")
+                                    : t("tab user title")}
                                 )
                             </button>
                             <div
@@ -195,6 +195,10 @@ export default function SoftwareUserAndReferent(props: Props) {
                                 return (
                                     <li key={user.organization}>
                                         <a href={user.serviceUrl}>{user.organization}</a>
+                                        {user.serviceUrl && (
+                                            <span>({user.serviceUrl})</span>
+                                        )}
+                                        <p> {user.usecaseDescription} </p>
                                     </li>
                                 );
                             })}
