@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from "react";
+import { Suspense } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { useRoute } from "ui/routes";
 import { Header } from "ui/shared/Header";
@@ -21,10 +21,10 @@ import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { CircularProgress } from "ui/shared/CircularProgress";
-import { GlobalStyles } from "@codegouvfr/react-dsfr/tss";
+import { GlobalStyles, keyframes } from "@codegouvfr/react-dsfr/tss";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
-let isDark: boolean;
+let keycloakIsDark: boolean;
 
 const defaultApiUrl = `${window.location.origin}/api`;
 
@@ -47,26 +47,21 @@ const apiUrl = (() => {
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
+    // prettier-ignore
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServiceUrl }) =>
         [url]
             .map(injectGlobalStatesInSearchParams)
-            .map(url =>
-                addSillApiUrlToQueryParams({ url, "value": apiUrl || defaultApiUrl })
-            )
-            .map(url => addIsDarkToQueryParams({ url, "value": isDark }))
-            .map(url =>
-                addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl })
-            )
-            .map(url =>
-                addAppLocationOriginToQueryParams({
-                    url,
-                    "value": window.location.origin
-                })
-            )[0],
+            .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl || defaultApiUrl }))
+            .map(url => addIsDarkToQueryParams({ url, "value": keycloakIsDark })) 
+            .map(url => addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl }))
+            .map(url => addAppLocationOriginToQueryParams({ url, "value": window.location.origin }))
+        [0],
     "getCurrentLang": () => evtLang.state
 });
 
 export default function App() {
+    const { css } = useStyles();
+
     return (
         <>
             <GlobalStyles
@@ -77,7 +72,9 @@ export default function App() {
                     }
                 }}
             />
-            <CoreProvider fallback={<CircularProgress fullPage />}>
+            <CoreProvider
+                fallback={<LoadingFallback className={css({ "height": "100vh" })} />}
+            >
                 <RouteProvider>
                     <ContextualizedApp />
                 </RouteProvider>
@@ -87,13 +84,7 @@ export default function App() {
 }
 
 function ContextualizedApp() {
-    {
-        const { isDark: isDark_ } = useIsDark();
-
-        useEffect(() => {
-            isDark = isDark_;
-        }, [isDark_]);
-    }
+    keycloakIsDark = useIsDark().isDark;
 
     const route = useRoute();
 
@@ -112,7 +103,7 @@ function ContextualizedApp() {
               }
     );
 
-    const { classes } = useStyles();
+    const { classes, css } = useStyles();
 
     const i18nApi = useLang();
 
@@ -122,8 +113,10 @@ function ContextualizedApp() {
                 routeName={route.name}
                 userAuthenticationApi={headerUserAuthenticationApi}
             />
-            <main className={classes.main}>
-                <Suspense>
+            <div className={classes.pageAndFooterWrapper}>
+                <Suspense
+                    fallback={<LoadingFallback className={css({ "height": "100%" })} />}
+                >
                     {(() => {
                         for (const pageName of objectKeys(pages)) {
                             //You must be able to replace "homepage" by any other page and get no type error.
@@ -140,23 +133,28 @@ function ContextualizedApp() {
                                     return null;
                                 }
 
-                                return <page.LazyComponent route={route} />;
+                                return (
+                                    <page.LazyComponent
+                                        route={route}
+                                        className={classes.page}
+                                    />
+                                );
                             }
                         }
 
                         return <page404.LazyComponent />;
                     })()}
                 </Suspense>
-            </main>
-            <Footer
-                webVersion={(() => {
-                    const webVersion = process.env.VERSION;
-                    assert(webVersion !== undefined);
-                    return webVersion;
-                })()}
-                apiVersion={sillApiVersion.getSillApiVersion()}
-                i18nApi={i18nApi}
-            />
+                <Footer
+                    webVersion={(() => {
+                        const webVersion = process.env.VERSION;
+                        assert(webVersion !== undefined);
+                        return webVersion;
+                    })()}
+                    apiVersion={sillApiVersion.getSillApiVersion()}
+                    i18nApi={i18nApi}
+                />
+            </div>
         </div>
     );
 }
@@ -169,8 +167,18 @@ const useStyles = makeStyles({
         "flexDirection": "column",
         "height": "100vh"
     },
-    "main": {
+    "pageAndFooterWrapper": {
         "flex": 1
+    },
+    "page": {
+        "animation": `${keyframes`
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+            `} 400ms`
     }
 });
 

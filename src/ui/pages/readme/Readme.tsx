@@ -4,8 +4,8 @@ import { useCoreFunctions, useCoreState, selectors } from "core";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
-import { CircularProgress } from "ui/shared/CircularProgress";
 import { useLang } from "ui/i18n";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 type Props = {
     className?: string;
@@ -25,10 +25,10 @@ export default function Readme(props: Props) {
 
     const { markdown } = useCoreState(selectors.readme.markdown);
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
 
     if (markdown === undefined) {
-        return <CircularProgress />;
+        return <LoadingFallback className={css({ "height": "100%" })} />;
     }
 
     return (

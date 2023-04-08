@@ -11,8 +11,8 @@ import { z } from "zod";
 import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
-import { CircularProgress } from "ui/shared/CircularProgress";
 import { useConstCallback } from "powerhooks/useConstCallback";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 type Props = {
     className?: string;
@@ -32,8 +32,10 @@ export default function Account(props: Props) {
         userAccountManagement.initialize();
     }, []);
 
+    const { css } = useStyles();
+
     if (readyState === undefined) {
-        return <CircularProgress />;
+        return <LoadingFallback className={css({ "height": "100%" })} />;
     }
 
     return <AccountReady className={className} />;
