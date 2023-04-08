@@ -12,6 +12,7 @@ import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { CircularProgress } from "ui/shared/CircularProgress";
+import { useConstCallback } from "powerhooks/useConstCallback";
 
 type Props = {
     className?: string;
@@ -96,6 +97,14 @@ function AccountReady(props: { className?: string }) {
         return { "isValidValue": true };
     };
 
+    const isEmailInputPristine = useConstCallback(() => {
+        return email.value === emailInputValue;
+    });
+
+    const isOrganizationInputPristine = useConstCallback(() => {
+        return organization.value === organizationInputValue;
+    });
+
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <h2 className={classes.title}>{t("title")}</h2>
@@ -119,6 +128,10 @@ function AccountReady(props: { className?: string }) {
                             "value": emailInputValue
                         })
                     }
+                    disabled={
+                        !validateEmail(emailInputValue).isValidValue ||
+                        isEmailInputPristine()
+                    }
                 >
                     {tCommon("validate")}
                 </Button>
@@ -138,7 +151,12 @@ function AccountReady(props: { className?: string }) {
                     noOptionText="No result"
                     dsfrInputProps={{
                         "label": t("organization"),
-                        "disabled": organization.isBeingUpdated
+                        "disabled": organization.isBeingUpdated,
+                        "nativeInputProps": {
+                            "onBlur": event => {
+                                setOrganizationInputValue(event.target.value);
+                            }
+                        }
                     }}
                 />
                 <Button
@@ -148,6 +166,7 @@ function AccountReady(props: { className?: string }) {
                             "value": organizationInputValue
                         })
                     }
+                    disabled={isOrganizationInputPristine()}
                 >
                     {tCommon("validate")}
                 </Button>
