@@ -84,7 +84,7 @@ export function SoftwareFormStep4(props: Step4Props) {
                             </li>
                         )}
                         noOptionText={tCommon("no result")}
-                        loadingText="Loading..."
+                        loadingText={tCommon("loading")}
                         dsfrInputProps={{
                             "label": t("similar software"),
                             "hintText": t("similar software hint"),

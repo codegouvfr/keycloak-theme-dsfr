@@ -214,7 +214,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             </li>
                         )}
                         noOptionText={tCommon("no result")}
-                        loadingText={"Loading..."}
+                        loadingText={tCommon("loading")}
                         dsfrInputProps={{
                             "label": t("wikidata id"),
                             "hintText": t("wikidata id hint"),
