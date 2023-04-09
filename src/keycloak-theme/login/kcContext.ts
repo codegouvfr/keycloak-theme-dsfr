@@ -1,7 +1,7 @@
 import { getKcContext } from "keycloakify/login";
 
 export const { kcContext } = getKcContext({
-    //"mockPageId": "register-user-profile.ftl",
+    //"mockPageId": "login.ftl",
     "mockData": [
         {
             "pageId": "login.ftl",

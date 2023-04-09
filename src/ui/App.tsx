@@ -130,7 +130,11 @@ function ContextualizedApp() {
                                     userAuthentication.login({
                                         "doesCurrentHrefRequiresAuth": true
                                     });
-                                    return null;
+                                    return (
+                                        <LoadingFallback
+                                            className={css({ "height": "100%" })}
+                                        />
+                                    );
                                 }
 
                                 return (

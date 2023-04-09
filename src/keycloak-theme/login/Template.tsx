@@ -16,6 +16,8 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
 import { appLocationOrigin } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
+import { keyframes } from "@codegouvfr/react-dsfr/tss";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -54,14 +56,14 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         "bodyClassName": undefined
     });
 
-    const { classes, cx } = useStyles({ contentWidth: breakpointsValues.sm });
+    const { classes, cx, css } = useStyles({ "contentWidth": breakpointsValues.sm });
 
     if (!isReady) {
-        return null;
+        return <LoadingFallback className={css({ "height": "100vh" })} />;
     }
 
     return (
-        <div>
+        <>
             {(() => {
                 const serviceTitle = "Socle interministériel de logiciels libres";
 
@@ -265,7 +267,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
@@ -273,7 +275,15 @@ const useStyles = makeStyles<{ contentWidth: number }>({
     "name": { Template }
 })((_theme, { contentWidth }) => ({
     "container": {
-        "marginTop": fr.spacing("10v")
+        "marginTop": fr.spacing("10v"),
+        "animation": `${keyframes`
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+            `} 400ms`
     },
     "centerCol": {
         "display": "flex",
