@@ -224,7 +224,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                         }).link
                     }
                 >
-                    {activeMenu === 0 ? t("declare user") : t("declare referent")}
+                    {activeMenu === 0 ? t("declare referent") : t("declare user")}
                 </Button>
             </ActionsFooter>
         </div>
