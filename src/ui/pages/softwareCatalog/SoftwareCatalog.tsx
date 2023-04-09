@@ -161,9 +161,7 @@ export default function SoftwareCatalog(props: Props) {
             }
             search={route.params.search}
             onSearchChange={search =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, search }).replace()
-                )
+                updateRouteParams({ ...route.params, search }).replace()
             }
             organizationOptions={organizationOptions}
             organization={route.params.organization}
