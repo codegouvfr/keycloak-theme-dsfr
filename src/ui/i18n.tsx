@@ -383,7 +383,11 @@ const {
                 "category": "Category",
                 "softwareDetails": "See the software sheet",
                 "declare user": "Declare yourself as a user",
-                "declare referent": "Declare yourself as a referent"
+                "declare referent": "Declare yourself as a referent",
+                "is technical expert": "Technical expert",
+                "organization": "Organization",
+                "is user of": "Is user of",
+                "is referent of": "Is referent of",
             },
             "DeclarationForm": {
                 "catalog breadcrumb": "Software catalog",
@@ -778,7 +782,11 @@ const {
                 "category": "Catégorie",
                 "softwareDetails": "Voir la fiche logiciel",
                 "declare user": "Se déclarer utilisateur",
-                "declare referent": "Se déclarer référent"
+                "declare referent": "Se déclarer référent",
+                "is technical expert": "Expert technique",
+                "organization": "Organisation",
+                "is user of": "Est utilisateur de",
+                "is referent of": "Est référent de",
             },
             "DeclarationForm": {
                 "catalog breadcrumb": "Le catalogue de logiciel",
