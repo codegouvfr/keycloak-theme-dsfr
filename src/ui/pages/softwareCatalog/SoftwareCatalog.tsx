@@ -7,8 +7,6 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import { type PageRoute } from "./route";
 import { useEvt } from "evt/hooks";
 import { type Param0 } from "tsafe";
-import { useConst } from "powerhooks/useConst";
-import { id } from "tsafe/id";
 
 type Props = {
     className?: string;
@@ -40,37 +38,19 @@ export default function SoftwareCatalog(props: Props) {
 
     const [, startTransition] = useTransition();
 
-    //TODO: Submit an issue to type route, this should be built in.
-    const { updateRouteParams } = (function useClosure() {
-        const refParams = useConst(() => ({
-            "ref": id<Param0<(typeof routes)["softwareCatalog"]>>(route.params)
-        }));
-
-        const updateRouteParams = useConstCallback(
-            (paramsToUpdate: (typeof refParams)["ref"]) => {
-                const params = { ...refParams.ref, ...paramsToUpdate };
-
-                if (params.search === "") {
-                    delete params.search;
-                }
-
-                //WARNING: Duplicated source of truth with the route definition
-                if (params.sort === "referent_count") {
-                    delete params.sort;
-                }
-
-                if (params.prerogatives?.length === 0) {
-                    delete params.prerogatives;
-                }
-
-                refParams.ref = params;
-
-                return routes.softwareCatalog(params);
+    //TODO: Submit an issue to type-route, it should test the shallow equality of the params
+    const updateRouteParams = useConstCallback(
+        (params: Param0<(typeof routes)["softwareCatalog"]>) => {
+            if (
+                params.prerogatives?.length === 0 &&
+                route.params.prerogatives.length === 0
+            ) {
+                delete params.prerogatives;
             }
-        );
 
-        return { updateRouteParams };
-    })();
+            return routes.softwareCatalog(params);
+        }
+    );
 
     useEvt(
         ctx => {
@@ -173,7 +153,7 @@ export default function SoftwareCatalog(props: Props) {
             onCategoryChange={category => startTransition(() => updateRouteParams({ category }).replace())}
             environmentOptions={environmentOptions}
             environment={route.params.environment}
-            onEnvironmentChange={environment => startTransition(() => updateRouteParams({  environment }).replace())}
+            onEnvironmentChange={environment => startTransition(() => updateRouteParams({ environment }).replace())}
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
             onPrerogativesChange={prerogatives => startTransition(() => updateRouteParams({ prerogatives }).replace())}
