@@ -138,8 +138,8 @@ export function SoftwareCatalogControlled(props: Props) {
                                         return t("user_count");
                                     case "user_count_ASC":
                                         return t("user_count_ASC");
-                                    case "last_version_publication_date":
-                                        return t("last_version_publication_date");
+                                    case "latest_version_publication_date":
+                                        return t("latest_version_publication_date");
                                     case "best_match":
                                         return t("best_match");
                                 }
@@ -338,7 +338,7 @@ export const { i18n } = declareComponentKeys<
     | "referent_count_ASC"
     | "user_count"
     | "user_count_ASC"
-    | "last_version_publication_date"
+    | "latest_version_publication_date"
     | "no software found"
     | "best_match"
 >()({ SoftwareCatalogControlled });

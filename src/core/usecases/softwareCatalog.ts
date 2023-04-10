@@ -32,7 +32,7 @@ export namespace State {
     export type Sort =
         | "added_time"
         | "update_time"
-        | "last_version_publication_date"
+        | "latest_version_publication_date"
         | "user_count"
         | "referent_count"
         | "user_count_ASC"
@@ -244,7 +244,7 @@ export const selectors = (() => {
             "user_count" as const,
             "added_time" as const,
             "update_time" as const,
-            "last_version_publication_date" as const,
+            "latest_version_publication_date" as const,
             "user_count_ASC" as const,
             "referent_count_ASC" as const
         ];
@@ -412,7 +412,7 @@ export const selectors = (() => {
                                     "order": "descending"
                                 });
                             case undefined:
-                            case "last_version_publication_date":
+                            case "latest_version_publication_date":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software =>
                                         software.latestVersion?.publicationTime ?? 0,

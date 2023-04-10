@@ -34,39 +34,36 @@ export default function Homepage(props: Props) {
         {
             "title": t("last added"),
             "linkProps": routes.softwareCatalog({
-                ...route.params,
                 "sort": "added_time"
             }).link
         },
         {
             "title": t("most used"),
             "linkProps": routes.softwareCatalog({
-                ...route.params,
                 "sort": "user_count"
             }).link
         },
         {
             "title": t("essential"),
             "linkProps": routes.softwareCatalog({
-                ...route.params,
                 "prerogatives": ["isInstallableOnUserTerminal"]
             }).link
         },
         {
-            "title": t("selection of the month"),
-            "linkProps": {}
+            "title": t("recently updated"),
+            "linkProps": routes.softwareCatalog({
+                "sort": "latest_version_publication_date"
+            }).link
         },
         {
             "title": t("waiting for referent"),
             "linkProps": routes.softwareCatalog({
-                ...route.params,
                 "sort": "referent_count_ASC"
             }).link
         },
         {
             "title": t("in support market"),
             "linkProps": routes.softwareCatalog({
-                ...route.params,
                 "prerogatives": ["isPresentInSupportContract"]
             }).link
         }
@@ -321,7 +318,7 @@ export const { i18n } = declareComponentKeys<
     | "last added"
     | "most used"
     | "essential"
-    | "selection of the month"
+    | "recently updated"
     | "waiting for referent"
     | "in support market"
     | "why use the SILL"

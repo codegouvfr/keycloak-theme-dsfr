@@ -20,7 +20,7 @@ export const routeDefs = {
                         const schema = z.union([
                             z.literal("added_time"),
                             z.literal("update_time"),
-                            z.literal("last_version_publication_date"),
+                            z.literal("latest_version_publication_date"),
                             z.literal("user_count"),
                             z.literal("referent_count"),
                             z.literal("user_count_ASC"),
