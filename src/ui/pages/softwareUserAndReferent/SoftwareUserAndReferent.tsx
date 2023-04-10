@@ -12,7 +12,6 @@ import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
-
 export type Props = {
     className?: string;
     route: PageRoute;
@@ -78,31 +77,55 @@ export default function SoftwareUserAndReferent(props: Props) {
     };
 
     const contentReferent = () => {
-       return referents.map(referent => {
-            const { email, isTechnicalExpert, organization, usecaseDescription, serviceUrl } = referent
+        return referents.map(referent => {
+            const {
+                email,
+                isTechnicalExpert,
+                organization,
+                usecaseDescription,
+                serviceUrl
+            } = referent;
             return (
                 <li key={email}>
-                    <p>{ email }{ isTechnicalExpert && <span>({t("is technical expert")})</span> }</p>
-                    <p>{t("organization")} { organization } </p>
+                    <p>
+                        {email}
+                        {isTechnicalExpert && <span>({t("is technical expert")})</span>}
+                    </p>
+                    <p>
+                        {t("organization")} {organization}{" "}
+                    </p>
                     <p>{usecaseDescription}</p>
-                    { serviceUrl && <p>{t("is referent of")} <a href={serviceUrl}></a></p>}
+                    {serviceUrl && (
+                        <p>
+                            {t("is referent of")} <a href={serviceUrl}>{serviceUrl}</a>
+                        </p>
+                    )}
                 </li>
-            )
-        })
-    }
+            );
+        });
+    };
 
     const contentUsers = () => {
         return users.map(user => {
-            const { organization, usecaseDescription, serviceUrl } = user
+            const { organization, usecaseDescription, serviceUrl } = user;
             return (
                 <li key={organization}>
-                    <p>{t("organization")} : { organization } </p>
+                    <p>
+                        {t("organization")} : {organization}{" "}
+                    </p>
                     <p>{usecaseDescription}</p>
-                    { serviceUrl && <p>{t("is user of")} <a href={serviceUrl} target="_blank" rel="noreferrer">serviceUrl</a></p>}
+                    {serviceUrl && (
+                        <p>
+                            {t("is user of")}{" "}
+                            <a href={serviceUrl} target="_blank" rel="noreferrer">
+                                serviceUrl
+                            </a>
+                        </p>
+                    )}
                 </li>
-            )
-        })
-    }
+            );
+        });
+    };
 
     return (
         <div>
@@ -217,9 +240,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                         </div>
                     </nav>
                     <div className={classes.contentMenuTab}>
-                        <ul>
-                            { activeMenu === 0 ? contentReferent() : contentUsers() }
-                        </ul>
+                        <ul>{activeMenu === 0 ? contentReferent() : contentUsers()}</ul>
                     </div>
                 </div>
             </div>
