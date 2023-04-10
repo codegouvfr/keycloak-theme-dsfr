@@ -17,6 +17,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { exclude } from "tsafe/exclude";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 type Props = {
     className?: string;
@@ -28,7 +29,7 @@ export default function SoftwareDetails(props: Props) {
 
     const { softwareDetails } = useCoreFunctions();
 
-    const { cx, classes } = useStyles();
+    const { cx, classes, css } = useStyles();
 
     const { t } = useTranslation({ SoftwareDetails });
 
@@ -43,7 +44,7 @@ export default function SoftwareDetails(props: Props) {
     }, [route.params.name]);
 
     if (software === undefined) {
-        return null;
+        return <LoadingFallback className={css({ "height": "100%" })} />;
     }
 
     return (
