@@ -43,7 +43,7 @@
         "react-hook-form": "^7.43.0",
         "react-markdown": "^5.0.3",
         "react-scripts": "5.0.1",
-        "redux-clean-architecture": "^3.4.1",
+        "redux-clean-architecture": "^3.4.2",
         "run-exclusive": "^2.2.16",
         "superjson": "^1.12.2",
         "tsafe": "^1.5.1",
