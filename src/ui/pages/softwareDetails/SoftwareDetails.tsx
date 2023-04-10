@@ -11,10 +11,10 @@ import { PreviewTab } from "ui/pages/softwareDetails/PreviewTab";
 import { ReferencedInstancesTab } from "ui/pages/softwareDetails/ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { AlikeSoftwareTab } from "ui/pages/softwareDetails/AlikeSoftwareTab";
-import { compact } from "lodash";
 import { ActionsFooter } from "ui/shared/ActionsFooter";
 import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import { Button } from "@codegouvfr/react-dsfr/Button";
+import { exclude } from "tsafe/exclude";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
@@ -114,11 +114,23 @@ export default function SoftwareDetails(props: Props) {
                             }),
                             "content": (
                                 <AlikeSoftwareTab
-                                    alikeSoftwares={compact(
-                                        software.similarSoftwares.map(item =>
+                                    alikeSoftwares={software.similarSoftwares
+                                        .map(item =>
                                             item.isInSill ? item.software : undefined
                                         )
-                                    )}
+                                        .filter(exclude(undefined))}
+                                    getLinks={({ softwareName }) => ({
+                                        "declarationForm": routes.declarationForm({
+                                            "name": softwareName
+                                        }).link,
+                                        "softwareDetails": routes.softwareDetails({
+                                            "name": softwareName
+                                        }).link,
+                                        "softwareUsersAndReferents":
+                                            routes.softwareUsersAndReferents({
+                                                "name": softwareName
+                                            }).link
+                                    })}
                                 />
                             )
                         }

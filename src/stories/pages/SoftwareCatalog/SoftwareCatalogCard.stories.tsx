@@ -12,16 +12,16 @@ const { meta, getStory } = getStoryFactory({
 export default meta;
 
 export const VueDefault = getStory({
-    "declareForm": {
+    "declareFormLink": {
         href: "",
         onClick: () => {}
     },
     "referentCount": 3,
-    "softwareUserAndReferent": {
+    "softwareUsersAndReferentsLink": {
         "href": "",
         onClick: () => {}
     },
-    "softwareDetails": {
+    "softwareDetailsLink": {
         href: "",
         onClick: () => {}
     },
@@ -42,16 +42,16 @@ export const VueDefault = getStory({
 });
 
 export const VueTooLongDescription = getStory({
-    "declareForm": {
+    "declareFormLink": {
         href: "",
         onClick: () => {}
     },
     "referentCount": 3,
-    "softwareUserAndReferent": {
+    "softwareUsersAndReferentsLink": {
         "href": "",
         onClick: () => {}
     },
-    "softwareDetails": {
+    "softwareDetailsLink": {
         href: "",
         onClick: () => {}
     },

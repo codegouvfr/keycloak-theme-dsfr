@@ -273,7 +273,7 @@ function RowVirtualizerDynamicWindow(
                                                 key={softwareName}
                                                 declareFormLink={declareUsageForm}
                                                 softwareDetailsLink={softwareDetails}
-                                                softwareUserAndReferentLink={
+                                                softwareUsersAndReferentsLink={
                                                     softwareUsersAndReferents
                                                 }
                                                 {...software}

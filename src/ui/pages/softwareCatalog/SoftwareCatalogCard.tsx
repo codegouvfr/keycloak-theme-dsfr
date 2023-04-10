@@ -10,6 +10,7 @@ import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
 import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
+import { Markdown } from "keycloakify/tools/Markdown";
 
 export type Props = {
     className?: string;
@@ -24,10 +25,10 @@ export type Props = {
         semVer: string;
         publicationTime: number;
     };
-    softwareDescription?: string;
+    softwareDescription: string;
     userCount: number;
     referentCount: number;
-    softwareUserAndReferentLink: Link;
+    softwareUsersAndReferentsLink: Link;
     declareFormLink: Link;
     testUrl?: string;
     softwareDetailsLink: Link;
@@ -43,7 +44,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         softwareDescription,
         userCount,
         referentCount,
-        softwareUserAndReferentLink,
+        softwareUsersAndReferentsLink,
         softwareDetailsLink,
         declareFormLink,
         testUrl,
@@ -134,14 +135,12 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                 </div>
 
                 <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
-                    {softwareDescription
-                        ? resolveLocalizedString(softwareDescription)
-                        : "software.function"}
+                    <Markdown>{resolveLocalizedString(softwareDescription)}</Markdown>
                 </p>
                 <DetailUsersAndReferents
                     seeUserAndReferent={
                         referentCount > 0 || userCount > 0
-                            ? softwareUserAndReferentLink
+                            ? softwareUsersAndReferentsLink
                             : undefined
                     }
                     referentCount={referentCount}

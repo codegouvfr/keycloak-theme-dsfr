@@ -6,14 +6,21 @@ import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
+import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
     alikeSoftwares?: SoftwareCatalogState.Software.External[];
+    getLinks: (params: {
+        softwareName: string;
+    }) => Record<
+        "declarationForm" | "softwareDetails" | "softwareUsersAndReferents",
+        Link
+    >;
 };
 
 export const AlikeSoftwareTab = (props: Props) => {
-    const { className, alikeSoftwares, ...rest } = props;
+    const { className, alikeSoftwares, getLinks, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -37,6 +44,9 @@ export const AlikeSoftwareTab = (props: Props) => {
                     prerogatives
                 } = software;
 
+                const { declarationForm, softwareDetails, softwareUsersAndReferents } =
+                    getLinks({ softwareName });
+
                 return (
                     <SoftwareCatalogCard
                         key={softwareName}
@@ -48,18 +58,9 @@ export const AlikeSoftwareTab = (props: Props) => {
                         testUrl={testUrl}
                         userCount={userCount}
                         referentCount={referentCount}
-                        declareForm={{
-                            href: "",
-                            onClick: () => {}
-                        }}
-                        softwareDetails={{
-                            href: "",
-                            onClick: () => {}
-                        }}
-                        softwareUserAndReferent={{
-                            href: "",
-                            onClick: () => {}
-                        }}
+                        declareFormLink={declarationForm}
+                        softwareDetailsLink={softwareDetails}
+                        softwareUsersAndReferentsLink={softwareUsersAndReferents}
                     />
                 );
             })}
