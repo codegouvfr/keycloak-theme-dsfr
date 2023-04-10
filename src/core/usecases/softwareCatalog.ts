@@ -707,17 +707,21 @@ export const selectors = (() => {
             prerogatives
         ): { prerogative: State.Prerogative; softwareCount: number }[] => {
             const softwareCountInCurrentFilterByPrerogative = new Map(
-                Array.from(
-                    new Set(
-                        internalSoftwares
-                            .map(({ prerogatives }) =>
-                                objectKeys(prerogatives).filter(
-                                    prerogative => prerogatives[prerogative]
+                [
+                    ...Array.from(
+                        new Set(
+                            internalSoftwares
+                                .map(({ prerogatives }) =>
+                                    objectKeys(prerogatives).filter(
+                                        prerogative => prerogatives[prerogative]
+                                    )
                                 )
-                            )
-                            .reduce((prev, curr) => [...prev, ...curr], [])
-                    )
-                ).map(prerogative => [prerogative, id<number>(0)] as const)
+                                .reduce((prev, curr) => [...prev, ...curr], [])
+                        )
+                    ),
+                    "isInstallableOnUserTerminal" as const,
+                    "isTestable" as const
+                ].map(prerogative => [prerogative, id<number>(0)] as const)
             );
 
             let tmpSoftwares = internalSoftwares;
@@ -757,24 +761,55 @@ export const selectors = (() => {
                 });
             }
 
-            tmpSoftwares.forEach(({ prerogatives }) =>
+            tmpSoftwares.forEach(({ prerogatives, softwareType, testUrl }) => {
                 objectKeys(prerogatives)
                     .filter(prerogative => prerogatives[prerogative])
-                    .forEach(prerogative =>
+                    .forEach(prerogative => {
+                        const currentCount =
+                            softwareCountInCurrentFilterByPrerogative.get(prerogative);
+
+                        assert(currentCount !== undefined);
+
                         softwareCountInCurrentFilterByPrerogative.set(
                             prerogative,
-                            softwareCountInCurrentFilterByPrerogative.get(prerogative)! +
-                                1
-                        )
-                    )
-            );
+                            currentCount + 1
+                        );
+                    });
 
-            return Array.from(softwareCountInCurrentFilterByPrerogative.entries()).map(
-                ([prerogative, softwareCount]) => ({
-                    prerogative,
-                    softwareCount
-                })
-            );
+                (["isInstallableOnUserTerminal", "isTestable"] as const).forEach(
+                    prerogativeName => {
+                        switch (prerogativeName) {
+                            case "isInstallableOnUserTerminal":
+                                if (softwareType.type !== "desktop") {
+                                    return;
+                                }
+                                break;
+                            case "isTestable":
+                                if (testUrl === undefined) {
+                                    return;
+                                }
+                                break;
+                        }
+
+                        const currentCount =
+                            softwareCountInCurrentFilterByPrerogative.get(
+                                prerogativeName
+                            );
+
+                        assert(currentCount !== undefined);
+
+                        softwareCountInCurrentFilterByPrerogative.set(
+                            prerogativeName,
+                            currentCount + 1
+                        );
+                    }
+                );
+            });
+
+            /** prettier-ignore */
+            return Array.from(softwareCountInCurrentFilterByPrerogative.entries())
+                .map(([prerogative, softwareCount]) => ({ prerogative, softwareCount }))
+                .filter(({ prerogative }) => prerogative !== "isTestable"); //NOTE: remove when we reintroduce Onyxia SILL
         }
     );
 
