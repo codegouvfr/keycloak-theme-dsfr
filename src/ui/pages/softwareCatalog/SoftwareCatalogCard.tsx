@@ -125,11 +125,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                 {latestVersion &&
                                     t("last version date", {
                                         "date": shortEndMonthDate({
-                                            "time":
-                                                (console.log(
-                                                    latestVersion.publicationTime
-                                                ),
-                                                latestVersion.publicationTime),
+                                            "time": latestVersion.publicationTime,
                                             lang
                                         })
                                     })}
