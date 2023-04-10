@@ -163,7 +163,7 @@ export default function Homepage(props: Props) {
                 </div>
             </section>
             <section className={cx(fr.cx("fr-container"), classes.section)}>
-                <h2 className={classes.titleSection}>{t("why use the STILL")}</h2>
+                <h2 className={classes.titleSection}>{t("why use the SILL")}</h2>
                 {whyUseSillAccordionList.map(accordion => (
                     <Accordion key={accordion.label} label={accordion.label}>
                         <p className={classes.accordionDescription}>
@@ -324,7 +324,7 @@ export const { i18n } = declareComponentKeys<
     | "selection of the month"
     | "waiting for referent"
     | "in support market"
-    | "why use the STILL"
+    | "why use the SILL"
     | "discover as agent label"
     | "discover as agent description"
     | "discover as DSI label"
