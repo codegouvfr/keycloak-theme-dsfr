@@ -124,6 +124,9 @@ export default function SoftwareCatalog(props: Props) {
                         }).link,
                         "declareUsageForm": routes.declarationForm({
                             "name": softwareName
+                        }).link,
+                        "softwareUsersAndReferents": routes.softwareUsersAndReferents({
+                            "name": softwareName
                         }).link
                     }
                 ])

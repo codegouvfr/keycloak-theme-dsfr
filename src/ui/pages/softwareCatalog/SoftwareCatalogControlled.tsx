@@ -9,7 +9,6 @@ import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCar
 import { SoftwareCatalogSearch } from "ui/pages/softwareCatalog/SoftwareCatalogSearch";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { routes } from "ui/routes";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useWindowInnerSize } from "powerhooks/useWindowInnerSize";
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
@@ -20,7 +19,7 @@ export type Props = {
     softwares: SoftwareCatalogState.Software.External[];
     linksBySoftwareName: Record<
         string,
-        Record<"softwareDetails" | "declareUsageForm", Link>
+        Record<"softwareDetails" | "declareUsageForm" | "softwareUsersAndReferents", Link>
     >;
 
     search: string;
@@ -161,13 +160,9 @@ export function SoftwareCatalogControlled(props: Props) {
     );
 }
 
-function RowVirtualizerDynamicWindow(props: {
-    softwares: SoftwareCatalogState.Software.External[];
-    linksBySoftwareName: Record<
-        string,
-        Record<"softwareDetails" | "declareUsageForm", Link>
-    >;
-}) {
+function RowVirtualizerDynamicWindow(
+    props: Pick<Props, "softwares" | "linksBySoftwareName">
+) {
     const { softwares, linksBySoftwareName } = props;
 
     const { columnCount } = (function useClosure() {
@@ -267,18 +262,19 @@ function RowVirtualizerDynamicWindow(props: {
 
                                         const { softwareName } = software;
 
-                                        const { softwareDetails, declareUsageForm } =
-                                            linksBySoftwareName[softwareName];
+                                        const {
+                                            softwareDetails,
+                                            declareUsageForm,
+                                            softwareUsersAndReferents
+                                        } = linksBySoftwareName[softwareName];
 
                                         return (
                                             <SoftwareCatalogCard
                                                 key={softwareName}
-                                                declareForm={declareUsageForm}
-                                                softwareDetails={softwareDetails}
-                                                softwareUserAndReferent={
-                                                    routes.softwareUsersAndReferents({
-                                                        "name": softwareName
-                                                    }).link
+                                                declareFormLink={declareUsageForm}
+                                                softwareDetailsLink={softwareDetails}
+                                                softwareUserAndReferentLink={
+                                                    softwareUsersAndReferents
                                                 }
                                                 {...software}
                                             />

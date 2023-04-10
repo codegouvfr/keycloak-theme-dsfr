@@ -27,10 +27,10 @@ export type Props = {
     softwareDescription?: string;
     userCount: number;
     referentCount: number;
-    softwareUserAndReferent: Link;
-    declareForm: Link;
+    softwareUserAndReferentLink: Link;
+    declareFormLink: Link;
     testUrl?: string;
-    softwareDetails: Link;
+    softwareDetailsLink: Link;
 };
 
 export const SoftwareCatalogCard = memo((props: Props) => {
@@ -43,9 +43,9 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         softwareDescription,
         userCount,
         referentCount,
-        softwareUserAndReferent,
-        softwareDetails,
-        declareForm,
+        softwareUserAndReferentLink,
+        softwareDetailsLink,
+        declareFormLink,
         testUrl,
         ...rest
     } = props;
@@ -141,7 +141,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                 <DetailUsersAndReferents
                     seeUserAndReferent={
                         referentCount > 0 || userCount > 0
-                            ? softwareUserAndReferent
+                            ? softwareUserAndReferentLink
                             : undefined
                     }
                     referentCount={referentCount}
@@ -155,12 +155,12 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
                         classes.declareReferentOrUserButton
                     )}
-                    {...declareForm}
+                    {...declareFormLink}
                 >
                     {t("declare oneself referent")}
                 </a>
                 <div className={cx(classes.footerActionsContainer)}>
-                    <a className={cx(classes.footerActionLink)} {...softwareDetails}>
+                    <a className={cx(classes.footerActionLink)} {...softwareDetailsLink}>
                         <i className={fr.cx("fr-icon-arrow-right-line")} />
                     </a>
                 </div>
