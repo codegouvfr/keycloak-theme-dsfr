@@ -94,7 +94,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                     <p>
                         {t("organization")} : {organization}{" "}
                     </p>
-                    <p>{t("use case")} : {usecaseDescription}</p>
+                    {usecaseDescription && (<p>{t("use case")} : {usecaseDescription}</p>)}
                     {serviceUrl && (
                         <p>
                             {t("is referent of")} <a href={serviceUrl}>{serviceUrl}</a>
@@ -113,7 +113,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                     <p>
                         {t("organization")} : {organization}{" "}
                     </p>
-                    <p>{t("use case")} : {usecaseDescription}</p>
+                    {usecaseDescription && (<p>{t("use case")} : {usecaseDescription}</p>)}
                     {serviceUrl && (
                         <p>
                             {t("is user of")}{" "}
