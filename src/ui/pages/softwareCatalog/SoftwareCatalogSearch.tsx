@@ -57,7 +57,7 @@ export type Props = {
     onPrerogativesChange: (prerogatives: SoftwareCatalogState.Prerogative[]) => void;
 };
 
-export function Search(props: Props) {
+export function SoftwareCatalogSearch(props: Props) {
     const {
         className,
 
@@ -88,7 +88,7 @@ export function Search(props: Props) {
 
     const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
-    const { t } = useTranslation({ Search });
+    const { t } = useTranslation({ SoftwareCatalogSearch });
     const { t: tCommon } = useTranslation({ "App": undefined });
 
     const { classes, cx } = useStyles();
@@ -276,7 +276,9 @@ export function Search(props: Props) {
     );
 }
 
-const useStyles = makeStyles({ "name": { Search } })(theme => ({
+SoftwareCatalogSearch.displayName = "SoftwareCatalogSearch";
+
+const useStyles = makeStyles({ "name": { SoftwareCatalogSearch } })(theme => ({
     "root": {
         "&:before": {
             content: "none"
@@ -361,4 +363,4 @@ export const { i18n } = declareComponentKeys<
           K: "number of prerogatives selected";
           P: { count: number };
       }
->()({ Search });
+>()({ SoftwareCatalogSearch });

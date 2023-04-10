@@ -24,7 +24,7 @@ const {
     | typeof import("ui/App").i18n
     | typeof import("ui/pages/softwareCatalog/SoftwareCatalogControlled").i18n
     | typeof import("ui/pages/softwareCatalog/SoftwareCatalogCard").i18n
-    | typeof import("ui/pages/softwareCatalog/Search").i18n
+    | typeof import("ui/pages/softwareCatalog/SoftwareCatalogSearch").i18n
     | typeof import("ui/pages/softwareDetails/SoftwareDetails").i18n
     | typeof import("ui/pages/softwareDetails/HeaderDetailCard").i18n
     | typeof import("ui/pages/softwareDetails/PreviewTab").i18n
@@ -280,7 +280,7 @@ const {
                     "This software is from French public service",
                 "isPresentInSupportMarket": "This software is present in support market"
             },
-            "Search": {
+            "SoftwareCatalogSearch": {
                 "placeholder": "Search a software, a word, a reference...",
                 "filtersButton": "Filters",
                 "organizationLabel": "Organization",
@@ -677,7 +677,7 @@ const {
                 "no software found": "Aucun logiciel trouvé",
                 "best_match": "Résultats les plus pertinents"
             },
-            "Search": {
+            "SoftwareCatalogSearch": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
                 "organizationLabel": "Organization",
