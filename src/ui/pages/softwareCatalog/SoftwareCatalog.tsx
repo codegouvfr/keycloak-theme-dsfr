@@ -7,6 +7,8 @@ import { useConstCallback } from "powerhooks/useConstCallback";
 import { type PageRoute } from "./route";
 import { useEvt } from "evt/hooks";
 import { type Param0 } from "tsafe";
+import { useConst } from "powerhooks/useConst";
+import { id } from "tsafe/id";
 
 type Props = {
     className?: string;
@@ -38,48 +40,53 @@ export default function SoftwareCatalog(props: Props) {
 
     const [, startTransition] = useTransition();
 
-    //TODO: Submit an issue to type route, we shouldn't have to do this
-    // This function could be removed it would still work but the url would be
-    // less clean
-    const updateRouteParams = useConstCallback(
-        (params: Param0<(typeof routes)["softwareCatalog"]>) => {
-            if (params.search === "") {
-                delete params.search;
+    //TODO: Submit an issue to type route, this should be built in.
+    const { updateRouteParams } = (function useClosure() {
+        const refParams = useConst(() => ({
+            "ref": id<Param0<(typeof routes)["softwareCatalog"]>>(route.params)
+        }));
+
+        const updateRouteParams = useConstCallback(
+            (paramsToUpdate: (typeof refParams)["ref"]) => {
+                const params = { ...refParams.ref, ...paramsToUpdate };
+
+                if (params.search === "") {
+                    delete params.search;
+                }
+
+                //WARNING: Duplicated source of truth with the route definition
+                if (params.sort === "referent_count") {
+                    delete params.sort;
+                }
+
+                if (params.prerogatives?.length === 0) {
+                    delete params.prerogatives;
+                }
+
+                refParams.ref = params;
+
+                return routes.softwareCatalog(params);
             }
-
-            //TODO: Duplicated source of truth!
-            if (params.sort === "referent_count") {
-                delete params.sort;
-            }
-
-            if (params.prerogatives?.length === 0) {
-                delete params.prerogatives;
-            }
-
-            return routes.softwareCatalog(params);
-        }
-    );
-
-    {
-        const getRoutParams = useConstCallback(() => route.params);
-
-        useEvt(
-            ctx => {
-                evtSoftwareCatalog.attach(
-                    ({ action }) => action === "change sort",
-                    ctx,
-                    ({ sort }) =>
-                        startTransition(() => {
-                            updateRouteParams({
-                                ...getRoutParams(),
-                                sort
-                            }).replace();
-                        })
-                );
-            },
-            [evtSoftwareCatalog]
         );
-    }
+
+        return { updateRouteParams };
+    })();
+
+    useEvt(
+        ctx => {
+            evtSoftwareCatalog.attach(
+                ({ action }) => action === "change sort",
+                ctx,
+                ({ sort }) =>
+                    startTransition(() => {
+                        updateRouteParams({
+                            sort
+                        }).replace();
+                    })
+            );
+        },
+        [evtSoftwareCatalog]
+    );
 
     useDebounce(
         () =>
@@ -148,49 +155,28 @@ export default function SoftwareCatalog(props: Props) {
     );
 
     return (
+        /* prettier-ignore */
         <SoftwareCatalogControlled
             className={className}
             softwares={softwares}
             linksBySoftwareName={linksBySoftwareName}
             sortOptions={sortOptions}
             sort={route.params.sort}
-            onSortChange={sort =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, sort }).replace()
-                )
-            }
+            onSortChange={sort => startTransition(() => updateRouteParams({ sort }).replace())}
             search={route.params.search}
-            onSearchChange={search =>
-                updateRouteParams({ ...route.params, search }).replace()
-            }
+            onSearchChange={search => updateRouteParams({ search }).replace()}
             organizationOptions={organizationOptions}
             organization={route.params.organization}
-            onOrganizationChange={organization =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, organization }).replace()
-                )
-            }
+            onOrganizationChange={organization => startTransition(() => updateRouteParams({ organization }).replace())}
             categoryOptions={categoryOptions}
             category={route.params.category}
-            onCategoryChange={category =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, category }).replace()
-                )
-            }
+            onCategoryChange={category => startTransition(() => updateRouteParams({ category }).replace())}
             environmentOptions={environmentOptions}
             environment={route.params.environment}
-            onEnvironmentChange={environment =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, environment }).replace()
-                )
-            }
+            onEnvironmentChange={environment => startTransition(() => updateRouteParams({  environment }).replace())}
             prerogativesOptions={prerogativeFilterOptions}
             prerogatives={route.params.prerogatives}
-            onPrerogativesChange={prerogatives =>
-                startTransition(() =>
-                    updateRouteParams({ ...route.params, prerogatives }).replace()
-                )
-            }
+            onPrerogativesChange={prerogatives => startTransition(() => updateRouteParams({ prerogatives }).replace())}
         />
     );
 }
