@@ -25,7 +25,7 @@ type Props = {
 };
 
 export default function SoftwareDetails(props: Props) {
-    const { route } = props;
+    const { route, className } = props;
 
     const { softwareDetails } = useCoreFunctions();
 
@@ -48,7 +48,7 @@ export default function SoftwareDetails(props: Props) {
     }
 
     return (
-        <div>
+        <div className={className}>
             <div className={fr.cx("fr-container")}>
                 <Breadcrumb
                     segments={[
