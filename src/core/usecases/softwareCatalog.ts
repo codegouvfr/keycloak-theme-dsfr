@@ -585,6 +585,7 @@ export const selectors = (() => {
                     category,
                     softwareCount
                 }))
+                .filter(({ softwareCount }) => softwareCount !== 0)
                 .sort((a, b) => b.softwareCount - a.softwareCount);
         }
     );
