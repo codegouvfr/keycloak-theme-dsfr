@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useId } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -19,6 +19,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { SelectNext } from "ui/shared/SelectNext";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
+import { useEffectOnValueChange } from "powerhooks/useEffectOnValueChange";
 
 export type Props = {
     className?: string;
@@ -86,16 +87,47 @@ export function SoftwareCatalogSearch(props: Props) {
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
-    const [areFiltersOpen, setAreFiltersOpen] = useState(false);
-
     const { t } = useTranslation({ SoftwareCatalogSearch });
     const { t: tCommon } = useTranslation({ "App": undefined });
 
-    const { classes, cx } = useStyles();
+    const [filtersWrapperDivElement, setFiltersWrapperDivElement] =
+        useState<HTMLDivElement | null>(null);
+
     const { lang } = useLang();
 
+    const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+
+    useEffectOnValueChange(() => {
+        if (!areFiltersOpen) {
+            onOrganizationChange(undefined);
+            onCategoryChange(undefined);
+            onEnvironmentChange(undefined);
+            onPrerogativesChange([]);
+        }
+    }, [areFiltersOpen]);
+
+    useEffect(() => {
+        if (
+            organization !== undefined ||
+            category !== undefined ||
+            environment !== undefined ||
+            prerogatives.length !== 0
+        ) {
+            console.log("open filters!");
+            setAreFiltersOpen(true);
+        }
+    }, [organization, category, environment, JSON.stringify([...prerogatives].sort())]);
+
+    const { classes, cx } = useStyles({
+        "filterWrapperMaxHeight": areFiltersOpen
+            ? filtersWrapperDivElement?.scrollHeight ?? 0
+            : 0
+    });
+
+    const filtersWrapperId = `filter-wrapper-${useId()}`;
+
     return (
-        <div className={cx(fr.cx("fr-accordion"), classes.root)}>
+        <div className={classes.root}>
             <div className={cx(classes.basicSearch, className)}>
                 <SearchBar
                     className={classes.searchBar}
@@ -111,165 +143,153 @@ export function SoftwareCatalogSearch(props: Props) {
                         areFiltersOpen ? "ri-arrow-up-s-fill" : "ri-arrow-down-s-fill"
                     }
                     iconPosition="right"
-                    onClick={() => {
-                        if (areFiltersOpen) {
-                            onOrganizationChange(undefined);
-                            onCategoryChange(undefined);
-                            onEnvironmentChange(undefined);
-                            onPrerogativesChange([]);
-                        }
-                        setAreFiltersOpen(!areFiltersOpen);
-                    }}
-                    aria-expanded="false"
-                    aria-controls="accordion-filters"
+                    onClick={() => setAreFiltersOpen(!areFiltersOpen)}
+                    aria-expanded={areFiltersOpen ? "true" : "false"}
+                    aria-controls={filtersWrapperId}
                 >
                     {t("filters")}
                 </Button>
             </div>
-            <div className={cx("fr-collapse", classes.filters)} id="accordion-filters">
-                <div className={cx(classes.filtersWrapper)}>
-                    <SelectNext
-                        className={classes.filterSelectGroup}
-                        label={
-                            <>
-                                {t("organizationLabel")}{" "}
-                                <Tooltip title={t("organization filter hint")} arrow>
-                                    <i className={fr.cx("ri-question-line")} />
-                                </Tooltip>
-                            </>
+            <div
+                className={classes.filtersWrapper}
+                id={filtersWrapperId}
+                ref={setFiltersWrapperDivElement}
+            >
+                <SelectNext
+                    className={classes.filterSelectGroup}
+                    label={
+                        <>
+                            {t("organizationLabel")}{" "}
+                            <Tooltip title={t("organization filter hint")} arrow>
+                                <i className={fr.cx("ri-question-line")} />
+                            </Tooltip>
+                        </>
+                    }
+                    nativeSelectProps={{
+                        "onChange": event =>
+                            onOrganizationChange(event.target.value || undefined),
+                        "value": organization ?? ""
+                    }}
+                    disabled={organizationOptions.length === 0}
+                    options={[
+                        {
+                            "label": tCommon("allFeminine"),
+                            "value": ""
+                        },
+                        ...organizationOptions.map(({ organization, softwareCount }) => ({
+                            "value": organization,
+                            "label": `${organization} (${softwareCount})`
+                        }))
+                    ]}
+                />
+
+                <SelectNext
+                    className={classes.filterSelectGroup}
+                    label={t("categoriesLabel")}
+                    disabled={categoryOptions.length === 0}
+                    nativeSelectProps={{
+                        "onChange": event =>
+                            onCategoryChange(event.target.value || undefined),
+                        "value": category ?? ""
+                    }}
+                    options={[
+                        {
+                            "label": tCommon("allFeminine"),
+                            "value": ""
+                        },
+                        ...categoryOptions.map(({ category, softwareCount }) => ({
+                            "value": category,
+                            "label": `${
+                                lang === "fr"
+                                    ? softwareCategoriesFrBySoftwareCategoryEn[
+                                          category
+                                      ] ?? category
+                                    : category
+                            } (${softwareCount})`
+                        }))
+                    ]}
+                />
+
+                <SelectNext
+                    className={classes.filterSelectGroup}
+                    label={t("environnement label")}
+                    nativeSelectProps={{
+                        "onChange": event =>
+                            onEnvironmentChange(event.target.value || undefined),
+                        "value": environment ?? ""
+                    }}
+                    options={[
+                        {
+                            "label": tCommon("all"),
+                            "value": "" as const
+                        },
+                        ...environmentOptions.map(({ environment, softwareCount }) => ({
+                            "value": environment,
+                            "label": `${t(environment)} (${softwareCount})`
+                        }))
+                    ]}
+                />
+
+                <div className={classes.filterSelectGroup}>
+                    <label htmlFor="prerogatives-label">{t("prerogativesLabel")}</label>
+                    <SelectMui
+                        multiple
+                        displayEmpty={true}
+                        value={prerogatives}
+                        onChange={event => {
+                            const prerogatives = event.target.value;
+
+                            assert(typeof prerogatives !== "string");
+
+                            onPrerogativesChange(prerogatives);
+                        }}
+                        className={cx(fr.cx("fr-select"), classes.multiSelect)}
+                        input={<InputBase />}
+                        renderValue={prerogatives =>
+                            t("number of prerogatives selected", {
+                                "count": prerogatives.length
+                            })
                         }
-                        nativeSelectProps={{
-                            "onChange": event =>
-                                onOrganizationChange(event.target.value || undefined),
-                            "value": organization ?? ""
-                        }}
-                        disabled={organizationOptions.length === 0}
-                        options={[
-                            {
-                                "label": tCommon("allFeminine"),
-                                "value": ""
-                            },
-                            ...organizationOptions.map(
-                                ({ organization, softwareCount }) => ({
-                                    "value": organization,
-                                    "label": `${organization} (${softwareCount})`
-                                })
-                            )
-                        ]}
-                    />
-
-                    <SelectNext
-                        className={classes.filterSelectGroup}
-                        label={t("categoriesLabel")}
-                        disabled={categoryOptions.length === 0}
-                        nativeSelectProps={{
-                            "onChange": event =>
-                                onCategoryChange(event.target.value || undefined),
-                            "value": category ?? ""
-                        }}
-                        options={[
-                            {
-                                "label": tCommon("allFeminine"),
-                                "value": ""
-                            },
-                            ...categoryOptions.map(({ category, softwareCount }) => ({
-                                "value": category,
-                                "label": `${
-                                    lang === "fr"
-                                        ? softwareCategoriesFrBySoftwareCategoryEn[
-                                              category
-                                          ] ?? category
-                                        : category
-                                } (${softwareCount})`
-                            }))
-                        ]}
-                    />
-
-                    <SelectNext
-                        className={classes.filterSelectGroup}
-                        label={t("environnement label")}
-                        nativeSelectProps={{
-                            "onChange": event =>
-                                onEnvironmentChange(event.target.value || undefined),
-                            "value": environment ?? ""
-                        }}
-                        options={[
-                            {
-                                "label": tCommon("all"),
-                                "value": "" as const
-                            },
-                            ...environmentOptions.map(
-                                ({ environment, softwareCount }) => ({
-                                    "value": environment,
-                                    "label": `${t(environment)} (${softwareCount})`
-                                })
-                            )
-                        ]}
-                    />
-
-                    <div className={classes.filterSelectGroup}>
-                        <label htmlFor="prerogatives-label">
-                            {t("prerogativesLabel")}
-                        </label>
-                        <SelectMui
-                            multiple
-                            displayEmpty={true}
-                            value={prerogatives}
-                            onChange={event => {
-                                const prerogatives = event.target.value;
-
-                                assert(typeof prerogatives !== "string");
-
-                                onPrerogativesChange(prerogatives);
-                            }}
-                            className={cx(fr.cx("fr-select"), classes.multiSelect)}
-                            input={<InputBase />}
-                            renderValue={prerogatives =>
-                                t("number of prerogatives selected", {
-                                    "count": prerogatives.length
-                                })
-                            }
-                            placeholder="Placeholder"
-                        >
-                            {prerogativesOptions.map(({ prerogative, softwareCount }) => (
-                                <MenuItem
-                                    key={prerogative}
-                                    value={prerogative}
-                                    disabled={softwareCount === 0}
-                                >
-                                    <Checkbox
-                                        checked={prerogatives.indexOf(prerogative) !== -1}
-                                    />
-                                    <ListItemText
-                                        primary={(() => {
-                                            switch (prerogative) {
-                                                case "doRespectRgaa":
-                                                    return `${t(
-                                                        "doRespectRgaa"
-                                                    )} (${softwareCount})`;
-                                                case "isFromFrenchPublicServices":
-                                                    return `${t(
-                                                        "isFromFrenchPublicServices"
-                                                    )} (${softwareCount})`;
-                                                case "isInstallableOnUserTerminal":
-                                                    return `${t(
-                                                        "isInstallableOnUserTerminal"
-                                                    )} (${softwareCount})`;
-                                                case "isTestable":
-                                                    return `${t(
-                                                        "isTestable"
-                                                    )} (${softwareCount})`;
-                                                case "isPresentInSupportContract":
-                                                    return `${t(
-                                                        "isPresentInSupportContract"
-                                                    )} (${softwareCount})`;
-                                            }
-                                        })()}
-                                    />
-                                </MenuItem>
-                            ))}
-                        </SelectMui>
-                    </div>
+                        placeholder="Placeholder"
+                    >
+                        {prerogativesOptions.map(({ prerogative, softwareCount }) => (
+                            <MenuItem
+                                key={prerogative}
+                                value={prerogative}
+                                disabled={softwareCount === 0}
+                            >
+                                <Checkbox
+                                    checked={prerogatives.indexOf(prerogative) !== -1}
+                                />
+                                <ListItemText
+                                    primary={(() => {
+                                        switch (prerogative) {
+                                            case "doRespectRgaa":
+                                                return `${t(
+                                                    "doRespectRgaa"
+                                                )} (${softwareCount})`;
+                                            case "isFromFrenchPublicServices":
+                                                return `${t(
+                                                    "isFromFrenchPublicServices"
+                                                )} (${softwareCount})`;
+                                            case "isInstallableOnUserTerminal":
+                                                return `${t(
+                                                    "isInstallableOnUserTerminal"
+                                                )} (${softwareCount})`;
+                                            case "isTestable":
+                                                return `${t(
+                                                    "isTestable"
+                                                )} (${softwareCount})`;
+                                            case "isPresentInSupportContract":
+                                                return `${t(
+                                                    "isPresentInSupportContract"
+                                                )} (${softwareCount})`;
+                                        }
+                                    })()}
+                                />
+                            </MenuItem>
+                        ))}
+                    </SelectMui>
                 </div>
             </div>
         </div>
@@ -278,7 +298,9 @@ export function SoftwareCatalogSearch(props: Props) {
 
 SoftwareCatalogSearch.displayName = "SoftwareCatalogSearch";
 
-const useStyles = makeStyles({ "name": { SoftwareCatalogSearch } })(theme => ({
+const useStyles = makeStyles<{ filterWrapperMaxHeight: number }>({
+    "name": { SoftwareCatalogSearch }
+})((theme, { filterWrapperMaxHeight }) => ({
     "root": {
         "&:before": {
             content: "none"
@@ -299,20 +321,14 @@ const useStyles = makeStyles({ "name": { SoftwareCatalogSearch } })(theme => ({
         "color": theme.decisions.text.actionHigh.blueFrance.default,
         "marginLeft": fr.spacing("4v")
     },
-    "filters": {
-        "&&": {
-            "overflowX": "visible",
-            ...fr.spacing("padding", {
-                "rightLeft": "1v"
-            }),
-            "margin": 0
-        }
-    },
     "filtersWrapper": {
+        "transition": "max-height 0.2s ease-out",
+        "maxHeight": filterWrapperMaxHeight,
+        "overflow": "hidden",
+        "marginTop": fr.spacing("4v"),
         "display": "grid",
         "gridTemplateColumns": `repeat(4, minmax(20%, 1fr))`,
         "columnGap": fr.spacing("4v"),
-        "marginTop": fr.spacing("3v"),
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`
         }
