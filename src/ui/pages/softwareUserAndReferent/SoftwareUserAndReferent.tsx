@@ -12,6 +12,7 @@ import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
+
 export type Props = {
     className?: string;
     route: PageRoute;
@@ -76,7 +77,32 @@ export default function SoftwareUserAndReferent(props: Props) {
         setActiveMenu(id);
     };
 
-    const contentItems = activeMenu === 0 ? referents : users;
+    const contentReferent = () => {
+       return referents.map(referent => {
+            const { email, isTechnicalExpert, organization, usecaseDescription, serviceUrl } = referent
+            return (
+                <li key={email}>
+                    <p>{ email }{ isTechnicalExpert && <span>({t("is technical expert")})</span> }</p>
+                    <p>{t("organization")} { organization } </p>
+                    <p>{usecaseDescription}</p>
+                    { serviceUrl && <p>{t("is referent of")} <a href={serviceUrl}></a></p>}
+                </li>
+            )
+        })
+    }
+
+    const contentUsers = () => {
+        return users.map(user => {
+            const { organization, usecaseDescription, serviceUrl } = user
+            return (
+                <li key={organization}>
+                    <p>{t("organization")} : { organization } </p>
+                    <p>{usecaseDescription}</p>
+                    { serviceUrl && <p>{t("is user of")} <a href={serviceUrl} target="_blank" rel="noreferrer">serviceUrl</a></p>}
+                </li>
+            )
+        })
+    }
 
     return (
         <div>
@@ -192,17 +218,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                     </nav>
                     <div className={classes.contentMenuTab}>
                         <ul>
-                            {contentItems?.map(user => {
-                                return (
-                                    <li key={user.organization}>
-                                        <a href={user.serviceUrl}>{user.organization}</a>
-                                        {user.serviceUrl && (
-                                            <span>({user.serviceUrl})</span>
-                                        )}
-                                        <p> {user.usecaseDescription} </p>
-                                    </li>
-                                );
-                            })}
+                            { activeMenu === 0 ? contentReferent() : contentUsers() }
                         </ul>
                     </div>
                 </div>
@@ -224,7 +240,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                         }).link
                     }
                 >
-                    {activeMenu === 0 ? t("declare user") : t("declare referent")}
+                    {activeMenu === 0 ? t("declare referent") : t("declare user")}
                 </Button>
             </ActionsFooter>
         </div>
@@ -308,4 +324,8 @@ export const { i18n } = declareComponentKeys<
     | "softwareDetails"
     | "declare referent"
     | "declare user"
+    | "is technical expert"
+    | "organization"
+    | "is user of"
+    | "is referent of"
 >()({ SoftwareUserAndReferent });
