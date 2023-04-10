@@ -88,7 +88,7 @@ export const sillApi: SillApi = {
             "license": formData.softwareLicense,
             "officialWebsiteUrl": undefined,
             "softwareDescription": formData.softwareDescription,
-            "lastVersion": undefined,
+            "latestVersion": undefined,
             "parentSoftware": undefined,
             "softwareType": formData.softwareType,
             "similarSoftwares": formData.similarSoftwares,
@@ -136,7 +136,7 @@ export const sillApi: SillApi = {
                 "license": formData.softwareLicense,
                 "officialWebsiteUrl": undefined,
                 "softwareDescription": formData.softwareDescription,
-                "lastVersion": undefined,
+                "latestVersion": undefined,
                 "parentSoftware": undefined,
                 "softwareType": formData.softwareType,
                 "similarSoftwares": formData.similarSoftwares,
@@ -262,7 +262,7 @@ const softwares = [
         "officialWebsiteUrl": undefined,
         "softwareDescription":
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat, ex sit amet pretium blandit, tortor eros dapibus sem, ultricies tempor nunc magna in dolor. Curabitur non tincidunt ex. Nulla facilisi. Integer vestibulum ultricies risus eu blandit. Duis accumsan dolor sit amet arcu semper ultrices. Cras tincidunt commodo mauris quis iaculis. Morbi iaculis massa sit amet nunc porttitor malesuada. Sed venenatis congue dolor eu posuere. Praesent nec pulvinar massa. Ut id diam congue, elementum nulla in, varius mi.",
-        "lastVersion": undefined,
+        "latestVersion": undefined,
         "parentSoftware": undefined as any,
         "testUrl": undefined,
         "addedTime": 1670416144,
@@ -308,7 +308,7 @@ const softwares = [
         "officialWebsiteUrl": "https://www.libreoffice.org/",
         "softwareDescription":
             "LibreOffice, Suite bureautique (logiciel de traitement de texte, tableur ect)",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "10.1.3",
             "publicationTime": 1670503742
         },
@@ -364,7 +364,7 @@ const softwares = [
         "license": "MPL-2.0",
         "officialWebsiteUrl": "https://wordpress.org/",
         "softwareDescription": "Wordpress, Système de gestion de contenus web",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1667911742
         },
@@ -407,7 +407,7 @@ const softwares = [
         "license": "GPL-2.0-only",
         "officialWebsiteUrl": "https://www.wikidata.org/wiki/Q171477",
         "softwareDescription": "VLC, Lecteur multimédia",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1665233342
         },
@@ -456,7 +456,7 @@ const softwares = [
         "license": "N/A",
         "officialWebsiteUrl": "https://www.debian.org/",
         "softwareDescription": "Debian, Distribution GNU/LINUX",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -505,7 +505,7 @@ const softwares = [
         "license": "MPL-2.0",
         "officialWebsiteUrl": "https://www.thunderbird.net/",
         "softwareDescription": "Thunderbird, Courrielleur",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -559,7 +559,7 @@ const softwares = [
         "license": "GPL-2.0-or-later",
         "officialWebsiteUrl": "https://qgis.org/fr/site/",
         "softwareDescription": "Qgis, Système d'information géographique",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -620,7 +620,7 @@ const softwares = [
         "license": "MPL-2.0",
         "officialWebsiteUrl": "https://www.mozilla.org/fr/firefox/new/",
         "softwareDescription": "Mozilla Firefox (Extended Support Release), Navigateur",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -670,7 +670,7 @@ const softwares = [
         "license": "PostgreSQL",
         "officialWebsiteUrl": "https://www.postgresql.org/",
         "softwareDescription": "PostgreSQL, Base de données transactionnelle",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -711,7 +711,7 @@ const softwares = [
         "officialWebsiteUrl": "https://joinpeertube.org/",
         "softwareDescription":
             "Peertube, Plateforme d'hébergement décentralisée de vidéos",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -747,7 +747,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -785,7 +785,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -823,7 +823,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -861,7 +861,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -899,7 +899,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -937,7 +937,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -975,7 +975,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },
@@ -1013,7 +1013,7 @@ const softwares = [
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
         "softwareDescription": "Archifiltre, Système d'aide à l'archivage de fichiers",
-        "lastVersion": {
+        "latestVersion": {
             "semVer": "Dernière stable",
             "publicationTime": 1633524542
         },

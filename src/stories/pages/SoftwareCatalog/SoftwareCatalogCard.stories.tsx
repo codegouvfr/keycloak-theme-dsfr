@@ -29,7 +29,7 @@ export const VueDefault = getStory({
     "logoUrl": LogoNextCloud,
     "softwareName": "NextCloud",
     "softwareDescription": "Partage de fichiers",
-    "lastVersion": {
+    "latestVersion": {
         "semVer": "25.0.2",
         "publicationTime": 1669985280
     },
@@ -60,7 +60,7 @@ export const VueTooLongDescription = getStory({
     "softwareName": "NextCloud",
     "softwareDescription":
         "Partage de fichiers, suite d'une fausse description pour tester le comportement d'une carte avec un text trop long",
-    "lastVersion": {
+    "latestVersion": {
         "semVer": "25.0.2",
         "publicationTime": 1669985280
     },

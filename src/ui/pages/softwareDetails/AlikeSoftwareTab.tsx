@@ -36,7 +36,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                 const {
                     logoUrl,
                     softwareName,
-                    lastVersion,
+                    latestVersion,
                     softwareDescription,
                     userCount,
                     referentCount,
@@ -52,7 +52,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                         key={softwareName}
                         logoUrl={logoUrl}
                         softwareName={softwareName}
-                        lastVersion={lastVersion}
+                        latestVersion={latestVersion}
                         softwareDescription={softwareDescription}
                         prerogatives={prerogatives}
                         testUrl={testUrl}

@@ -385,15 +385,11 @@ export const { useFromNow } = (() => {
 export const shortEndMonthDate = (params: { time: number; lang: string }): string => {
     const { time, lang } = params;
 
-    return moment(time * 1000)
-        .locale(lang)
-        .format(`MMM YYYY`);
+    return moment(time).locale(lang).format(`MMM YYYY`);
 };
 
 export const monthDate = (params: { time: number; lang: string }): string => {
     const { time, lang } = params;
 
-    return moment(time * 1000)
-        .locale(lang)
-        .format(`MMMM YYYY`);
+    return moment(time).locale(lang).format(`MMMM YYYY`);
 };

@@ -92,9 +92,11 @@ export default function SoftwareDetails(props: Props) {
                                     minimalVersionRequired={software.versionMin}
                                     registerDate={software.addedTime}
                                     softwareDateCurrentVersion={
-                                        software.lastVersion?.publicationTime
+                                        software.latestVersion?.publicationTime
                                     }
-                                    softwareCurrentVersion={software.lastVersion?.semVer}
+                                    softwareCurrentVersion={
+                                        software.latestVersion?.semVer
+                                    }
                                 />
                             )
                         },

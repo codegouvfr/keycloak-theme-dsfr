@@ -21,7 +21,7 @@ export type Props = {
         isInstallableOnUserTerminal: boolean;
         isPresentInSupportContract: boolean;
     };
-    lastVersion?: {
+    latestVersion?: {
         semVer: string;
         publicationTime: number;
     };
@@ -40,7 +40,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         logoUrl,
         softwareName,
         prerogatives,
-        lastVersion,
+        latestVersion,
         softwareDescription,
         userCount,
         referentCount,
@@ -110,9 +110,9 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                         fr.cx(
                                             {
                                                 "fr-badge--no-icon":
-                                                    lastVersion?.semVer === undefined,
+                                                    latestVersion?.semVer === undefined,
                                                 "fr-badge--yellow-tournesol":
-                                                    lastVersion?.semVer !== undefined
+                                                    latestVersion?.semVer !== undefined
                                             },
                                             "fr-badge",
                                             "fr-badge--sm"
@@ -120,12 +120,16 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                         classes.badgeVersion
                                     )}
                                 >
-                                    {lastVersion?.semVer ?? tCommon("not provided")}
+                                    {latestVersion?.semVer ?? tCommon("not provided")}
                                 </span>
-                                {lastVersion &&
+                                {latestVersion &&
                                     t("last version date", {
-                                        date: shortEndMonthDate({
-                                            time: lastVersion.publicationTime,
+                                        "date": shortEndMonthDate({
+                                            "time":
+                                                (console.log(
+                                                    latestVersion.publicationTime
+                                                ),
+                                                latestVersion.publicationTime),
                                             lang
                                         })
                                     })}

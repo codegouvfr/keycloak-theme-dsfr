@@ -53,7 +53,7 @@ export namespace State {
             logoUrl: string | undefined;
             softwareName: string;
             softwareDescription: string;
-            lastVersion:
+            latestVersion:
                 | {
                       semVer: string;
                       publicationTime: number;
@@ -415,7 +415,7 @@ export const selectors = (() => {
                             case "last_version_publication_date":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software =>
-                                        software.lastVersion?.publicationTime ?? 0,
+                                        software.latestVersion?.publicationTime ?? 0,
                                     "order": "descending",
                                     "tieBreaker": createCompareFn({
                                         "getWeight": software => software.updateTime,
@@ -854,7 +854,7 @@ function apiSoftwareToInternalSoftware(params: {
         softwareName,
         logoUrl,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         parentSoftware: parentSoftwareWikidataRef,
         testUrl,
         addedTime,
@@ -900,7 +900,7 @@ function apiSoftwareToInternalSoftware(params: {
         logoUrl,
         softwareName,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         "referentCount": Object.values(userAndReferentCountByOrganization)
             .map(({ referentCount }) => referentCount)
             .reduce((prev, curr) => prev + curr, 0),
@@ -918,7 +918,7 @@ function apiSoftwareToInternalSoftware(params: {
         "search": [
             softwareName,
             softwareDescription,
-            lastVersion?.semVer,
+            latestVersion?.semVer,
             categories.join(" "),
             parentSoftware === undefined
                 ? undefined
@@ -942,7 +942,7 @@ function internalSoftwareToExternalSoftware(
         logoUrl,
         softwareName,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         referentCount,
         userCount,
         testUrl,
@@ -967,7 +967,7 @@ function internalSoftwareToExternalSoftware(
         logoUrl,
         softwareName,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         referentCount,
         userCount,
         testUrl,

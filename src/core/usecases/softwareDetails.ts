@@ -33,7 +33,7 @@ export namespace State {
         }[];
         officialWebsiteUrl: string | undefined;
         codeRepositoryUrl: string | undefined;
-        lastVersion:
+        latestVersion:
             | {
                   semVer: string;
                   publicationTime: number;
@@ -189,7 +189,7 @@ function apiSoftwareToSoftware(params: {
         officialWebsiteUrl,
         codeRepositoryUrl,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         parentSoftware: parentSoftwareWikidata_api,
         testUrl,
         addedTime,
@@ -238,7 +238,7 @@ function apiSoftwareToSoftware(params: {
         codeRepositoryUrl,
         softwareName,
         softwareDescription,
-        lastVersion,
+        latestVersion,
         "referentCount": Object.values(userAndReferentCountByOrganization)
             .map(({ referentCount }) => referentCount)
             .reduce((prev, curr) => prev + curr, 0),
