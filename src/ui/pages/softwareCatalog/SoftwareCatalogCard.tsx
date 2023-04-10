@@ -55,7 +55,6 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     assert<Equals<typeof rest, {}>>();
 
     const { t } = useTranslation({ SoftwareCatalogCard });
-    const { t: tCommon } = useTranslation({ App: null });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
     const { lang } = useLang();
@@ -98,38 +97,35 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                             </div>
                         </div>
                         <div>
-                            <p
-                                className={cx(
-                                    fr.cx("fr-card__detail"),
-                                    classes.softwareVersionContainer
-                                )}
-                            >
-                                {t("last version")} :
-                                <span
+                            {latestVersion !== undefined && (
+                                <p
                                     className={cx(
-                                        fr.cx(
-                                            {
-                                                "fr-badge--no-icon":
-                                                    latestVersion?.semVer === undefined,
-                                                "fr-badge--yellow-tournesol":
-                                                    latestVersion?.semVer !== undefined
-                                            },
-                                            "fr-badge",
-                                            "fr-badge--sm"
-                                        ),
-                                        classes.badgeVersion
+                                        fr.cx("fr-card__detail"),
+                                        classes.softwareVersionContainer
                                     )}
                                 >
-                                    {latestVersion?.semVer ?? tCommon("not provided")}
-                                </span>
-                                {latestVersion &&
-                                    t("last version date", {
+                                    {t("last version")} :
+                                    <span
+                                        className={cx(
+                                            fr.cx(
+                                                "fr-badge--no-icon",
+                                                "fr-badge--yellow-tournesol",
+                                                "fr-badge",
+                                                "fr-badge--sm"
+                                            ),
+                                            classes.badgeVersion
+                                        )}
+                                    >
+                                        {latestVersion.semVer}
+                                    </span>
+                                    {t("last version date", {
                                         "date": shortEndMonthDate({
                                             "time": latestVersion.publicationTime,
                                             lang
                                         })
                                     })}
-                            </p>
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -243,7 +239,11 @@ const useStyles = makeStyles({
         }
     },
     "badgeVersion": {
-        ...fr.spacing("margin", { rightLeft: "1v" })
+        ...fr.spacing("margin", { rightLeft: "1v" }),
+        "whiteSpace": "nowrap",
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "maxWidth": "35%"
     },
     "description": {
         "marginTop": 0,
