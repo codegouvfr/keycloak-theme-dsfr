@@ -854,3 +854,30 @@ export const zLocalizedString = z.union([
 
     assert<Equals<Got, Expected>>();
 }
+
+export const softwareCategoriesFrBySoftwareCategoryEn: Record<string, string> = {
+    /* spell-checker: disable */
+    "Operating Systems": "Systèmes d'exploitation",
+    "Web Servers": "Serveurs Web",
+    "Databases": "Bases de données",
+    "Programming Languages": "Langages de programmation",
+    "Web Frameworks": "Frameworks Web",
+    "Testing & CI/CD": "Tests & CI/CD",
+    "Version Control": "Gestion de versions",
+    "Virtualization & Containers": "Virtualisation & Conteneurs",
+    "IDEs & Text Editors": "IDEs & Éditeurs de texte",
+    "Project Management & Collaboration": "Gestion de projets & Collaboration",
+    "Content Management Systems": "Systèmes de gestion de contenu",
+    "E-Learning & Education": "E-Learning & Éducation",
+    "Desktop Applications": "Applications de bureau",
+    "Web Applications": "Applications Web",
+    "Office & Productivity": "Bureautique & Productivité",
+    "Security & Privacy": "Sécurité & Confidentialité",
+    "Web Browsers & Extensions": "Navigateurs Web & Extensions",
+    "Email Clients & Servers": "Clients de messagerie & Serveurs",
+    "API Management & Networking": "Gestion d'API & Réseautage",
+    "GeoSpatial": "GéoSpatial",
+    "Other Development Tools": "Autres outils de développement",
+    "Miscellaneous": "Divers"
+    /* spell-checker: enable */
+};

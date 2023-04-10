@@ -6,7 +6,11 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
-import { useTranslation } from "ui/i18n";
+import {
+    useTranslation,
+    useLang,
+    softwareCategoriesFrBySoftwareCategoryEn
+} from "ui/i18n";
 import { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import MenuItem from "@mui/material/MenuItem";
 import SelectMui from "@mui/material/Select";
@@ -88,6 +92,7 @@ export function Search(props: Props) {
     const { t: tCommon } = useTranslation({ "App": undefined });
 
     const { classes, cx } = useStyles();
+    const { lang } = useLang();
 
     return (
         <div className={cx(fr.cx("fr-accordion"), classes.root)}>
@@ -169,7 +174,13 @@ export function Search(props: Props) {
                             },
                             ...categoryOptions.map(({ category, softwareCount }) => ({
                                 "value": category,
-                                "label": `${category} (${softwareCount})`
+                                "label": `${
+                                    lang === "fr"
+                                        ? softwareCategoriesFrBySoftwareCategoryEn[
+                                              category
+                                          ] ?? category
+                                        : category
+                                } (${softwareCount})`
                             }))
                         ]}
                     />
