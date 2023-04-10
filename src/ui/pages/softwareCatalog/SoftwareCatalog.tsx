@@ -41,11 +41,8 @@ export default function SoftwareCatalog(props: Props) {
     //TODO: Submit an issue to type-route, it should test the shallow equality of the params
     const updateRouteParams = useConstCallback(
         (params: Param0<(typeof routes)["softwareCatalog"]>) => {
-            if (
-                params.prerogatives?.length === 0 &&
-                route.params.prerogatives.length === 0
-            ) {
-                delete params.prerogatives;
+            if (params.prerogatives?.length === 0) {
+                params.prerogatives = undefined;
             }
 
             return routes.softwareCatalog(params);
