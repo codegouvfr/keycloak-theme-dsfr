@@ -1,4 +1,4 @@
-import { useState, useEffect, useId } from "react";
+import { useState, useId } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { SearchBar } from "@codegouvfr/react-dsfr/SearchBar";
 import { Button } from "@codegouvfr/react-dsfr/Button";
@@ -95,7 +95,13 @@ export function SoftwareCatalogSearch(props: Props) {
 
     const { lang } = useLang();
 
-    const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+    const [areFiltersOpen, setAreFiltersOpen] = useState(
+        () =>
+            organization !== undefined ||
+            category !== undefined ||
+            environment !== undefined ||
+            prerogatives.length !== 0
+    );
 
     useEffectOnValueChange(() => {
         if (!areFiltersOpen) {
@@ -105,18 +111,6 @@ export function SoftwareCatalogSearch(props: Props) {
             onPrerogativesChange([]);
         }
     }, [areFiltersOpen]);
-
-    useEffect(() => {
-        if (
-            organization !== undefined ||
-            category !== undefined ||
-            environment !== undefined ||
-            prerogatives.length !== 0
-        ) {
-            console.log("open filters!");
-            setAreFiltersOpen(true);
-        }
-    }, [organization, category, environment, JSON.stringify([...prerogatives].sort())]);
 
     const { classes, cx } = useStyles({
         "filterWrapperMaxHeight": areFiltersOpen
