@@ -6,7 +6,7 @@ import type { Equals } from "tsafe";
 import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
-import { Search } from "ui/pages/softwareCatalog/Search";
+import { SoftwareCatalogSearch } from "ui/pages/softwareCatalog/SoftwareCatalogSearch";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { routes } from "ui/routes";
@@ -93,7 +93,7 @@ export function SoftwareCatalogControlled(props: Props) {
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
-            <Search
+            <SoftwareCatalogSearch
                 search={search}
                 onSearchChange={onSearchChange}
                 organizationOptions={organizationOptions}
