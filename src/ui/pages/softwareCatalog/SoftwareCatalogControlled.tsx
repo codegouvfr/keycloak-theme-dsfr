@@ -112,7 +112,7 @@ export function SoftwareCatalogControlled(props: Props) {
                 <div className={classes.header}>
                     <h6 className={classes.softwareCount}>
                         {t("search results", {
-                            count: softwares.length
+                            "count": softwares.length
                         })}
                     </h6>
                     <SelectNext
