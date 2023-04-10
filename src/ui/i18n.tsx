@@ -388,6 +388,7 @@ const {
                 "organization": "Organization",
                 "is user of": "Is user of",
                 "is referent of": "Is referent of",
+                "use case": "Use case"
             },
             "DeclarationForm": {
                 "catalog breadcrumb": "Software catalog",
@@ -787,6 +788,7 @@ const {
                 "organization": "Organisation",
                 "is user of": "Est utilisateur de",
                 "is referent of": "Est référent de",
+                "use case": "Cas d'usage"
             },
             "DeclarationForm": {
                 "catalog breadcrumb": "Le catalogue de logiciel",

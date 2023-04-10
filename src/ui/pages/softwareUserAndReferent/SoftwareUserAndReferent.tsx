@@ -92,9 +92,9 @@ export default function SoftwareUserAndReferent(props: Props) {
                         {isTechnicalExpert && <span>({t("is technical expert")})</span>}
                     </p>
                     <p>
-                        {t("organization")} {organization}{" "}
+                        {t("organization")} : {organization}{" "}
                     </p>
-                    <p>{usecaseDescription}</p>
+                    <p>{t("use case")} : {usecaseDescription}</p>
                     {serviceUrl && (
                         <p>
                             {t("is referent of")} <a href={serviceUrl}>{serviceUrl}</a>
@@ -113,7 +113,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                     <p>
                         {t("organization")} : {organization}{" "}
                     </p>
-                    <p>{usecaseDescription}</p>
+                    <p>{t("use case")} : {usecaseDescription}</p>
                     {serviceUrl && (
                         <p>
                             {t("is user of")}{" "}
@@ -347,6 +347,7 @@ export const { i18n } = declareComponentKeys<
     | "declare user"
     | "is technical expert"
     | "organization"
+    | "use case"
     | "is user of"
     | "is referent of"
 >()({ SoftwareUserAndReferent });
