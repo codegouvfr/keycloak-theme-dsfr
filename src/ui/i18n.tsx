@@ -272,8 +272,7 @@ const {
                 "best_match": "Best match"
             },
             "SoftwareCatalogCard": {
-                "last version": "Last version",
-                "last version date": ({ date }) => `in (${date})`,
+                "latest version": ({ fromNowText }) => `Latest version ${fromNowText}`,
                 "declare oneself referent": "Declare yourself referent / user",
                 "isDesktop": "This software can be installed on desktop",
                 "isFromFrenchPublicService":
@@ -654,8 +653,7 @@ const {
                     "Décrivez en quelques mots à qui l'offre de service est proposée"
             },
             "SoftwareCatalogCard": {
-                "last version": "Dernière version",
-                "last version date": ({ date }) => `en (${date})`,
+                "latest version": ({ fromNowText }) => `Dernière version ${fromNowText}`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
                 "isDesktop": "Ce logiciel s'installe sur ordinateur",
                 "isFromFrenchPublicService":

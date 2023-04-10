@@ -355,8 +355,10 @@ export const { fromNow } = (() => {
 })();
 
 export const { useFromNow } = (() => {
-    function useFromNow(params: { dateTime: number }) {
+    function useFromNow(params: { dateTime: number | undefined }) {
         const { dateTime } = params;
+
+        if (dateTime === undefined) return { "fromNowText": "" };
 
         const [trigger, forceUpdate] = useReducer(n => n + 1, 0);
 

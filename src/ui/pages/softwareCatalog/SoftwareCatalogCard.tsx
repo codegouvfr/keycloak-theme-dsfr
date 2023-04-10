@@ -1,10 +1,10 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation, useResolveLocalizedString, useLang } from "ui/i18n";
+import { useTranslation, useResolveLocalizedString } from "ui/i18n";
 import type { Link } from "type-route";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
-import { shortEndMonthDate } from "ui/useMoment";
+import { useFromNow } from "ui/useMoment";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import Tooltip from "@mui/material/Tooltip";
@@ -57,7 +57,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     const { t } = useTranslation({ SoftwareCatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
     const { classes, cx } = useStyles();
-    const { lang } = useLang();
+    const { fromNowText } = useFromNow({ "dateTime": latestVersion?.publicationTime });
 
     return (
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
@@ -104,7 +104,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                         classes.softwareVersionContainer
                                     )}
                                 >
-                                    {t("last version")} :
+                                    {t("latest version", { fromNowText })}
                                     <span
                                         className={cx(
                                             fr.cx(
@@ -118,12 +118,6 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                     >
                                         {latestVersion.semVer}
                                     </span>
-                                    {t("last version date", {
-                                        "date": shortEndMonthDate({
-                                            "time": latestVersion.publicationTime,
-                                            lang
-                                        })
-                                    })}
                                 </p>
                             )}
                         </div>
@@ -294,8 +288,7 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    | "last version"
-    | { K: "last version date"; P: { date: string } }
+    | { K: "latest version"; P: { fromNowText: string } }
     | "declare oneself referent"
     | "isDesktop"
     | "isPresentInSupportMarket"
