@@ -134,9 +134,10 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     </div>
                 </div>
 
-                <p className={cx(fr.cx("fr-card__desc"), classes.description)}>
-                    <Markdown>{resolveLocalizedString(softwareDescription)}</Markdown>
-                </p>
+                <Markdown className={cx(fr.cx("fr-card__desc"), classes.description)}>
+                    {resolveLocalizedString(softwareDescription)}
+                </Markdown>
+
                 <DetailUsersAndReferents
                     seeUserAndReferent={
                         referentCount > 0 || userCount > 0
