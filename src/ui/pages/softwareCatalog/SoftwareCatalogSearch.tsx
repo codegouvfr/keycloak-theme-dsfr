@@ -325,7 +325,8 @@ const useStyles = makeStyles<{ filterWrapperMaxHeight: number }>({
         "columnGap": fr.spacing("4v"),
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`
-        }
+        },
+        "paddingLeft": fr.spacing("1v")
     },
     "filterSelectGroup": {
         "&:not(:last-of-type)": {
