@@ -118,16 +118,11 @@ export default function SoftwareCatalog(props: Props) {
             Object.fromEntries(
                 softwares.map(({ softwareName }) => [
                     softwareName,
+                    /* prettier-ignore */
                     {
-                        "softwareDetails": routes.softwareDetails({
-                            "name": softwareName
-                        }).link,
-                        "declareUsageForm": routes.declarationForm({
-                            "name": softwareName
-                        }).link,
-                        "softwareUsersAndReferents": routes.softwareUsersAndReferents({
-                            "name": softwareName
-                        }).link
+                        "softwareDetails": routes.softwareDetails({ "name": softwareName }).link,
+                        "declareUsageForm": routes.declarationForm({ "name": softwareName }).link,
+                        "softwareUsersAndReferents": routes.softwareUsersAndReferents({ "name": softwareName }).link
                     }
                 ])
             ),
