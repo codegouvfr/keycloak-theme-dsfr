@@ -10,7 +10,8 @@ import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
-    alikeExternalSoftwares?: SoftwareCatalogState.Software.External[];
+    alikeExternalSoftwares: SoftwareCatalogState.Software.External[];
+    alikeInternalSoftwares: { isInSill: false; url: string; description: string; name: string; }[];
     getLinks: (params: {
         softwareName: string;
     }) => Record<
@@ -20,7 +21,7 @@ export type Props = {
 };
 
 export const AlikeSoftwareTab = (props: Props) => {
-    const { className, alikeExternalSoftwares, getLinks, ...rest } = props;
+    const { className, alikeExternalSoftwares, alikeInternalSoftwares, getLinks, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -30,9 +31,9 @@ export const AlikeSoftwareTab = (props: Props) => {
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
-                {t("alike software sill")} ({alikeExternalSoftwares?.length}) :
+                {t("alike software sill")} ({alikeExternalSoftwares.length}) :
             </p>
-            {alikeExternalSoftwares?.map(software => {
+            {alikeExternalSoftwares.map(software => {
                 const {
                     logoUrl,
                     softwareName,
@@ -64,10 +65,25 @@ export const AlikeSoftwareTab = (props: Props) => {
                     />
                 );
             })}
+            <p className={fr.cx("fr-text--bold")}>
+                {t("alike software internal")} ({alikeInternalSoftwares?.length}) :
+            </p>
+            <ul>
+                {alikeInternalSoftwares.map(software => {
+                    const { name, description, url } = software
+
+                    return (
+                        <li key={name}>
+                            <p>{ name } (<a href={url} target="_blank" rel="noreferrer">{url}</a>)</p>
+                            <p>{ description }</p>
+                        </li>
+                    )
+                })}
+            </ul>
         </section>
     );
 };
 
 export const { i18n } = declareComponentKeys<
-    "alike software sill" | "alike software proprietary"
+    "alike software sill" | "alike software internal"
 >()({ AlikeSoftwareTab });

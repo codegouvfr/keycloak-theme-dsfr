@@ -361,7 +361,7 @@ const {
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Alike software in SILL",
-                "alike software proprietary": "Alike proprietary software"
+                "alike software internal": "Alike proprietary software"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
@@ -760,7 +760,7 @@ const {
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Logiciels similaires sur le SILL",
-                "alike software proprietary": "Logiciels équivalents propriétaires"
+                "alike software internal": "Logiciels équivalents propriétaires"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (

@@ -121,6 +121,11 @@ export default function SoftwareDetails(props: Props) {
                                             item.isInSill ? item.software : undefined
                                         )
                                         .filter(exclude(undefined))}
+                                    alikeInternalSoftwares={software.similarSoftwares
+                                        .map(item =>
+                                            item.isInSill === false ? item : undefined
+                                        )
+                                        .filter(exclude(undefined))}
                                     getLinks={({ softwareName }) => ({
                                         "declarationForm": routes.declarationForm({
                                             "name": softwareName
