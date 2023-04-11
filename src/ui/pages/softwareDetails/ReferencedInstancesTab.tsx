@@ -36,26 +36,6 @@ export const ReferencedInstancesTab = (props: Props) => {
     const { classes, cx } = useStyles();
     const [expanded, setExpanded] = useState(false);
 
-    const instanceCard = (instance: Instance) => {
-        const { name, description } = instance;
-        return (
-            <div className={cx(fr.cx("fr-card"), classes.card)}>
-                <h6 className={cx(classes.name)}>{name}</h6>
-                <p className={cx(fr.cx("fr-text--xs"), classes.concernedPublic)}>
-                    {t("concerned public")}
-                </p>
-                <p className={cx(fr.cx("fr-text--sm"), classes.description)}>
-                    {description}
-                </p>
-                <div className={classes.footer}>
-                    <Button onClick={() => {}} priority="secondary">
-                        {t("go to instance")}
-                    </Button>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
@@ -75,9 +55,38 @@ export const ReferencedInstancesTab = (props: Props) => {
                         expanded={expanded}
                     >
                         <div className={classes.accordionGrid}>
-                            {maintainedInstances.map((instance: any) =>
-                                instanceCard(instance)
-                            )}
+                            {maintainedInstances.map((instance: any) => {
+                                const { name, description } = instance;
+                                return (
+                                    <div className={cx(fr.cx("fr-card"), classes.card)}>
+                                        <h6 className={cx(classes.name)}>{name}</h6>
+                                        <p
+                                            className={cx(
+                                                fr.cx("fr-text--xs"),
+                                                classes.concernedPublic
+                                            )}
+                                        >
+                                            {t("concerned public")}
+                                        </p>
+                                        <p
+                                            className={cx(
+                                                fr.cx("fr-text--sm"),
+                                                classes.description
+                                            )}
+                                        >
+                                            {description}
+                                        </p>
+                                        <div className={classes.footer}>
+                                            <Button
+                                                onClick={() => {}}
+                                                priority="secondary"
+                                            >
+                                                {t("go to instance")}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </Accordion>
                 );
