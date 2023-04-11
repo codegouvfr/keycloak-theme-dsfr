@@ -100,7 +100,8 @@ export const Header = memo((props: Props) => {
                 {
                     "isActive":
                         routeName === routes.softwareCatalog.name ||
-                        routeName === routes.softwareDetails.name,
+                        routeName === routes.softwareDetails.name ||
+                        routeName === routes.softwareUsersAndReferents.name,
                     "linkProps": routes.softwareCatalog().link,
                     "text": t("navigation catalog")
                 },
