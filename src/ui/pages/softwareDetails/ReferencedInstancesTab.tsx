@@ -10,7 +10,7 @@ import { groupBy } from "lodash";
 
 export type Props = {
     className?: string;
-    instanceList:  {organization: string, instanceUrl: string, targetAudience: string}[];
+    instanceList:  {organization: string, instanceUrl: string, targetAudience?: string}[];
     instanceCount: number;
 };
 
@@ -50,22 +50,24 @@ export const ReferencedInstancesTab = (props: Props) => {
                                 return (
                                     <div className={cx(fr.cx("fr-card"), classes.card)} key={instanceUrl}>
                                         <h6 className={cx(classes.name)}>{instanceUrl}</h6>
-                                        <p
-                                            className={cx(
-                                                fr.cx("fr-text--xs"),
-                                                classes.concernedPublic
-                                            )}
-                                        >
-                                            {t("concerned public")}
-                                        </p>
-                                        <p
-                                            className={cx(
-                                                fr.cx("fr-text--sm"),
-                                                classes.description
-                                            )}
-                                        >
-                                            {targetAudience}
-                                        </p>
+                                        {targetAudience && <>
+                                            <p
+                                                className={cx(
+                                                    fr.cx("fr-text--xs"),
+                                                    classes.concernedPublic
+                                                )}
+                                            >
+                                                {t("concerned public")}
+                                            </p>
+                                            <p
+                                                className={cx(
+                                                    fr.cx("fr-text--sm"),
+                                                    classes.description
+                                                )}
+                                            >
+                                                {targetAudience}
+                                            </p>
+                                        </>}
                                         <div className={classes.footer}>
                                             <a className={cx(fr.cx("fr-btn", "fr-btn--secondary"))} href={instanceUrl} target="_blank" rel="noreferrer">
                                                 {t("go to instance")}
