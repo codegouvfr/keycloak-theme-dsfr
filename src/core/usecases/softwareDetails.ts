@@ -10,7 +10,6 @@ import {
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 import { exclude } from "tsafe/exclude";
-import { LocalizedString } from "ui/i18n";
 
 export type State = State.NotReady | State.Ready;
 
