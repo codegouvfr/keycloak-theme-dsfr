@@ -294,6 +294,8 @@ const useStyles = makeStyles<{ contentWidth: number }>({
         "marginBottom": fr.spacing("6v")
     },
     "contentWrapper": {
-        "width": `${contentWidth}px`
+        "maxWidth": `${contentWidth}px`,
+        "width": "100%",
+        "margin": "0 auto",
     }
 }));

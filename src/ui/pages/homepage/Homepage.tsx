@@ -11,7 +11,6 @@ import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "core";
-//import { SearchByProfile } from "./SearchByProfile";
 import type { PageRoute } from "./route";
 
 type Props = {
@@ -238,7 +237,10 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     },
     "titleContainer": {
         "marginBottom": fr.spacing("10v"),
-        "display": "flex"
+        "display": "flex",
+        [fr.breakpoints.down("md")]: {
+            "flexDirection": "column"
+        }
     },
     "title": {
         "marginRight": fr.spacing("30v"),
