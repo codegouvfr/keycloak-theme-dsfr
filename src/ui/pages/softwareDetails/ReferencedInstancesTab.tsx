@@ -5,29 +5,18 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
-import type { Link } from "type-route";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-
-export type Instance = {
-    name: string;
-    description: string;
-    instanceLink: Link;
-};
-
-export type Organization = {
-    name: string;
-    maintainedInstances: Instance[];
-};
+import { groupBy } from "lodash";
 
 export type Props = {
     className?: string;
-    organizationList?: any[];
-    instanceCount?: number;
+    instanceList:  {organization: string, instanceUrl: string, targetAudience: string}[];
+    instanceCount: number;
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
-    const { className, organizationList, instanceCount, ...rest } = props;
+    const { className, instanceList, instanceCount, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -36,30 +25,32 @@ export const ReferencedInstancesTab = (props: Props) => {
     const { classes, cx } = useStyles();
     const [expanded, setExpanded] = useState(false);
 
+    const groupInstanceByOrganization = groupBy(instanceList, "organization")
+
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
                 {t("instanceCount", {
-                    "instanceCount": instanceCount ?? 0,
-                    "publicOrganisationCount": organizationList?.length ?? 0
+                    "instanceCount": instanceCount,
+                    "publicOrganisationCount": Object.keys(groupInstanceByOrganization).length
                 })}
             </p>
-            {organizationList?.map(organization => {
-                const { name, maintainedInstances } = organization;
+            {Object.keys(groupInstanceByOrganization).map(organization => {
+                const groupedInstanceList = instanceList.filter(instance => instance.organization === organization)
 
                 return (
                     <Accordion
-                        key={name}
-                        label={`${name} (${maintainedInstances.length})`}
+                        key={organization}
+                        label={`${organization} (${instanceCount})`}
                         onExpandedChange={value => setExpanded(!value)}
                         expanded={expanded}
                     >
                         <div className={classes.accordionGrid}>
-                            {maintainedInstances.map((instance: any) => {
-                                const { name, description } = instance;
+                            {groupedInstanceList.map(instance => {
+                                const { instanceUrl, targetAudience } = instance;
                                 return (
-                                    <div className={cx(fr.cx("fr-card"), classes.card)}>
-                                        <h6 className={cx(classes.name)}>{name}</h6>
+                                    <div className={cx(fr.cx("fr-card"), classes.card)} key={instanceUrl}>
+                                        <h6 className={cx(classes.name)}>{instanceUrl}</h6>
                                         <p
                                             className={cx(
                                                 fr.cx("fr-text--xs"),
@@ -74,15 +65,12 @@ export const ReferencedInstancesTab = (props: Props) => {
                                                 classes.description
                                             )}
                                         >
-                                            {description}
+                                            {targetAudience}
                                         </p>
                                         <div className={classes.footer}>
-                                            <Button
-                                                onClick={() => {}}
-                                                priority="secondary"
-                                            >
+                                            <a className={cx(fr.cx("fr-btn", "fr-btn--secondary"))} href={instanceUrl} target="_blank" rel="noreferrer">
                                                 {t("go to instance")}
-                                            </Button>
+                                            </a>
                                         </div>
                                     </div>
                                 );

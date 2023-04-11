@@ -8,7 +8,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import { HeaderDetailCard } from "ui/pages/softwareDetails/HeaderDetailCard";
 import { PreviewTab } from "ui/pages/softwareDetails/PreviewTab";
-//import { ReferencedInstancesTab } from "ui/pages/softwareDetails/ReferencedInstancesTab";
+import { ReferencedInstancesTab } from "ui/pages/softwareDetails/ReferencedInstancesTab";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { AlikeSoftwareTab } from "ui/pages/softwareDetails/AlikeSoftwareTab";
 import { ActionsFooter } from "ui/shared/ActionsFooter";
@@ -100,19 +100,17 @@ export default function SoftwareDetails(props: Props) {
                                 />
                             )
                         },
-                        /*
                         {
                             "label": t("tab title instance", {
-                                "instanceCount": software.instances.length ?? 0
+                                "instanceCount": software.instances.length
                             }),
                             "content": (
                                 <ReferencedInstancesTab
-                                    organizationList={software.instances}
+                                    instanceList={software.instances}
                                     instanceCount={software.instances.length}
                                 />
                             )
                         },
-                        */
                         {
                             "label": t("tab title alike software", {
                                 alikeSoftwareCount: software.similarSoftwares.length ?? 0
