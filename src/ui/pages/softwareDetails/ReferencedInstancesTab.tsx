@@ -40,7 +40,7 @@ export const ReferencedInstancesTab = (props: Props) => {
                 return (
                     <Accordion
                         key={organization}
-                        label={`${organization} (${instanceCount})`}
+                        label={`${organization} (${groupedInstanceList.length})`}
                         onExpandedChange={value => setExpanded(!value)}
                         expanded={expanded}
                     >
