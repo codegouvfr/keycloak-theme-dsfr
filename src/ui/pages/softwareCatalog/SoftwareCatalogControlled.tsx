@@ -210,7 +210,7 @@ function RowVirtualizerDynamicWindow(
         parentOffsetRef.current = parentRef.current?.offsetTop ?? 0;
     }, []);
 
-    const height = 300;
+    const height = 332;
 
     const virtualizer = useWindowVirtualizer({
         "count": softwaresGroupedByLine.length,
@@ -273,7 +273,7 @@ function RowVirtualizerDynamicWindow(
 
                                         return (
                                             <SoftwareCatalogCard
-                                                className={css({ height })}
+                                                className={css({ "minHeight": height })}
                                                 key={softwareName}
                                                 declareFormLink={declareUsageForm}
                                                 softwareDetailsLink={softwareDetails}
