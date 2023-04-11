@@ -354,14 +354,14 @@ const {
                 "wikiData sheet": "Open Wikidata sheet"
             },
             "ReferencedInstancesTab": {
-                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
-                    `${instanceCount} maintained instance by ${publicOrganisationCount} public organisation`,
+                "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
+                    `${instanceCount} maintained instance by ${publicOrganizationCount} public organisation`,
                 "concerned public": "Concerned public : ",
                 "go to instance": "Open the instance"
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Alike software in SILL",
-                "alike software proprietary": "Alike proprietary software"
+                "alike software internal": "Alike proprietary software"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
@@ -753,14 +753,14 @@ const {
                 "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "ReferencedInstancesTab": {
-                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
-                    `${instanceCount} instances maintenues par ${publicOrganisationCount} organisations publiques`,
+                "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
+                    `${instanceCount} instances maintenues par ${publicOrganizationCount} organisations publiques`,
                 "concerned public": "Public concerné : ",
                 "go to instance": "Accéder à l'instance"
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Logiciels similaires sur le SILL",
-                "alike software proprietary": "Logiciels équivalents propriétaires"
+                "alike software internal": "Logiciels équivalents propriétaires"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (

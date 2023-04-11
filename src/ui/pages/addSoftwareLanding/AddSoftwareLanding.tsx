@@ -116,7 +116,10 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
     },
     "titleContainer": {
         "marginBottom": fr.spacing("10v"),
-        "display": "flex"
+        "display": "flex",
+        [fr.breakpoints.down("md")]: {
+            "flexDirection": "column"
+        }
     },
     "title": {
         "&>span": {
@@ -124,7 +127,11 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
         }
     },
     "illustration": {
-        "marginLeft": fr.spacing("30v")
+        "marginLeft": fr.spacing("30v"),
+        [fr.breakpoints.down("md")]: {
+            "marginLeft": 0,
+        }
+
     },
     "whoCanAddBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default
