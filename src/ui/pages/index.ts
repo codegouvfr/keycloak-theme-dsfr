@@ -10,6 +10,7 @@ import * as softwareDetails from "./softwareDetails";
 import * as softwareForm from "./softwareForm";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
 import * as terms from "./terms";
+import * as redirect from "./redirect";
 
 import { objectKeys } from "tsafe/objectKeys";
 import type { UnionToIntersection } from "tsafe";
@@ -25,7 +26,8 @@ export const pages = {
     softwareDetails,
     softwareForm,
     softwareUserAndReferent,
-    terms
+    terms,
+    redirect
 };
 
 export const routeDefs = {} as UnionToIntersection<
