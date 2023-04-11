@@ -11,6 +11,7 @@ import * as searchSoftwareByName from "./searchSoftwareByName";
 import * as userAuthentication from "./userAuthentication";
 import * as termsOfServices from "./termsOfServices";
 import * as readme from "./readme";
+import * as redirect from "./redirect";
 
 export const usecases = {
     softwareCatalog,
@@ -25,5 +26,6 @@ export const usecases = {
     searchSoftwareByName,
     userAuthentication,
     termsOfServices,
-    readme
+    readme,
+    redirect
 };

@@ -27,7 +27,8 @@ export const pages = {
     softwareForm,
     softwareUserAndReferent,
     terms,
-    redirect
+    redirect,
+    page404
 };
 
 export const routeDefs = {} as UnionToIntersection<
@@ -37,5 +38,3 @@ export const routeDefs = {} as UnionToIntersection<
 objectKeys(pages).forEach(pageName =>
     Object.assign(routeDefs, pages[pageName].routeDefs)
 );
-
-export { page404 };

@@ -15,7 +15,7 @@ import {
     addAppLocationOriginToQueryParams
 } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { createCoreProvider } from "core";
-import { pages, page404 } from "ui/pages";
+import { pages } from "ui/pages";
 import { useConst } from "powerhooks/useConst";
 import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
@@ -146,7 +146,7 @@ function ContextualizedApp() {
                             }
                         }
 
-                        return <page404.LazyComponent />;
+                        return <pages.page404.LazyComponent className={classes.page} />;
                     })()}
                 </Suspense>
                 <Footer
