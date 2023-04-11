@@ -10,6 +10,7 @@ import {
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 import { exclude } from "tsafe/exclude";
+import { LocalizedString } from "ui/i18n";
 
 export type State = State.NotReady | State.Ready;
 
@@ -69,6 +70,8 @@ export namespace State {
             | {
                   isInSill: false;
                   url: string;
+                  description: string;
+                  name: string;
               }
         )[];
     };
@@ -271,7 +274,9 @@ function apiSoftwareToSoftware(params: {
             if (software === undefined) {
                 return {
                     "isInSill": false,
-                    "url": `https://www.wikidata.org/wiki/${softwareRef.wikidataId}`
+                    "url": `https://www.wikidata.org/wiki/${softwareRef.wikidataId}`,
+                    "description": softwareRef.wikidataDescription,
+                    "name": softwareRef.wikidataLabel
                 };
             }
 
