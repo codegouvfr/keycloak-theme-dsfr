@@ -10,12 +10,11 @@ import { groupBy } from "lodash";
 
 export type Props = {
     className?: string;
-    instanceList:  {organization: string, instanceUrl: string, targetAudience?: string}[];
-    instanceCount: number;
+    instanceList:  {organization: string, instanceUrl: string, targetAudience: string}[];
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
-    const { className, instanceList, instanceCount, ...rest } = props;
+    const { className, instanceList, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -30,8 +29,8 @@ export const ReferencedInstancesTab = (props: Props) => {
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
                 {t("instanceCount", {
-                    "instanceCount": instanceCount,
-                    "publicOrganisationCount": Object.keys(groupInstanceByOrganization).length
+                    "instanceCount": instanceList.length,
+                    "publicOrganizationCount": Object.keys(groupInstanceByOrganization).length
                 })}
             </p>
             {Object.keys(groupInstanceByOrganization).map(organization => {
@@ -50,24 +49,22 @@ export const ReferencedInstancesTab = (props: Props) => {
                                 return (
                                     <div className={cx(fr.cx("fr-card"), classes.card)} key={instanceUrl}>
                                         <h6 className={cx(classes.name)}>{instanceUrl}</h6>
-                                        {targetAudience && <>
-                                            <p
-                                                className={cx(
-                                                    fr.cx("fr-text--xs"),
-                                                    classes.concernedPublic
-                                                )}
-                                            >
-                                                {t("concerned public")}
-                                            </p>
-                                            <p
-                                                className={cx(
-                                                    fr.cx("fr-text--sm"),
-                                                    classes.description
-                                                )}
-                                            >
-                                                {targetAudience}
-                                            </p>
-                                        </>}
+                                        <p
+                                            className={cx(
+                                                fr.cx("fr-text--xs"),
+                                                classes.concernedPublic
+                                            )}
+                                        >
+                                            {t("concerned public")}
+                                        </p>
+                                        <p
+                                            className={cx(
+                                                fr.cx("fr-text--sm"),
+                                                classes.description
+                                            )}
+                                        >
+                                            {targetAudience}
+                                        </p>
                                         <div className={classes.footer}>
                                             <a className={cx(fr.cx("fr-btn", "fr-btn--secondary"))} href={instanceUrl} target="_blank" rel="noreferrer">
                                                 {t("go to instance")}
@@ -119,7 +116,7 @@ const useStyles = makeStyles({
 export const { i18n } = declareComponentKeys<
     | {
           K: "instanceCount";
-          P: { instanceCount: number; publicOrganisationCount: number };
+          P: { instanceCount: number; publicOrganizationCount: number };
       }
     | "concerned public"
     | "go to instance"

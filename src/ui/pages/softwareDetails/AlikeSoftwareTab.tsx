@@ -10,7 +10,7 @@ import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
-    alikeSoftwares?: SoftwareCatalogState.Software.External[];
+    alikeExternalSoftwares?: SoftwareCatalogState.Software.External[];
     getLinks: (params: {
         softwareName: string;
     }) => Record<
@@ -20,7 +20,7 @@ export type Props = {
 };
 
 export const AlikeSoftwareTab = (props: Props) => {
-    const { className, alikeSoftwares, getLinks, ...rest } = props;
+    const { className, alikeExternalSoftwares, getLinks, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -30,9 +30,9 @@ export const AlikeSoftwareTab = (props: Props) => {
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
-                {t("alike software sill")} ({alikeSoftwares?.length}) :
+                {t("alike software sill")} ({alikeExternalSoftwares?.length}) :
             </p>
-            {alikeSoftwares?.map(software => {
+            {alikeExternalSoftwares?.map(software => {
                 const {
                     logoUrl,
                     softwareName,

@@ -354,8 +354,8 @@ const {
                 "wikiData sheet": "Open Wikidata sheet"
             },
             "ReferencedInstancesTab": {
-                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
-                    `${instanceCount} maintained instance by ${publicOrganisationCount} public organisation`,
+                "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
+                    `${instanceCount} maintained instance by ${publicOrganizationCount} public organisation`,
                 "concerned public": "Concerned public : ",
                 "go to instance": "Open the instance"
             },
@@ -753,8 +753,8 @@ const {
                 "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "ReferencedInstancesTab": {
-                "instanceCount": ({ instanceCount, publicOrganisationCount }) =>
-                    `${instanceCount} instances maintenues par ${publicOrganisationCount} organisations publiques`,
+                "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
+                    `${instanceCount} instances maintenues par ${publicOrganizationCount} organisations publiques`,
                 "concerned public": "Public concerné : ",
                 "go to instance": "Accéder à l'instance"
             },

@@ -107,7 +107,6 @@ export default function SoftwareDetails(props: Props) {
                             "content": (
                                 <ReferencedInstancesTab
                                     instanceList={software.instances}
-                                    instanceCount={software.instances.length}
                                 />
                             )
                         },
@@ -117,7 +116,7 @@ export default function SoftwareDetails(props: Props) {
                             }),
                             "content": (
                                 <AlikeSoftwareTab
-                                    alikeSoftwares={software.similarSoftwares
+                                    alikeExternalSoftwares={software.similarSoftwares
                                         .map(item =>
                                             item.isInSill ? item.software : undefined
                                         )
