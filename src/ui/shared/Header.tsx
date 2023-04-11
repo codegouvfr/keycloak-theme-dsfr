@@ -8,6 +8,8 @@ import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { contactEmail } from "ui/shared/contactEmail";
+import { LanguageSelector } from "./LanguageSelector";
+import { Language } from "../i18n";
 
 type Props = {
     className?: string;
@@ -21,6 +23,10 @@ type Props = {
               isUserLoggedIn: false;
               login: () => Promise<never>;
           };
+    i18nApi: {
+        lang: Language;
+        setLang: (lang: Language) => void;
+    };
 };
 
 export const brandTop = (
@@ -32,7 +38,7 @@ export const brandTop = (
 );
 
 export const Header = memo((props: Props) => {
-    const { className, routeName, userAuthenticationApi, ...rest } = props;
+    const { className, routeName, userAuthenticationApi, i18nApi, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
@@ -50,6 +56,25 @@ export const Header = memo((props: Props) => {
                 "title": t("home title")
             }}
             quickAccessItems={[
+                {
+                    "buttonProps": {
+                        "aria-controls": "translate-select",
+                        "aria-expanded": false,
+                        "title": t("select language"),
+                        "className": fr.cx(
+                            "fr-btn--tertiary",
+                            "fr-translate",
+                            "fr-nav"
+                        )
+                    },
+                    "iconId": "fr-icon-translate-2",
+                    "text": (
+                        <LanguageSelector
+                            lang={i18nApi.lang}
+                            setLang={i18nApi.setLang}
+                        />
+                    )
+                },
                 {
                     "iconId": "fr-icon-bank-fill",
                     "linkProps": {

@@ -6,22 +6,15 @@ import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
 import { brandTop } from "ui/shared/Header";
-import { fr } from "@codegouvfr/react-dsfr";
-import { LanguageSelector } from "./LanguageSelector";
-import { Language } from "../i18n";
 
 export type Props = {
     className?: string;
     apiVersion: string;
     webVersion: string;
-    i18nApi: {
-        lang: Language;
-        setLang: (lang: Language) => void;
-    };
 };
 
 export const Footer = memo((props: Props) => {
-    const { className, apiVersion, webVersion, i18nApi, ...rest } = props;
+    const { className, apiVersion, webVersion, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
@@ -52,25 +45,6 @@ export const Footer = memo((props: Props) => {
                         }
                     },
                     headerFooterDisplayItem,
-                    {
-                        "buttonProps": {
-                            "aria-controls": "translate-select",
-                            "aria-expanded": false,
-                            "title": t("select language"),
-                            "className": fr.cx(
-                                "fr-btn--tertiary",
-                                "fr-translate",
-                                "fr-nav"
-                            )
-                        },
-                        "iconId": "fr-icon-translate-2",
-                        "text": (
-                            <LanguageSelector
-                                lang={i18nApi.lang}
-                                setLang={i18nApi.setLang}
-                            />
-                        )
-                    }
                 ]}
             />
             <Display />

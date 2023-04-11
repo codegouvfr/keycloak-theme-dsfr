@@ -18,5 +18,11 @@ export const VueDefault = getStory({
             return new Promise<never>(() => {});
         }
     },
+    "i18nApi": {
+        "lang": "fr",
+        "setLang": lang => {
+            alert(`Changing language to ${lang}`);
+        }
+    },
     "routeName": "home"
 });

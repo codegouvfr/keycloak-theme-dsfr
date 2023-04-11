@@ -112,6 +112,7 @@ function ContextualizedApp() {
             <Header
                 routeName={route.name}
                 userAuthenticationApi={headerUserAuthenticationApi}
+                i18nApi={i18nApi}
             />
             <div className={classes.pageAndFooterWrapper}>
                 <Suspense
@@ -156,7 +157,6 @@ function ContextualizedApp() {
                         return webVersion;
                     })()}
                     apiVersion={sillApiVersion.getSillApiVersion()}
-                    i18nApi={i18nApi}
                 />
             </div>
         </div>
