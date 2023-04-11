@@ -213,7 +213,8 @@ function RowVirtualizerDynamicWindow(
     const virtualizer = useWindowVirtualizer({
         "count": softwaresGroupedByLine.length,
         "estimateSize": () => 250,
-        "scrollMargin": parentOffsetRef.current
+        "scrollMargin": parentOffsetRef.current,
+        "overscan": 5
     });
     const items = virtualizer.getVirtualItems();
 
