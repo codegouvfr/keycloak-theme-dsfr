@@ -11,7 +11,6 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
-import { contactEmail } from "../../shared/contactEmail";
 
 export type Props = {
     className?: string;

@@ -267,12 +267,7 @@ export default function Login(
                                 />
                                 <input
                                     tabIndex={4}
-                                    className={cx(
-                                        getClassName("kcButtonClass"),
-                                        getClassName("kcButtonPrimaryClass"),
-                                        getClassName("kcButtonBlockClass"),
-                                        getClassName("kcButtonLargeClass")
-                                    )}
+                                    className={fr.cx('fr-btn')}
                                     name="login"
                                     id="kc-login"
                                     type="submit"

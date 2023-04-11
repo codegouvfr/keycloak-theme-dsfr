@@ -6,7 +6,6 @@ import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import { groupBy } from "lodash";
 
 export type Props = {
