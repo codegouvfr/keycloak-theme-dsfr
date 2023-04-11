@@ -11,6 +11,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
+import { contactEmail } from "../../shared/contactEmail";
 
 export type Props = {
     className?: string;
@@ -88,8 +89,8 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={email}>
                     <p>
-                        {email}
-                        {isTechnicalExpert && <span>({t("is technical expert")})</span>}
+                        <a href={`mailto:${email}`}>{email}</a>
+                        {isTechnicalExpert && <span> ({t("is technical expert")})</span>}
                     </p>
                     <p>
                         {t("organization")} : {organization}{" "}
