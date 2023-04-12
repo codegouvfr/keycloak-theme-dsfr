@@ -53,7 +53,7 @@ export default function AddSoftwareLanding(props: Props) {
                     <img
                         src={illustration_sill}
                         alt="Illustration du SILL"
-                        className={classes.illustration}
+                        className={classes.clipart}
                     />
                 </div>
             </div>
@@ -104,7 +104,7 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
         }),
         [fr.breakpoints.down("md")]: {
             ...fr.spacing("padding", {
-                "topBottom": "20v"
+                "topBottom": "10v"
             })
         }
     },
@@ -122,16 +122,22 @@ const useStyles = makeStyles({ "name": { AddSoftwareLanding } })(theme => ({
         }
     },
     "title": {
+        "marginRight": fr.spacing("30v"),
         "&>span": {
             color: theme.decisions.text.title.blueFrance.default
+        },
+        [fr.breakpoints.down("md")]: {
+            ...fr.spacing("margin", {
+                "right": 0,
+                "bottom": "8v"
+            })
         }
     },
-    "illustration": {
-        "marginLeft": fr.spacing("30v"),
+    "clipart": {
         [fr.breakpoints.down("md")]: {
-            "marginLeft": 0,
+            "width": "50%",
+            "margin": "0 auto"
         }
-
     },
     "whoCanAddBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default

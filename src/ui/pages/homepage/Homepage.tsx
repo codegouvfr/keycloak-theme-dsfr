@@ -135,7 +135,11 @@ export default function Homepage(props: Props) {
             <div className={classes.section}>
                 <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
                     <h2 className={classes.title}>{t("title")}</h2>
-                    <img src={illustration_sill} alt="Illustration du SILL" />
+                    <img
+                        src={illustration_sill}
+                        alt="Illustration du SILL"
+                        className={classes.clipart}
+                    />
                 </div>
 
                 {/*
@@ -225,7 +229,7 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
         }),
         [fr.breakpoints.down("md")]: {
             ...fr.spacing("padding", {
-                "topBottom": "20v"
+                "topBottom": "10v"
             })
         }
     },
@@ -246,6 +250,18 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
         "marginRight": fr.spacing("30v"),
         "&>span": {
             color: theme.decisions.text.title.blueFrance.default
+        },
+        [fr.breakpoints.down("md")]: {
+            ...fr.spacing("margin", {
+                "right": 0,
+                "bottom": "8v"
+            })
+        }
+    },
+    "clipart": {
+        [fr.breakpoints.down("md")]: {
+            "width": "50%",
+            "margin": "0 auto"
         }
     },
     /*
