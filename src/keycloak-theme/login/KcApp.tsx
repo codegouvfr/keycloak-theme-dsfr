@@ -72,9 +72,6 @@ const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
         "& label": {
             "fontWeight": "unset"
         },
-        "& body": {
-            "background": "unset"
-        },
         "& #kc-header-wrapper": {
             "visibility": "hidden"
         },
