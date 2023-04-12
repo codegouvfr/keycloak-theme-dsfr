@@ -184,7 +184,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             </>
                         )}
                     </header>
-                    <div id="kc-content">
+                    <div id="kc-content" className={classes.kcContent}>
                         <div id="kc-content-wrapper" className={classes.contentWrapper}>
                             {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
                             {displayMessage &&
@@ -293,9 +293,12 @@ const useStyles = makeStyles<{ contentWidth: number }>({
     "feedback": {
         "marginBottom": fr.spacing("6v")
     },
+    "kcContent": {
+        "width": "100%"
+    },
     "contentWrapper": {
         "maxWidth": `${contentWidth}px`,
         "width": "100%",
-        "margin": "0 auto",
+        "margin": "0 auto"
     }
 }));
