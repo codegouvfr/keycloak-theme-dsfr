@@ -176,8 +176,9 @@ export function UserProfileFormFields({
                         stateRelatedMessage={
                             attribute.name === "email" &&
                             displayableErrors[0]?.validatorName === "pattern" ? (
-                                <>
+                                <span>
                                     {msgStr("you domain isn't allowed yet")}
+                                    &nbsp;
                                     <a
                                         href={`mailto:${contactEmail}?subject=${encodeURIComponent(
                                             msgStr("mail subject")
@@ -187,7 +188,7 @@ export function UserProfileFormFields({
                                     >
                                         {contactEmail}
                                     </a>
-                                </>
+                                </span>
                             ) : (
                                 displayableErrors[0]?.errorMessageStr
                             )

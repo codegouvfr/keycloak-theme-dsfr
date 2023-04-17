@@ -15,7 +15,7 @@ export const { useI18n } = createUseI18n({
         "noAccount": "No account yet",
         "backToLogin": "Back to login",
         "you domain isn't allowed yet":
-            "Your email domain isn't allowed yet. Contact us ",
+            "Your email domain isn't allowed yet. Contact us at ",
         "mail body": [
             "Hello, ",
             "Would you, assuming it's granted, add my domain to the accept list.  ",
@@ -42,7 +42,7 @@ export const { useI18n } = createUseI18n({
         "noAccount": "Pas encore de compte",
         "backToLogin": "Retour à la connexion",
         "you domain isn't allowed yet":
-            "Votre domaine n'est pas encore autorisé. Contactez-nous ",
+            "Votre domaine n'est pas encore autorisé. Contactez-nous à l'adresse: ",
         "mail body": [
             "Bonjour,",
             "Veuillez, sous réserve qu'il soit éligible, ajouter mon nom de domaineà la liste des domaines autorisés pour s'inscrire sur la plateforme SILL.",
