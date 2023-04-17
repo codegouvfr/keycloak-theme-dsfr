@@ -1,7 +1,6 @@
-import { getKcContext } from "keycloakify/login";
+import { createGetKcContext } from "keycloakify/login";
 
-export const { kcContext } = getKcContext({
-    //"mockPageId": "login.ftl",
+export const { getKcContext } = createGetKcContext({
     "mockData": [
         {
             "pageId": "login.ftl",
@@ -66,6 +65,10 @@ export const { kcContext } = getKcContext({
             }
         }
     ]
+});
+
+export const { kcContext } = getKcContext({
+    //"mockPageId": "login.ftl"
 });
 
 export type KcContext = NonNullable<typeof kcContext>;
