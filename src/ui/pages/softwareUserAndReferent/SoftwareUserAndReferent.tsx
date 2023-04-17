@@ -18,7 +18,7 @@ export type Props = {
 };
 
 export default function SoftwareUserAndReferent(props: Props) {
-    const { route } = props;
+    const { route, className } = props;
 
     const { softwareDetails, softwareUserAndReferent } = useCoreFunctions();
 
@@ -94,7 +94,11 @@ export default function SoftwareUserAndReferent(props: Props) {
                     <p>
                         {t("organization")} : {organization}{" "}
                     </p>
-                    {usecaseDescription && (<p>{t("use case")} : {usecaseDescription}</p>)}
+                    {usecaseDescription && (
+                        <p>
+                            {t("use case")} : {usecaseDescription}
+                        </p>
+                    )}
                     {serviceUrl && (
                         <p>
                             {t("is referent of")} <a href={serviceUrl}>{serviceUrl}</a>
@@ -113,7 +117,11 @@ export default function SoftwareUserAndReferent(props: Props) {
                     <p>
                         {t("organization")} : {organization}{" "}
                     </p>
-                    {usecaseDescription && (<p>{t("use case")} : {usecaseDescription}</p>)}
+                    {usecaseDescription && (
+                        <p>
+                            {t("use case")} : {usecaseDescription}
+                        </p>
+                    )}
                     {serviceUrl && (
                         <p>
                             {t("is user of")}{" "}
@@ -129,7 +137,7 @@ export default function SoftwareUserAndReferent(props: Props) {
 
     return (
         <div>
-            <div className={fr.cx("fr-container")}>
+            <div className={cx(fr.cx("fr-container"), className)}>
                 <Breadcrumb
                     segments={[
                         {
