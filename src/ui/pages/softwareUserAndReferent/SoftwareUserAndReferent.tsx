@@ -10,6 +10,7 @@ import { ActionsFooter } from "ui/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 
 export type Props = {
@@ -51,15 +52,12 @@ export default function SoftwareUserAndReferent(props: Props) {
     const { logoUrl } = useCoreState(selectors.softwareUserAndReferent.logoUrl);
 
     if (!isReady) {
-        return null;
+        return <LoadingFallback />;
     }
 
     assert(users !== undefined);
     assert(referents !== undefined);
-
-    if (software === undefined) {
-        return null;
-    }
+    assert(software !== undefined);
 
     const MenuTabs = [
         {
@@ -71,10 +69,6 @@ export default function SoftwareUserAndReferent(props: Props) {
             "label": `${t("tab user title")} (${users.length})`
         }
     ];
-
-    const onChangeTabMenu = (id: number) => {
-        setActiveMenu(id);
-    };
 
     const contentReferent = () => {
         return referents.map(referent => {
@@ -234,9 +228,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                                                     href="#"
                                                     target="_self"
                                                     {...ariaCurrent}
-                                                    onClick={() =>
-                                                        onChangeTabMenu(tab.id)
-                                                    }
+                                                    onClick={() => setActiveMenu(tab.id)}
                                                 >
                                                     {tab.label}
                                                 </a>

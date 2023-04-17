@@ -21,6 +21,7 @@ import { declareComponentKeys } from "i18nifty";
 import { ActionsFooter } from "ui/shared/ActionsFooter";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
+import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 type Props = {
     className?: string;
@@ -80,18 +81,6 @@ export default function DeclarationForm(props: Props) {
         evtActionSubmitStep.post();
     };
 
-    const handleDisableBackButton = () => {
-        switch (step) {
-            case 1:
-                return true;
-            default:
-                return false;
-        }
-    };
-    const handleDisableNextButton = () => {
-        return isSubmitting;
-    };
-
     const getActiveStep = (): "type" | "user" | "referent" => {
         if (step === 1) {
             return "type";
@@ -108,16 +97,8 @@ export default function DeclarationForm(props: Props) {
         return "type";
     };
 
-    const title = (
-        <legend className={fr.cx("fr-h6")} id="radio-hint-element-legend">
-            {getActiveStep() === "type" && t("title step 1")}
-            {getActiveStep() === "user" && t("title step 2 user")}
-            {getActiveStep() === "referent" && t("title step 2 referent")}
-        </legend>
-    );
-
-    if (software === undefined) {
-        return null;
+    if (software === undefined || isSubmitting) {
+        return <LoadingFallback />;
     }
 
     return (
@@ -189,7 +170,17 @@ export default function DeclarationForm(props: Props) {
                         <Stepper
                             currentStep={step}
                             stepCount={stepCount}
-                            title={title}
+                            title={
+                                <legend
+                                    className={fr.cx("fr-h6")}
+                                    id="radio-hint-element-legend"
+                                >
+                                    {getActiveStep() === "type" && t("title step 1")}
+                                    {getActiveStep() === "user" && t("title step 2 user")}
+                                    {getActiveStep() === "referent" &&
+                                        t("title step 2 referent")}
+                                </legend>
+                            }
                             className={classes.stepper}
                         />
                         <fieldset className={fr.cx("fr-fieldset")}>
@@ -240,15 +231,18 @@ export default function DeclarationForm(props: Props) {
                     onClick={onBackStep}
                     priority="secondary"
                     className={classes.back}
-                    disabled={handleDisableBackButton()}
+                    disabled={(() => {
+                        switch (step) {
+                            case 1:
+                                return true;
+                            default:
+                                return false;
+                        }
+                    })()}
                 >
                     {tCommon("previous")}
                 </Button>
-                <Button
-                    onClick={onNextStep}
-                    priority="primary"
-                    disabled={handleDisableNextButton()}
-                >
+                <Button onClick={onNextStep} priority="primary">
                     {step === stepCount ? t("send") : tCommon("next")}
                 </Button>
             </ActionsFooter>
