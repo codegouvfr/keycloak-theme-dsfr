@@ -12,6 +12,7 @@ import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "core";
 import type { PageRoute } from "./route";
+import { useMetricCountUpAnimation } from "ui/tools/useMetricCountUpAnimation";
 
 type Props = {
     className?: string;
@@ -87,25 +88,6 @@ export default function Homepage(props: Props) {
         }
     ];
 
-    const sillNumbers = [
-        {
-            "number": stats.softwareCount,
-            "label": t("referenced software")
-        },
-        {
-            "number": stats.registeredUserCount,
-            "label": t("user")
-        },
-        {
-            "number": stats.agentReferentCount,
-            "label": t("referent")
-        },
-        {
-            "number": stats.organizationCount,
-            "label": t("organization")
-        }
-    ];
-
     const helpUsCards = [
         {
             "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
@@ -178,18 +160,24 @@ export default function Homepage(props: Props) {
                         {t("SILL numbers")}
                     </h1>
                     <div className={classes.sillNumberList}>
-                        {sillNumbers.map(item => (
-                            <div key={item.label}>
-                                <p
+                        {(
+                            [
+                                "softwareCount",
+                                "registeredUserCount",
+                                "agentReferentCount",
+                                "organizationCount"
+                            ] as const
+                        ).map(metricName => (
+                            <div key={metricName}>
+                                <AnimatedMetric
                                     className={cx(
                                         fr.cx("fr-display--sm"),
                                         classes.whiteText,
                                         classes.numberText
                                     )}
-                                >
-                                    {item.number}
-                                </p>
-                                <h4 className={classes.whiteText}>{item.label}</h4>
+                                    metricValue={stats[metricName]}
+                                />
+                                <h4 className={classes.whiteText}>{t(metricName)}</h4>
                             </div>
                         ))}
                     </div>
@@ -219,6 +207,20 @@ export default function Homepage(props: Props) {
                 </div>
             </div>
         </div>
+    );
+}
+
+function AnimatedMetric(props: { className?: string; metricValue: number }) {
+    const { metricValue, className } = props;
+
+    const { ref, renderedMetricValue } = useMetricCountUpAnimation({
+        metricValue
+    });
+
+    return (
+        <p ref={ref} className={className}>
+            {renderedMetricValue}
+        </p>
     );
 }
 
@@ -349,10 +351,10 @@ export const { i18n } = declareComponentKeys<
     | "contribute as DSI label"
     | "contribute as DSI description"
     | "SILL numbers"
-    | "referenced software"
-    | "user"
-    | "referent"
-    | "organization"
+    | "softwareCount"
+    | "registeredUserCount"
+    | "agentReferentCount"
+    | "organizationCount"
     | "help us"
     | "declare referent title"
     | "declare referent description"
