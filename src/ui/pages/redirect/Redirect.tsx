@@ -3,7 +3,6 @@ import { routes } from "ui/routes";
 import { type PageRoute } from "./route";
 import { id } from "tsafe/id";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
-import { useStyles } from "@codegouvfr/react-dsfr/tss";
 import { typeGuard } from "tsafe/typeGuard";
 import { type Language, languages, evtLang } from "ui/i18n";
 import { useCoreState, selectors } from "core";
@@ -16,8 +15,6 @@ type Props = {
 
 export default function SoftwareCatalog(props: Props) {
     const { className, route } = props;
-
-    const { cx, css } = useStyles();
 
     const { softwareNameBySillId } = useCoreState(
         selectors.redirect.softwareNameBySillId
@@ -82,7 +79,7 @@ export default function SoftwareCatalog(props: Props) {
         }
     }, []);
 
-    return <LoadingFallback className={cx(css({ "height": "100%" }), className)} />;
+    return <LoadingFallback className={className} />;
 }
 
 type Query = {

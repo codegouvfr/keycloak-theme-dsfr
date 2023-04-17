@@ -25,10 +25,10 @@ export default function Readme(props: Props) {
 
     const { markdown } = useCoreState(selectors.readme.markdown);
 
-    const { classes, cx, css } = useStyles();
+    const { classes, cx } = useStyles();
 
     if (markdown === undefined) {
-        return <LoadingFallback className={css({ "height": "100%" })} />;
+        return <LoadingFallback />;
     }
 
     return (

@@ -32,10 +32,8 @@ export default function Account(props: Props) {
         userAccountManagement.initialize();
     }, []);
 
-    const { css } = useStyles();
-
     if (readyState === undefined) {
-        return <LoadingFallback className={css({ "height": "100%" })} />;
+        return <LoadingFallback />;
     }
 
     return <AccountReady className={className} />;

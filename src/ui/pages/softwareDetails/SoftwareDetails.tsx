@@ -29,7 +29,7 @@ export default function SoftwareDetails(props: Props) {
 
     const { softwareDetails } = useCoreFunctions();
 
-    const { cx, classes, css } = useStyles();
+    const { cx, classes } = useStyles();
 
     const { t } = useTranslation({ SoftwareDetails });
 
@@ -44,7 +44,7 @@ export default function SoftwareDetails(props: Props) {
     }, [route.params.name]);
 
     if (software === undefined) {
-        return <LoadingFallback className={css({ "height": "100%" })} />;
+        return <LoadingFallback />;
     }
 
     return (

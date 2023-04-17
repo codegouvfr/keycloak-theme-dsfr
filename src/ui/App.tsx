@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles, useStyles as useCss } from "@codegouvfr/react-dsfr/tss";
 import { useRoute } from "ui/routes";
 import { Header } from "ui/shared/Header";
 import { Footer } from "ui/shared/Footer";
@@ -22,7 +22,8 @@ import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { GlobalStyles, keyframes } from "@codegouvfr/react-dsfr/tss";
-import { LoadingFallback } from "ui/shared/LoadingFallback";
+import { LoadingFallback, loadingFallbackClassName } from "ui/shared/LoadingFallback";
+import { useDomRect } from "powerhooks/useDomRect";
 
 let keycloakIsDark: boolean;
 
@@ -60,7 +61,7 @@ const { CoreProvider } = createCoreProvider({
 });
 
 export default function App() {
-    const { css } = useStyles();
+    const { css } = useCss();
 
     return (
         <>
@@ -103,21 +104,25 @@ function ContextualizedApp() {
               }
     );
 
-    const { classes, css } = useStyles();
+    const {
+        ref: headerRef,
+        domRect: { height: headerHeight }
+    } = useDomRect();
+
+    const { classes } = useStyles({ headerHeight });
 
     const i18nApi = useLang();
 
     return (
         <div className={classes.root}>
             <Header
+                ref={headerRef}
                 routeName={route.name}
                 userAuthenticationApi={headerUserAuthenticationApi}
                 i18nApi={i18nApi}
             />
-            <div className={classes.pageAndFooterWrapper}>
-                <Suspense
-                    fallback={<LoadingFallback className={css({ "height": "100%" })} />}
-                >
+            <main className={classes.main}>
+                <Suspense fallback={<LoadingFallback />}>
                     {(() => {
                         for (const pageName of objectKeys(pages)) {
                             //You must be able to replace "homepage" by any other page and get no type error.
@@ -131,11 +136,7 @@ function ContextualizedApp() {
                                     userAuthentication.login({
                                         "doesCurrentHrefRequiresAuth": true
                                     });
-                                    return (
-                                        <LoadingFallback
-                                            className={css({ "height": "100%" })}
-                                        />
-                                    );
+                                    return <LoadingFallback />;
                                 }
 
                                 return (
@@ -150,29 +151,32 @@ function ContextualizedApp() {
                         return <pages.page404.LazyComponent className={classes.page} />;
                     })()}
                 </Suspense>
-                <Footer
-                    webVersion={(() => {
-                        const webVersion = process.env.VERSION;
-                        assert(webVersion !== undefined);
-                        return webVersion;
-                    })()}
-                    apiVersion={sillApiVersion.getSillApiVersion()}
-                />
-            </div>
+            </main>
+            <Footer
+                webVersion={(() => {
+                    const webVersion = process.env.VERSION;
+                    assert(webVersion !== undefined);
+                    return webVersion;
+                })()}
+                apiVersion={sillApiVersion.getSillApiVersion()}
+            />
         </div>
     );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<{ headerHeight: number }>({
     "name": { App }
-})({
+})((_theme, { headerHeight }) => ({
     "root": {
+        "height": "100vh",
         "display": "flex",
-        "flexDirection": "column",
-        "height": "100vh"
+        "flexDirection": "column"
     },
-    "pageAndFooterWrapper": {
-        "flex": 1
+    "main": {
+        "flex": 1,
+        [`& .${loadingFallbackClassName}`]: {
+            "height": `calc(100vh - ${headerHeight}px)`
+        }
     },
     "page": {
         "animation": `${keyframes`
@@ -184,7 +188,7 @@ const useStyles = makeStyles({
             }
             `} 400ms`
     }
-});
+}));
 
 /**
  * "App" key is used for common translation keys

@@ -6,6 +6,8 @@ type Props = {
     className?: string;
 };
 
+export const loadingFallbackClassName = "loading-fallback";
+
 export function LoadingFallback(props: Props) {
     const { className } = props;
 
@@ -38,6 +40,7 @@ export function LoadingFallback(props: Props) {
                     "justifyContent": "center",
                     "alignItems": "center"
                 }),
+                loadingFallbackClassName,
                 className
             )}
         >

@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, forwardRef } from "react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { useTranslation } from "ui/i18n";
@@ -13,41 +13,44 @@ export type Props = {
     webVersion: string;
 };
 
-export const Footer = memo((props: Props) => {
-    const { className, apiVersion, webVersion, ...rest } = props;
+export const Footer = memo(
+    forwardRef<HTMLDivElement, Props>((props, ref) => {
+        const { className, apiVersion, webVersion, ...rest } = props;
 
-    assert<Equals<typeof rest, {}>>();
+        assert<Equals<typeof rest, {}>>();
 
-    const { t } = useTranslation({ "Header": undefined });
+        const { t } = useTranslation({ "Header": undefined });
 
-    return (
-        <>
-            <DsfrFooter
-                className={className}
-                brandTop={brandTop}
-                homeLinkProps={{
-                    ...routes.home().link,
-                    title: t("home title")
-                }}
-                accessibility="fully compliant"
-                termsLinkProps={routes.terms().link}
-                bottomItems={[
-                    {
-                        "text": `sill-api: v${apiVersion}`,
-                        "linkProps": {
-                            "href": `https://github.com/codegouvfr/sill-api/tree/v${apiVersion}`
-                        }
-                    },
-                    {
-                        "text": `sill-web: v${webVersion}`,
-                        "linkProps": {
-                            "href": `https://github.com/codegouvfr/sill-web/tree/v${webVersion}`
-                        }
-                    },
-                    headerFooterDisplayItem,
-                ]}
-            />
-            <Display />
-        </>
-    );
-});
+        return (
+            <>
+                <DsfrFooter
+                    ref={ref}
+                    className={className}
+                    brandTop={brandTop}
+                    homeLinkProps={{
+                        ...routes.home().link,
+                        title: t("home title")
+                    }}
+                    accessibility="fully compliant"
+                    termsLinkProps={routes.terms().link}
+                    bottomItems={[
+                        {
+                            "text": `sill-api: v${apiVersion}`,
+                            "linkProps": {
+                                "href": `https://github.com/codegouvfr/sill-api/tree/v${apiVersion}`
+                            }
+                        },
+                        {
+                            "text": `sill-web: v${webVersion}`,
+                            "linkProps": {
+                                "href": `https://github.com/codegouvfr/sill-web/tree/v${webVersion}`
+                            }
+                        },
+                        headerFooterDisplayItem
+                    ]}
+                />
+                <Display />
+            </>
+        );
+    })
+);

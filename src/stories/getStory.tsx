@@ -39,7 +39,7 @@ export const { createMockRoute } = createMockRouteFactory({
     }
 });
 
-export function getStoryFactory<Props extends Record<string, unknown>>(params: {
+export function getStoryFactory<Props extends Record<string, any>>(params: {
     sectionName: string;
     wrappedComponent: Record<string, (props: Props) => JSX.Element | null>;
     /** https://storybook.js.org/docs/react/essentials/controls */
@@ -116,7 +116,7 @@ export function getStoryFactory<Props extends Record<string, unknown>>(params: {
             "darkMode": window.matchMedia("(prefers-color-scheme: dark)").matches,
             "containerWidth":
                 defaultContainerWidthStoryLevel ?? defaultContainerWidth ?? 0,
-            "lang": "fr",
+            "lang": "fr" as const,
             isFirstStory,
             ...props
         };
