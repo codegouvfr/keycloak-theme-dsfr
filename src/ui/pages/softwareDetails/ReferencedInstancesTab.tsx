@@ -10,7 +10,7 @@ import { groupBy } from "lodash";
 
 export type Props = {
     className?: string;
-    instanceList:  {organization: string, instanceUrl: string, targetAudience: string}[];
+    instanceList: { organization: string; instanceUrl: string; targetAudience: string }[];
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
@@ -21,34 +21,39 @@ export const ReferencedInstancesTab = (props: Props) => {
 
     const { t } = useTranslation({ ReferencedInstancesTab });
     const { classes, cx } = useStyles();
-    const [expanded, setExpanded] = useState(false);
 
-    const groupInstanceByOrganization = groupBy(instanceList, "organization")
+    const groupInstanceByOrganization = groupBy(instanceList, "organization");
 
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
                 {t("instanceCount", {
                     "instanceCount": instanceList.length,
-                    "publicOrganizationCount": Object.keys(groupInstanceByOrganization).length
+                    "publicOrganizationCount": Object.keys(groupInstanceByOrganization)
+                        .length
                 })}
             </p>
             {Object.keys(groupInstanceByOrganization).map(organization => {
-                const groupedInstanceList = instanceList.filter(instance => instance.organization === organization)
+                const groupedInstanceList = instanceList.filter(
+                    instance => instance.organization === organization
+                );
 
                 return (
                     <Accordion
                         key={organization}
                         label={`${organization} (${groupedInstanceList.length})`}
-                        onExpandedChange={value => setExpanded(!value)}
-                        expanded={expanded}
                     >
                         <div className={classes.accordionGrid}>
                             {groupedInstanceList.map(instance => {
                                 const { instanceUrl, targetAudience } = instance;
                                 return (
-                                    <div className={cx(fr.cx("fr-card"), classes.card)} key={instanceUrl}>
-                                        <h6 className={cx(classes.name)}>{instanceUrl}</h6>
+                                    <div
+                                        className={cx(fr.cx("fr-card"), classes.card)}
+                                        key={instanceUrl}
+                                    >
+                                        <h6 className={cx(classes.name)}>
+                                            {instanceUrl}
+                                        </h6>
                                         <p
                                             className={cx(
                                                 fr.cx("fr-text--xs"),
@@ -66,7 +71,14 @@ export const ReferencedInstancesTab = (props: Props) => {
                                             {targetAudience}
                                         </p>
                                         <div className={classes.footer}>
-                                            <a className={cx(fr.cx("fr-btn", "fr-btn--secondary"))} href={instanceUrl} target="_blank" rel="noreferrer">
+                                            <a
+                                                className={cx(
+                                                    fr.cx("fr-btn", "fr-btn--secondary")
+                                                )}
+                                                href={instanceUrl}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
                                                 {t("go to instance")}
                                             </a>
                                         </div>
