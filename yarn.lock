@@ -10085,10 +10085,10 @@ jwt-decode@^3.1.2:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
   integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
 
-keycloak-js@^18.0.0:
-  version "18.0.1"
-  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-18.0.1.tgz#0c6dedfa8bbb266bac1b16a14b032d65c6afd2d2"
-  integrity sha512-IRXToYpbIrkyfLeNNJly2OjUCf11ncx2Sdsg257NVDwjOYE923osu47w8pfxEVWpTaS14/Y2QjbTHciuBK0RBQ==
+keycloak-js@^21.0.2:
+  version "21.0.2"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-21.0.2.tgz#1d3c2079d3c23850df4f253a868926861c51c488"
+  integrity sha512-i05i3VBPhQ867EgjA+OYPlf8YUPiUwtrU2zv4j8tvZIdRvhJY8f+mp1ZvRJl/GMRb+XhJs9BDknyBMrIspwDkw==
   dependencies:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
