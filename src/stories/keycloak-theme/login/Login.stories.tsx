@@ -6,7 +6,7 @@ const pageId = "login.ftl";
 const { PageStory } = createPageStory({ pageId });
 
 const meta: ComponentMeta<any> = {
-    "title": `keycloak-theme/${pageId}`,
+    "title": `keycloak-theme/login/${pageId}`,
     "component": PageStory
 };
 

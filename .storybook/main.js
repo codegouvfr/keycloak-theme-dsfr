@@ -13,6 +13,6 @@ module.exports = {
         "builder": "webpack5",
     },
     "staticDirs": [
-        "./static"
-    ],
+        "../public"
+    ]
 };

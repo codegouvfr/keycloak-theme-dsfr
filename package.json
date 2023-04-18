@@ -7,15 +7,16 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "build-keycloak-theme": "yarn build && keycloakify",
-        "prestorybook": "only-include-used-icons",
+        "prestorybook": "only-include-used-icons && yarn ensure-public-keycloak-static-exists",
         "storybook": "start-storybook -p 6006",
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
-        "format": "npm run _format -- --write",
-        "format:check": "npm run _format -- --list-different",
+        "format": "yarn _format -- --write",
+        "format:check": "yarn _format -- --list-different",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "postinstall": "copy-dsfr-to-public",
-        "prestart": "only-include-used-icons",
-        "prebuild": "only-include-used-icons"
+        "prestart": "only-include-used-icons && yarn ensure-public-keycloak-static-exists",
+        "prebuild": "only-include-used-icons",
+        "ensure-public-keycloak-static-exists": "[ ! -d 'public/keycloak_static' ] && yarn build-keycloak-theme || true"
     },
     "dependencies": {
         "@codegouvfr/react-dsfr": "^0.46.4",

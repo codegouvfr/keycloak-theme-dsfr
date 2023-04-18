@@ -1,8 +1,8 @@
 import { create } from "@storybook/theming";
 
-const brandImage= "logo.png";
-const brandTitle= "@codegouvfr/react-dsfr";
-const brandUrl= "https://github.com/codegouvfr/react-dsfr";
+const brandImage= "Preview-france.png";
+const brandTitle= "sill-web";
+const brandUrl= "https://github.com/codegouvfr/sill-web";
 const fontBase= '"Marianne", arial, sans-serif';
 const fontCode= "monospace";
 
