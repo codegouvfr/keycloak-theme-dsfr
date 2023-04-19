@@ -12,6 +12,7 @@ import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
+import { useLang } from "ui/i18n";
 
 type Props = {
     className?: string;
@@ -49,7 +50,7 @@ function AccountReady(props: { className?: string }) {
         allOrganizations,
         email,
         organization,
-        passwordResetUrl,
+        doSupportPasswordReset,
         allowedEmailRegExp
     } = (function useClosure() {
         const { readyState } = useCoreState(selectors.userAccountManagement.readyState);
@@ -68,6 +69,8 @@ function AccountReady(props: { className?: string }) {
             allowedEmailRegExp
         };
     })();
+
+    const { lang } = useLang();
 
     const { userAccountManagement } = useCoreFunctions();
 
@@ -162,8 +165,14 @@ function AccountReady(props: { className?: string }) {
                     {tCommon("validate")}
                 </Button>
             </div>
-            {passwordResetUrl !== undefined && (
-                <a href={passwordResetUrl} target="_blank" rel="noreferrer">
+            {doSupportPasswordReset && (
+                <a
+                    href={userAccountManagement.getPasswordResetUrlWithoutLangParam({
+                        lang
+                    })}
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     {t("change password")}
                 </a>
             )}

@@ -3,6 +3,8 @@ import type { ThunkAction, State as RootState } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
+import type { Language } from "@codegouvfr/sill";
+import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 
 type State = State.NotInitialized | State.Ready;
 
@@ -14,7 +16,7 @@ namespace State {
 
     export type Ready = {
         stateDescription: "ready";
-        passwordResetUrl: string | undefined;
+        passwordResetUrlWithoutLangParam: string | undefined;
         allowedEmailRegexpStr: string;
         allOrganizations: string[];
         organization: {
@@ -47,7 +49,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload
             }: PayloadAction<{
-                passwordResetUrl: string | undefined;
+                passwordResetUrlWithoutLangParam: string | undefined;
                 allowedEmailRegexpStr: string;
                 organization: string;
                 email: string;
@@ -55,7 +57,7 @@ export const { reducer, actions } = createSlice({
             }>
         ) => {
             const {
-                passwordResetUrl,
+                passwordResetUrlWithoutLangParam,
                 allowedEmailRegexpStr,
                 organization,
                 email,
@@ -64,7 +66,7 @@ export const { reducer, actions } = createSlice({
 
             return {
                 "stateDescription": "ready",
-                passwordResetUrl,
+                passwordResetUrlWithoutLangParam,
                 allowedEmailRegexpStr,
                 allOrganizations,
                 "organization": {
@@ -143,7 +145,7 @@ export const thunks = {
                     allowedEmailRegexpStr,
                     "email": user.email,
                     "organization": user.organization,
-                    "passwordResetUrl":
+                    "passwordResetUrlWithoutLangParam":
                         keycloakParams === undefined
                             ? undefined
                             : [
@@ -179,6 +181,27 @@ export const thunks = {
             await oidc.updateTokenInfo();
 
             dispatch(actions.updateFieldCompleted({ fieldName }));
+        },
+    "getPasswordResetUrlWithoutLangParam":
+        (params: { lang: Language }): ThunkAction<string> =>
+        (...args) => {
+            const { lang } = params;
+
+            const [, getState] = args;
+
+            const state = getState()[name];
+
+            assert(state.stateDescription === "ready");
+
+            assert(state.passwordResetUrlWithoutLangParam !== undefined);
+
+            const { newUrl } = addParamToUrl({
+                "url": state.passwordResetUrlWithoutLangParam,
+                "name": "kc_locale",
+                "value": lang
+            });
+
+            return newUrl;
         }
 };
 
@@ -190,9 +213,12 @@ export const selectors = (() => {
             return undefined;
         }
 
-        const { stateDescription, ...rest } = state;
+        const { stateDescription, passwordResetUrlWithoutLangParam, ...rest } = state;
 
-        return rest;
+        return {
+            ...rest,
+            "doSupportPasswordReset": passwordResetUrlWithoutLangParam !== undefined
+        };
     };
 
     return { readyState };
