@@ -11,7 +11,6 @@ import { z } from "zod";
 import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
-import { useConstCallback } from "powerhooks/useConstCallback";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 type Props = {
