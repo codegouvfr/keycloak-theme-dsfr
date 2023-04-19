@@ -97,14 +97,6 @@ function AccountReady(props: { className?: string }) {
         return { "isValidValue": true };
     };
 
-    const isEmailInputPristine = useConstCallback(() => {
-        return email.value === emailInputValue;
-    });
-
-    const isOrganizationInputPristine = useConstCallback(() => {
-        return organization.value === organizationInputValue;
-    });
-
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <h2 className={classes.title}>{t("title")}</h2>
@@ -130,7 +122,7 @@ function AccountReady(props: { className?: string }) {
                     }
                     disabled={
                         !validateEmail(emailInputValue).isValidValue ||
-                        isEmailInputPristine()
+                        email.value === emailInputValue
                     }
                 >
                     {tCommon("validate")}
@@ -166,7 +158,7 @@ function AccountReady(props: { className?: string }) {
                             "value": organizationInputValue
                         })
                     }
-                    disabled={isOrganizationInputPristine()}
+                    disabled={organization.value === organizationInputValue}
                 >
                     {tCommon("validate")}
                 </Button>
