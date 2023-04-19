@@ -31,7 +31,7 @@ export const DocsContainer = ({ children, context }) => {
         <>
             <style>{`
                 body {
-                    padding: 0 !important,
+                    padding: 0px !important;
                     background-color: ${backgroundColor};
                 }
 

@@ -28,7 +28,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
                         return (
                             <Password
                                 {...{ kcContext, i18n, Template, classes }}
-                                doUseDefaultCss={true}
+                                doUseDefaultCss={false}
                             />
                         );
                     default:
