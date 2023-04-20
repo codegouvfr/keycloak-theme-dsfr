@@ -20,7 +20,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { msg } = i18n;
 
-    const { url, message } = kcContext;
+    const { url, message, referrer } = kcContext;
 
     const { isReady } = usePrepareTemplate({
         "doFetchDefaultThemeResources": doUseDefaultCss,
@@ -37,6 +37,11 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     if (!isReady) {
         return null;
     }
+
+    const homeLinkProps = {
+        "href": referrer?.url,
+        "title": "Go back to the website"
+    };
 
     return (
         <div
@@ -78,7 +83,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             description={message.summary}
                         />
                     )}
-
                     {children}
                 </MuiDsfrThemeProvider>
             </div>
@@ -103,10 +107,3 @@ const brandTop = (
 );
 
 const serviceTitle = "Socle interministériel de logiciels libres";
-
-const homeLinkProps = {
-    "onClick": () => {
-        window.close();
-    },
-    "title": "Go back to the website"
-};
