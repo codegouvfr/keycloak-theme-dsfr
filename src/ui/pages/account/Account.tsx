@@ -167,11 +167,8 @@ function AccountReady(props: { className?: string }) {
             </div>
             {doSupportPasswordReset && (
                 <a
-                    href={userAccountManagement.getPasswordResetUrlWithoutLangParam({
-                        lang
-                    })}
-                    target="_blank"
-                    rel="noreferrer"
+                    // prettier-ignore
+                    href={userAccountManagement.getPasswordResetUrlWithoutLangParam({ lang })}
                 >
                     {t("change password")}
                 </a>
