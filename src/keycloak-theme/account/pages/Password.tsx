@@ -1,33 +1,98 @@
-import { clsx } from "keycloakify/tools/clsx";
+import { useState } from "react";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
-import { useGetClassName } from "keycloakify/account/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
-import { Input } from "@codegouvfr/react-dsfr/Input";
+import { fr } from "@codegouvfr/react-dsfr";
+import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
+import { Button } from "@codegouvfr/react-dsfr/Button";
+import { useStyles } from "@codegouvfr/react-dsfr/tss";
 
-export default function LogoutConfirm(
+export default function Password(
     props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, I18n>
 ) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
-    const { getClassName } = useGetClassName({
-        doUseDefaultCss,
-        "classes": {
-            ...classes,
-            "kcBodyClass": clsx(classes?.kcBodyClass, "password")
-        }
-    });
+    const { css } = useStyles();
 
     const { url, password, account, stateChecker } = kcContext;
 
-    const { msg } = i18n;
+    const { msgStr, msg } = i18n;
+
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+    const [newPasswordError, setNewPasswordError] = useState("");
+    const [newPasswordConfirmError, setNewPasswordConfirmError] = useState("");
+    const [hasNewPasswordBlurred, setHasNewPasswordBlurred] = useState(false);
+    const [hasNewPasswordConfirmBlurred, setHasNewPasswordConfirmBlurred] =
+        useState(false);
+
+    const checkNewPassword = (newPassword: string) => {
+        if (!password.passwordSet) {
+            return;
+        }
+
+        if (newPassword === currentPassword) {
+            setNewPasswordError(msgStr("newPasswordSameAsOld"));
+        } else {
+            setNewPasswordError("");
+        }
+    };
+
+    const checkNewPasswordConfirm = (newPasswordConfirm: string) => {
+        if (newPasswordConfirm === "") {
+            return;
+        }
+
+        if (newPassword !== newPasswordConfirm) {
+            setNewPasswordConfirmError(msgStr("passwordConfirmNotMatch"));
+        } else {
+            setNewPasswordConfirmError("");
+        }
+    };
 
     return (
-        <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="password">
-            <h2>{msg("changePasswordHtmlTitle")}</h2>
-            <p>{msg("allFieldsRequired")}</p>
+        <Template
+            {...{
+                kcContext: {
+                    ...kcContext,
+                    "message": (() => {
+                        if (newPasswordError !== "") {
+                            return {
+                                "type": "error",
+                                "summary": newPasswordError
+                            };
+                        }
 
-            <form action={url.passwordUrl} className="form-horizontal" method="post">
+                        if (newPasswordConfirmError !== "") {
+                            return {
+                                "type": "error",
+                                "summary": newPasswordConfirmError
+                            };
+                        }
+
+                        return kcContext.message;
+                    })()
+                },
+                i18n,
+                doUseDefaultCss,
+                classes
+            }}
+            active="password"
+        >
+            <h2>{msg("changePasswordHtmlTitle")}</h2>
+
+            <form
+                action={url.passwordUrl}
+                method="post"
+                className={css({
+                    "maxWidth": 600,
+                    "margin": "auto",
+                    [`& > .${fr.cx("fr-password")}:not(:first-of-type)`]: {
+                        "marginTop": fr.spacing("10v")
+                    }
+                })}
+            >
                 <input
                     type="text"
                     id="username"
@@ -39,14 +104,15 @@ export default function LogoutConfirm(
                 />
 
                 {password.passwordSet && (
-                    <Input
-                        label={msg("password")}
+                    <PasswordInput
+                        label={msgStr("password") + " *"}
                         nativeInputProps={{
-                            "type": "password",
                             "id": "password",
                             "name": "password",
                             "autoFocus": true,
-                            "autoComplete": "current-password"
+                            "autoComplete": "current-password",
+                            "value": currentPassword,
+                            "onChange": event => setCurrentPassword(event.target.value)
                         }}
                     />
                 )}
@@ -58,66 +124,61 @@ export default function LogoutConfirm(
                     value={stateChecker}
                 />
 
-                <div className="form-group">
-                    <div className="col-sm-2 col-md-2">
-                        <label htmlFor="password-new" className="control-label">
-                            {msg("passwordNew")}
-                        </label>
-                    </div>
+                <PasswordInput
+                    label={msgStr("passwordNew") + " *"}
+                    nativeInputProps={{
+                        "id": "password-new",
+                        "name": "password-new",
+                        "autoComplete": "new-password",
+                        "value": newPassword,
+                        "onChange": event => {
+                            const newPassword = event.target.value;
 
-                    <div className="col-sm-10 col-md-10">
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password-new"
-                            name="password-new"
-                            autoComplete="new-password"
-                        />
-                    </div>
-                </div>
+                            setNewPassword(newPassword);
+                            if (hasNewPasswordBlurred) {
+                                checkNewPassword(newPassword);
+                            }
+                        },
+                        "onBlur": () => {
+                            setHasNewPasswordBlurred(true);
+                            checkNewPassword(newPassword);
+                        }
+                    }}
+                />
 
-                <div className="form-group">
-                    <div className="col-sm-2 col-md-2">
-                        <label
-                            htmlFor="password-confirm"
-                            className="control-label two-lines"
-                        >
-                            {msg("passwordConfirm")}
-                        </label>
-                    </div>
+                <PasswordInput
+                    label={msgStr("passwordConfirm") + " *"}
+                    nativeInputProps={{
+                        "id": "password-confirm",
+                        "name": "password-confirm",
+                        "autoComplete": "new-password",
+                        "value": newPasswordConfirm,
+                        "onChange": event => {
+                            const newPasswordConfirm = event.target.value;
 
-                    <div className="col-sm-10 col-md-10">
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password-confirm"
-                            name="password-confirm"
-                            autoComplete="new-password"
-                        />
-                    </div>
-                </div>
+                            setNewPasswordConfirm(newPasswordConfirm);
+                            if (hasNewPasswordConfirmBlurred) {
+                                checkNewPasswordConfirm(newPasswordConfirm);
+                            }
+                        },
+                        "onBlur": () => {
+                            setHasNewPasswordConfirmBlurred(true);
+                            checkNewPasswordConfirm(newPasswordConfirm);
+                        }
+                    }}
+                />
 
-                <div className="form-group">
-                    <div
-                        id="kc-form-buttons"
-                        className="col-md-offset-2 col-md-10 submit"
-                    >
-                        <div>
-                            <button
-                                type="submit"
-                                className={clsx(
-                                    getClassName("kcButtonClass"),
-                                    getClassName("kcButtonPrimaryClass"),
-                                    getClassName("kcButtonLargeClass")
-                                )}
-                                name="submitAction"
-                                value="Save"
-                            >
-                                {msg("doSave")}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <Button
+                    className={css({ "float": "right", "marginTop": fr.spacing("10v") })}
+                    disabled={newPasswordError !== "" || newPasswordConfirmError !== ""}
+                    nativeButtonProps={{
+                        "type": "submit",
+                        "name": "submitAction",
+                        "value": "Save"
+                    }}
+                >
+                    {msg("doSave")}
+                </Button>
             </form>
         </Template>
     );
