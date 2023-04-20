@@ -148,13 +148,17 @@ export const thunks = {
                     "passwordResetUrlWithoutLangParam":
                         keycloakParams === undefined
                             ? undefined
-                            : [
-                                  keycloakParams.url.replace(/\/$/, ""),
-                                  "realms",
-                                  keycloakParams.realm,
-                                  "account",
-                                  "password"
-                              ].join("/"),
+                            : addParamToUrl({
+                                  "url": [
+                                      keycloakParams.url.replace(/\/$/, ""),
+                                      "realms",
+                                      keycloakParams.realm,
+                                      "account",
+                                      "password"
+                                  ].join("/"),
+                                  "name": "referrer",
+                                  "value": keycloakParams.clientId
+                              }).newUrl,
                     allOrganizations
                 })
             );
@@ -195,13 +199,29 @@ export const thunks = {
 
             assert(state.passwordResetUrlWithoutLangParam !== undefined);
 
-            const { newUrl } = addParamToUrl({
-                "url": state.passwordResetUrlWithoutLangParam,
-                "name": "kc_locale",
-                "value": lang
-            });
+            let url = state.passwordResetUrlWithoutLangParam;
 
-            return newUrl;
+            {
+                const { newUrl } = addParamToUrl({
+                    url,
+                    "name": "referrer_uri",
+                    "value": window.location.href
+                });
+
+                url = newUrl;
+            }
+
+            {
+                const { newUrl } = addParamToUrl({
+                    url,
+                    "name": "kc_locale",
+                    "value": lang
+                });
+
+                url = newUrl;
+            }
+
+            return url;
         }
 };
 

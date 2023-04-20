@@ -33,14 +33,18 @@ export async function createOidc(params: {
             "checkLoginIframe": false,
             "adapter": createKeycloakAdapter({
                 "transformUrlBeforeRedirect": url =>
-                    [url].map(transformUrlBeforeRedirect).map(
-                        url =>
-                            addParamToUrl({
-                                url,
-                                "name": "ui_locales",
-                                "value": getUiLocales()
-                            }).newUrl
-                    )[0],
+                    // prettier-ignore
+                    [url]
+                        .map(transformUrlBeforeRedirect)
+                        .map(
+                            url =>
+                                addParamToUrl({
+                                    url,
+                                    "name": "ui_locales",
+                                    "value": getUiLocales()
+                                }).newUrl
+                        )
+                    [0],
                 keycloakInstance,
                 "getRedirectMethod": () => redirectMethod
             })

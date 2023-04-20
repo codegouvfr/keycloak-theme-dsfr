@@ -3,6 +3,7 @@ import type { PageProps } from "keycloakify/account/pages/PageProps";
 import { useGetClassName } from "keycloakify/account/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
+import { Input } from "@codegouvfr/react-dsfr/Input";
 
 export default function LogoutConfirm(
     props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, I18n>
@@ -23,14 +24,8 @@ export default function LogoutConfirm(
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="password">
-            <div className="row">
-                <div className="col-md-10">
-                    <h2>{msg("changePasswordHtmlTitle")}</h2>
-                </div>
-                <div className="col-md-2 subtitle">
-                    <span className="subtitle">{msg("allFieldsRequired")}</span>
-                </div>
-            </div>
+            <h2>{msg("changePasswordHtmlTitle")}</h2>
+            <p>{msg("allFieldsRequired")}</p>
 
             <form action={url.passwordUrl} className="form-horizontal" method="post">
                 <input
@@ -44,24 +39,16 @@ export default function LogoutConfirm(
                 />
 
                 {password.passwordSet && (
-                    <div className="form-group">
-                        <div className="col-sm-2 col-md-2">
-                            <label htmlFor="password" className="control-label">
-                                {msg("password")}
-                            </label>
-                        </div>
-
-                        <div className="col-sm-10 col-md-10">
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="password"
-                                name="password"
-                                autoFocus
-                                autoComplete="current-password"
-                            />
-                        </div>
-                    </div>
+                    <Input
+                        label={msg("password")}
+                        nativeInputProps={{
+                            "type": "password",
+                            "id": "password",
+                            "name": "password",
+                            "autoFocus": true,
+                            "autoComplete": "current-password"
+                        }}
+                    />
                 )}
 
                 <input
