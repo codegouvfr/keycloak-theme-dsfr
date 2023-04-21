@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
@@ -14,7 +14,7 @@ export default function Password(
 
     const { css } = useStyles();
 
-    const { url, password, account, stateChecker } = kcContext;
+    const { url, password, account, stateChecker, message, referrer } = kcContext;
 
     const { msgStr, msg } = i18n;
 
@@ -24,8 +24,24 @@ export default function Password(
     const [newPasswordError, setNewPasswordError] = useState("");
     const [newPasswordConfirmError, setNewPasswordConfirmError] = useState("");
     const [hasNewPasswordBlurred, setHasNewPasswordBlurred] = useState(false);
-    const [hasNewPasswordConfirmBlurred, setHasNewPasswordConfirmBlurred] =
-        useState(false);
+    // prettier-ignore
+    const [hasNewPasswordConfirmBlurred, setHasNewPasswordConfirmBlurred] = useState(false);
+
+    useEffect(() => {
+        const appUrl = referrer?.url;
+
+        if (appUrl === undefined) {
+            return;
+        }
+
+        if (message?.type !== "success") {
+            return;
+        }
+
+        setTimeout(() => {
+            window.location.href = appUrl;
+        }, 1000);
+    }, []);
 
     const checkNewPassword = (newPassword: string) => {
         if (!password.passwordSet) {
@@ -54,26 +70,7 @@ export default function Password(
     return (
         <Template
             {...{
-                kcContext: {
-                    ...kcContext,
-                    "message": (() => {
-                        if (newPasswordError !== "") {
-                            return {
-                                "type": "error",
-                                "summary": newPasswordError
-                            };
-                        }
-
-                        if (newPasswordConfirmError !== "") {
-                            return {
-                                "type": "error",
-                                "summary": newPasswordConfirmError
-                            };
-                        }
-
-                        return kcContext.message;
-                    })()
-                },
+                kcContext,
                 i18n,
                 doUseDefaultCss,
                 classes
@@ -106,6 +103,7 @@ export default function Password(
                 {password.passwordSet && (
                     <PasswordInput
                         label={msgStr("password") + " *"}
+                        messagesHint={""}
                         nativeInputProps={{
                             "id": "password",
                             "name": "password",
@@ -126,6 +124,7 @@ export default function Password(
 
                 <PasswordInput
                     label={msgStr("passwordNew") + " *"}
+                    messagesHint={""}
                     nativeInputProps={{
                         "id": "password-new",
                         "name": "password-new",
@@ -144,10 +143,16 @@ export default function Password(
                             checkNewPassword(newPassword);
                         }
                     }}
+                    messages={
+                        newPasswordError === ""
+                            ? undefined
+                            : [{ "severity": "error", "message": newPasswordError }]
+                    }
                 />
 
                 <PasswordInput
                     label={msgStr("passwordConfirm") + " *"}
+                    messagesHint={""}
                     nativeInputProps={{
                         "id": "password-confirm",
                         "name": "password-confirm",
@@ -166,6 +171,16 @@ export default function Password(
                             checkNewPasswordConfirm(newPasswordConfirm);
                         }
                     }}
+                    messages={
+                        newPasswordConfirmError === ""
+                            ? undefined
+                            : [
+                                  {
+                                      "severity": "error",
+                                      "message": newPasswordConfirmError
+                                  }
+                              ]
+                    }
                 />
 
                 <Button
