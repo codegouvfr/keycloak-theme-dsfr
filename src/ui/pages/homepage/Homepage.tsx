@@ -1,4 +1,5 @@
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { useState } from "react";
+import { makeStyles, keyframes } from "@codegouvfr/react-dsfr/tss";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
@@ -7,12 +8,12 @@ import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import Tile from "@codegouvfr/react-dsfr/Tile";
-import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import Card from "@codegouvfr/react-dsfr/Card";
 import illustration_sill from "ui/assets/illustration_sill.svg";
 import { useCoreState, selectors } from "core";
 import type { PageRoute } from "./route";
 import { useMetricCountUpAnimation } from "ui/tools/useMetricCountUpAnimation";
+import { Waypoint } from "react-waypoint";
 
 type Props = {
     className?: string;
@@ -69,25 +70,6 @@ export default function Homepage(props: Props) {
         }
     ];
 
-    const whyUseSillAccordionList = [
-        {
-            "label": t("discover as agent label"),
-            "description": t("discover as agent description")
-        },
-        {
-            "label": t("discover as DSI label"),
-            "description": t("discover as DSI description")
-        },
-        {
-            "label": t("contribute as agent label"),
-            "description": t("contribute as agent description")
-        },
-        {
-            "label": t("contribute as DSI label"),
-            "description": t("contribute as DSI description")
-        }
-    ];
-
     const helpUsCards = [
         {
             "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
@@ -126,16 +108,11 @@ export default function Homepage(props: Props) {
                     </div>
                 </div>
             </section>
-            <section className={cx(fr.cx("fr-container"), classes.section)}>
-                <h2 className={classes.titleSection}>{t("why use the SILL")}</h2>
-                {whyUseSillAccordionList.map(accordion => (
-                    <Accordion key={accordion.label} label={accordion.label}>
-                        <p className={classes.accordionDescription}>
-                            {accordion.description}
-                        </p>
-                    </Accordion>
-                ))}
-            </section>
+
+            <WhatIsTheSillSection
+                className={cx(fr.cx("fr-container"), classes.section)}
+            />
+
             <section className={cx(classes.sillNumbersBackground, classes.section)}>
                 <div className={cx(fr.cx("fr-container"), classes.sillNumbersContainer)}>
                     <h1 className={cx(classes.whiteText, classes.SillNumberTitle)}>
@@ -206,70 +183,6 @@ function AnimatedMetric(props: { className?: string; metricValue: number }) {
     );
 }
 
-const { HeroSection } = (() => {
-    type Props = {
-        className?: string;
-    };
-
-    function HeroSection(props: Props) {
-        const { className } = props;
-
-        const { cx, classes, theme } = useStyles();
-
-        const { t } = useTranslation({ Homepage });
-
-        return (
-            <div className={cx(classes.root, className)}>
-                <div className={classes.titleWrapper}>
-                    <h2 className={classes.title}>
-                        {t("title", {
-                            "accentColor": theme.decisions.text.title.blueFrance.default
-                        })}
-                    </h2>
-                </div>
-                <img
-                    src={illustration_sill}
-                    alt="Illustration du SILL"
-                    className={classes.illustration}
-                />
-            </div>
-        );
-    }
-
-    const useStyles = makeStyles({ "name": { HeroSection } })({
-        "root": {
-            "display": "flex",
-            [fr.breakpoints.down("md")]: {
-                "flexDirection": "column",
-                "marginTop": fr.spacing("10v")
-            },
-            ...fr.spacing("margin", { "topBottom": "20v" })
-        },
-        "titleWrapper": {
-            "flex": 1,
-            "display": "flex",
-            "alignItems": "center",
-            "paddingRight": fr.spacing("10v"),
-            [fr.breakpoints.down("md")]: {
-                "marginBottom": fr.spacing("15v"),
-                "paddingRight": "unset"
-            }
-        },
-        "title": {
-            "marginBottom": 0,
-            "maxWidth": 700
-        },
-        "illustration": {
-            [fr.breakpoints.down("md")]: {
-                "width": "50%",
-                "margin": "0 auto"
-            }
-        }
-    });
-
-    return { HeroSection };
-})();
-
 const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     "section": {
         ...fr.spacing("padding", {
@@ -298,9 +211,6 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
         [fr.breakpoints.down("md")]: {
             "gridTemplateColumns": `repeat(1, 1fr)`
         }
-    },
-    "accordionDescription": {
-        "marginBottom": 0
     },
     "sillNumbersBackground": {
         "backgroundColor": theme.decisions.background.actionHigh.blueFrance.default
@@ -355,15 +265,6 @@ export const { i18n } = declareComponentKeys<
     | "recently updated"
     | "waiting for referent"
     | "in support market"
-    | "why use the SILL"
-    | "discover as agent label"
-    | "discover as agent description"
-    | "discover as DSI label"
-    | "discover as DSI description"
-    | "contribute as agent label"
-    | "contribute as agent description"
-    | "contribute as DSI label"
-    | "contribute as DSI description"
     | "SILL numbers"
     | "softwareCount"
     | "registeredUserCount"
@@ -377,4 +278,129 @@ export const { i18n } = declareComponentKeys<
     | "edit software description"
     | "add software or service description"
     | "complete form"
+    | "the sill in a few words"
+    | {
+          K: "the sill in a few words paragraph";
+          P: { accentColor: string };
+          R: JSX.Element;
+      }
 >()({ Homepage });
+
+const { HeroSection } = (() => {
+    type Props = {
+        className?: string;
+    };
+
+    function HeroSection(props: Props) {
+        const { className } = props;
+
+        const { cx, classes, theme } = useStyles();
+
+        const { t } = useTranslation({ Homepage });
+
+        return (
+            <section className={cx(classes.root, className)}>
+                <div className={classes.titleWrapper}>
+                    <h2 className={classes.title}>
+                        {t("title", {
+                            "accentColor": theme.decisions.text.title.blueFrance.default
+                        })}
+                    </h2>
+                </div>
+                <img
+                    src={illustration_sill}
+                    alt="Illustration du SILL"
+                    className={classes.illustration}
+                />
+            </section>
+        );
+    }
+
+    const useStyles = makeStyles({ "name": { HeroSection } })({
+        "root": {
+            "display": "flex",
+            [fr.breakpoints.down("md")]: {
+                "flexDirection": "column",
+                "marginTop": fr.spacing("10v")
+            },
+            ...fr.spacing("margin", { "topBottom": "20v" })
+        },
+        "titleWrapper": {
+            "flex": 1,
+            "display": "flex",
+            "alignItems": "center",
+            "paddingRight": fr.spacing("10v"),
+            [fr.breakpoints.down("md")]: {
+                "marginBottom": fr.spacing("15v"),
+                "paddingRight": "unset"
+            }
+        },
+        "title": {
+            "marginBottom": 0,
+            "maxWidth": 700
+        },
+        "illustration": {
+            [fr.breakpoints.down("md")]: {
+                "width": "50%",
+                "margin": "0 auto"
+            }
+        }
+    });
+
+    return { HeroSection };
+})();
+
+const { WhatIsTheSillSection } = (() => {
+    type Props = {
+        className?: string;
+    };
+
+    function WhatIsTheSillSection(props: Props) {
+        const { className } = props;
+
+        const [isVisible, setIsVisible] = useState(false);
+
+        const { cx, classes, theme } = useStyles({
+            isVisible
+        });
+
+        const { t } = useTranslation({ Homepage });
+
+        return (
+            <section className={cx(classes.root, className)}>
+                <Waypoint onEnter={() => setIsVisible(true)} />
+                <h2>{t("the sill in a few words")}</h2>
+                <p className={classes.paragraph}>
+                    {t("the sill in a few words paragraph", {
+                        "accentColor": theme.decisions.text.title.blueFrance.default
+                    })}
+                </p>
+            </section>
+        );
+    }
+
+    const useStyles = makeStyles<{ isVisible: boolean }>({
+        "name": { WhatIsTheSillSection }
+    })((_theme, { isVisible }) => ({
+        "root": {
+            "textAlign": "center",
+            "opacity": isVisible ? undefined : 0,
+            "animation": !isVisible
+                ? undefined
+                : `${keyframes`
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+        `} 1000ms`
+        },
+        "paragraph": {
+            "maxWidth": 700,
+            "margin": "auto"
+        }
+    }));
+
+    return { WhatIsTheSillSection };
+})();

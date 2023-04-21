@@ -91,16 +91,6 @@ const {
                 "recently updated": "Last updated",
                 "waiting for referent": "Waiting for a referent",
                 "in support market": "Is present in support market",
-                "why use the SILL": "Why and when use the SILL ?",
-                "discover as agent label": "Discover as agent",
-                "discover as agent description": "Description agent à changer",
-                "discover as DSI label": "Discover as CIO",
-                "discover as DSI description": "Description CIO à changer",
-                "contribute as agent label": "Contribute as agent",
-                "contribute as agent description":
-                    "Description contribution agent à changer",
-                "contribute as DSI label": "Contribute as CIO",
-                "contribute as DSI description": "Description contribution CIO à changer",
                 "SILL numbers": "The SILL in figures",
                 "softwareCount": "referenced software",
                 "registeredUserCount": "site user",
@@ -114,7 +104,56 @@ const {
                 "edit software title": "Edit a software",
                 "edit software description": "Description text body à changer",
                 "add software or service description": "Description text body à changer",
-                "complete form": "Complete the add form"
+                "complete form": "Complete the add form",
+                "the sill in a few words": "The SILL in a few words",
+                "the sill in a few words paragraph": ({ accentColor }) => (
+                    <>
+                        Le{" "}
+                        <span style={{ "color": accentColor }}>
+                            Socle interministériel de Logiciels Libres (SILL)
+                        </span>{" "}
+                        est un{" "}
+                        <span style={{ "color": accentColor }}>
+                            catalogue de référence
+                        </span>{" "}
+                        des logiciels libres recommandés par l'État pour l'
+                        <span style={{ "color": accentColor }}>
+                            administration française
+                        </span>
+                        .<br />
+                        <br />
+                        Il est utilisé pour aider les administrations à naviguer et
+                        sélectionner les{" "}
+                        <span style={{ "color": accentColor }}>logiciels libres</span> à
+                        utiliser, conformément à l'
+                        <span style={{ "color": accentColor }}>
+                            article 16 de la loi pour une République numérique
+                        </span>
+                        .<br />
+                        <br />
+                        Les{" "}
+                        <span style={{ "color": accentColor }}>
+                            critères d'entrée
+                        </span>{" "}
+                        d'un logiciel dans le SILL comprennent la publication de son code
+                        source sous une{" "}
+                        <span style={{ "color": accentColor }}>
+                            licence libre acceptée
+                        </span>{" "}
+                        et son déploiement par un établissement public ou son installation
+                        par un agent public.
+                        <br />
+                        <br />
+                        Les <span style={{ "color": accentColor }}>
+                            référents SILL
+                        </span>{" "}
+                        sont des agents publics qui sont volontaires pour gérer et mettre
+                        à jour les informations sur les logiciels inclus dans le
+                        catalogue.
+                        <br />
+                        <br />
+                    </>
+                )
             },
             "SearchByProfile": {
                 "agent label": "I am an agent or a CIO",
@@ -482,16 +521,6 @@ const {
                 "recently updated": "Dernière version récente",
                 "waiting for referent": "En attente de référent",
                 "in support market": "Dans le marché de support",
-                "why use the SILL": "Pourquoi et quand utiliser le SILL ?",
-                "discover as agent label": "Découvrir en tant qu'agent",
-                "discover as agent description": "Description agent à changer",
-                "discover as DSI label": "Découvrir en tant que DSI",
-                "discover as DSI description": "Description DSI à changer",
-                "contribute as agent label": "Contribuer en tant qu'agent",
-                "contribute as agent description":
-                    "Description contribution agent à changer",
-                "contribute as DSI label": "Contribuer en tant que DSI",
-                "contribute as DSI description": "Description contribution DSI à changer",
                 "SILL numbers": "Le SILL en plusieurs chiffres",
                 "softwareCount": "logiciels référencés",
                 "registeredUserCount": "utilisateurs du site",
@@ -505,7 +534,56 @@ const {
                 "edit software title": "Éditer une fiche logiciel",
                 "edit software description": "Description text body à changer",
                 "add software or service description": "Description text body à changer",
-                "complete form": "Remplir le formulaire d'ajout"
+                "complete form": "Remplir le formulaire d'ajout",
+                "the sill in a few words": "Le SILL en quelques mots",
+                "the sill in a few words paragraph": ({ accentColor }) => (
+                    <>
+                        Le{" "}
+                        <span style={{ "color": accentColor }}>
+                            Socle interministériel des Logiciels Libres (SILL)
+                        </span>{" "}
+                        est un{" "}
+                        <span style={{ "color": accentColor }}>
+                            catalogue de référence
+                        </span>{" "}
+                        des logiciels libres recommandés par l'État pour l'
+                        <span style={{ "color": accentColor }}>
+                            administration française
+                        </span>
+                        .<br />
+                        <br />
+                        Il est utilisé pour aider les administrations à naviguer et
+                        sélectionner les{" "}
+                        <span style={{ "color": accentColor }}>logiciels libres</span> à
+                        utiliser, conformément à l'
+                        <span style={{ "color": accentColor }}>
+                            article 16 de la loi pour une République numérique
+                        </span>
+                        .<br />
+                        <br />
+                        Les{" "}
+                        <span style={{ "color": accentColor }}>
+                            critères d'entrée
+                        </span>{" "}
+                        d'un logiciel dans le SILL comprennent la publication de son code
+                        source sous une{" "}
+                        <span style={{ "color": accentColor }}>
+                            licence libre acceptée
+                        </span>{" "}
+                        et son déploiement par un établissement public ou son installation
+                        par un agent public.
+                        <br />
+                        <br />
+                        Les <span style={{ "color": accentColor }}>
+                            référents SILL
+                        </span>{" "}
+                        sont des agents publics qui sont volontaires pour gérer et mettre
+                        à jour les informations sur les logiciels inclus dans le
+                        catalogue.
+                        <br />
+                        <br />
+                    </>
+                )
             },
             "SearchByProfile": {
                 "agent label": "Je suis un agent ou une DSI",
