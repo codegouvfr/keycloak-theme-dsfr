@@ -14,6 +14,7 @@ import { useCoreState, selectors } from "core";
 import type { PageRoute } from "./route";
 import { useMetricCountUpAnimation } from "ui/tools/useMetricCountUpAnimation";
 import { Waypoint } from "react-waypoint";
+import { ReactComponent as HomepageWaveSvg } from "ui/assets/homepage_wave.svg";
 
 type Props = {
     className?: string;
@@ -25,7 +26,7 @@ export default function Homepage(props: Props) {
 
     assert<Equals<typeof rest, {}>>();
 
-    const { cx, classes } = useStyles();
+    const { cx, classes, css, theme } = useStyles();
     const { t } = useTranslation({ Homepage });
     const { t: tCommon } = useTranslation({ "App": "App" });
 
@@ -98,6 +99,20 @@ export default function Homepage(props: Props) {
         <div className={className}>
             <HeroSection className={fr.cx("fr-container")} />
 
+            <div
+                style={{
+                    "position": "relative",
+                    "top": 7
+                }}
+            >
+                <HomepageWaveSvg
+                    className={css({
+                        "& path": {
+                            "fill": theme.decisions.background.alt.blueFrance.default
+                        }
+                    })}
+                />
+            </div>
             <section className={cx(classes.softwareSelectionBackground, classes.section)}>
                 <div className={fr.cx("fr-container")}>
                     <h2 className={classes.titleSection}>{t("software selection")}</h2>
@@ -323,7 +338,8 @@ const { HeroSection } = (() => {
                 "flexDirection": "column",
                 "marginTop": fr.spacing("10v")
             },
-            ...fr.spacing("margin", { "topBottom": "20v" })
+            "marginTop": fr.spacing("20v"),
+            "marginBottom": fr.spacing("10v")
         },
         "titleWrapper": {
             "flex": 1,
