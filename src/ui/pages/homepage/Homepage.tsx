@@ -114,26 +114,8 @@ export default function Homepage(props: Props) {
 
     return (
         <div className={className}>
-            <div className={classes.section}>
-                <div className={cx(fr.cx("fr-container"), classes.titleContainer)}>
-                    <h2 className={classes.title}>{t("title")}</h2>
-                    <img
-                        src={illustration_sill}
-                        alt="Illustration du SILL"
-                        className={classes.clipart}
-                    />
-                </div>
+            <HeroSection className={fr.cx("fr-container")} />
 
-                {/*
-                <div className={cx(fr.cx("fr-container"), classes.searchForm)}>
-                    <SearchByProfile route={route} />
-                    <span className={""}>{t("or")}</span>
-                    <Button iconId={"fr-icon-account-circle-fill"} priority={"tertiary"}>
-                        {t("sign in")}
-                    </Button>
-                </div>
-                */}
-            </div>
             <section className={cx(classes.softwareSelectionBackground, classes.section)}>
                 <div className={fr.cx("fr-container")}>
                     <h2 className={classes.titleSection}>{t("software selection")}</h2>
@@ -224,6 +206,70 @@ function AnimatedMetric(props: { className?: string; metricValue: number }) {
     );
 }
 
+const { HeroSection } = (() => {
+    type Props = {
+        className?: string;
+    };
+
+    function HeroSection(props: Props) {
+        const { className } = props;
+
+        const { cx, classes, theme } = useStyles();
+
+        const { t } = useTranslation({ Homepage });
+
+        return (
+            <div className={cx(classes.root, className)}>
+                <div className={classes.titleWrapper}>
+                    <h2 className={classes.title}>
+                        {t("title", {
+                            "accentColor": theme.decisions.text.title.blueFrance.default
+                        })}
+                    </h2>
+                </div>
+                <img
+                    src={illustration_sill}
+                    alt="Illustration du SILL"
+                    className={classes.illustration}
+                />
+            </div>
+        );
+    }
+
+    const useStyles = makeStyles({ "name": { HeroSection } })({
+        "root": {
+            "display": "flex",
+            [fr.breakpoints.down("md")]: {
+                "flexDirection": "column",
+                "marginTop": fr.spacing("10v")
+            },
+            ...fr.spacing("margin", { "topBottom": "20v" })
+        },
+        "titleWrapper": {
+            "flex": 1,
+            "display": "flex",
+            "alignItems": "center",
+            "paddingRight": fr.spacing("10v"),
+            [fr.breakpoints.down("md")]: {
+                "marginBottom": fr.spacing("15v"),
+                "paddingRight": "unset"
+            }
+        },
+        "title": {
+            "marginBottom": 0,
+            "maxWidth": 700
+        },
+        "illustration": {
+            [fr.breakpoints.down("md")]: {
+                "width": "50%",
+                "margin": "0 auto"
+            }
+        }
+    });
+
+    return { HeroSection };
+})();
+
 const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
     "section": {
         ...fr.spacing("padding", {
@@ -241,39 +287,6 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
             "marginBottom": fr.spacing("8v")
         }
     },
-    "titleContainer": {
-        "marginBottom": fr.spacing("10v"),
-        "display": "flex",
-        [fr.breakpoints.down("md")]: {
-            "flexDirection": "column"
-        }
-    },
-    "title": {
-        "marginRight": fr.spacing("30v"),
-        "&>span": {
-            color: theme.decisions.text.title.blueFrance.default
-        },
-        [fr.breakpoints.down("md")]: {
-            ...fr.spacing("margin", {
-                "right": 0,
-                "bottom": "8v"
-            })
-        }
-    },
-    "clipart": {
-        [fr.breakpoints.down("md")]: {
-            "width": "50%",
-            "margin": "0 auto"
-        }
-    },
-    /*
-    "searchForm": {
-        "display": "flex",
-        "flexDirection": "column",
-        "alignItems": "center",
-        "gap": fr.spacing("4v")
-    },
-    */
     "softwareSelectionBackground": {
         "backgroundColor": theme.decisions.background.alt.blueFrance.default
     },
@@ -330,6 +343,7 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
 export const { i18n } = declareComponentKeys<
     | {
           K: "title";
+          P: { accentColor: string };
           R: JSX.Element;
       }
     | "or"

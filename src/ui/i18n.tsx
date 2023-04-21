@@ -74,10 +74,12 @@ const {
                 "not provided": "Not provided"
             },
             "Homepage": {
-                "title": (
+                "title": ({ accentColor }) => (
                     <>
-                        <span>The free software catalog </span>recommended by the State
-                        for the whole administration.
+                        <span style={{ "color": accentColor }}>
+                            The free software catalog{" "}
+                        </span>
+                        recommended by the State for the whole administration.
                     </>
                 ),
                 "or": "or",
@@ -463,9 +465,11 @@ const {
                 "not provided": "Pas renseigné"
             },
             "Homepage": {
-                "title": (
+                "title": ({ accentColor }) => (
                     <>
-                        <span>Le catalogue de logiciels libres de référence</span>{" "}
+                        <span style={{ "color": accentColor }}>
+                            Le catalogue de logiciels libres de référence
+                        </span>{" "}
                         recommandé par l'État pour toute l'administration.
                     </>
                 ),
