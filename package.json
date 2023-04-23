@@ -1,7 +1,7 @@
 {
     "homepage": "https://sill.code.gouv.fr",
     "name": "sill-web",
-    "version": "1.9.0",
+    "version": "1.9.1",
     "license": "MIT",
     "scripts": {
         "start": "react-app-rewired start",
