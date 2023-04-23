@@ -77,7 +77,7 @@ export async function createOidc(params: {
 
     let currentAccessToken = keycloakInstance.token;
 
-    const Oidc = id<Oidc.LoggedIn>({
+    const oidc = id<Oidc.LoggedIn>({
         "isUserLoggedIn": true,
         "getAccessToken": () => currentAccessToken,
         "logout": async ({ redirectTo }) => {
@@ -138,7 +138,7 @@ export async function createOidc(params: {
         }, msBeforeExpiration - minValiditySecond * 1000);
     })();
 
-    return Oidc;
+    return oidc;
 }
 
 const minValiditySecond = 25;
