@@ -3,7 +3,6 @@ import type { ThunkAction, State as RootState } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
-import type { Language } from "@codegouvfr/sill";
 import { addParamToUrl } from "powerhooks/tools/urlSearchParams";
 
 type State = State.NotInitialized | State.Ready;
@@ -186,12 +185,16 @@ export const thunks = {
 
             dispatch(actions.updateFieldCompleted({ fieldName }));
         },
-    "getPasswordResetUrlWithoutLangParam":
-        (params: { lang: Language }): ThunkAction<string> =>
+    "getPasswordResetUrl":
+        (): ThunkAction<string> =>
         (...args) => {
-            const { lang } = params;
-
-            const [, getState] = args;
+            const [
+                ,
+                getState,
+                {
+                    coreParams: { getCurrentLang }
+                }
+            ] = args;
 
             const state = getState()[name];
 
@@ -215,7 +218,7 @@ export const thunks = {
                 const { newUrl } = addParamToUrl({
                     url,
                     "name": "kc_locale",
-                    "value": lang
+                    "value": getCurrentLang()
                 });
 
                 url = newUrl;

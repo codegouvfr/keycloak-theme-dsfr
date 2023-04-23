@@ -12,7 +12,6 @@ import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
-import { useLang } from "ui/i18n";
 
 type Props = {
     className?: string;
@@ -69,8 +68,6 @@ function AccountReady(props: { className?: string }) {
             allowedEmailRegExp
         };
     })();
-
-    const { lang } = useLang();
 
     const { userAccountManagement } = useCoreFunctions();
 
@@ -166,10 +163,7 @@ function AccountReady(props: { className?: string }) {
                 </Button>
             </div>
             {doSupportPasswordReset && (
-                <a
-                    // prettier-ignore
-                    href={userAccountManagement.getPasswordResetUrlWithoutLangParam({ lang })}
-                >
+                <a href={userAccountManagement.getPasswordResetUrl()}>
                     {t("change password")}
                 </a>
             )}
