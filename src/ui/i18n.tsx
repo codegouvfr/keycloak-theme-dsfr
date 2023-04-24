@@ -81,8 +81,6 @@ const {
                         recommended by the State for the whole administration.
                     </>
                 ),
-                "or": "or",
-                "sign in": "Sign in",
                 "software selection": "Some software selection",
                 "last added": "Last added",
                 "most used": "The most used",
@@ -96,63 +94,63 @@ const {
                 "agentReferentCount": "software referent",
                 "organizationCount": "organization",
                 "help us": "Help us to enrich the catalog",
-                "declare referent title":
-                    "Declare oneself user or referent of a software",
-                "declare referent description": "Description text body à changer",
-                "search software": "Search a software",
-                "edit software title": "Edit a software",
-                "edit software description": "Description text body à changer",
-                "add software or service description": "Description text body à changer",
-                "complete form": "Complete the add form",
                 "the sill in a few words": "The SILL in a few words",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
-                        Le{" "}
+                        The{" "}
                         <span style={{ "color": accentColor }}>
-                            Socle interministériel de Logiciels Libres (SILL)
+                            Interministerial Foundation of Free Software (SILL)
                         </span>{" "}
-                        est un{" "}
+                        is a{" "}
+                        <span style={{ "color": accentColor }}>reference catalog</span> of
+                        free software recommended by the State for the{" "}
                         <span style={{ "color": accentColor }}>
-                            catalogue de référence
-                        </span>{" "}
-                        des logiciels libres recommandés par l'État pour l'
-                        <span style={{ "color": accentColor }}>
-                            administration française
+                            French administration
                         </span>
                         .<br />
                         <br />
-                        Il est utilisé pour aider les administrations à naviguer et
-                        sélectionner les{" "}
-                        <span style={{ "color": accentColor }}>logiciels libres</span> à
-                        utiliser, conformément à l'
+                        It is used to help administrations navigate and select the{" "}
+                        <span style={{ "color": accentColor }}>free software</span> to
+                        use, in accordance with{" "}
                         <span style={{ "color": accentColor }}>
-                            article 16 de la loi pour une République numérique
+                            Article 16 of the Digital Republic Act
                         </span>
                         .<br />
                         <br />
-                        Les{" "}
-                        <span style={{ "color": accentColor }}>
-                            critères d'entrée
+                        The <span style={{ "color": accentColor }}>
+                            entry criteria
                         </span>{" "}
-                        d'un logiciel dans le SILL comprennent la publication de son code
-                        source sous une{" "}
+                        for software in the SILL include the publication of its source
+                        code under an{" "}
                         <span style={{ "color": accentColor }}>
-                            licence libre acceptée
+                            accepted free license
                         </span>{" "}
-                        et son déploiement par un établissement public ou son installation
-                        par un agent public.
+                        and its deployment by a public institution or installation by a
+                        public agent.
                         <br />
                         <br />
-                        Les <span style={{ "color": accentColor }}>
-                            référents SILL
+                        The <span style={{ "color": accentColor }}>
+                            SILL referents
                         </span>{" "}
-                        sont des agents publics qui sont volontaires pour gérer et mettre
-                        à jour les informations sur les logiciels inclus dans le
-                        catalogue.
+                        are public agents who volunteer to manage and update information
+                        on the software included in the catalog.
                         <br />
                         <br />
                     </>
-                )
+                ),
+                "illustration image": "Illustration image",
+                "declare referent title": "Declare yourself as a referent",
+                "edit software title": "Edit a software entry",
+                "add software or service title": "Add a software or service",
+                "declare referent desc":
+                    "Become a volunteer public agent to manage and update information on SILL software",
+                "edit software desc":
+                    "Modify the information of an existing software in the SILL catalog",
+                "add software or service desc":
+                    "Propose a new software or service for inclusion in the SILL catalog",
+                "declare referent button label": "Access the form",
+                "edit software button label": "Search for a software",
+                "add software or service button label": "Fill out the addition form"
             },
             "AddSoftwareLanding": {
                 "title": (
@@ -489,8 +487,6 @@ const {
                         recommandé par l'État pour toute l'administration.
                     </>
                 ),
-                "or": "ou",
-                "sign in": "Se connecter",
                 "software selection": "Quelques sélections de logiciels",
                 "last added": "Derniers ajouts",
                 "most used": "Les plus utilisés",
@@ -506,12 +502,7 @@ const {
                 "help us": "Aidez-nous à enrichir le catalogue",
                 "declare referent title":
                     "Se déclarer utilisateur ou référent d'un logiciel",
-                "declare referent description": "Description text body à changer",
-                "search software": "Rechercher un logiciel",
                 "edit software title": "Éditer une fiche logiciel",
-                "edit software description": "Description text body à changer",
-                "add software or service description": "Description text body à changer",
-                "complete form": "Remplir le formulaire d'ajout",
                 "the sill in a few words": "Le SILL en quelques mots",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
@@ -560,7 +551,18 @@ const {
                         <br />
                         <br />
                     </>
-                )
+                ),
+                "illustration image": "Image d'illustration",
+                "add software or service title": "Ajouter un logiciel ou un service",
+                "declare referent desc":
+                    "Devenir un agent public volontaire pour gérer et mettre à jour les informations sur les logiciels du SILL",
+                "edit software desc":
+                    "Modifier les informations d'un logiciel existant dans le catalogue SILL",
+                "add software or service desc":
+                    "Proposer un nouveau logiciel ou service pour l'inclusion dans le catalogue SILL",
+                "declare referent button label": "Accéder au formulaire",
+                "edit software button label": "Rechercher un logiciel",
+                "add software or service button label": "Remplir le formulaire d'ajout"
             },
             "AddSoftwareLanding": {
                 "title": (

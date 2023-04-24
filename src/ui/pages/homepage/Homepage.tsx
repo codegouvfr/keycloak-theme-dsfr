@@ -15,7 +15,9 @@ import type { PageRoute } from "./route";
 import { useMetricCountUpAnimation } from "ui/tools/useMetricCountUpAnimation";
 import { Waypoint } from "react-waypoint";
 import { ReactComponent as HomepageWaveSvg } from "ui/assets/homepage_wave.svg";
-import type { Link } from "type-route";
+import codingSvgUrl from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/coding.svg";
+import humanCooperationSvgUrl from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/environment/human-cooperation.svg";
+import documentSvgUrl from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/document.svg";
 
 type Props = {
     className?: string;
@@ -29,7 +31,6 @@ export default function Homepage(props: Props) {
 
     const { cx, classes, css, theme } = useStyles();
     const { t } = useTranslation({ Homepage });
-    const { t: tCommon } = useTranslation({ "App": "App" });
 
     const { stats } = useCoreState(selectors.generalStats.stats);
 
@@ -69,30 +70,6 @@ export default function Homepage(props: Props) {
             "linkProps": routes.softwareCatalog({
                 "prerogatives": ["isPresentInSupportContract"]
             }).link
-        }
-    ];
-
-    const helpUsCards = [
-        {
-            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            "title": t("declare referent title"),
-            "description": t("declare referent description"),
-            "buttonLabel": t("search software"),
-            "href": ""
-        },
-        {
-            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            "title": t("edit software title"),
-            "description": t("edit software description"),
-            "buttonLabel": t("search software"),
-            "href": ""
-        },
-        {
-            "imgUrl": "https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png",
-            "title": tCommon("add software or service"),
-            "description": t("add software or service description"),
-            "buttonLabel": t("complete form"),
-            "href": ""
         }
     ];
 
@@ -162,56 +139,57 @@ export default function Homepage(props: Props) {
                 <div className={cx(fr.cx("fr-container"))}>
                     <h2 className={classes.titleSection}>{t("help us")}</h2>
                     <div className={classes.helpUsCards}>
+                        {(
+                            [
+                                "declare referent",
+                                "edit software",
+                                "add software or service"
+                            ] as const
+                        ).map(cardName => {
+                            const link = (() => {
+                                switch (cardName) {
+                                    case "add software or service":
+                                        return routes.addSoftwareLanding().link;
+                                    case "declare referent":
+                                    case "edit software":
+                                        return routes.softwareCatalog().link;
+                                }
+                            })();
 
-                        {
-                            (["declare referent", "edit software", "add software or service"] as const).map(
-                                cardName => {
-
-                                    const link= (()=>{
-                                        switch(cardName){
-                                            case "add software or service": return routes.addSoftwareLanding().link;
-                                            case "declare referent": return routes.declarationForm.
-                                        }
-                                    })();
-
-                                    return (
-                                        <Card
-                                            key={cardName}
-                                            title={t(`${cardName} title`)}
-                                            desc={t(`${cardName} desc`)}
-                                            imageAlt={t("illustration image")}
-                                            linkProps={{ href: card.href }}
-                                            imageUrl={card.imgUrl}
-                                            footer={
-                                                <Button priority="primary" type="button">
-                                                    {t(`${cardName} button label`)}
-                                                </Button>
+                            return (
+                                <Card
+                                    classes={{
+                                        "img": css({
+                                            "& > img": {
+                                                "objectFit": "unset",
+                                                "background": "white"
                                             }
-                                            enlargeLink={false}
-                                        />
-                                    );
-                                }
-                            )
-                        }
-
-                        {/*
-                        {helpUsCards.map(card => (
-                            <Card
-                                key={card.title}
-                                title={card.title}
-                                linkProps={{ href: card.href }}
-                                desc={card.description}
-                                imageAlt="Image d'illustration"
-                                imageUrl={card.imgUrl}
-                                footer={
-                                    <Button priority="primary" type="button">
-                                        {card.buttonLabel}
-                                    </Button>
-                                }
-                                enlargeLink={false}
-                            />
-                        ))}
-                            */}
+                                        })
+                                    }}
+                                    key={cardName}
+                                    title={t(`${cardName} title`)}
+                                    desc={t(`${cardName} desc`)}
+                                    imageAlt={t("illustration image")}
+                                    linkProps={link}
+                                    imageUrl={(() => {
+                                        switch (cardName) {
+                                            case "declare referent":
+                                                return humanCooperationSvgUrl;
+                                            case "edit software":
+                                                return documentSvgUrl;
+                                            case "add software or service":
+                                                return codingSvgUrl;
+                                        }
+                                    })()}
+                                    footer={
+                                        <Button priority="primary" linkProps={link}>
+                                            {t(`${cardName} button label`)}
+                                        </Button>
+                                    }
+                                    enlargeLink={false}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -302,12 +280,10 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
 
 export const { i18n } = declareComponentKeys<
     | {
-        K: "title";
-        P: { accentColor: string };
-        R: JSX.Element;
-    }
-    | "or"
-    | "sign in"
+          K: "title";
+          P: { accentColor: string };
+          R: JSX.Element;
+      }
     | "software selection"
     | "last added"
     | "most used"
@@ -321,19 +297,22 @@ export const { i18n } = declareComponentKeys<
     | "agentReferentCount"
     | "organizationCount"
     | "help us"
-    | "declare referent title"
-    | "declare referent description"
-    | "search software"
-    | "edit software title"
-    | "edit software description"
-    | "add software or service description"
-    | "complete form"
     | "the sill in a few words"
     | {
-        K: "the sill in a few words paragraph";
-        P: { accentColor: string };
-        R: JSX.Element;
-    }
+          K: "the sill in a few words paragraph";
+          P: { accentColor: string };
+          R: JSX.Element;
+      }
+    | "illustration image"
+    | "declare referent title"
+    | "edit software title"
+    | "add software or service title"
+    | "declare referent desc"
+    | "edit software desc"
+    | "add software or service desc"
+    | "declare referent button label"
+    | "edit software button label"
+    | "add software or service button label"
 >()({ Homepage });
 
 const { HeroSection } = (() => {
