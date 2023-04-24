@@ -15,6 +15,7 @@ import type { PageRoute } from "./route";
 import { useMetricCountUpAnimation } from "ui/tools/useMetricCountUpAnimation";
 import { Waypoint } from "react-waypoint";
 import { ReactComponent as HomepageWaveSvg } from "ui/assets/homepage_wave.svg";
+import type { Link } from "type-route";
 
 type Props = {
     className?: string;
@@ -161,6 +162,39 @@ export default function Homepage(props: Props) {
                 <div className={cx(fr.cx("fr-container"))}>
                     <h2 className={classes.titleSection}>{t("help us")}</h2>
                     <div className={classes.helpUsCards}>
+
+                        {
+                            (["declare referent", "edit software", "add software or service"] as const).map(
+                                cardName => {
+
+                                    const link= (()=>{
+                                        switch(cardName){
+                                            case "add software or service": return routes.addSoftwareLanding().link;
+                                            case "declare referent": return routes.declarationForm.
+                                        }
+                                    })();
+
+                                    return (
+                                        <Card
+                                            key={cardName}
+                                            title={t(`${cardName} title`)}
+                                            desc={t(`${cardName} desc`)}
+                                            imageAlt={t("illustration image")}
+                                            linkProps={{ href: card.href }}
+                                            imageUrl={card.imgUrl}
+                                            footer={
+                                                <Button priority="primary" type="button">
+                                                    {t(`${cardName} button label`)}
+                                                </Button>
+                                            }
+                                            enlargeLink={false}
+                                        />
+                                    );
+                                }
+                            )
+                        }
+
+                        {/*
                         {helpUsCards.map(card => (
                             <Card
                                 key={card.title}
@@ -177,6 +211,7 @@ export default function Homepage(props: Props) {
                                 enlargeLink={false}
                             />
                         ))}
+                            */}
                     </div>
                 </div>
             </div>
@@ -267,10 +302,10 @@ const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
 
 export const { i18n } = declareComponentKeys<
     | {
-          K: "title";
-          P: { accentColor: string };
-          R: JSX.Element;
-      }
+        K: "title";
+        P: { accentColor: string };
+        R: JSX.Element;
+    }
     | "or"
     | "sign in"
     | "software selection"
@@ -295,10 +330,10 @@ export const { i18n } = declareComponentKeys<
     | "complete form"
     | "the sill in a few words"
     | {
-          K: "the sill in a few words paragraph";
-          P: { accentColor: string };
-          R: JSX.Element;
-      }
+        K: "the sill in a few words paragraph";
+        P: { accentColor: string };
+        R: JSX.Element;
+    }
 >()({ Homepage });
 
 const { HeroSection } = (() => {
