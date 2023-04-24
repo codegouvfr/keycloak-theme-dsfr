@@ -163,14 +163,51 @@ const {
                     "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
                 "who can add software": "Who can add software or a service and how?",
                 "discover as agent label": "Discover as agent",
-                "discover as agent description": "Description agent à changer",
+                "discover as agent description": `As a public agent, using the SILL (Interministerial Base of Free Software) offers several benefits. 
+                Firstly, it simplifies the process of searching for and selecting free software recommended by the State, 
+                ensuring the quality, security, and compliance of tools used within the administration. Moreover, the SILL 
+                encourages collaboration between public agents from different public functions (State, Hospital, and Territorial), 
+                fostering the exchange of experiences and best practices. By using software referenced in the SILL, 
+                public agents contribute to the control, sustainability, and independence of their administration's information systems, 
+                in accordance with Article 16 of the Digital Republic Act. Lastly, by becoming a SILL referent for a free software, 
+                a public agent can not only share their expertise and knowledge but also benefit from the support and advice of the SILL 
+                referent community and Etalab's free software division.`,
                 "discover as DSI label": "Discover as CIO",
-                "discover as DSI description": "Description CIO à changer",
+                "discover as DSI description": `As a Chief Information Officer (CIO), using the SILL offers numerous 
+                advantages for managing and evolving your administration's information systems. The SILL streamlines the assessment 
+                and selection of free software recommended by the State, thus ensuring compliance, quality, and security of the implemented 
+                solutions. Moreover, using software referenced in the SILL contributes to strengthening the independence, control, and 
+                sustainability of information systems, in line with the Digital Republic Act. The SILL also allows benefiting from the shared 
+                experiences and best practices of the SILL referent community and Etalab's free software division, fostering inter-administrative 
+                cooperation. Furthermore, adopting free software can generate savings on licensing and maintenance costs while encouraging 
+                innovation and interoperability. Ultimately, as a CIO, the SILL can help optimize the management of IT resources 
+                and promote a culture of openness and collaboration within the administration.`,
                 "contribute as agent label": "Contribute as agent",
-                "contribute as agent description":
-                    "Description contribution agent à changer",
+                "contribute as agent description": `As a public official, contributing to the SILL allows you to add value to the 
+                community by sharing your knowledge and facilitating the adoption of open-source software within the administration. 
+                Contributing mainly involves adding software and becoming a point of reference for them. By adding open-source software 
+                to the SILL, you help other public servants discover reliable and high-performing solutions that meet their needs. 
+                Becoming a point of reference for a software allows you to attest to its use within your administration, contribute 
+                to updating relevant information about the software (minimum recommended version, fact sheet, etc.), and agree to be 
+                contacted by other public servants to discuss the software in question. As a SILL point of reference, you can also 
+                subscribe to the SILL maintainers' discussion list and participate in maintainers' meetings, thereby strengthening 
+                cooperation and experience sharing within the community of points of reference. In short, contributing to the SILL 
+                as a public servant provides you with the opportunity to develop your expertise, help your colleagues, and promote 
+                the use of open-source software within the administration.`,
                 "contribute as DSI label": "Contribute as CIO",
-                "contribute as DSI description": "Description contribution CIO à changer"
+                "contribute as DSI description": `As a Director of Information Systems (CIO), contributing to the SILL allows you 
+                to improve and support the free software ecosystem within the administration, while sharing 
+                your expertise and promoting innovation. Contributing mainly involves adding software and becoming 
+                a reference for them. By adding a free software to the SILL, you help other administrations identify 
+                proven and effective solutions that meet their needs, while strengthening interoperability and 
+                inter-administrative collaboration. Becoming a reference for a software allows you to attest to its deployment 
+                within your administration, contribute to updating relevant information about the software 
+                (recommended minimum version, datasheet, etc.), and agree to be contacted by other public agents to 
+                discuss the software in question. As a SILL reference, you can also sign up for the 
+                SILL maintainers' discussion list and participate in maintainers' meetings, thus strengthening 
+                cooperation and experience sharing within the community of references. In short, contributing to the SILL as a 
+                CIO offers you the opportunity to promote the use of free software, develop your expertise, and encourage 
+                a culture of openness and collaboration within the administration.`
             },
             "SoftwareForm": {
                 "title software update form": "Update logiciel",
@@ -577,14 +614,53 @@ const {
                 "who can add software":
                     "Qui peut ajouter un logiciel ou un service et comment ?",
                 "discover as agent label": "Découvrir en tant qu'agent",
-                "discover as agent description": "Description agent à changer",
+                "discover as agent description": `En tant qu'agent public, utiliser le SILL (Socle Interministériel de Logiciels Libres) présente plusieurs avantages. 
+                Premièrement, il facilite la recherche et la sélection de logiciels libres recommandés par l'État, 
+                ce qui permet de s'assurer de la qualité, la sécurité et la conformité des outils utilisés dans 
+                l'administration. De plus, le SILL encourage la collaboration entre agents publics de différentes 
+                fonctions publiques (État, hospitalière et territoriale), favorisant ainsi l'échange d'expériences 
+                et de bonnes pratiques. En utilisant des logiciels référencés dans le SILL, les agents publics contribuent à 
+                la maîtrise, la pérennité et l'indépendance des systèmes d'information de leur administration, 
+                conformément à l'article 16 de la loi pour une République numérique. Enfin, en devenant référent SILL pour un logiciel libre, 
+                un agent public peut non seulement partager son expertise et ses connaissances, mais également bénéficier du soutien et des 
+                conseils de la communauté des référents SILL et du pôle logiciels libres d'Etalab.`,
                 "discover as DSI label": "Découvrir en tant que DSI",
-                "discover as DSI description": "Description DSI à changer",
+                "discover as DSI description": `En tant que Directeur des Systèmes d'Information (DSI), utiliser le SILL 
+                offre de nombreux avantages pour la gestion et l'évolution des systèmes 
+                informatiques de votre administration. Le SILL facilite l'évaluation et la sélection des logiciels libres recommandés par l'État, garantissant 
+                ainsi la conformité, la qualité et la sécurité des solutions mises en œuvre. De plus, le recours aux logiciels référencés dans le SILL contribue 
+                à renforcer l'indépendance, la maîtrise et la pérennité des systèmes d'information, en accord avec la loi pour une République numérique. 
+                Le SILL permet également de bénéficier du retour d'expérience et des bonnes pratiques partagées par la communauté des référents SILL et 
+                le pôle logiciels libres d'Etalab, favorisant ainsi la coopération inter-administrative. En outre, l'adoption de logiciels libres peut 
+                engendrer des économies sur les coûts de licence et de maintenance, tout en encourageant l'innovation et l'interopérabilité. 
+                Finalement, en tant que DSI, le SILL peut aider à optimiser la gestion des ressources informatiques et à promouvoir une culture de l'ouverture 
+                et de la collaboration au sein de l'administration.`,
                 "contribute as agent label": "Contribuer en tant qu'agent",
-                "contribute as agent description":
-                    "Description contribution agent à changer",
+                "contribute as agent description": `En tant qu'agent public, contribuer au SILL vous permet d'apporter une valeur ajoutée à la 
+                communauté en partageant vos connaissances et en facilitant l'adoption de logiciels libres au sein de l'administration. 
+                Contribuer consiste principalement à ajouter des logiciels et à devenir référent pour ces derniers. En ajoutant un logiciel 
+                libre au SILL, vous aidez d'autres agents à découvrir des solutions fiables et performantes qui répondent à leurs besoins. 
+                Devenir référent pour un logiciel vous permet d'attester de son usage au sein de votre administration, de contribuer à la mise 
+                à jour des informations pertinentes sur ce logiciel (version minimale recommandée, fiche, etc.), et d'accepter d'être 
+                contacté par d'autres agents publics pour échanger sur le logiciel en question. En tant que référent SILL, vous pouvez 
+                également vous inscrire à la liste de discussion des mainteneurs du SILL et participer aux réunions des mainteneurs, 
+                renforçant ainsi la coopération et le partage d'expérience au sein de la communauté des référents. En somme, contribuer 
+                au SILL en tant qu'agent public vous offre l'opportunité de développer votre expertise, d'aider vos collègues et de promouvoir 
+                l'utilisation de logiciels libres dans l'administration.`,
                 "contribute as DSI label": "Contribuer en tant que DSI",
-                "contribute as DSI description": "Description contribution DSI à changer"
+                "contribute as DSI description": `En tant que Directeur des Systèmes d'Information (DSI), contribuer au SILL vous 
+                permet d'améliorer et de soutenir l'écosystème des logiciels libres au sein de l'administration, tout en partageant 
+                votre expertise et en favorisant l'innovation. Contribuer consiste principalement à ajouter des logiciels et à devenir 
+                référent pour ces derniers. En ajoutant un logiciel libre au SILL, vous aidez d'autres administrations à identifier 
+                des solutions éprouvées et efficaces qui correspondent à leurs besoins, tout en renforçant l'interopérabilité et 
+                la collaboration inter-administrative. Devenir référent pour un logiciel vous permet d'attester de son déploiement 
+                au sein de votre administration, de contribuer à la mise à jour des informations pertinentes sur ce logiciel 
+                (version minimale recommandée, fiche, etc.), et d'accepter d'être contacté par d'autres agents publics pour 
+                échanger sur le logiciel en question. En tant que référent SILL, vous pouvez également vous inscrire à la 
+                liste de discussion des mainteneurs du SILL et participer aux réunions des mainteneurs, renforçant ainsi la 
+                coopération et le partage d'expérience au sein de la communauté des référents. En somme, contribuer au SILL en tant que 
+                DSI vous offre l'opportunité de promouvoir l'utilisation des logiciels libres, de développer votre expertise et d'encourager 
+                une culture d'ouverture et de collaboration au sein de l'administration.`
             },
             "SoftwareForm": {
                 "title software update form": "Mettre à jour un logiciel",
