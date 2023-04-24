@@ -36,7 +36,6 @@ const {
     | typeof import("ui/pages/declarationForm/Step2User").i18n
     | typeof import("ui/pages/declarationForm/Step2Referent").i18n
     | typeof import("ui/pages/homepage/Homepage").i18n
-    | typeof import("ui/pages/homepage/SearchByProfile").i18n
     | typeof import("ui/pages/addSoftwareLanding/AddSoftwareLanding").i18n
     | typeof import("ui/pages/softwareForm/SoftwareForm").i18n
     | typeof import("ui/pages/softwareForm/Step1").i18n
@@ -154,28 +153,6 @@ const {
                         <br />
                     </>
                 )
-            },
-            "SearchByProfile": {
-                "agent label": "I am an agent or a CIO",
-                "search label": "I search...",
-                "agent": "An agent",
-                "CIO": "A CIO",
-                "search placeholder": "Search a software, a word, a reference",
-                "specific free software": "A specific type of free software",
-                "similar proprietary software":
-                    "A free alternative to my proprietary working software",
-                "reference software usage": "To reference a use of software",
-                "declare referent": "À devenir référent d'un logiciel",
-                "add software": "To become a referent of a software",
-                "specific software with constraint":
-                    "A specific type of software (with specific constraints)",
-                "similar free software for agent":
-                    "A free alternative to my agents' tracing software",
-                "reference software usage in my organization":
-                    "To reference a use of software within my establishment",
-                "reference instance":
-                    "To reference the instance of a service and its use within my establishment",
-                "need assistance": "Support for the transition to free software"
             },
             "AddSoftwareLanding": {
                 "title": (
@@ -584,28 +561,6 @@ const {
                         <br />
                     </>
                 )
-            },
-            "SearchByProfile": {
-                "agent label": "Je suis un agent ou une DSI",
-                "search label": "Je cherche...",
-                "search placeholder": "Rechercher un logiciel, un mot, une référence",
-                "agent": "An agent",
-                "CIO": "A CIO",
-                "specific free software": "Un type de logiciel libre spécifique",
-                "similar proprietary software":
-                    "Une alternative libre à mon logiciel de travail propriétaire",
-                "reference software usage": "À référencer un usage de logiciel",
-                "declare referent": "À devenir référent d'un logiciel",
-                "add software": "À ajouter un logiciel",
-                "specific software with constraint":
-                    "Un type de logiciel spécifique (avec des contraintes spécifiques)",
-                "similar free software for agent":
-                    "Une alternative libre au logiciel de travail de mes agents",
-                "reference software usage in my organization":
-                    "À référencer un usage de logiciels au sein de mon établissement",
-                "reference instance":
-                    "À référencer l'instance d'un service et son usage au sein de mon établissement",
-                "need assistance": "Un accompagnement vers la transition vers le libre"
             },
             "AddSoftwareLanding": {
                 "title": (

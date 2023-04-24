@@ -7,7 +7,6 @@ import * as userAccountManagement from "./userAccountManagement";
 import * as sillApiVersion from "./sillApiVersion";
 import * as softwareUserAndReferent from "./softwareUserAndReferent";
 import * as generalStats from "./generalStats";
-import * as searchSoftwareByName from "./searchSoftwareByName";
 import * as userAuthentication from "./userAuthentication";
 import * as termsOfServices from "./termsOfServices";
 import * as readme from "./readme";
@@ -23,7 +22,6 @@ export const usecases = {
     sillApiVersion,
     softwareUserAndReferent,
     generalStats,
-    searchSoftwareByName,
     userAuthentication,
     termsOfServices,
     readme,
