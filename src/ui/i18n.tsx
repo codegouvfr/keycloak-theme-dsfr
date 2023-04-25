@@ -605,7 +605,7 @@ const {
                 "title": (
                     <>
                         <span>Aidez nous à enrichir le catalogue</span> en ajoutant des
-                        logiciels ou des déploiement de logiciels dans votre organisation
+                        logiciels ou des déploiements de logiciels dans votre organisation
                         !
                     </>
                 ),
@@ -685,7 +685,7 @@ const {
                 "software cloud":
                     "Solution logicielle applicative hébergée dans le cloud",
                 "software cloud hint": "Cloud public ou cloud de votre organisation",
-                "module": "Brique ou modules techniques",
+                "module": "Briques ou modules techniques",
                 "module hint": "Par exemple des proxy, serveurs HTTP ou plugins",
                 "checkbox legend":
                     "Système d'exploitation sur lequel le logiciel peut être installé"
@@ -703,19 +703,19 @@ const {
                 ),
                 "wikidata id information":
                     "Cette information remplira automatiquement d'autres champs",
-                "comptoir du libre id": "Identifiant Comptoire du Libre",
+                "comptoir du libre id": "Identifiant Comptoir du Libre",
                 "comptoir du libre id hint": "URL de la page ou identifiant numérique",
                 "software name": "Nom du logiciel",
                 "software feature": "Fonction du logiciel",
                 "software feature hint":
                     "Décrivez en quelques mots les fonctionnalités du logiciel",
-                "license": "License du logiciel",
+                "license": "Licence du logiciel",
                 "license hint": "(GNU, GPL, BSD, etc.)",
                 "minimal version": "Version minimale",
                 "minimal version hint":
-                    "Version la plus ancienne encore acceptable d'avoir en production",
+                    "Version la plus ancienne encore acceptable en production",
                 "url or numeric id":
-                    "Ce champs doit être une url ou un numéro d'identifiant",
+                    "Ce champ doit contenir une URL ou un numéro d'identifiant",
                 "autofill notice":
                     "Cette information remplira automatiquement d'autres champs"
             },
@@ -728,7 +728,7 @@ const {
             "SoftwareFormStep4": {
                 "similar software": "Ce logiciel est une alternative à ...",
                 "similar software hint":
-                    "Associez le logiciel à des logiciel similaire, propriétaire ou non"
+                    "Associez le logiciel à des logiciels similaires, propriétaires ou non"
             },
             "InstanceForm": {
                 "breadcrumb add instance": "Ajouter une instance",
@@ -745,7 +745,7 @@ const {
                             return "";
                     }
                 },
-                "submit": "Add instance"
+                "submit": "Ajouter"
             },
             "InstanceFormStep1": {
                 "software instance":
@@ -757,12 +757,12 @@ const {
                 "is in public access label":
                     "Votre instance est-elle accessible publiquement ?",
                 "is in public access hint": "*Au sein du service public",
-                "instance url label": "Si oui, quel est l'URL de l'instance ?",
+                "instance url label": "Si oui, quelle est l'URL de l'instance ?",
                 "instance url hint":
                     "Afin de proposer un accès rapide au service proposé",
                 "organization label": "Quelle est l'organisation concernée ?",
                 "organization hint":
-                    "Quelle est l'organization étatique qui maintient cette instance ?",
+                    "Quelle est l'organisation étatique qui maintient cette instance ?",
                 "targeted public label": "Quel est le public concerné ?",
                 "targeted public hint":
                     "Décrivez en quelques mots à qui l'offre de service est proposée"
@@ -774,7 +774,7 @@ const {
                 "isFromFrenchPublicService":
                     "Ce logiciel est originaire du service public français",
                 "isPresentInSupportMarket":
-                    "Ce logiciel est présent dans le marcher de support"
+                    "Ce logiciel est présent dans le marché de support"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -782,10 +782,10 @@ const {
                 "sort by": "Trier par",
                 "added_time": "Dernier ajouté",
                 "update_time": "Dernier mis à jour",
-                "referent_count": "Nombre de référent",
-                "referent_count_ASC": "Nombre de référent croissant",
-                "user_count": "Nombre d'utilisateur",
-                "user_count_ASC": "Nombre d'utilisateur croissant",
+                "referent_count": "Nombre de référents",
+                "referent_count_ASC": "Nombre de référents croissant",
+                "user_count": "Nombre d'utilisateurs",
+                "user_count_ASC": "Nombre d'utilisateurs croissant",
                 "latest_version_publication_date": "Dernière version publiée",
                 "no software found": "Aucun logiciel trouvé",
                 "best_match": "Résultats les plus pertinents"
@@ -793,9 +793,9 @@ const {
             "SoftwareCatalogSearch": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",
                 "filtersButton": "Filtres",
-                "organizationLabel": "Organization",
+                "organizationLabel": "Organisation",
                 "categoriesLabel": "Catégories",
-                "environnement label": "Environement d'utilisation",
+                "environnement label": "Environnement d'utilisation",
                 "prerogativesLabel": "Prérogatives",
                 "filters": "Filtres",
                 "isInstallableOnUserTerminal": "Installable sur un poste agent",
@@ -804,25 +804,25 @@ const {
                 "isPresentInSupportContract": "Présent dans le marché de support",
                 "isTestable": "Est essayable",
                 "organization filter hint":
-                    "Afficher uniquement les logiciels aillant au mois référent dans une organisation donnée",
+                    "Afficher uniquement les logiciels ayant au mois référent dans une organisation donnée",
                 "linux": undefined,
                 "mac": undefined,
                 "windows": undefined,
                 "browser": "Navigateur internet (Ex: Jupiter Notebook)",
                 "stack":
-                    "Biblothèques, frameworks et autre briques techniques (Ex: Angular, Ngnix, etc.)",
+                    "Bibliothèques, frameworks et autres briques techniques (Ex: Angular, Ngnix, etc.)",
                 "number of prerogatives selected": ({ count }) =>
                     count === 0
                         ? "Aucune"
                         : `${count} sélectionnée${count === 1 ? "" : "s"}`
             },
             "SoftwareDetails": {
-                "catalog breadcrumb": "Le catalogue de logiciel",
+                "catalog breadcrumb": "Le catalogue de logiciels",
                 "tab title overview": "Aperçu",
                 "tab title instance": ({ instanceCount }) =>
                     `Instances référencées (${instanceCount})`,
                 "tab title alike software": ({ alikeSoftwareCount }) =>
-                    `Logiciel similaires ou équivalents propriétaires (${alikeSoftwareCount})`,
+                    `Logiciels similaires ou équivalents propriétaires (${alikeSoftwareCount})`,
                 "about": "À propos",
                 "use full links": "Liens utiles",
                 "prerogatives": "Prérogatives",
@@ -831,14 +831,14 @@ const {
                 "register": "Date de l'ajout : ",
                 "register date": ({ date }) => `${date}`,
                 "minimal version": "Version minimale requise : ",
-                "license": "License : ",
+                "license": "Licence : ",
                 "declare oneself referent": "Se déclarer référent / utilisateur",
                 "isDesktop": "Installable sur poste agent",
                 "isPresentInSupportMarket": "Présent dans le marché de support",
                 "isFromFrenchPublicService": "Développé par le service public",
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
-                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoir du Libre",
                 "wikiData sheet": "Consulter la fiche de Wikidata",
                 "share software": "Partager la fiche",
                 "declare referent": "Se déclarer référent / utilisateur",
@@ -858,13 +858,13 @@ const {
                 "register": "Date de l'ajout : ",
                 "register date": ({ date }) => `${date}`,
                 "minimal version": "Version minimale requise : ",
-                "license": "License : ",
+                "license": "Licence : ",
                 "isDesktop": "Installable sur poste agent",
                 "isPresentInSupportMarket": "Présent dans le marché de support",
                 "isFromFrenchPublicService": "Développé par le service public",
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
-                "comptoire du libre sheet": "Consulter la fiche du Comptoire du Libre",
+                "comptoire du libre sheet": "Consulter la fiche du Comptoir du Libre",
                 "wikiData sheet": "Consulter la fiche de Wikidata"
             },
             "ReferencedInstancesTab": {
@@ -904,7 +904,7 @@ const {
                 "use case": "Cas d'usage"
             },
             "DeclarationForm": {
-                "catalog breadcrumb": "Le catalogue de logiciel",
+                "catalog breadcrumb": "Le catalogue de logiciels",
                 "declare yourself user or referent breadcrumb":
                     "Se déclarer utilisateur ou référent du logiciel",
                 "send": "Envoyer ma déclaration",
@@ -922,7 +922,7 @@ const {
             "DeclarationFormStep2User": {
                 "useCase": "Décrivez en quelques mots votre cas d'usage",
                 "environment": "Dans quel environnement utilisez-vous ce logiciel ?",
-                "version": "Quelle version du logiciel utilisez vous ? (Optionnel)",
+                "version": "Quelle version du logiciel utilisez-vous ? (Optionnel)",
                 "service": "Plus précisément, quel service du logiciel utilisez-vous ?"
             },
             "DeclarationFormStep2Referent": {
@@ -945,7 +945,7 @@ const {
                 "home title": "Accueil - Socle interministériel de logiciels libres",
                 "title": "Socle interministériel de logiciels libres",
                 "navigation welcome": "Bienvenue sur le SILL",
-                "navigation catalog": "Catalogue de logiciel",
+                "navigation catalog": "Catalogue de logiciels",
                 "navigation add software": "Ajouter un logiciel ou une instance",
                 "navigation support request": "Demande d'accompagement",
                 "navigation about": "À propos du site",
