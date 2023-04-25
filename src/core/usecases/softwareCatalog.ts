@@ -73,6 +73,12 @@ export namespace State {
 
         export type External = Common & {
             prerogatives: Record<Prerogative, boolean>;
+            searchHighlight:
+                | {
+                      searchChars: string[];
+                      highlightedIndexes: number[];
+                  }
+                | undefined;
         };
 
         export type Internal = Common & {
@@ -260,7 +266,8 @@ export const selectors = (() => {
             (softwares: State.Software.Internal[]) =>
                 new Fzf(softwares, {
                     "selector": ({ search }) => search,
-                    "sort": true
+                    "sort": true,
+                    "casing": "case-insensitive"
                 }),
             { "max": 1 }
         );
@@ -277,7 +284,10 @@ export const selectors = (() => {
             (softwares: State.Software.Internal[], search: string) =>
                 getFzf(softwares)
                     .find(search)
-                    .map(({ item: { softwareName } }) => softwareName),
+                    .map(({ item: { softwareName }, positions }) => ({
+                        softwareName,
+                        positions
+                    })),
             { "max": 1 }
         );
 
@@ -287,13 +297,16 @@ export const selectors = (() => {
         }) {
             const { softwares, search } = params;
 
-            const softwareNames = filterBySearchMemoized(softwares, search);
+            const searchResults = filterBySearchMemoized(softwares, search);
 
             const indexBySoftwareName = getIndexBySoftwareName(softwares);
 
-            return softwareNames.map(
-                softwareName => softwares[indexBySoftwareName[softwareName]]
-            );
+            return searchResults
+                .map(({ softwareName }) => softwareName)
+                .map((softwareName, i) => ({
+                    "software": softwares[indexBySoftwareName[softwareName]],
+                    "positions": searchResults[i].positions
+                }));
         }
 
         return { filterAndSortBySearch };
@@ -350,7 +363,10 @@ export const selectors = (() => {
         return softwares.filter(
             software =>
                 ({
-                    ...internalSoftwareToExternalSoftware(software).prerogatives,
+                    ...internalSoftwareToExternalSoftware({
+                        "internalSoftware": software,
+                        "positions": undefined
+                    }).prerogatives,
                     ...software.prerogatives,
                     "isTestable": software.testUrl !== undefined
                 }[prerogative])
@@ -376,10 +392,20 @@ export const selectors = (() => {
         ) => {
             let tmpSoftwares = internalSoftwares;
 
+            let positionsBySoftwareName: Map<string, Set<number>> | undefined = undefined;
+
             if (search !== "") {
-                tmpSoftwares = filterAndSortBySearch({
+                const filterResults = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
+                });
+
+                tmpSoftwares = filterResults.map(({ software, positions }) => {
+                    (positionsBySoftwareName ??= new Map()).set(
+                        software.softwareName,
+                        positions
+                    );
+                    return software;
                 });
             }
 
@@ -462,7 +488,23 @@ export const selectors = (() => {
                 );
             }
 
-            return tmpSoftwares.map(internalSoftwareToExternalSoftware);
+            return tmpSoftwares.map(software =>
+                internalSoftwareToExternalSoftware({
+                    "internalSoftware": software,
+                    "positions": (() => {
+                        if (positionsBySoftwareName === undefined) {
+                            return undefined;
+                        }
+                        const positions = positionsBySoftwareName.get(
+                            software.softwareName
+                        );
+
+                        assert(positions !== undefined);
+
+                        return positions;
+                    })()
+                })
+            );
         }
     );
 
@@ -495,7 +537,7 @@ export const selectors = (() => {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
-                });
+                }).map(({ software }) => software);
             }
 
             if (category !== undefined) {
@@ -564,7 +606,7 @@ export const selectors = (() => {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
-                });
+                }).map(({ software }) => software);
             }
 
             if (organization !== undefined) {
@@ -645,7 +687,7 @@ export const selectors = (() => {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
-                });
+                }).map(({ software }) => software);
             }
 
             if (organization !== undefined) {
@@ -744,7 +786,7 @@ export const selectors = (() => {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
-                });
+                }).map(({ software }) => software);
             }
 
             if (organization !== undefined) {
@@ -934,7 +976,7 @@ function apiSoftwareToInternalSoftware(params: {
         "search": (() => {
             const search =
                 softwareName +
-                "(" +
+                " (" +
                 [
                     ...keywords,
                     ...similarSoftwares.map(({ wikidataLabel }) => wikidataLabel),
@@ -949,9 +991,12 @@ function apiSoftwareToInternalSoftware(params: {
     };
 }
 
-function internalSoftwareToExternalSoftware(
-    software: State.Software.Internal
-): State.Software.External {
+function internalSoftwareToExternalSoftware(params: {
+    internalSoftware: State.Software.Internal;
+    positions: Set<number> | undefined;
+}): State.Software.External {
+    const { internalSoftware, positions } = params;
+
     const {
         logoUrl,
         softwareName,
@@ -973,7 +1018,7 @@ function internalSoftwareToExternalSoftware(
         parentSoftware,
         softwareType,
         ...rest
-    } = software;
+    } = internalSoftware;
 
     assert<Equals<typeof rest, {}>>();
 
@@ -992,7 +1037,14 @@ function internalSoftwareToExternalSoftware(
             "isInstallableOnUserTerminal": softwareType.type === "desktop",
             "isTestable": testUrl !== undefined
         },
-        parentSoftware
+        parentSoftware,
+        "searchHighlight":
+            positions === undefined
+                ? undefined
+                : {
+                      "searchChars": search.normalize().split(""),
+                      "highlightedIndexes": Array.from(positions)
+                  }
     };
 }
 
@@ -1014,7 +1066,10 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
         return undefined;
     }
 
-    return internalSoftwareToExternalSoftware(internalSoftware);
+    return internalSoftwareToExternalSoftware({
+        internalSoftware,
+        "positions": undefined
+    });
 }
 
 export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {

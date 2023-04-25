@@ -11,7 +11,12 @@ import type { Link } from "type-route";
 export type Props = {
     className?: string;
     alikeExternalSoftwares: SoftwareCatalogState.Software.External[];
-    alikeInternalSoftwares: { isInSill: false; url: string; description: string; name: string; }[];
+    alikeInternalSoftwares: {
+        isInSill: false;
+        url: string;
+        description: string;
+        name: string;
+    }[];
     getLinks: (params: {
         softwareName: string;
     }) => Record<
@@ -21,7 +26,13 @@ export type Props = {
 };
 
 export const AlikeSoftwareTab = (props: Props) => {
-    const { className, alikeExternalSoftwares, alikeInternalSoftwares, getLinks, ...rest } = props;
+    const {
+        className,
+        alikeExternalSoftwares,
+        alikeInternalSoftwares,
+        getLinks,
+        ...rest
+    } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -62,6 +73,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                         declareFormLink={declarationForm}
                         softwareDetailsLink={softwareDetails}
                         softwareUsersAndReferentsLink={softwareUsersAndReferents}
+                        searchHighlight={undefined}
                     />
                 );
             })}
@@ -70,14 +82,20 @@ export const AlikeSoftwareTab = (props: Props) => {
             </p>
             <ul>
                 {alikeInternalSoftwares.map(software => {
-                    const { name, description, url } = software
+                    const { name, description, url } = software;
 
                     return (
                         <li key={name}>
-                            <p>{ name } (<a href={url} target="_blank" rel="noreferrer">{url}</a>)</p>
-                            <p>{ description }</p>
+                            <p>
+                                {name} (
+                                <a href={url} target="_blank" rel="noreferrer">
+                                    {url}
+                                </a>
+                                )
+                            </p>
+                            <p>{description}</p>
                         </li>
-                    )
+                    );
                 })}
             </ul>
         </section>

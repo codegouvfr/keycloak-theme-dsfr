@@ -32,6 +32,12 @@ export type Props = {
     declareFormLink: Link;
     testUrl?: string;
     softwareDetailsLink: Link;
+    searchHighlight:
+        | {
+              searchChars: string[];
+              highlightedIndexes: number[];
+          }
+        | undefined;
 };
 
 export const SoftwareCatalogCard = memo((props: Props) => {
@@ -48,6 +54,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         softwareDetailsLink,
         declareFormLink,
         testUrl,
+        searchHighlight,
         ...rest
     } = props;
 
@@ -124,9 +131,21 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                     </div>
                 </div>
 
-                <Markdown className={cx(fr.cx("fr-card__desc"), classes.description)}>
-                    {resolveLocalizedString(softwareDescription)}
-                </Markdown>
+                <div className={cx(fr.cx("fr-card__desc"), classes.description)}>
+                    {searchHighlight !== undefined && (
+                        <p className={cx(fr.cx("fr-text--xs"), classes.searchHighlight)}>
+                            {searchHighlight.searchChars.map((char, i) =>
+                                searchHighlight.highlightedIndexes.includes(i) ? (
+                                    <span key={i}>{char}</span>
+                                ) : (
+                                    char
+                                )
+                            )}{" "}
+                        </p>
+                    )}
+
+                    <Markdown>{resolveLocalizedString(softwareDescription)}</Markdown>
+                </div>
 
                 <DetailUsersAndReferents
                     seeUserAndReferent={
@@ -173,6 +192,14 @@ const useStyles = makeStyles({
                 "topBottom": "5v",
                 "rightLeft": "3v"
             })
+        }
+    },
+    "searchHighlight": {
+        "fontStyle": "italic",
+        "color": theme.decisions.text.mention.grey.default,
+        "& > span": {
+            "color": theme.decisions.text.active.blueFrance.default,
+            "fontWeight": "bold"
         }
     },
     "cardBody": {
@@ -246,7 +273,7 @@ const useStyles = makeStyles({
         "overflow": "hidden",
         "display": "-webkit-box",
         "WebkitBoxOrient": "vertical",
-        "WebkitLineClamp": "3",
+        "WebkitLineClamp": "5",
         "whiteSpace": "pre-wrap"
     },
     "detailUsersAndReferents": {

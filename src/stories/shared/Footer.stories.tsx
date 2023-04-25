@@ -12,5 +12,5 @@ export default meta;
 
 export const VueDefault = getStory({
     "apiVersion": "0.3.6",
-    "webVersion": "1.0.8",
+    "webVersion": "1.0.8"
 });

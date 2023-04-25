@@ -267,7 +267,7 @@ export default function Login(
                                 />
                                 <input
                                     tabIndex={4}
-                                    className={fr.cx('fr-btn')}
+                                    className={fr.cx("fr-btn")}
                                     name="login"
                                     id="kc-login"
                                     type="submit"

@@ -38,7 +38,8 @@ export const VueDefault = getStory({
         "isFromFrenchPublicServices": true,
         "isPresentInSupportContract": true,
         "isInstallableOnUserTerminal": true
-    }
+    },
+    "searchHighlight": undefined
 });
 
 export const VueTooLongDescription = getStory({
@@ -69,5 +70,6 @@ export const VueTooLongDescription = getStory({
         "isFromFrenchPublicServices": true,
         "isPresentInSupportContract": true,
         "isInstallableOnUserTerminal": true
-    }
+    },
+    "searchHighlight": undefined
 });
