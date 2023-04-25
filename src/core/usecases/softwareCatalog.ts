@@ -1,4 +1,5 @@
 /* eslint-disable array-callback-return */
+import "minimal-polyfills/Object.fromEntries";
 import type { ThunkAction, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
@@ -254,35 +255,48 @@ export const selectors = (() => {
         return sorts;
     });
 
-    const { filterBySearch } = (() => {
+    const { filterAndSortBySearch } = (() => {
         const getFzf = memoize(
             (softwares: State.Software.Internal[]) =>
-                new Fzf(softwares, { "selector": ({ search }) => search }),
+                new Fzf(softwares, {
+                    "selector": ({ search }) => search,
+                    "sort": true
+                }),
+            { "max": 1 }
+        );
+
+        const getIndexBySoftwareName = memoize(
+            (softwares: State.Software.Internal[]) =>
+                Object.fromEntries(
+                    softwares.map(({ softwareName }, i) => [softwareName, i])
+                ),
             { "max": 1 }
         );
 
         const filterBySearchMemoized = memoize(
             (softwares: State.Software.Internal[], search: string) =>
-                new Set(
-                    getFzf(softwares)
-                        .find(search)
-                        .map(({ item: { softwareName } }) => softwareName)
-                ),
+                getFzf(softwares)
+                    .find(search)
+                    .map(({ item: { softwareName } }) => softwareName),
             { "max": 1 }
         );
 
-        function filterBySearch(params: {
+        function filterAndSortBySearch(params: {
             softwares: State.Software.Internal[];
             search: string;
         }) {
             const { softwares, search } = params;
 
-            const softwareIds = filterBySearchMemoized(softwares, search);
+            const softwareNames = filterBySearchMemoized(softwares, search);
 
-            return softwares.filter(({ softwareName }) => softwareIds.has(softwareName));
+            const indexBySoftwareName = getIndexBySoftwareName(softwares);
+
+            return softwareNames.map(
+                softwareName => softwares[indexBySoftwareName[softwareName]]
+            );
         }
 
-        return { filterBySearch };
+        return { filterAndSortBySearch };
     })();
 
     function filterByOrganization(params: {
@@ -363,7 +377,7 @@ export const selectors = (() => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
-                tmpSoftwares = filterBySearch({
+                tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
                 });
@@ -478,7 +492,7 @@ export const selectors = (() => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
-                tmpSoftwares = filterBySearch({
+                tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
                 });
@@ -547,7 +561,7 @@ export const selectors = (() => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
-                tmpSoftwares = filterBySearch({
+                tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
                 });
@@ -628,7 +642,7 @@ export const selectors = (() => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
-                tmpSoftwares = filterBySearch({
+                tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
                 });
@@ -727,7 +741,7 @@ export const selectors = (() => {
             let tmpSoftwares = internalSoftwares;
 
             if (search !== "") {
-                tmpSoftwares = filterBySearch({
+                tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
                     search
                 });
@@ -862,7 +876,9 @@ function apiSoftwareToInternalSoftware(params: {
         categories,
         prerogatives,
         softwareType,
-        userAndReferentCountByOrganization
+        userAndReferentCountByOrganization,
+        similarSoftwares,
+        keywords
     } = apiSoftware;
 
     assert<
@@ -915,23 +931,21 @@ function apiSoftwareToInternalSoftware(params: {
         parentSoftware,
         softwareType,
         prerogatives,
-        "search": [
-            softwareName,
-            softwareDescription,
-            latestVersion?.semVer,
-            categories.join(" "),
-            parentSoftware === undefined
-                ? undefined
-                : apiSoftwareToInternalSoftware({
-                      apiSoftwares,
-                      "softwareRef": {
-                          "type": "name",
-                          "softwareName": parentSoftware.softwareName
-                      }
-                  })?.search
-        ]
-            .filter(exclude(undefined))
-            .join(" ")
+        "search": (() => {
+            const search =
+                softwareName +
+                "(" +
+                [
+                    ...keywords,
+                    ...similarSoftwares.map(({ wikidataLabel }) => wikidataLabel),
+                    parentSoftware === undefined ? undefined : parentSoftware.softwareName
+                ]
+                    .filter(exclude(undefined))
+                    .join(", ") +
+                ")";
+
+            return search;
+        })()
     };
 }
 
