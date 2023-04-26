@@ -22,18 +22,17 @@ export default function SoftwareCatalog(props: Props) {
 
     const { softwareCatalog } = useCoreFunctions();
 
+    /* prettier-ignore */
     const { softwares } = useCoreState(selectors.softwareCatalog.softwares);
-    const { organizationOptions } = useCoreState(
-        selectors.softwareCatalog.organizationOptions
-    );
+    /* prettier-ignore */
+    const { organizationOptions } = useCoreState( selectors.softwareCatalog.organizationOptions);
+    /* prettier-ignore */
     const { categoryOptions } = useCoreState(selectors.softwareCatalog.categoryOptions);
-    const { environmentOptions } = useCoreState(
-        selectors.softwareCatalog.environmentOptions
-    );
-    const { prerogativeFilterOptions } = useCoreState(
-        selectors.softwareCatalog.prerogativeFilterOptions
-    );
-
+    /* prettier-ignore */
+    const { environmentOptions } = useCoreState( selectors.softwareCatalog.environmentOptions);
+    /* prettier-ignore */
+    const { prerogativeFilterOptions } = useCoreState(selectors.softwareCatalog.prerogativeFilterOptions);
+    /* prettier-ignore */
     const { sortOptions } = useCoreState(selectors.softwareCatalog.sortOptions);
 
     const { evtSoftwareCatalog } = useCoreEvts();
@@ -52,11 +51,6 @@ export default function SoftwareCatalog(props: Props) {
 
                 if (params.search === "") {
                     delete params.search;
-                }
-
-                //WARNING: Duplicated source of truth with the route definition
-                if (params.sort === "referent_count") {
-                    delete params.sort;
                 }
 
                 if (params.prerogatives?.length === 0) {
@@ -98,34 +92,41 @@ export default function SoftwareCatalog(props: Props) {
     );
 
     useEffect(() => {
+        if (route.params.sort === undefined) {
+            return;
+        }
+
         softwareCatalog.updateFilter({
-            "key": "sort",
-            "value": route.params.sort?.length ? route.params.sort : undefined
+            "key": "sort" as const,
+            "value": route.params.sort
         });
     }, [route.params.sort]);
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "organization",
-            "value": route.params.organization?.length
-                ? route.params.organization
-                : undefined
+            "value":
+                route.params.organization !== undefined
+                    ? route.params.organization
+                    : undefined
         });
     }, [route.params.organization]);
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "category",
-            "value": route.params.category?.length ? route.params.category : undefined
+            "value":
+                route.params.category !== undefined ? route.params.category : undefined
         });
     }, [route.params.category]);
 
     useEffect(() => {
         softwareCatalog.updateFilter({
             "key": "environment",
-            "value": route.params.environment?.length
-                ? route.params.environment
-                : undefined
+            "value":
+                route.params.environment !== undefined
+                    ? route.params.environment
+                    : undefined
         });
     }, [route.params.environment]);
 
@@ -159,7 +160,7 @@ export default function SoftwareCatalog(props: Props) {
             softwares={softwares}
             linksBySoftwareName={linksBySoftwareName}
             sortOptions={sortOptions}
-            sort={route.params.sort}
+            sort={route.params.sort ?? softwareCatalog.getDefaultSort()}
             onSortChange={sort => startTransition(() => updateRouteParams({ sort }).replace())}
             search={route.params.search}
             onSearchChange={search => updateRouteParams({ search }).replace()}

@@ -209,8 +209,23 @@ export const thunks = {
             }
 
             dispatch(actions.filterUpdated(params));
+        },
+    "getDefaultSort":
+        (): ThunkAction<State.Sort> =>
+        (...args) => {
+            const [, getState] = args;
+
+            return getDefaultSort({
+                "userEmail": getState()[name].userEmail
+            });
         }
 };
+
+function getDefaultSort(params: { userEmail: string | undefined }): State.Sort {
+    const { userEmail } = params;
+
+    return userEmail === undefined ? "referent_count" : "my_software";
+}
 
 export const privateThunks = {
     "initialize":
@@ -276,8 +291,7 @@ export const privateThunks = {
                     actions.initialized({
                         softwares,
                         userEmail,
-                        "defaultSort":
-                            userEmail === undefined ? "referent_count" : "my_software"
+                        "defaultSort": getDefaultSort({ userEmail })
                     })
                 );
             };
@@ -565,6 +579,7 @@ export const selectors = (() => {
                                     "order": "descending"
                                 });
                         }
+
                         assert<Equals<typeof sort, never>>(false);
                     })()
                 );

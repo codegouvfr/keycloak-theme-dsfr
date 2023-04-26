@@ -14,34 +14,30 @@ export const routeDefs = {
     "softwareCatalog": defineRoute(
         {
             "search": param.query.optional.string.default(""),
-            "sort": param.query.optional
-                .ofType({
-                    "parse": raw => {
-                        const schema = z.union([
-                            z.literal("added_time"),
-                            z.literal("update_time"),
-                            z.literal("latest_version_publication_date"),
-                            z.literal("user_count"),
-                            z.literal("referent_count"),
-                            z.literal("user_count_ASC"),
-                            z.literal("referent_count_ASC"),
-                            z.literal("best_match"),
-                            z.literal("my_software")
-                        ]);
+            "sort": param.query.optional.ofType({
+                "parse": raw => {
+                    const schema = z.union([
+                        z.literal("added_time"),
+                        z.literal("update_time"),
+                        z.literal("latest_version_publication_date"),
+                        z.literal("user_count"),
+                        z.literal("referent_count"),
+                        z.literal("user_count_ASC"),
+                        z.literal("referent_count_ASC"),
+                        z.literal("best_match"),
+                        z.literal("my_software")
+                    ]);
 
-                        assert<
-                            Equals<ReturnType<(typeof schema)["parse"]>, State.Sort>
-                        >();
+                    assert<Equals<ReturnType<(typeof schema)["parse"]>, State.Sort>>();
 
-                        try {
-                            return schema.parse(raw);
-                        } catch {
-                            return noMatch;
-                        }
-                    },
-                    "stringify": value => value
-                })
-                .default("referent_count"),
+                    try {
+                        return schema.parse(raw);
+                    } catch {
+                        return noMatch;
+                    }
+                },
+                "stringify": value => value
+            }),
             "organization": param.query.optional.string,
             "category": param.query.optional.string,
             "environment": param.query.optional.ofType({
