@@ -42,7 +42,6 @@ export default function SoftwareUserAndReferent(props: Props) {
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ SoftwareUserAndReferent });
-    const { software } = useCoreState(selectors.softwareDetails.software);
 
     const [activeMenu, setActiveMenu] = useState(0);
 
@@ -51,13 +50,14 @@ export default function SoftwareUserAndReferent(props: Props) {
     const { referents } = useCoreState(selectors.softwareUserAndReferent.referents);
     const { logoUrl } = useCoreState(selectors.softwareUserAndReferent.logoUrl);
 
+    const softwareName = route.params.name;
+
     if (!isReady) {
         return <LoadingFallback />;
     }
 
     assert(users !== undefined);
     assert(referents !== undefined);
-    assert(software !== undefined);
 
     const MenuTabs = [
         {
@@ -141,11 +141,9 @@ export default function SoftwareUserAndReferent(props: Props) {
                             label: t("catalog breadcrumb")
                         },
                         {
-                            "linkProps": {
-                                ...routes.softwareDetails({ name: software.softwareName })
-                                    .link
-                            },
-                            label: software.softwareName
+                            "linkProps": routes.softwareDetails({ "name": softwareName })
+                                .link,
+                            "label": route.params.name
                         }
                     ]}
                     currentPageLabel={t("user and referent breadcrumb")}
@@ -198,7 +196,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                                             alt="Logo du logiciel"
                                         />
                                     </div>
-                                    {software.softwareName}
+                                    {softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
                                     {MenuTabs.map(tab => {
@@ -249,7 +247,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                     iconId="fr-icon-eye-line"
                     priority="secondary"
                     className={classes.softwareDetails}
-                    {...routes.softwareDetails({ name: software.softwareName }).link}
+                    {...routes.softwareDetails({ "name": softwareName }).link}
                 >
                     {t("softwareDetails")}
                 </Button>
