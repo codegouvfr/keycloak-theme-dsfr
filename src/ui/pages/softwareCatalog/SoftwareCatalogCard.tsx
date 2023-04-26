@@ -70,7 +70,9 @@ export const SoftwareCatalogCard = memo((props: Props) => {
 
     const { t } = useTranslation({ SoftwareCatalogCard });
     const { resolveLocalizedString } = useResolveLocalizedString();
-    const { classes, cx } = useStyles();
+    const { classes, cx } = useStyles({
+        "isSearchHighlighted": searchHighlight !== undefined
+    });
     const { fromNowText } = useFromNow({ "dateTime": latestVersion?.publicationTime });
 
     return (
@@ -212,9 +214,9 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<{ isSearchHighlighted: boolean }>({
     "name": { SoftwareCatalogCard }
-})(theme => ({
+})((theme, { isSearchHighlighted }) => ({
     "root": {
         ...fr.spacing("padding", {
             "topBottom": "7v",
@@ -290,15 +292,15 @@ const useStyles = makeStyles({
     },
     "softwareVersionContainer": {
         [fr.breakpoints.down("md")]: {
-            fontSize: fr.spacing("2v")
+            "fontSize": fr.spacing("2v")
         }
     },
     "badgeVersion": {
-        ...fr.spacing("margin", { rightLeft: "1v" }),
+        ...fr.spacing("margin", { "rightLeft": "1v" }),
         "whiteSpace": "nowrap",
         "overflow": "hidden",
         "textOverflow": "ellipsis",
-        "maxWidth": "35%"
+        "maxWidth": "30%"
     },
     "description": {
         "marginTop": 0,
@@ -307,7 +309,7 @@ const useStyles = makeStyles({
         "overflow": "hidden",
         "display": "-webkit-box",
         "WebkitBoxOrient": "vertical",
-        "WebkitLineClamp": "5",
+        "WebkitLineClamp": isSearchHighlighted ? "5" : "3",
         "whiteSpace": "pre-wrap"
     },
     "detailUsersAndReferents": {
