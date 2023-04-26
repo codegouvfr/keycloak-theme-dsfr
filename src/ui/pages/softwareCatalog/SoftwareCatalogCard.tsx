@@ -38,6 +38,12 @@ export type Props = {
               highlightedIndexes: number[];
           }
         | undefined;
+    userDeclaration:
+        | {
+              isUser: boolean;
+              isReferent: boolean;
+          }
+        | undefined;
 };
 
 export const SoftwareCatalogCard = memo((props: Props) => {
@@ -55,6 +61,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
         declareFormLink,
         testUrl,
         searchHighlight,
+        userDeclaration,
         ...rest
     } = props;
 
@@ -103,6 +110,33 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                                 )}
                             </div>
                         </div>
+                        {userDeclaration?.isReferent ? (
+                            <span
+                                className={cx(
+                                    fr.cx(
+                                        "fr-badge--no-icon",
+                                        "fr-badge--yellow-tournesol",
+                                        "fr-badge",
+                                        "fr-badge--sm"
+                                    )
+                                )}
+                            >
+                                Vous êtes référent
+                            </span>
+                        ) : userDeclaration?.isUser ? (
+                            <span
+                                className={cx(
+                                    fr.cx(
+                                        "fr-badge--no-icon",
+                                        "fr-badge--yellow-tournesol",
+                                        "fr-badge",
+                                        "fr-badge--sm"
+                                    )
+                                )}
+                            >
+                                Vous utilisez
+                            </span>
+                        ) : null}
                         <div>
                             {latestVersion !== undefined && (
                                 <p

@@ -142,6 +142,8 @@ export function SoftwareCatalogControlled(props: Props) {
                                         return t("latest_version_publication_date");
                                     case "best_match":
                                         return t("best_match");
+                                    case "my_software":
+                                        return t("my_software");
                                 }
                             })()
                         }))}
@@ -345,4 +347,5 @@ export const { i18n } = declareComponentKeys<
     | "latest_version_publication_date"
     | "no software found"
     | "best_match"
+    | "my_software"
 >()({ SoftwareCatalogControlled });

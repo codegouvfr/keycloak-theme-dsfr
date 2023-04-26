@@ -53,7 +53,8 @@ export const AlikeSoftwareTab = (props: Props) => {
                     userCount,
                     referentCount,
                     testUrl,
-                    prerogatives
+                    prerogatives,
+                    userDeclaration
                 } = software;
 
                 const { declarationForm, softwareDetails, softwareUsersAndReferents } =
@@ -74,6 +75,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                         softwareDetailsLink={softwareDetails}
                         softwareUsersAndReferentsLink={softwareUsersAndReferents}
                         searchHighlight={undefined}
+                        userDeclaration={userDeclaration}
                     />
                 );
             })}

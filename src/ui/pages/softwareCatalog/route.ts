@@ -25,7 +25,8 @@ export const routeDefs = {
                             z.literal("referent_count"),
                             z.literal("user_count_ASC"),
                             z.literal("referent_count_ASC"),
-                            z.literal("best_match")
+                            z.literal("best_match"),
+                            z.literal("my_software")
                         ]);
 
                         assert<

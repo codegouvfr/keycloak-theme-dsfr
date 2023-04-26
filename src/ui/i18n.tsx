@@ -322,7 +322,8 @@ const {
                 "user_count_ASC": "User count ASC",
                 "latest_version_publication_date": "Last published version",
                 "no software found": "No software found",
-                "best_match": "Best match"
+                "best_match": "Best match",
+                "my_software": "My software"
             },
             "SoftwareCatalogCard": {
                 "latest version": ({ fromNowText }) => `Latest version ${fromNowText}`,
@@ -788,7 +789,8 @@ const {
                 "user_count_ASC": "Nombre d'utilisateurs croissant",
                 "latest_version_publication_date": "Dernière version publiée",
                 "no software found": "Aucun logiciel trouvé",
-                "best_match": "Résultats les plus pertinents"
+                "best_match": "Résultats les plus pertinents",
+                "my_software": "Mes logiciels"
             },
             "SoftwareCatalogSearch": {
                 "placeholder": "Rechercher un logiciel, un mot, une référence",

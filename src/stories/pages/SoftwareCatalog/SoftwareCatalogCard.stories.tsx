@@ -39,7 +39,8 @@ export const VueDefault = getStory({
         "isPresentInSupportContract": true,
         "isInstallableOnUserTerminal": true
     },
-    "searchHighlight": undefined
+    "searchHighlight": undefined,
+    "userDeclaration": undefined
 });
 
 export const VueTooLongDescription = getStory({
@@ -71,5 +72,6 @@ export const VueTooLongDescription = getStory({
         "isPresentInSupportContract": true,
         "isInstallableOnUserTerminal": true
     },
-    "searchHighlight": undefined
+    "searchHighlight": undefined,
+    "userDeclaration": undefined
 });

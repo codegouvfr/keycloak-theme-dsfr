@@ -27,6 +27,8 @@ export type State = {
     environment: State.Environment | undefined;
     prerogatives: State.Prerogative[];
     sortBackup: State.Sort;
+    /** Undefined if user isn't logged in */
+    userEmail: string | undefined;
 };
 
 export namespace State {
@@ -38,7 +40,8 @@ export namespace State {
         | "referent_count"
         | "user_count_ASC"
         | "referent_count_ASC"
-        | "best_match";
+        | "best_match"
+        | "my_software";
 
     export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
 
@@ -69,6 +72,12 @@ export namespace State {
                   ))
                 | undefined;
             testUrl: string | undefined;
+            userDeclaration:
+                | {
+                      isUser: boolean;
+                      isReferent: boolean;
+                  }
+                | undefined;
         };
 
         export type External = Common & {
@@ -108,32 +117,39 @@ export type UpdateFilterParams<
 };
 
 export namespace UpdateFilterParams {
-    export type Key = keyof Omit<State, "softwares">;
+    export type Key = keyof Omit<State, "softwares" | "sortBackup" | "userEmail">;
 }
 
 export const { reducer, actions } = createSlice({
     name,
-    "initialState": createObjectThatThrowsIfAccessed<State>(),
+    "initialState": createObjectThatThrowsIfAccessed<State>({
+        "debugMessage": "yo yo yo"
+    }),
     //"initialState": {} as any as State,
     "reducers": {
         "initialized": (
             _state,
-            { payload }: PayloadAction<{ softwares: State.Software.Internal[] }>
+            {
+                payload
+            }: PayloadAction<{
+                softwares: State.Software.Internal[];
+                defaultSort: State.Sort;
+                userEmail: string | undefined;
+            }>
         ) => {
-            const { softwares } = payload;
-
-            const sort = "referent_count";
+            const { softwares, defaultSort, userEmail } = payload;
 
             return {
                 softwares,
                 "search": "",
-                sort,
-                "sortBackup": sort,
+                "sort": defaultSort,
+                "sortBackup": defaultSort,
                 "organization": undefined,
                 "category": undefined,
                 "environment": undefined,
                 "prerogatives": [],
-                "referentCount": undefined
+                "referentCount": undefined,
+                userEmail
             };
         },
         "filterUpdated": (state, { payload }: PayloadAction<UpdateFilterParams>) => {
@@ -200,10 +216,18 @@ export const privateThunks = {
     "initialize":
         (): ThunkAction =>
         async (...args) => {
-            const [dispatch, , { sillApi, evtAction }] = args;
+            const [dispatch, , { sillApi, evtAction, getUser, oidc }] = args;
 
             const initialize = async () => {
-                const apiSoftwares = await sillApi.getSoftwares();
+                const [apiSoftwares, { email: userEmail }] = await Promise.all([
+                    sillApi.getSoftwares(),
+                    oidc.isUserLoggedIn ? getUser() : { "email": undefined }
+                ] as const);
+
+                const { agents } =
+                    userEmail === undefined
+                        ? { "agents": undefined }
+                        : await sillApi.getAgents();
 
                 const softwares = apiSoftwares.map(({ softwareName }) => {
                     const software = apiSoftwareToInternalSoftware({
@@ -211,7 +235,36 @@ export const privateThunks = {
                         "softwareRef": {
                             "type": "name",
                             softwareName
-                        }
+                        },
+                        "userDeclaration":
+                            agents === undefined
+                                ? undefined
+                                : (() => {
+                                      const agent = agents.find(
+                                          agent => agent.email === userEmail
+                                      );
+
+                                      assert(agent !== undefined);
+
+                                      return {
+                                          "isReferent":
+                                              agent.declarations.find(
+                                                  declaration =>
+                                                      declaration.declarationType ===
+                                                          "referent" &&
+                                                      declaration.softwareName ===
+                                                          softwareName
+                                              ) !== undefined,
+                                          "isUser":
+                                              agent.declarations.find(
+                                                  declaration =>
+                                                      declaration.declarationType ===
+                                                          "user" &&
+                                                      declaration.softwareName ===
+                                                          softwareName
+                                              ) !== undefined
+                                      };
+                                  })()
                     });
 
                     assert(software !== undefined);
@@ -219,10 +272,17 @@ export const privateThunks = {
                     return software;
                 });
 
-                dispatch(actions.initialized({ softwares }));
+                dispatch(
+                    actions.initialized({
+                        softwares,
+                        userEmail,
+                        "defaultSort":
+                            userEmail === undefined ? "referent_count" : "my_software"
+                    })
+                );
             };
 
-            initialize();
+            await initialize();
 
             evtAction.attach(
                 action =>
@@ -236,30 +296,41 @@ export const privateThunks = {
 };
 
 export const selectors = (() => {
-    const internalSoftwares = (rootState: RootState) => rootState[name].softwares;
+    const internalSoftwares = (rootState: RootState) => {
+        return rootState[name].softwares;
+    };
     const search = (rootState: RootState) => rootState[name].search;
     const sort = (rootState: RootState) => rootState[name].sort;
     const organization = (rootState: RootState) => rootState[name].organization;
     const category = (rootState: RootState) => rootState[name].category;
     const environment = (rootState: RootState) => rootState[name].environment;
     const prerogatives = (rootState: RootState) => rootState[name].prerogatives;
+    const userEmail = (rootState: RootState) => rootState[name].userEmail;
 
-    const sortOptions = createSelector(search, sort, (search, sort): State.Sort[] => {
-        const sorts = [
-            ...(search !== "" || sort === "best_match" ? ["best_match" as const] : []),
-            "referent_count" as const,
-            "user_count" as const,
-            "added_time" as const,
-            "update_time" as const,
-            "latest_version_publication_date" as const,
-            "user_count_ASC" as const,
-            "referent_count_ASC" as const
-        ];
+    const sortOptions = createSelector(
+        search,
+        sort,
+        userEmail,
+        (search, sort, userEmail): State.Sort[] => {
+            const sorts = [
+                ...(search !== "" || sort === "best_match"
+                    ? ["best_match" as const]
+                    : []),
+                ...(userEmail === undefined ? [] : ["my_software" as const]),
+                "referent_count" as const,
+                "user_count" as const,
+                "added_time" as const,
+                "update_time" as const,
+                "latest_version_publication_date" as const,
+                "user_count_ASC" as const,
+                "referent_count_ASC" as const
+            ];
 
-        assert<Equals<(typeof sorts)[number], State.Sort>>();
+            assert<Equals<(typeof sorts)[number], State.Sort>>();
 
-        return sorts;
-    });
+            return sorts;
+        }
+    );
 
     const { filterAndSortBySearch } = (() => {
         const getFzf = memoize(
@@ -451,7 +522,6 @@ export const selectors = (() => {
                                     "getWeight": software => software.updateTime,
                                     "order": "descending"
                                 });
-                            case undefined:
                             case "latest_version_publication_date":
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software =>
@@ -481,6 +551,18 @@ export const selectors = (() => {
                                 return createCompareFn<State.Software.Internal>({
                                     "getWeight": software => software.userCount,
                                     "order": "ascending"
+                                });
+                            case "my_software":
+                                return createCompareFn<State.Software.Internal>({
+                                    "getWeight": software =>
+                                        software.userDeclaration === undefined
+                                            ? 0
+                                            : software.userDeclaration.isReferent
+                                            ? 2
+                                            : software.userDeclaration.isUser
+                                            ? 1
+                                            : 0,
+                                    "order": "descending"
                                 });
                         }
                         assert<Equals<typeof sort, never>>(false);
@@ -890,8 +972,14 @@ function apiSoftwareToInternalSoftware(params: {
               type: "name";
               softwareName: string;
           };
+    userDeclaration:
+        | {
+              isUser: boolean;
+              isReferent: boolean;
+          }
+        | undefined;
 }): State.Software.Internal | undefined {
-    const { apiSoftwares, softwareRef } = params;
+    const { apiSoftwares, softwareRef, userDeclaration } = params;
 
     const apiSoftware = apiSoftwares.find(apiSoftware => {
         switch (softwareRef.type) {
@@ -987,7 +1075,8 @@ function apiSoftwareToInternalSoftware(params: {
                 ")";
 
             return search;
-        })()
+        })(),
+        userDeclaration
     };
 }
 
@@ -1017,6 +1106,7 @@ function internalSoftwareToExternalSoftware(params: {
         search,
         parentSoftware,
         softwareType,
+        userDeclaration,
         ...rest
     } = internalSoftware;
 
@@ -1044,7 +1134,8 @@ function internalSoftwareToExternalSoftware(params: {
                 : {
                       "searchChars": search.normalize().split(""),
                       "highlightedIndexes": Array.from(positions)
-                  }
+                  },
+        userDeclaration
     };
 }
 
@@ -1059,7 +1150,8 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
         "softwareRef": {
             "type": "wikidataId",
             wikidataId
-        }
+        },
+        "userDeclaration": undefined
     });
 
     if (internalSoftware === undefined) {
