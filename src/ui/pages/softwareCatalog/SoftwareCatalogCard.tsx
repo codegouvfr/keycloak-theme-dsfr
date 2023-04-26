@@ -114,29 +114,27 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         </div>
                         {userDeclaration?.isReferent ? (
                             <span
-                                className={cx(
-                                    fr.cx(
-                                        "fr-badge--no-icon",
-                                        "fr-badge--yellow-tournesol",
-                                        "fr-badge",
-                                        "fr-badge--sm"
-                                    )
+                                className={fr.cx(
+                                    "fr-badge--no-icon",
+                                    "fr-badge--blue-cumulus",
+                                    "fr-badge",
+                                    "fr-badge--sm",
+                                    "fr-mb-1v"
                                 )}
                             >
-                                Vous êtes référent
+                                {t("you are referent")}
                             </span>
                         ) : userDeclaration?.isUser ? (
                             <span
-                                className={cx(
-                                    fr.cx(
-                                        "fr-badge--no-icon",
-                                        "fr-badge--yellow-tournesol",
-                                        "fr-badge",
-                                        "fr-badge--sm"
-                                    )
+                                className={fr.cx(
+                                    "fr-badge--no-icon",
+                                    "fr-badge--green-archipel",
+                                    "fr-badge",
+                                    "fr-badge--sm",
+                                    "fr-mb-1v"
                                 )}
                             >
-                                Vous utilisez
+                                {t("you are user")}
                             </span>
                         ) : null}
                         <div>
@@ -356,4 +354,6 @@ export const { i18n } = declareComponentKeys<
     | "isDesktop"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
+    | "you are user"
+    | "you are referent"
 >()({ SoftwareCatalogCard });

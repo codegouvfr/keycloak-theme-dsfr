@@ -331,7 +331,9 @@ const {
                 "isDesktop": "This software can be installed on desktop",
                 "isFromFrenchPublicService":
                     "This software is from French public service",
-                "isPresentInSupportMarket": "This software is present in support market"
+                "isPresentInSupportMarket": "This software is present in support market",
+                "you are user": "You're using it",
+                "you are referent": "You are referent"
             },
             "SoftwareCatalogSearch": {
                 "placeholder": "Search a software, a word, a reference...",
@@ -775,7 +777,9 @@ const {
                 "isFromFrenchPublicService":
                     "Ce logiciel est originaire du service public français",
                 "isPresentInSupportMarket":
-                    "Ce logiciel est présent dans le marché de support"
+                    "Ce logiciel est présent dans le marché de support",
+                "you are user": "Vous l'utilisez",
+                "you are referent": "Vous êtes référent"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
