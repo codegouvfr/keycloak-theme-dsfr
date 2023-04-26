@@ -256,7 +256,7 @@ function RowVirtualizerDynamicWindow(
                                     "display": "grid",
                                     "gridTemplateColumns": `repeat(${columnCount}, 1fr)`,
                                     "gridGap": gutter,
-                                    "marginTop": gutter
+                                    "paddingTop": gutter
                                 })}
                             >
                                 {softwaresGroupedByLine[virtualRow.index].map(
