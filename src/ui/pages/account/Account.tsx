@@ -42,7 +42,7 @@ export default function Account(props: Props) {
 function AccountReady(props: { className?: string }) {
     const { className } = props;
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
     const { t } = useTranslation({ Account });
     const { t: tCommon } = useTranslation({ "App": null });
 
@@ -82,11 +82,13 @@ function AccountReady(props: { className?: string }) {
         try {
             z.string().email().parse(emailInputValue);
         } catch {
-            return "invalid email";
+            return t("not a valid email");
         }
 
         if (!allowedEmailRegExp.test(emailInputValue)) {
-            return "Your email domain isn't allowed yet";
+            return t("email domain not allowed", {
+                "domain": emailInputValue.split("@")[1]
+            });
         }
 
         return undefined;
@@ -97,14 +99,29 @@ function AccountReady(props: { className?: string }) {
             <h2 className={classes.title}>{t("title")}</h2>
             <div style={{ "position": "relative" }}>
                 <div
-                    style={{ "position": "absolute", "display": "flex", "width": "100%" }}
+                    className={css({
+                        "position": "absolute",
+                        "display": "flex",
+                        "width": "100%",
+                        [fr.breakpoints.down("md")]: {
+                            "flexDirection": "column"
+                        }
+                    })}
                 >
                     <Input
-                        style={{ "flex": 1 }}
+                        className={css({
+                            "flex": 1,
+                            [fr.breakpoints.down("md")]: {
+                                "width": "100%"
+                            }
+                        })}
                         label={t("mail")}
                         nativeInputProps={{
                             "onChange": event => setEmailInputValue(event.target.value),
-                            "value": emailInputValue
+                            "value": emailInputValue,
+                            "name": "email",
+                            "type": "email",
+                            "id": "email"
                         }}
                         state={
                             emailInputValueErrorMessage === undefined
@@ -115,36 +132,59 @@ function AccountReady(props: { className?: string }) {
                         disabled={email.isBeingUpdated}
                     />
 
-                    <CircularProgress
-                        style={{
-                            "position": "relative",
-                            "top": 32
-                        }}
-                    />
-                    <Button
-                        style={{
+                    <div
+                        className={css({
+                            "alignSelf": "flex-start",
+                            "marginLeft": fr.spacing("3v"),
                             "position": "relative",
                             "top": 32,
-                            "marginLeft": fr.spacing("3v"),
-                            "alignSelf": "flex-start",
-                            "visibility":
-                                email.value === emailInputValue ||
-                                emailInputValueErrorMessage !== undefined ||
-                                email.isBeingUpdated
-                                    ? "hidden"
-                                    : undefined
-                        }}
-                        onClick={() =>
-                            userAccountManagement.updateField({
-                                "fieldName": "email",
-                                "value": emailInputValue
-                            })
-                        }
+                            [fr.breakpoints.down("md")]: {
+                                "top": -5,
+                                "marginLeft": "unset",
+                                "width": "100%",
+                                "display": "flex",
+                                "justifyContent": "flex-end"
+                            }
+                        })}
                     >
-                        {t("update")}
-                    </Button>
+                        {email.isBeingUpdated && (
+                            <CircularProgress
+                                size={30}
+                                style={{
+                                    "position": "absolute",
+                                    "left": "calc(50% - 15px)",
+                                    "top": 5
+                                }}
+                            />
+                        )}
+                        <Button
+                            style={{
+                                "visibility":
+                                    email.value === emailInputValue ||
+                                    emailInputValueErrorMessage !== undefined ||
+                                    email.isBeingUpdated
+                                        ? "hidden"
+                                        : undefined
+                            }}
+                            onClick={() =>
+                                userAccountManagement.updateField({
+                                    "fieldName": "email",
+                                    "value": emailInputValue
+                                })
+                            }
+                        >
+                            {t("update")}
+                        </Button>
+                    </div>
                 </div>
-                <div style={{ "height": 125 }} />
+                <div
+                    className={css({
+                        "height": 125,
+                        [fr.breakpoints.down("md")]: {
+                            "height": 150
+                        }
+                    })}
+                />
             </div>
             <div>
                 <AutocompleteInputFree
@@ -206,5 +246,15 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "title" | "mail" | "organization" | "change password" | "no organization" | "update"
+    | "title"
+    | "mail"
+    | "organization"
+    | "change password"
+    | "no organization"
+    | "update"
+    | "not a valid email"
+    | {
+          K: "email domain not allowed";
+          P: { domain: string };
+      }
 >()({ Account });

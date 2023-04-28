@@ -550,7 +550,10 @@ const {
                 "organization": "Name of the affiliated organization",
                 "change password": "Change your password",
                 "no organization": "No organization",
-                "update": "update"
+                "update": "update",
+                "not a valid email": "doesn't seems to be a valid email",
+                "email domain not allowed": ({ domain }) =>
+                    `The domain ${domain} isn't allowed yet`
             },
             "Header": {
                 "home title": "Home - Socle interministériel de logiciels libres",
@@ -1085,7 +1088,10 @@ const {
                 "organization": "Nom de l'établissement de rattachement",
                 "change password": "Changez votre mot de passe",
                 "no organization": "Aucune organisation",
-                "update": "Mettre à jour"
+                "update": "Mettre à jour",
+                "not a valid email": "Ne semble pas être une email valide",
+                "email domain not allowed": ({ domain }) =>
+                    `Le domaine ${domain} n'est pas encore autorisé`
             },
             "Header": {
                 "home title": "Accueil - Socle interministériel de logiciels libres",
