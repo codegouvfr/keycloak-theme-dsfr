@@ -175,11 +175,11 @@ export const { i18n } = declareComponentKeys<
     | "subtitle"
     | "who can add software"
     | "discover as agent label"
-    | "discover as agent description"
+    | { K: "discover as agent description"; R: JSX.Element }
     | "discover as DSI label"
-    | "discover as DSI description"
+    | { K: "discover as DSI description"; R: JSX.Element }
     | "contribute as agent label"
-    | "contribute as agent description"
+    | { K: "contribute as agent description"; R: JSX.Element }
     | "contribute as DSI label"
-    | "contribute as DSI description"
+    | { K: "contribute as DSI description"; R: JSX.Element }
 >()({ AddSoftwareLanding });
