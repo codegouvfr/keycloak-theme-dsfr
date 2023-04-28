@@ -1,13 +1,12 @@
 import { type ReactNode, type HTMLAttributes } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
-import { assert } from "tsafe/assert";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr } from "@codegouvfr/react-dsfr";
 
 export type AutocompleteFreeSoloInputProps = {
     className?: string;
-    value: string | undefined;
+    value: string;
     onValueChange: (value: string) => void;
     options: string[];
     getOptionLabel?: (value: string) => string;
@@ -37,11 +36,7 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
             getOptionLabel={getOptionLabel}
             renderOption={renderOption}
             noOptionsText={noOptionText}
-            value={value ?? null}
-            onChange={(_event, newValue) => {
-                assert(newValue !== null);
-                onValueChange(newValue);
-            }}
+            value={value}
             renderInput={params => (
                 <Input
                     {...dsfrInputProps}
@@ -71,9 +66,10 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
                         "onBlur": (...args) =>
                             params.inputProps.onBlur?.(...args) ??
                             dsfrInputProps.nativeInputProps?.onBlur?.(...args),
-                        "onChange": (...args) =>
-                            params.inputProps.onChange?.(...args) ??
-                            dsfrInputProps.nativeInputProps?.onChange?.(...args),
+                        "onChange": (...args) => {
+                            params.inputProps.onChange?.(...args);
+                            onValueChange(args[0].target.value);
+                        },
                         "onFocus": (...args) =>
                             params.inputProps.onFocus?.(...args) ??
                             dsfrInputProps.nativeInputProps?.onFocus?.(...args),

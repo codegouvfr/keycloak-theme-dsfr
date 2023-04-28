@@ -75,8 +75,6 @@ function AccountReady(props: { className?: string }) {
     /* prettier-ignore */
     const [organizationInputValue, setOrganizationInputValue] = useState(organization.value);
 
-    console.log(organizationInputValue);
-
     const emailInputValueErrorMessage = (() => {
         try {
             z.string().email().parse(emailInputValue);
@@ -116,7 +114,7 @@ function AccountReady(props: { className?: string }) {
                             "name": "email",
                             "type": "email",
                             "id": "email",
-                            "onKeyUp": event => {
+                            "onKeyDown": event => {
                                 if (event.key === "Escape") {
                                     setEmailInputValue(email.value);
                                 }
@@ -164,13 +162,6 @@ function AccountReady(props: { className?: string }) {
                         dsfrInputProps={{
                             "label": t("organization"),
                             "disabled": organization.isBeingUpdated
-                            /*
-                            "nativeInputProps": {
-                                "onBlur": event => {
-                                    setOrganizationInputValue(event.target.value);
-                                },
-                            }
-                            */
                         }}
                     />
                     <div className={classes.submitButtonWrapper}>
