@@ -12,6 +12,7 @@ import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
+import CircularProgress from "@mui/material/CircularProgress";
 
 type Props = {
     className?: string;
@@ -113,6 +114,13 @@ function AccountReady(props: { className?: string }) {
                         stateRelatedMessage={emailInputValueErrorMessage}
                         disabled={email.isBeingUpdated}
                     />
+
+                    <CircularProgress
+                        style={{
+                            "position": "relative",
+                            "top": 32
+                        }}
+                    />
                     <Button
                         style={{
                             "position": "relative",
@@ -121,7 +129,8 @@ function AccountReady(props: { className?: string }) {
                             "alignSelf": "flex-start",
                             "visibility":
                                 email.value === emailInputValue ||
-                                emailInputValueErrorMessage !== undefined
+                                emailInputValueErrorMessage !== undefined ||
+                                email.isBeingUpdated
                                     ? "hidden"
                                     : undefined
                         }}
@@ -131,7 +140,6 @@ function AccountReady(props: { className?: string }) {
                                 "value": emailInputValue
                             })
                         }
-                        disabled={emailInputValueErrorMessage !== undefined}
                     >
                         {t("update")}
                     </Button>

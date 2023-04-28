@@ -1184,10 +1184,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codegouvfr/react-dsfr@^0.48.4":
-  version "0.48.4"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.48.4.tgz#457b653bef54f4824bcc5ba2b5a794b57357241a"
-  integrity sha512-/utMQwuFuRGs96qklRKWi6ZyZ24DfWMX/3bx/L1RzZo3pwKjZ00LdyReb8D3LwKA9zg3uSUs/yc9H40zGt5big==
+"@codegouvfr/react-dsfr@^0.52.0":
+  version "0.52.0"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-0.52.0.tgz#191c68f436d5fffd7bf5e23bdd92c79f96697201"
+  integrity sha512-5xuBIPdBz39EpT61FFroP3piFVoe984M9ZEBktLiHqE6TTEKTGkSZ2s4aeTwr1fHvL27Z1a0sC2QGEc1RXpM7g==
   dependencies:
     tsafe "^1.6.0"
 
