@@ -72,60 +72,71 @@ function AccountReady(props: { className?: string }) {
     const { userAccountManagement } = useCoreFunctions();
 
     const [emailInputValue, setEmailInputValue] = useState(email.value);
+    /** prettier-ignore */
     const [organizationInputValue, setOrganizationInputValue] = useState(
         organization.value
     );
 
-    const validateEmail = (email: string) => {
+    const emailInputValueErrorMessage = (() => {
         try {
-            z.string().email().parse(email);
+            z.string().email().parse(emailInputValue);
         } catch {
-            return {
-                "isValidValue": false,
-                "message": "invalid email"
-            };
+            return "invalid email";
         }
 
-        if (!allowedEmailRegExp.test(email)) {
-            return {
-                "isValidValue": false,
-                "message": "Your email domain isn't allowed yet"
-            };
+        if (!allowedEmailRegExp.test(emailInputValue)) {
+            return "Your email domain isn't allowed yet";
         }
 
-        return { "isValidValue": true };
-    };
+        return undefined;
+    })();
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <h2 className={classes.title}>{t("title")}</h2>
-            <div className={classes.emailContainer}>
-                <Input
-                    label={t("mail")}
-                    nativeInputProps={{
-                        "onChange": event => setEmailInputValue(event.target.value),
-                        "value": emailInputValue
-                    }}
-                    state={
-                        validateEmail(emailInputValue).isValidValue ? undefined : "error"
-                    }
-                    stateRelatedMessage={validateEmail(emailInputValue).message}
-                    disabled={email.isBeingUpdated}
-                />
-                <Button
-                    onClick={() =>
-                        userAccountManagement.updateField({
-                            "fieldName": "email",
-                            "value": emailInputValue
-                        })
-                    }
-                    disabled={
-                        !validateEmail(emailInputValue).isValidValue ||
-                        email.value === emailInputValue
-                    }
+            <div style={{ "position": "relative" }}>
+                <div
+                    style={{ "position": "absolute", "display": "flex", "width": "100%" }}
                 >
-                    {tCommon("validate")}
-                </Button>
+                    <Input
+                        style={{ "flex": 1 }}
+                        label={t("mail")}
+                        nativeInputProps={{
+                            "onChange": event => setEmailInputValue(event.target.value),
+                            "value": emailInputValue
+                        }}
+                        state={
+                            emailInputValueErrorMessage === undefined
+                                ? undefined
+                                : "error"
+                        }
+                        stateRelatedMessage={emailInputValueErrorMessage}
+                        disabled={email.isBeingUpdated}
+                    />
+                    <Button
+                        style={{
+                            "position": "relative",
+                            "top": 32,
+                            "marginLeft": fr.spacing("3v"),
+                            "alignSelf": "flex-start",
+                            "visibility":
+                                email.value === emailInputValue ||
+                                emailInputValueErrorMessage !== undefined
+                                    ? "hidden"
+                                    : undefined
+                        }}
+                        onClick={() =>
+                            userAccountManagement.updateField({
+                                "fieldName": "email",
+                                "value": emailInputValue
+                            })
+                        }
+                        disabled={emailInputValueErrorMessage !== undefined}
+                    >
+                        {t("update")}
+                    </Button>
+                </div>
+                <div style={{ "height": 125 }} />
             </div>
             <div>
                 <AutocompleteInputFree
@@ -175,19 +186,17 @@ const useStyles = makeStyles({
     "name": { Account }
 })(_theme => ({
     "root": {
-        "paddingTop": fr.spacing("6v")
+        "paddingTop": fr.spacing("6v"),
+        "maxWidth": 600
     },
     "title": {
         "marginBottom": fr.spacing("10v"),
         [fr.breakpoints.down("md")]: {
             "marginBottom": fr.spacing("8v")
         }
-    },
-    "emailContainer": {
-        marginBottom: fr.spacing("6v")
     }
 }));
 
 export const { i18n } = declareComponentKeys<
-    "title" | "mail" | "organization" | "change password" | "no organization"
+    "title" | "mail" | "organization" | "change password" | "no organization" | "update"
 >()({ Account });

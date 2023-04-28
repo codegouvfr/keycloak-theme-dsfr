@@ -549,7 +549,8 @@ const {
                 "mail": "Email address",
                 "organization": "Name of the affiliated organization",
                 "change password": "Change your password",
-                "no organization": "No organization"
+                "no organization": "No organization",
+                "update": "update"
             },
             "Header": {
                 "home title": "Home - Socle interministériel de logiciels libres",
@@ -1083,7 +1084,8 @@ const {
                 "mail": "Adresse de courriel",
                 "organization": "Nom de l'établissement de rattachement",
                 "change password": "Changez votre mot de passe",
-                "no organization": "Aucune organisation"
+                "no organization": "Aucune organisation",
+                "update": "Mettre à jour"
             },
             "Header": {
                 "home title": "Accueil - Socle interministériel de logiciels libres",
