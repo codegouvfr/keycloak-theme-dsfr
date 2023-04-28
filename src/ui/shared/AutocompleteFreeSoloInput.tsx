@@ -1,21 +1,22 @@
 import { type ReactNode, type HTMLAttributes } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
+import { assert } from "tsafe/assert";
+import { cx } from "@codegouvfr/react-dsfr/tools/cx";
+import { fr } from "@codegouvfr/react-dsfr";
 
-export type AutocompleteInputFreeProps<T extends string | Record<string, unknown>> = {
+export type AutocompleteFreeSoloInputProps = {
     className?: string;
-    value: T | undefined;
-    onValueChange: (value: string | T | undefined) => void;
-    options: T[];
-    getOptionLabel: (value: string | T) => string;
-    renderOption?: (liProps: HTMLAttributes<HTMLLIElement>, option: T) => ReactNode;
+    value: string | undefined;
+    onValueChange: (value: string) => void;
+    options: string[];
+    getOptionLabel?: (value: string) => string;
+    renderOption?: (liProps: HTMLAttributes<HTMLLIElement>, option: string) => ReactNode;
     noOptionText: ReactNode;
     dsfrInputProps: InputProps.RegularInput;
 };
 
-export function AutocompleteInputFree<T extends string | Record<string, unknown>>(
-    props: AutocompleteInputFreeProps<T>
-) {
+export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps) {
     const {
         className,
         value,
@@ -29,15 +30,18 @@ export function AutocompleteInputFree<T extends string | Record<string, unknown>
 
     return (
         <Autocomplete
-            freeSolo={true}
-            className={className}
+            className={cx(fr.cx("fr-input-group"), className)}
+            freeSolo
             disablePortal
             options={options}
             getOptionLabel={getOptionLabel}
             renderOption={renderOption}
             noOptionsText={noOptionText}
             value={value ?? null}
-            onChange={(_event, newValue) => onValueChange(newValue ?? undefined)}
+            onChange={(_event, newValue) => {
+                assert(newValue !== null);
+                onValueChange(newValue);
+            }}
             renderInput={params => (
                 <Input
                     {...dsfrInputProps}

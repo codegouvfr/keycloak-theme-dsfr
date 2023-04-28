@@ -8,7 +8,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useCoreFunctions, useCoreState, selectors } from "core";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { z } from "zod";
-import { AutocompleteInputFree } from "ui/shared/AutocompleteInputFree";
+import { AutocompleteFreeSoloInput } from "ui/shared/AutocompleteFreeSoloInput";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
@@ -42,7 +42,6 @@ export default function Account(props: Props) {
 function AccountReady(props: { className?: string }) {
     const { className } = props;
 
-    const { classes, cx, css } = useStyles();
     const { t } = useTranslation({ Account });
     const { t: tCommon } = useTranslation({ "App": null });
 
@@ -73,10 +72,10 @@ function AccountReady(props: { className?: string }) {
     const { userAccountManagement } = useCoreFunctions();
 
     const [emailInputValue, setEmailInputValue] = useState(email.value);
-    /** prettier-ignore */
-    const [organizationInputValue, setOrganizationInputValue] = useState(
-        organization.value
-    );
+    /* prettier-ignore */
+    const [organizationInputValue, setOrganizationInputValue] = useState(organization.value);
+
+    console.log(organizationInputValue);
 
     const emailInputValueErrorMessage = (() => {
         try {
@@ -94,34 +93,34 @@ function AccountReady(props: { className?: string }) {
         return undefined;
     })();
 
+    const { classes, cx } = useStyles({
+        "isEmailSubmitButtonVisible":
+            email.value !== emailInputValue &&
+            emailInputValueErrorMessage === undefined &&
+            !email.isBeingUpdated,
+        "isOrganizationSubmitButtonVisible":
+            organization.value !== organizationInputValue && !organization.isBeingUpdated
+    });
+
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
             <h2 className={classes.title}>{t("title")}</h2>
-            <div style={{ "position": "relative" }}>
-                <div
-                    className={css({
-                        "position": "absolute",
-                        "display": "flex",
-                        "width": "100%",
-                        [fr.breakpoints.down("md")]: {
-                            "flexDirection": "column"
-                        }
-                    })}
-                >
+            <div className={classes.inputAndPaddingBlockWrapper}>
+                <div className={classes.inputWrapper}>
                     <Input
-                        className={css({
-                            "flex": 1,
-                            [fr.breakpoints.down("md")]: {
-                                "width": "100%"
-                            }
-                        })}
+                        className={cx(classes.input)}
                         label={t("mail")}
                         nativeInputProps={{
                             "onChange": event => setEmailInputValue(event.target.value),
                             "value": emailInputValue,
                             "name": "email",
                             "type": "email",
-                            "id": "email"
+                            "id": "email",
+                            "onKeyUp": event => {
+                                if (event.key === "Escape") {
+                                    setEmailInputValue(email.value);
+                                }
+                            }
                         }}
                         state={
                             emailInputValueErrorMessage === undefined
@@ -132,40 +131,15 @@ function AccountReady(props: { className?: string }) {
                         disabled={email.isBeingUpdated}
                     />
 
-                    <div
-                        className={css({
-                            "alignSelf": "flex-start",
-                            "marginLeft": fr.spacing("3v"),
-                            "position": "relative",
-                            "top": 32,
-                            [fr.breakpoints.down("md")]: {
-                                "top": -5,
-                                "marginLeft": "unset",
-                                "width": "100%",
-                                "display": "flex",
-                                "justifyContent": "flex-end"
-                            }
-                        })}
-                    >
+                    <div className={classes.submitButtonWrapper}>
                         {email.isBeingUpdated && (
                             <CircularProgress
+                                className={classes.circularProgress}
                                 size={30}
-                                style={{
-                                    "position": "absolute",
-                                    "left": "calc(50% - 15px)",
-                                    "top": 5
-                                }}
                             />
                         )}
                         <Button
-                            style={{
-                                "visibility":
-                                    email.value === emailInputValue ||
-                                    emailInputValueErrorMessage !== undefined ||
-                                    email.isBeingUpdated
-                                        ? "hidden"
-                                        : undefined
-                            }}
+                            className={classes.emailSubmitButton}
                             onClick={() =>
                                 userAccountManagement.updateField({
                                     "fieldName": "email",
@@ -177,52 +151,56 @@ function AccountReady(props: { className?: string }) {
                         </Button>
                     </div>
                 </div>
-                <div
-                    className={css({
-                        "height": 125,
-                        [fr.breakpoints.down("md")]: {
-                            "height": 150
-                        }
-                    })}
-                />
+                <div className={classes.paddingBlock} />
             </div>
-            <div>
-                <AutocompleteInputFree
-                    className={"fr-input-group"}
-                    options={allOrganizations}
-                    value={organization.value}
-                    onValueChange={value => setOrganizationInputValue(value ?? "")}
-                    getOptionLabel={entry => entry}
-                    renderOption={(liProps, entry) => (
-                        <li {...liProps}>
-                            <span>{entry}</span>
-                        </li>
-                    )}
-                    noOptionText={tCommon("no result")}
-                    dsfrInputProps={{
-                        "label": t("organization"),
-                        "disabled": organization.isBeingUpdated,
-                        "nativeInputProps": {
-                            "onBlur": event => {
-                                setOrganizationInputValue(event.target.value);
+            <div className={classes.inputAndPaddingBlockWrapper}>
+                <div className={classes.inputWrapper}>
+                    <AutocompleteFreeSoloInput
+                        className={classes.input}
+                        options={allOrganizations}
+                        value={organization.value}
+                        onValueChange={value => setOrganizationInputValue(value)}
+                        noOptionText={tCommon("no result")}
+                        dsfrInputProps={{
+                            "label": t("organization"),
+                            "disabled": organization.isBeingUpdated
+                            /*
+                            "nativeInputProps": {
+                                "onBlur": event => {
+                                    setOrganizationInputValue(event.target.value);
+                                },
                             }
-                        }
-                    }}
-                />
-                <Button
-                    onClick={() =>
-                        userAccountManagement.updateField({
-                            "fieldName": "organization",
-                            "value": organizationInputValue
-                        })
-                    }
-                    disabled={organization.value === organizationInputValue}
-                >
-                    {tCommon("validate")}
-                </Button>
+                            */
+                        }}
+                    />
+                    <div className={classes.submitButtonWrapper}>
+                        {organization.isBeingUpdated && (
+                            <CircularProgress
+                                className={classes.circularProgress}
+                                size={30}
+                            />
+                        )}
+                        <Button
+                            className={classes.organizationSubmitButton}
+                            onClick={() =>
+                                userAccountManagement.updateField({
+                                    "fieldName": "organization",
+                                    "value": organizationInputValue
+                                })
+                            }
+                            disabled={organization.value === organizationInputValue}
+                        >
+                            {t("update")}
+                        </Button>
+                    </div>
+                </div>
+                <div className={classes.paddingBlock} />
             </div>
             {doSupportPasswordReset && (
-                <a href={userAccountManagement.getPasswordResetUrl()}>
+                <a
+                    className={classes.resetPasswordLink}
+                    href={userAccountManagement.getPasswordResetUrl()}
+                >
                     {t("change password")}
                 </a>
             )}
@@ -230,18 +208,72 @@ function AccountReady(props: { className?: string }) {
     );
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<{
+    isEmailSubmitButtonVisible: boolean;
+    isOrganizationSubmitButtonVisible: boolean;
+}>({
     "name": { Account }
-})(_theme => ({
+})((_theme, { isEmailSubmitButtonVisible, isOrganizationSubmitButtonVisible }) => ({
     "root": {
         "paddingTop": fr.spacing("6v"),
-        "maxWidth": 600
+        "maxWidth": 600,
+        "paddingBottom": fr.spacing("6v")
     },
     "title": {
         "marginBottom": fr.spacing("10v"),
         [fr.breakpoints.down("md")]: {
             "marginBottom": fr.spacing("8v")
         }
+    },
+    "inputAndPaddingBlockWrapper": {
+        "position": "relative"
+    },
+    "inputWrapper": {
+        "position": "absolute",
+        "display": "flex",
+        "width": "100%",
+        [fr.breakpoints.down("md")]: {
+            "flexDirection": "column"
+        }
+    },
+    "input": {
+        "flex": 1,
+        [fr.breakpoints.down("md")]: {
+            "width": "100%"
+        }
+    },
+    "submitButtonWrapper": {
+        "alignSelf": "flex-start",
+        "marginLeft": fr.spacing("3v"),
+        "position": "relative",
+        "top": 32,
+        [fr.breakpoints.down("md")]: {
+            "top": -5,
+            "marginLeft": "unset",
+            "width": "100%",
+            "display": "flex",
+            "justifyContent": "flex-end"
+        }
+    },
+    "circularProgress": {
+        "position": "absolute",
+        "left": "calc(50% - 15px)",
+        "top": 5
+    },
+    "emailSubmitButton": {
+        "visibility": isEmailSubmitButtonVisible ? undefined : "hidden"
+    },
+    "organizationSubmitButton": {
+        "visibility": isOrganizationSubmitButtonVisible ? undefined : "hidden"
+    },
+    "paddingBlock": {
+        "height": 125,
+        [fr.breakpoints.down("md")]: {
+            "height": 150
+        }
+    },
+    "resetPasswordLink": {
+        "marginTop": fr.spacing("6v")
     }
 }));
 
