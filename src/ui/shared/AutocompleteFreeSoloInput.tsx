@@ -3,6 +3,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr } from "@codegouvfr/react-dsfr";
+import { assert } from "tsafe/assert";
 
 export type AutocompleteFreeSoloInputProps = {
     className?: string;
@@ -36,6 +37,10 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
             getOptionLabel={getOptionLabel}
             renderOption={renderOption}
             noOptionsText={noOptionText}
+            onChange={(_, value) => {
+                assert(typeof value === "string");
+                onValueChange(value);
+            }}
             value={value}
             renderInput={params => (
                 <Input
