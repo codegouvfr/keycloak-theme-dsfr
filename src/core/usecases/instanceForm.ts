@@ -307,8 +307,6 @@ export const thunks = {
                 ).instanceId;
             }
 
-            sillApi.getInstances.clear();
-
             dispatch(actions.formSubmitted({ instanceId }));
         },
     "returnToPreviousStep":

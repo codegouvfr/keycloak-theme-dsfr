@@ -309,8 +309,6 @@ export const thunks = {
                       formData
                   }));
 
-            sillApi.getSoftwares.clear();
-
             dispatch(
                 actions.formSubmitted({
                     "softwareName": step2.softwareName

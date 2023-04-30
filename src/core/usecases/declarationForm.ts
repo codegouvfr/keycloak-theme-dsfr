@@ -214,9 +214,6 @@ export const thunks = {
                 "softwareName": state.software.softwareName
             });
 
-            sillApi.getAgents.clear();
-            sillApi.getSoftwares.clear();
-
             dispatch(
                 actions.formSubmitted({ "softwareName": state.software.softwareName })
             );

@@ -30,7 +30,7 @@ export function createSillApi(params: {
         ]
     });
 
-    return {
+    const sillApi: SillApi = {
         "getApiVersion": memoize(() => trpcClient.getApiVersion.query(), {
             "promise": true
         }),
@@ -54,15 +54,58 @@ export function createSillApi(params: {
             trpcClient.getSoftwareFormAutoFillDataFromWikidataAndOtherSources.query(
                 params
             ),
-        "createSoftware": params => trpcClient.createSoftware.mutate(params),
-        "updateSoftware": params => trpcClient.updateSoftware.mutate(params),
-        "createUserOrReferent": params => trpcClient.createUserOrReferent.mutate(params),
-        "createInstance": params => trpcClient.createInstance.mutate(params),
-        "updateInstance": params => trpcClient.updateInstance.mutate(params),
+        "createSoftware": async params => {
+            const out = await trpcClient.createSoftware.mutate(params);
+
+            sillApi.getSoftwares.clear();
+
+            return out;
+        },
+        "updateSoftware": async params => {
+            const out = await trpcClient.updateSoftware.mutate(params);
+
+            sillApi.getSoftwares.clear();
+
+            return out;
+        },
+        "createUserOrReferent": async params => {
+            const out = await trpcClient.createUserOrReferent.mutate(params);
+
+            sillApi.getTotalReferentCount.clear();
+            sillApi.getAgents.clear();
+            sillApi.getSoftwares.clear();
+
+            return out;
+        },
+        "createInstance": async params => {
+            const out = await trpcClient.createInstance.mutate(params);
+
+            sillApi.getInstances.clear();
+
+            return out;
+        },
+        "updateInstance": async params => {
+            const out = await trpcClient.updateInstance.mutate(params);
+
+            sillApi.getInstances.clear();
+
+            return out;
+        },
         "getAgents": memoize(() => trpcClient.getAgents.query(), { "promise": true }),
-        "changeAgentOrganization": params =>
-            trpcClient.changeAgentOrganization.mutate(params),
-        "updateEmail": params => trpcClient.updateEmail.mutate(params),
+        "changeAgentOrganization": async params => {
+            const out = await trpcClient.changeAgentOrganization.mutate(params);
+
+            sillApi.getAgents.clear();
+
+            return out;
+        },
+        "updateEmail": async params => {
+            const out = await trpcClient.updateEmail.mutate(params);
+
+            sillApi.getAgents.clear();
+
+            return out;
+        },
         "getAllowedEmailRegexp": memoize(() => trpcClient.getAllowedEmailRegexp.query(), {
             "promise": true
         }),
@@ -81,4 +124,6 @@ export function createSillApi(params: {
         }),
         "getMarkdown": params => trpcClient.getMarkdown.query(params)
     };
+
+    return sillApi;
 }
