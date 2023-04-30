@@ -59,7 +59,7 @@ export default function SoftwareUserAndReferent(props: Props) {
     assert(users !== undefined);
     assert(referents !== undefined);
 
-    const MenuTabs = [
+    const menuTabs = [
         {
             "id": 0,
             "label": `${t("tab referent title")} (${referents.length})`
@@ -199,7 +199,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                                     {softwareName}
                                 </div>
                                 <ul className={fr.cx("fr-sidemenu__list")}>
-                                    {MenuTabs.map(tab => {
+                                    {menuTabs.map(tab => {
                                         const ariaCurrent =
                                             tab.id === activeMenu
                                                 ? {
