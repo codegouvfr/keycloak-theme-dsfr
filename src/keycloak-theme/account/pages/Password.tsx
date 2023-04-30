@@ -77,7 +77,16 @@ export default function Password(
             }}
             active="password"
         >
-            <h2>{msg("changePasswordHtmlTitle")}</h2>
+            <h2
+                className={css({
+                    "marginBottom": fr.spacing("10v"),
+                    [fr.breakpoints.down("md")]: {
+                        "marginBottom": fr.spacing("8v")
+                    }
+                })}
+            >
+                {msg("changePasswordHtmlTitle")}
+            </h2>
 
             <form
                 action={url.passwordUrl}

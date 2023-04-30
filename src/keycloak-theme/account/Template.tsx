@@ -68,7 +68,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             <div
                 className={fr.cx("fr-container")}
                 style={{
-                    flex: 1,
+                    "maxWidth": 600,
+                    "flex": 1,
                     ...fr.spacing("padding", {
                         "topBottom": "10v"
                     })
@@ -77,6 +78,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 <MuiDsfrThemeProvider>
                     {message !== undefined && (
                         <Alert
+                            style={{
+                                "marginBottom": fr.spacing("6v")
+                            }}
                             small
                             severity={message.type}
                             description={message.summary}
