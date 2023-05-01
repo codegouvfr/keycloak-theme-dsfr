@@ -670,7 +670,15 @@ export const selectors = (() => {
                     organization,
                     softwareCount
                 }))
-                .sort((a, b) => b.softwareCount - a.softwareCount);
+                .sort((a, b) => {
+                    if (a.organization === "other" && b.organization !== "other") {
+                        return 1; // Move "other" to the end
+                    } else if (a.organization !== "other" && b.organization === "other") {
+                        return -1; // Move "other" to the end
+                    } else {
+                        return b.softwareCount - a.softwareCount; // Otherwise, sort by softwareCount
+                    }
+                });
         }
     );
 
