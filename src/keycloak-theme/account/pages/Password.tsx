@@ -92,7 +92,7 @@ export default function Password(
                 action={url.passwordUrl}
                 method="post"
                 className={css({
-                    "maxWidth": 600,
+                    "maxWidth": 650,
                     "margin": "auto",
                     [`& > .${fr.cx("fr-password")}:not(:first-of-type)`]: {
                         "marginTop": fr.spacing("10v")

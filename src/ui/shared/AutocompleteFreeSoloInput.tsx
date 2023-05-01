@@ -11,7 +11,6 @@ export type AutocompleteFreeSoloInputProps = {
     options: string[];
     getOptionLabel?: (value: string) => string;
     renderOption?: (liProps: HTMLAttributes<HTMLLIElement>, option: string) => ReactNode;
-    noOptionText: ReactNode;
     dsfrInputProps: InputProps.RegularInput;
 };
 
@@ -23,7 +22,6 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
         options,
         getOptionLabel,
         renderOption,
-        noOptionText,
         dsfrInputProps
     } = props;
 
@@ -35,7 +33,6 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
             options={options}
             getOptionLabel={getOptionLabel}
             renderOption={renderOption}
-            noOptionsText={noOptionText}
             onChange={(_, value) => {
                 if (value === null) {
                     return;

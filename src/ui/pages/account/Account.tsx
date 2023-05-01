@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
-import { useTranslation } from "ui/i18n";
+import { useTranslation, useGetOrganizationFullName } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
@@ -43,7 +43,6 @@ function AccountReady(props: { className?: string }) {
     const { className } = props;
 
     const { t } = useTranslation({ Account });
-    const { t: tCommon } = useTranslation({ "App": null });
 
     const {
         allOrganizations,
@@ -99,6 +98,8 @@ function AccountReady(props: { className?: string }) {
         "isOrganizationSubmitButtonVisible":
             organization.value !== organizationInputValue && !organization.isBeingUpdated
     });
+
+    const { getOrganizationFullName } = useGetOrganizationFullName();
 
     return (
         <div className={cx(fr.cx("fr-container"), classes.root, className)}>
@@ -156,9 +157,11 @@ function AccountReady(props: { className?: string }) {
                     <AutocompleteFreeSoloInput
                         className={classes.input}
                         options={allOrganizations}
+                        getOptionLabel={organization =>
+                            getOrganizationFullName(organization)
+                        }
                         value={organization.value}
                         onValueChange={value => setOrganizationInputValue(value)}
-                        noOptionText={tCommon("no result")}
                         dsfrInputProps={{
                             "label": t("organization"),
                             "disabled": organization.isBeingUpdated
@@ -207,7 +210,7 @@ const useStyles = makeStyles<{
 })((_theme, { isEmailSubmitButtonVisible, isOrganizationSubmitButtonVisible }) => ({
     "root": {
         "paddingTop": fr.spacing("6v"),
-        "maxWidth": 600,
+        "maxWidth": 650,
         "paddingBottom": fr.spacing("6v")
     },
     "title": {

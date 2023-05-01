@@ -9,7 +9,8 @@ import { Equals } from "tsafe";
 import {
     useTranslation,
     useLang,
-    softwareCategoriesFrBySoftwareCategoryEn
+    softwareCategoriesFrBySoftwareCategoryEn,
+    useGetOrganizationFullName
 } from "ui/i18n";
 import { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import MenuItem from "@mui/material/MenuItem";
@@ -120,6 +121,8 @@ export function SoftwareCatalogSearch(props: Props) {
 
     const filtersWrapperId = `filter-wrapper-${useId()}`;
 
+    const { getOrganizationFullName } = useGetOrganizationFullName();
+
     return (
         <div className={classes.root}>
             <div className={cx(classes.basicSearch, className)}>
@@ -172,7 +175,9 @@ export function SoftwareCatalogSearch(props: Props) {
                         },
                         ...organizationOptions.map(({ organization, softwareCount }) => ({
                             "value": organization,
-                            "label": `${organization} (${softwareCount})`
+                            "label": `${getOrganizationFullName(
+                                organization
+                            )} (${softwareCount})`
                         }))
                     ]}
                 />

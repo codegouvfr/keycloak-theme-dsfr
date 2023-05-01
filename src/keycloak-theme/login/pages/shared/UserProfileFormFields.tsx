@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useFormValidation } from "keycloakify/login/lib/useFormValidation";
 import type { I18n } from "keycloak-theme/login/i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { AutocompleteInput } from "keycloak-theme/login/pages/shared/AutocompleteInput";
-import { fr } from "@codegouvfr/react-dsfr";
 import type { ClassKey } from "keycloakify/login/TemplateProps";
 import { createSillApi } from "core/adapter/sillApi";
 import { sillApiUrl } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { contactEmail } from "ui/shared/contactEmail";
 import MuiCircularProgress from "@mui/material/CircularProgress";
+import { AutocompleteFreeSoloInput } from "ui/shared/AutocompleteFreeSoloInput";
+import { useGetOrganizationFullName } from "ui/i18n/useGetOrganizationFullName";
 
 export type UserProfileFormFieldsProps = {
     kcContext: Parameters<typeof useFormValidation>[0]["kcContext"];
@@ -69,6 +69,8 @@ export function UserProfileFormFields({
         return { apiData };
     })();
 
+    const { getOrganizationFullName } = useGetOrganizationFullName();
+
     if (apiData === undefined) {
         return (
             <div
@@ -92,10 +94,11 @@ export function UserProfileFormFields({
 
                 if (attribute.name === apiData.organizationUserProfileAttributeName) {
                     return (
-                        <AutocompleteInput
-                            className={fr.cx("fr-input-group")}
-                            freeSolo
+                        <AutocompleteFreeSoloInput
                             options={apiData.organizations}
+                            getOptionLabel={organization =>
+                                getOrganizationFullName(organization)
+                            }
                             value={value}
                             onValueChange={value =>
                                 formValidationDispatch({
@@ -104,26 +107,12 @@ export function UserProfileFormFields({
                                     "newValue": value ?? ""
                                 })
                             }
-                            getOptionLabel={entry => entry}
-                            renderOption={(liProps, entry) => (
-                                <li {...liProps}>
-                                    <span>{entry}</span>
-                                </li>
-                            )}
-                            noOptionText="No result"
                             dsfrInputProps={{
                                 "label": advancedMsg(attribute.displayName ?? ""),
                                 "nativeInputProps": {
                                     "type": "text",
                                     "id": attribute.name,
                                     "name": attribute.name,
-                                    "value": value,
-                                    "onChange": event =>
-                                        formValidationDispatch({
-                                            "action": "update value",
-                                            "name": attribute.name,
-                                            "newValue": event.currentTarget.value
-                                        }),
                                     "className": getClassName("kcInputClass"),
                                     "aria-invalid": displayableErrors.length !== 0,
                                     "disabled": attribute.readOnly,

@@ -5,7 +5,7 @@ import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui/i18n";
+import { useTranslation, useGetOrganizationFullName } from "ui/i18n";
 import { ActionsFooter } from "ui/shared/ActionsFooter";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { assert } from "tsafe/assert";
@@ -52,6 +52,8 @@ export default function SoftwareUserAndReferent(props: Props) {
 
     const softwareName = route.params.name;
 
+    const { getOrganizationFullName } = useGetOrganizationFullName();
+
     if (!isReady) {
         return <LoadingFallback />;
     }
@@ -86,7 +88,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                         {isTechnicalExpert && <span> ({t("is technical expert")})</span>}
                     </p>
                     <p>
-                        {t("organization")} : {organization}{" "}
+                        {t("organization")} : {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
@@ -109,7 +111,7 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={organization}>
                     <p>
-                        {t("organization")} : {organization}{" "}
+                        {t("organization")} : {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
