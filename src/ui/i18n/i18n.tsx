@@ -280,7 +280,7 @@ const {
                 )
             },
             "SoftwareForm": {
-                "title software update form": "Update logiciel",
+                "title software update form": "Update software",
                 "stepper title": ({ currentStepIndex }) => {
                     switch (currentStepIndex) {
                         case 1:
@@ -295,7 +295,8 @@ const {
                             return "";
                     }
                 },
-                "submit": "Add software"
+                "add software": "Add software",
+                "update software": "Validate changes"
             },
             "SoftwareFormStep1": {
                 "software desktop": "Desktop installable software",
@@ -823,7 +824,8 @@ const {
                             return "";
                     }
                 },
-                "submit": "Ajouter le logiciel"
+                "add software": "Ajouter le logiciel",
+                "update software": "Valider les modifications"
             },
             "SoftwareFormStep1": {
                 "software desktop": "Logiciel installable sur poste de travail",

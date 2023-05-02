@@ -189,7 +189,15 @@ export default function SoftwareForm(props: Props) {
                 >
                     {isLastStep ? (
                         <>
-                            {t("submit")}{" "}
+                            {(() => {
+                                switch (route.name) {
+                                    case "softwareCreationForm":
+                                        return t("add software");
+                                    case "softwareUpdateForm":
+                                        return t("update software");
+                                }
+                            })()}
+
                             {isSubmitting && (
                                 <CircularProgress className={classes.progressSubmit} />
                             )}
@@ -261,5 +269,6 @@ const useStyles = makeStyles<{ step: number | undefined }>({
 export const { i18n } = declareComponentKeys<
     | "title software update form"
     | { K: "stepper title"; P: { currentStepIndex: number } }
-    | "submit"
+    | "add software"
+    | "update software"
 >()({ SoftwareForm });
