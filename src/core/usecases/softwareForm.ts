@@ -300,6 +300,8 @@ export const thunks = {
                 "similarSoftwares": formDataStep4.similarSoftwares
             };
 
+            dispatch(actions.submissionStarted());
+
             await (state.softwareSillId !== undefined
                 ? sillApi.updateSoftware({
                       "softwareSillId": state.softwareSillId,

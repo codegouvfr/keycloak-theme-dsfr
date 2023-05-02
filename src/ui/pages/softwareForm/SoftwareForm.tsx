@@ -41,6 +41,8 @@ export default function SoftwareForm(props: Props) {
     const { isLastStep } = useCoreState(selectors.softwareForm.isLastStep);
     const { evtSoftwareForm } = useCoreEvts();
 
+    console.log({ isSubmitting });
+
     const { softwareForm } = useCoreFunctions();
 
     useEffect(() => {
@@ -199,7 +201,10 @@ export default function SoftwareForm(props: Props) {
                             })()}
 
                             {isSubmitting && (
-                                <CircularProgress className={classes.progressSubmit} />
+                                <CircularProgress
+                                    size={20}
+                                    className={classes.progressSubmit}
+                                />
                             )}
                         </>
                     ) : (
