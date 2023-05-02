@@ -97,7 +97,7 @@ export default function DeclarationForm(props: Props) {
         return "type";
     };
 
-    if (software === undefined || isSubmitting) {
+    if (software === undefined) {
         return <LoadingFallback />;
     }
 
@@ -242,8 +242,21 @@ export default function DeclarationForm(props: Props) {
                 >
                     {tCommon("previous")}
                 </Button>
-                <Button onClick={onNextStep} priority="primary">
-                    {step === stepCount ? t("send") : tCommon("next")}
+
+                <Button onClick={onNextStep} priority="primary" disabled={isSubmitting}>
+                    {step === stepCount ? (
+                        <>
+                            {t("submit declaration")}{" "}
+                            {isSubmitting && (
+                                <CircularProgress
+                                    size={20}
+                                    className={classes.progressSubmit}
+                                />
+                            )}
+                        </>
+                    ) : (
+                        tCommon("next")
+                    )}
                 </Button>
             </ActionsFooter>
         </div>
@@ -346,6 +359,9 @@ const useStyles = makeStyles<{
     },
     "back": {
         "marginRight": fr.spacing("4v")
+    },
+    "progressSubmit": {
+        "marginLeft": fr.spacing("4v")
     }
 }));
 
@@ -355,5 +371,5 @@ export const { i18n } = declareComponentKeys<
     | "title step 1"
     | "title step 2 user"
     | "title step 2 referent"
-    | "send"
+    | "submit declaration"
 >()({ DeclarationForm });

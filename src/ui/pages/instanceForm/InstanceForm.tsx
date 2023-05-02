@@ -191,9 +191,12 @@ export default function InstanceForm(props: Props) {
                 >
                     {isLastStep ? (
                         <>
-                            {"submit"}{" "}
+                            {tCommon("add instance")}
                             {isSubmitting && (
-                                <CircularProgress className={classes.progressSubmit} />
+                                <CircularProgress
+                                    size={20}
+                                    className={classes.progressSubmit}
+                                />
                             )}
                         </>
                     ) : (

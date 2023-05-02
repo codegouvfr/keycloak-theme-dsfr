@@ -521,10 +521,10 @@ const {
                 "catalog breadcrumb": "Software catalog",
                 "declare yourself user or referent breadcrumb":
                     "Declare yourself user or referent of the software",
-                "send": "Send my statement",
                 "title step 1": "How would you like to declare ?",
                 "title step 2 user": "About your usage",
-                "title step 2 referent": "About your referencing"
+                "title step 2 referent": "About your referencing",
+                "submit declaration": "Submit declaration"
             },
             "DeclarationFormStep1": {
                 "user type label": "I'm a user of this software",
@@ -1059,10 +1059,10 @@ const {
                 "catalog breadcrumb": "Le catalogue de logiciels",
                 "declare yourself user or referent breadcrumb":
                     "Se déclarer utilisateur ou référent du logiciel",
-                "send": "Envoyer ma déclaration",
                 "title step 1": "Comment souhaitez-vous déclarer ?",
                 "title step 2 user": "À propos de votre usage",
-                "title step 2 referent": "À propos de votre référencement"
+                "title step 2 referent": "À propos de votre référencement",
+                "submit declaration": "Envoyer ma déclaration"
             },
             "DeclarationFormStep1": {
                 "user type label": "Je suis un utilisateur de ce logiciel",
