@@ -5,7 +5,6 @@ import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { fr } from "@codegouvfr/react-dsfr";
-import { session } from "ui/routes";
 
 export type Props = {
     className?: string;
@@ -17,6 +16,7 @@ export type Props = {
     }[];
     officialWebsite?: string;
     sourceCodeRepository?: string;
+    onGoBackClick: () => void;
 };
 
 export const HeaderDetailCard = memo((props: Props) => {
@@ -27,6 +27,7 @@ export const HeaderDetailCard = memo((props: Props) => {
         authors,
         officialWebsite,
         sourceCodeRepository,
+        onGoBackClick,
         ...rest
     } = props;
 
@@ -41,11 +42,7 @@ export const HeaderDetailCard = memo((props: Props) => {
         <div className={cx(classes.root, className)}>
             <div className={classes.leftCol}>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
-                    href={"#"}
-                    onClick={() => session.back()}
-                    className={classes.backButton}
-                >
+                <a href={"#"} onClick={onGoBackClick} className={classes.backButton}>
                     <i className={fr.cx("fr-icon-arrow-left-s-line")} />
                 </a>
                 <div className={classes.softwareInformation}>
@@ -53,7 +50,7 @@ export const HeaderDetailCard = memo((props: Props) => {
                         <img
                             className={classes.logo}
                             src={softwareLogoUrl}
-                            alt="Logo du logiciel"
+                            alt={t("software logo")}
                         />
                     </div>
                     <div className={classes.mainInfo}>
@@ -187,6 +184,8 @@ const useStyles = makeStyles({
     }
 }));
 
-export const { i18n } = declareComponentKeys<"authors" | "website" | "repository">()({
+export const { i18n } = declareComponentKeys<
+    "authors" | "website" | "repository" | "software logo"
+>()({
     HeaderDetailCard
 });

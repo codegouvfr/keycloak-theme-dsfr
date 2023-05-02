@@ -41,8 +41,6 @@ export default function SoftwareForm(props: Props) {
     const { isLastStep } = useCoreState(selectors.softwareForm.isLastStep);
     const { evtSoftwareForm } = useCoreEvts();
 
-    console.log({ isSubmitting });
-
     const { softwareForm } = useCoreFunctions();
 
     useEffect(() => {

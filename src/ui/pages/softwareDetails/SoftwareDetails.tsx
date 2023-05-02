@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { routes } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
@@ -18,6 +17,7 @@ import { exclude } from "tsafe/exclude";
 import type { PageRoute } from "./route";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
+import { routes, getPreviousRouteName, session } from "ui/routes";
 
 type Props = {
     className?: string;
@@ -68,6 +68,20 @@ export default function SoftwareDetails(props: Props) {
                     authors={software.authors}
                     officialWebsite={software.officialWebsiteUrl}
                     sourceCodeRepository={software.codeRepositoryUrl}
+                    onGoBackClick={() => {
+                        const previousRouteName = getPreviousRouteName();
+
+                        if (
+                            previousRouteName === "softwareCatalog" ||
+                            previousRouteName === undefined
+                        ) {
+                            //Restore scroll position
+                            session.back();
+                            return;
+                        }
+
+                        routes.softwareCatalog().push();
+                    }}
                 />
                 <Tabs
                     tabs={[

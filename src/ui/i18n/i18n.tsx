@@ -460,7 +460,8 @@ const {
             "HeaderDetailCard": {
                 "authors": "Authors : ",
                 "website": "Official website",
-                "repository": "Source code repository"
+                "repository": "Source code repository",
+                "software logo": "Software logo"
             },
             "PreviewTab": {
                 "about": "About",
@@ -997,7 +998,8 @@ const {
             "HeaderDetailCard": {
                 "authors": "Auteurs : ",
                 "website": "Site web officiel",
-                "repository": "Dépôt du code source"
+                "repository": "Dépôt du code source",
+                "software logo": "Logo du logiciel"
             },
             "PreviewTab": {
                 "about": "À propos",
