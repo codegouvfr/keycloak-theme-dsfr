@@ -77,6 +77,15 @@ export function createSillApi(params: {
 
             return out;
         },
+        "removeUserOrReferent": async params => {
+            const out = await trpcClient.removeUserOrReferent.mutate(params);
+
+            sillApi.getTotalReferentCount.clear();
+            sillApi.getAgents.clear();
+            sillApi.getSoftwares.clear();
+
+            return out;
+        },
         "createInstance": async params => {
             const out = await trpcClient.createInstance.mutate(params);
 

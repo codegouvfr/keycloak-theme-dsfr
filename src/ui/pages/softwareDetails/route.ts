@@ -3,7 +3,8 @@ import { createGroup, defineRoute, createRouter, param, type Route } from "type-
 export const routeDefs = {
     "softwareDetails": defineRoute(
         {
-            "name": param.query.string
+            "name": param.query.string,
+            "autoOpenRemoveRoleModal": param.query.optional.boolean.default(false)
         },
         () => `/detail`
     )

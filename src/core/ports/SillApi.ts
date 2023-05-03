@@ -47,6 +47,9 @@ export type SillApi = {
     createUserOrReferent: (
         params: TrpcRouterInput["createUserOrReferent"]
     ) => Promise<TrpcRouterOutput["createUserOrReferent"]>;
+    removeUserOrReferent: (
+        params: TrpcRouterInput["removeUserOrReferent"]
+    ) => Promise<TrpcRouterOutput["removeUserOrReferent"]>;
     createInstance: (
         params: TrpcRouterInput["createInstance"]
     ) => Promise<TrpcRouterOutput["createInstance"]>;

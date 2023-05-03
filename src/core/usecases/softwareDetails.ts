@@ -22,6 +22,14 @@ export namespace State {
     export type Ready = {
         stateDescription: "ready";
         software: Software;
+        // undefined when not logged in
+        roleDeclaration:
+            | {
+                  isRemovingRole: boolean;
+                  isReferent: boolean;
+                  isUser: boolean;
+              }
+            | undefined;
     };
     export type Software = {
         softwareName: string;
@@ -91,29 +99,53 @@ export const { reducer, actions } = createSlice({
         }),
         "initializationCompleted": (
             _state,
-            { payload }: PayloadAction<{ software: State.Software }>
+            {
+                payload
+            }: PayloadAction<{
+                software: State.Software;
+                roleDeclaration:
+                    | {
+                          isUser: boolean;
+                          isReferent: boolean;
+                      }
+                    | undefined;
+            }>
         ) => {
-            const { software } = payload;
+            const { software, roleDeclaration } = payload;
 
             return {
                 "stateDescription": "ready",
-                software
+                software,
+                "roleDeclaration":
+                    roleDeclaration === undefined
+                        ? undefined
+                        : {
+                              ...roleDeclaration,
+                              "isRemovingRole": false
+                          }
             };
         },
         "cleared": () => ({
             "stateDescription": "not ready" as const,
             "isInitializing": false
-        })
+        }),
+        "startRemovingUserOrReferent": state => {
+            assert(state.stateDescription === "ready");
+            assert(state.roleDeclaration !== undefined);
+            state.roleDeclaration.isRemovingRole = true;
+        },
+        /** For dispatch */
+        "userOrReferentRemoved": () => {}
     }
 });
 
 export const thunks = {
     "initialize":
-        (params: { softwareName: string }): ThunkAction<void> =>
+        (params: { softwareName: string }): ThunkAction =>
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApi }] = args;
+            const [dispatch, getState, { sillApi, oidc, getUser }] = args;
 
             {
                 const state = getState()[name];
@@ -130,13 +162,54 @@ export const thunks = {
 
             dispatch(actions.initializationStarted());
 
+            const [apiSoftwares, apiInstances] = await Promise.all([
+                sillApi.getSoftwares(),
+                sillApi.getInstances()
+            ]);
+
             const software = apiSoftwareToSoftware({
-                "apiSoftwares": await sillApi.getSoftwares(),
-                "apiInstances": await sillApi.getInstances(),
+                apiSoftwares,
+                apiInstances,
                 softwareName
             });
 
-            dispatch(actions.initializationCompleted({ software }));
+            const roleDeclaration: { isReferent: boolean; isUser: boolean } | undefined =
+                await (async () => {
+                    if (!oidc.isUserLoggedIn) {
+                        return undefined;
+                    }
+
+                    const [{ agents }, user] = await Promise.all([
+                        sillApi.getAgents(),
+                        getUser()
+                    ]);
+
+                    const agent = agents.find(agent => agent.email === user.email);
+
+                    if (agent === undefined) {
+                        return {
+                            "isReferent": false,
+                            "isUser": false
+                        };
+                    }
+
+                    return {
+                        "isReferent":
+                            agent.declarations.find(
+                                d =>
+                                    d.softwareName === softwareName &&
+                                    d.declarationType === "referent"
+                            ) !== undefined,
+                        "isUser":
+                            agent.declarations.find(
+                                d =>
+                                    d.softwareName === softwareName &&
+                                    d.declarationType === "user"
+                            ) !== undefined
+                    };
+                })();
+
+            dispatch(actions.initializationCompleted({ software, roleDeclaration }));
         },
     "clear":
         (): ThunkAction<void> =>
@@ -152,6 +225,34 @@ export const thunks = {
             }
 
             dispatch(actions.cleared());
+        },
+    "removeAgentAsReferentOrUserFromSoftware":
+        (params: { declarationType: "user" | "referent" }): ThunkAction =>
+        async (...args) => {
+            const { declarationType } = params;
+
+            const [dispatch, getState, { sillApi }] = args;
+
+            dispatch(actions.startRemovingUserOrReferent());
+
+            const softwareName = (() => {
+                const state = getState()[name];
+
+                assert(state.stateDescription === "ready");
+
+                return state.software.softwareName;
+            })();
+
+            await sillApi.removeUserOrReferent({
+                declarationType,
+                softwareName
+            });
+
+            dispatch(thunks.clear());
+
+            await dispatch(thunks.initialize({ softwareName }));
+
+            dispatch(actions.userOrReferentRemoved());
         }
 };
 
@@ -168,7 +269,9 @@ export const selectors = (() => {
 
     const software = createSelector(readyState, readyState => readyState?.software);
 
-    return { software };
+    const roleDeclaration = createSelector(readyState, state => state?.roleDeclaration);
+
+    return { software, roleDeclaration };
 })();
 
 function apiSoftwareToSoftware(params: {

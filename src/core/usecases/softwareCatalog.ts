@@ -149,6 +149,7 @@ export const { reducer, actions } = createSlice({
                 "environment": undefined,
                 "prerogatives": [],
                 "referentCount": undefined,
+                "isRemovingUserOrReferent": false,
                 userEmail
             };
         },
@@ -303,7 +304,9 @@ export const privateThunks = {
                     (action.sliceName === "softwareForm" &&
                         action.actionName === "formSubmitted") ||
                     (action.sliceName === "declarationForm" &&
-                        action.actionName === "formSubmitted"),
+                        action.actionName === "formSubmitted") ||
+                    (action.sliceName === "softwareDetails" &&
+                        action.actionName === "userOrReferentRemoved"),
                 () => initialize()
             );
         }

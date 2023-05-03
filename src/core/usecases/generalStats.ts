@@ -69,7 +69,9 @@ export const privateThunks = {
                     (action.sliceName === "softwareForm" &&
                         action.actionName === "formSubmitted") ||
                     (action.sliceName === "declarationForm" &&
-                        action.actionName === "formSubmitted"),
+                        action.actionName === "formSubmitted") ||
+                    (action.sliceName === "softwareDetails" &&
+                        action.actionName === "userOrReferentRemoved"),
                 () => init()
             );
 
