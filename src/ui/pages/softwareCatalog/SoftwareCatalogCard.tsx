@@ -251,15 +251,10 @@ const useStyles = makeStyles<{ isSearchHighlighted: boolean }>({
         "width": "100%"
     },
     "logoWrapper": {
-        "height": fr.spacing("10v"),
-        "width": fr.spacing("10v"),
-        "minWidth": fr.spacing("10v"),
+        "width": fr.spacing("14v"),
+        "aspectRatio": "auto 1/1",
         "marginRight": fr.spacing("3v"),
-        "overflow": "hidden",
-        [fr.breakpoints.down("md")]: {
-            "height": fr.spacing("5v"),
-            "width": fr.spacing("5v")
-        }
+        "overflow": "hidden"
     },
     "logo": {
         "height": "100%"
