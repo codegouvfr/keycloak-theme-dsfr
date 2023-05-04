@@ -123,10 +123,7 @@ export const { reducer, actions } = createSlice({
             }: PayloadAction<{
                 instanceId: number;
             }>
-        ) => ({
-            "stateDescription": "not ready",
-            "isInitializing": false
-        })
+        ) => {}
     }
 });
 
@@ -408,3 +405,5 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
             : null
     );
 };
+
+assert<typeof createEvt extends CreateEvt ? true : false>();

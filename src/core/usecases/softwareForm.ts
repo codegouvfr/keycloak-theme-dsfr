@@ -153,12 +153,7 @@ export const { reducer, actions } = createSlice({
             }: PayloadAction<{
                 softwareName: string;
             }>
-        ) => {
-            return {
-                "stateDescription": "not ready",
-                "isInitializing": false
-            };
-        },
+        ) => {},
         "cleared": () => ({
             "stateDescription": "not ready" as const,
             "isInitializing": false
@@ -311,11 +306,7 @@ export const thunks = {
                       formData
                   }));
 
-            dispatch(
-                actions.formSubmitted({
-                    "softwareName": step2.softwareName
-                })
-            );
+            dispatch(actions.formSubmitted({ "softwareName": step2.softwareName }));
         },
     "returnToPreviousStep":
         (): ThunkAction<void> =>

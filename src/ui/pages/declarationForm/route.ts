@@ -1,9 +1,29 @@
-import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
+import {
+    createGroup,
+    defineRoute,
+    createRouter,
+    param,
+    type Route,
+    noMatch
+} from "type-route";
+import { z } from "zod";
 
 export const routeDefs = {
     "declarationForm": defineRoute(
         {
-            "name": param.query.string
+            "name": param.query.string,
+            "declarationType": param.query.optional.ofType({
+                "parse": raw => {
+                    const schema = z.union([z.literal("user"), z.literal("referent")]);
+
+                    try {
+                        return schema.parse(raw);
+                    } catch {
+                        return noMatch;
+                    }
+                },
+                "stringify": value => value
+            })
         },
         () => `/declaration`
     )

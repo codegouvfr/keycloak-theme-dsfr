@@ -95,13 +95,10 @@ export const { reducer, actions } = createSlice({
 
             state.isSubmitting = true;
         },
-        "formSubmitted": (
+        "triggerRedirect": (
             _state,
-            { payload: _payload }: PayloadAction<{ softwareName: string }>
-        ) => ({
-            "stateDescription": "not ready",
-            "isInitializing": false
-        })
+            { payload: _payload }: PayloadAction<{ isFormSubmitted: boolean }>
+        ) => {}
     }
 });
 
@@ -179,11 +176,34 @@ export const thunks = {
             dispatch(actions.cleared());
         },
     "setDeclarationType":
-        (props: { declarationType: State.Ready["declarationType"] }): ThunkAction<void> =>
-        (...args) => {
+        (props: { declarationType: State.Ready["declarationType"] }): ThunkAction =>
+        async (...args) => {
             const { declarationType } = props;
 
-            const [dispatch] = args;
+            const [dispatch, , { sillApi, getUser }] = args;
+
+            redirect_if_declaration_already_exists: {
+                const [{ agents }, { email }] = await Promise.all([
+                    sillApi.getAgents(),
+                    getUser()
+                ]);
+
+                const agent = agents.find(agent => agent.email === email);
+
+                if (agent === undefined) {
+                    break redirect_if_declaration_already_exists;
+                }
+
+                if (
+                    agent.declarations.find(
+                        declaration => declaration.declarationType === declarationType
+                    ) === undefined
+                ) {
+                    break redirect_if_declaration_already_exists;
+                }
+
+                dispatch(actions.triggerRedirect({ "isFormSubmitted": false }));
+            }
 
             dispatch(actions.declarationTypeSet({ declarationType }));
         },
@@ -214,9 +234,7 @@ export const thunks = {
                 "softwareName": state.software.softwareName
             });
 
-            dispatch(
-                actions.formSubmitted({ "softwareName": state.software.softwareName })
-            );
+            dispatch(actions.triggerRedirect({ "isFormSubmitted": true }));
         }
 };
 
@@ -248,15 +266,23 @@ export const selectors = (() => {
     return { step, isSubmitting, declarationType, software };
 })();
 
-export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
+export const createEvt = ({ evtAction, getState }: Param0<CreateEvt>) => {
     return evtAction.pipe(action =>
-        action.sliceName === name && action.actionName === "formSubmitted"
+        action.sliceName === name && action.actionName === "triggerRedirect"
             ? [
                   {
                       "action": "redirect" as const,
-                      "softwareName": action.payload.softwareName
+                      "softwareName": (() => {
+                          const state = getState()[name];
+
+                          assert(state.stateDescription === "ready");
+
+                          return state.software.softwareName;
+                      })()
                   }
               ]
             : null
     );
 };
+
+assert<typeof createEvt extends CreateEvt ? true : false>();

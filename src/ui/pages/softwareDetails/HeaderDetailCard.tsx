@@ -17,6 +17,12 @@ export type Props = {
     officialWebsite?: string;
     sourceCodeRepository?: string;
     onGoBackClick: () => void;
+    userDeclaration:
+        | {
+              isUser: boolean;
+              isReferent: boolean;
+          }
+        | undefined;
 };
 
 export const HeaderDetailCard = memo((props: Props) => {
@@ -28,10 +34,10 @@ export const HeaderDetailCard = memo((props: Props) => {
         officialWebsite,
         sourceCodeRepository,
         onGoBackClick,
+        userDeclaration,
         ...rest
     } = props;
 
-    /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
 
     const { classes, cx } = useStyles();
@@ -54,7 +60,35 @@ export const HeaderDetailCard = memo((props: Props) => {
                         />
                     </div>
                     <div className={classes.mainInfo}>
-                        <h4 className={classes.softwareName}>{softwareName}</h4>
+                        <div className={classes.titleAndTagWrapper}>
+                            <h4 className={classes.softwareName}>{softwareName}</h4>
+                            &nbsp; &nbsp;
+                            {userDeclaration?.isReferent ? (
+                                <span
+                                    className={fr.cx(
+                                        "fr-badge--no-icon",
+                                        "fr-badge--blue-cumulus",
+                                        "fr-badge",
+                                        "fr-badge--sm",
+                                        "fr-mb-1v"
+                                    )}
+                                >
+                                    {t("you are referent")}
+                                </span>
+                            ) : userDeclaration?.isUser ? (
+                                <span
+                                    className={fr.cx(
+                                        "fr-badge--no-icon",
+                                        "fr-badge--green-archipel",
+                                        "fr-badge",
+                                        "fr-badge--sm",
+                                        "fr-mb-1v"
+                                    )}
+                                >
+                                    {t("you are user")}
+                                </span>
+                            ) : null}
+                        </div>
                         {authors.length > 0 && (
                             <div>
                                 <span className={classes.authors}>{t("authors")}</span>
@@ -150,6 +184,10 @@ const useStyles = makeStyles({
         "alignItems": "flex-start",
         "justifyContent": "center"
     },
+    "titleAndTagWrapper": {
+        "display": "flex",
+        "alignItems": "center"
+    },
     "logoWrapper": {
         "height": fr.spacing("10v"),
         "width": fr.spacing("10v"),
@@ -185,7 +223,12 @@ const useStyles = makeStyles({
 }));
 
 export const { i18n } = declareComponentKeys<
-    "authors" | "website" | "repository" | "software logo"
+    | "authors"
+    | "website"
+    | "repository"
+    | "software logo"
+    | "you are user"
+    | "you are referent"
 >()({
     HeaderDetailCard
 });

@@ -11,6 +11,7 @@ import * as userAuthentication from "./userAuthentication";
 import * as termsOfServices from "./termsOfServices";
 import * as readme from "./readme";
 import * as redirect from "./redirect";
+import * as declarationRemoval from "./declarationRemoval";
 
 export const usecases = {
     softwareCatalog,
@@ -25,5 +26,6 @@ export const usecases = {
     userAuthentication,
     termsOfServices,
     readme,
-    redirect
+    redirect,
+    declarationRemoval
 };

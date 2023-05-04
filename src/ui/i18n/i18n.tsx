@@ -404,7 +404,8 @@ const {
                     "This software is from French public service",
                 "isPresentInSupportMarket": "This software is present in support market",
                 "you are user": "You're using it",
-                "you are referent": "You are referent"
+                "you are referent": "You are referent",
+                "software logo": "Software logo"
             },
             "SoftwareCatalogSearch": {
                 "placeholder": "Search a software, a word, a reference...",
@@ -455,13 +456,18 @@ const {
                 "wikiData sheet": "Open Wikidata sheet",
                 "share software": "Share the software",
                 "declare referent": "Declare yourself referent / user",
-                "edit software": "Edit software"
+                "edit software": "Edit software",
+                "stop being user/referent": ({ declarationType }) =>
+                    `Stop being ${declarationType}`,
+                "become referent": "Become referent"
             },
             "HeaderDetailCard": {
                 "authors": "Authors : ",
                 "website": "Official website",
                 "repository": "Source code repository",
-                "software logo": "Software logo"
+                "software logo": "Software logo",
+                "you are user": "You're using it",
+                "you are referent": "You are referent"
             },
             "PreviewTab": {
                 "about": "About",
@@ -924,7 +930,8 @@ const {
                 "isPresentInSupportMarket":
                     "Ce logiciel est présent dans le marché de support",
                 "you are user": "Vous l'utilisez",
-                "you are referent": "Vous êtes référent"
+                "you are referent": "Vous êtes référent",
+                "software logo": "Logo du logiciel"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -993,13 +1000,18 @@ const {
                 "wikiData sheet": "Consulter la fiche de Wikidata",
                 "share software": "Partager la fiche",
                 "declare referent": "Se déclarer référent / utilisateur",
-                "edit software": "Éditer la fiche logiciel"
+                "edit software": "Éditer la fiche logiciel",
+                "stop being user/referent": ({ declarationType }) =>
+                    `Ne plus être ${declarationType}`,
+                "become referent": "Devenir référent"
             },
             "HeaderDetailCard": {
                 "authors": "Auteurs : ",
                 "website": "Site web officiel",
                 "repository": "Dépôt du code source",
-                "software logo": "Logo du logiciel"
+                "software logo": "Logo du logiciel",
+                "you are user": "Vous l'utilisez",
+                "you are referent": "Vous êtes référent"
             },
             "PreviewTab": {
                 "about": "À propos",

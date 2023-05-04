@@ -47,7 +47,21 @@ export default function DeclarationForm(props: Props) {
     useEffect(() => {
         declarationForm.initialize({ "softwareName": route.params.name });
         return () => declarationForm.clear();
-    }, [route.name]);
+    }, []);
+
+    useEffect(() => {
+        const { declarationType } = route.params;
+
+        if (declarationType === undefined) {
+            return;
+        }
+
+        if (step !== 1) {
+            return;
+        }
+
+        declarationForm.setDeclarationType({ declarationType });
+    }, [step]);
 
     useEvt(
         ctx =>
@@ -79,22 +93,6 @@ export default function DeclarationForm(props: Props) {
     const onNextStep = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         evtActionSubmitStep.post();
-    };
-
-    const getActiveStep = (): "type" | "user" | "referent" => {
-        if (step === 1) {
-            return "type";
-        }
-
-        if (step === 2 && declarationType === "user") {
-            return "user";
-        }
-
-        if (step === 2 && declarationType === "referent") {
-            return "referent";
-        }
-
-        return "type";
     };
 
     if (software === undefined) {
@@ -175,10 +173,17 @@ export default function DeclarationForm(props: Props) {
                                     className={fr.cx("fr-h6")}
                                     id="radio-hint-element-legend"
                                 >
-                                    {getActiveStep() === "type" && t("title step 1")}
-                                    {getActiveStep() === "user" && t("title step 2 user")}
-                                    {getActiveStep() === "referent" &&
-                                        t("title step 2 referent")}
+                                    {(() => {
+                                        switch (step) {
+                                            case 1:
+                                                return t("title step 1");
+                                            case 2:
+                                                assert(declarationType !== undefined);
+                                                return t(
+                                                    `title step 2 ${declarationType}`
+                                                );
+                                        }
+                                    })()}
                                 </legend>
                             }
                             className={classes.stepper}
@@ -235,6 +240,8 @@ export default function DeclarationForm(props: Props) {
                         switch (step) {
                             case 1:
                                 return true;
+                            case 2:
+                                return route.params.declarationType !== undefined;
                             default:
                                 return false;
                         }
@@ -242,7 +249,6 @@ export default function DeclarationForm(props: Props) {
                 >
                     {tCommon("previous")}
                 </Button>
-
                 <Button onClick={onNextStep} priority="primary" disabled={isSubmitting}>
                     {step === stepCount ? (
                         <>

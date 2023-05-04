@@ -83,7 +83,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         <img
                             className={cx(classes.logo)}
                             src={logoUrl ?? softwareLogoPlaceholder}
-                            alt="Logo du logiciel"
+                            alt={t("software logo")}
                         />
                     </div>
 
@@ -351,4 +351,5 @@ export const { i18n } = declareComponentKeys<
     | "isFromFrenchPublicService"
     | "you are user"
     | "you are referent"
+    | "software logo"
 >()({ SoftwareCatalogCard });

@@ -10,6 +10,8 @@ import {
     apiSoftwareToExternalCatalogSoftware
 } from "./softwareCatalog";
 import { exclude } from "tsafe/exclude";
+import { createUsecaseContextApi } from "redux-clean-architecture";
+import { Evt } from "evt";
 
 export type State = State.NotReady | State.Ready;
 
@@ -23,9 +25,8 @@ export namespace State {
         stateDescription: "ready";
         software: Software;
         // undefined when not logged in
-        roleDeclaration:
+        userDeclaration:
             | {
-                  isRemovingRole: boolean;
                   isReferent: boolean;
                   isUser: boolean;
               }
@@ -103,7 +104,7 @@ export const { reducer, actions } = createSlice({
                 payload
             }: PayloadAction<{
                 software: State.Software;
-                roleDeclaration:
+                userDeclaration:
                     | {
                           isUser: boolean;
                           isReferent: boolean;
@@ -111,16 +112,16 @@ export const { reducer, actions } = createSlice({
                     | undefined;
             }>
         ) => {
-            const { software, roleDeclaration } = payload;
+            const { software, userDeclaration } = payload;
 
             return {
                 "stateDescription": "ready",
                 software,
-                "roleDeclaration":
-                    roleDeclaration === undefined
+                "userDeclaration":
+                    userDeclaration === undefined
                         ? undefined
                         : {
-                              ...roleDeclaration,
+                              ...userDeclaration,
                               "isRemovingRole": false
                           }
             };
@@ -128,14 +129,7 @@ export const { reducer, actions } = createSlice({
         "cleared": () => ({
             "stateDescription": "not ready" as const,
             "isInitializing": false
-        }),
-        "startRemovingUserOrReferent": state => {
-            assert(state.stateDescription === "ready");
-            assert(state.roleDeclaration !== undefined);
-            state.roleDeclaration.isRemovingRole = true;
-        },
-        /** For dispatch */
-        "userOrReferentRemoved": () => {}
+        })
     }
 });
 
@@ -145,7 +139,7 @@ export const thunks = {
         async (...args) => {
             const { softwareName } = params;
 
-            const [dispatch, getState, { sillApi, oidc, getUser }] = args;
+            const [dispatch, getState, extraArg] = args;
 
             {
                 const state = getState()[name];
@@ -158,6 +152,28 @@ export const thunks = {
                 if (state.isInitializing) {
                     return;
                 }
+            }
+
+            const { sillApi, oidc, getUser, evtAction } = extraArg;
+
+            {
+                const context = getContext(extraArg);
+
+                const ctx = Evt.newCtx();
+
+                evtAction.attach(
+                    action =>
+                        action.sliceName === "declarationRemoval" &&
+                        action.actionName === "userOrReferentRemoved",
+                    ctx,
+                    () => {
+                        dispatch(thunks.clear());
+
+                        dispatch(thunks.initialize({ softwareName }));
+                    }
+                );
+
+                context.detachHandlers = () => ctx.done();
             }
 
             dispatch(actions.initializationStarted());
@@ -173,7 +189,7 @@ export const thunks = {
                 softwareName
             });
 
-            const roleDeclaration: { isReferent: boolean; isUser: boolean } | undefined =
+            const userDeclaration: { isReferent: boolean; isUser: boolean } | undefined =
                 await (async () => {
                     if (!oidc.isUserLoggedIn) {
                         return undefined;
@@ -209,12 +225,12 @@ export const thunks = {
                     };
                 })();
 
-            dispatch(actions.initializationCompleted({ software, roleDeclaration }));
+            dispatch(actions.initializationCompleted({ software, userDeclaration }));
         },
     "clear":
         (): ThunkAction<void> =>
         (...args) => {
-            const [dispatch, getState] = args;
+            const [dispatch, getState, extraArg] = args;
 
             {
                 const state = getState()[name];
@@ -224,37 +240,23 @@ export const thunks = {
                 }
             }
 
+            {
+                const context = getContext(extraArg);
+
+                assert(context.detachHandlers !== undefined);
+
+                context.detachHandlers();
+
+                context.detachHandlers = undefined;
+            }
+
             dispatch(actions.cleared());
-        },
-    "removeAgentAsReferentOrUserFromSoftware":
-        (params: { declarationType: "user" | "referent" }): ThunkAction =>
-        async (...args) => {
-            const { declarationType } = params;
-
-            const [dispatch, getState, { sillApi }] = args;
-
-            dispatch(actions.startRemovingUserOrReferent());
-
-            const softwareName = (() => {
-                const state = getState()[name];
-
-                assert(state.stateDescription === "ready");
-
-                return state.software.softwareName;
-            })();
-
-            await sillApi.removeUserOrReferent({
-                declarationType,
-                softwareName
-            });
-
-            dispatch(thunks.clear());
-
-            await dispatch(thunks.initialize({ softwareName }));
-
-            dispatch(actions.userOrReferentRemoved());
         }
 };
+
+const { getContext } = createUsecaseContextApi(() => ({
+    "detachHandlers": id<undefined | (() => void)>(undefined)
+}));
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
@@ -269,9 +271,9 @@ export const selectors = (() => {
 
     const software = createSelector(readyState, readyState => readyState?.software);
 
-    const roleDeclaration = createSelector(readyState, state => state?.roleDeclaration);
+    const userDeclaration = createSelector(readyState, state => state?.userDeclaration);
 
-    return { software, roleDeclaration };
+    return { software, userDeclaration };
 })();
 
 function apiSoftwareToSoftware(params: {

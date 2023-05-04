@@ -163,6 +163,15 @@ export const sillApi: SillApi = {
     "createUserOrReferent": async ({ formData }) => {
         console.log(`User or referent updated ${JSON.stringify(formData, null, 2)}`);
     },
+    "removeUserOrReferent": async ({ declarationType, softwareName }) => {
+        console.log(
+            `removed user or referent ${JSON.stringify(
+                { declarationType, softwareName },
+                null,
+                2
+            )}`
+        );
+    },
     "createInstance": async params => {
         console.log(`Creating instance ${JSON.stringify(params)}`);
         return {
