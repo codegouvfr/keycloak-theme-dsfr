@@ -12,6 +12,9 @@ import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 import { routes, getPreviousRouteName, session } from "ui/routes";
+import { Tag } from "@codegouvfr/react-dsfr/Tag";
+
+import { capitalize } from "tsafe/capitalize";
 
 export type Props = {
     className?: string;
@@ -84,21 +87,28 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={email}>
                     <p>
-                        <a href={`mailto:${email}`}>{email}</a>
-                        {isTechnicalExpert && <span> ({t("is technical expert")})</span>}
+                        <a href={`mailto:${email}`}>{capitalize(email)}</a>
+                        {isTechnicalExpert && (
+                            <Tag
+                                style={{
+                                    "position": "relative",
+                                    "top": 4,
+                                    "marginLeft": fr.spacing("2v")
+                                }}
+                                iconId="fr-icon-checkbox-circle-line"
+                            >
+                                {t("is technical expert")}
+                            </Tag>
+                        )}
                     </p>
                     <p>
-                        <span className={fr.cx("fr-text--bold")}>
-                            {t("organization")}
-                        </span>
-                        : {getOrganizationFullName(organization)}{" "}
+                        <span className={classes.infoLegend}>{t("organization")}</span>:{" "}
+                        {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
-                            <span className={fr.cx("fr-text--bold")}>
-                                {t("use case")}
-                            </span>
-                            : {usecaseDescription}
+                            <span className={classes.infoLegend}>{t("use case")}</span>:{" "}
+                            {usecaseDescription}
                         </p>
                     )}
                     {serviceUrl && (
@@ -117,24 +127,18 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={organization}>
                     <p>
-                        <span className={fr.cx("fr-text--bold")}>
-                            {t("organization")}
-                        </span>
-                        : {getOrganizationFullName(organization)}{" "}
+                        <span className={classes.infoLegend}>{t("organization")}</span>:{" "}
+                        {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
-                            <span className={fr.cx("fr-text--bold")}>
-                                {t("use case")}
-                            </span>
-                            : {usecaseDescription}
+                            <span className={classes.infoLegend}>{t("use case")}</span>:{" "}
+                            {usecaseDescription}
                         </p>
                     )}
                     {serviceUrl !== undefined && (
                         <p>
-                            <span className={fr.cx("fr-text--bold")}>
-                                {t("is user of")}{" "}
-                            </span>
+                            <span className={classes.infoLegend}>{t("is user of")} </span>
                             <a href={serviceUrl} target="_blank" rel="noreferrer">
                                 {serviceUrl}
                             </a>
@@ -298,7 +302,7 @@ export default function SoftwareUserAndReferent(props: Props) {
 
 const useStyles = makeStyles({
     "name": { SoftwareUserAndReferent }
-})(() => ({
+})(theme => ({
     "breadcrumb": {
         "marginBottom": fr.spacing("4v")
     },
@@ -360,6 +364,9 @@ const useStyles = makeStyles({
         "&&::before": {
             "--icon-size": fr.spacing("6v")
         }
+    },
+    "infoLegend": {
+        "color": theme.decisions.text.mention.grey.default
     }
 }));
 

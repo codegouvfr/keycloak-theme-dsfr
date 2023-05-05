@@ -22,7 +22,6 @@ import {
     openDeclarationRemovalModal,
     DeclarationRemovalModal
 } from "ui/shared/DeclarationRemovalModal";
-import { capitalize } from "tsafe/capitalize";
 
 type Props = {
     className?: string;
