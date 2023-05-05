@@ -5,6 +5,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { shortEndMonthDate, monthDate } from "ui/useMoment";
 import Tooltip from "@mui/material/Tooltip";
+import { capitalize } from "tsafe/capitalize";
 
 export type Props = {
     className?: string;
@@ -80,26 +81,37 @@ export const PreviewTab = (props: Props) => {
                         >
                             {softwareCurrentVersion}
                         </span>
-                        {t("last version date", {
-                            date: shortEndMonthDate({
+                        (
+                        {capitalize(
+                            shortEndMonthDate({
                                 "time": softwareDateCurrentVersion,
                                 lang
                             })
-                        })}
+                        )}
+                        )
                     </p>
                 )}
                 {registerDate && (
                     <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                         <span className={classes.labelDetail}>{t("register")}</span>
-                        {t("register date", {
-                            date: monthDate({ "time": registerDate, lang })
-                        })}
+                        {capitalize(monthDate({ "time": registerDate, lang }))}
                     </p>
                 )}
 
                 <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                     <span className={classes.labelDetail}>{t("minimal version")}</span>
-                    <span>{minimalVersionRequired}</span>
+                    <span
+                        className={cx(
+                            fr.cx(
+                                "fr-badge",
+                                "fr-badge--yellow-tournesol",
+                                "fr-badge--sm"
+                            ),
+                            classes.badgeVersion
+                        )}
+                    >
+                        {minimalVersionRequired}
+                    </span>
                 </p>
                 <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
                     <span className={classes.labelDetail}>{t("license")}</span>
@@ -236,9 +248,7 @@ export const { i18n } = declareComponentKeys<
     | "use full links"
     | "prerogatives"
     | "last version"
-    | { K: "last version date"; P: { date: string } }
     | "register"
-    | { K: "register date"; P: { date: string } }
     | "minimal version"
     | "license"
     | "isDesktop"

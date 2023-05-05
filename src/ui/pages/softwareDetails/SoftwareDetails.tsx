@@ -22,6 +22,7 @@ import {
     openDeclarationRemovalModal,
     DeclarationRemovalModal
 } from "ui/shared/DeclarationRemovalModal";
+import { capitalize } from "tsafe/capitalize";
 
 type Props = {
     className?: string;
@@ -295,7 +296,6 @@ export const { i18n } = declareComponentKeys<
     | "tab title overview"
     | { K: "tab title instance"; P: { instanceCount: number } }
     | { K: "tab title alike software"; P: { alikeSoftwareCount: number } }
-    | "about"
     | "use full links"
     | "prerogatives"
     | "last version"

@@ -130,7 +130,7 @@ export default function SoftwareUserAndReferent(props: Props) {
                             : {usecaseDescription}
                         </p>
                     )}
-                    {serviceUrl && (
+                    {serviceUrl !== undefined && (
                         <p>
                             <span className={fr.cx("fr-text--bold")}>
                                 {t("is user of")}{" "}
@@ -284,7 +284,8 @@ export default function SoftwareUserAndReferent(props: Props) {
                     priority="primary"
                     linkProps={
                         routes.declarationForm({
-                            "name": route.params.name
+                            "name": route.params.name,
+                            "declarationType": activeMenu === 0 ? "referent" : "user"
                         }).link
                     }
                 >

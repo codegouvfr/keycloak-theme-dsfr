@@ -7,6 +7,8 @@ import { assert } from "tsafe/assert";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
 import type { Link } from "type-route";
+import { capitalize } from "tsafe/capitalize";
+import { useStyles } from "@codegouvfr/react-dsfr/tss";
 
 export type Props = {
     className?: string;
@@ -39,6 +41,8 @@ export const AlikeSoftwareTab = (props: Props) => {
 
     const { t } = useTranslation({ AlikeSoftwareTab });
 
+    const { css } = useStyles();
+
     return (
         <section className={className}>
             <p className={fr.cx("fr-text--bold")}>
@@ -62,6 +66,7 @@ export const AlikeSoftwareTab = (props: Props) => {
 
                 return (
                     <SoftwareCatalogCard
+                        className={css({ "maxWidth": 600 })}
                         key={softwareName}
                         logoUrl={logoUrl}
                         softwareName={softwareName}
@@ -79,7 +84,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                     />
                 );
             })}
-            <p className={fr.cx("fr-text--bold")}>
+            <p className={fr.cx("fr-text--bold", "fr-mt-8v")}>
                 {t("alike software internal")} ({alikeInternalSoftwares?.length}) :
             </p>
             <ul>
@@ -89,13 +94,11 @@ export const AlikeSoftwareTab = (props: Props) => {
                     return (
                         <li key={name}>
                             <p>
-                                {name} (
                                 <a href={url} target="_blank" rel="noreferrer">
-                                    {url}
+                                    {name}
                                 </a>
-                                )
+                                :&nbsp;&nbsp;{capitalize(description)}
                             </p>
-                            <p>{description}</p>
                         </li>
                     );
                 })}
