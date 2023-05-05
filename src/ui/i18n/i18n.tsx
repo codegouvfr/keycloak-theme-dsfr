@@ -58,44 +58,44 @@ const {
                 "no": "No",
                 "previous": "Previous",
                 "next": "Next",
-                "add software": "Add software",
-                "update software": "Update software",
-                "add software or service": "Add software or service",
-                "add instance": "Add instance",
+                "add software": "Add Software",
+                "update software": "Update Software",
+                "add software or service": "Add Software or Service",
+                "add instance": "Add Instance",
                 "required": "This field is required",
-                "invalid url": 'Invalid url. It must start with "http"',
-                "invalid version": "The value must be numeric (Eg: 2.0.1)",
+                "invalid url": 'Invalid URL. It must start with "http"',
+                "invalid version": "The value must be numeric (e.g., 2.0.1)",
                 "all": "All",
                 "allFeminine": "All",
                 "loading": "Loading...",
-                "no result": "No result",
+                "no result": "No Results",
                 "search": "Search",
                 "validate": "Validate",
-                "not provided": "Not provided"
+                "not provided": "Not Provided"
             },
             "Homepage": {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
-                            The free software catalog{" "}
-                        </span>
-                        recommended by the State for the whole administration.
+                            Reference free software catalog
+                        </span>{" "}
+                        recommended by the State for the entire administration.
                     </>
                 ),
-                "software selection": "Some software selection",
-                "last added": "Last added",
-                "most used": "The most used",
-                "essential": "To have on your desktop",
-                "recently updated": "Last updated",
-                "waiting for referent": "Waiting for a referent",
-                "in support market": "Is present in support market",
+                "software selection": "Software selections",
+                "last added": "Recently added",
+                "most used": "Most popular",
+                "essential": "Essentials for your desktop",
+                "recently updated": "Recently updated",
+                "waiting for referent": "Awaiting a referent",
+                "in support market": "Available in the support market",
                 "SILL numbers": "The SILL in figures",
                 "softwareCount": "referenced software",
-                "registeredUserCount": "site user",
-                "agentReferentCount": "software referent",
-                "organizationCount": "organization",
-                "help us": "Help us to enrich the catalog",
-                "the sill in a few words": "The SILL in a few words",
+                "registeredUserCount": "registered users",
+                "agentReferentCount": "software referents",
+                "organizationCount": "organizations",
+                "help us": "Help us enrich the catalog",
+                "the sill in a few words": "The SILL in brief",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
                         The{" "}
@@ -150,20 +150,20 @@ const {
                 "add software or service desc":
                     "Propose a new software or service for inclusion in the SILL catalog",
                 "declare referent button label": "Access the form",
-                "edit software button label": "Search for a software",
-                "add software or service button label": "Fill out the addition form"
+                "edit software button label": "Search for software",
+                "add software or service button label": "Complete the addition form"
             },
             "AddSoftwareLanding": {
                 "title": (
                     <>
                         <span>Help us enrich the catalog</span> by adding software or
-                        software deployments in your organization !
+                        software deployments within your organization!
                     </>
                 ),
                 "subtitle":
-                    "Participate in the creation of a reference platform for public service software equipment and share useful information with agents and CIOs of the administration",
-                "who can add software": "Who can add software or a service and how?",
-                "discover as agent label": "Discover as agent",
+                    "Contribute to the creation of a reference platform for public service software equipment and share valuable information with agents and CIOs in the administration",
+                "who can add software": "Who can add software or a service, and how?",
+                "discover as agent label": "Discover as an agent",
                 "discover as agent description": (
                     <>
                         As a public agent, using the SILL (Interministerial Base of Free
@@ -281,23 +281,23 @@ const {
                 )
             },
             "SoftwareForm": {
-                "title software update form": "Update software",
+                "title software update form": "Software update",
                 "stepper title": ({ currentStepIndex }) => {
                     switch (currentStepIndex) {
                         case 1:
-                            return "What kind of software do you want to add ?";
+                            return "What type of software would you like to add?";
                         case 2:
                             return "About the software";
                         case 3:
-                            return "Some prerequisites";
+                            return "Prerequisites";
                         case 4:
-                            return "Proprietary similar and equivalent software";
+                            return "Similar and equivalent proprietary software";
                         default:
                             return "";
                     }
                 },
                 "add software": "Add software",
-                "update software": "Validate changes"
+                "update software": "Confirm changes"
             },
             "SoftwareFormStep1": {
                 "software desktop": "Desktop installable software",
@@ -562,19 +562,19 @@ const {
                     "More precisely, which service of the software do you declare yourself referent"
             },
             "Account": {
-                "title": "My account",
-                "mail": "Email address",
-                "organization": "Name of the affiliated organization",
-                "change password": "Change your password",
-                "no organization": "No organization",
-                "update": "update",
-                "not a valid email": "doesn't seems to be a valid email",
+                "title": "My Account",
+                "mail": "Email Address",
+                "organization": "Affiliated Organization Name",
+                "change password": "Change Your Password",
+                "no organization": "No Organization",
+                "update": "Update",
+                "not a valid email": "Doesn't seem to be a valid email",
                 "email domain not allowed": ({ domain }) =>
-                    `The domain ${domain} isn't allowed yet`
+                    `The domain ${domain} is not allowed yet`
             },
             "Header": {
-                "home title": "Home - Socle interministériel de logiciels libres",
-                "title": "Socle interministériel de logiciels libres",
+                "home title": "Home - Interministerial Free Software Base",
+                "title": "Interministerial Free Software Base",
                 "navigation welcome": "Welcome to the SILL",
                 "navigation catalog": "Software catalog",
                 "navigation add software": "Add software or instance",
@@ -614,48 +614,48 @@ const {
             "App": {
                 "yes": "Oui",
                 "no": "Non",
-                "previous": "Précedent",
+                "previous": "Précédent",
                 "next": "Suivant",
-                "add software": "Ajouter un logiciel",
-                "update software": "Mettre à jour un logiciel",
-                "add software or service": "Ajouter un logiciel ou un service",
-                "add instance": "Ajouter une instance",
-                "required": "Ce champs est requis",
+                "add software": "Ajouter un Logiciel",
+                "update software": "Mettre à Jour un Logiciel",
+                "add software or service": "Ajouter un Logiciel ou un Service",
+                "add instance": "Ajouter une Instance",
+                "required": "Ce champ est requis",
                 "invalid url": 'URL invalide. Elle doit commencer par "http"',
                 "invalid version": "La valeur doit être numérique (Exemple : 2.0.1)",
                 "all": "Tous",
                 "allFeminine": "Toutes",
                 "loading": "Chargement...",
-                "no result": "Aucun résultat",
+                "no result": "Aucun Résultat",
                 "search": "Rechercher",
                 "validate": "Valider",
-                "not provided": "Pas renseigné"
+                "not provided": "Non Renseigné"
             },
             "Homepage": {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
-                            Le catalogue de logiciels libres de référence
+                            Catalogue de référence de logiciels libres
                         </span>{" "}
-                        recommandé par l'État pour toute l'administration.
+                        recommandé par l'État pour l'ensemble de l'administration.
                     </>
                 ),
-                "software selection": "Quelques sélections de logiciels",
-                "last added": "Derniers ajouts",
-                "most used": "Les plus utilisés",
-                "essential": "À avoir sur son poste",
-                "recently updated": "Dernière version récente",
-                "waiting for referent": "En attente de référent",
-                "in support market": "Dans le marché de support",
-                "SILL numbers": "Le SILL en plusieurs chiffres",
+                "software selection": "Sélections de logiciels",
+                "last added": "Ajouts récents",
+                "most used": "Les plus populaires",
+                "essential": "Indispensables sur votre poste",
+                "recently updated": "Mises à jour récentes",
+                "waiting for referent": "En attente d'un référent",
+                "in support market": "Disponible sur le marché du support",
+                "SILL numbers": "Le SILL en chiffres",
                 "softwareCount": "logiciels référencés",
-                "registeredUserCount": "utilisateurs du site",
-                "agentReferentCount": "référents de logiciels",
-                "organizationCount": "organismes présent",
+                "registeredUserCount": "utilisateurs inscrits",
+                "agentReferentCount": "référents logiciels",
+                "organizationCount": "organismes présents",
                 "help us": "Aidez-nous à enrichir le catalogue",
                 "declare referent title":
                     "Se déclarer utilisateur ou référent d'un logiciel",
-                "edit software title": "Éditer une fiche logiciel",
+                "edit software title": "Modifier une fiche logiciel",
                 "the sill in a few words": "Le SILL en quelques mots",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
@@ -698,8 +698,8 @@ const {
                         Les <span style={{ "color": accentColor }}>
                             référents SILL
                         </span>{" "}
-                        sont des agents publics qui sont volontaires pour gérer et mettre
-                        à jour les informations sur les logiciels inclus dans le
+                        sont des agents publics qui se portent volontaires pour gérer et
+                        mettre à jour les informations sur les logiciels inclus dans le
                         catalogue.
                         <br />
                         <br />
@@ -712,23 +712,23 @@ const {
                 "edit software desc":
                     "Modifier les informations d'un logiciel existant dans le catalogue SILL",
                 "add software or service desc":
-                    "Proposer un nouveau logiciel ou service pour l'inclusion dans le catalogue SILL",
+                    "Proposer un nouveau logiciel ou service pour inclusion dans le catalogue SILL",
                 "declare referent button label": "Accéder au formulaire",
                 "edit software button label": "Rechercher un logiciel",
-                "add software or service button label": "Remplir le formulaire d'ajout"
+                "add software or service button label": "Compléter le formulaire d'ajout"
             },
             "AddSoftwareLanding": {
                 "title": (
                     <>
-                        <span>Aidez nous à enrichir le catalogue</span> en ajoutant des
-                        logiciels ou des déploiements de logiciels dans votre organisation
-                        !
+                        <span>Aidez-nous à enrichir le catalogue</span> en ajoutant des
+                        logiciels ou des déploiements de logiciels au sein de votre
+                        organisation !
                     </>
                 ),
                 "subtitle":
-                    "Participez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et DSI de l'administration",
+                    "Contribuez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et aux DSI de l'administration",
                 "who can add software":
-                    "Qui peut ajouter un logiciel ou un service et comment ?",
+                    "Qui peut ajouter un logiciel ou un service et comment faire ?",
                 "discover as agent label": "Découvrir en tant qu'agent",
                 "discover as agent description": (
                     <>
@@ -851,18 +851,18 @@ const {
                 "stepper title": ({ currentStepIndex }) => {
                     switch (currentStepIndex) {
                         case 1:
-                            return "Quel type de logiciel souhaitez-vous ajouter ?";
+                            return "Quel type de logiciel voulez-vous ajouter ?";
                         case 2:
-                            return "À propos du logiciel";
+                            return "Informations sur le logiciel";
                         case 3:
-                            return "Quelques pré-requis ?";
+                            return "Prérequis";
                         case 4:
-                            return "Logiciels similaires et équivalents propriétaires";
+                            return "Logiciels propriétaires similaires et équivalents";
                         default:
                             return "";
                     }
                 },
-                "add software": "Ajouter le logiciel",
+                "add software": "Ajouter un logiciel",
                 "update software": "Valider les modifications"
             },
             "SoftwareFormStep1": {
@@ -1139,22 +1139,22 @@ const {
             },
             "Account": {
                 "title": "Mon compte",
-                "mail": "Adresse de courriel",
-                "organization": "Nom de l'établissement de rattachement",
-                "change password": "Changez votre mot de passe",
+                "mail": "Adresse e-mail",
+                "organization": "Nom de l'organisation affiliée",
+                "change password": "Modifier votre mot de passe",
                 "no organization": "Aucune organisation",
                 "update": "Mettre à jour",
-                "not a valid email": "Ne semble pas être une email valide",
+                "not a valid email": "Ceci ne semble pas être une adresse e-mail valide",
                 "email domain not allowed": ({ domain }) =>
-                    `Le domaine ${domain} n'est pas encore autorisé`
+                    `Le domaine ${domain} n'est pas autorisé pour le moment`
             },
             "Header": {
-                "home title": "Accueil - Socle interministériel de logiciels libres",
-                "title": "Socle interministériel de logiciels libres",
+                "home title": "Accueil - Socle Interministériel des Logiciels Libres",
+                "title": "Socle Interministériel des Logiciels Libres",
                 "navigation welcome": "Bienvenue sur le SILL",
                 "navigation catalog": "Catalogue de logiciels",
                 "navigation add software": "Ajouter un logiciel ou une instance",
-                "navigation support request": "Demande d'accompagement",
+                "navigation support request": "Demande d'accompagnement",
                 "navigation about": "À propos du site",
                 "quick access test": "Test immédiat",
                 "quick access login": "Se connecter",
