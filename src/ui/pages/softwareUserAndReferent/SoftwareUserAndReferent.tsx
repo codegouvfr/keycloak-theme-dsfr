@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { routes, session } from "ui/routes";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
@@ -12,6 +11,7 @@ import { assert } from "tsafe/assert";
 import type { PageRoute } from "./route";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
 import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
+import { routes, getPreviousRouteName, session } from "ui/routes";
 
 export type Props = {
     className?: string;
@@ -88,11 +88,17 @@ export default function SoftwareUserAndReferent(props: Props) {
                         {isTechnicalExpert && <span> ({t("is technical expert")})</span>}
                     </p>
                     <p>
-                        {t("organization")} : {getOrganizationFullName(organization)}{" "}
+                        <span className={fr.cx("fr-text--bold")}>
+                            {t("organization")}
+                        </span>
+                        : {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
-                            {t("use case")} : {usecaseDescription}
+                            <span className={fr.cx("fr-text--bold")}>
+                                {t("use case")}
+                            </span>
+                            : {usecaseDescription}
                         </p>
                     )}
                     {serviceUrl && (
@@ -111,18 +117,26 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={organization}>
                     <p>
-                        {t("organization")} : {getOrganizationFullName(organization)}{" "}
+                        <span className={fr.cx("fr-text--bold")}>
+                            {t("organization")}
+                        </span>
+                        : {getOrganizationFullName(organization)}{" "}
                     </p>
                     {usecaseDescription && (
                         <p>
-                            {t("use case")} : {usecaseDescription}
+                            <span className={fr.cx("fr-text--bold")}>
+                                {t("use case")}
+                            </span>
+                            : {usecaseDescription}
                         </p>
                     )}
                     {serviceUrl && (
                         <p>
-                            {t("is user of")}{" "}
+                            <span className={fr.cx("fr-text--bold")}>
+                                {t("is user of")}{" "}
+                            </span>
                             <a href={serviceUrl} target="_blank" rel="noreferrer">
-                                serviceUrl
+                                {serviceUrl}
                             </a>
                         </p>
                     )}
@@ -155,7 +169,20 @@ export default function SoftwareUserAndReferent(props: Props) {
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                         href={"#"}
-                        onClick={() => session.back()}
+                        onClick={() => {
+                            const previousRouteName = getPreviousRouteName();
+
+                            if (
+                                previousRouteName === "softwareCatalog" ||
+                                previousRouteName === undefined
+                            ) {
+                                //Restore scroll position
+                                session.back();
+                                return;
+                            }
+
+                            routes.softwareCatalog().push();
+                        }}
                         className={classes.backButton}
                     >
                         <i className={fr.cx("fr-icon-arrow-left-s-line")} />
