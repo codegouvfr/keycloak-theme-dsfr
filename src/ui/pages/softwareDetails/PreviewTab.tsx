@@ -43,25 +43,6 @@ export const PreviewTab = (props: Props) => {
     const { t } = useTranslation({ PreviewTab });
     const { lang } = useLang();
 
-    const prerogativeList = [
-        {
-            "label": t("isDesktop"),
-            "status": isDesktop
-        },
-        {
-            "label": t("isPresentInSupportMarket"),
-            "status": isPresentInSupportMarket
-        },
-        {
-            "label": t("isFromFrenchPublicService"),
-            "status": isFromFrenchPublicService
-        },
-        {
-            "label": t("isRGAACompliant"),
-            "status": isRGAACompliant
-        }
-    ];
-
     return (
         <section className={classes.tabContainer}>
             <div className="section">
@@ -122,21 +103,43 @@ export const PreviewTab = (props: Props) => {
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
                     {t("prerogatives")}
                 </p>
-                {prerogativeList.map(prerogative => {
-                    const { label, status } = prerogative;
+
+                {(
+                    [
+                        "isDesktop",
+                        "isPresentInSupportMarket",
+                        "isFromFrenchPublicService",
+                        "isRGAACompliant"
+                    ] as const
+                ).map(prerogativeName => {
+                    const value = (() => {
+                        switch (prerogativeName) {
+                            case "isDesktop":
+                                return isDesktop;
+                            case "isFromFrenchPublicService":
+                                return isFromFrenchPublicService;
+                            case "isPresentInSupportMarket":
+                                return isPresentInSupportMarket;
+                            case "isRGAACompliant":
+                                return isRGAACompliant;
+                        }
+                    })();
+
+                    const label = t(prerogativeName);
+
                     return (
                         <div
-                            key={prerogative.label}
+                            key={label}
                             className={cx(classes.item, classes.prerogativeItem)}
                         >
                             <i
                                 className={cx(
                                     fr.cx(
-                                        status
+                                        value
                                             ? "fr-icon-check-line"
                                             : "fr-icon-close-line"
                                     ),
-                                    status
+                                    value
                                         ? classes.prerogativeStatusSuccess
                                         : classes.prerogativeStatusError
                                 )}
@@ -149,9 +152,16 @@ export const PreviewTab = (props: Props) => {
                             >
                                 {label}
                             </p>
-                            <Tooltip title={"tooltip"} arrow>
-                                <i className={fr.cx("fr-icon-information-line")} />
-                            </Tooltip>
+                            {prerogativeName === "isPresentInSupportMarket" && (
+                                <Tooltip
+                                    title={t("what is the support market", {
+                                        "url": "https://code.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
+                                    })}
+                                    arrow
+                                >
+                                    <i className={fr.cx("fr-icon-information-line")} />
+                                </Tooltip>
+                            )}
                         </div>
                     );
                 })}
@@ -258,4 +268,5 @@ export const { i18n } = declareComponentKeys<
     | "service provider"
     | "comptoire du libre sheet"
     | "wikiData sheet"
+    | { K: "what is the support market"; P: { url: string }; R: JSX.Element }
 >()({ PreviewTab });

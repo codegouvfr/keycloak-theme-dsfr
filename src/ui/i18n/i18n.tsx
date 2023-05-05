@@ -483,7 +483,18 @@ const {
                 "isRGAACompliant": "Is compliant with RGAA rules",
                 "service provider": "See service providers",
                 "comptoire du libre sheet": "Open Comptoir du libre sheet",
-                "wikiData sheet": "Open Wikidata sheet"
+                "wikiData sheet": "Open Wikidata sheet",
+                "what is the support market": ({ url }) => (
+                    <>
+                        La DGFIP manages two inter-ministerial markets: support (Atos) and
+                        expertise (multiple contractors) for open-source software,
+                        covering maintenance, monitoring, and expert services.
+                        <br />
+                        <a href={url} target="blank">
+                            Learn more
+                        </a>
+                    </>
+                )
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
@@ -1046,7 +1057,18 @@ const {
                 "isRGAACompliant": "Respecte les normes RGAA",
                 "service provider": "Voir les prestataires de services",
                 "comptoire du libre sheet": "Consulter la fiche du Comptoir du Libre",
-                "wikiData sheet": "Consulter la fiche de Wikidata"
+                "wikiData sheet": "Consulter la fiche de Wikidata",
+                "what is the support market": ({ url }) => (
+                    <>
+                        La DGFIP pilote deux marchés interministériels : support (Atos) et
+                        expertise (plusieurs titulaires) pour logiciels libres, couvrant
+                        maintenance, veille et prestations d'expertise.
+                        <br />
+                        <a href={url} target="blank">
+                            En savoir plus
+                        </a>
+                    </>
+                )
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
