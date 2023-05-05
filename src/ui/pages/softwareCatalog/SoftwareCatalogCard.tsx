@@ -193,15 +193,17 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                 />
             </div>
             <div className={classes.footer}>
-                <a
-                    className={cx(
-                        fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
-                        classes.declareReferentOrUserButton
-                    )}
-                    {...declareFormLink}
-                >
-                    {t("declare oneself referent")}
-                </a>
+                {!userDeclaration?.isReferent && !userDeclaration?.isUser && (
+                    <a
+                        className={cx(
+                            fr.cx("fr-btn", "fr-btn--secondary", "fr-text--sm"),
+                            classes.declareReferentOrUserButton
+                        )}
+                        {...declareFormLink}
+                    >
+                        {t("declare oneself referent")}
+                    </a>
+                )}
                 <div className={cx(classes.footerActionsContainer)}>
                     <a className={cx(classes.footerActionLink)} {...softwareDetailsLink}>
                         <i className={fr.cx("fr-icon-arrow-right-line")} />
