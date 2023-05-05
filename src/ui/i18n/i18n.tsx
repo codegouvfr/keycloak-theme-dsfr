@@ -48,6 +48,7 @@ const {
     | typeof import("ui/pages/account/Account").i18n
     | typeof import("ui/shared/DetailUsersAndReferents").i18n
     | typeof import("ui/shared/Header").i18n
+    | typeof import("ui/shared/DeclarationRemovalModal").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -576,6 +577,28 @@ const {
                 "quick access logout": "Sign out",
                 "quick access account": "My account",
                 "select language": "Select language"
+            },
+            "DeclarationRemovalModal": {
+                "confirm": "Confirm",
+                "cancel": "Cancel",
+                "do you confirm": ({ declarationType, softwareName }) =>
+                    `Do you confirm that you're no longer ${(() => {
+                        switch (declarationType) {
+                            case "referent":
+                                return "willing to be referent of";
+                            case "user":
+                                return "using";
+                        }
+                    })()} ${softwareName}?`,
+                "stop being user/referent": ({ declarationType, softwareName }) =>
+                    `Stop being ${(() => {
+                        switch (declarationType) {
+                            case "referent":
+                                return "referent";
+                            case "user":
+                                return "an user";
+                        }
+                    })()} of ${softwareName}`
             }
         },
         "fr": {
@@ -1122,6 +1145,28 @@ const {
                 "quick access logout": "Se déconnecter",
                 "quick access account": "Mon compte",
                 "select language": "Sélectionner une langue"
+            },
+            "DeclarationRemovalModal": {
+                "confirm": "Confirmer",
+                "cancel": "Annuler",
+                "do you confirm": ({ declarationType, softwareName }) =>
+                    `Confirmez vous ${(() => {
+                        switch (declarationType) {
+                            case "referent":
+                                return "ne plus vouloir être référent de";
+                            case "user":
+                                return "ne plus utiliser";
+                        }
+                    })()} ${softwareName}?`,
+                "stop being user/referent": ({ declarationType, softwareName }) =>
+                    `Ne plus être ${(() => {
+                        switch (declarationType) {
+                            case "referent":
+                                return "référent";
+                            case "user":
+                                return "utilisateur";
+                        }
+                    })()} of ${softwareName}`
             }
             /* spell-checker: enable */
         }

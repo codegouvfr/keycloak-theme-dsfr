@@ -3,6 +3,9 @@ import { useCoreFunctions, useCoreEvts, selectors, useCoreState } from "core";
 import { Evt } from "evt";
 import { useEvt } from "evt/hooks";
 import { useRerenderOnStateChange } from "evt/hooks";
+import { declareComponentKeys } from "i18nifty";
+import { useTranslation } from "ui/i18n";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const wrapper = createModal({
     "name": "declarationRemoval",
@@ -32,6 +35,8 @@ export function DeclarationRemovalModal() {
         selectors.declarationRemoval.isRemovingUserDeclaration
     );
 
+    const { t } = useTranslation({ DeclarationRemovalModal });
+
     useEvt(ctx =>
         evtDeclarationRemoval.attach(
             ({ action }) => action === "close modal",
@@ -48,16 +53,13 @@ export function DeclarationRemovalModal() {
 
     return (
         <wrapper.DeclarationRemovalModal
-            title={`Ne plus être ${declarationType} pour ${softwareName}`}
-            iconId="fr-icon-checkbox-circle-line"
+            title={t("stop being user/referent", { softwareName, declarationType })}
             buttons={[
                 {
-                    "iconId": "fr-icon-account-circle-fill",
                     "doClosesModal": true,
-                    "children": "Annuler"
+                    "children": t("cancel")
                 },
                 {
-                    "iconId": "ri-check-line",
                     "doClosesModal": false,
                     "onClick": () =>
                         declarationRemoval.removeAgentAsReferentOrUserFromSoftware({
@@ -67,11 +69,34 @@ export function DeclarationRemovalModal() {
                     "nativeButtonProps": {
                         "disabled": isRemovingUserDeclaration
                     },
-                    "children": "Confirmer"
+                    "children": (
+                        <>
+                            {t("confirm")}{" "}
+                            {isRemovingUserDeclaration && (
+                                <>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <CircularProgress size={20} />
+                                </>
+                            )}
+                        </>
+                    )
                 }
             ]}
         >
-            Confirmer vous ne plus vouloi être rérérent pour {softwareName} ?
+            {t("do you confirm", { softwareName, declarationType })}
         </wrapper.DeclarationRemovalModal>
     );
 }
+
+export const { i18n } = declareComponentKeys<
+    | "cancel"
+    | "confirm"
+    | {
+          K: "stop being user/referent";
+          P: { softwareName: string; declarationType: "user" | "referent" };
+      }
+    | {
+          K: "do you confirm";
+          P: { softwareName: string; declarationType: "user" | "referent" };
+      }
+>()({ DeclarationRemovalModal });
