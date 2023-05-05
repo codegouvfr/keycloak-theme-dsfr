@@ -18,7 +18,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
 
     const i18n = useI18n({ kcContext });
 
-    const { classes, cx } = useStyles();
+    const { classes, cx, css } = useStyles();
 
     {
         const { setIsDark } = useIsDark();
@@ -44,7 +44,16 @@ export default function KcApp(props: { kcContext: KcContext }) {
         "classes": {
             "kcHtmlClass": classes.kcHtmlClass,
             "kcButtonPrimaryClass": cx(classes.kcButtonPrimaryClass, fr.cx("fr-btn")),
-            "kcInputClass": fr.cx("fr-input")
+            "kcInputClass": fr.cx("fr-input"),
+            "kcLabelWrapperClass": cx(
+                fr.cx("fr-label"),
+                css({
+                    "marginBottom": fr.spacing("2v")
+                })
+            ),
+            "kcFormOptionsWrapperClass": css({
+                "marginTop": fr.spacing("5v")
+            })
         }
     };
 
@@ -79,6 +88,9 @@ const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
             "&:hover, &:focus": {
                 "textDecoration": "unset"
             }
+        },
+        "& #kc-form-buttons": {
+            "float": "right"
         }
     },
     "kcButtonPrimaryClass": {

@@ -232,12 +232,13 @@ export default function Login(
                                     <div id="kc-form-options">
                                         {realm.rememberMe && !usernameEditDisabled && (
                                             <Checkbox
+                                                className={classes.rememberMe}
                                                 options={[
                                                     {
-                                                        label: msg("rememberMe"),
-                                                        nativeInputProps: {
-                                                            tabIndex: 3,
-                                                            name: "rememberMe",
+                                                        "label": msg("rememberMe"),
+                                                        "nativeInputProps": {
+                                                            "tabIndex": 3,
+                                                            "name": "rememberMe",
                                                             ...(login.rememberMe
                                                                 ? {
                                                                       "checked": true
@@ -313,6 +314,9 @@ const useStyles = makeStyles({
         "display": "flex",
         "justifyContent": "center",
         "marginTop": fr.spacing("6v")
+    },
+    "rememberMe": {
+        "marginTop": fr.spacing("5v")
     }
 }));
 
