@@ -59,11 +59,13 @@ export namespace State {
         userCount: number;
         referentCount: number;
         testUrl: string | undefined;
-        instances: {
-            organization: string;
-            instanceUrl: string;
-            targetAudience: string;
-        }[];
+        instances:
+            | {
+                  organization: string;
+                  instanceUrl: string;
+                  targetAudience: string;
+              }[]
+            | undefined;
         parentSoftware:
             | ({ softwareName: string } & (
                   | { isInSill: true }
@@ -357,18 +359,21 @@ function apiSoftwareToSoftware(params: {
         "serviceProviderUrl": `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,
         "compotoirDuLibreUrl": `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
         "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
-        "instances": apiInstances
-            .filter(instance => instance.mainSoftwareSillId === softwareId)
-            .map(instance =>
-                instance.publicUrl === undefined
-                    ? undefined
-                    : {
-                          "instanceUrl": instance.publicUrl,
-                          "organization": instance.organization,
-                          "targetAudience": instance.targetAudience
-                      }
-            )
-            .filter(exclude(undefined)),
+        "instances":
+            softwareType.type !== "cloud"
+                ? undefined
+                : apiInstances
+                      .filter(instance => instance.mainSoftwareSillId === softwareId)
+                      .map(instance =>
+                          instance.publicUrl === undefined
+                              ? undefined
+                              : {
+                                    "instanceUrl": instance.publicUrl,
+                                    "organization": instance.organization,
+                                    "targetAudience": instance.targetAudience
+                                }
+                      )
+                      .filter(exclude(undefined)),
         "similarSoftwares": similarSoftwares_api.map(softwareRef => {
             const software = apiSoftwareToExternalCatalogSoftware({
                 apiSoftwares,

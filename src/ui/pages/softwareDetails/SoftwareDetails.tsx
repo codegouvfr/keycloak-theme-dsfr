@@ -128,16 +128,20 @@ export default function SoftwareDetails(props: Props) {
                                     />
                                 )
                             },
-                            {
-                                "label": t("tab title instance", {
-                                    "instanceCount": software.instances.length
-                                }),
-                                "content": (
-                                    <ReferencedInstancesTab
-                                        instanceList={software.instances}
-                                    />
-                                )
-                            },
+                            ...(software.instances === undefined
+                                ? []
+                                : [
+                                      {
+                                          "label": t("tab title instance", {
+                                              "instanceCount": software.instances.length
+                                          }),
+                                          "content": (
+                                              <ReferencedInstancesTab
+                                                  instanceList={software.instances}
+                                              />
+                                          )
+                                      }
+                                  ]),
                             {
                                 "label": t("tab title alike software", {
                                     alikeSoftwareCount:
