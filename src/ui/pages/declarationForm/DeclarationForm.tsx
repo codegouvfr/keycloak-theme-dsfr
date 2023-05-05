@@ -329,9 +329,8 @@ const useStyles = makeStyles<{
     },
     "logoWrapper": {
         "width": fr.spacing("14v"),
-        "aspectRatio": "auto 1/1",
-        "marginRight": fr.spacing("3v"),
-        "overflow": "hidden"
+        "aspectRatio": "1/1",
+        "marginRight": fr.spacing("3v")
     },
     "logo": {
         "height": "100%"
