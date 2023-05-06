@@ -1,11 +1,10 @@
-import type { ThunkAction, State as RootState, CreateEvt } from "../core";
+import type { Thunks, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ApiTypes } from "@codegouvfr/sill";
-import type { Param0 } from "tsafe";
 
 export type WikidataEntry = ApiTypes.WikidataEntry;
 
@@ -139,7 +138,7 @@ export const thunks = {
                       type: "create";
                       softwareName: string | undefined;
                   }
-        ): ThunkAction =>
+        ) =>
         async (...args) => {
             const [dispatch, getState, { sillApi, getUser, oidc }] = args;
 
@@ -224,7 +223,7 @@ export const thunks = {
             }
         },
     "clear":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch, getState] = args;
 
@@ -239,10 +238,7 @@ export const thunks = {
             dispatch(actions.cleared());
         },
     "completeStep1":
-        (props: {
-            mainSoftwareSillId: number;
-            otherSoftwares: WikidataEntry[];
-        }): ThunkAction<void> =>
+        (props: { mainSoftwareSillId: number; otherSoftwares: WikidataEntry[] }) =>
         (...args) => {
             const { mainSoftwareSillId, otherSoftwares } = props;
 
@@ -262,7 +258,7 @@ export const thunks = {
             targetAudience: string;
             publicUrl: string | undefined;
             organization: string;
-        }): ThunkAction =>
+        }) =>
         async (...args) => {
             const { targetAudience, publicUrl, organization } = props;
 
@@ -307,13 +303,13 @@ export const thunks = {
             dispatch(actions.formSubmitted({ instanceId }));
         },
     "returnToPreviousStep":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch] = args;
 
             dispatch(actions.navigatedToPreviousStep());
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
@@ -393,8 +389,8 @@ export const selectors = (() => {
     return { step, initializationData, allSillSoftwares, isSubmitting, isLastStep };
 })();
 
-export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
-    return evtAction.pipe(action =>
+export const createEvt = (({ evtAction }) =>
+    evtAction.pipe(action =>
         action.sliceName === name && action.actionName === "formSubmitted"
             ? [
                   {
@@ -403,7 +399,4 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
                   }
               ]
             : null
-    );
-};
-
-assert<typeof createEvt extends CreateEvt ? true : false>();
+    )) satisfies CreateEvt;

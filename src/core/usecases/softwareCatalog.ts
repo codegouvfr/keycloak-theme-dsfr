@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import "minimal-polyfills/Object.fromEntries";
-import type { ThunkAction, State as RootState, CreateEvt } from "../core";
+import type { Thunks, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
@@ -14,7 +14,6 @@ import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
 import type { ApiTypes } from "@codegouvfr/sill";
-import type { Param0 } from "tsafe";
 
 export type State = {
     softwares: State.Software.Internal[];
@@ -181,9 +180,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "updateFilter":
-        <K extends UpdateFilterParams.Key>(
-            params: UpdateFilterParams<K>
-        ): ThunkAction<void> =>
+        <K extends UpdateFilterParams.Key>(params: UpdateFilterParams<K>) =>
         (...args) => {
             const [dispatch, getState] = args;
 
@@ -212,7 +209,7 @@ export const thunks = {
             dispatch(actions.filterUpdated(params));
         },
     "getDefaultSort":
-        (): ThunkAction<State.Sort> =>
+        () =>
         (...args) => {
             const [, getState] = args;
 
@@ -220,7 +217,7 @@ export const thunks = {
                 "userEmail": getState()[name].userEmail
             });
         }
-};
+} satisfies Thunks;
 
 function getDefaultSort(params: { userEmail: string | undefined }): State.Sort {
     const { userEmail } = params;
@@ -230,7 +227,7 @@ function getDefaultSort(params: { userEmail: string | undefined }): State.Sort {
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction =>
+        () =>
         async (...args) => {
             const [dispatch, , { sillApi, evtAction, getUser, oidc }] = args;
 
@@ -311,7 +308,7 @@ export const privateThunks = {
                 () => initialize()
             );
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const internalSoftwares = (rootState: RootState) => {
@@ -1191,10 +1188,9 @@ export function apiSoftwareToExternalCatalogSoftware(params: {
     });
 }
 
-export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
-    return evtAction.pipe(action =>
+export const createEvt = (({ evtAction }) =>
+    evtAction.pipe(action =>
         action.sliceName === name && action.actionName === "notifyRequestChangeSort"
             ? [{ "action": "change sort" as const, sort: action.payload.sort }]
             : null
-    );
-};
+    )) satisfies CreateEvt;

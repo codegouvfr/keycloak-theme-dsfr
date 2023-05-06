@@ -1,8 +1,6 @@
-import type { ThunkAction, State as RootState, CreateEvt } from "../core";
+import type { Thunks, State as RootState, CreateEvt } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
-import type { Param0 } from "tsafe";
-import { assert } from "tsafe/assert";
 
 export type State = {
     isRemovingUserDeclaration: boolean;
@@ -27,10 +25,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "removeAgentAsReferentOrUserFromSoftware":
-        (params: {
-            softwareName: string;
-            declarationType: "user" | "referent";
-        }): ThunkAction =>
+        (params: { softwareName: string; declarationType: "user" | "referent" }) =>
         async (...args) => {
             const { declarationType, softwareName } = params;
 
@@ -45,7 +40,7 @@ export const thunks = {
 
             dispatch(actions.userOrReferentRemoved());
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const isRemovingUserDeclaration = (rootState: RootState) =>
@@ -54,7 +49,7 @@ export const selectors = (() => {
     return { isRemovingUserDeclaration };
 })();
 
-export const createEvt = ({ evtAction }: Param0<CreateEvt>) =>
+export const createEvt = (({ evtAction }) =>
     evtAction.pipe(action =>
         action.sliceName === name && action.actionName === "userOrReferentRemoved"
             ? [
@@ -63,5 +58,4 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) =>
                   }
               ]
             : null
-    );
-assert<typeof createEvt extends CreateEvt ? true : false>();
+    )) satisfies CreateEvt;

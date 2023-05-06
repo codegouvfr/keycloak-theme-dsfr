@@ -1,4 +1,4 @@
-import type { ThunkAction } from "../core";
+import type { Thunks } from "../core";
 import { createUsecaseContextApi } from "redux-clean-architecture";
 
 export const name = "sillApiVersion";
@@ -7,21 +7,21 @@ export const reducer = null;
 
 export const thunks = {
     "getSillApiVersion":
-        (): ThunkAction<string> =>
-        (...args) => {
+        () =>
+        (...args): string => {
             const [, , extraArgs] = args;
 
             const { version } = getContext(extraArgs);
 
             return version;
         }
-};
+} satisfies Thunks;
 
 const { getContext, setContext } = createUsecaseContextApi<{ version: string }>();
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction =>
+        () =>
         async (...args) => {
             const [, , extraArg] = args;
 
@@ -31,4 +31,4 @@ export const privateThunks = {
                 "version": await sillApi.getApiVersion()
             });
         }
-};
+} satisfies Thunks;

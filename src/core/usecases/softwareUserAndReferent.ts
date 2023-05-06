@@ -1,4 +1,4 @@
-import type { ThunkAction, State as RootState } from "../core";
+import type { Thunks, State as RootState } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
@@ -86,7 +86,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "initialize":
-        (params: { softwareName: string }): ThunkAction<void> =>
+        (params: { softwareName: string }) =>
         async (...args) => {
             const { softwareName } = params;
 
@@ -175,7 +175,7 @@ export const thunks = {
             );
         },
     "clear":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch, getState] = args;
 
@@ -189,7 +189,7 @@ export const thunks = {
 
             dispatch(actions.cleared());
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {

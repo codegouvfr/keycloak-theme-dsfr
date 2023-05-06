@@ -1,11 +1,9 @@
-import type { ThunkAction, State as RootState, CreateEvt } from "../core";
+import type { Thunks, State as RootState, CreateEvt } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
-import type { SillApi } from "../ports/SillApi";
-import type { Param0 } from "tsafe";
 import type { ApiTypes } from "@codegouvfr/sill";
 import type { Language } from "@codegouvfr/sill";
 
@@ -163,7 +161,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "initialize":
-        (params: { softwareName: string | undefined }): ThunkAction =>
+        (params: { softwareName: string | undefined }) =>
         async (...args) => {
             const { softwareName } = params;
 
@@ -224,7 +222,7 @@ export const thunks = {
             );
         },
     "clear":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch, getState] = args;
 
@@ -239,7 +237,7 @@ export const thunks = {
             dispatch(actions.cleared());
         },
     "setStep1Data":
-        (props: { formDataStep1: FormData["step1"] }): ThunkAction<void> =>
+        (props: { formDataStep1: FormData["step1"] }) =>
         (...args) => {
             const { formDataStep1 } = props;
 
@@ -248,7 +246,7 @@ export const thunks = {
             dispatch(actions.step1DataSet({ formDataStep1 }));
         },
     "setStep2Data":
-        (props: { formDataStep2: FormData["step2"] }): ThunkAction<void> =>
+        (props: { formDataStep2: FormData["step2"] }) =>
         (...args) => {
             const { formDataStep2 } = props;
 
@@ -257,7 +255,7 @@ export const thunks = {
             dispatch(actions.step2DataSet({ formDataStep2 }));
         },
     "setStep3Data":
-        (props: { formDataStep3: FormData["step3"] }): ThunkAction<void> =>
+        (props: { formDataStep3: FormData["step3"] }) =>
         (...args) => {
             const { formDataStep3 } = props;
 
@@ -266,7 +264,7 @@ export const thunks = {
             dispatch(actions.step3DataSet({ formDataStep3 }));
         },
     "setStep4DataAndSubmit":
-        (props: { formDataStep4: FormData["step4"] }): ThunkAction =>
+        (props: { formDataStep4: FormData["step4"] }) =>
         async (...args) => {
             const { formDataStep4 } = props;
 
@@ -309,7 +307,7 @@ export const thunks = {
             dispatch(actions.formSubmitted({ "softwareName": step2.softwareName }));
         },
     "returnToPreviousStep":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch] = args;
 
@@ -317,10 +315,7 @@ export const thunks = {
         },
     /** Can be used even if the usecase isn't instantiated */
     "getWikidataOptions":
-        (props: {
-            queryString: string;
-            language: Language;
-        }): ThunkAction<ReturnType<SillApi["getWikidataOptions"]>> =>
+        (props: { queryString: string; language: Language }) =>
         (...args) => {
             const { queryString, language } = props;
 
@@ -329,11 +324,7 @@ export const thunks = {
             return sillApi.getWikidataOptions({ queryString, language });
         },
     "getAutofillData":
-        (props: {
-            wikidataId: string;
-        }): ThunkAction<
-            ReturnType<SillApi["getSoftwareFormAutoFillDataFromWikidataAndOtherSources"]>
-        > =>
+        (props: { wikidataId: string }) =>
         (...args) => {
             const { wikidataId } = props;
 
@@ -343,7 +334,7 @@ export const thunks = {
                 { wikidataId }
             );
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
@@ -370,8 +361,8 @@ export const selectors = (() => {
     return { step, formData, isSubmitting, isLastStep };
 })();
 
-export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
-    return evtAction.pipe(action =>
+export const createEvt = (({ evtAction }) =>
+    evtAction.pipe(action =>
         action.sliceName === name && action.actionName === "formSubmitted"
             ? [
                   {
@@ -380,5 +371,4 @@ export const createEvt = ({ evtAction }: Param0<CreateEvt>) => {
                   }
               ]
             : null
-    );
-};
+    )) satisfies CreateEvt;

@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import type { ThunkAction, State as RootState } from "../core";
+import type { Thunks, State as RootState } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import { createObjectThatThrowsIfAccessed } from "redux-clean-architecture";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -22,7 +22,7 @@ export const thunks = {};
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction =>
+        () =>
         async (...args) => {
             const [dispatch, , { sillApi }] = args;
 
@@ -36,7 +36,7 @@ export const privateThunks = {
                 })
             );
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const softwareNameBySillId = (rootState: RootState) =>

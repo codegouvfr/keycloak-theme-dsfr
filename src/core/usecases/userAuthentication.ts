@@ -1,4 +1,4 @@
-import type { ThunkAction } from "../core";
+import type { Thunks } from "../core";
 import { assert } from "tsafe/assert";
 
 export const name = "userAuthentication";
@@ -7,15 +7,15 @@ export const reducer = null;
 
 export const thunks = {
     "getIsUserLoggedIn":
-        (): ThunkAction<boolean> =>
-        (...args) => {
+        () =>
+        (...args): boolean => {
             const [, , { oidc }] = args;
 
             return oidc.isUserLoggedIn;
         },
     "login":
-        (params: { doesCurrentHrefRequiresAuth: boolean }): ThunkAction<Promise<never>> =>
-        (...args) => {
+        (params: { doesCurrentHrefRequiresAuth: boolean }) =>
+        (...args): Promise<never> => {
             const { doesCurrentHrefRequiresAuth } = params;
 
             const [, , { oidc }] = args;
@@ -25,8 +25,8 @@ export const thunks = {
             return oidc.login({ doesCurrentHrefRequiresAuth });
         },
     "logout":
-        (params: { redirectTo: "home" | "current page" }): ThunkAction<Promise<never>> =>
-        (...args) => {
+        (params: { redirectTo: "home" | "current page" }) =>
+        (...args): Promise<never> => {
             const { redirectTo } = params;
 
             const [, , { oidc }] = args;
@@ -35,4 +35,4 @@ export const thunks = {
 
             return oidc.logout({ redirectTo });
         }
-};
+} satisfies Thunks;

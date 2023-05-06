@@ -13047,7 +13047,7 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redux-clean-architecture@^3.4.2:
+redux-clean-architecture@3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/redux-clean-architecture/-/redux-clean-architecture-3.4.2.tgz#0d3009608f669b3c37324774509656e43c904610"
   integrity sha512-uLJBUewCAsoJpP7gor+UJ+JjVKens5Vr3N+joqXxRwlL3h49JH1WaynXOv8jwDgs5mnu+MGpQGrRl4gDiM8U9A==

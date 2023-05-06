@@ -1,11 +1,10 @@
-import type { ThunkAction, State as RootState, CreateEvt } from "../core";
+import type { State as RootState, CreateEvt, Thunks } from "../core";
 import { createSelector } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
 import { assert } from "tsafe/assert";
 import type { ApiTypes } from "@codegouvfr/sill";
-import type { Param0 } from "tsafe";
 
 type State = State.NotInitialized | State.Ready;
 
@@ -104,7 +103,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "initialize":
-        (params: { softwareName: string }): ThunkAction =>
+        (params: { softwareName: string }) =>
         async (...args) => {
             const { softwareName } = params;
 
@@ -161,7 +160,7 @@ export const thunks = {
             );
         },
     "clear":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch, getState] = args;
 
@@ -176,7 +175,7 @@ export const thunks = {
             dispatch(actions.cleared());
         },
     "setDeclarationType":
-        (props: { declarationType: State.Ready["declarationType"] }): ThunkAction =>
+        (props: { declarationType: State.Ready["declarationType"] }) =>
         async (...args) => {
             const { declarationType } = props;
 
@@ -208,14 +207,14 @@ export const thunks = {
             dispatch(actions.declarationTypeSet({ declarationType }));
         },
     "navigateToPreviousStep":
-        (): ThunkAction<void> =>
+        () =>
         (...args) => {
             const [dispatch] = args;
 
             dispatch(actions.navigatedToPreviousStep());
         },
     "submit":
-        (props: { formData: FormData }): ThunkAction =>
+        (props: { formData: FormData }) =>
         async (...args) => {
             const { formData } = props;
 
@@ -236,7 +235,7 @@ export const thunks = {
 
             dispatch(actions.triggerRedirect({ "isFormSubmitted": true }));
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {
@@ -266,7 +265,7 @@ export const selectors = (() => {
     return { step, isSubmitting, declarationType, software };
 })();
 
-export const createEvt = ({ evtAction, getState }: Param0<CreateEvt>) => {
+export const createEvt = (({ evtAction, getState }) => {
     return evtAction.pipe(action =>
         action.sliceName === name && action.actionName === "triggerRedirect"
             ? [
@@ -283,6 +282,4 @@ export const createEvt = ({ evtAction, getState }: Param0<CreateEvt>) => {
               ]
             : null
     );
-};
-
-assert<typeof createEvt extends CreateEvt ? true : false>();
+}) satisfies CreateEvt;

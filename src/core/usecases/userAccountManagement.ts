@@ -1,5 +1,5 @@
 import { assert } from "tsafe/assert";
-import type { ThunkAction, State as RootState } from "../core";
+import type { Thunks, State as RootState } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { id } from "tsafe/id";
@@ -115,7 +115,7 @@ export const { reducer, actions } = createSlice({
 
 export const thunks = {
     "initialize":
-        (): ThunkAction =>
+        () =>
         async (...args) => {
             const [dispatch, getState, { oidc, getUser, sillApi }] = args;
 
@@ -163,7 +163,7 @@ export const thunks = {
             );
         },
     "updateField":
-        (params: { fieldName: "organization" | "email"; value: string }): ThunkAction =>
+        (params: { fieldName: "organization" | "email"; value: string }) =>
         async (...args) => {
             const { fieldName, value } = params;
             const [dispatch, , { sillApi, oidc }] = args;
@@ -186,8 +186,8 @@ export const thunks = {
             dispatch(actions.updateFieldCompleted({ fieldName }));
         },
     "getPasswordResetUrl":
-        (): ThunkAction<string> =>
-        (...args) => {
+        () =>
+        (...args): string => {
             const [
                 ,
                 getState,
@@ -226,7 +226,7 @@ export const thunks = {
 
             return url;
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const readyState = (rootState: RootState) => {

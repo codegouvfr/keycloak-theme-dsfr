@@ -1,4 +1,4 @@
-import type { ThunkAction } from "../core";
+import type { Thunks } from "../core";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { State as RootState } from "../core";
@@ -31,7 +31,7 @@ export const thunks = {};
 
 export const privateThunks = {
     "initialize":
-        (): ThunkAction =>
+        () =>
         async (...args) => {
             const [dispatch, , extraArg] = args;
 
@@ -78,7 +78,7 @@ export const privateThunks = {
 
             await init();
         }
-};
+} satisfies Thunks;
 
 export const selectors = (() => {
     const stats = (state: RootState) => state[name];
