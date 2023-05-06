@@ -257,7 +257,9 @@ export const privateThunks = {
                                           agent => agent.email === userEmail
                                       );
 
-                                      assert(agent !== undefined);
+                                      if (agent === undefined) {
+                                          return undefined;
+                                      }
 
                                       return {
                                           "isReferent":
