@@ -1,5 +1,5 @@
 import SoftwareForm from "ui/pages/softwareForm/SoftwareForm";
-import { sectionName } from "./sectionName";
+import { sectionName } from "../sectionName";
 import { createMockRoute, getStoryFactory } from "stories/getStory";
 
 const { meta, getStory } = getStoryFactory({
