@@ -7,18 +7,23 @@ const { RouteProvider, useRoute, routes: realRoutes, session } = createRouter(ro
 
 export { RouteProvider, useRoute, session };
 
-let previousRouteName: keyof typeof realRoutes | false = false;
-let currentRouteName: keyof typeof realRoutes | false = session.getInitialRoute().name;
+export const { getPreviousRouteName } = (() => {
+    let previousRouteName: keyof typeof realRoutes | false = false;
+    let currentRouteName: keyof typeof realRoutes | false =
+        session.getInitialRoute().name;
 
-export function getPreviousRouteName() {
-    return previousRouteName;
-}
+    session.listen(nextRoute => {
+        previousRouteName = currentRouteName;
 
-session.listen(nextRoute => {
-    previousRouteName = currentRouteName;
+        currentRouteName = nextRoute.name;
+    });
 
-    currentRouteName = nextRoute.name;
-});
+    function getPreviousRouteName() {
+        return previousRouteName;
+    }
+
+    return { getPreviousRouteName };
+})();
 
 const { createMockRouteFactory, routesProxy } = createTypeRouteMock({
     "routes": realRoutes
