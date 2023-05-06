@@ -24,13 +24,13 @@ type Props = {
     route: PageRoute;
 };
 
-export default function Homepage(props: Props) {
+export default function Home(props: Props) {
     const { className, route, ...rest } = props;
 
     assert<Equals<typeof rest, {}>>();
 
     const { cx, classes, css, theme } = useStyles();
-    const { t } = useTranslation({ Homepage });
+    const { t } = useTranslation({ Home });
 
     const { stats } = useCoreState(selectors.generalStats.stats);
 
@@ -211,7 +211,7 @@ function AnimatedMetric(props: { className?: string; metricValue: number }) {
     );
 }
 
-const useStyles = makeStyles({ "name": { Homepage } })(theme => ({
+const useStyles = makeStyles({ "name": { Home } })(theme => ({
     "section": {
         ...fr.spacing("padding", {
             "topBottom": "30v"
@@ -313,7 +313,7 @@ export const { i18n } = declareComponentKeys<
     | "declare referent button label"
     | "edit software button label"
     | "add software or service button label"
->()({ Homepage });
+>()({ Home });
 
 const { HeroSection } = (() => {
     type Props = {
@@ -325,7 +325,7 @@ const { HeroSection } = (() => {
 
         const { cx, classes, theme } = useStyles();
 
-        const { t } = useTranslation({ Homepage });
+        const { t } = useTranslation({ Home });
 
         return (
             <section className={cx(classes.root, className)}>
@@ -394,7 +394,7 @@ const { WhatIsTheSillSection } = (() => {
             isVisible
         });
 
-        const { t } = useTranslation({ Homepage });
+        const { t } = useTranslation({ Home });
 
         return (
             <section className={cx(classes.root, className)}>

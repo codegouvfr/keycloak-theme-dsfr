@@ -125,8 +125,8 @@ function ContextualizedApp() {
                 <Suspense fallback={<LoadingFallback />}>
                     {(() => {
                         for (const pageName of objectKeys(pages)) {
-                            //You must be able to replace "homepage" by any other page and get no type error.
-                            const page = pages[pageName as "homepage"];
+                            //You must be able to replace "home" by any other page and get no type error.
+                            const page = pages[pageName as "home"];
 
                             if (page.routeGroup.has(route)) {
                                 if (

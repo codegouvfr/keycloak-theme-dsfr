@@ -35,7 +35,7 @@ const {
     | typeof import("ui/pages/declarationForm/Step1").i18n
     | typeof import("ui/pages/declarationForm/Step2User").i18n
     | typeof import("ui/pages/declarationForm/Step2Referent").i18n
-    | typeof import("ui/pages/homepage/Homepage").i18n
+    | typeof import("ui/pages/home/Home").i18n
     | typeof import("ui/pages/addSoftwareLanding/AddSoftwareLanding").i18n
     | typeof import("ui/pages/softwareForm/SoftwareForm").i18n
     | typeof import("ui/pages/softwareForm/Step1").i18n
@@ -73,7 +73,7 @@ const {
                 "validate": "Validate",
                 "not provided": "Not Provided"
             },
-            "Homepage": {
+            "Home": {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
@@ -631,7 +631,7 @@ const {
                 "validate": "Valider",
                 "not provided": "Non Renseigné"
             },
-            "Homepage": {
+            "Home": {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
