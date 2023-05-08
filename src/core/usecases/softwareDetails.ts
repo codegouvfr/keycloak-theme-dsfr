@@ -55,7 +55,7 @@ export namespace State {
         serviceProviderUrl: string;
         compotoirDuLibreUrl: string | undefined;
         wikidataUrl: string;
-        prerogatives: Record<SoftwareCatalogState.Prerogative, boolean>;
+        prerogatives: Record<SoftwareCatalogState.Prerogative, boolean | undefined>;
         userCount: number;
         referentCount: number;
         testUrl: string | undefined;
@@ -397,7 +397,10 @@ function apiSoftwareToSoftware(params: {
         license,
         "prerogatives": {
             "isTestable": testUrl !== undefined,
-            "isInstallableOnUserTerminal": softwareType.type === "desktop",
+            "isInstallableOnUserTerminal":
+                softwareType.type === "stack"
+                    ? undefined
+                    : softwareType.type === "desktop",
             "isPresentInSupportContract": prerogatives.isPresentInSupportContract,
             "isFromFrenchPublicServices": prerogatives.isFromFrenchPublicServices,
             "doRespectRgaa": prerogatives.doRespectRgaa

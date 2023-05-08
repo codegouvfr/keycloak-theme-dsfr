@@ -125,6 +125,10 @@ export const PreviewTab = (props: Props) => {
                         }
                     })();
 
+                    if (value === undefined) {
+                        return null;
+                    }
+
                     const label = t(prerogativeName);
 
                     return (
