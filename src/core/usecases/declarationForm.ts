@@ -179,7 +179,7 @@ export const thunks = {
         async (...args) => {
             const { declarationType } = props;
 
-            const [dispatch, , { sillApi, getUser }] = args;
+            const [dispatch, getState, { sillApi, getUser }] = args;
 
             redirect_if_declaration_already_exists: {
                 const [{ agents }, { email }] = await Promise.all([
@@ -193,9 +193,21 @@ export const thunks = {
                     break redirect_if_declaration_already_exists;
                 }
 
+                const { softwareName } = (() => {
+                    const state = getState()[name];
+
+                    assert(state.stateDescription === "ready");
+
+                    const { softwareName } = state.software;
+
+                    return { softwareName };
+                })();
+
                 if (
                     agent.declarations.find(
-                        declaration => declaration.declarationType === declarationType
+                        declaration =>
+                            declaration.declarationType === declarationType &&
+                            declaration.softwareName === softwareName
                     ) === undefined
                 ) {
                     break redirect_if_declaration_already_exists;
