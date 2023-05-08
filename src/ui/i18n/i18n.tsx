@@ -486,8 +486,8 @@ const {
                 "wikiData sheet": "Open Wikidata sheet",
                 "what is the support market": ({ url }) => (
                     <>
-                        La DGFIP manages two inter-ministerial markets: support (Atos) and
-                        expertise (multiple contractors) for open-source software,
+                        The DGFIP manages two inter-ministerial markets: support (Atos)
+                        and expertise (multiple contractors) for open-source software,
                         covering maintenance, monitoring, and expert services.
                         <br />
                         <a href={url} target="blank">
