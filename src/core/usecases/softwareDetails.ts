@@ -52,9 +52,9 @@ export namespace State {
         versionMin: string;
         license: string;
         serviceProviderCount: number;
-        serviceProviderUrl: string;
+        serviceProviderUrl: string | undefined;
         compotoirDuLibreUrl: string | undefined;
-        wikidataUrl: string;
+        wikidataUrl: string | undefined;
         prerogatives: Record<SoftwareCatalogState.Prerogative, boolean | undefined>;
         userCount: number;
         referentCount: number;
@@ -356,9 +356,18 @@ function apiSoftwareToSoftware(params: {
             .reduce((prev, curr) => prev + curr, 0),
         parentSoftware,
         addedTime,
-        "serviceProviderUrl": `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,
-        "compotoirDuLibreUrl": `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
-        "wikidataUrl": `https://www.wikidata.org/wiki/${wikidataId}`,
+        "serviceProviderUrl":
+            compotoirDuLibreId === undefined
+                ? undefined
+                : `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,
+        "compotoirDuLibreUrl":
+            compotoirDuLibreId === undefined
+                ? undefined
+                : `https://comptoir-du-libre.org/fr/softwares/${compotoirDuLibreId}`,
+        "wikidataUrl":
+            wikidataId === undefined
+                ? undefined
+                : `https://www.wikidata.org/wiki/${wikidataId}`,
         "instances":
             softwareType.type !== "cloud"
                 ? undefined

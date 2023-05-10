@@ -7,6 +7,8 @@ import { shortEndMonthDate, monthDate } from "ui/useMoment";
 import Tooltip from "@mui/material/Tooltip";
 import { capitalize } from "tsafe/capitalize";
 
+//TODO: Do not use optional props (?) use ( | undefined ) instead
+// so we are sure that we don't forget to provide some props
 export type Props = {
     className?: string;
     softwareCurrentVersion?: string;
@@ -14,9 +16,9 @@ export type Props = {
     registerDate?: number;
     minimalVersionRequired?: string;
     license?: string;
-    serviceProvider?: string;
-    comptoireDuLibreSheet?: string;
-    wikiDataSheet?: string;
+    serviceProviderUrl: string | undefined;
+    comptoireDuLibreUrl: string | undefined;
+    wikiDataUrl: string | undefined;
     isDesktop?: boolean;
     isPresentInSupportMarket?: boolean;
     isFromFrenchPublicService?: boolean;
@@ -33,9 +35,9 @@ export const PreviewTab = (props: Props) => {
         isPresentInSupportMarket,
         isFromFrenchPublicService,
         isRGAACompliant,
-        serviceProvider,
-        comptoireDuLibreSheet,
-        wikiDataSheet
+        serviceProviderUrl,
+        comptoireDuLibreUrl,
+        wikiDataUrl
     } = props;
 
     const { classes, cx } = useStyles();
@@ -174,33 +176,39 @@ export const PreviewTab = (props: Props) => {
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
                     {t("use full links")}
                 </p>
-                <a
-                    href={serviceProvider}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={t("service provider")}
-                    className={cx(classes.externalLink, classes.item)}
-                >
-                    {t("service provider")}
-                </a>
-                <a
-                    href={comptoireDuLibreSheet}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={t("comptoire du libre sheet")}
-                    className={cx(classes.externalLink, classes.item)}
-                >
-                    {t("comptoire du libre sheet")}
-                </a>
-                <a
-                    href={wikiDataSheet}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={t("wikiData sheet")}
-                    className={cx(classes.externalLink, classes.item)}
-                >
-                    {t("wikiData sheet")}
-                </a>
+                {serviceProviderUrl !== undefined && (
+                    <a
+                        href={serviceProviderUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={t("service provider")}
+                        className={cx(classes.externalLink, classes.item)}
+                    >
+                        {t("service provider")}
+                    </a>
+                )}
+                {comptoireDuLibreUrl !== undefined && (
+                    <a
+                        href={comptoireDuLibreUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={t("comptoire du libre sheet")}
+                        className={cx(classes.externalLink, classes.item)}
+                    >
+                        {t("comptoire du libre sheet")}
+                    </a>
+                )}
+                {wikiDataUrl !== undefined && (
+                    <a
+                        href={wikiDataUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={t("wikiData sheet")}
+                        className={cx(classes.externalLink, classes.item)}
+                    >
+                        {t("wikiData sheet")}
+                    </a>
+                )}
             </div>
         </section>
     );
