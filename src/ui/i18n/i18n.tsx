@@ -77,9 +77,9 @@ const {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
-                            Reference free software catalog
+                            Recommended Free Software
                         </span>{" "}
-                        recommended by the State for the entire administration.
+                        for French public agencies.
                     </>
                 ),
                 "software selection": "Software selections",
@@ -88,23 +88,23 @@ const {
                 "essential": "Essentials for your desktop",
                 "recently updated": "Recently updated",
                 "waiting for referent": "Awaiting a referent",
-                "in support market": "Available in the support market",
+                "in support market": "Support available",
                 "SILL numbers": "The SILL in figures",
                 "softwareCount": "referenced software",
                 "registeredUserCount": "registered users",
                 "agentReferentCount": "software referents",
                 "organizationCount": "organizations",
                 "help us": "Help us enrich the catalog",
-                "the sill in a few words": "The SILL in brief",
+                "the sill in a few words": "The SILL in a nutshell",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
                         The{" "}
                         <span style={{ "color": accentColor }}>
-                            Interministerial Foundation of Free Software (SILL)
+                            Interministerial Catalog of Free Software (SILL)
                         </span>{" "}
                         is a{" "}
                         <span style={{ "color": accentColor }}>reference catalog</span> of
-                        free software recommended by the State for the{" "}
+                        free software recommended by DINUM for the{" "}
                         <span style={{ "color": accentColor }}>
                             French administration
                         </span>
@@ -170,7 +170,7 @@ const {
                         Software) offers several benefits.
                         <br />
                         Firstly, it simplifies the process of searching for and selecting
-                        free software recommended by the State, ensuring the quality,
+                        free software recommended by DINUM, ensuring the quality,
                         security, and compliance of tools used within the administration.
                         <br />
                         Moreover, the SILL encourages collaboration between public agents
@@ -186,7 +186,7 @@ const {
                         Lastly, by becoming a SILL referent for a free software, a public
                         agent can not only share their expertise and knowledge but also
                         benefit from the support and advice of the SILL referent community
-                        and Etalab's free software division.
+                        and DINUM's free software mission.
                     </>
                 ),
                 "discover as DSI label": "Discover as CIO",
@@ -197,7 +197,7 @@ const {
                         administration's information systems.
                         <br />
                         The SILL streamlines the assessment and selection of free software
-                        recommended by the State, thus ensuring compliance, quality, and
+                        recommended by DINUM, thus ensuring compliance, quality, and
                         security of the implemented solutions.
                         <br />
                         Moreover, using software referenced in the SILL contributes to
@@ -205,8 +205,8 @@ const {
                         information systems, in line with the Digital Republic Act.
                         <br />
                         The SILL also allows benefiting from the shared experiences and
-                        best practices of the SILL referent community and Etalab's free
-                        software division, fostering inter-administrative cooperation.
+                        best practices of the SILL referent community and DINUM's free
+                        software mission, fostering inter-administrative cooperation.
                         <br />
                         Furthermore, adopting free software can generate savings on
                         licensing and maintenance costs while encouraging innovation and
@@ -637,7 +637,7 @@ const {
                         <span style={{ "color": accentColor }}>
                             Catalogue de référence de logiciels libres
                         </span>{" "}
-                        recommandé par l'État pour l'ensemble de l'administration.
+                        recommandés pour l'ensemble de l'administration.
                     </>
                 ),
                 "software selection": "Sélections de logiciels",
@@ -661,13 +661,13 @@ const {
                     <>
                         Le{" "}
                         <span style={{ "color": accentColor }}>
-                            Socle interministériel des Logiciels Libres (SILL)
+                            Socle Interministériel de Logiciels Libres (SILL)
                         </span>{" "}
                         est un{" "}
                         <span style={{ "color": accentColor }}>
                             catalogue de référence
                         </span>{" "}
-                        des logiciels libres recommandés par l'État pour l'
+                        des logiciels libres recommandés pour l'
                         <span style={{ "color": accentColor }}>
                             administration française
                         </span>
@@ -708,7 +708,7 @@ const {
                 "illustration image": "Image d'illustration",
                 "add software or service title": "Ajouter un logiciel ou un service",
                 "declare referent desc":
-                    "Devenir un agent public volontaire pour gérer et mettre à jour les informations sur les logiciels du SILL",
+                    "Se porter volontaire pour gérer et mettre à jour les informations sur les logiciels du SILL",
                 "edit software desc":
                     "Modifier les informations d'un logiciel existant dans le catalogue SILL",
                 "add software or service desc":
@@ -721,12 +721,12 @@ const {
                 "title": (
                     <>
                         <span>Aidez-nous à enrichir le catalogue</span> en ajoutant des
-                        logiciels ou des déploiements de logiciels au sein de votre
+                        logiciels libres ou des instances de logiciels libres utilisés ou déployées dans votre
                         organisation !
                     </>
                 ),
                 "subtitle":
-                    "Contribuez à la création d'une plateforme de référence pour l'équipement logiciel du service public et partagez des informations utiles aux agents et aux DSI de l'administration",
+                    "Contribuez à la création d'une plateforme de référence pour les logiciels du service public et partagez des informations utiles aux agents et aux DSI de l'administration",
                 "who can add software":
                     "Qui peut ajouter un logiciel ou un service et comment faire ?",
                 "discover as agent label": "Découvrir en tant qu'agent",
@@ -753,8 +753,8 @@ const {
                         Enfin, en devenant référent SILL pour un logiciel libre, un agent
                         public peut non seulement partager son expertise et ses
                         connaissances, mais également bénéficier du soutien et des
-                        conseils de la communauté des référents SILL et du pôle logiciels
-                        libres d'Etalab.
+                        conseils de la communauté des référents SILL et de la mission
+			logiciels libres de la DINUM.
                     </>
                 ),
                 "discover as DSI label": "Découvrir en tant que DSI",
@@ -775,7 +775,7 @@ const {
                         <br />
                         Le SILL permet également de bénéficier du retour d'expérience et
                         des bonnes pratiques partagées par la communauté des référents
-                        SILL et le pôle logiciels libres d'Etalab, favorisant ainsi la
+                        SILL et la mission logiciels libres de la DINUM, favorisant ainsi la
                         coopération inter-administrative.
                         <br />
                         En outre, l'adoption de logiciels libres peut engendrer des
