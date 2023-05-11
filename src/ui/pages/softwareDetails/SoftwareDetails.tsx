@@ -99,6 +99,7 @@ export default function SoftwareDetails(props: Props) {
                                         wikiDataUrl={software.wikidataUrl}
                                         comptoireDuLibreUrl={software.compotoirDuLibreUrl}
                                         serviceProviderUrl={software.serviceProviderUrl}
+                                        softwareDescription={software.softwareDescription}
                                         license={software.license}
                                         isDesktop={
                                             software.prerogatives

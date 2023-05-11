@@ -13,6 +13,7 @@ export type Props = {
     className?: string;
     softwareCurrentVersion?: string;
     softwareDateCurrentVersion?: number;
+    softwareDescription: string;
     registerDate?: number;
     minimalVersionRequired?: string;
     license?: string;
@@ -28,6 +29,7 @@ export const PreviewTab = (props: Props) => {
     const {
         softwareCurrentVersion,
         softwareDateCurrentVersion,
+        softwareDescription,
         registerDate,
         minimalVersionRequired,
         license,
@@ -47,6 +49,7 @@ export const PreviewTab = (props: Props) => {
 
     return (
         <section className={classes.tabContainer}>
+            <p style={{ "gridColumn": "span 2" }}>{softwareDescription}</p>
             <div className="section">
                 <p className={cx(fr.cx("fr-text--bold"), classes.item)}>{t("about")}</p>
                 {softwareDateCurrentVersion && (
