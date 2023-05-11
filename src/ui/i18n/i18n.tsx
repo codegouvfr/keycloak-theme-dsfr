@@ -68,16 +68,16 @@ const {
                 "all": "All",
                 "allFeminine": "All",
                 "loading": "Loading...",
-                "no result": "No Results",
+                "no result": "No results",
                 "search": "Search",
                 "validate": "Validate",
-                "not provided": "Not Provided"
+                "not provided": "Not provided"
             },
             "Home": {
                 "title": ({ accentColor }) => (
                     <>
                         <span style={{ "color": accentColor }}>
-                            Recommended Free Software
+                            Recommended free software
                         </span>{" "}
                         for French public agencies.
                     </>
@@ -100,7 +100,7 @@ const {
                     <>
                         The{" "}
                         <span style={{ "color": accentColor }}>
-                            Interministerial Catalog of Free Software (SILL)
+                            Interministerial Free Software Catalog (SILL)
                         </span>{" "}
                         is a{" "}
                         <span style={{ "color": accentColor }}>reference catalog</span> of
@@ -124,7 +124,7 @@ const {
                         for software in the SILL include the publication of its source
                         code under an{" "}
                         <span style={{ "color": accentColor }}>
-                            accepted free license
+                            accepted free software license
                         </span>{" "}
                         and its deployment by a public institution or installation by a
                         public agent.
@@ -166,8 +166,8 @@ const {
                 "discover as agent label": "Discover as an agent",
                 "discover as agent description": (
                     <>
-                        As a public agent, using the SILL (Interministerial Base of Free
-                        Software) offers several benefits.
+                        As a public agent, using the SILL (Interministerial Free
+                        Software Catalog) offers several benefits.
                         <br />
                         Firstly, it simplifies the process of searching for and selecting
                         free software recommended by DINUM, ensuring the quality,
@@ -419,7 +419,7 @@ const {
                 "isInstallableOnUserTerminal": "Can be installed on user terminal",
                 "isFromFrenchPublicServices": "Is from French public services",
                 "doRespectRgaa": "Is compliant with RGAA rules",
-                "isPresentInSupportContract": "Is present in support contract",
+                "isPresentInSupportContract": "Comes with possible support",
                 "isTestable": "Is testable",
                 "organization filter hint":
                     "Only show software that have at least one referent from a given organization",
@@ -551,7 +551,7 @@ const {
             "DeclarationFormStep2User": {
                 "useCase": "Describe in a few words your use case",
                 "environment": "In which environment do you use your software ?",
-                "version": "Which version of the software do you use ? (Optionnel)",
+                "version": "Which version of the software do you use ? (Optional)",
                 "service": "More precisely, which service of the software do you use ?"
             },
             "DeclarationFormStep2Referent": {
@@ -573,8 +573,8 @@ const {
                     `The domain ${domain} is not allowed yet`
             },
             "Header": {
-                "home title": "Home - Interministerial Free Software Base",
-                "title": "Interministerial Free Software Base",
+                "home title": "Home - Interministerial Free Software Catalog",
+                "title": "Interministerial Free Software Catalog",
                 "navigation welcome": "Welcome to the SILL",
                 "navigation catalog": "Software catalog",
                 "navigation add software": "Add software or instance",
@@ -616,10 +616,10 @@ const {
                 "no": "Non",
                 "previous": "Précédent",
                 "next": "Suivant",
-                "add software": "Ajouter un Logiciel",
-                "update software": "Mettre à Jour un Logiciel",
-                "add software or service": "Ajouter un Logiciel ou un Service",
-                "add instance": "Ajouter une Instance",
+                "add software": "Ajouter un logiciel",
+                "update software": "Mettre à jour un logiciel",
+                "add software or service": "Ajouter un logiciel ou un service",
+                "add instance": "Ajouter une instance",
                 "required": "Ce champ est requis",
                 "invalid url": 'URL invalide. Elle doit commencer par "http"',
                 "invalid version": "La valeur doit être numérique (Exemple : 2.0.1)",
