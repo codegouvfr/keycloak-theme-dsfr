@@ -646,7 +646,7 @@ const {
                 "essential": "Indispensables sur votre poste",
                 "recently updated": "Mises à jour récentes",
                 "waiting for referent": "En attente d'un référent",
-                "in support market": "Disponible sur le marché du support",
+                "in support market": "Disponible dans le marché du support",
                 "SILL numbers": "Le SILL en chiffres",
                 "softwareCount": "logiciels référencés",
                 "registeredUserCount": "utilisateurs inscrits",
@@ -906,7 +906,7 @@ const {
             },
             "SoftwareFormStep3": {
                 "is present in support market":
-                    "Le logiciel est-il présent sur le marché de support ?",
+                    "Le logiciel est-il présent dans le marché de support ?",
                 "is from french public service":
                     "Le logiciel est-il développé par le service public français ?"
             },
