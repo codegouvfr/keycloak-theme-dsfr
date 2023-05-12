@@ -4,13 +4,13 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { declareComponentKeys } from "i18nifty";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
-import type { KcContext } from "../kcContext";
-import type { I18n } from "../i18n";
+import type { KcContext } from "../../kcContext";
+import type { I18n } from "../../i18n";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
+import { AgentConnectButton } from "./AgentConnectButton";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -125,49 +125,9 @@ export default function Login(
                                                     .toLocaleLowerCase()
                                                     .replace(/ /g, "")
                                                     .includes("agentconnect") ? (
-                                                    <div
-                                                        className={cx(
-                                                            fr.cx("fr-connect-group"),
-                                                            classes.franceConnect
-                                                        )}
-                                                    >
-                                                        <a
-                                                            href={p.loginUrl}
-                                                            className={fr.cx(
-                                                                "fr-connect",
-                                                                "fr-btn"
-                                                            )}
-                                                        >
-                                                            <span
-                                                                className={fr.cx(
-                                                                    "fr-connect__login"
-                                                                )}
-                                                            >
-                                                                {msg("login using")}
-                                                            </span>
-                                                            <span
-                                                                className={fr.cx(
-                                                                    "fr-connect__brand"
-                                                                )}
-                                                            >
-                                                                France Connect
-                                                            </span>
-                                                        </a>
-                                                        <p>
-                                                            <a
-                                                                href="https://franceconnect.gouv.fr/"
-                                                                target="_blank"
-                                                                rel="noreferrer"
-                                                                title={msgStr(
-                                                                    "what is franceConnect title"
-                                                                )}
-                                                            >
-                                                                {msg(
-                                                                    "what is franceConnect"
-                                                                )}
-                                                            </a>
-                                                        </p>
-                                                    </div>
+                                                    <AgentConnectButton
+                                                        url={p.loginUrl}
+                                                    />
                                                 ) : (
                                                     <Button
                                                         linkProps={{
@@ -302,11 +262,6 @@ const useStyles = makeStyles({
             "borderRight": "none"
         }
     },
-    "franceConnect": {
-        "display": "flex",
-        "alignItems": "center",
-        "flexDirection": "column"
-    },
     "forgotPassword": {
         "marginRight": fr.spacing("6v")
     },
@@ -319,17 +274,3 @@ const useStyles = makeStyles({
         "marginTop": fr.spacing("5v")
     }
 }));
-
-export const { i18n } = declareComponentKeys<
-    | "back"
-    | "connect"
-    | "selfCredentials"
-    | "forget password"
-    | "no account"
-    | "log with"
-    | "franceConnect"
-    | "what is franceConnect"
-    | "what is franceConnect title"
->()({
-    Login
-});
