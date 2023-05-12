@@ -1,50 +1,21 @@
 # Conditions générales d'utilisation
 
-*Mises à jour le 9 Mai 2022.*
+*Mises à jour le 12 Mai 2023.*
 
 ## Présentation et fonctionnalités
 
-[Le site du SILL](https://sill.etalab.gouv.fr) et [la platfome
-"Embarquement immédiat"](https://test.sill.etalab.gouv.fr) qui lui est
-associée sont des services mis en œuvre par Etalab, un département de
-la direction interministérielle du numérique (DINUM).  Ces services
-sont hébergés sur les serveurs de l'Insee.
+[Le site du SILL](https://sill.code.gouv.fr) est un service mis en
+œuvre la direction interministérielle du numérique (DINUM).  Ces
+services sont hébergés sur les serveurs de l'Insee.
 
-Le [SILL](https://sill.etalab.gouv.fr) est le catalogue de référence
-des logiciels libres dont une utilisation significative est avérée au
-sein d'une administration.  Une plus grande partie des informations
+Le [SILL](https://sill.code.gouv.fr) est le catalogue de référence des
+logiciels libres dont une utilisation significative est avérée au sein
+d'une administration.  Une plus grande partie des informations
 affichées sont extraites de [Wikidata](https://www.wikidata.org), une
 base de données collaborative et libre.  Les informations propres au
 SILL, comme l'identité des agents publics s'étant déclarés référents
 des logiciels, sont stockées dans un dépôt **privé** hébergé sur
 GitHub.
-
-[La plaforme
-« Embarquement immédiat ! »](https://test.sill.etalab.gouv.fr) est une
-instance du logiciel libre [Onyxia](https://www.onyxia.sh), logiciel
-créé et maintenu par la division innovation de l'Insee (direction du
-système d'information/unité innovation et stratégie du système
-d'information).  Elle permet de tester directement depuis votre
-navigateur web une partie des logiciels du catalogue.  Lorsque vous
-essayez un logiciel du SILL via ce service, il s'exécute sur les
-serveurs de l'Insee.  **Les environnements de tests ainsi mis à
-disposition ne peuvent être utilisés à des fins de production**.  Ils
-constituent simplement des outils pour vous aider à tester et adopter
-des logiciels libres.  Nous nous réservons le droit d'interrompre sans
-préavis n'importe quel environnement de test et, dans tous les cas,
-les environnements sont arrêtés automatiquement au bout d'un jour.
-
-Lorsque vous utilisez un service de test, personne n'accède à vos
-données, mais ce service ne donne aucune garantie de confidentialité
-particulière.  Nous vous déconseillons de stocker des informations
-confidentielles au sein de ces environnements éphémères.  Il est
-possible que le service soit arrêté pendant plusieurs jours pour
-libérer des ressources matérielles, notamment pour des travaux de
-datascience.
-
-Nous nous réservons le droit de partager avec l'Insee la liste des
-comptes ouverts sur [sill.etalab.gouv.fr](https://sill.etalab.gouv.fr)
-si une activité frauduleuse est suspectée.
 
 ## La création de comptes
 
@@ -53,14 +24,14 @@ authentification.  L'inscription et l'authentification peuvent être
 réalisées grâce au service AgentConnect.  Seul les agents publics ont
 accès au services.  Si vous êtes agent public et que votre email n'est
 pas accepté dans le formulaire d'inscription vous pouvez nous écrire à
-[logiciels-libres@data.gouv.fr](mailto:logiciels-libres@data.gouv.fr).
+[sill@code.gouv.fr](mailto:sill@code.gouv.fr).
 
 ## Propriété intellectuelle
 
 ### Licence des données du SILL
 
 Les données du SILL sont
-[téléchargeables](https://sill.etalab.gouv.fr/api/sill.json) au format
+[téléchargeables](https://sill.code.gouv.fr/api/sill.json) au format
 `json` et sont publiées sous [licence Ouverte
 2.0](https://github.com/etalab/licence-ouverte/blob/master/LO.md).
 
@@ -143,5 +114,5 @@ français seront compétents.
 ## Contact
 
 Pour toute question sur les logiciels libres en général, vous pouvez
-contacter le pôle logiciels libres d'Etalab à la DINUM via l'adresse
-[logiciels-libres@data.gouv.fr](mailto:logiciels-libres@data.gouv.fr).
+contacter la mission logiciels libres de la DINUM via l'adresse
+[contact@code.gouv.fr](mailto:contact@code.gouv.fr).
