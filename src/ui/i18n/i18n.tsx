@@ -966,7 +966,7 @@ const {
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
-                    `${count} logiciel libre${count === 1 ? "" : "s"}`,
+                    `${count} logiciel${count === 1 ? "" : "s"} libre${count === 1 ? "" : "s"}`,
                 "sort by": "Trier par",
                 "added_time": "Dernier ajouté",
                 "update_time": "Dernier mis à jour",
