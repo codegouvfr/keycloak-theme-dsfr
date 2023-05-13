@@ -78,7 +78,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
     return (
         <div className={cx(fr.cx("fr-card"), classes.root, className)}>
             <div className={classes.cardBody}>
-                <div className={cx(classes.headerContainer)}>
+                <a className={cx(classes.headerContainer)} {...softwareDetailsLink}>
                     <div className={classes.logoWrapper}>
                         <img
                             className={cx(classes.logo)}
@@ -163,7 +163,7 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                             )}
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <div className={cx(fr.cx("fr-card__desc"), classes.description)}>
                     {searchHighlight !== undefined && (
@@ -247,7 +247,8 @@ const useStyles = makeStyles<{ isSearchHighlighted: boolean }>({
     "headerContainer": {
         "display": "flex",
         "alignItems": "center",
-        "marginBottom": fr.spacing("4v")
+        "marginBottom": fr.spacing("4v"),
+        "backgroundImage": "unset"
     },
     "header": {
         "width": "100%"
