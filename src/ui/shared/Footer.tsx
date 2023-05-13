@@ -6,6 +6,7 @@ import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
 import { brandTop } from "ui/shared/Header";
+import { declareComponentKeys } from "i18nifty";
 
 export type Props = {
     className?: string;
@@ -19,7 +20,8 @@ export const Footer = memo(
 
         assert<Equals<typeof rest, {}>>();
 
-        const { t } = useTranslation({ "Header": undefined });
+        const { t: tHeader } = useTranslation({ "Header": undefined });
+        const { t } = useTranslation({ Footer });
 
         return (
             <>
@@ -29,7 +31,7 @@ export const Footer = memo(
                     brandTop={brandTop}
                     homeLinkProps={{
                         ...routes.home().link,
-                        title: t("home title")
+                        title: tHeader("home title")
                     }}
                     accessibility="fully compliant"
                     termsLinkProps={routes.terms().link}
@@ -46,6 +48,12 @@ export const Footer = memo(
                                 "href": `https://github.com/codegouvfr/sill-web/tree/v${webVersion}`
                             }
                         },
+                        {
+                            "text": t("bug report and suggestions"),
+                            "linkProps": {
+                                "href": "https://github.com/codegouvfr/sill-web/issues/new"
+                            }
+                        },
                         headerFooterDisplayItem
                     ]}
                 />
@@ -54,3 +62,5 @@ export const Footer = memo(
         );
     })
 );
+
+export const { i18n } = declareComponentKeys<"bug report and suggestions">()({ Footer });

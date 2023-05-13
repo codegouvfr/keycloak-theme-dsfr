@@ -48,6 +48,7 @@ const {
     | typeof import("ui/pages/account/Account").i18n
     | typeof import("ui/shared/DetailUsersAndReferents").i18n
     | typeof import("ui/shared/Header").i18n
+    | typeof import("ui/shared/Footer").i18n
     | typeof import("ui/shared/DeclarationRemovalModal").i18n
 >()(
     { languages, fallbackLanguage },
@@ -166,8 +167,8 @@ const {
                 "discover as agent label": "Discover as an agent",
                 "discover as agent description": (
                     <>
-                        As a public agent, using the SILL (Interministerial Free
-                        Software Catalog) offers several benefits.
+                        As a public agent, using the SILL (Interministerial Free Software
+                        Catalog) offers several benefits.
                         <br />
                         Firstly, it simplifies the process of searching for and selecting
                         free software recommended by DINUM, ensuring the quality,
@@ -586,6 +587,9 @@ const {
                 "quick access account": "My account",
                 "select language": "Select language"
             },
+            "Footer": {
+                "bug report and suggestions": "Bug report and suggestions"
+            },
             "DeclarationRemovalModal": {
                 "confirm": "Confirm",
                 "cancel": "Cancel",
@@ -721,8 +725,8 @@ const {
                 "title": (
                     <>
                         <span>Aidez-nous à enrichir le catalogue</span> en ajoutant des
-                        logiciels libres ou des instances de logiciels libres utilisés ou déployées dans votre
-                        organisation !
+                        logiciels libres ou des instances de logiciels libres utilisés ou
+                        déployées dans votre organisation !
                     </>
                 ),
                 "subtitle":
@@ -754,7 +758,7 @@ const {
                         public peut non seulement partager son expertise et ses
                         connaissances, mais également bénéficier du soutien et des
                         conseils de la communauté des référents SILL et de la mission
-			logiciels libres de la DINUM.
+                        logiciels libres de la DINUM.
                     </>
                 ),
                 "discover as DSI label": "Découvrir en tant que DSI",
@@ -775,8 +779,8 @@ const {
                         <br />
                         Le SILL permet également de bénéficier du retour d'expérience et
                         des bonnes pratiques partagées par la communauté des référents
-                        SILL et la mission logiciels libres de la DINUM, favorisant ainsi la
-                        coopération inter-administrative.
+                        SILL et la mission logiciels libres de la DINUM, favorisant ainsi
+                        la coopération inter-administrative.
                         <br />
                         En outre, l'adoption de logiciels libres peut engendrer des
                         économies sur les coûts de licence et de maintenance, tout en
@@ -966,7 +970,9 @@ const {
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
-                    `${count} logiciel${count === 1 ? "" : "s"} libre${count === 1 ? "" : "s"}`,
+                    `${count} logiciel${count === 1 ? "" : "s"} libre${
+                        count === 1 ? "" : "s"
+                    }`,
                 "sort by": "Trier par",
                 "added_time": "Dernier ajouté",
                 "update_time": "Dernier mis à jour",
@@ -1161,6 +1167,9 @@ const {
                 "quick access logout": "Se déconnecter",
                 "quick access account": "Mon compte",
                 "select language": "Sélectionner une langue"
+            },
+            "Footer": {
+                "bug report and suggestions": "Remontez un bug ou une suggestion"
             },
             "DeclarationRemovalModal": {
                 "confirm": "Confirmer",
