@@ -909,8 +909,8 @@ const {
                         </a>
                         . La plupart des informations générales, telles que le logo ou
                         l'URL du dépôt de code, sont extraites de Wikidata. Si le logiciel
-                        que vous souhaitez ajouter ne possède pas encore de fiche
-                        Wikidata, vous pouvez en créer une . Trouvez ici un{" "}
+                        que vous souhaitez ajouter ne possède pas encore de fiche sur
+                        Wikidata, vous pouvez en créer une. Vous trouverez ici un{" "}
                         <a href={wikidataPageExampleUrl} target="_blank" rel="noreferrer">
                             exemple de fiche Wikidata
                         </a>
