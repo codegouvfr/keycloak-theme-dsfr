@@ -311,13 +311,28 @@ const {
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Wikidata ID",
-                "wikidata id hint": (
+                "wikidata id hint": ({
+                    wikidataUrl,
+                    exampleSoftwareName,
+                    wikidataPageExampleUrl,
+                    softwareSillUrl
+                }) => (
                     <>
-                        Associate the software with an existing{" "}
-                        <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">
+                        Associate the software with an existing entry{" "}
+                        <a href={wikidataUrl} target="_blank" rel="noreferrer">
                             Wikidata
+                        </a>
+                        . Most general information, such as the logo or the URL of the
+                        code repository, is extracted from Wikidata. If the software you
+                        want to add does not have a Wikidata entry yet, you can create one{" "}
+                        . Find here an{" "}
+                        <a href={wikidataPageExampleUrl} target="_blank" rel="noreferrer">
+                            example of a Wikidata entry
+                        </a>
+                        &nbsp; for the software&nbsp;
+                        <a href={softwareSillUrl} target="_blank" rel="noreferrer">
+                            {exampleSoftwareName}
                         </a>{" "}
-                        file
                     </>
                 ),
                 "wikidata id information":
@@ -881,13 +896,28 @@ const {
             },
             "SoftwareFormStep2": {
                 "wikidata id": "Identifiant Wikidata",
-                "wikidata id hint": (
+                "wikidata id hint": ({
+                    wikidataUrl,
+                    wikidataPageExampleUrl,
+                    exampleSoftwareName,
+                    softwareSillUrl
+                }) => (
                     <>
-                        Associer le logiciel à une fiche{" "}
-                        <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">
+                        Associez le logiciel à une fiche existante{" "}
+                        <a href={wikidataUrl} target="_blank" rel="noreferrer">
                             Wikidata
+                        </a>
+                        . La plupart des informations générales, telles que le logo ou
+                        l'URL du dépôt de code, sont extraites de Wikidata. Si le logiciel
+                        que vous souhaitez ajouter ne possède pas encore de fiche
+                        Wikidata, vous pouvez en créer une . Trouvez ici un{" "}
+                        <a href={wikidataPageExampleUrl} target="_blank" rel="noreferrer">
+                            exemple de fiche Wikidata
+                        </a>
+                        &nbsp; pour le logiciel&nbsp;
+                        <a href={softwareSillUrl} target="_blank" rel="noreferrer">
+                            {exampleSoftwareName}
                         </a>{" "}
-                        déjà existante
                     </>
                 ),
                 "wikidata id information":

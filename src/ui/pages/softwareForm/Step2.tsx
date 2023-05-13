@@ -217,7 +217,14 @@ export function SoftwareFormStep2(props: Step2Props) {
                         loadingText={tCommon("loading")}
                         dsfrInputProps={{
                             "label": t("wikidata id"),
-                            "hintText": t("wikidata id hint"),
+                            "hintText": t("wikidata id hint", {
+                                "wikidataUrl": "https://www.wikidata.org/wiki",
+                                "wikidataPageExampleUrl":
+                                    "https://www.wikidata.org/wiki/Q107693197",
+                                "softwareSillUrl":
+                                    "https://sill.code.gouv.fr/detail?name=Keycloakify",
+                                "exampleSoftwareName": "Keycloakify"
+                            }),
                             "nativeInputProps": {
                                 "ref": field.ref,
                                 "onBlur": field.onBlur,
@@ -387,6 +394,12 @@ export const { i18n } = declareComponentKeys<
     | "wikidata id"
     | {
           K: "wikidata id hint";
+          P: {
+              wikidataUrl: string;
+              wikidataPageExampleUrl: string;
+              exampleSoftwareName: string;
+              softwareSillUrl: string;
+          };
           R: JSX.Element;
       }
     | "wikidata id information"
