@@ -35,6 +35,7 @@ export type FormData = {
         softwareDescription: string;
         softwareLicense: string;
         softwareMinimalVersion: string;
+        softwareLogoUrl: string | undefined;
     };
     step3: {
         isPresentInSupportContract: boolean | undefined;
@@ -206,7 +207,8 @@ export const thunks = {
                             "softwareDescription": software.softwareDescription,
                             "softwareLicense": software.license,
                             "softwareMinimalVersion": software.versionMin,
-                            "softwareName": software.softwareName
+                            "softwareName": software.softwareName,
+                            "softwareLogoUrl": software.logoUrl
                         },
                         "step3": {
                             "isPresentInSupportContract":
@@ -290,7 +292,8 @@ export const thunks = {
                 "softwareMinimalVersion": step2.softwareMinimalVersion,
                 "isPresentInSupportContract": step3.isPresentInSupportContract ?? false,
                 "isFromFrenchPublicService": step3.isFromFrenchPublicService,
-                "similarSoftwares": formDataStep4.similarSoftwares
+                "similarSoftwares": formDataStep4.similarSoftwares,
+                "softwareLogoUrl": step2.softwareLogoUrl
             };
 
             dispatch(actions.submissionStarted());

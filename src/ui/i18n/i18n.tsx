@@ -350,7 +350,10 @@ const {
                     "Earliest version still acceptable to have in production",
                 "url or numeric id": "This field must be a URL or an ID number",
                 "autofill notice":
-                    "This information will automatically populate other fields"
+                    "This information will automatically populate other fields",
+                "logo url": "URL of the software logo",
+                "logo url hint": "The url must Access-Control-Allow-Origin: * (CORS)",
+                "must be an url": "Must be an URL"
             },
             "SoftwareFormStep3": {
                 "is present in support market":
@@ -936,7 +939,10 @@ const {
                 "url or numeric id":
                     "Ce champ doit contenir une URL ou un numéro d'identifiant",
                 "autofill notice":
-                    "Cette information remplira automatiquement d'autres champs"
+                    "Cette information remplira automatiquement d'autres champs",
+                "logo url": "URL vers une image du logo du logiciel",
+                "logo url hint": "L'URL doit Access-Control-Allow-Origin: * (CORS)",
+                "must be an url": "Doit être un URL valide"
             },
             "SoftwareFormStep3": {
                 "is present in support market":

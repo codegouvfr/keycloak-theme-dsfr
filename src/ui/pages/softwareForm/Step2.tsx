@@ -12,6 +12,7 @@ import type { FormData } from "core/usecases/softwareForm";
 import type { ReturnType } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
+import { useStyles } from "@codegouvfr/react-dsfr/tss";
 
 export type Step2Props = {
     className?: string;
@@ -59,6 +60,7 @@ export function SoftwareFormStep2(props: Step2Props) {
         softwareDescription: string;
         softwareLicense: string;
         softwareMinimalVersion: string;
+        softwareLogoUrl: string | undefined;
     }>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
@@ -121,7 +123,8 @@ export function SoftwareFormStep2(props: Step2Props) {
                     softwareName,
                     softwareDescription,
                     softwareLicense,
-                    softwareMinimalVersion
+                    softwareMinimalVersion,
+                    softwareLogoUrl
                 } = await getAutofillDataFromWikidata({
                     "wikidataId": wikiDataEntry.wikidataId
                 });
@@ -162,6 +165,10 @@ export function SoftwareFormStep2(props: Step2Props) {
                     setValue("softwareName", softwareName);
                 }
 
+                if (softwareLogoUrl !== undefined) {
+                    setValue("softwareLogoUrl", softwareLogoUrl);
+                }
+
                 setIsAutocompleteInProgress(false);
             })();
 
@@ -173,13 +180,22 @@ export function SoftwareFormStep2(props: Step2Props) {
         return { isAutocompleteInProgress };
     })();
 
+    const { css } = useStyles();
+
     return (
         <form
             className={className}
             onSubmit={handleSubmit(
-                ({ comptoirDuLibreIdInputValue, wikidataEntry, ...rest }) =>
+                ({
+                    comptoirDuLibreIdInputValue,
+                    wikidataEntry,
+                    softwareLogoUrl,
+                    ...rest
+                }) =>
                     onSubmit({
                         ...rest,
+                        "softwareLogoUrl":
+                            softwareLogoUrl === "" ? undefined : softwareLogoUrl,
                         "comptoirDuLibreId":
                             comptoirDuLibreIdInputValue === ""
                                 ? undefined
@@ -235,6 +251,47 @@ export function SoftwareFormStep2(props: Step2Props) {
                 )}
             />
             <p className="fr-info-text">{t("autofill notice")}</p>
+            <div
+                style={{
+                    "display": "flex"
+                }}
+            >
+                <CircularProgressWrapper
+                    className={css({ "flex": 1 })}
+                    isInProgress={isAutocompleteInProgress}
+                    renderChildren={({ style }) => (
+                        <Input
+                            disabled={isAutocompleteInProgress}
+                            style={{
+                                ...style,
+                                "marginTop": fr.spacing("4v")
+                            }}
+                            label={t("logo url")}
+                            hintText={t("logo url hint")}
+                            nativeInputProps={{
+                                ...register("softwareLogoUrl", {
+                                    "pattern": /^(?:https:)?\/\//
+                                })
+                            }}
+                            state={
+                                errors.softwareLogoUrl !== undefined ? "error" : undefined
+                            }
+                            stateRelatedMessage={t("must be an url")}
+                        />
+                    )}
+                />
+                {watch("softwareLogoUrl") && (
+                    <img
+                        src={watch("softwareLogoUrl")}
+                        alt="Previous of the software logo"
+                        style={{
+                            "marginLeft": fr.spacing("4v"),
+                            "border": "1px dotted black",
+                            "width": 100
+                        }}
+                    />
+                )}
+            </div>
             <CircularProgressWrapper
                 isInProgress={isAutocompleteInProgress}
                 renderChildren={({ style }) => (
@@ -414,4 +471,7 @@ export const { i18n } = declareComponentKeys<
     | "minimal version hint"
     | "url or numeric id"
     | "autofill notice"
+    | "logo url"
+    | "logo url hint"
+    | "must be an url"
 >()({ SoftwareFormStep2 });

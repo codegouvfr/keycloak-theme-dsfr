@@ -65,7 +65,8 @@ export const sillApi: SillApi = {
             "softwareName": `Software ${wikidataId}`,
             "softwareDescription": `Software ${wikidataId} description`,
             "softwareLicense": `Software ${wikidataId} license`,
-            "softwareMinimalVersion": `1.3.4`
+            "softwareMinimalVersion": `1.3.4`,
+            "softwareLogoUrl": undefined
         };
     },
     "createSoftware": async ({ formData }) => {
