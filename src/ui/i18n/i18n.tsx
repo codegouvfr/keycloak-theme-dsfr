@@ -353,7 +353,10 @@ const {
                     "This information will automatically populate other fields",
                 "logo url": "URL of the software logo",
                 "logo url hint": "The url must Access-Control-Allow-Origin: * (CORS)",
-                "must be an url": "Must be an URL"
+                "must be an url": "Must be an URL",
+                "keywords": "Keywords",
+                "keywords hint":
+                    "Keywords for making it pop up in the search results, space separated"
             },
             "SoftwareFormStep3": {
                 "is present in support market":
@@ -942,7 +945,10 @@ const {
                     "Cette information remplira automatiquement d'autres champs",
                 "logo url": "URL vers une image du logo du logiciel",
                 "logo url hint": "L'URL doit Access-Control-Allow-Origin: * (CORS)",
-                "must be an url": "Doit être un URL valide"
+                "must be an url": "Doit être un URL valide",
+                "keywords": "Mot-clés",
+                "keywords hint":
+                    "Mot clés pour aidée a la reherche du logiciel, séparé par des éspaces"
             },
             "SoftwareFormStep3": {
                 "is present in support market":

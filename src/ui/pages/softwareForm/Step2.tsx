@@ -60,14 +60,16 @@ export function SoftwareFormStep2(props: Step2Props) {
         softwareDescription: string;
         softwareLicense: string;
         softwareMinimalVersion: string;
-        softwareLogoUrl: string | undefined;
+        softwareLogoUrl: string;
+        keywordsInputValue: string;
     }>({
         "defaultValues": (() => {
             if (initialFormData === undefined) {
                 return undefined;
             }
 
-            const { comptoirDuLibreId, wikidataId, ...rest } = initialFormData ?? {};
+            const { comptoirDuLibreId, wikidataId, softwareKeywords, ...rest } =
+                initialFormData ?? {};
 
             return {
                 ...rest,
@@ -82,7 +84,8 @@ export function SoftwareFormStep2(props: Step2Props) {
                 "comptoirDuLibreIdInputValue":
                     comptoirDuLibreId === undefined
                         ? ""
-                        : comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId)
+                        : comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId),
+                "keywordsInputValue": softwareKeywords.join(" ")
             };
         })()
     });
@@ -190,12 +193,14 @@ export function SoftwareFormStep2(props: Step2Props) {
                     comptoirDuLibreIdInputValue,
                     wikidataEntry,
                     softwareLogoUrl,
+                    keywordsInputValue,
                     ...rest
                 }) =>
                     onSubmit({
                         ...rest,
                         "softwareLogoUrl":
                             softwareLogoUrl === "" ? undefined : softwareLogoUrl,
+                        "softwareKeywords": keywordsInputValue.split(" "),
                         "comptoirDuLibreId":
                             comptoirDuLibreIdInputValue === ""
                                 ? undefined
@@ -398,6 +403,17 @@ export function SoftwareFormStep2(props: Step2Props) {
                     />
                 )}
             />
+            <Input
+                disabled={isAutocompleteInProgress}
+                style={{
+                    "marginTop": fr.spacing("4v")
+                }}
+                label={t("keywords")}
+                hintText={t("keywords hint")}
+                nativeInputProps={{
+                    ...register("keywordsInputValue")
+                }}
+            />
             <button
                 style={{ "display": "none" }}
                 ref={setSubmitButtonElement}
@@ -474,4 +490,6 @@ export const { i18n } = declareComponentKeys<
     | "logo url"
     | "logo url hint"
     | "must be an url"
+    | "keywords"
+    | "keywords hint"
 >()({ SoftwareFormStep2 });
