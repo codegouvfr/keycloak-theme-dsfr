@@ -183,7 +183,7 @@ export function SoftwareFormStep2(props: Step2Props) {
         return { isAutocompleteInProgress };
     })();
 
-    const { css } = useStyles();
+    const { css, theme } = useStyles();
 
     return (
         <form
@@ -291,7 +291,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                         alt="Previous of the software logo"
                         style={{
                             "marginLeft": fr.spacing("4v"),
-                            "border": "1px dotted black",
+                            "border": `1px dotted ${theme.decisions.border.default.grey.default}`,
                             "width": 100
                         }}
                     />
