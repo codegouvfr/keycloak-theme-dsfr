@@ -288,11 +288,13 @@ export function SoftwareFormStep2(props: Step2Props) {
                 {watch("softwareLogoUrl") && (
                     <img
                         src={watch("softwareLogoUrl")}
-                        alt="Previous of the software logo"
+                        alt={t("logo preview alt")}
                         style={{
                             "marginLeft": fr.spacing("4v"),
                             "border": `1px dotted ${theme.decisions.border.default.grey.default}`,
-                            "width": 100
+                            "width": 100,
+                            "objectFit": "cover",
+                            "objectPosition": "left"
                         }}
                     />
                 )}
@@ -492,4 +494,5 @@ export const { i18n } = declareComponentKeys<
     | "must be an url"
     | "keywords"
     | "keywords hint"
+    | "logo preview alt"
 >()({ SoftwareFormStep2 });

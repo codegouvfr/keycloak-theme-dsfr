@@ -356,7 +356,8 @@ const {
                 "must be an url": "Must be an URL",
                 "keywords": "Keywords",
                 "keywords hint":
-                    "Keywords for making it pop up in the search results, space separated"
+                    "Keywords for making it pop up in the search results, space separated",
+                "logo preview alt": "Preview of the logo"
             },
             "SoftwareFormStep3": {
                 "is present in support market":
@@ -948,7 +949,8 @@ const {
                 "must be an url": "Doit être un URL valide",
                 "keywords": "Mot-clés",
                 "keywords hint":
-                    "Mot clés pour aidée a la reherche du logiciel, séparé par des éspaces"
+                    "Mot clés pour aidée a la reherche du logiciel, séparé par des éspaces",
+                "logo preview alt": "Aperçu du logo du logiciel"
             },
             "SoftwareFormStep3": {
                 "is present in support market":
