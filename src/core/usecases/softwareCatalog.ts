@@ -8,7 +8,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { objectKeys } from "tsafe/objectKeys";
 import memoize from "memoizee";
 import { id } from "tsafe/id";
-import { Fzf } from "fzf";
+import { Fzf, extendedMatch } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
@@ -355,7 +355,8 @@ export const selectors = (() => {
                 new Fzf(softwares, {
                     "selector": ({ search }) => search,
                     "sort": true,
-                    "casing": "case-insensitive"
+                    "casing": "case-insensitive",
+                    "match": extendedMatch
                 }),
             { "max": 1 }
         );

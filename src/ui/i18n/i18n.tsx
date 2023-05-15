@@ -432,7 +432,8 @@ const {
                 "software logo": "Software logo"
             },
             "SoftwareCatalogSearch": {
-                "placeholder": "Search a software, a word, a reference...",
+                "placeholder":
+                    "Search a software, prefix your query by (') for an exact match (ex: 'gimp)",
                 "filtersButton": "Filters",
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Categories",
@@ -1030,7 +1031,8 @@ const {
                 "my_software": "Mes logiciels"
             },
             "SoftwareCatalogSearch": {
-                "placeholder": "Rechercher un logiciel, un mot, une référence",
+                "placeholder":
+                    "Rechercher un logiciel, préfixer votre recherche par (') pour un recherche exacte (ex: 'gimp)",
                 "filtersButton": "Filtres",
                 "organizationLabel": "Organisation",
                 "categoriesLabel": "Catégories",
