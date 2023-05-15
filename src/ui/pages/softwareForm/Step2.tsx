@@ -258,7 +258,8 @@ export function SoftwareFormStep2(props: Step2Props) {
             <p className="fr-info-text">{t("autofill notice")}</p>
             <div
                 style={{
-                    "display": "flex"
+                    "display": "flex",
+                    "alignItems": "end"
                 }}
             >
                 <CircularProgressWrapper
@@ -293,6 +294,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                             "marginLeft": fr.spacing("4v"),
                             "border": `1px dotted ${theme.decisions.border.default.grey.default}`,
                             "width": 100,
+                            "height": 100,
                             "objectFit": "cover",
                             "objectPosition": "left"
                         }}
