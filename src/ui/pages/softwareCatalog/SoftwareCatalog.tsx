@@ -29,7 +29,7 @@ export default function SoftwareCatalog(props: Props) {
     /* prettier-ignore */
     const { categoryOptions } = useCoreState(selectors.softwareCatalog.categoryOptions);
     /* prettier-ignore */
-    const { environmentOptions } = useCoreState( selectors.softwareCatalog.environmentOptions);
+    const { environmentOptions } = useCoreState(selectors.softwareCatalog.environmentOptions);
     /* prettier-ignore */
     const { prerogativeFilterOptions } = useCoreState(selectors.softwareCatalog.prerogativeFilterOptions);
     /* prettier-ignore */

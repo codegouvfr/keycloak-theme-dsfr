@@ -50,6 +50,7 @@ const {
     | typeof import("ui/shared/Header").i18n
     | typeof import("ui/shared/Footer").i18n
     | typeof import("ui/shared/DeclarationRemovalModal").i18n
+    | typeof import("ui/shared/SmartLogo").i18n
 >()(
     { languages, fallbackLanguage },
     {
@@ -428,8 +429,7 @@ const {
                     "This software is from French public service",
                 "isPresentInSupportMarket": "This software is present in support market",
                 "you are user": "You're using it",
-                "you are referent": "You are referent",
-                "software logo": "Software logo"
+                "you are referent": "You are referent"
             },
             "SoftwareCatalogSearch": {
                 "placeholder":
@@ -634,6 +634,9 @@ const {
                                 return "an user";
                         }
                     })()} of ${softwareName}`
+            },
+            "SmartLogo": {
+                "software logo": "Software logo"
             }
         },
         "fr": {
@@ -1010,8 +1013,7 @@ const {
                 "isPresentInSupportMarket":
                     "Ce logiciel est présent dans le marché de support",
                 "you are user": "Vous l'utilisez",
-                "you are referent": "Vous êtes référent",
-                "software logo": "Logo du logiciel"
+                "you are referent": "Vous êtes référent"
             },
             "SoftwareCatalogControlled": {
                 "search results": ({ count }) =>
@@ -1238,6 +1240,9 @@ const {
                                 return "utilisateur";
                         }
                     })()} of ${softwareName}`
+            },
+            "SmartLogo": {
+                "software logo": "Logo du logiciel"
             }
             /* spell-checker: enable */
         }
