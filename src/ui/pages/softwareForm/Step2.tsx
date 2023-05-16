@@ -85,7 +85,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                     comptoirDuLibreId === undefined
                         ? ""
                         : comptoirDuLibreIdToComptoirDuLibreInputValue(comptoirDuLibreId),
-                "keywordsInputValue": softwareKeywords.join(" ")
+                "keywordsInputValue": softwareKeywords.join(", ")
             };
         })()
     });
@@ -200,7 +200,9 @@ export function SoftwareFormStep2(props: Step2Props) {
                         ...rest,
                         "softwareLogoUrl":
                             softwareLogoUrl === "" ? undefined : softwareLogoUrl,
-                        "softwareKeywords": keywordsInputValue.split(" "),
+                        "softwareKeywords": keywordsInputValue
+                            .split(",")
+                            .map(s => s.trim()),
                         "comptoirDuLibreId":
                             comptoirDuLibreIdInputValue === ""
                                 ? undefined
