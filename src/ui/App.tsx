@@ -21,7 +21,7 @@ import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { GlobalStyles, keyframes } from "@codegouvfr/react-dsfr/tss";
+import { GlobalStyles, keyframes } from "tss-react";
 import { LoadingFallback, loadingFallbackClassName } from "ui/shared/LoadingFallback";
 import { useDomRect } from "powerhooks/useDomRect";
 

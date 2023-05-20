@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { makeStyles, keyframes } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { keyframes } from "tss-react";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { declareComponentKeys } from "i18nifty";

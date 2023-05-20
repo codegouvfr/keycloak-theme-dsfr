@@ -16,7 +16,7 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
 import { appLocationOrigin } from "keycloak-theme/login/valuesTransferredOverUrl";
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
-import { keyframes } from "@codegouvfr/react-dsfr/tss";
+import { keyframes } from "tss-react";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
