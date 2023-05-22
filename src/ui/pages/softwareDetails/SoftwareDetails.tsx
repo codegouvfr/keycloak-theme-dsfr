@@ -96,9 +96,15 @@ export default function SoftwareDetails(props: Props) {
                                 "label": t("tab title overview"),
                                 "content": (
                                     <PreviewTab
+                                        softwareName={software.softwareName}
                                         wikiDataUrl={software.wikidataUrl}
                                         comptoireDuLibreUrl={software.compotoirDuLibreUrl}
-                                        serviceProviderUrl={software.serviceProviderUrl}
+                                        comptoirDuLibreServiceProvidersUrl={
+                                            software.comptoirDuLibreServiceProviderUrl
+                                        }
+                                        annuaireCnllServiceProviders={
+                                            software.annuaireCnllServiceProviders
+                                        }
                                         softwareDescription={software.softwareDescription}
                                         license={software.license}
                                         isDesktop={

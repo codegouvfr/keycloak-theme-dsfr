@@ -51,8 +51,13 @@ export namespace State {
         addedTime: number;
         versionMin: string;
         license: string;
-        serviceProviderCount: number;
-        serviceProviderUrl: string | undefined;
+        comptoirDuLibreServiceProviderCount: number;
+        comptoirDuLibreServiceProviderUrl: string | undefined;
+        annuaireCnllServiceProviders: {
+            name: string;
+            siren: string;
+            url: string;
+        }[];
         compotoirDuLibreUrl: string | undefined;
         wikidataUrl: string | undefined;
         prerogatives: Record<SoftwareCatalogState.Prerogative, boolean | undefined>;
@@ -303,14 +308,15 @@ function apiSoftwareToSoftware(params: {
         testUrl,
         addedTime,
         prerogatives,
-        serviceProviderCount,
+        comptoirDuLibreServiceProviderCount,
         compotoirDuLibreId,
         similarSoftwares: similarSoftwares_api,
         wikidataId,
         license,
         versionMin,
         softwareType,
-        userAndReferentCountByOrganization
+        userAndReferentCountByOrganization,
+        annuaireCnllServiceProviders
     } = apiSoftware;
 
     const parentSoftware: State.Software["parentSoftware"] = (() => {
@@ -356,10 +362,11 @@ function apiSoftwareToSoftware(params: {
             .reduce((prev, curr) => prev + curr, 0),
         parentSoftware,
         addedTime,
-        "serviceProviderUrl":
+        "comptoirDuLibreServiceProviderUrl":
             compotoirDuLibreId === undefined
                 ? undefined
                 : `https://comptoir-du-libre.org/fr/softwares/servicesProviders/${compotoirDuLibreId}`,
+        "annuaireCnllServiceProviders": annuaireCnllServiceProviders ?? [],
         "compotoirDuLibreUrl":
             compotoirDuLibreId === undefined
                 ? undefined
@@ -414,7 +421,7 @@ function apiSoftwareToSoftware(params: {
             "isFromFrenchPublicServices": prerogatives.isFromFrenchPublicServices,
             "doRespectRgaa": prerogatives.doRespectRgaa
         },
-        serviceProviderCount,
+        comptoirDuLibreServiceProviderCount,
         testUrl,
         versionMin
     };

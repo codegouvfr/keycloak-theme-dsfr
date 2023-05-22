@@ -30,6 +30,7 @@ const {
     | typeof import("ui/pages/softwareDetails/PreviewTab").i18n
     | typeof import("ui/pages/softwareDetails/ReferencedInstancesTab").i18n
     | typeof import("ui/pages/softwareDetails/AlikeSoftwareTab").i18n
+    | typeof import("ui/pages/softwareDetails/CnllServiceProviderModal").i18n
     | typeof import("ui/pages/softwareUserAndReferent/SoftwareUserAndReferent").i18n
     | typeof import("ui/pages/declarationForm/DeclarationForm").i18n
     | typeof import("ui/pages/declarationForm/Step1").i18n
@@ -518,7 +519,10 @@ const {
                             Learn more
                         </a>
                     </>
-                )
+                ),
+                "CNLL service providers title": "CNLL service providers",
+                "CNLL service providers": ({ count }) =>
+                    `See the ${count} service providers on the CNLL index`
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
@@ -529,6 +533,19 @@ const {
             "AlikeSoftwareTab": {
                 "alike software sill": "Alike software in SILL",
                 "alike software internal": "Alike proprietary software"
+            },
+            "CnllServiceProviderModal": {
+                "close": "Close",
+                "content description": ({ cnllWebsiteUrl, softwareName, count }) => (
+                    <>
+                        {count} service provider{count === 1 ? "" : "s"} listed in the
+                        <a href={cnllWebsiteUrl} target="_blank" rel="noreferrer">
+                            CNLL index
+                        </a>{" "}
+                        for {softwareName}.
+                    </>
+                ),
+                "modal title": "CNLL service providers"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
@@ -1122,7 +1139,10 @@ const {
                             En savoir plus
                         </a>
                     </>
-                )
+                ),
+                "CNLL service providers title": "Prestataires de services CNLL",
+                "CNLL service providers": ({ count }) =>
+                    `Voir les ${count} prestataires de l'annuaire CNLL`
             },
             "ReferencedInstancesTab": {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
@@ -1133,6 +1153,20 @@ const {
             "AlikeSoftwareTab": {
                 "alike software sill": "Logiciels similaires sur le SILL",
                 "alike software internal": "Logiciels équivalents propriétaires"
+            },
+            "CnllServiceProviderModal": {
+                "close": "Fermer",
+                "content description": ({ cnllWebsiteUrl, softwareName, count }) => (
+                    <>
+                        {count} fournisseur{count === 0 ? "" : "s"} de services listé dans
+                        l'
+                        <a href={cnllWebsiteUrl} target="_blank" rel="noreferrer">
+                            annuaire CNLL
+                        </a>{" "}
+                        pour {softwareName}.
+                    </>
+                ),
+                "modal title": "Fourniseur de service de l'anuaire CNLL"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (

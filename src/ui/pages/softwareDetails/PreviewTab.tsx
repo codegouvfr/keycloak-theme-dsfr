@@ -6,18 +6,28 @@ import { makeStyles } from "@codegouvfr/react-dsfr/tss";
 import { shortEndMonthDate, monthDate } from "ui/useMoment";
 import Tooltip from "@mui/material/Tooltip";
 import { capitalize } from "tsafe/capitalize";
+import {
+    CnllServiceProviderModal,
+    openCnllServiceProviderModal
+} from "./CnllServiceProviderModal";
 
 //TODO: Do not use optional props (?) use ( | undefined ) instead
 // so we are sure that we don't forget to provide some props
 export type Props = {
     className?: string;
+    softwareName: string;
     softwareCurrentVersion?: string;
     softwareDateCurrentVersion?: number;
     softwareDescription: string;
     registerDate?: number;
     minimalVersionRequired?: string;
     license?: string;
-    serviceProviderUrl: string | undefined;
+    comptoirDuLibreServiceProvidersUrl: string | undefined;
+    annuaireCnllServiceProviders: {
+        name: string;
+        siren: string;
+        url: string;
+    }[];
     comptoireDuLibreUrl: string | undefined;
     wikiDataUrl: string | undefined;
     isDesktop?: boolean;
@@ -27,6 +37,7 @@ export type Props = {
 };
 export const PreviewTab = (props: Props) => {
     const {
+        softwareName,
         softwareCurrentVersion,
         softwareDateCurrentVersion,
         softwareDescription,
@@ -37,7 +48,8 @@ export const PreviewTab = (props: Props) => {
         isPresentInSupportMarket,
         isFromFrenchPublicService,
         isRGAACompliant,
-        serviceProviderUrl,
+        comptoirDuLibreServiceProvidersUrl,
+        annuaireCnllServiceProviders,
         comptoireDuLibreUrl,
         wikiDataUrl
     } = props;
@@ -48,13 +60,51 @@ export const PreviewTab = (props: Props) => {
     const { lang } = useLang();
 
     return (
-        <section className={classes.tabContainer}>
-            <p style={{ "gridColumn": "span 2" }}>{softwareDescription}</p>
-            <div className="section">
-                <p className={cx(fr.cx("fr-text--bold"), classes.item)}>{t("about")}</p>
-                {softwareDateCurrentVersion && (
+        <>
+            <section className={classes.tabContainer}>
+                <p style={{ "gridColumn": "span 2" }}>{softwareDescription}</p>
+                <div className="section">
+                    <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
+                        {t("about")}
+                    </p>
+                    {softwareDateCurrentVersion && (
+                        <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
+                            <span className={classes.labelDetail}>
+                                {t("last version")}
+                            </span>
+                            <span
+                                className={cx(
+                                    fr.cx(
+                                        "fr-badge",
+                                        "fr-badge--yellow-tournesol",
+                                        "fr-badge--sm"
+                                    ),
+                                    classes.badgeVersion
+                                )}
+                            >
+                                {softwareCurrentVersion}
+                            </span>
+                            (
+                            {capitalize(
+                                shortEndMonthDate({
+                                    "time": softwareDateCurrentVersion,
+                                    lang
+                                })
+                            )}
+                            )
+                        </p>
+                    )}
+                    {registerDate && (
+                        <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
+                            <span className={classes.labelDetail}>{t("register")}</span>
+                            {capitalize(monthDate({ "time": registerDate, lang }))}
+                        </p>
+                    )}
+
                     <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                        <span className={classes.labelDetail}>{t("last version")}</span>
+                        <span className={classes.labelDetail}>
+                            {t("minimal version")}
+                        </span>
                         <span
                             className={cx(
                                 fr.cx(
@@ -65,155 +115,144 @@ export const PreviewTab = (props: Props) => {
                                 classes.badgeVersion
                             )}
                         >
-                            {softwareCurrentVersion}
+                            {minimalVersionRequired}
                         </span>
-                        (
-                        {capitalize(
-                            shortEndMonthDate({
-                                "time": softwareDateCurrentVersion,
-                                lang
-                            })
-                        )}
-                        )
                     </p>
-                )}
-                {registerDate && (
                     <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                        <span className={classes.labelDetail}>{t("register")}</span>
-                        {capitalize(monthDate({ "time": registerDate, lang }))}
+                        <span className={classes.labelDetail}>{t("license")}</span>
+                        <span>{license}</span>
                     </p>
-                )}
+                </div>
+                <div className={classes.section}>
+                    <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
+                        {t("prerogatives")}
+                    </p>
 
-                <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                    <span className={classes.labelDetail}>{t("minimal version")}</span>
-                    <span
-                        className={cx(
-                            fr.cx(
-                                "fr-badge",
-                                "fr-badge--yellow-tournesol",
-                                "fr-badge--sm"
-                            ),
-                            classes.badgeVersion
-                        )}
-                    >
-                        {minimalVersionRequired}
-                    </span>
-                </p>
-                <p className={cx(fr.cx("fr-text--regular"), classes.item)}>
-                    <span className={classes.labelDetail}>{t("license")}</span>
-                    <span>{license}</span>
-                </p>
-            </div>
-            <div className={classes.section}>
-                <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
-                    {t("prerogatives")}
-                </p>
+                    {(
+                        [
+                            "isDesktop",
+                            "isPresentInSupportMarket",
+                            "isFromFrenchPublicService",
+                            "isRGAACompliant"
+                        ] as const
+                    ).map(prerogativeName => {
+                        const value = (() => {
+                            switch (prerogativeName) {
+                                case "isDesktop":
+                                    return isDesktop;
+                                case "isFromFrenchPublicService":
+                                    return isFromFrenchPublicService;
+                                case "isPresentInSupportMarket":
+                                    return isPresentInSupportMarket;
+                                case "isRGAACompliant":
+                                    return isRGAACompliant;
+                            }
+                        })();
 
-                {(
-                    [
-                        "isDesktop",
-                        "isPresentInSupportMarket",
-                        "isFromFrenchPublicService",
-                        "isRGAACompliant"
-                    ] as const
-                ).map(prerogativeName => {
-                    const value = (() => {
-                        switch (prerogativeName) {
-                            case "isDesktop":
-                                return isDesktop;
-                            case "isFromFrenchPublicService":
-                                return isFromFrenchPublicService;
-                            case "isPresentInSupportMarket":
-                                return isPresentInSupportMarket;
-                            case "isRGAACompliant":
-                                return isRGAACompliant;
+                        if (value === undefined) {
+                            return null;
                         }
-                    })();
 
-                    if (value === undefined) {
-                        return null;
-                    }
+                        const label = t(prerogativeName);
 
-                    const label = t(prerogativeName);
-
-                    return (
-                        <div
-                            key={label}
-                            className={cx(classes.item, classes.prerogativeItem)}
-                        >
-                            <i
-                                className={cx(
-                                    fr.cx(
-                                        value
-                                            ? "fr-icon-check-line"
-                                            : "fr-icon-close-line"
-                                    ),
-                                    value
-                                        ? classes.prerogativeStatusSuccess
-                                        : classes.prerogativeStatusError
-                                )}
-                            />
-                            <p
-                                className={cx(
-                                    fr.cx("fr-text--md"),
-                                    classes.prerogativeItemDetail
-                                )}
+                        return (
+                            <div
+                                key={label}
+                                className={cx(classes.item, classes.prerogativeItem)}
                             >
-                                {label}
-                            </p>
-                            {prerogativeName === "isPresentInSupportMarket" && (
-                                <Tooltip
-                                    title={t("what is the support market", {
-                                        "url": "https://code.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
-                                    })}
-                                    arrow
+                                <i
+                                    className={cx(
+                                        fr.cx(
+                                            value
+                                                ? "fr-icon-check-line"
+                                                : "fr-icon-close-line"
+                                        ),
+                                        value
+                                            ? classes.prerogativeStatusSuccess
+                                            : classes.prerogativeStatusError
+                                    )}
+                                />
+                                <p
+                                    className={cx(
+                                        fr.cx("fr-text--md"),
+                                        classes.prerogativeItemDetail
+                                    )}
                                 >
-                                    <i className={fr.cx("fr-icon-information-line")} />
-                                </Tooltip>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-            <div className={classes.section}>
-                <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
-                    {t("use full links")}
-                </p>
-                {serviceProviderUrl !== undefined && (
-                    <a
-                        href={serviceProviderUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title={t("service provider")}
-                        className={cx(classes.externalLink, classes.item)}
-                    >
-                        {t("service provider")}
-                    </a>
-                )}
-                {comptoireDuLibreUrl !== undefined && (
-                    <a
-                        href={comptoireDuLibreUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title={t("comptoire du libre sheet")}
-                        className={cx(classes.externalLink, classes.item)}
-                    >
-                        {t("comptoire du libre sheet")}
-                    </a>
-                )}
-                {wikiDataUrl !== undefined && (
-                    <a
-                        href={wikiDataUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title={t("wikiData sheet")}
-                        className={cx(classes.externalLink, classes.item)}
-                    >
-                        {t("wikiData sheet")}
-                    </a>
-                )}
-            </div>
-        </section>
+                                    {label}
+                                </p>
+                                {prerogativeName === "isPresentInSupportMarket" && (
+                                    <Tooltip
+                                        title={t("what is the support market", {
+                                            "url": "https://code.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
+                                        })}
+                                        arrow
+                                    >
+                                        <i
+                                            className={fr.cx("fr-icon-information-line")}
+                                        />
+                                    </Tooltip>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className={classes.section}>
+                    <p className={cx(fr.cx("fr-text--bold"), classes.item)}>
+                        {t("use full links")}
+                    </p>
+                    {comptoirDuLibreServiceProvidersUrl !== undefined && (
+                        <a
+                            href={comptoirDuLibreServiceProvidersUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={t("service provider")}
+                            className={cx(classes.externalLink, classes.item)}
+                        >
+                            {t("service provider")}
+                        </a>
+                    )}
+                    {comptoireDuLibreUrl !== undefined && (
+                        <a
+                            href={comptoireDuLibreUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={t("comptoire du libre sheet")}
+                            className={cx(classes.externalLink, classes.item)}
+                        >
+                            {t("comptoire du libre sheet")}
+                        </a>
+                    )}
+                    {annuaireCnllServiceProviders.length !== 0 && (
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                        <a
+                            onClick={() => openCnllServiceProviderModal()}
+                            href="#"
+                            title={t("CNLL service providers title")}
+                            className={cx(classes.externalLink, classes.item)}
+                        >
+                            {t("CNLL service providers", {
+                                "count": annuaireCnllServiceProviders.length
+                            })}
+                        </a>
+                    )}
+                    {wikiDataUrl !== undefined && (
+                        <a
+                            href={wikiDataUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={t("wikiData sheet")}
+                            className={cx(classes.externalLink, classes.item)}
+                        >
+                            {t("wikiData sheet")}
+                        </a>
+                    )}
+                </div>
+            </section>
+            <CnllServiceProviderModal
+                softwareName={softwareName}
+                annuaireCnllServiceProviders={annuaireCnllServiceProviders}
+            />
+        </>
     );
 };
 
@@ -282,6 +321,8 @@ export const { i18n } = declareComponentKeys<
     | "isRGAACompliant"
     | "service provider"
     | "comptoire du libre sheet"
+    | "CNLL service providers title"
+    | { K: "CNLL service providers"; P: { count: number } }
     | "wikiData sheet"
     | { K: "what is the support market"; P: { url: string }; R: JSX.Element }
 >()({ PreviewTab });

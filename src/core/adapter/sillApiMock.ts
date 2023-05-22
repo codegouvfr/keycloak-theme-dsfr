@@ -84,7 +84,7 @@ export const sillApi: SillApi = {
             "codeRepositoryUrl": undefined,
             "authors": [],
             "versionMin": "3.9.0",
-            "serviceProviderCount": 0,
+            "comptoirDuLibreServiceProviderCount": 0,
             "compotoirDuLibreId": formData.comptoirDuLibreId,
             "wikidataId": formData.wikidataId,
             "license": formData.softwareLicense,
@@ -108,7 +108,8 @@ export const sillApi: SillApi = {
                 "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
                 "DINUM": { "referentCount": 2, "userCount": 43 }
             },
-            "keywords": []
+            "keywords": [],
+            "annuaireCnllServiceProviders": []
         };
 
         softwares.push(software);
@@ -133,7 +134,7 @@ export const sillApi: SillApi = {
                 "codeRepositoryUrl": undefined,
                 "authors": [],
                 "versionMin": "3.9.0",
-                "serviceProviderCount": 0,
+                "comptoirDuLibreServiceProviderCount": 0,
                 "compotoirDuLibreId": formData.comptoirDuLibreId,
                 "wikidataId": formData.wikidataId,
                 "license": formData.softwareLicense,
@@ -158,7 +159,8 @@ export const sillApi: SillApi = {
                     "CC Pays de Pouzauges": { "referentCount": 1, "userCount": 0 },
                     "DINUM": { "referentCount": 2, "userCount": 43 }
                 },
-                "keywords": []
+                "keywords": [],
+                "annuaireCnllServiceProviders": []
             })
         };
     },
@@ -260,8 +262,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/nextcloud/server",
         "authors": [],
         "versionMin": "17.0.3",
-        "serviceProviderCount": 29,
+        "comptoirDuLibreServiceProviderCount": 29,
         "compotoirDuLibreId": 117,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [
             {
                 "wikidataDescription":
@@ -308,8 +311,9 @@ const softwares = [
             }
         ],
         "versionMin": "17.0.3",
-        "serviceProviderCount": 22,
+        "comptoirDuLibreServiceProviderCount": 22,
         "compotoirDuLibreId": 33,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [
             {
                 "wikidataDescription": "suite of office programs developed by Microsoft",
@@ -369,8 +373,9 @@ const softwares = [
             }
         ],
         "versionMin": "Dernière stable",
-        "serviceProviderCount": 24,
+        "comptoirDuLibreServiceProviderCount": 24,
         "compotoirDuLibreId": 38,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [],
         "wikidataId": "Q10135",
         "softwareType": {
@@ -416,8 +421,9 @@ const softwares = [
             }
         ],
         "versionMin": "Dernière stable",
-        "serviceProviderCount": 5,
+        "comptoirDuLibreServiceProviderCount": 5,
         "compotoirDuLibreId": 62,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [],
         "wikidataId": "Q171477",
         "license": "GPL-2.0-only",
@@ -460,8 +466,9 @@ const softwares = [
             }
         ],
         "versionMin": "10",
-        "serviceProviderCount": 16,
+        "comptoirDuLibreServiceProviderCount": 16,
         "compotoirDuLibreId": 241,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [
             {
                 "wikidataId": "Q381",
@@ -517,8 +524,9 @@ const softwares = [
             }
         ],
         "versionMin": "68",
-        "serviceProviderCount": 9,
+        "comptoirDuLibreServiceProviderCount": 9,
         "compotoirDuLibreId": 80,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q483604",
         "license": "MPL-2.0",
         "officialWebsiteUrl": "https://www.thunderbird.net/",
@@ -571,8 +579,9 @@ const softwares = [
             }
         ],
         "versionMin": "3.16",
-        "serviceProviderCount": 14,
+        "comptoirDuLibreServiceProviderCount": 14,
         "compotoirDuLibreId": 60,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [],
         "wikidataId": "Q1329181",
         "license": "GPL-2.0-or-later",
@@ -634,8 +643,9 @@ const softwares = [
             }
         ],
         "versionMin": "3.16",
-        "serviceProviderCount": 3,
+        "comptoirDuLibreServiceProviderCount": 3,
         "compotoirDuLibreId": 82,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q698",
         "license": "MPL-2.0",
         "officialWebsiteUrl": "https://www.mozilla.org/fr/firefox/new/",
@@ -684,8 +694,9 @@ const softwares = [
             }
         ],
         "versionMin": "10",
-        "serviceProviderCount": 17,
+        "comptoirDuLibreServiceProviderCount": 17,
         "compotoirDuLibreId": 123,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [],
         "wikidataId": "Q192490",
         "license": "PostgreSQL",
@@ -725,8 +736,9 @@ const softwares = [
             }
         ],
         "versionMin": "3.x",
-        "serviceProviderCount": 5,
+        "comptoirDuLibreServiceProviderCount": 5,
         "compotoirDuLibreId": 140,
+        "annuaireCnllServiceProviders": [],
         "similarSoftwares": [],
         "wikidataId": "Q50938515",
         "license": "AGPL-3.0-or-later",
@@ -764,8 +776,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -803,8 +816,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -842,8 +856,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -881,8 +896,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -920,8 +936,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -959,8 +976,9 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
+        "annuaireCnllServiceProviders": [],
         "wikidataId": "Q77064547",
         "license": "MIT",
         "officialWebsiteUrl": "https://archifiltre.fabrique.social.gouv.fr/",
@@ -998,7 +1016,8 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "annuaireCnllServiceProviders": [],
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
         "wikidataId": "Q77064547",
         "license": "MIT",
@@ -1037,7 +1056,8 @@ const softwares = [
         "codeRepositoryUrl": "https://github.com/SocialGouv/archifiltre-docs",
         "authors": [],
         "versionMin": "2.0.x",
-        "serviceProviderCount": 1,
+        "annuaireCnllServiceProviders": [],
+        "comptoirDuLibreServiceProviderCount": 1,
         "compotoirDuLibreId": 368,
         "wikidataId": "Q77064547",
         "license": "MIT",

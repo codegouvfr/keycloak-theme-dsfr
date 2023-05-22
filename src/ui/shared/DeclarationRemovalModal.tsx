@@ -21,10 +21,7 @@ const evtParams = Evt.create<Params | undefined>(undefined);
 
 evtParams.toStateless().attach(() => wrapper.openDeclarationRemovalModal());
 
-export function openDeclarationRemovalModal(params: {
-    softwareName: string;
-    declarationType: "user" | "referent";
-}) {
+export function openDeclarationRemovalModal(params: Params) {
     evtParams.state = params;
 }
 
