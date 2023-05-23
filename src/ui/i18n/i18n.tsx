@@ -909,7 +909,7 @@ const {
                             return "";
                     }
                 },
-                "add software": "Ajouter un logiciel",
+                "add software": "Ajouter le logiciel",
                 "update software": "Valider les modifications"
             },
             "SoftwareFormStep1": {
