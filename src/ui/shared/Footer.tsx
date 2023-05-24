@@ -54,7 +54,12 @@ export const Footer = memo(
                                 "href": "https://github.com/codegouvfr/sill-web/issues/new"
                             }
                         },
-                        headerFooterDisplayItem
+                        {
+                            "text": "sill.json",
+                            "linkProps": {
+                                "href": `https://${window.location.host}/api/sill.json`
+                            }
+                        }
                     ]}
                 />
                 <Display />
