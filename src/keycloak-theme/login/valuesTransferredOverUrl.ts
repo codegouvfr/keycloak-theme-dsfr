@@ -172,9 +172,8 @@ function read(params: { queryParamName: string }): string | undefined {
     const serializedValue = localStorage.getItem(queryParamName);
 
     if (serializedValue === null) {
-        throw new Error(
-            `Missing ${queryParamName} in URL when redirecting to login page`
-        );
+        // Missing ${queryParamName} in URL when redirecting to login page
+        return undefined;
     }
 
     return serializedValue;
