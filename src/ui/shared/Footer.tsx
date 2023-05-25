@@ -59,7 +59,8 @@ export const Footer = memo(
                             "linkProps": {
                                 "href": `https://${window.location.host}/api/sill.json`
                             }
-                        }
+                        },
+                        headerFooterDisplayItem
                     ]}
                 />
                 <Display />
