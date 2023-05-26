@@ -60,6 +60,18 @@ export const Footer = memo(
                                 "href": `https://${window.location.host}/api/sill.json`
                             }
                         },
+                        {
+                            "text": "sill.pdf",
+                            "linkProps": {
+                                "href": "https://code.gouv.fr/data/sill.pdf"
+                            }
+                        },
+                        {
+                            "text": "sill.tsv",
+                            "linkProps": {
+                                "href": "https://code.gouv.fr/data/sill.tsv"
+                            }
+                        },
                         headerFooterDisplayItem
                     ]}
                 />
