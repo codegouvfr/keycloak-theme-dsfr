@@ -101,13 +101,14 @@ export function UserProfileFormFields({
                                 getOrganizationFullName(organization)
                             }
                             value={value}
-                            onValueChange={value =>
+                            onValueChange={value => (
+                                console.log(value),
                                 formValidationDispatch({
                                     "action": "update value",
                                     "name": attribute.name,
                                     "newValue": value ?? ""
                                 })
-                            }
+                            )}
                             dsfrInputProps={{
                                 "label": advancedMsg(attribute.displayName ?? ""),
                                 "nativeInputProps": {

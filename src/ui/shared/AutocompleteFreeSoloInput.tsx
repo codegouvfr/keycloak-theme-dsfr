@@ -1,8 +1,9 @@
-import { type ReactNode, type HTMLAttributes } from "react";
+import { type ReactNode, type HTMLAttributes, useMemo } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr } from "@codegouvfr/react-dsfr";
+import { assert } from "tsafe/assert";
 
 export type AutocompleteFreeSoloInputProps = {
     className?: string;
@@ -20,10 +21,38 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
         value,
         onValueChange,
         options,
-        getOptionLabel,
+        getOptionLabel: getOptionLabel_props,
         renderOption,
         dsfrInputProps
     } = props;
+
+    const { getOptionFormLabel, getOptionLabel } = useMemo(() => {
+        const optionByLabel = new Map<string, string>();
+
+        const getOptionFormLabel = (
+            label: string | number | readonly string[] | undefined
+        ): string => {
+            assert(typeof label === "string");
+
+            const option = optionByLabel.get(label);
+
+            if (option === undefined) {
+                return label;
+            }
+
+            return option;
+        };
+
+        const getOptionLabel = (option: string): string => {
+            const label = getOptionLabel_props?.(option) ?? option;
+
+            optionByLabel.set(label, option);
+
+            return label;
+        };
+
+        return { getOptionFormLabel, getOptionLabel };
+    }, [getOptionLabel_props]);
 
     return (
         <Autocomplete
@@ -51,6 +80,7 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
                     nativeInputProps={{
                         ...params.inputProps,
                         ...dsfrInputProps.nativeInputProps,
+                        "value": getOptionFormLabel(params.inputProps.value),
                         "ref": element =>
                             [
                                 (params.inputProps as any).ref,

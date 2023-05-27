@@ -68,7 +68,7 @@ export const { getKcContext } = createGetKcContext({
 });
 
 export const { kcContext } = getKcContext({
-    //"mockPageId": "login.ftl"
+    //"mockPageId": "register-user-profile.ftl"
 });
 
 export type KcContext = NonNullable<ReturnType<typeof getKcContext>["kcContext"]>;
