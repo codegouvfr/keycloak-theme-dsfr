@@ -88,13 +88,14 @@ export function UserProfileFormFields({
 
     return (
         <>
-            {attributesWithPassword.map(attribute => {
+            {attributesWithPassword.map((attribute, i) => {
                 const { value, displayableErrors } =
                     fieldStateByAttributeName[attribute.name];
 
                 if (attribute.name === apiData.organizationUserProfileAttributeName) {
                     return (
                         <AutocompleteFreeSoloInput
+                            key={i}
                             options={apiData.organizations}
                             getOptionLabel={organization =>
                                 getOrganizationFullName(organization)
