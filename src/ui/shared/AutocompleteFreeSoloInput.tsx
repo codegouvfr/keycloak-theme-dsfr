@@ -1,16 +1,18 @@
-import { type ReactNode, type HTMLAttributes, useMemo } from "react";
+import { type ReactNode, type HTMLAttributes } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input, type InputProps } from "@codegouvfr/react-dsfr/Input";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { fr } from "@codegouvfr/react-dsfr";
 import { assert } from "tsafe/assert";
+import { useConst } from "powerhooks/useConst";
+import { useConstCallback } from "powerhooks/useConstCallback";
 
 export type AutocompleteFreeSoloInputProps = {
     className?: string;
     value: string;
     onValueChange: (value: string) => void;
     options: string[];
-    getOptionLabel?: (value: string) => string;
+    getOptionLabel?: (option: string) => string;
     renderOption?: (liProps: HTMLAttributes<HTMLLIElement>, option: string) => ReactNode;
     dsfrInputProps: InputProps.RegularInput;
 };
@@ -26,33 +28,41 @@ export function AutocompleteFreeSoloInput(props: AutocompleteFreeSoloInputProps)
         dsfrInputProps
     } = props;
 
-    const { getOptionFormLabel, getOptionLabel } = useMemo(() => {
-        const optionByLabel = new Map<string, string>();
+    const { getOptionFormLabel, getOptionLabel } = (function useClosure() {
+        const getOptionLabel_props_const = useConstCallback(
+            getOptionLabel_props ?? ((option: string) => option)
+        );
 
-        const getOptionFormLabel = (
-            label: string | number | readonly string[] | undefined
-        ): string => {
-            assert(typeof label === "string");
+        const { getOptionFormLabel, getOptionLabel } = useConst(() => {
+            const optionByLabel = new Map<string, string>();
 
-            const option = optionByLabel.get(label);
+            const getOptionFormLabel = (
+                label: string | number | readonly string[] | undefined
+            ): string => {
+                assert(typeof label === "string");
 
-            if (option === undefined) {
+                const option = optionByLabel.get(label);
+
+                if (option === undefined) {
+                    return label;
+                }
+
+                return option;
+            };
+
+            const getOptionLabel = (option: string): string => {
+                const label = getOptionLabel_props_const(option);
+
+                optionByLabel.set(label, option);
+
                 return label;
-            }
+            };
 
-            return option;
-        };
-
-        const getOptionLabel = (option: string): string => {
-            const label = getOptionLabel_props?.(option) ?? option;
-
-            optionByLabel.set(label, option);
-
-            return label;
-        };
+            return { getOptionFormLabel, getOptionLabel };
+        });
 
         return { getOptionFormLabel, getOptionLabel };
-    }, [getOptionLabel_props]);
+    })();
 
     return (
         <Autocomplete
