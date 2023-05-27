@@ -18,6 +18,7 @@ import { appLocationOrigin } from "keycloak-theme/login/valuesTransferredOverUrl
 import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
 import { keyframes } from "tss-react";
 import { LoadingFallback } from "ui/shared/LoadingFallback";
+import { Display, headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -77,6 +78,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             </>
                         }
                         serviceTitle={serviceTitle}
+                        quickAccessItems={[headerFooterDisplayItem]}
                         homeLinkProps={{
                             "href": appLocationOrigin,
                             "title": `${msgStr("home")} - ${serviceTitle}`
@@ -267,6 +269,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     </div>
                 </div>
             </div>
+            <Display />
         </>
     );
 }

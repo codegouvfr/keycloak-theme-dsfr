@@ -6,11 +6,11 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
-import type { KcContext } from "../../kcContext";
-import type { I18n } from "../../i18n";
+import type { KcContext } from "../kcContext";
+import type { I18n } from "../i18n";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
-import { AgentConnectButton } from "./AgentConnectButton";
+import { AgentConnectButton } from "@codegouvfr/react-dsfr/AgentConnectButton";
 
 export default function Login(
     props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -126,7 +126,8 @@ export default function Login(
                                                     .replace(/ /g, "")
                                                     .includes("agentconnect") ? (
                                                     <AgentConnectButton
-                                                        url={p.loginUrl}
+                                                        style={{ "textAlign": "center" }}
+                                                        redirectUrl={p.loginUrl}
                                                     />
                                                 ) : (
                                                     <Button
