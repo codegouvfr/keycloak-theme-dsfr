@@ -6,7 +6,7 @@ import { useTranslation } from "ui/i18n";
 import { Header as HeaderDsfr } from "@codegouvfr/react-dsfr/Header";
 import { routes } from "ui/routes";
 import { fr } from "@codegouvfr/react-dsfr";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { contactEmail } from "ui/shared/contactEmail";
 import { LanguageSelector } from "./LanguageSelector";
 import { Language } from "../i18n";

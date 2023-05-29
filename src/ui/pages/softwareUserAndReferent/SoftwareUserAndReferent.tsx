@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { selectors, useCoreState, useCoreFunctions } from "core";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation, useGetOrganizationFullName } from "ui/i18n";

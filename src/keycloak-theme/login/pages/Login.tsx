@@ -1,7 +1,7 @@
 import { useState, type FormEventHandler } from "react";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
@@ -127,7 +127,7 @@ export default function Login(
                                                     .includes("agentconnect") ? (
                                                     <AgentConnectButton
                                                         style={{ "textAlign": "center" }}
-                                                        redirectUrl={p.loginUrl}
+                                                        url={p.loginUrl}
                                                     />
                                                 ) : (
                                                     <Button

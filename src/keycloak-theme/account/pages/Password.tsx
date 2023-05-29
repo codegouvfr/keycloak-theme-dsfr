@@ -5,7 +5,7 @@ import type { I18n } from "../i18n";
 import { fr } from "@codegouvfr/react-dsfr";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { useStyles } from "@codegouvfr/react-dsfr/tss";
+import { useStyles } from "tss-react/dsfr";
 
 export default function Password(
     props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, I18n>

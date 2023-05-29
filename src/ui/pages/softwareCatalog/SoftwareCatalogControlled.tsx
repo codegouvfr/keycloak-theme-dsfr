@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect, useMemo } from "react";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalog";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { fr } from "@codegouvfr/react-dsfr";

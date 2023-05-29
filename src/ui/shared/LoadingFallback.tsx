@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import MuiCircularProgress from "@mui/material/CircularProgress";
-import { useStyles } from "@codegouvfr/react-dsfr/tss";
+import { useStyles } from "tss-react/dsfr";
 
 type Props = {
     className?: string;

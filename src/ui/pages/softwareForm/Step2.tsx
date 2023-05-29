@@ -12,7 +12,7 @@ import type { FormData } from "core/usecases/softwareForm";
 import type { ReturnType } from "tsafe";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
-import { useStyles } from "@codegouvfr/react-dsfr/tss";
+import { useStyles } from "tss-react/dsfr";
 
 export type Step2Props = {
     className?: string;

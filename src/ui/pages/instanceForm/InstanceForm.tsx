@@ -3,7 +3,7 @@ import { routes, session } from "ui/routes";
 import CircularProgress from "@mui/material/CircularProgress";
 import { InstanceFormStep1 } from "ui/pages/instanceForm/Step1";
 import { InstanceFormStep2 } from "ui/pages/instanceForm/Step2";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useConst } from "powerhooks/useConst";

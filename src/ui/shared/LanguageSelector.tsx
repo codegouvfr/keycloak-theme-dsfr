@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { fr } from "@codegouvfr/react-dsfr";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { type Language, languages } from "ui/i18n";
 
 type Props = {

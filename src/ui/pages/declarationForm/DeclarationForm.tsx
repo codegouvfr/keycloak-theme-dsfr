@@ -11,7 +11,7 @@ import { Evt } from "evt";
 import { DeclarationFormStep1 } from "ui/pages/declarationForm/Step1";
 import { DeclarationFormStep2User } from "ui/pages/declarationForm/Step2User";
 import { DeclarationFormStep2Referent } from "ui/pages/declarationForm/Step2Referent";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { fr } from "@codegouvfr/react-dsfr";
 import { DetailUsersAndReferents } from "ui/shared/DetailUsersAndReferents";

@@ -3,7 +3,7 @@ import { declareComponentKeys } from "i18nifty";
 import { useCoreFunctions, useCoreState, selectors } from "core";
 import { Markdown } from "keycloakify/tools/Markdown";
 import { useLang } from "ui/i18n";
-import { makeStyles } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import type { PageRoute } from "./route";
 

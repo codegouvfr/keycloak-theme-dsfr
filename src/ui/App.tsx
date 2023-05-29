@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { makeStyles, useStyles as useCss } from "@codegouvfr/react-dsfr/tss";
+import { makeStyles, useStyles as useCss } from "tss-react/dsfr";
 import { useRoute } from "ui/routes";
 import { Header } from "ui/shared/Header";
 import { Footer } from "ui/shared/Footer";

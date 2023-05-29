@@ -8,7 +8,7 @@ import type { State as SoftwareCatalogState } from "core/usecases/softwareCatalo
 import { SoftwareCatalogCard } from "ui/pages/softwareCatalog/SoftwareCatalogCard";
 import type { Link } from "type-route";
 import { capitalize } from "tsafe/capitalize";
-import { useStyles } from "@codegouvfr/react-dsfr/tss";
+import { useStyles } from "tss-react/dsfr";
 
 export type Props = {
     className?: string;
