@@ -53,7 +53,7 @@ const { CoreProvider } = createCoreProvider({
         [url]
             .map(injectGlobalStatesInSearchParams)
             .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl || defaultApiUrl }))
-            .map(url => addIsDarkToQueryParams({ url, "value": keycloakIsDark })) 
+            .map(url => addIsDarkToQueryParams({ url, "value": keycloakIsDark }))
             .map(url => addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl }))
             .map(url => addAppLocationOriginToQueryParams({ url, "value": window.location.origin }))
         [0],
@@ -62,6 +62,13 @@ const { CoreProvider } = createCoreProvider({
 
 export default function App() {
     const { css } = useCss();
+
+    if (window.location.host === "sill.etalab.gouv.fr") {
+        const newUrl = new URL(window.location.href);
+        newUrl.host = "sill.code.gouv.fr";
+        window.location.href = newUrl.href;
+        return null;
+    }
 
     return (
         <>
