@@ -141,20 +141,33 @@
 	<meta property="twitter:description" content="Catalogue de référence de logiciels libres recommandés pour l'ensemble de l'administration.">
 	<meta property="twitter:image" content="https://sill.code.gouv.fr/social-preview.png">
 
-</head>
+	<script>
+		window.onload = function () {
 
-<body>
-	<div id="root"></div>
-	<!--
-      	This HTML file is a template.
-      	If you open it directly in the browser, you will see an empty page.
+			// Check if the current domain is different from the desired one
+			if (window.location.host === "sill.etalab.gouv.fr") {
+				var newUrl = new URL(window.location.href); // clone the current URL
+				newUrl.host = "sill.code.gouv.fr"; // replace the domain
 
-      	You can add webfonts, meta tags, or analytics to this file.
-      	The build step will place the bundled scripts into the <body> tag.
-
-      	To begin the development, run `npm start`.
-      	To create a production bundle, use `npm run build`.
-    -->
-</body>
-
-</html>
+				window.location.href = newUrl.href; // redirect to the new URL
+			}
+		}
+	</script>
+	
+	</head>
+	
+	<body>
+		<div id="root"></div>
+		<!--
+	      	This HTML file is a template.
+	      	If you open it directly in the browser, you will see an empty page.
+	
+	      	You can add webfonts, meta tags, or analytics to this file.
+	      	The build step will place the bundled scripts into the <body> tag.
+	
+	      	To begin the development, run `npm start`.
+	      	To create a production bundle, use `npm run build`.
+	    -->
+	</body>
+	
+	</html>

@@ -13,7 +13,7 @@ type Props = {
     route: PageRoute;
 };
 
-export default function SoftwareCatalog(props: Props) {
+export default function Redirect(props: Props) {
     const { className, route } = props;
 
     const { softwareNameBySillId } = useCoreState(
