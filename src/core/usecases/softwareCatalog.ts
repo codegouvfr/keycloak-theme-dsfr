@@ -243,7 +243,7 @@ export const privateThunks = {
                         : await sillApi.getAgents();
 
                 const softwares = apiSoftwares
-                    .filter(({ dereferencing }) => dereferencing !== undefined)
+                    .filter(({ dereferencing }) => dereferencing === undefined)
                     .map(({ softwareName }) => {
                         const software = apiSoftwareToInternalSoftware({
                             apiSoftwares,
