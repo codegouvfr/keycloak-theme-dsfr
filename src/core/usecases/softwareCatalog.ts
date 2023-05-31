@@ -242,50 +242,52 @@ export const privateThunks = {
                         ? { "agents": undefined }
                         : await sillApi.getAgents();
 
-                const softwares = apiSoftwares.map(({ softwareName }) => {
-                    const software = apiSoftwareToInternalSoftware({
-                        apiSoftwares,
-                        "softwareRef": {
-                            "type": "name",
-                            softwareName
-                        },
-                        "userDeclaration":
-                            agents === undefined
-                                ? undefined
-                                : (() => {
-                                      const agent = agents.find(
-                                          agent => agent.email === userEmail
-                                      );
+                const softwares = apiSoftwares
+                    .filter(({ dereferencing }) => dereferencing !== undefined)
+                    .map(({ softwareName }) => {
+                        const software = apiSoftwareToInternalSoftware({
+                            apiSoftwares,
+                            "softwareRef": {
+                                "type": "name",
+                                softwareName
+                            },
+                            "userDeclaration":
+                                agents === undefined
+                                    ? undefined
+                                    : (() => {
+                                          const agent = agents.find(
+                                              agent => agent.email === userEmail
+                                          );
 
-                                      if (agent === undefined) {
-                                          return undefined;
-                                      }
+                                          if (agent === undefined) {
+                                              return undefined;
+                                          }
 
-                                      return {
-                                          "isReferent":
-                                              agent.declarations.find(
-                                                  declaration =>
-                                                      declaration.declarationType ===
-                                                          "referent" &&
-                                                      declaration.softwareName ===
-                                                          softwareName
-                                              ) !== undefined,
-                                          "isUser":
-                                              agent.declarations.find(
-                                                  declaration =>
-                                                      declaration.declarationType ===
-                                                          "user" &&
-                                                      declaration.softwareName ===
-                                                          softwareName
-                                              ) !== undefined
-                                      };
-                                  })()
+                                          return {
+                                              "isReferent":
+                                                  agent.declarations.find(
+                                                      declaration =>
+                                                          declaration.declarationType ===
+                                                              "referent" &&
+                                                          declaration.softwareName ===
+                                                              softwareName
+                                                  ) !== undefined,
+                                              "isUser":
+                                                  agent.declarations.find(
+                                                      declaration =>
+                                                          declaration.declarationType ===
+                                                              "user" &&
+                                                          declaration.softwareName ===
+                                                              softwareName
+                                                  ) !== undefined
+                                          };
+                                      })()
+                        });
+
+                        assert(software !== undefined);
+
+                        return software;
                     });
-
-                    assert(software !== undefined);
-
-                    return software;
-                });
 
                 dispatch(
                     actions.initialized({
