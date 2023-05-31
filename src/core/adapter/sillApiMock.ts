@@ -81,6 +81,7 @@ export const sillApi: SillApi = {
                     .sort()
                     .reverse()[0] + 1,
             "softwareName": formData.softwareName,
+            "dereferencing": undefined,
             "codeRepositoryUrl": undefined,
             "authors": [],
             "versionMin": "3.9.0",
@@ -131,6 +132,7 @@ export const sillApi: SillApi = {
                         .sort()
                         .reverse()[0] + 1,
                 "softwareName": formData.softwareName,
+                "dereferencing": undefined,
                 "codeRepositoryUrl": undefined,
                 "authors": [],
                 "versionMin": "3.9.0",
@@ -283,6 +285,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1670416144,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["messaging"],
         "softwareType": {
             "type": "cloud"
@@ -334,6 +337,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["traitement de texte"],
         "prerogatives": {
             "doRespectRgaa": true,
@@ -392,6 +396,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud", "software"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -445,6 +450,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["player"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -491,6 +497,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -554,6 +561,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -603,6 +611,7 @@ const softwares = [
         "parentSoftware": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -658,6 +667,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -710,6 +720,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "softwareType": {
             "type": "stack"
@@ -756,6 +767,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -800,6 +812,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -840,6 +853,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -880,6 +894,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -920,6 +935,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -960,6 +976,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -1000,6 +1017,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -1040,6 +1058,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,
@@ -1080,6 +1099,7 @@ const softwares = [
         "testUrl": undefined,
         "addedTime": 1674739365178,
         "updateTime": 1674739365178,
+        "dereferencing": undefined,
         "categories": ["cloud"],
         "prerogatives": {
             "doRespectRgaa": false,

@@ -58,6 +58,13 @@ export namespace State {
             siren: string;
             url: string;
         }[];
+        dereferencing:
+            | {
+                  reason?: string;
+                  time: number;
+                  lastRecommendedVersion?: string;
+              }
+            | undefined;
         compotoirDuLibreUrl: string | undefined;
         wikidataUrl: string | undefined;
         prerogatives: Record<SoftwareCatalogState.Prerogative, boolean | undefined>;
@@ -307,6 +314,7 @@ function apiSoftwareToSoftware(params: {
         parentSoftware: parentSoftwareWikidata_api,
         testUrl,
         addedTime,
+        dereferencing,
         prerogatives,
         comptoirDuLibreServiceProviderCount,
         compotoirDuLibreId,
@@ -354,6 +362,7 @@ function apiSoftwareToSoftware(params: {
         softwareName,
         softwareDescription,
         latestVersion,
+        dereferencing,
         "referentCount": Object.values(userAndReferentCountByOrganization)
             .map(({ referentCount }) => referentCount)
             .reduce((prev, curr) => prev + curr, 0),

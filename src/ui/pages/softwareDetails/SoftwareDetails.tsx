@@ -71,6 +71,7 @@ export default function SoftwareDetails(props: Props) {
                     <HeaderDetailCard
                         softwareLogoUrl={software.logoUrl ?? softwareLogoPlaceholder}
                         softwareName={software.softwareName}
+                        softwareDereferencing={software.dereferencing}
                         authors={software.authors}
                         officialWebsite={software.officialWebsiteUrl}
                         sourceCodeRepository={software.codeRepositoryUrl}

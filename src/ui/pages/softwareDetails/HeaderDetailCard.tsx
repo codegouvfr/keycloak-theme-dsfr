@@ -1,15 +1,23 @@
 import { memo } from "react";
 import { declareComponentKeys } from "i18nifty";
-import { useTranslation } from "ui/i18n";
+import { useTranslation, useLang } from "ui/i18n";
 import { makeStyles } from "tss-react/dsfr";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { fr } from "@codegouvfr/react-dsfr";
+import { getFormattedDate } from "ui/useMoment";
 
 export type Props = {
     className?: string;
     softwareLogoUrl?: string;
     softwareName: string;
+    softwareDereferencing:
+        | {
+              reason?: string;
+              time: number;
+              lastRecommendedVersion?: string;
+          }
+        | undefined;
     authors: {
         authorName: string;
         authorUrl: string;
@@ -35,6 +43,7 @@ export const HeaderDetailCard = memo((props: Props) => {
         sourceCodeRepository,
         onGoBackClick,
         userDeclaration,
+        softwareDereferencing,
         ...rest
     } = props;
 
@@ -43,6 +52,8 @@ export const HeaderDetailCard = memo((props: Props) => {
     const { classes, cx } = useStyles();
 
     const { t } = useTranslation({ HeaderDetailCard });
+
+    const { lang } = useLang();
 
     return (
         <div className={cx(classes.root, className)}>
@@ -104,6 +115,23 @@ export const HeaderDetailCard = memo((props: Props) => {
                                     ))}
                                 </span>
                             </div>
+                        )}
+                        {softwareDereferencing !== undefined && (
+                            <>
+                                &nbsp; &nbsp;
+                                <p className={classes.dereferencedText}>
+                                    {t("software dereferenced", {
+                                        "lastRecommendedVersion":
+                                            softwareDereferencing.lastRecommendedVersion,
+                                        "reason": softwareDereferencing.reason,
+                                        "when": getFormattedDate({
+                                            "time": softwareDereferencing.time,
+                                            lang,
+                                            "doAlwaysShowYear": true
+                                        })
+                                    })}
+                                </p>
+                            </>
                         )}
                     </div>
                 </div>
@@ -214,6 +242,9 @@ const useStyles = makeStyles({
     },
     "officialWebsiteButton": {
         "marginRight": fr.spacing("4v")
+    },
+    "dereferencedText": {
+        "color": theme.decisions.text.default.error.default
     }
 }));
 
@@ -224,6 +255,10 @@ export const { i18n } = declareComponentKeys<
     | "software logo"
     | "you are user"
     | "you are referent"
+    | {
+          K: "software dereferenced";
+          P: { lastRecommendedVersion?: string; reason?: string; when: string };
+      }
 >()({
     HeaderDetailCard
 });

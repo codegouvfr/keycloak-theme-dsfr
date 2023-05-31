@@ -492,7 +492,19 @@ const {
                 "repository": "Source code repository",
                 "software logo": "Software logo",
                 "you are user": "You're using it",
-                "you are referent": "You are referent"
+                "you are referent": "You are referent",
+                "software dereferenced": ({
+                    lastRecommendedVersion,
+                    reason,
+                    when
+                }) => `From ${when}, this software is no longer recommended${
+                    reason === undefined ? "" : `, ${reason}`
+                }}.
+                ${
+                    lastRecommendedVersion === undefined
+                        ? ""
+                        : `Last acceptable version: ${lastRecommendedVersion}`
+                }`
             },
             "PreviewTab": {
                 "about": "About",
@@ -1112,7 +1124,19 @@ const {
                 "repository": "Dépôt du code source",
                 "software logo": "Logo du logiciel",
                 "you are user": "Vous l'utilisez",
-                "you are referent": "Vous êtes référent"
+                "you are referent": "Vous êtes référent",
+                "software dereferenced": ({
+                    lastRecommendedVersion,
+                    reason,
+                    when
+                }) => `Depuis ${when}, ce logiciel n'est plus recommandé ${
+                    reason === undefined ? "" : ` : « ${reason} »`
+                }.
+                ${
+                    !lastRecommendedVersion
+                        ? ""
+                        : `Dernière version recommandée : ${lastRecommendedVersion}`
+                }`
             },
             "PreviewTab": {
                 "about": "À propos",
