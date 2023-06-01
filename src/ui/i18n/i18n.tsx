@@ -159,8 +159,8 @@ const {
             "AddSoftwareLanding": {
                 "title": (
                     <>
-                        <span>Help us enrich the catalog</span> by adding software or
-                        software deployments within your organization!
+                        <span>Are you a public servant? </span> Add free software or
+                        instances of free software used or deployed in your organization!
                     </>
                 ),
                 "subtitle":
@@ -779,13 +779,13 @@ const {
             "AddSoftwareLanding": {
                 "title": (
                     <>
-                        <span>Aidez-nous à enrichir le catalogue</span> en ajoutant des
-                        logiciels libres ou des instances de logiciels libres utilisés ou
-                        déployées dans votre organisation !
+                        <span>Vous êtes agent public? </span> Ajoutez des logiciels libres
+                        ou des instances de logiciels libres utilisés ou déployées dans
+                        votre organisation !
                     </>
                 ),
                 "subtitle":
-                    "Contribuez à la création d'une plateforme de référence pour les logiciels du service public et partagez des informations utiles aux agents et aux DSI de l'administration",
+                    "Contribuez à la création d'une plateforme de référence pour les logiciels du service public et partagez des informations utiles aux agents et aux DSI de l'administration.",
                 "who can add software":
                     "Qui peut ajouter un logiciel ou un service et comment faire ?",
                 "discover as agent label": "Découvrir en tant qu'agent",
