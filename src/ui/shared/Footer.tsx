@@ -4,7 +4,7 @@ import type { Equals } from "tsafe";
 import { useTranslation } from "ui/i18n";
 import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
-import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { brandTop } from "ui/shared/Header";
 import { declareComponentKeys } from "i18nifty";
 
@@ -75,7 +75,6 @@ export const Footer = memo(
                         headerFooterDisplayItem
                     ]}
                 />
-                <Display />
             </>
         );
     })

@@ -9,7 +9,7 @@ import type { I18n } from "./i18n";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Header } from "@codegouvfr/react-dsfr/Header";
 import { Footer } from "@codegouvfr/react-dsfr/Footer";
-import { headerFooterDisplayItem, Display } from "@codegouvfr/react-dsfr/Display";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { fr } from "@codegouvfr/react-dsfr";
 import { MuiDsfrThemeProvider } from "@codegouvfr/react-dsfr/mui";
 
@@ -96,7 +96,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 accessibility="fully compliant"
                 bottomItems={[headerFooterDisplayItem]}
             />
-            <Display />
         </div>
     );
 }

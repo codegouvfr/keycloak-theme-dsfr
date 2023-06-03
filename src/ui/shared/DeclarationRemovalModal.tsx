@@ -7,8 +7,8 @@ import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const wrapper = createModal({
-    "name": "declarationRemoval",
+const modal = createModal({
+    "id": "declaration-removal",
     "isOpenedByDefault": false
 });
 
@@ -19,7 +19,7 @@ type Params = {
 
 const evtParams = Evt.create<Params | undefined>(undefined);
 
-evtParams.toStateless().attach(() => wrapper.openDeclarationRemovalModal());
+evtParams.toStateless().attach(() => modal.open());
 
 export function openDeclarationRemovalModal(params: Params) {
     evtParams.state = params;
@@ -38,7 +38,7 @@ export function DeclarationRemovalModal() {
         evtDeclarationRemoval.attach(
             ({ action }) => action === "close modal",
             ctx,
-            () => wrapper.closeDeclarationRemovalModal()
+            () => modal.close()
         )
     );
 
@@ -49,7 +49,7 @@ export function DeclarationRemovalModal() {
     const { softwareName = "", declarationType = "referent" } = params ?? {};
 
     return (
-        <wrapper.DeclarationRemovalModal
+        <modal.Component
             title={t("stop being user/referent", { softwareName, declarationType })}
             buttons={[
                 {
@@ -81,7 +81,7 @@ export function DeclarationRemovalModal() {
             ]}
         >
             {t("do you confirm", { softwareName, declarationType })}
-        </wrapper.DeclarationRemovalModal>
+        </modal.Component>
     );
 }
 

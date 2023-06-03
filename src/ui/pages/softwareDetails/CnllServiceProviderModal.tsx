@@ -2,12 +2,12 @@ import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import { declareComponentKeys } from "i18nifty";
 import { useTranslation } from "ui/i18n";
 
-const wrapper = createModal({
-    "name": "cnllServiceProvider",
+const modal = createModal({
+    "id": "cnll-service-provider",
     "isOpenedByDefault": false
 });
 
-export const { openCnllServiceProviderModal } = wrapper;
+export const { open: openCnllServiceProviderModal } = modal;
 
 type Props = {
     className?: string;
@@ -26,7 +26,7 @@ export function CnllServiceProviderModal(props: Props) {
     const { t } = useTranslation({ CnllServiceProviderModal });
 
     return (
-        <wrapper.CnllServiceProviderModal
+        <modal.Component
             className={className}
             title={t("modal title")}
             buttons={[
@@ -50,7 +50,7 @@ export function CnllServiceProviderModal(props: Props) {
                     </li>
                 ))}
             </ul>
-        </wrapper.CnllServiceProviderModal>
+        </modal.Component>
     );
 }
 
