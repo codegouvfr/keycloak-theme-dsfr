@@ -5,7 +5,6 @@ import { useTranslation } from "ui/i18n";
 import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
-import { brandTop } from "ui/shared/Header";
 import { declareComponentKeys } from "i18nifty";
 
 export type Props = {
@@ -20,7 +19,6 @@ export const Footer = memo(
 
         assert<Equals<typeof rest, {}>>();
 
-        const { t: tHeader } = useTranslation({ "Header": undefined });
         const { t } = useTranslation({ Footer });
 
         return (
@@ -28,11 +26,6 @@ export const Footer = memo(
                 <DsfrFooter
                     ref={ref}
                     className={className}
-                    brandTop={brandTop}
-                    homeLinkProps={{
-                        ...routes.home().link,
-                        title: tHeader("home title")
-                    }}
                     accessibility="fully compliant"
                     termsLinkProps={routes.terms().link}
                     bottomItems={[

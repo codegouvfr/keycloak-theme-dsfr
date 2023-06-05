@@ -38,11 +38,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         return null;
     }
 
-    const homeLinkProps = {
-        "href": referrer?.url,
-        "title": "Go back to the website"
-    };
-
     return (
         <div
             style={{
@@ -52,8 +47,17 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             }}
         >
             <Header
-                brandTop={brandTop}
-                homeLinkProps={homeLinkProps}
+                brandTop={
+                    // cspell: disable-next-line
+                    <>
+                        {" "}
+                        République <br /> Française{" "}
+                    </>
+                }
+                homeLinkProps={{
+                    "href": referrer?.url,
+                    "title": "Go back to the website"
+                }}
                 quickAccessItems={[
                     {
                         "iconId": "fr-icon-lock-line",
@@ -89,23 +93,12 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     {children}
                 </MuiDsfrThemeProvider>
             </div>
-
             <Footer
-                brandTop={brandTop}
-                homeLinkProps={homeLinkProps}
-                accessibility="fully compliant"
+                accessibility="partially compliant"
                 bottomItems={[headerFooterDisplayItem]}
             />
         </div>
     );
 }
-
-const brandTop = (
-    /* cSpell:disable */
-    <>
-        République <br /> Française
-    </>
-    /* cSpell:enable */
-);
 
 const serviceTitle = "Socle interministériel de logiciels libres";

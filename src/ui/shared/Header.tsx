@@ -29,14 +29,6 @@ type Props = {
     };
 };
 
-export const brandTop = (
-    /* cSpell:disable */
-    <>
-        République <br /> Française
-    </>
-    /* cSpell:enable */
-);
-
 export const Header = memo(
     forwardRef<HTMLDivElement, Props>((props, ref) => {
         const { className, routeName, userAuthenticationApi, i18nApi, ...rest } = props;
@@ -53,7 +45,13 @@ export const Header = memo(
             <HeaderDsfr
                 ref={ref}
                 className={className}
-                brandTop={brandTop}
+                brandTop={
+                    // cspell: disable-next-line
+                    <>
+                        {" "}
+                        République <br /> Française{" "}
+                    </>
+                }
                 serviceTitle={t("title")}
                 homeLinkProps={{
                     ...routes.home().link,
