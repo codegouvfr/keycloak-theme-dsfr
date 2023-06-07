@@ -339,8 +339,9 @@ const {
                 ),
                 "wikidata id information":
                     "This information will automatically populate other fields",
-                "comptoir du libre id": "Comptoir du Libre identifier",
-                "comptoir du libre id hint": "Page URL or numeric ID",
+                "comptoir du libre id": "Comptoir du Libre identifier (optional)",
+                "comptoir du libre id hint":
+                    "If you the software is listed in the Comptoir du Libre you can add its identifier here. The identifier is either a numeric id or the url of the product page.",
                 "software name": "Software name",
                 "software feature": "Software function",
                 "software feature hint":
@@ -359,7 +360,9 @@ const {
                 "keywords": "Keywords",
                 "keywords hint":
                     "Keywords for making it pop up in the search results, coma separated",
-                "logo preview alt": "Preview of the logo"
+                "logo preview alt": "Preview of the logo",
+                "invalid comptoir du libre id":
+                    "Comptoir du libre ID should be a numeric id or a comptoir du libre url"
             },
             "SoftwareFormStep3": {
                 "is present in support market":
@@ -962,8 +965,9 @@ const {
                 ),
                 "wikidata id information":
                     "Cette information remplira automatiquement d'autres champs",
-                "comptoir du libre id": "Identifiant Comptoir du Libre",
-                "comptoir du libre id hint": "URL de la page ou identifiant numérique",
+                "comptoir du libre id": "Identifiant Comptoir du Libre (Optionnel)",
+                "comptoir du libre id hint":
+                    "Si le logiciel est présent sur le comptoir du libre vous pouvez renseigner son identifiant ou l'URL de sa fiche",
                 "software name": "Nom du logiciel",
                 "software feature": "Fonction du logiciel",
                 "software feature hint":
@@ -983,7 +987,9 @@ const {
                 "keywords": "Mot-clés",
                 "keywords hint":
                     "Mot clés pour aidée a la reherche du logiciel, séparé par des virgules",
-                "logo preview alt": "Aperçu du logo du logiciel"
+                "logo preview alt": "Aperçu du logo du logiciel",
+                "invalid comptoir du libre id":
+                    "Doit être un URL comptoir du libre ou un identifiant numérique"
             },
             "SoftwareFormStep3": {
                 "is present in support market":

@@ -316,7 +316,17 @@ export function SoftwareFormStep2(props: Step2Props) {
                         hintText={t("comptoir du libre id hint")}
                         nativeInputProps={{
                             ...register("comptoirDuLibreIdInputValue", {
-                                "pattern": /^[0-9]{1,5}$|^http/
+                                "validate": value => {
+                                    try {
+                                        comptoirDuLibreInputValueToComptoirDuLibreId(
+                                            value
+                                        );
+                                    } catch {
+                                        return false;
+                                    }
+
+                                    return true;
+                                }
                             })
                         }}
                         state={
@@ -324,7 +334,7 @@ export function SoftwareFormStep2(props: Step2Props) {
                                 ? "error"
                                 : undefined
                         }
-                        stateRelatedMessage={t("url or numeric id")}
+                        stateRelatedMessage={t("invalid comptoir du libre id")}
                     />
                 )}
             />
@@ -492,6 +502,7 @@ export const { i18n } = declareComponentKeys<
     | "minimal version"
     | "minimal version hint"
     | "url or numeric id"
+    | "invalid comptoir du libre id"
     | "autofill notice"
     | "logo url"
     | "logo url hint"
