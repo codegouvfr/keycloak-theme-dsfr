@@ -138,7 +138,10 @@ export const Header = memo(
                             routeName === routes.softwareUpdateForm.name ||
                             routeName === routes.softwareCreationForm.name,
                         "linkProps": routes.addSoftwareLanding().link,
-                        "text": t("navigation add software")
+                        "text":
+                            routeName === routes.softwareUpdateForm.name
+                                ? t("navigation update software")
+                                : t("navigation add software")
                     },
                     {
                         "isActive": routeName === routes.readme.name,
@@ -180,6 +183,7 @@ export const { i18n } = declareComponentKeys<
     | "navigation welcome"
     | "navigation catalog"
     | "navigation add software"
+    | "navigation update software"
     | "navigation support request"
     | "navigation about"
     | "quick access test"
