@@ -129,9 +129,29 @@ export function SoftwareCatalogSearch(props: Props) {
                 <SearchBar
                     className={classes.searchBar}
                     label={t("placeholder")}
-                    nativeInputProps={{
-                        "value": search,
-                        "onChange": event => onSearchChange(event.currentTarget.value)
+                    renderInput={({ className, id, placeholder, type }) => {
+                        const [inputElement, setInputElement] =
+                            useState<HTMLInputElement | null>(null);
+
+                        return (
+                            <input
+                                ref={setInputElement}
+                                className={className}
+                                id={id}
+                                placeholder={placeholder}
+                                type={type}
+                                value={search}
+                                onChange={event =>
+                                    onSearchChange(event.currentTarget.value)
+                                }
+                                onKeyDown={event => {
+                                    if (event.key === "Escape") {
+                                        assert(inputElement !== null);
+                                        inputElement.blur();
+                                    }
+                                }}
+                            />
+                        );
                     }}
                 />
                 <Button
