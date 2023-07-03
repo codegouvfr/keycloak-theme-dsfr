@@ -120,7 +120,13 @@ export default function SoftwareForm(props: Props) {
                 <Stepper
                     currentStep={step}
                     stepCount={stepCount}
-                    title={t("stepper title", { "currentStepIndex": step })}
+                    title={t("stepper title", {
+                        "currentStepIndex": step,
+                        "softwareName":
+                            route.name === "softwareUpdateForm"
+                                ? route.params.name
+                                : undefined
+                    })}
                     className={classes.stepper}
                 />
                 <SoftwareFormStep1
@@ -271,7 +277,10 @@ const useStyles = makeStyles<{ step: number | undefined }>({
 
 export const { i18n } = declareComponentKeys<
     | "title software update form"
-    | { K: "stepper title"; P: { currentStepIndex: number } }
+    | {
+          K: "stepper title";
+          P: { currentStepIndex: number; softwareName: string | undefined };
+      }
     | "add software"
     | "update software"
 >()({ SoftwareForm });

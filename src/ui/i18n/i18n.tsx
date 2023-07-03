@@ -285,16 +285,24 @@ const {
             },
             "SoftwareForm": {
                 "title software update form": "Software update",
-                "stepper title": ({ currentStepIndex }) => {
+                "stepper title": ({ currentStepIndex, softwareName }) => {
                     switch (currentStepIndex) {
                         case 1:
-                            return "What type of software would you like to add?";
+                            return softwareName === undefined
+                                ? "What type of software do you want to add?"
+                                : `Modify the type of software of ${softwareName}`;
                         case 2:
-                            return "About the software";
+                            return `Information${
+                                softwareName === undefined ? "" : ` about ${softwareName}`
+                            }`;
                         case 3:
-                            return "Prerequisites";
+                            return `Prerequisites${
+                                softwareName === undefined ? "" : ` of ${softwareName}`
+                            }`;
                         case 4:
-                            return "Similar and equivalent proprietary software";
+                            return `Similar and equivalent software${
+                                softwareName === undefined ? "" : ` of ${softwareName}`
+                            }`;
                         default:
                             return "";
                     }
@@ -911,16 +919,24 @@ const {
             },
             "SoftwareForm": {
                 "title software update form": "Mettre à jour un logiciel",
-                "stepper title": ({ currentStepIndex }) => {
+                "stepper title": ({ currentStepIndex, softwareName }) => {
                     switch (currentStepIndex) {
                         case 1:
-                            return "Quel type de logiciel voulez-vous ajouter ?";
+                            return softwareName === undefined
+                                ? "Quel type de logiciel voulez-vous ajouter ?"
+                                : `Modifier la fiche de ${softwareName}`;
                         case 2:
-                            return "Informations sur le logiciel";
+                            return `Informations sur ${
+                                softwareName === undefined ? "le logiciel" : softwareName
+                            }`;
                         case 3:
-                            return "Prérequis";
+                            return `Prérequis${
+                                softwareName === undefined ? "" : ` de ${softwareName}`
+                            }`;
                         case 4:
-                            return "Logiciels propriétaires similaires et équivalents";
+                            return `Logiciels similaires et équivalents${
+                                softwareName === undefined ? "" : ` à ${softwareName}`
+                            } (propiétaire ou libre)`;
                         default:
                             return "";
                     }
