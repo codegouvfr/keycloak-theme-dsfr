@@ -58,7 +58,9 @@ export const privateThunks = {
                                 .flat()
                                 .reduce(...removeDuplicates()).length,
                             registeredUserCount,
-                            "softwareCount": softwares.length
+                            "softwareCount": softwares.filter(
+                                software => software.dereferencing === undefined
+                            ).length
                         }
                     })
                 );
