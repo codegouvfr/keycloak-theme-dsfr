@@ -95,6 +95,7 @@ export default function SoftwareDetails(props: Props) {
                         tabs={[
                             {
                                 "label": t("tab title overview"),
+                                "isDefault": true,
                                 "content": (
                                     <PreviewTab
                                         softwareName={software.softwareName}
