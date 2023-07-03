@@ -6,14 +6,17 @@ import { Equals } from "tsafe";
 import { assert } from "tsafe/assert";
 import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { groupBy } from "lodash";
+import { Button } from "@codegouvfr/react-dsfr/Button";
+import type { Link } from "type-route";
 
 export type Props = {
     className?: string;
     instanceList: { organization: string; instanceUrl: string; targetAudience: string }[];
+    createInstanceLink: Link;
 };
 
 export const ReferencedInstancesTab = (props: Props) => {
-    const { className, instanceList, ...rest } = props;
+    const { className, instanceList, createInstanceLink, ...rest } = props;
 
     /** Assert to make sure all props are deconstructed */
     assert<Equals<typeof rest, {}>>();
@@ -88,6 +91,10 @@ export const ReferencedInstancesTab = (props: Props) => {
                     </Accordion>
                 );
             })}
+
+            <Button className={fr.cx("fr-mt-3w")} linkProps={createInstanceLink}>
+                {t("add instance")}
+            </Button>
         </section>
     );
 };
@@ -131,4 +138,5 @@ export const { i18n } = declareComponentKeys<
       }
     | "concerned public"
     | "go to instance"
+    | "add instance"
 >()({ ReferencedInstancesTab });

@@ -36,9 +36,9 @@ export default function InstanceForm(props: Props) {
         selectors.instanceForm.initializationData
     );
     const { allSillSoftwares } = useCoreState(selectors.instanceForm.allSillSoftwares);
-    const { isSubmitting } = useCoreState(selectors.softwareForm.isSubmitting);
-    const { isLastStep } = useCoreState(selectors.softwareForm.isLastStep);
-    const { evtSoftwareForm } = useCoreEvts();
+    const { isSubmitting } = useCoreState(selectors.instanceForm.isSubmitting);
+    const { isLastStep } = useCoreState(selectors.instanceForm.isLastStep);
+    const { evtInstanceForm } = useCoreEvts();
 
     const {
         instanceForm,
@@ -68,11 +68,13 @@ export default function InstanceForm(props: Props) {
 
     useEvt(
         ctx =>
-            evtSoftwareForm.attach(
+            evtInstanceForm.attach(
                 action => action.action === "redirect",
                 ctx,
                 ({ softwareName }) =>
-                    routes.softwareDetails({ "name": softwareName }).push()
+                    routes
+                        .softwareDetails({ "name": softwareName, "tab": "instances" })
+                        .push()
             ),
         []
     );

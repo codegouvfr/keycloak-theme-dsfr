@@ -551,7 +551,8 @@ const {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
                     `${instanceCount} maintained instance by ${publicOrganizationCount} public organisation`,
                 "concerned public": "Concerned public : ",
-                "go to instance": "Open the instance"
+                "go to instance": "Open the instance",
+                "add instance": "Reference new instance"
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Alike software in SILL",
@@ -1195,7 +1196,8 @@ const {
                 "instanceCount": ({ instanceCount, publicOrganizationCount }) =>
                     `${instanceCount} instances maintenues par ${publicOrganizationCount} organisations publiques`,
                 "concerned public": "Public concerné : ",
-                "go to instance": "Accéder à l'instance"
+                "go to instance": "Accéder à l'instance",
+                "add instance": "Référencer une nouvelle instance"
             },
             "AlikeSoftwareTab": {
                 "alike software sill": "Logiciels similaires sur le SILL",

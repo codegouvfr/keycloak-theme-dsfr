@@ -95,7 +95,7 @@ export default function SoftwareDetails(props: Props) {
                         tabs={[
                             {
                                 "label": t("tab title overview"),
-                                "isDefault": true,
+                                "isDefault": route.params.tab === undefined,
                                 "content": (
                                     <PreviewTab
                                         softwareName={software.softwareName}
@@ -142,9 +142,16 @@ export default function SoftwareDetails(props: Props) {
                                           "label": t("tab title instance", {
                                               "instanceCount": software.instances.length
                                           }),
+                                          "isDefault": route.params.tab === "instances",
                                           "content": (
                                               <ReferencedInstancesTab
                                                   instanceList={software.instances}
+                                                  createInstanceLink={
+                                                      routes.instanceCreationForm({
+                                                          "softwareName":
+                                                              software.softwareName
+                                                      }).link
+                                                  }
                                               />
                                           )
                                       }
@@ -154,6 +161,7 @@ export default function SoftwareDetails(props: Props) {
                                     alikeSoftwareCount:
                                         software.similarSoftwares.length ?? 0
                                 }),
+                                "isDefault": route.params.tab === "alternatives",
                                 "content": (
                                     <AlikeSoftwareTab
                                         alikeExternalSoftwares={software.similarSoftwares

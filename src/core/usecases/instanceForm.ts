@@ -120,7 +120,7 @@ export const { reducer, actions } = createSlice({
             {
                 payload: _payload
             }: PayloadAction<{
-                instanceId: number;
+                softwareName: string;
             }>
         ) => {}
     }
@@ -300,7 +300,13 @@ export const thunks = {
                 ).instanceId;
             }
 
-            dispatch(actions.formSubmitted({ instanceId }));
+            const software = (await sillApi.getSoftwares()).find(
+                software => software.softwareId === formData.mainSoftwareSillId
+            );
+
+            assert(software !== undefined);
+
+            dispatch(actions.formSubmitted({ "softwareName": software.softwareName }));
         },
     "returnToPreviousStep":
         () =>
@@ -395,7 +401,7 @@ export const createEvt = (({ evtAction }) =>
             ? [
                   {
                       "action": "redirect" as const,
-                      "softwareName": action.payload.instanceId
+                      "softwareName": action.payload.softwareName
                   }
               ]
             : null
