@@ -183,7 +183,7 @@ export const PreviewTab = (props: Props) => {
                                 {prerogativeName === "isPresentInSupportMarket" && (
                                     <Tooltip
                                         title={t("what is the support market", {
-                                            "url": "https://code.gouv.fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
+                                            "url": "https://code.gouv.fr/fr/utiliser/marches-interministeriels-support-expertise-logiciels-libres/"
                                         })}
                                         arrow
                                     >
