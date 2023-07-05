@@ -3,8 +3,6 @@ import { SearchMultiInput } from "ui/shared/SearchMultiInput";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "stories/getStory";
 import { symToStr } from "tsafe/symToStr";
-import { Fzf } from "fzf";
-import { useConst } from "powerhooks/useConst";
 import { fr } from "@codegouvfr/react-dsfr";
 
 const { meta, getStory } = getStoryFactory({
@@ -15,13 +13,6 @@ const { meta, getStory } = getStoryFactory({
 
 function Story() {
     const [value, setValue] = useState<Film[]>([]);
-
-    const fzf = useConst(
-        () =>
-            new Fzf(top100Films, {
-                "selector": item => item.title
-            })
-    );
 
     return (
         <SearchMultiInput<Film>
@@ -35,7 +26,7 @@ function Story() {
 
                 await new Promise(resolve => setTimeout(resolve, 1000));
 
-                return fzf.find(inputText).map(item => item.item);
+                return top100Films;
             }}
             getOptionLabel={item => item.title}
             renderOption={(liProps, item) => (

@@ -32,7 +32,7 @@
         "@trpc/client": "^10.18.0",
         "@types/react-form": "^4.0.2",
         "evt": "^2.4.6",
-        "fzf": "^0.5.1",
+        "flexsearch": "0.7.21",
         "i18nifty": "^1.5.2",
         "jwt-decode": "^3.1.2",
         "keycloak-js": "^21.0.2",
@@ -54,6 +54,7 @@
         "zod": "^3.21.4"
     },
     "devDependencies": {
+        "@types/flexsearch": "^0.7.3",
         "@storybook/addon-actions": "^6.5.10",
         "@storybook/addon-essentials": "^6.5.10",
         "@storybook/addon-links": "^6.5.10",

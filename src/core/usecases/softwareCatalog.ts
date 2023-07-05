@@ -8,36 +8,71 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { objectKeys } from "tsafe/objectKeys";
 import memoize from "memoizee";
 import { id } from "tsafe/id";
-import { Fzf, extendedMatch } from "fzf";
 import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
+import FlexSearch from "flexsearch";
 
 import type { ApiTypes } from "@codegouvfr/sill";
 
 const { filterBySearchMemoized } = (() => {
-    const getFzf = memoize(
-        (softwares: State.Software.Internal[]) =>
-            new Fzf(softwares, {
-                "selector": ({ search }) => search,
-                "sort": true,
-                "casing": "case-insensitive",
-                "match": extendedMatch
-            }),
+    const getFlexSearch = memoize(
+        (softwares: State.Software.Internal[]) => {
+            const index = new FlexSearch.Document<State.Software.Internal>({
+                "document": {
+                    "id": "softwareName",
+                    "field": ["search"]
+                },
+                "cache": 100,
+                "tokenize": "full",
+                "context": {
+                    "resolution": 9,
+                    "depth": 2,
+                    "bidirectional": true
+                }
+            });
+
+            softwares.forEach(software => index.add(software));
+
+            return index;
+        },
         { "max": 1 }
     );
 
     const filterBySearchMemoized = memoize(
-        async (softwares: State.Software.Internal[], search: string) => {
-            await new Promise(resolve => setTimeout(resolve, 0));
+        async (
+            softwares: State.Software.Internal[],
+            search: string
+        ): Promise<
+            {
+                softwareName: string;
+                positions: number[];
+            }[]
+        > => {
+            const index = getFlexSearch(softwares);
 
-            return getFzf(softwares)
-                .find(search)
-                .map(({ item: { softwareName }, positions }) => ({
-                    softwareName,
-                    "positions": Array.from(positions)
-                }));
+            const searchResult = index.search(search, undefined, {
+                "bool": "or",
+                "suggest": true,
+                "enrich": true
+            });
+
+            if (searchResult.length === 0) {
+                return [];
+            }
+
+            const [{ result: softwareNames }] = searchResult;
+
+            return softwareNames.map(
+                softwareName => (
+                    assert(typeof softwareName === "string"),
+                    {
+                        softwareName,
+                        "positions": []
+                    }
+                )
+            );
         },
         { "max": 1, "promise": true }
     );

@@ -1,4 +1,3 @@
-import { Fzf } from "fzf";
 import memoize from "memoizee";
 import type { SillApi } from "../ports/SillApi";
 import { id } from "tsafe/id";
@@ -52,9 +51,7 @@ export const sillApi: SillApi = {
 
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        const entries = fzf.find(queryString);
-
-        return entries.map(({ item }) => item);
+        return options;
     },
     "getSoftwareFormAutoFillDataFromWikidataAndOtherSources": async ({ wikidataId }) => {
         await new Promise(resolve => setTimeout(resolve, 1));
@@ -250,11 +247,6 @@ const options: (ApiTypes.WikidataEntry & { isInSill: boolean })[] = [
         "isInSill": true
     }
 ];
-
-const fzf = new Fzf(options, {
-    "selector": item =>
-        `${item.wikidataLabel} ${item.wikidataDescription} ${item.wikidataId}`
-});
 
 const softwares = [
     id<ApiTypes.Software>({
