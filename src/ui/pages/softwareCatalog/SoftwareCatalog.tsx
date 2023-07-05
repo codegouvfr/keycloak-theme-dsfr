@@ -82,14 +82,12 @@ export default function SoftwareCatalog(props: Props) {
         [evtSoftwareCatalog]
     );
 
-    useDebounce(
-        () =>
-            softwareCatalog.updateFilter({
-                "key": "search",
-                "value": route.params.search
-            }),
-        [route.params.search]
-    );
+    useDebounce(() => {
+        softwareCatalog.updateFilter({
+            "key": "search",
+            "value": route.params.search
+        });
+    }, [route.params.search]);
 
     useEffect(() => {
         if (route.params.sort === undefined) {

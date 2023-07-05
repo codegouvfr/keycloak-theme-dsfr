@@ -13,11 +13,47 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
+
 import type { ApiTypes } from "@codegouvfr/sill";
+
+const { filterBySearchMemoized } = (() => {
+    const getFzf = memoize(
+        (softwares: State.Software.Internal[]) =>
+            new Fzf(softwares, {
+                "selector": ({ search }) => search,
+                "sort": true,
+                "casing": "case-insensitive",
+                "match": extendedMatch
+            }),
+        { "max": 1 }
+    );
+
+    const filterBySearchMemoized = memoize(
+        async (softwares: State.Software.Internal[], search: string) => {
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            return getFzf(softwares)
+                .find(search)
+                .map(({ item: { softwareName }, positions }) => ({
+                    softwareName,
+                    "positions": Array.from(positions)
+                }));
+        },
+        { "max": 1, "promise": true }
+    );
+
+    return { filterBySearchMemoized };
+})();
 
 export type State = {
     softwares: State.Software.Internal[];
     search: string;
+    searchResults:
+        | {
+              softwareName: string;
+              positions: number[];
+          }[]
+        | undefined;
     sort: State.Sort;
     /** Used in organizations: E.g: DINUM */
     organization: string | undefined;
@@ -116,13 +152,16 @@ export type UpdateFilterParams<
 };
 
 export namespace UpdateFilterParams {
-    export type Key = keyof Omit<State, "softwares" | "sortBackup" | "userEmail">;
+    export type Key = keyof Omit<
+        State,
+        "softwares" | "sortBackup" | "userEmail" | "searchResult"
+    >;
 }
 
 export const { reducer, actions } = createSlice({
     name,
     "initialState": createObjectThatThrowsIfAccessed<State>({
-        "debugMessage": "yo yo yo"
+        "debugMessage": "Software catalog usecase not initialized"
     }),
     //"initialState": {} as any as State,
     "reducers": {
@@ -141,6 +180,7 @@ export const { reducer, actions } = createSlice({
             return {
                 softwares,
                 "search": "",
+                "searchResults": undefined,
                 "sort": defaultSort,
                 "sortBackup": defaultSort,
                 "organization": undefined,
@@ -155,7 +195,25 @@ export const { reducer, actions } = createSlice({
         "filterUpdated": (state, { payload }: PayloadAction<UpdateFilterParams>) => {
             const { key, value } = payload;
 
-            (state as any)[key] = value;
+            // @ts-expect-error
+            state[key] = value;
+        },
+        "searchResultUpdated": (
+            state,
+            {
+                payload
+            }: PayloadAction<{
+                searchResults:
+                    | {
+                          softwareName: string;
+                          positions: number[];
+                      }[]
+                    | undefined;
+            }>
+        ) => {
+            const { searchResults } = payload;
+
+            state.searchResults = searchResults;
         },
         // NOTE: This is first and foremost an action for evtAction
         "notifyRequestChangeSort": (
@@ -181,7 +239,7 @@ export const { reducer, actions } = createSlice({
 export const thunks = {
     "updateFilter":
         <K extends UpdateFilterParams.Key>(params: UpdateFilterParams<K>) =>
-        (...args) => {
+        async (...args) => {
             const [dispatch, getState] = args;
 
             if (params.key === "search") {
@@ -207,6 +265,36 @@ export const thunks = {
             }
 
             dispatch(actions.filterUpdated(params));
+
+            update_search_results: {
+                if (params.key !== "search") {
+                    break update_search_results;
+                }
+
+                const newSearch = params.value;
+
+                assert(typeof newSearch === "string");
+
+                if (newSearch === "") {
+                    dispatch(
+                        actions.searchResultUpdated({
+                            "searchResults": undefined
+                        })
+                    );
+
+                    break update_search_results;
+                }
+
+                const { softwares } = getState()[name];
+
+                const searchResults = await filterBySearchMemoized(softwares, newSearch);
+
+                dispatch(
+                    actions.searchResultUpdated({
+                        searchResults
+                    })
+                );
+            }
         },
     "getDefaultSort":
         () =>
@@ -318,7 +406,7 @@ export const selectors = (() => {
     const internalSoftwares = (rootState: RootState) => {
         return rootState[name].softwares;
     };
-    const search = (rootState: RootState) => rootState[name].search;
+    const searchResults = (rootState: RootState) => rootState[name].searchResults;
     const sort = (rootState: RootState) => rootState[name].sort;
     const organization = (rootState: RootState) => rootState[name].organization;
     const category = (rootState: RootState) => rootState[name].category;
@@ -327,12 +415,12 @@ export const selectors = (() => {
     const userEmail = (rootState: RootState) => rootState[name].userEmail;
 
     const sortOptions = createSelector(
-        search,
+        searchResults,
         sort,
         userEmail,
-        (search, sort, userEmail): State.Sort[] => {
+        (searchResults, sort, userEmail): State.Sort[] => {
             const sorts = [
-                ...(search !== "" || sort === "best_match"
+                ...(searchResults !== undefined || sort === "best_match"
                     ? ["best_match" as const]
                     : []),
                 ...(userEmail === undefined ? [] : ["my_software" as const]),
@@ -352,17 +440,6 @@ export const selectors = (() => {
     );
 
     const { filterAndSortBySearch } = (() => {
-        const getFzf = memoize(
-            (softwares: State.Software.Internal[]) =>
-                new Fzf(softwares, {
-                    "selector": ({ search }) => search,
-                    "sort": true,
-                    "casing": "case-insensitive",
-                    "match": extendedMatch
-                }),
-            { "max": 1 }
-        );
-
         const getIndexBySoftwareName = memoize(
             (softwares: State.Software.Internal[]) =>
                 Object.fromEntries(
@@ -371,24 +448,14 @@ export const selectors = (() => {
             { "max": 1 }
         );
 
-        const filterBySearchMemoized = memoize(
-            (softwares: State.Software.Internal[], search: string) =>
-                getFzf(softwares)
-                    .find(search)
-                    .map(({ item: { softwareName }, positions }) => ({
-                        softwareName,
-                        positions
-                    })),
-            { "max": 1 }
-        );
-
         function filterAndSortBySearch(params: {
+            searchResults: {
+                softwareName: string;
+                positions: number[];
+            }[];
             softwares: State.Software.Internal[];
-            search: string;
         }) {
-            const { softwares, search } = params;
-
-            const searchResults = filterBySearchMemoized(softwares, search);
+            const { searchResults, softwares } = params;
 
             const indexBySoftwareName = getIndexBySoftwareName(softwares);
 
@@ -396,7 +463,7 @@ export const selectors = (() => {
                 .map(({ softwareName }) => softwareName)
                 .map((softwareName, i) => ({
                     "software": softwares[indexBySoftwareName[softwareName]],
-                    "positions": searchResults[i].positions
+                    "positions": new Set(searchResults[i].positions)
                 }));
         }
 
@@ -466,7 +533,7 @@ export const selectors = (() => {
 
     const softwares = createSelector(
         internalSoftwares,
-        search,
+        searchResults,
         sort,
         organization,
         category,
@@ -474,7 +541,7 @@ export const selectors = (() => {
         prerogatives,
         (
             internalSoftwares,
-            search,
+            searchResults,
             sort,
             organization,
             category,
@@ -485,10 +552,10 @@ export const selectors = (() => {
 
             let positionsBySoftwareName: Map<string, Set<number>> | undefined = undefined;
 
-            if (search !== "") {
+            if (searchResults !== undefined) {
                 const filterResults = filterAndSortBySearch({
-                    "softwares": tmpSoftwares,
-                    search
+                    searchResults,
+                    "softwares": tmpSoftwares
                 });
 
                 tmpSoftwares = filterResults.map(({ software, positions }) => {
@@ -613,13 +680,13 @@ export const selectors = (() => {
 
     const organizationOptions = createSelector(
         internalSoftwares,
-        search,
+        searchResults,
         category,
         environment,
         prerogatives,
         (
             internalSoftwares,
-            search,
+            searchResults,
             category,
             environment,
             prerogatives
@@ -636,10 +703,10 @@ export const selectors = (() => {
 
             let tmpSoftwares = internalSoftwares;
 
-            if (search !== "") {
+            if (searchResults !== undefined) {
                 tmpSoftwares = filterAndSortBySearch({
-                    "softwares": tmpSoftwares,
-                    search
+                    searchResults,
+                    "softwares": tmpSoftwares
                 }).map(({ software }) => software);
             }
 
@@ -690,13 +757,13 @@ export const selectors = (() => {
 
     const categoryOptions = createSelector(
         internalSoftwares,
-        search,
+        searchResults,
         organization,
         environment,
         prerogatives,
         (
             internalSoftwares,
-            search,
+            searchResults,
             organization,
             environment,
             prerogatives
@@ -713,10 +780,10 @@ export const selectors = (() => {
 
             let tmpSoftwares = internalSoftwares;
 
-            if (search !== "") {
+            if (searchResults !== undefined) {
                 tmpSoftwares = filterAndSortBySearch({
-                    "softwares": tmpSoftwares,
-                    search
+                    searchResults,
+                    "softwares": tmpSoftwares
                 }).map(({ software }) => software);
             }
 
@@ -759,13 +826,13 @@ export const selectors = (() => {
 
     const environmentOptions = createSelector(
         internalSoftwares,
-        search,
+        searchResults,
         organization,
         category,
         prerogatives,
         (
             internalSoftwares,
-            search,
+            searchResults,
             organization,
             category,
             prerogatives
@@ -794,10 +861,10 @@ export const selectors = (() => {
 
             let tmpSoftwares = internalSoftwares;
 
-            if (search !== "") {
+            if (searchResults !== undefined) {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
-                    search
+                    searchResults
                 }).map(({ software }) => software);
             }
 
@@ -860,14 +927,14 @@ export const selectors = (() => {
 
     const prerogativeFilterOptions = createSelector(
         internalSoftwares,
-        search,
+        searchResults,
         organization,
         category,
         environment,
         prerogatives,
         (
             internalSoftwares,
-            search,
+            searchResults,
             organization,
             category,
             environment,
@@ -893,10 +960,10 @@ export const selectors = (() => {
 
             let tmpSoftwares = internalSoftwares;
 
-            if (search !== "") {
+            if (searchResults !== undefined) {
                 tmpSoftwares = filterAndSortBySearch({
                     "softwares": tmpSoftwares,
-                    search
+                    searchResults
                 }).map(({ software }) => software);
             }
 
