@@ -13,72 +13,7 @@ import type { Equals } from "tsafe";
 import { createCompareFn } from "../tools/compareFn";
 import { exclude } from "tsafe/exclude";
 import FlexSearch from "flexsearch";
-
 import type { ApiTypes } from "@codegouvfr/sill";
-
-const { filterBySearchMemoized } = (() => {
-    const getFlexSearch = memoize(
-        (softwares: State.Software.Internal[]) => {
-            const index = new FlexSearch.Document<State.Software.Internal>({
-                "document": {
-                    "id": "softwareName",
-                    "field": ["search"]
-                },
-                "cache": 100,
-                "tokenize": "full",
-                "context": {
-                    "resolution": 9,
-                    "depth": 2,
-                    "bidirectional": true
-                }
-            });
-
-            softwares.forEach(software => index.add(software));
-
-            return index;
-        },
-        { "max": 1 }
-    );
-
-    const filterBySearchMemoized = memoize(
-        async (
-            softwares: State.Software.Internal[],
-            search: string
-        ): Promise<
-            {
-                softwareName: string;
-                positions: number[];
-            }[]
-        > => {
-            const index = getFlexSearch(softwares);
-
-            const searchResult = index.search(search, undefined, {
-                "bool": "or",
-                "suggest": true,
-                "enrich": true
-            });
-
-            if (searchResult.length === 0) {
-                return [];
-            }
-
-            const [{ result: softwareNames }] = searchResult;
-
-            return softwareNames.map(
-                softwareName => (
-                    assert(typeof softwareName === "string"),
-                    {
-                        softwareName,
-                        "positions": []
-                    }
-                )
-            );
-        },
-        { "max": 1, "promise": true }
-    );
-
-    return { filterBySearchMemoized };
-})();
 
 export type State = {
     softwares: State.Software.Internal[];
@@ -1301,3 +1236,97 @@ export const createEvt = (({ evtAction }) =>
             ? [{ "action": "change sort" as const, sort: action.payload.sort }]
             : null
     )) satisfies CreateEvt;
+
+const { filterBySearchMemoized } = (() => {
+    const getFlexSearch = memoize(
+        (softwares: State.Software.Internal[]) => {
+            const index = new FlexSearch.Document<State.Software.Internal>({
+                "document": {
+                    "id": "softwareName",
+                    "field": ["search"]
+                },
+                "cache": 100,
+                "tokenize": "full",
+                "context": {
+                    "resolution": 9,
+                    "depth": 2,
+                    "bidirectional": true
+                }
+            });
+
+            softwares.forEach(software => index.add(software));
+
+            return index;
+        },
+        { "max": 1 }
+    );
+
+    function highlightMatches(params: { text: string; search: string }) {
+        const { text, search } = params;
+
+        const escapedSearch = search.trim().replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
+        const regexp = RegExp("(" + escapedSearch.replaceAll(" ", "|") + ")", "ig");
+        let result;
+        const highlights: number[] = [];
+
+        if (text) {
+            while ((result = regexp.exec(text)) !== null) {
+                for (let i = result.index; i < regexp.lastIndex; i++) {
+                    highlights.push(i);
+                }
+            }
+        }
+
+        return highlights;
+    }
+
+    const filterBySearchMemoized = memoize(
+        async (
+            softwares: State.Software.Internal[],
+            search: string
+        ): Promise<
+            {
+                softwareName: string;
+                positions: number[];
+            }[]
+        > => {
+            const index = getFlexSearch(softwares);
+
+            const searchResult = index.search(search, undefined, {
+                "bool": "or",
+                "suggest": true,
+                "enrich": true
+            });
+
+            if (searchResult.length === 0) {
+                return [];
+            }
+
+            const [{ result: softwareNames }] = searchResult;
+
+            return softwareNames.map(
+                softwareName => (
+                    assert(typeof softwareName === "string"),
+                    {
+                        softwareName,
+                        "positions": highlightMatches({
+                            "text": (() => {
+                                const software = softwares.find(
+                                    software => software.softwareName === softwareName
+                                );
+
+                                assert(software !== undefined);
+
+                                return software.search;
+                            })(),
+                            search
+                        })
+                    }
+                )
+            );
+        },
+        { "max": 1, "promise": true }
+    );
+
+    return { filterBySearchMemoized };
+})();
