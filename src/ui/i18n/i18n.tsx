@@ -105,7 +105,7 @@ const {
                         <span style={{ "color": accentColor }}>
                             Interministerial Free Software Catalog (SILL)
                         </span>{" "}
-                        is a{" "}
+                        is the{" "}
                         <span style={{ "color": accentColor }}>reference catalog</span> of
                         free software recommended by DINUM for the{" "}
                         <span style={{ "color": accentColor }}>
