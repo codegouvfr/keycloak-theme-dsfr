@@ -444,8 +444,7 @@ const {
                 "you are referent": "You are referent"
             },
             "SoftwareCatalogSearch": {
-                "placeholder":
-                    "Search a software, prefix your query by (') for an exact match (ex: 'gimp)",
+                "placeholder": "Search a software",
                 "filtersButton": "Filters",
                 "organizationLabel": "Organization",
                 "categoriesLabel": "Categories",
@@ -1086,8 +1085,7 @@ const {
                 "my_software": "Mes logiciels"
             },
             "SoftwareCatalogSearch": {
-                "placeholder":
-                    "Rechercher un logiciel, préfixer votre recherche par (') pour un recherche exacte (ex: 'gimp)",
+                "placeholder": "Rechercher un logiciel",
                 "filtersButton": "Filtres",
                 "organizationLabel": "Organisation",
                 "categoriesLabel": "Catégories",
