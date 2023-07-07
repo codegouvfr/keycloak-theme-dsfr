@@ -97,7 +97,7 @@ const {
                 "registeredUserCount": "registered users",
                 "agentReferentCount": "software referents",
                 "organizationCount": "organizations",
-                "help us": "Help us enrich the catalog",
+                "help us": "You are a public servant? Help us enrich the catalog",
                 "the sill in a few words": "The SILL in a nutshell",
                 "the sill in a few words paragraph": ({ accentColor }) => (
                     <>
@@ -723,7 +723,7 @@ const {
                 "registeredUserCount": "utilisateurs inscrits",
                 "agentReferentCount": "référents logiciels",
                 "organizationCount": "organismes présents",
-                "help us": "Aidez-nous à enrichir le catalogue",
+                "help us": "Vous êtes agent publique? Aidez-nous a enrichir le catalog!",
                 "declare referent title":
                     "Se déclarer utilisateur ou référent d'un logiciel",
                 "edit software title": "Modifier une fiche logiciel",
