@@ -337,11 +337,13 @@ const softwares = [
             "isPresentInSupportContract": true
         },
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
                 "linux": true,
                 "mac": true,
-                "windows": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "userAndReferentCountByOrganization": {
@@ -432,11 +434,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
                 "linux": true,
                 "mac": true,
-                "windows": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "testUrl": undefined,
@@ -536,11 +540,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
                 "linux": true,
                 "windows": true,
-                "mac": true
+                "mac": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [
@@ -593,11 +599,13 @@ const softwares = [
         },
         "testUrl": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
                 "linux": true,
                 "mac": true,
-                "windows": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "parentSoftware": undefined,
@@ -667,11 +675,13 @@ const softwares = [
             "isPresentInSupportContract": false
         },
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
                 "linux": true,
                 "mac": true,
-                "windows": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -793,11 +803,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -834,11 +846,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -875,11 +889,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -916,11 +932,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -957,11 +975,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -998,11 +1018,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -1039,11 +1061,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],
@@ -1080,11 +1104,13 @@ const softwares = [
         },
         "parentSoftware": undefined,
         "softwareType": {
-            "type": "desktop",
+            "type": "desktop/mobile",
             "os": {
-                "windows": true,
+                "linux": true,
                 "mac": true,
-                "linux": true
+                "windows": true,
+                "android": true,
+                "ios": true
             }
         },
         "similarSoftwares": [],

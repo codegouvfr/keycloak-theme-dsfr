@@ -37,7 +37,7 @@ export const VueDefault = getStory({
     "prerogatives": {
         "isFromFrenchPublicServices": true,
         "isPresentInSupportContract": true,
-        "isInstallableOnUserTerminal": true
+        "isInstallableOnUserComputer": true
     },
     "searchHighlight": undefined,
     "userDeclaration": undefined
@@ -70,7 +70,7 @@ export const VueTooLongDescription = getStory({
     "prerogatives": {
         "isFromFrenchPublicServices": true,
         "isPresentInSupportContract": true,
-        "isInstallableOnUserTerminal": true
+        "isInstallableOnUserComputer": true
     },
     "searchHighlight": undefined,
     "userDeclaration": undefined

@@ -88,7 +88,7 @@ const {
                 "software selection": "Software selections",
                 "last added": "Recently added",
                 "most used": "Most popular",
-                "essential": "Essentials for your desktop",
+                "essential": "Essentials for your desktop or your mobile phone",
                 "recently updated": "Recently updated",
                 "waiting for referent": "Awaiting a referent",
                 "in support market": "Support available",
@@ -311,7 +311,7 @@ const {
                 "update software": "Confirm changes"
             },
             "SoftwareFormStep1": {
-                "software desktop": "Desktop installable software",
+                "software desktop": "Desktop or mobile installable software",
                 "software cloud": "Application software solution hosted in the cloud",
                 "software cloud hint": "Public cloud or your organization's cloud",
                 "module": "Brick or technical modules",
@@ -436,7 +436,7 @@ const {
             "SoftwareCatalogCard": {
                 "latest version": ({ fromNowText }) => `Latest version ${fromNowText}`,
                 "declare oneself referent": "Declare yourself referent / user",
-                "isDesktop": "This software can be installed on desktop",
+                "hasDesktopApp": "This software can be installed on a personal computer",
                 "isFromFrenchPublicService":
                     "This software is from French public service",
                 "isPresentInSupportMarket": "This software is present in support market",
@@ -451,7 +451,8 @@ const {
                 "environnement label": "Usage environnement ",
                 "prerogativesLabel": "Prerogatives",
                 "filters": "Filters",
-                "isInstallableOnUserTerminal": "Can be installed on user terminal",
+                "isInstallableOnUserComputer": "Can be installed on user terminal",
+                "isAvailableAsMobileApp": "Mobile app available",
                 "isFromFrenchPublicServices": "Is from French public services",
                 "doRespectRgaa": "Is compliant with RGAA rules",
                 "isPresentInSupportContract": "Comes with possible support",
@@ -464,7 +465,9 @@ const {
                 "browser": "Web browser",
                 "stack": "Library, Framework and other technical building blocks",
                 "number of prerogatives selected": ({ count }) =>
-                    count === 0 ? "None" : `${count} selected`
+                    count === 0 ? "None" : `${count} selected`,
+                "ios": "iOS (iPhone)",
+                "android": "Android Smartphones"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Software catalog",
@@ -482,7 +485,7 @@ const {
                 "minimal version": "Minimal required version: ",
                 "license": "License : ",
                 "declare oneself referent": "Declare yourself referent / user",
-                "isDesktop": "Installable on agent desktop",
+                "hasDesktopApp": "Installable on agent computer",
                 "isPresentInSupportMarket": "Present in support market",
                 "isFromFrenchPublicService": "From French public service",
                 "isRGAACompliant": "Is compliant with RGAA rules",
@@ -524,7 +527,8 @@ const {
                 "register": "In sill since: ",
                 "minimal version": "Minimal required version: ",
                 "license": "License : ",
-                "isDesktop": "Installable on agent desktop",
+                "hasDesktopApp": "Installable on agent computer",
+                "isAvailableAsMobileApp": "Mobile app available",
                 "isPresentInSupportMarket": "Present in support market",
                 "isFromFrenchPublicService": "From French public service",
                 "isRGAACompliant": "Is compliant with RGAA rules",
@@ -1059,7 +1063,7 @@ const {
             "SoftwareCatalogCard": {
                 "latest version": ({ fromNowText }) => `Dernière version ${fromNowText}`,
                 "declare oneself referent": "Se déclarer référent / utilisateur",
-                "isDesktop": "Ce logiciel s'installe sur ordinateur",
+                "hasDesktopApp": "Ce logiciel s'installe sur ordinateur",
                 "isFromFrenchPublicService":
                     "Ce logiciel est originaire du service public français",
                 "isPresentInSupportMarket":
@@ -1092,7 +1096,8 @@ const {
                 "environnement label": "Environnement d'utilisation",
                 "prerogativesLabel": "Prérogatives",
                 "filters": "Filtres",
-                "isInstallableOnUserTerminal": "Installable sur un poste agent",
+                "isInstallableOnUserComputer": "Installable sur un poste agent",
+                "isAvailableAsMobileApp": "Application mobile disponible",
                 "isFromFrenchPublicServices": "Développé par le service public",
                 "doRespectRgaa": "Respecte les normes RGAA",
                 "isPresentInSupportContract": "Présent dans le marché de support",
@@ -1108,7 +1113,9 @@ const {
                 "number of prerogatives selected": ({ count }) =>
                     count === 0
                         ? "Aucune"
-                        : `${count} sélectionnée${count === 1 ? "" : "s"}`
+                        : `${count} sélectionnée${count === 1 ? "" : "s"}`,
+                "ios": "iOS (iPhone)",
+                "android": "Téléphone Android"
             },
             "SoftwareDetails": {
                 "catalog breadcrumb": "Le catalogue de logiciels",
@@ -1126,7 +1133,7 @@ const {
                 "minimal version": "Version minimale requise : ",
                 "license": "Licence : ",
                 "declare oneself referent": "Se déclarer référent / utilisateur",
-                "isDesktop": "Installable sur poste agent",
+                "hasDesktopApp": "Installable sur poste agent",
                 "isPresentInSupportMarket": "Présent dans le marché de support",
                 "isFromFrenchPublicService": "Développé par le service public",
                 "isRGAACompliant": "Respecte les normes RGAA",
@@ -1168,7 +1175,8 @@ const {
                 "register": "Date de l'ajout: ",
                 "minimal version": "Version minimale requise : ",
                 "license": "Licence : ",
-                "isDesktop": "Installable sur poste agent",
+                "hasDesktopApp": "Installable sur poste agent",
+                "isAvailableAsMobileApp": "App mobile disponible",
                 "isPresentInSupportMarket": "Présent dans le marché de support",
                 "isFromFrenchPublicService": "Développé par le service public",
                 "isRGAACompliant": "Respecte les normes RGAA",

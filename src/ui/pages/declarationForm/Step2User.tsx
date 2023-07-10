@@ -13,7 +13,7 @@ type Props = {
     className?: string;
     onSubmit: (formData: FormData.User) => void;
     evtActionSubmit: NonPostableEvt<void>;
-    softwareType: "desktop" | "cloud" | "other";
+    softwareType: "desktop/mobile" | "cloud" | "other";
 };
 
 export function DeclarationFormStep2User(props: Props) {
@@ -60,7 +60,7 @@ export function DeclarationFormStep2User(props: Props) {
                         "declarationType": "user",
                         usecaseDescription,
                         "os":
-                            softwareType !== "desktop"
+                            softwareType !== "desktop/mobile"
                                 ? undefined
                                 : (assert(osSelectValue !== ""), osSelectValue),
                         version,
@@ -77,7 +77,7 @@ export function DeclarationFormStep2User(props: Props) {
                 state={errors.usecaseDescription !== undefined ? "error" : undefined}
                 stateRelatedMessage={tCommon("required")}
             />
-            {softwareType === "desktop" && (
+            {softwareType === "desktop/mobile" && (
                 <Select
                     label={t("environment")}
                     nativeSelectProps={{

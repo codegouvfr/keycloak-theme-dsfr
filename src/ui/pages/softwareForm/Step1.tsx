@@ -28,7 +28,7 @@ export function SoftwareFormStep1(props: Step1Props) {
         formState: { errors },
         watch
     } = useForm<{
-        softwareType: "cloud" | "stack" | "desktop";
+        softwareType: "cloud" | "stack" | "desktop/mobile";
         osCheckboxValues: string[] | undefined;
     }>({
         "defaultValues": (() => {
@@ -39,7 +39,7 @@ export function SoftwareFormStep1(props: Step1Props) {
             return {
                 "softwareType": initialFormData.softwareType.type,
                 "osCheckboxValues":
-                    initialFormData.softwareType.type === "desktop"
+                    initialFormData.softwareType.type === "desktop/mobile"
                         ? Object.entries(initialFormData.softwareType.os)
                               .filter(([, value]) => value)
                               .map(([key]) => key)
@@ -67,7 +67,7 @@ export function SoftwareFormStep1(props: Step1Props) {
             className={className}
             onSubmit={handleSubmit(({ softwareType, osCheckboxValues }) =>
                 onSubmit(
-                    softwareType === "desktop"
+                    softwareType === "desktop/mobile"
                         ? (() => {
                               assert(osCheckboxValues !== undefined);
 
@@ -77,7 +77,9 @@ export function SoftwareFormStep1(props: Step1Props) {
                                       "os": {
                                           "windows": osCheckboxValues.includes("windows"),
                                           "mac": osCheckboxValues.includes("mac"),
-                                          "linux": osCheckboxValues.includes("linux")
+                                          "linux": osCheckboxValues.includes("linux"),
+                                          "ios": osCheckboxValues.includes("ios"),
+                                          "android": osCheckboxValues.includes("android")
                                       }
                                   }
                               };
@@ -99,7 +101,7 @@ export function SoftwareFormStep1(props: Step1Props) {
                         "label": t("software desktop"),
                         "nativeInputProps": {
                             ...register("softwareType", { "required": true }),
-                            "value": "desktop"
+                            "value": "desktop/mobile"
                         }
                     },
                     {
@@ -120,7 +122,7 @@ export function SoftwareFormStep1(props: Step1Props) {
                     }
                 ]}
             />
-            {watch("softwareType") === "desktop" && (
+            {watch("softwareType") === "desktop/mobile" && (
                 <Checkbox
                     legend={t("checkbox legend")}
                     state={errors.osCheckboxValues !== undefined ? "error" : undefined}
@@ -145,6 +147,20 @@ export function SoftwareFormStep1(props: Step1Props) {
                             "nativeInputProps": {
                                 ...register("osCheckboxValues", { "required": true }),
                                 "value": "mac"
+                            }
+                        },
+                        {
+                            "label": "Android",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "android"
+                            }
+                        },
+                        {
+                            "label": "iOS (iPhone)",
+                            "nativeInputProps": {
+                                ...register("osCheckboxValues", { "required": true }),
+                                "value": "ios"
                             }
                         }
                     ]}

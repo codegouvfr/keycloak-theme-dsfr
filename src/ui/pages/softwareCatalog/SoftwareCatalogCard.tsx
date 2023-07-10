@@ -18,7 +18,7 @@ export type Props = {
     softwareName: string;
     prerogatives: {
         isFromFrenchPublicServices: boolean;
-        isInstallableOnUserTerminal: boolean;
+        isInstallableOnUserComputer: boolean;
         isPresentInSupportContract: boolean;
     };
     latestVersion?: {
@@ -91,8 +91,8 @@ export const SoftwareCatalogCard = memo((props: Props) => {
                         <div className={cx(classes.titleContainer)}>
                             <h3 className={cx(classes.title)}>{softwareName}</h3>
                             <div className={cx(classes.titleActionsContainer)}>
-                                {prerogatives.isInstallableOnUserTerminal && (
-                                    <Tooltip title={t("isDesktop")} arrow>
+                                {prerogatives.isInstallableOnUserComputer && (
+                                    <Tooltip title={t("hasDesktopApp")} arrow>
                                         <i className={fr.cx("fr-icon-computer-line")} />
                                     </Tooltip>
                                 )}
@@ -349,7 +349,7 @@ const useStyles = makeStyles<{ isSearchHighlighted: boolean }>({
 export const { i18n } = declareComponentKeys<
     | { K: "latest version"; P: { fromNowText: string } }
     | "declare oneself referent"
-    | "isDesktop"
+    | "hasDesktopApp"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
     | "you are user"

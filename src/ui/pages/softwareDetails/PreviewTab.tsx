@@ -10,6 +10,7 @@ import {
     CnllServiceProviderModal,
     openCnllServiceProviderModal
 } from "./CnllServiceProviderModal";
+import { assert, type Equals } from "tsafe/assert";
 
 //TODO: Do not use optional props (?) use ( | undefined ) instead
 // so we are sure that we don't forget to provide some props
@@ -30,10 +31,11 @@ export type Props = {
     }[];
     comptoireDuLibreUrl: string | undefined;
     wikiDataUrl: string | undefined;
-    isDesktop?: boolean;
-    isPresentInSupportMarket?: boolean;
-    isFromFrenchPublicService?: boolean;
-    isRGAACompliant?: boolean;
+    hasDesktopApp: boolean | undefined;
+    isAvailableAsMobileApp: boolean | undefined;
+    isPresentInSupportMarket: boolean | undefined;
+    isFromFrenchPublicService: boolean | undefined;
+    isRGAACompliant?: boolean | undefined;
 };
 export const PreviewTab = (props: Props) => {
     const {
@@ -44,7 +46,8 @@ export const PreviewTab = (props: Props) => {
         registerDate,
         minimalVersionRequired,
         license,
-        isDesktop,
+        hasDesktopApp,
+        isAvailableAsMobileApp,
         isPresentInSupportMarket,
         isFromFrenchPublicService,
         isRGAACompliant,
@@ -130,7 +133,8 @@ export const PreviewTab = (props: Props) => {
 
                     {(
                         [
-                            "isDesktop",
+                            "hasDesktopApp",
+                            "isAvailableAsMobileApp",
                             "isPresentInSupportMarket",
                             "isFromFrenchPublicService",
                             "isRGAACompliant"
@@ -138,8 +142,10 @@ export const PreviewTab = (props: Props) => {
                     ).map(prerogativeName => {
                         const value = (() => {
                             switch (prerogativeName) {
-                                case "isDesktop":
-                                    return isDesktop;
+                                case "hasDesktopApp":
+                                    return hasDesktopApp;
+                                case "isAvailableAsMobileApp":
+                                    return isAvailableAsMobileApp;
                                 case "isFromFrenchPublicService":
                                     return isFromFrenchPublicService;
                                 case "isPresentInSupportMarket":
@@ -147,6 +153,7 @@ export const PreviewTab = (props: Props) => {
                                 case "isRGAACompliant":
                                     return isRGAACompliant;
                             }
+                            assert<Equals<typeof prerogativeName, never>>(false);
                         })();
 
                         if (value === undefined) {
@@ -315,7 +322,8 @@ export const { i18n } = declareComponentKeys<
     | "register"
     | "minimal version"
     | "license"
-    | "isDesktop"
+    | "hasDesktopApp"
+    | "isAvailableAsMobileApp"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
     | "isRGAACompliant"

@@ -48,13 +48,21 @@ export namespace State {
         | "best_match"
         | "my_software";
 
-    export type Environment = "linux" | "windows" | "mac" | "browser" | "stack";
+    export type Environment =
+        | "linux"
+        | "windows"
+        | "mac"
+        | "browser"
+        | "stack"
+        | "android"
+        | "ios";
 
     export type Prerogative =
         | "isPresentInSupportContract"
         | "isFromFrenchPublicServices"
         | "doRespectRgaa"
-        | "isInstallableOnUserTerminal"
+        | "isInstallableOnUserComputer"
+        | "isAvailableAsMobileApp"
         | "isTestable";
 
     export namespace Software {
@@ -101,7 +109,12 @@ export namespace State {
             categories: string[];
             organizations: string[];
             prerogatives: Record<
-                Exclude<Prerogative, "isInstallableOnUserTerminal" | "isTestable">,
+                Exclude<
+                    Prerogative,
+                    | "isInstallableOnUserComputer"
+                    | "isTestable"
+                    | "isAvailableAsMobileApp"
+                >,
                 boolean
             >;
             softwareType: ApiTypes.SoftwareType;
@@ -471,8 +484,11 @@ export const selectors = (() => {
                 case "linux":
                 case "mac":
                 case "windows":
+                case "android":
+                case "ios":
                     return (
-                        softwareType.type === "desktop" && softwareType.os[environment]
+                        softwareType.type === "desktop/mobile" &&
+                        softwareType.os[environment]
                     );
                 case "browser":
                     return softwareType.type === "cloud";
@@ -817,12 +833,17 @@ export const selectors = (() => {
                                         return ["browser"];
                                     case "stack":
                                         return ["stack" as const];
-                                    case "desktop":
+                                    case "desktop/mobile":
                                         return objectKeys(softwareType.os).filter(
                                             os => softwareType.os[os]
                                         );
                                 }
-                                assert(false);
+                                assert(
+                                    false,
+                                    `Unrecognized software type: ${JSON.stringify(
+                                        softwareType
+                                    )}`
+                                );
                             })
                             .reduce((prev, curr) => [...prev, ...curr], [])
                     )
@@ -873,7 +894,7 @@ export const selectors = (() => {
                             softwareCountInCurrentFilterByEnvironment.get("stack")! + 1
                         );
                         break;
-                    case "desktop":
+                    case "desktop/mobile":
                         objectKeys(softwareType.os)
                             .filter(os => softwareType.os[os])
                             .forEach(os =>
@@ -923,7 +944,7 @@ export const selectors = (() => {
                                 .reduce((prev, curr) => [...prev, ...curr], [])
                         )
                     ),
-                    "isInstallableOnUserTerminal" as const,
+                    "isInstallableOnUserComputer" as const,
                     "isTestable" as const
                 ].map(prerogative => [prerogative, id<number>(0)] as const)
             );
@@ -980,11 +1001,11 @@ export const selectors = (() => {
                         );
                     });
 
-                (["isInstallableOnUserTerminal", "isTestable"] as const).forEach(
+                (["isInstallableOnUserComputer", "isTestable"] as const).forEach(
                     prerogativeName => {
                         switch (prerogativeName) {
-                            case "isInstallableOnUserTerminal":
-                                if (softwareType.type !== "desktop") {
+                            case "isInstallableOnUserComputer":
+                                if (softwareType.type !== "desktop/mobile") {
                                     return;
                                 }
                                 break;
@@ -1190,7 +1211,12 @@ function internalSoftwareToExternalSoftware(params: {
             isFromFrenchPublicServices,
             isPresentInSupportContract,
             doRespectRgaa,
-            "isInstallableOnUserTerminal": softwareType.type === "desktop",
+            "isInstallableOnUserComputer":
+                softwareType.type === "desktop/mobile" &&
+                (softwareType.os.windows || softwareType.os.linux || softwareType.os.mac),
+            "isAvailableAsMobileApp":
+                softwareType.type === "desktop/mobile" &&
+                (softwareType.os.android || softwareType.os.ios),
             "isTestable": testUrl !== undefined
         },
         parentSoftware,

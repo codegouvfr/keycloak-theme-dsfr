@@ -422,10 +422,13 @@ function apiSoftwareToSoftware(params: {
         license,
         "prerogatives": {
             "isTestable": testUrl !== undefined,
-            "isInstallableOnUserTerminal":
+            "isInstallableOnUserComputer":
                 softwareType.type === "stack"
                     ? undefined
-                    : softwareType.type === "desktop",
+                    : softwareType.type === "desktop/mobile",
+            "isAvailableAsMobileApp":
+                softwareType.type === "desktop/mobile" &&
+                (softwareType.os.android || softwareType.os.ios),
             "isPresentInSupportContract": prerogatives.isPresentInSupportContract,
             "isFromFrenchPublicServices": prerogatives.isFromFrenchPublicServices,
             "doRespectRgaa": prerogatives.doRespectRgaa

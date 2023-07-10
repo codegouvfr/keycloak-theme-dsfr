@@ -109,9 +109,12 @@ export default function SoftwareDetails(props: Props) {
                                         }
                                         softwareDescription={software.softwareDescription}
                                         license={software.license}
-                                        isDesktop={
+                                        hasDesktopApp={
                                             software.prerogatives
-                                                .isInstallableOnUserTerminal
+                                                .isInstallableOnUserComputer
+                                        }
+                                        isAvailableAsMobileApp={
+                                            software.prerogatives.isAvailableAsMobileApp
                                         }
                                         isPresentInSupportMarket={
                                             software.prerogatives
@@ -319,7 +322,7 @@ export const { i18n } = declareComponentKeys<
     | "minimal version"
     | "license"
     | "declare oneself referent"
-    | "isDesktop"
+    | "hasDesktopApp"
     | "isPresentInSupportMarket"
     | "isFromFrenchPublicService"
     | "isRGAACompliant"

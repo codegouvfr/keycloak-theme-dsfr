@@ -51,7 +51,7 @@ export default function Home(props: Props) {
         {
             "title": t("essential"),
             "linkProps": routes.softwareCatalog({
-                "prerogatives": ["isInstallableOnUserTerminal"]
+                "prerogatives": ["isInstallableOnUserComputer"]
             }).link
         },
         {

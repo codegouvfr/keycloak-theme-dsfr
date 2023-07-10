@@ -24,7 +24,7 @@ namespace State {
             softwareName: string;
             referentCount: number;
             userCount: number;
-            softwareType: "desktop" | "cloud" | "other";
+            softwareType: "desktop/mobile" | "cloud" | "other";
         };
     };
 }
@@ -149,8 +149,8 @@ export const thunks = {
                             switch (software.softwareType.type) {
                                 case "cloud":
                                     return "cloud";
-                                case "desktop":
-                                    return "desktop";
+                                case "desktop/mobile":
+                                    return "desktop/mobile";
                                 case "stack":
                                     return "other";
                             }

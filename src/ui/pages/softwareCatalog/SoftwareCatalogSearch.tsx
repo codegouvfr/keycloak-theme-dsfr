@@ -291,9 +291,9 @@ export function SoftwareCatalogSearch(props: Props) {
                                                 return `${t(
                                                     "isFromFrenchPublicServices"
                                                 )} (${softwareCount})`;
-                                            case "isInstallableOnUserTerminal":
+                                            case "isInstallableOnUserComputer":
                                                 return `${t(
-                                                    "isInstallableOnUserTerminal"
+                                                    "isInstallableOnUserComputer"
                                                 )} (${softwareCount})`;
                                             case "isTestable":
                                                 return `${t(
@@ -302,6 +302,10 @@ export function SoftwareCatalogSearch(props: Props) {
                                             case "isPresentInSupportContract":
                                                 return `${t(
                                                     "isPresentInSupportContract"
+                                                )} (${softwareCount})`;
+                                            case "isAvailableAsMobileApp":
+                                                return `${t(
+                                                    "isAvailableAsMobileApp"
                                                 )} (${softwareCount})`;
                                         }
                                     })()}
@@ -384,7 +388,8 @@ export const { i18n } = declareComponentKeys<
     | "categoriesLabel"
     | "environnement label"
     | "prerogativesLabel"
-    | "isInstallableOnUserTerminal"
+    | "isInstallableOnUserComputer"
+    | "isAvailableAsMobileApp"
     | "isPresentInSupportContract"
     | "isFromFrenchPublicServices"
     | "doRespectRgaa"
@@ -395,6 +400,8 @@ export const { i18n } = declareComponentKeys<
     | "windows"
     | "browser"
     | "stack"
+    | "ios"
+    | "android"
     | {
           K: "number of prerogatives selected";
           P: { count: number };
