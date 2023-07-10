@@ -727,7 +727,8 @@ const {
                 "registeredUserCount": "utilisateurs inscrits",
                 "agentReferentCount": "référents logiciels",
                 "organizationCount": "organismes présents",
-                "help us": "Vous êtes agent publique? Aidez-nous a enrichir le catalog!",
+                "help us":
+                    "Vous êtes agent public ? Aidez-nous à enrichir le catalogue !",
                 "declare referent title":
                     "Se déclarer utilisateur ou référent d'un logiciel",
                 "edit software title": "Modifier une fiche logiciel",
