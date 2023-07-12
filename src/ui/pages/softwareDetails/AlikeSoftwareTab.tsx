@@ -66,7 +66,13 @@ export const AlikeSoftwareTab = (props: Props) => {
 
                 return (
                     <SoftwareCatalogCard
-                        className={css({ "maxWidth": 600 })}
+                        className={css({
+                            "maxWidth": 600,
+                            ...fr.spacing("margin", {
+                                "rightLeft": "auto",
+                                "topBottom": "6v"
+                            })
+                        })}
                         key={softwareName}
                         logoUrl={logoUrl}
                         softwareName={softwareName}
