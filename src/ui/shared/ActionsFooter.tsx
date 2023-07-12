@@ -52,21 +52,24 @@ export const ActionsFooter = memo((props: Props) => {
     );
 });
 
-const useStyles = makeStyles<{ isSticky: boolean }>()((theme, { isSticky }) => ({
-    "root": {
-        "position": "sticky",
-        "bottom": "0",
-        "marginTop": fr.spacing("6v"),
-        "boxShadow": `${
-            isSticky
-                ? `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`
-                : `0 0 5px -5px ${theme.decisions.background.overlap.grey.active}`
-        }`,
-        "transition": "box-shadow 0.3s ease",
-        ...fr.spacing("padding", {
-            "top": "4v",
-            "bottom": "6v"
-        }),
-        "background": theme.decisions.background.default.grey.default
-    }
-}));
+const useStyles = makeStyles<{ isSticky: boolean }>({ "name": { ActionsFooter } })(
+    (theme, { isSticky }) => ({
+        "root": {
+            "position": "sticky",
+            "bottom": "0",
+            "marginTop": fr.spacing("6v"),
+            "boxShadow": `${
+                isSticky
+                    ? `0 -5px 5px -5px ${theme.decisions.background.overlap.grey.active}`
+                    : `0 0 5px -5px ${theme.decisions.background.overlap.grey.active}`
+            }`,
+            "transition": "box-shadow 0.3s ease",
+            ...fr.spacing("padding", {
+                "top": "4v",
+                "bottom": "6v"
+            }),
+            "background": theme.decisions.background.default.grey.default,
+            "zIndex": 1
+        }
+    })
+);
