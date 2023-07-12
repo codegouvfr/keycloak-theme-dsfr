@@ -91,7 +91,7 @@ export const AlikeSoftwareTab = (props: Props) => {
                 );
             })}
             <p className={fr.cx("fr-text--bold", "fr-mt-8v")}>
-                {t("alike software internal")} ({alikeInternalSoftwares?.length}) :
+                {t("alike software external")} ({alikeInternalSoftwares?.length}) :
             </p>
             <ul>
                 {alikeInternalSoftwares.map(software => {
@@ -114,5 +114,5 @@ export const AlikeSoftwareTab = (props: Props) => {
 };
 
 export const { i18n } = declareComponentKeys<
-    "alike software sill" | "alike software internal"
+    "alike software sill" | "alike software external"
 >()({ AlikeSoftwareTab });

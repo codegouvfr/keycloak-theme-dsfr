@@ -558,8 +558,9 @@ const {
                 "add instance": "Reference new instance"
             },
             "AlikeSoftwareTab": {
-                "alike software sill": "Alike software in SILL",
-                "alike software internal": "Alike proprietary software"
+                "alike software sill": "Alike software in the SILL",
+                "alike software external":
+                    "Other similar software that are not in the SILL, they might be proprietary or not"
             },
             "CnllServiceProviderModal": {
                 "close": "Close",
@@ -1207,8 +1208,9 @@ const {
                 "add instance": "Référencer une nouvelle instance"
             },
             "AlikeSoftwareTab": {
-                "alike software sill": "Logiciels similaires sur le SILL",
-                "alike software internal": "Logiciels équivalents propriétaires"
+                "alike software sill": "Logiciels similaires dans le SILL",
+                "alike software external":
+                    "Logiciels similaires qui ne font pas partie du SILL, ils peuvent être propriétaires ou libres"
             },
             "CnllServiceProviderModal": {
                 "close": "Fermer",
