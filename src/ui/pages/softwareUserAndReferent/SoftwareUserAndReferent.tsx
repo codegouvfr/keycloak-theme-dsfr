@@ -14,8 +14,6 @@ import softwareLogoPlaceholder from "ui/assets/software_logo_placeholder.png";
 import { routes, getPreviousRouteName, session } from "ui/routes";
 import { Tag } from "@codegouvfr/react-dsfr/Tag";
 
-import { capitalize } from "tsafe/capitalize";
-
 export type Props = {
     className?: string;
     route: PageRoute;
