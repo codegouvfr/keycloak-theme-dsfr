@@ -87,7 +87,7 @@ export default function SoftwareUserAndReferent(props: Props) {
             return (
                 <li key={email}>
                     <p>
-                        <a href={`mailto:${email}`}>{capitalize(email)}</a>
+                        <a href={`mailto:${email}`}>{email}</a>
                         {isTechnicalExpert && (
                             <Tag
                                 style={{
