@@ -1224,14 +1224,14 @@ const {
                         pour {softwareName}.
                     </>
                 ),
-                "modal title": "Fourniseur de service de l'anuaire CNLL"
+                "modal title": "Fournisseur de service de l'anuaire CNLL"
             },
             "DetailUsersAndReferents": {
                 "userAndReferentCount": ({ userCount, referentCount, referentColor }) => (
                     <>
                         {userCount !== 0 && <>{userCount} utilisateurs et </>}
                         <span style={{ "color": referentColor }}>
-                            {referentCount} referents
+                            {referentCount} référents
                         </span>
                     </>
                 )
