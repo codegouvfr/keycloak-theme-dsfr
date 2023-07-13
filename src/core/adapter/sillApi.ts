@@ -30,6 +30,15 @@ export function createSillApi(params: {
         ]
     });
 
+    const errorHandler = (err: any) => {
+        if (err.shape?.message) {
+            alert(err.shape.message);
+        } else {
+            alert("An unknown error occurred");
+        }
+        throw err;
+    };
+
     const sillApi: SillApi = {
         "getApiVersion": memoize(() => trpcClient.getApiVersion.query(), {
             "promise": true
@@ -55,21 +64,27 @@ export function createSillApi(params: {
                 params
             ),
         "createSoftware": async params => {
-            const out = await trpcClient.createSoftware.mutate(params);
+            const out = await trpcClient.createSoftware
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getSoftwares.clear();
 
             return out;
         },
         "updateSoftware": async params => {
-            const out = await trpcClient.updateSoftware.mutate(params);
+            const out = await trpcClient.updateSoftware
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getSoftwares.clear();
 
             return out;
         },
         "createUserOrReferent": async params => {
-            const out = await trpcClient.createUserOrReferent.mutate(params);
+            const out = await trpcClient.createUserOrReferent
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getTotalReferentCount.clear();
             sillApi.getAgents.clear();
@@ -78,7 +93,9 @@ export function createSillApi(params: {
             return out;
         },
         "removeUserOrReferent": async params => {
-            const out = await trpcClient.removeUserOrReferent.mutate(params);
+            const out = await trpcClient.removeUserOrReferent
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getTotalReferentCount.clear();
             sillApi.getAgents.clear();
@@ -87,14 +104,18 @@ export function createSillApi(params: {
             return out;
         },
         "createInstance": async params => {
-            const out = await trpcClient.createInstance.mutate(params);
+            const out = await trpcClient.createInstance
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getInstances.clear();
 
             return out;
         },
         "updateInstance": async params => {
-            const out = await trpcClient.updateInstance.mutate(params);
+            const out = await trpcClient.updateInstance
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getInstances.clear();
 
@@ -102,14 +123,16 @@ export function createSillApi(params: {
         },
         "getAgents": memoize(() => trpcClient.getAgents.query(), { "promise": true }),
         "changeAgentOrganization": async params => {
-            const out = await trpcClient.changeAgentOrganization.mutate(params);
+            const out = await trpcClient.changeAgentOrganization
+                .mutate(params)
+                .catch(errorHandler);
 
             sillApi.getAgents.clear();
 
             return out;
         },
         "updateEmail": async params => {
-            const out = await trpcClient.updateEmail.mutate(params);
+            const out = await trpcClient.updateEmail.mutate(params).catch(errorHandler);
 
             sillApi.getAgents.clear();
 
