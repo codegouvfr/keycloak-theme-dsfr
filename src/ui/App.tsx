@@ -24,27 +24,9 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { GlobalStyles, keyframes } from "tss-react";
 import { LoadingFallback, loadingFallbackClassName } from "ui/shared/LoadingFallback";
 import { useDomRect } from "powerhooks/useDomRect";
+import { apiUrl } from "ui/apiUrl";
 
 let keycloakIsDark: boolean;
-
-const defaultApiUrl = `${window.location.origin}/api`;
-
-const apiUrl = (() => {
-    const envValue = process.env["REACT_APP_API_URL"];
-
-    if (envValue === "") {
-        //Mock mode
-        return "";
-    }
-
-    if (envValue === undefined) {
-        //Production mode
-        return defaultApiUrl;
-    }
-
-    //Development mode using local api
-    return envValue;
-})();
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
@@ -52,7 +34,7 @@ const { CoreProvider } = createCoreProvider({
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServiceUrl }) =>
         [url]
             .map(injectGlobalStatesInSearchParams)
-            .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl || defaultApiUrl }))
+            .map(url => addSillApiUrlToQueryParams({ url, "value": apiUrl }))
             .map(url => addIsDarkToQueryParams({ url, "value": keycloakIsDark }))
             .map(url => addTermsOfServiceUrlToQueryParams({ url, "value": termsOfServiceUrl }))
             .map(url => addAppLocationOriginToQueryParams({ url, "value": window.location.origin }))

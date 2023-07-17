@@ -6,6 +6,7 @@ import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { declareComponentKeys } from "i18nifty";
+import { apiUrl } from "ui/apiUrl";
 
 export type Props = {
     className?: string;
@@ -50,7 +51,7 @@ export const Footer = memo(
                         {
                             "text": "sill.json",
                             "linkProps": {
-                                "href": `https://${window.location.host}/api/sill.json`
+                                "href": `${apiUrl}/sill.json`
                             }
                         },
                         {
