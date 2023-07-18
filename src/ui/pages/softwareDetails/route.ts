@@ -8,6 +8,7 @@ import {
 } from "type-route";
 import { z } from "zod";
 import { assert, type Equals } from "tsafe/assert";
+import { appPath } from "urls";
 
 export const routeDefs = {
     "softwareDetails": defineRoute(
@@ -37,7 +38,7 @@ export const routeDefs = {
                 "stringify": value => value
             })
         },
-        () => `/detail`
+        () => appPath + `/detail`
     )
 };
 

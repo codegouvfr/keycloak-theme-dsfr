@@ -7,6 +7,7 @@ import {
     noMatch
 } from "type-route";
 import { z } from "zod";
+import { appPath } from "urls";
 
 export const routeDefs = {
     "declarationForm": defineRoute(
@@ -25,7 +26,7 @@ export const routeDefs = {
                 "stringify": value => value
             })
         },
-        () => `/declaration`
+        () => appPath + `/declaration`
     )
 };
 

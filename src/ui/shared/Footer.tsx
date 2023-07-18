@@ -6,7 +6,7 @@ import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { routes } from "ui/routes";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { declareComponentKeys } from "i18nifty";
-import { apiUrl } from "ui/apiUrl";
+import { apiUrl } from "urls";
 
 export type Props = {
     className?: string;

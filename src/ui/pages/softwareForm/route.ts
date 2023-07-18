@@ -1,8 +1,12 @@
 import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
+import { appPath } from "urls";
 
 export const routeDefs = {
-    "softwareCreationForm": defineRoute("/add"),
-    "softwareUpdateForm": defineRoute({ "name": param.query.string }, () => "/update")
+    "softwareCreationForm": defineRoute(appPath + "/add"),
+    "softwareUpdateForm": defineRoute(
+        { "name": param.query.string },
+        () => appPath + "/update"
+    )
 };
 
 export const routeGroup = createGroup(Object.values(createRouter(routeDefs).routes));

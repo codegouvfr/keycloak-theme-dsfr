@@ -12,6 +12,7 @@ import type { GetUser } from "core/ports/GetUser";
 export async function createCore(params: {
     /** Empty string for using mock */
     apiUrl: string;
+    staticAssetsUrl: string;
     /** Default: false, only considered if using mocks */
     isUserInitiallyLoggedIn?: boolean;
     transformUrlBeforeRedirectToLogin: (params: {
@@ -22,6 +23,7 @@ export async function createCore(params: {
 }) {
     const {
         apiUrl,
+        staticAssetsUrl,
         isUserInitiallyLoggedIn = false,
         transformUrlBeforeRedirectToLogin,
         getCurrentLang
@@ -75,6 +77,7 @@ export async function createCore(params: {
 
         return createOidc({
             ...keycloakParams,
+            staticAssetsUrl,
             "transformUrlBeforeRedirect": url =>
                 transformUrlBeforeRedirectToLogin({
                     url,

@@ -1,4 +1,5 @@
 import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
+import { appPath } from "urls";
 
 export const routeDefs = {
     "ogSill": defineRoute(
@@ -6,20 +7,20 @@ export const routeDefs = {
             "lang": param.path.string,
             "id": param.query.optional.number
         },
-        ({ lang }) => `/${lang}/software`
+        ({ lang }) => appPath + `/${lang}/software`
     ),
     "onyxiaUiSillCatalog": defineRoute(
         {
             "q": param.query.optional.string.default("")
         },
-        () => `/software`
+        () => appPath + `/software`
     ),
     "onyxiaUiSillCard": defineRoute(
         {
             /** Can be the software name (string) or it's `${id}` (for legacy route compat)  */
             "name": param.query.string
         },
-        () => `/software`
+        () => appPath + `/software`
     )
 };
 

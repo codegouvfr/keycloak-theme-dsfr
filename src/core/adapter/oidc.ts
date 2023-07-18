@@ -12,12 +12,20 @@ export async function createOidc(params: {
     url: string;
     realm: string;
     clientId: string;
+    staticAssetsUrl: string;
     transformUrlBeforeRedirect: (url: string) => string;
     getUiLocales: () => string;
     log?: typeof console.log;
 }): Promise<Oidc> {
-    const { url, realm, clientId, transformUrlBeforeRedirect, getUiLocales, log } =
-        params;
+    const {
+        url,
+        realm,
+        clientId,
+        staticAssetsUrl,
+        transformUrlBeforeRedirect,
+        getUiLocales,
+        log
+    } = params;
 
     const keycloakInstance = keycloak_js({ url, realm, clientId });
 
@@ -28,7 +36,7 @@ export async function createOidc(params: {
     const isAuthenticated = await keycloakInstance
         .init({
             "onLoad": "check-sso",
-            "silentCheckSsoRedirectUri": `${window.location.origin}/silent-sso.html`,
+            "silentCheckSsoRedirectUri": `${staticAssetsUrl}/silent-sso.html`,
             "responseMode": "query",
             "checkLoginIframe": false,
             "adapter": createKeycloakAdapter({

@@ -1,17 +1,18 @@
 import { createGroup, defineRoute, createRouter, param, type Route } from "type-route";
+import { appPath } from "urls";
 
 export const routeDefs = {
     "instanceCreationForm": defineRoute(
         {
             "softwareName": param.query.optional.string
         },
-        () => "/add-instance"
+        () => appPath + "/add-instance"
     ),
     "instanceUpdateForm": defineRoute(
         {
             "id": param.query.number
         },
-        () => "/update-instance"
+        () => appPath + "/update-instance"
     )
 };
 

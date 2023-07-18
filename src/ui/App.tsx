@@ -24,12 +24,13 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { GlobalStyles, keyframes } from "tss-react";
 import { LoadingFallback, loadingFallbackClassName } from "ui/shared/LoadingFallback";
 import { useDomRect } from "powerhooks/useDomRect";
-import { apiUrl } from "ui/apiUrl";
+import { apiUrl, appUrl } from "urls";
 
 let keycloakIsDark: boolean;
 
 const { CoreProvider } = createCoreProvider({
     apiUrl,
+    "staticAssetsUrl": appUrl,
     // prettier-ignore
     "transformUrlBeforeRedirectToLogin": ({ url, termsOfServiceUrl }) =>
         [url]
