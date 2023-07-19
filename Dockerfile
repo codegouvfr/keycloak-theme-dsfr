@@ -6,6 +6,7 @@ COPY public ./public
 RUN yarn install --frozen-lockfile
 COPY config-overrides.js tsconfig.json ./
 COPY src ./src
+RUN sed -i '/"homepage":/d' package.json
 RUN yarn build
 COPY nginx.conf ./
 
