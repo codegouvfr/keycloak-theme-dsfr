@@ -9,7 +9,7 @@
       <img src="https://img.shields.io/npm/l/sill-api">
     </a>
     </br>
-    <a href="https://etalab-2.gitbook.io/sill/">Documentation</a>
+    <a href="https://github.com/codegouvfr/sill-docs/">Documentation</a>
     -
     <a href="https://sill-preprod.lab.sspcloud.fr">Pre prod</a>
 </p>
