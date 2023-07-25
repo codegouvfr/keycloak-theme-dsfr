@@ -218,16 +218,18 @@ const useStyles = makeStyles<{ isSearchHighlighted: boolean }>({
     "name": { SoftwareCatalogCard }
 })((theme, { isSearchHighlighted }) => ({
     "root": {
-        ...fr.spacing("padding", {
-            "topBottom": "7v",
-            "rightLeft": "6v"
-        }),
         "backgroundColor": theme.decisions.background.default.grey.default,
-        [fr.breakpoints.down("md")]: {
+        "&&&": {
             ...fr.spacing("padding", {
-                "topBottom": "5v",
-                "rightLeft": "3v"
-            })
+                "topBottom": "7v",
+                "rightLeft": "6v"
+            }),
+            [fr.breakpoints.down("md")]: {
+                ...fr.spacing("padding", {
+                    "topBottom": "5v",
+                    "rightLeft": "3v"
+                })
+            }
         }
     },
     "searchHighlight": {

@@ -21,7 +21,7 @@ import { objectKeys } from "tsafe/objectKeys";
 import { useLang } from "ui/i18n";
 import { assert } from "tsafe/assert";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { GlobalStyles, keyframes } from "tss-react";
+import { keyframes } from "tss-react";
 import { LoadingFallback, loadingFallbackClassName } from "ui/shared/LoadingFallback";
 import { useDomRect } from "powerhooks/useDomRect";
 import { apiUrl, appUrl } from "urls";
@@ -54,23 +54,13 @@ export default function App() {
     }
 
     return (
-        <>
-            <GlobalStyles
-                styles={{
-                    "html": {
-                        "overflow": "-moz-scrollbars-vertical",
-                        "overflowY": "scroll"
-                    }
-                }}
-            />
-            <CoreProvider
-                fallback={<LoadingFallback className={css({ "height": "100vh" })} />}
-            >
-                <RouteProvider>
-                    <ContextualizedApp />
-                </RouteProvider>
-            </CoreProvider>
-        </>
+        <CoreProvider
+            fallback={<LoadingFallback className={css({ "height": "100vh" })} />}
+        >
+            <RouteProvider>
+                <ContextualizedApp />
+            </RouteProvider>
+        </CoreProvider>
     );
 }
 
