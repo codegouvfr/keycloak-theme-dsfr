@@ -67,26 +67,31 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         <>
             <Header
                 brandTop={
-                    <>
-                        République
-                        <br />
-                        Française
-                    </>
+                    <span
+                        dangerouslySetInnerHTML={{
+                            "__html":
+                                kcContext.properties.brandTop ||
+                                "République<br/>Française"
+                        }}
+                    />
                 }
                 serviceTitle={
-                    !!kcContext.realm.displayNameHtml ? (
-                        <span
-                            dangerouslySetInnerHTML={{
-                                "__html": kcContext.realm.displayNameHtml
-                            }}
-                        />
-                    ) : (
-                        kcContext.realm.displayName ?? ""
-                    )
+                    <span
+                        dangerouslySetInnerHTML={{
+                            "__html":
+                                kcContext.properties.serviceTitle ||
+                                kcContext.realm.displayNameHtml ||
+                                kcContext.realm.displayName ||
+                                ""
+                        }}
+                    />
                 }
                 quickAccessItems={[headerFooterDisplayItem]}
                 homeLinkProps={{
-                    "href": appLocationOrigin,
+                    "href":
+                        appLocationOrigin ||
+                        kcContext.properties.homeUrl ||
+                        window.location.origin,
                     "title": `${msgStr("home")} - ${kcContext.realm.displayName ?? ""}`
                 }}
             />
