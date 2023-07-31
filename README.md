@@ -8,9 +8,9 @@ This project is constructed using [Keycloakify](https://keycloakify.dev) and [@c
 
 Here are some screenshots showcasing the theme:
 
-<img width="1728" alt="image" src="https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/36b5e4fa-12c8-4451-aabe-62165eab0d22">
-<img width="1728" alt="image" src="https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/d21b905d-4823-4dc1-9e93-d757c6b97e1b">
-<img width="1728" alt="image" src="https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/e6ab34bd-6a66-4d6f-8b1d-082decae3e96">
+![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/68fa56ab-8e12-441b-8400-fa657b51d400)
+![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/0ef3b7f8-96f8-4f79-b956-9cc96dde67f9)
+![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/f3797b8d-7111-4199-a587-af26641c30e3)
 
 ## Setup and Configuration
 
