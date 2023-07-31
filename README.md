@@ -1,6 +1,6 @@
 # Keycloak DSFR Theme
 
-Welcome to the Keycloak DSFR Theme. No need to clone this repository, simply use the [keycloak-theme.jar](https://todo.com) directly.
+Welcome to the Keycloak DSFR Theme. No need to clone this repository, simply use the [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme-dsfr.jar) directly.
 
 This project is constructed using [Keycloakify](https://keycloakify.dev) and [@codegouvfr/react-dsfr](https://github.com/codegouvfr/react-dsfr). To see the theme in action, please visit [the SILL](https://sill.code.gouv.fr) and attempt to log in.
 
