@@ -1,5 +1,5 @@
 import { createGetKcContext, type PageId } from "keycloakify/account";
-import type { Properties } from "Env";
+import type { Properties } from "Properties";
 
 export const { getKcContext } = createGetKcContext<{
     pageId: PageId;
