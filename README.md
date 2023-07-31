@@ -16,7 +16,7 @@ Here are some screenshots showcasing the theme:
 
 For guidance on importing a theme into Keycloak or configuring AgentConnect/FranceConnect, you can refer to our comprehensive [setup guide](https://github.com/codegouvfr/sill-docs/blob/main/deploying.md#installing-keycloak).
 
-We have customized the modern `register-user-profile.ftl` registration page, which allows you to implement features such as an accept list of email domains for registration. This feature can be highly useful, for instance, if you want to restrict registration to your service to public servants. [Here](#) is the regular expression used for the SILL's email domain accept list.
+We have customized the modern `register-user-profile.ftl` registration page, which allows you to implement features such as an accept list of email domains for registration. This feature can be highly useful, for instance, if you want to restrict registration to your service to public servants. [Here](https://github.com/codegouvfr/keycloak-theme-dsfr/blob/9cee4b7f75d9e65dd581c52c8b818048ab6ad1aa/userProfile.json#L12) is the regular expression used for the SILL's email domain accept list.
 
 Although the `register.ftl` page has been somewhat superseded by Keycloak, it remains the default. Hence, we recommend enabling the `User Profile` feature in Keycloak. Instructions for doing so can be found [here](https://docs.keycloakify.dev/realtime-input-validation).
 
