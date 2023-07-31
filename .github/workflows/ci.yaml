@@ -68,7 +68,7 @@ jobs:
         target_commitish: ${{ github.head_ref || github.ref }}
         generate_release_notes: true
         files: |
-          jars/standalone-keycloak-theme.jar
+          jars/keycloak-theme-dsfr.jar
         draft: false
         prerelease: ${{ needs.check_if_version_upgraded.outputs.is_release_beta == 'true' }}
       env:
