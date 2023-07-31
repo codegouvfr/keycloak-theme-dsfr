@@ -1,0 +1,33 @@
+{
+    "attributes": [
+        {
+            "name": "email",
+            "displayName": "${email}",
+            "validations": {
+                "email": {},
+                "length": {
+                    "max": 255
+                },
+                "pattern": {
+                    "pattern": "^[^@]+@([^.]+\\.)*((gouv\\.fr)|(insee\\.fr)|(montreuil\\.fr)|(inserm\\.fr)|(cnafmail\\.fr)|(obspm\\.fr)|(pole-emploi\\.fr)|(unistra\\.fr)|(cea\\.fr)|(telecom-st-etienne\\.fr)|(assurance-maladie\\.fr)|(diderot\\.org)|(recia\\.fr)|(inha\\.fr)|(imt\\.fr)|(telecom-paris\\.fr)|(st-etienne\\.archi\\.fr)|(amue\\.fr)|(hceres\\.fr)|(renater\\.fr)|(reseau-canope\\.fr)|(cned\\.fr)|(ac-cned\\.fr)|(onisep\\.fr)|(unilim\\.fr)|(ehess\\.fr)|(crtc\\.ccomptes\\.fr)|(ccomptes\\.fr)|(utc\\.fr)|(centralesupelec\\.fr)|(cnrs\\.fr)|(inrae\\.fr)|(univ-angers\\.fr)|(univ-st-etienne\\.fr)|(mipih\\.fr)|(latmos\\.ipsl\\.fr)|(uvsq\\.fr)|(conseiller-numerique\\.fr)|(shom\\.fr)|(univ-grenoble-alpes\\.fr)|(clermont-auvergne-inp\\.fr)|(ensea\\.fr)|(ac-aix-marseille\\.fr)|(ac-amiens\\.fr)|(ac-besancon\\.fr)|(ac-bordeaux\\.fr)|(ac-caen\\.fr)|(ac-clermont\\.fr)|(ac-corse\\.fr)|(ac-creteil\\.fr)|(ac-dijon\\.fr)|(ac-grenoble\\.fr)|(ac-guadeloupe\\.fr)|(ac-guyane\\.fr)|(ac-lille\\.fr)|(ac-limoges\\.fr)|(ac-lyon\\.fr)|(ac-martinique\\.fr)|(ac-mayotte\\.fr)|(ac-montpellier\\.fr)|(ac-nancy-metz\\.fr)|(ac-nantes\\.fr)|(ac-nice\\.fr)|(ac-normandie\\.fr)|(ac-orleans-tours\\.fr)|(ac-paris\\.fr)|(ac-poitiers\\.fr)|(ac-reims\\.fr)|(ac-rennes\\.fr)|(ac-reunion\\.fr)|(ac-rouen\\.fr)|(ac-spm\\.fr)|(ac-strasbourg\\.fr)|(ac-toulouse\\.fr)|(ac-versailles\\.fr)|(ac-noumea\\.nc)|(ac-polynesie\\.pf)|(ac-wf\\.wf)|(universita\\.corsicafr)|(ensam\\.eu)|(artsetmetiers\\.fr)|(bibliotheque-virtuelle\\.clermont-universite\\.fr)|(college-de-france\\.fr)|(cyu\\.fr)|(devenir-aviateur\\.fr)|(ec-nantes\\.fr)|(ecole-navale\\.fr)|(ecoledesponts\\.fr)|(ehesp\\.fr)|(enac\\.fr)|(enpc\\.fr)|(enssib\\.fr)|(entpe\\.fr)|(epf-normandie\\.fr)|(ipb\\.fr)|(isae\\.fr)|(isae-supaero\\.fr)|(pantheonsorbonne\\.fr)|(parisnanterre\\.fr)|(sorbonne-universite\\.fr)|(supmaritime\\.fr)|(www\\.supmaritime\\.fr)|(u-bordeaux\\.fr)|(u-bordeaux-montaigne\\.fr)|(u-bourgogne\\.fr)|(u-paris\\.fr)|(u-paris2\\.fr)|(u-pec\\.fr)|(u-picardie\\.fr)|(u-strasbg\\.fr)|(uca\\.fr)|(uha\\.fr)|(umontpellier\\.fr)|(unicaen\\.fr)|(unimes\\.fr)|(univ-ag\\.fr)|(univ-amu\\.fr)|(univ-artois\\.fr)|(univ-avignon\\.fr)|(univ-brest\\.fr)|(univ-cotedazur\\.fr)|(univ-evry\\.fr)|(univ-fcomte\\.fr)|(univ-guyane\\.fr)|(univ-larochelle\\.fr)|(univ-lehavre\\.fr)|(univ-lemans\\.fr)|(univ-lille\\.fr)|(univ-littoral\\.fr)|(univ-lorraine\\.fr)|(univ-lyon1\\.fr)|(univ-lyon2\\.fr)|(univ-lyon3\\.fr)|(univ-montp3\\.fr)|(univ-nantes\\.fr)|(univ-orleans\\.fr)|(univ-paris1\\.fr)|(univ-paris13\\.fr)|(univ-paris3\\.fr)|(univ-paris8\\.fr)|(univ-pau\\.fr)|(univ-perp\\.fr)|(univ-poitiers\\.fr)|(univ-reims\\.fr)|(univ-rennes1\\.fr)|(univ-rennes2\\.fr)|(univ-reunion\\.fr)|(univ-rouen\\.fr)|(univ-savoie\\.fr)|(univ-smb\\.fr)|(univ-tln\\.fr)|(univ-tlse2\\.fr)|(univ-tlse3\\.fr)|(univ-tours\\.fr)|(univ-ubs\\.fr)|(universite-paris-saclay\\.fr)|(universiteparis2019\\.fr)|(uphf\\.fr)|(ut-capitole\\.fr)|(vetagro-sup\\.fr)|(unc\\.nc)|(univ-nc\\.nc)|(upf\\.pf)|(aphp\\.fr)|(soutenir\\.fondationaphp\\.fr)|(fondationrechercheaphp\\.fr)|(eye\\.news-aphp\\.fr)|(omedit-idf\\.fr)|(urologie-mondor\\.fr)|(cerema\\.fr)|(cnnumerique\\.fr)|(vaucluse\\.fr)|(justice\\.fr)|(cc-aps\\.fr)|(cines\\.fr)|(nantesmetropole\\.fr)|(departement86\\.fr)|(chu-lyon\\.fr)|(ille-et-vilaine\\.fr)|(vandoeuvre\\.fr)|(cdg47\\.fr)|(haute-marne\\.fr)|(chu-rouen\\.fr)|(lecnam\\.net)|(ampmetropole\\.fr)|(ign\\.fr)|(calvados\\.fr)|(bulac\\.fr)|(grandchateaudun\\.fr)|(ght-atlantique17\\.fr)|(orleans-metropole\\.fr)|(villejuif\\.fr)|(montpellier\\.archi\\.fr)|(sante\\.fr)|(ecrins-parcnational\\.fr)|(asp-public\\.fr)|(mairiedefigari\\.corsica)|(polytechnique\\.edu)|(cdg01\\.fr)|(strasbourg\\.eu)|(cdg79\\.fr)|(sdis30\\.fr)|(abbeville\\.fr)|(lepuyenvelay\\.fr)|(mairie-lyon\\.fr)|(sumene-artense\\.com)|(ville-maubeuge\\.fr)|(hautstolosans\\.fr)|(rennesmetropole\\.fr)|(agrosupdijon\\.fr)|(psl\\.eu)|(mairie-aixenprovence\\.fr)|(montpellier3m\\.fr)|(morbihan-energies\\.fr)|(angersloiremetropole\\.fr)|(mairiedefigari\\.corsica)|(mairie-colombes\\.fr)|(saint-hippolyte-du-fort\\.com)|(laregion\\.fr)|(mairie-mandelieu\\.fr)|(femto-st\\.fr)|(institutcancer\\.fr)|(cdg57\\.fr)|(abcd\\.com)|(paris\\.fr)|(parc-haut-jura\\.fr)|(cefedem-aura\\.org)|(brgm\\.fr)|(sitiv\\.fr)|(girondenumerique\\.fr)|(ademe\\.fr)|(u-bordeaux-montaigne\\.fr)|(hautchablais\\.fr)|(nh-navarre\\.fr)|(soluris\\.fr)|(chpyr\\.fr)|(ville-creteil\\.fr)|(chsflyon\\.fr)|(ville-frejus\\.fr)|(herault\\.cci\\.fr)|(ch-pau\\.fr)|(univ-eiffel\\.fr)|(ijm\\.fr)|(mairie-rumilly74\\.fr)|(hautsdefrance\\.fr)|(creuse\\.fr)|(ville-bobigny\\.fr)|(sorbonne-nouvelle\\.fr)|(in2p3\\.fr)|(universite-paris-saclay\\.fr)|(mairienay\\.fr)|(region-academique-.*\\.fr)|(toulouse-inp\\.fr)|(valdoise\\.fr)|(agglo-lenslievin\\.fr)|(isae-supmeca\\.fr)|(grandchateaudun\\.fr)|(ineris\\.fr)|(crous-nantes\\.fr)|(cd66\\.fr)|(centralesupelec\\.fr)|(ladom\\.fr)|(acoss\\.fr)|(grandnancy\\.eu)|(taaf\\.fr)|(cap-atlantique\\.fr)|(mairie-nanterre\\.fr)|(alsace\\.eu)|(bordeaux-inp\\.fr)|(saintjoseph\\.re)|(bnf\\.fr)|(mairiecasepilote\\.fr)|(ill\\.fr)|(arcom\\.fr)|(seineouest\\.fr)|(cc-parthenay-gatine\\.fr)|(cugeslespins\\.fr)|(ghbs\\.bzh)|(cgss\\.re)|(cnaf\\.fr)|(mulhouse-alsace\\.fr)|(chu-lille\\.fr)|(fiva\\.fr))$"
+                }
+            },
+            "permissions": {
+                "view": [],
+                "edit": []
+            },
+            "selector": {
+                "scopes": []
+            }
+        },
+        {
+            "selector": {
+                "scopes": []
+            },
+            "permissions": {
+                "view": ["user", "admin"],
+                "edit": ["user", "admin"]
+            }
+        }
+    ]
+}

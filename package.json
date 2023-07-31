@@ -3,15 +3,24 @@
     "name": "sill-web",
     "version": "1.31.7",
     "license": "MIT",
+    "keycloakify": {
+        "themeName": "dsfr",
+        "extraThemeProperties": [
+            "homeUrl=${env.DSFR_THEME_HOME_URL:}",
+            "serviceTitle=${env.DSFR_THEME_SERVICE_TITLE:}",
+            "brandTop=${env.DSFR_THEME_BRAND_TOP:}",
+            "tosUrl=${env.DSFR_THEME_TOS_URL:}",
+            "contactEmail=${env.DSFR_THEME_CONTACT_EMAIL:}"
+        ]
+    },
     "scripts": {
-        "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
         "build-keycloak-theme": "yarn build && keycloakify",
         "storybook": "start-storybook -p 6006",
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
         "format": "yarn _format --write",
         "format:check": "yarn _format --list-different",
-        "analyze": "source-map-explorer 'build/static/js/*.js'",
         "prepare": "copy-dsfr-to-public && copy-keycloak-resources-to-public",
         "prestorybook": "only-include-used-icons",
         "prestart": "only-include-used-icons",
@@ -26,35 +35,16 @@
         "@mui/material": "^5.13.3",
         "tss-react": "^4.8.8",
         "tsafe": "^1.6.4",
-        "@reduxjs/toolkit": "^1.9.1",
         "@storybook/addon-docs": "^6.5.15",
         "@tanstack/react-virtual": "3.0.0-beta.39",
-        "@trpc/client": "^10.18.0",
-        "@types/react-form": "^4.0.2",
-        "evt": "^2.4.22",
-        "flexsearch": "0.7.21",
         "i18nifty": "^1.5.12",
-        "jwt-decode": "^3.1.2",
-        "keycloak-js": "^21.0.2",
         "keycloakify": "^7.15.5",
-        "memoizee": "^0.4.14",
-        "moment": "^2.29.1",
-        "path": "^0.12.7",
-        "powerhooks": "^0.27.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-hook-form": "^7.43.0",
-        "react-markdown": "^5.0.3",
         "react-scripts": "5.0.1",
-        "react-waypoint": "^10.3.0",
-        "redux-clean-architecture": "^3.5.6",
-        "run-exclusive": "^2.2.19",
-        "superjson": "^1.12.2",
-        "type-route": "^1.0.1",
-        "zod": "^3.21.4"
+        "react-waypoint": "^10.3.0"
     },
     "devDependencies": {
-        "@types/flexsearch": "^0.7.3",
         "@storybook/addon-actions": "^6.5.10",
         "@storybook/addon-essentials": "^6.5.10",
         "@storybook/addon-links": "^6.5.10",
@@ -69,7 +59,6 @@
         "@types/react-dom": "^18.0.6",
         "@typescript-eslint/eslint-plugin": "^4.24.0",
         "@typescript-eslint/parser": "^4.24.0",
-        "circular-dependency-plugin": "^5.2.2",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-tss-unused-classes": "^0.0.4",
         "husky": "^4.3.8",
@@ -77,19 +66,8 @@
         "minimal-polyfills": "^2.2.3",
         "node-fetch": "^2.6.1",
         "prettier": "^2.3.0",
-        "react-app-rewired": "^2.2.1",
-        "source-map-explorer": "^2.5.2",
         "storybook-dark-mode": "^2.0.5",
-        "ts-node": "^10.2.1",
-        "typescript": "^4.1.6"
-    },
-    "keycloakify": {
-        "themeName": "dsfr",
-        "extraThemeProperties": [
-            "homeUrl=${env.DSFR_THEME_HOME_URL:}",
-            "serviceTitle=${env.DSFR_THEME_SERVICE_TITLE:}",
-            "brandTop=${env.DSFR_THEME_BRAND_TOP:}"
-        ]
+        "typescript": "^5.1.6"
     },
     "eslintConfig": {
         "plugins": [
