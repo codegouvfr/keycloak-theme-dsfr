@@ -59,7 +59,7 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
 
 ### i18n
 
-To enable in the theme you must first enable it in Keycloak.
+To enable internationalization in the theme you must first enable it in Keycloak.
 
 The theme is available in French and English but there's no language select provided in the login and registration pages.  
 It's up to you to redirect your user to the login page in the correct language by adding the `ui_locales` parameter to the login URL. (e.g.: `https://sso.code.gouv.fr/auth/realms/sill/protocol/openid-connect/auth?client_id=sill&redirect_uri=https%3A%2F%2Fsill.code.gouv.fr%2Flogin%2Fcallback&response_type=code&scope=openid&ui_locales=fr`)
