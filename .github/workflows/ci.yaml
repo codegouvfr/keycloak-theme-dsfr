@@ -20,6 +20,8 @@ jobs:
     - uses: bahmutov/npm-install@v1
     - run: yarn build
     - run: npx keycloakify
+      env:
+        XDG_CACHE_HOME: "/home/runner/.cache/yarn"
     - uses: actions/upload-artifact@v2
       with:
         name: standalone_keycloak_theme
