@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { makeStyles } from "tss-react/dsfr";
+import { tss } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import Fallback, { type PageProps } from "keycloakify/login";
 import type { KcContext } from "./kcContext";
@@ -60,7 +60,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
     );
 }
 
-const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
+const useStyles = tss.withName({ KcApp }).create({
     "kcHtmlClass": {
         "fontSize": "unset",
         "& label": {
@@ -80,7 +80,7 @@ const useStyles = makeStyles({ "name": { KcApp } })(theme => ({
     },
     "kcButtonPrimaryClass": {
         "&:hover": {
-            "color": theme.decisions.text.inverted.blueFrance.default
+            "color": fr.colors.decisions.text.inverted.blueFrance.default
         }
     }
-}));
+});

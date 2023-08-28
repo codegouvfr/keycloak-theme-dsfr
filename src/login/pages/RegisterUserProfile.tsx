@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UserProfileFormFields } from "./shared/UserProfileFormFields";
-import { makeStyles } from "tss-react/dsfr";
+import { tss } from "tss-react/dsfr";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
@@ -74,9 +74,7 @@ export default function RegisterUserProfile(
     );
 }
 
-const useStyles = makeStyles({
-    "name": { RegisterUserProfile }
-})(() => ({
+const useStyles = tss.withName({ RegisterUserProfile }).create({
     "centerCol": {
         "display": "flex",
         "flexDirection": "column",
@@ -92,4 +90,4 @@ const useStyles = makeStyles({
         "gap": fr.spacing("4v"),
         "justifyContent": "end"
     }
-}));
+});

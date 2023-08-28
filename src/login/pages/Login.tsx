@@ -1,7 +1,7 @@
 import { useState, type FormEventHandler } from "react";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { makeStyles } from "tss-react/dsfr";
+import { tss } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
@@ -23,15 +23,8 @@ export default function Login(
         "classes": classes_props
     });
 
-    const {
-        social,
-        realm,
-        url,
-        usernameEditDisabled,
-        login,
-        auth,
-        registrationDisabled
-    } = kcContext;
+    const { social, realm, url, usernameHidden, login, auth, registrationDisabled } =
+        kcContext;
 
     const { msg, msgStr } = i18n;
     const { classes, cx } = useStyles();
@@ -172,7 +165,7 @@ export default function Login(
                                                 "name": autoCompleteHelper,
                                                 "type": "email",
                                                 "defaultValue": login.username ?? "",
-                                                ...(usernameEditDisabled
+                                                ...(usernameHidden
                                                     ? { "disabled": true }
                                                     : {
                                                           "autoFocus": true,
@@ -200,7 +193,7 @@ export default function Login(
                                     )}
                                 >
                                     <div id="kc-form-options">
-                                        {realm.rememberMe && !usernameEditDisabled && (
+                                        {realm.rememberMe && !usernameHidden && (
                                             <Checkbox
                                                 className={classes.rememberMe}
                                                 options={[
@@ -254,9 +247,7 @@ export default function Login(
     );
 }
 
-const useStyles = makeStyles({
-    "name": { Login }
-})(() => ({
+const useStyles = tss.withName({ Login }).create({
     "centerCol": {
         "display": "flex",
         "flexDirection": "column",
@@ -283,4 +274,4 @@ const useStyles = makeStyles({
     "rememberMe": {
         "marginTop": fr.spacing("5v")
     }
-}));
+});

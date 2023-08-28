@@ -4,7 +4,7 @@ import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { usePrepareTemplate } from "keycloakify/lib/usePrepareTemplate";
 import type { KcContext } from "./kcContext";
 import type { I18n } from "./i18n";
-import { makeStyles } from "tss-react/dsfr";
+import { tss } from "tss-react/dsfr";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import Header from "@codegouvfr/react-dsfr/Header";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
@@ -43,9 +43,12 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { isReady } = usePrepareTemplate({
         "doFetchDefaultThemeResources": doUseDefaultCss,
-        url,
-        "stylesCommon": ["lib/zocial/zocial.css"],
-        "styles": ["css/login.css"],
+        "styles": [
+            `${url.resourcesCommonPath}/node_modules/patternfly/dist/css/patternfly.min.css`,
+            `${url.resourcesCommonPath}/node_modules/patternfly/dist/css/patternfly-additions.min.css`,
+            `${url.resourcesCommonPath}/lib/zocial/zocial.css`,
+            `${url.resourcesPath}/css/login.css`
+        ],
         "htmlClassName": getClassName("kcHtmlClass"),
         "bodyClassName": undefined
     });
@@ -276,12 +279,13 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     );
 }
 
-const useStyles = makeStyles<{ contentWidth: number }>({
-    "name": { Template }
-})((_theme, { contentWidth }) => ({
-    "container": {
-        "marginTop": fr.spacing("10v"),
-        "animation": `${keyframes`
+const useStyles = tss
+    .withParams<{ contentWidth: number }>()
+    .withName({ Template })
+    .create(({ contentWidth }) => ({
+        "container": {
+            "marginTop": fr.spacing("10v"),
+            "animation": `${keyframes`
             0% {
                 opacity: 0;
             }
@@ -289,21 +293,21 @@ const useStyles = makeStyles<{ contentWidth: number }>({
                 opacity: 1;
             }
             `} 400ms`
-    },
-    "centerCol": {
-        "display": "flex",
-        "flexDirection": "column",
-        "alignItems": "center"
-    },
-    "feedback": {
-        "marginBottom": fr.spacing("6v")
-    },
-    "kcContent": {
-        "width": "100%"
-    },
-    "contentWrapper": {
-        "maxWidth": `${contentWidth}px`,
-        "width": "100%",
-        "margin": "0 auto"
-    }
-}));
+        },
+        "centerCol": {
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "center"
+        },
+        "feedback": {
+            "marginBottom": fr.spacing("6v")
+        },
+        "kcContent": {
+            "width": "100%"
+        },
+        "contentWrapper": {
+            "maxWidth": `${contentWidth}px`,
+            "width": "100%",
+            "margin": "0 auto"
+        }
+    }));

@@ -5,7 +5,7 @@ import {
     useDownloadTerms
 } from "keycloakify/login/lib/useDownloadTerms";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { makeStyles } from "tss-react/dsfr";
+import { tss } from "tss-react/dsfr";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
@@ -109,9 +109,7 @@ export default function Terms(
     );
 }
 
-const useStyles = makeStyles({
-    "name": { Terms }
-})({
+const useStyles = tss.withName({ Terms }).create({
     "formActions": {
         "display": "flex",
         "gap": fr.spacing("4v")
