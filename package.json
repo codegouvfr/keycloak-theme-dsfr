@@ -4,6 +4,9 @@
     "license": "MIT",
     "keycloakify": {
         "themeName": "dsfr",
+        "extraThemeNames": [
+            "dsfr-no-login-form"
+        ],
         "extraThemeProperties": [
             "homeUrl=${env.DSFR_THEME_HOME_URL:}",
             "serviceTitle=${env.DSFR_THEME_SERVICE_TITLE:}",
