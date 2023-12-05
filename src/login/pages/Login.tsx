@@ -1,4 +1,4 @@
-import { useState, type FormEventHandler } from "react";
+import { useState, type FormEventHandler, useEffect } from "react";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { tss } from "tss-react/dsfr";
@@ -46,6 +46,10 @@ export default function Login(
 
         formElement.submit();
     });
+
+    useEffect(() => {
+        if (realm.displayName) document.title = realm.displayName;
+    }, []);
 
     return (
         <Template
