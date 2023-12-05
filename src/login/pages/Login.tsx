@@ -250,6 +250,13 @@ export default function Login(
                     )}
                 </div>
             </div>
+            {kcContext.properties.loginHtml && (
+                <div
+                    dangerouslySetInnerHTML={{
+                        "__html": kcContext.properties.loginHtml
+                    }}
+                />
+            )}
         </Template>
     );
 }

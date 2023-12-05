@@ -9,7 +9,8 @@
             "serviceTitle=${env.DSFR_THEME_SERVICE_TITLE:}",
             "brandTop=${env.DSFR_THEME_BRAND_TOP:}",
             "tosUrl=${env.DSFR_THEME_TOS_URL:}",
-            "contactEmail=${env.DSFR_THEME_CONTACT_EMAIL:}"
+            "contactEmail=${env.DSFR_THEME_CONTACT_EMAIL:}",
+            "loginHtml=${env.DSFR_THEME_LOGIN_HTML:}"
         ]
     },
     "scripts": {
