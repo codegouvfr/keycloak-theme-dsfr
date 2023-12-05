@@ -137,6 +137,9 @@ export default function Login(
                                                     />
                                                 ) : (
                                                     <Button
+                                                        className={
+                                                            classes.btnSocialProvider
+                                                        }
                                                         linkProps={{
                                                             "href": p.loginUrl
                                                         }}
@@ -266,6 +269,9 @@ const useStyles = tss.withName({ Login }).create({
         "&&&": {
             "borderRight": "none"
         }
+    },
+    "btnSocialProvider": {
+        "marginBottom": fr.spacing("6v")
     },
     "forgotPassword": {
         "marginRight": fr.spacing("6v")
