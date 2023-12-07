@@ -5,4 +5,5 @@ export type Properties = {
     brandTop: string;
     tosUrl: string;
     contactEmail: string;
+    loginHtml: string;
 };
