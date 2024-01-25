@@ -1,10 +1,14 @@
 # Keycloak DSFR Theme
 
-Welcome to the Keycloak DSFR Theme.  
-This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository,
-simply use the [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme-dsfr.jar) directly.
+Welcome to the Keycloak DSFR Theme, a Keycloak theme with [react-dsfr](https://github.com/codegouvfr/react-dsfr) and [Keycloakify](https://www.keycloakify.dev/).  
+To see the theme in action, please visit [the SILL](https://sill-preprod.lab.sspcloud.fr/) and attempt to log in.  
+This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository.  
+Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
 
-This project is constructed using [Keycloakify](https://keycloakify.dev) and [@codegouvfr/react-dsfr](https://github.com/codegouvfr/react-dsfr). To see the theme in action, please visit [the SILL](https://sill.code.gouv.fr) and attempt to log in.
+-   For all Keycloak version prior to 23 use: [retrocompat-keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/retrocompat-keycloak-theme.jar).
+-   For Keycloak 23 and up use: [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme.jar).
+
+> NOTE: Keycloak 22 (and only this specific version) is not fully supported. In this version, only the Login theme works, not the Account theme.
 
 ## Preview
 
@@ -16,7 +20,9 @@ Here are some screenshots showcasing the theme:
 
 ## Setup and Configuration
 
-For guidance on importing a theme into Keycloak or configuring AgentConnect/FranceConnect, you can refer to our comprehensive [setup guide](https://github.com/codegouvfr/sill-docs/blob/main/deploying.md#installing-keycloak).
+For instruction on how to load the theme into your Keycloak instance you can [refer to this guide](https://docs.keycloakify.dev/importing-your-theme-in-keycloak).
+
+For guidance on how to configure AgentConnect/FranceConnect, you can refer to our comprehensive [setup guide](https://github.com/codegouvfr/sill-docs/blob/main/deploying.md#installing-keycloak).
 
 We have customized the modern `register-user-profile.ftl` registration page, which allows you to implement features such as an accept list of email domains for registration. This feature can be highly useful, for instance, if you want to restrict registration to your service to public servants. [Here](https://github.com/codegouvfr/keycloak-theme-dsfr/blob/9cee4b7f75d9e65dd581c52c8b818048ab6ad1aa/userProfile.json#L12) is the regular expression used for the SILL's email domain accept list.
 
@@ -57,7 +63,7 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
     ...
 ```
 
-### i18n
+## i18n
 
 To enable internationalization in the theme you must first enable it in Keycloak.
 
