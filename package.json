@@ -37,7 +37,7 @@
         "@storybook/addon-docs": "^6.5.15",
         "@tanstack/react-virtual": "3.0.0-beta.39",
         "i18nifty": "^1.5.12",
-        "keycloakify": "^8.0.0",
+        "keycloakify": "^9.1.10",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-scripts": "5.0.1",
