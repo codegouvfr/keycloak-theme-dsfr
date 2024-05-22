@@ -1,4 +1,4 @@
-import { useState, type FormEventHandler } from "react";
+import { useState, type FormEventHandler, useEffect } from "react";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { tss } from "tss-react/dsfr";
@@ -23,8 +23,16 @@ export default function Login(
         "classes": classes_props
     });
 
-    const { social, realm, url, usernameHidden, login, auth, registrationDisabled } =
-        kcContext;
+    const {
+        social,
+        realm,
+        url,
+        usernameHidden,
+        login,
+        auth,
+        registrationDisabled,
+        themeName
+    } = kcContext;
 
     const { msg, msgStr } = i18n;
     const { classes, cx } = useStyles();
@@ -46,6 +54,10 @@ export default function Login(
 
         formElement.submit();
     });
+
+    useEffect(() => {
+        if (realm.displayName) document.title = realm.displayName;
+    }, []);
 
     return (
         <Template
@@ -137,6 +149,9 @@ export default function Login(
                                                     />
                                                 ) : (
                                                     <Button
+                                                        className={
+                                                            classes.btnSocialProvider
+                                                        }
                                                         linkProps={{
                                                             "href": p.loginUrl
                                                         }}
@@ -149,104 +164,121 @@ export default function Login(
                                     </div>
                                 </div>
                             )}
-                            <h5>{msgStr("selfCredentials")}</h5>
-                            <div className={classes.inputs}>
-                                {(() => {
-                                    const label = !realm.loginWithEmailAllowed
-                                        ? "username"
-                                        : realm.registrationEmailAsUsername
-                                        ? "email"
-                                        : "usernameOrEmail";
 
-                                    const autoCompleteHelper: typeof label =
-                                        label === "usernameOrEmail" ? "username" : label;
+                            {themeName !== "dsfr-dnum-no-login-form" && (
+                                <>
+                                    <h5>{msgStr("selfCredentials")}</h5>
+                                    <div className={classes.inputs}>
+                                        {(() => {
+                                            const label = !realm.loginWithEmailAllowed
+                                                ? "username"
+                                                : realm.registrationEmailAsUsername
+                                                ? "email"
+                                                : "usernameOrEmail";
 
-                                    return (
-                                        <Input
+                                            const autoCompleteHelper: typeof label =
+                                                label === "usernameOrEmail"
+                                                    ? "username"
+                                                    : label;
+
+                                            return (
+                                                <Input
+                                                    nativeInputProps={{
+                                                        "tabIndex": 1,
+                                                        "id": autoCompleteHelper,
+                                                        "name": autoCompleteHelper,
+                                                        "type": "email",
+                                                        "defaultValue":
+                                                            login.username ?? "",
+                                                        ...(usernameHidden
+                                                            ? { "disabled": true }
+                                                            : {
+                                                                  "autoFocus": true,
+                                                                  "autoComplete": "off"
+                                                              })
+                                                    }}
+                                                    label={msgStr("email")}
+                                                    hintText={msgStr("email hint")}
+                                                />
+                                            );
+                                        })()}
+                                        <PasswordInput
+                                            label={msgStr("password")}
                                             nativeInputProps={{
-                                                "tabIndex": 1,
-                                                "id": autoCompleteHelper,
-                                                "name": autoCompleteHelper,
-                                                "type": "email",
-                                                "defaultValue": login.username ?? "",
-                                                ...(usernameHidden
-                                                    ? { "disabled": true }
-                                                    : {
-                                                          "autoFocus": true,
-                                                          "autoComplete": "off"
-                                                      })
+                                                "tabIndex": 2,
+                                                "id": "password",
+                                                "name": "password",
+                                                "autoComplete": "off"
                                             }}
-                                            label={msgStr("email")}
-                                            hintText={msgStr("email hint")}
                                         />
-                                    );
-                                })()}
-                                <PasswordInput
-                                    label={msgStr("password")}
-                                    nativeInputProps={{
-                                        "tabIndex": 2,
-                                        "id": "password",
-                                        "name": "password",
-                                        "autoComplete": "off"
-                                    }}
-                                />
-                                <div
-                                    className={cx(
-                                        getClassName("kcFormGroupClass"),
-                                        getClassName("kcFormSettingClass")
-                                    )}
-                                >
-                                    <div id="kc-form-options">
-                                        {realm.rememberMe && !usernameHidden && (
-                                            <Checkbox
-                                                className={classes.rememberMe}
-                                                options={[
-                                                    {
-                                                        "label": msg("rememberMe"),
-                                                        "nativeInputProps": {
-                                                            "tabIndex": 3,
-                                                            "name": "rememberMe",
-                                                            ...(login.rememberMe
-                                                                ? {
-                                                                      "checked": true
-                                                                  }
-                                                                : {})
-                                                        }
-                                                    }
-                                                ]}
-                                            />
-                                        )}
+                                        <div
+                                            className={cx(
+                                                getClassName("kcFormGroupClass"),
+                                                getClassName("kcFormSettingClass")
+                                            )}
+                                        >
+                                            <div id="kc-form-options">
+                                                {realm.rememberMe && !usernameHidden && (
+                                                    <Checkbox
+                                                        className={classes.rememberMe}
+                                                        options={[
+                                                            {
+                                                                "label":
+                                                                    msg("rememberMe"),
+                                                                "nativeInputProps": {
+                                                                    "tabIndex": 3,
+                                                                    "name": "rememberMe",
+                                                                    ...(login.rememberMe
+                                                                        ? {
+                                                                              "checked":
+                                                                                  true
+                                                                          }
+                                                                        : {})
+                                                                }
+                                                            }
+                                                        ]}
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div
-                                id="kc-form-buttons"
-                                className={getClassName("kcFormGroupClass")}
-                            >
-                                <input
-                                    type="hidden"
-                                    id="id-hidden-input"
-                                    name="credentialId"
-                                    {...(auth?.selectedCredential !== undefined
-                                        ? {
-                                              "value": auth.selectedCredential
-                                          }
-                                        : {})}
-                                />
-                                <input
-                                    tabIndex={4}
-                                    className={fr.cx("fr-btn")}
-                                    name="login"
-                                    id="kc-login"
-                                    type="submit"
-                                    value={msgStr("connect")}
-                                    disabled={isLoginButtonDisabled}
-                                />
-                            </div>
+                                    <div
+                                        id="kc-form-buttons"
+                                        className={getClassName("kcFormGroupClass")}
+                                    >
+                                        <input
+                                            type="hidden"
+                                            id="id-hidden-input"
+                                            name="credentialId"
+                                            {...(auth?.selectedCredential !== undefined
+                                                ? {
+                                                      "value": auth.selectedCredential
+                                                  }
+                                                : {})}
+                                        />
+                                        <input
+                                            tabIndex={4}
+                                            className={fr.cx("fr-btn")}
+                                            name="login"
+                                            id="kc-login"
+                                            type="submit"
+                                            value={msgStr("connect")}
+                                            disabled={isLoginButtonDisabled}
+                                        />
+                                    </div>
+                                </>
+                            )}
                         </form>
                     )}
                 </div>
             </div>
+            {kcContext.properties.loginHtml && (
+                <div
+                    dangerouslySetInnerHTML={{
+                        "__html": kcContext.properties.loginHtml
+                    }}
+                />
+            )}
         </Template>
     );
 }
@@ -266,6 +298,9 @@ const useStyles = tss.withName({ Login }).create({
         "&&&": {
             "borderRight": "none"
         }
+    },
+    "btnSocialProvider": {
+        "marginBottom": fr.spacing("6v")
     },
     "forgotPassword": {
         "marginRight": fr.spacing("6v")
