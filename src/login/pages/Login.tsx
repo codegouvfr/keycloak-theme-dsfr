@@ -149,7 +149,7 @@ export default function Login(
                                     </div>
                                 </div>
                             )}
-                            {social.providers.length !== 0 && <h5>{msgStr("selfCredentials")}</h5>}
+                            {social.providers?.length !== 0 && <h5>{msgStr("selfCredentials")}</h5>}
                             <div className={classes.inputs}>
                                 {(() => {
                                     const label = !realm.loginWithEmailAllowed
