@@ -149,7 +149,7 @@ export default function Login(
                                     </div>
                                 </div>
                             )}
-                            <h5>{msgStr("selfCredentials")}</h5>
+                            {social.providers.length !== 0 && <h5>{msgStr("selfCredentials")}</h5>}
                             <div className={classes.inputs}>
                                 {(() => {
                                     const label = !realm.loginWithEmailAllowed
@@ -161,13 +161,17 @@ export default function Login(
                                     const autoCompleteHelper: typeof label =
                                         label === "usernameOrEmail" ? "username" : label;
 
+                                    const usernameInputType = realm.registrationEmailAsUsername
+                                        ? "email"
+                                        : "text"
+
                                     return (
                                         <Input
                                             nativeInputProps={{
                                                 "tabIndex": 1,
                                                 "id": autoCompleteHelper,
                                                 "name": autoCompleteHelper,
-                                                "type": "email",
+                                                "type": usernameInputType,
                                                 "defaultValue": login.username ?? "",
                                                 ...(usernameHidden
                                                     ? { "disabled": true }
@@ -176,7 +180,7 @@ export default function Login(
                                                           "autoComplete": "off"
                                                       })
                                             }}
-                                            label={msgStr("email")}
+                                            label={usernameInputType === "email" ? msgStr("email") : msgStr("emailOrUsername")}
                                             hintText={msgStr("email hint")}
                                         />
                                     );
