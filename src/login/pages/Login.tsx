@@ -149,7 +149,9 @@ export default function Login(
                                     </div>
                                 </div>
                             )}
-                            {social.providers.length !== 0 && <h5>{msgStr("selfCredentials")}</h5>}
+                            {social?.providers?.length !== 0 && (
+                                <h5>{msgStr("selfCredentials")}</h5>
+                            )}
                             <div className={classes.inputs}>
                                 {(() => {
                                     const label = !realm.loginWithEmailAllowed
@@ -161,9 +163,10 @@ export default function Login(
                                     const autoCompleteHelper: typeof label =
                                         label === "usernameOrEmail" ? "username" : label;
 
-                                    const usernameInputType = realm.registrationEmailAsUsername
-                                        ? "email"
-                                        : "text"
+                                    const usernameInputType =
+                                        realm.registrationEmailAsUsername
+                                            ? "email"
+                                            : "text";
 
                                     return (
                                         <Input
@@ -180,7 +183,14 @@ export default function Login(
                                                           "autoComplete": "off"
                                                       })
                                             }}
-                                            label={usernameInputType === "email" ? msgStr("email") : msgStr("emailOrUsername")}
+                                            label={(() => {
+                                                switch (usernameInputType) {
+                                                    case "email":
+                                                        return msgStr("email");
+                                                    case "text":
+                                                        return msgStr("username");
+                                                }
+                                            })()}
                                             hintText={msgStr("email hint")}
                                         />
                                     );
