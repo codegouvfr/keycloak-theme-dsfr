@@ -6,7 +6,8 @@ This theme is configurable at runtime, via providing environnement variable, the
 Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
 
 -   For all Keycloak version prior to 23 use: [retrocompat-keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/retrocompat-keycloak-theme.jar).
--   For Keycloak 23 and up use: [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme.jar).
+-   For Keycloak 23: [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme.jar).
+-   Keycloak 24 and up: Not yet supported, this theme will be updated shortly.
 
 > NOTE: Keycloak 22 (and only this specific version) is not fully supported. In this version, only the Login theme works, not the Account theme.
 
