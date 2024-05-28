@@ -55,7 +55,7 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
     - name: DSFR_THEME_BRAND_TOP
       value: "République<br/>Française"
     - name: DSFR_THEME_TOS_URL
-      value: '{ "fr": "https://sill.code.gouv.fr/tos_fr.md", "en": "https://sill.code.gouv.fr/tos_en.md" }'
+      value: '{ "fr": "https://code.gouv.fr/sill/tos_fr.md", "en": "https://code.gouv.fr/sill/tos_en.md" }'
     - name: DSFR_THEME_CONTACT_EMAIL
       value: sill@code.gouv.fr
     - name: JAVA_OPTS
