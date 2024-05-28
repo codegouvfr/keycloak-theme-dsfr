@@ -68,7 +68,14 @@ export const { getKcContext } = createGetKcContext<{
                 ]
             }
         }
-    ]
+    ],
+    "mockProperties": {
+        "homeUrl": "https://www.example.com",
+        "serviceTitle": "Example",
+        "brandTop": "Brand<br/>Top",
+        "tosUrl": "https://www.example.com/tos",
+        "contactEmail": "jhon@gouv.fr"
+    }
 });
 
 export const { kcContext } = getKcContext({
