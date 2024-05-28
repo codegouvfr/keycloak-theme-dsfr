@@ -4,13 +4,12 @@ import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { usePrepareTemplate } from "keycloakify/lib/usePrepareTemplate";
 import type { KcContext } from "./kcContext";
 import type { I18n } from "./i18n";
-import { tss } from "tss-react/dsfr";
+import { tss, keyframes } from "tss-react";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import Header from "@codegouvfr/react-dsfr/Header";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
-import { useBreakpointsValues } from "@codegouvfr/react-dsfr/useBreakpointsValues";
-import { keyframes } from "tss-react";
+import { useBreakpointsValuesPx } from "@codegouvfr/react-dsfr/useBreakpointsValuesPx";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
@@ -39,7 +38,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { auth, url, message, isAppInitiatedAction } = kcContext;
 
-    const { breakpointsValues } = useBreakpointsValues();
+    const { breakpointsValues } = useBreakpointsValuesPx();
 
     const { isReady } = usePrepareTemplate({
         "doFetchDefaultThemeResources": doUseDefaultCss,

@@ -5,12 +5,15 @@ import {
     useDownloadTerms
 } from "keycloakify/login/lib/useDownloadTerms";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { tss } from "tss-react/dsfr";
+import { tss } from "tss-react";
 import { fr } from "@codegouvfr/react-dsfr";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
-import { createResolveLocalizedString, type LocalizedString } from "i18nifty";
+import {
+    createResolveLocalizedString,
+    type LocalizedString
+} from "i18nifty/LocalizedString/reactless";
 
 export default function Terms(
     props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>
