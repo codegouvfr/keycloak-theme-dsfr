@@ -114,38 +114,63 @@ export default function Login(
                                             social.providers.length > 4 &&
                                                 getClassName(
                                                     "kcFormSocialAccountDoubleListClass"
-                                                )
+                                                ),
+                                            classes.socialWrapper
                                         )}
                                     >
-                                        {social.providers.map(p => (
-                                            <div key={p.providerId}>
-                                                {p.displayName
-                                                    .toLocaleLowerCase()
-                                                    .replace(/ /g, "")
-                                                    .includes("agentconnect") ? (
+                                        {social.providers.map(p => {
+                                            if (p.providerId === "agentconnect") {
+                                                return (
                                                     <AgentConnectButton
                                                         style={{ "textAlign": "center" }}
                                                         url={p.loginUrl}
                                                     />
-                                                ) : p.displayName
-                                                      .toLocaleLowerCase()
-                                                      .replace(/ /g, "")
-                                                      .includes("franceconnect") ? (
+                                                );
+                                            }
+
+                                            if (p.providerId === "franceconnect") {
+                                                return (
                                                     <FranceConnectButton
                                                         style={{ "textAlign": "center" }}
                                                         url={p.loginUrl}
                                                     />
-                                                ) : (
-                                                    <Button
-                                                        linkProps={{
-                                                            "href": p.loginUrl
-                                                        }}
-                                                    >
-                                                        {p.displayName}
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        ))}
+                                                );
+                                            }
+
+                                            return (
+                                                <Button
+                                                    className={classes.socialButton}
+                                                    iconId={(() => {
+                                                        switch (p.providerId) {
+                                                            case "github":
+                                                                return "ri-github-fill";
+                                                            case "google":
+                                                                return "ri-google-fill";
+                                                            case "facebook":
+                                                                return "ri-facebook-fill";
+                                                            case "microsoft":
+                                                                return "ri-microsoft-fill";
+                                                            case "twitter":
+                                                                return "ri-twitter-fill";
+                                                            case "instagram":
+                                                                return "ri-instagram-fill";
+                                                            case "linkedin":
+                                                                return "ri-linkedin-fill";
+                                                            case "stackoverflow":
+                                                                return "ri-stack-overflow-fill";
+                                                            case "gitlab":
+                                                                return "ri-gitlab-fill";
+                                                        }
+                                                        return "ri-external-link-line";
+                                                    })()}
+                                                    linkProps={{
+                                                        "href": p.loginUrl
+                                                    }}
+                                                >
+                                                    {p.displayName}
+                                                </Button>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}
@@ -291,5 +316,12 @@ const useStyles = tss.withName({ Login }).create({
     },
     "rememberMe": {
         "marginTop": fr.spacing("5v")
+    },
+    "socialWrapper": {
+        "marginBottom": fr.spacing("5v"),
+        "textAlign": "center"
+    },
+    "socialButton": {
+        "margin": fr.spacing("3v")
     }
 });

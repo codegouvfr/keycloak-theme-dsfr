@@ -71,6 +71,42 @@ export const WithImmutablePresetUsername = () => (
     />
 );
 
+export const WithGithub = () => (
+    <PageStory
+        kcContext={{
+            social: {
+                displayInfo: true,
+                providers: [
+                    {
+                        loginUrl: "github",
+                        alias: "github",
+                        providerId: "github",
+                        displayName: "GitHub"
+                    }
+                ]
+            }
+        }}
+    />
+);
+
+export const WithAgentConnect = () => (
+    <PageStory
+        kcContext={{
+            social: {
+                displayInfo: true,
+                providers: [
+                    {
+                        alias: "agentconnect",
+                        displayName: "Agent Connect",
+                        loginUrl: "#",
+                        providerId: "agentconnect"
+                    }
+                ]
+            }
+        }}
+    />
+);
+
 export const WithSocialProviders = () => (
     <PageStory
         kcContext={{

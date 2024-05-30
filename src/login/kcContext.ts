@@ -11,19 +11,9 @@ export const { getKcContext } = createGetKcContext<{
             "locale": {
                 "currentLanguageTag": "fr"
             },
-            "social": {
-                "providers": [
-                    {
-                        "alias": "agentconnect",
-                        "displayName": "Agent Connect",
-                        "loginUrl": "#",
-                        "providerId": "agentconnect"
-                    }
-                ]
-            },
             "realm": {
                 "loginWithEmailAllowed": true,
-                "registrationEmailAsUsername": true
+                "registrationEmailAsUsername": false
             }
         },
         {
@@ -55,15 +45,6 @@ export const { getKcContext } = createGetKcContext<{
                             }
                         },
                         "name": "email"
-                    },
-                    {
-                        // eslint-disable-next-line no-template-curly-in-string
-                        "displayName": "${agencyName}",
-                        "annotations": {},
-                        "required": true,
-                        "groupAnnotations": {},
-                        "readOnly": false,
-                        "name": "agencyName"
                     }
                 ]
             }
