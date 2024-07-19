@@ -20,13 +20,13 @@
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
         "format": "yarn _format --write",
         "format:check": "yarn _format --list-different",
-        "prepare": "copy-dsfr-to-public && copy-keycloak-resources-to-public",
+        "prepare": "react-dsfr copy-static-assets && copy-keycloak-resources-to-public",
         "prestorybook": "only-include-used-icons",
-        "prestart": "only-include-used-icons",
-        "prebuild": "only-include-used-icons"
+        "prestart": "react-dsfr update-icons",
+        "prebuild": "react-dsfr update-icons"
     },
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^1.9.12",
+        "@codegouvfr/react-dsfr": "^1.10.9",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
         "@mui/icons-material": "^5.15.18",

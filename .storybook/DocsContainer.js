@@ -6,8 +6,7 @@ import { darkTheme, lightTheme } from "./customTheme";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 import { useColors } from "@codegouvfr/react-dsfr/useColors";
-import "../public/dsfr/dsfr.css";
-import "../public/dsfr/utility/icons/icons.min.css";
+import "@codegouvfr/react-dsfr/main.css";
 
 startReactDsfr({
     "defaultColorScheme": "system",

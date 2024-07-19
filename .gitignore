@@ -34,5 +34,4 @@ package-lock.json
 /src/env.ts
 /.yarn_home
 
-/public/dsfr/
 /storybook-static/
