@@ -206,10 +206,23 @@ function InputFieldByType(props: InputFieldByTypeProps) {
             const inputNode = <InputTag {...props} fieldIndex={undefined} />;
 
             if (attribute.name === "password" || attribute.name === "password-confirm") {
+
+
                 return (
+                    <>
                     <PasswordWrapper kcClsx={props.kcClsx} i18n={props.i18n} passwordInputId={attribute.name}>
                         {inputNode}
                     </PasswordWrapper>
+                    <PasswordInput
+                                label={msg("password")}
+                                nativeInputProps={{ id: "password", name: "password", autoComplete: "current-password", tabIndex: 3 }}
+                                messages={
+                                    messagesPerField.existsError("password")
+                                        ? [{ message: messagesPerField.getFirstError("password"), severity: "error" }]
+                                        : []
+                                }
+                            />
+                    </>
                 );
             }
 
