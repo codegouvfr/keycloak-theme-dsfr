@@ -11,7 +11,7 @@ const UserProfileFormFields = lazy(
 
 const Login = lazy(() => import("./pages/Login"));
 
-const doMakeUserConfirmPassword = true;
+const doMakeUserConfirmPassword = false;
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;

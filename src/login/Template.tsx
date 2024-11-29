@@ -13,6 +13,10 @@ import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
+import "@codegouvfr/react-dsfr/main.css";
+import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
+
+startReactDsfr({ defaultColorScheme: "system" });
 
 type Props = TemplateProps<KcContext, I18n>;
 
