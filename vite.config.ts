@@ -7,6 +7,7 @@ export default defineConfig({
     plugins: [
         react(),
         keycloakify({
+            themeName: "DSFR",
             accountThemeImplementation: "none",
             environmentVariables: [
                 { name: "DSFR_THEME_HOME_URL", default: "" },
