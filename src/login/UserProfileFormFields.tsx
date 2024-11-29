@@ -57,6 +57,7 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
                         >
                             <div className={kcClsx("kcInputWrapperClass")}>
                                 <InputFieldByType
+                                    required={attribute.required}
                                     label={advancedMsg(attribute.displayName ?? "")}
                                     hint={
                                         attribute.annotations.inputHelperTextBefore !== undefined
@@ -167,6 +168,7 @@ function GroupLabel(props: {
 }
 
 type InputFieldByTypeProps = {
+    required: boolean | undefined;
     label: JSX.Element | undefined;
     hint: JSX.Element | undefined;
     infoAfter: JSX.Element | undefined;
@@ -248,13 +250,13 @@ function PasswordWrapper(props: { kcClsx: KcClsx; i18n: I18n; passwordInputId: s
 }
 
 function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefined }) {
-    const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors, label, hint, infoAfter } = props;
+    const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors, label, hint, infoAfter, required } = props;
 
     const { advancedMsgStr } = i18n;
 
     const getState = (): { state: "error" | "info" | "default"; stateRelatedMessage: JSX.Element | undefined } => {
         if (displayableErrors.length > 0) {
-            if(fieldIndex === undefined)
+            if (fieldIndex === undefined)
                 return {
                     state: "error",
                     stateRelatedMessage: displayableErrors[0].errorMessage
@@ -262,32 +264,34 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
 
             const error = displayableErrors.find(error => error.fieldIndex === fieldIndex);
 
-            if(error) return {
-                state: "error",
-                stateRelatedMessage: error.errorMessage
-            }
+            if (error)
+                return {
+                    state: "error",
+                    stateRelatedMessage: error.errorMessage
+                };
 
             return {
                 state: "default",
                 stateRelatedMessage: undefined
-            }
+            };
         }
 
-        if(infoAfter) return {
-            state: "info",
-            stateRelatedMessage: infoAfter,
-        }
+        if (infoAfter)
+            return {
+                state: "info",
+                stateRelatedMessage: infoAfter
+            };
 
         return {
             state: "default",
             stateRelatedMessage: undefined
-        }
+        };
     };
 
     return (
         <>
             <Input
-                label={label}
+                label={label ? <>{label} *</> : label}
                 hintText={hint}
                 {...getState()}
                 nativeInputProps={{
