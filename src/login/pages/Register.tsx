@@ -7,6 +7,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import Button from "@codegouvfr/react-dsfr/Button";
 
 type RegisterProps = PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -90,14 +91,11 @@ export default function Register(props: RegisterProps) {
                             </button>
                         </div>
                     ) : (
-                        <div id="kc-form-buttons" className={kcClsx("kcFormButtonsClass")}>
-                            <input
-                                disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)}
-                                className={kcClsx("kcButtonClass", "kcButtonPrimaryClass", "kcButtonBlockClass", "kcButtonLargeClass")}
-                                type="submit"
-                                value={msgStr("doRegister")}
-                            />
-                        </div>
+                        
+                            <Button disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)} type="submit">
+                                {msgStr("doRegister")}
+                            </Button>
+                        
                     )}
                 </div>
             </form>

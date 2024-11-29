@@ -73,6 +73,7 @@ export default function Template(props: Props) {
                     maxWidth: 1000,
                     ...fr.spacing("padding", { topBottom: "10v" })
                 }}
+                className={fr.cx("fr-container")}
             >
                 <header className={kcClsx("kcFormHeaderClass")}>
                     {(() => {
