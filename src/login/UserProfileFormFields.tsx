@@ -1,4 +1,4 @@
-import { useEffect, useReducer, Fragment } from "react";
+import { useEffect, Fragment } from "react";
 import { assert } from "keycloakify/tools/assert";
 import type { KcClsx } from "keycloakify/login/lib/kcClsx";
 import {
@@ -12,6 +12,7 @@ import type { Attribute } from "keycloakify/login/KcContext";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
+import PasswordInput from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
     const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
@@ -77,7 +78,7 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
                                     i18n={i18n}
                                 />
 
-                                {attribute.annotations.inputHelperTextAfter !== undefined && (
+                                {/* {attribute.annotations.inputHelperTextAfter !== undefined && (
                                     <div
                                         className={kcClsx("kcInputHelperTextAfterClass")}
                                         id={`form-help-text-after-${attribute.name}`}
@@ -85,7 +86,7 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
                                     >
                                         {advancedMsg(attribute.annotations.inputHelperTextAfter)}
                                     </div>
-                                )}
+                                )} */}
 
                                 {AfterField !== undefined && (
                                     <AfterField
@@ -181,7 +182,11 @@ type InputFieldByTypeProps = {
 };
 
 function InputFieldByType(props: InputFieldByTypeProps) {
-    const { attribute, valueOrValues } = props;
+    const {
+        attribute,
+        valueOrValues,
+        i18n: { advancedMsgStr }
+    } = props;
 
     switch (attribute.annotations.inputType) {
         case "textarea":
@@ -203,67 +208,62 @@ function InputFieldByType(props: InputFieldByTypeProps) {
                 );
             }
 
-            const inputNode = <InputTag {...props} fieldIndex={undefined} />;
-
             if (attribute.name === "password" || attribute.name === "password-confirm") {
-
-
+                const { label, required, dispatchFormAction, displayableErrors } = props;
                 return (
-                    <>
-                    <PasswordWrapper kcClsx={props.kcClsx} i18n={props.i18n} passwordInputId={attribute.name}>
-                        {inputNode}
-                    </PasswordWrapper>
                     <PasswordInput
-                                label={msg("password")}
-                                nativeInputProps={{ id: "password", name: "password", autoComplete: "current-password", tabIndex: 3 }}
-                                messages={
-                                    messagesPerField.existsError("password")
-                                        ? [{ message: messagesPerField.getFirstError("password"), severity: "error" }]
-                                        : []
-                                }
-                            />
-                    </>
+                        label={required && label ? <>{label} *</> : label}
+                        messages={displayableErrors.map(error => ({
+                            message: advancedMsgStr(error.errorMessageStr),
+                            severity: "error"
+                        }))}
+                        nativeInputProps={{
+                            name: attribute.name,
+                            value: valueOrValues,
+                            disabled: attribute.readOnly,
+                            autoComplete: attribute.autocomplete,
+                            placeholder:
+                                attribute.annotations.inputTypePlaceholder === undefined
+                                    ? undefined
+                                    : advancedMsgStr(attribute.annotations.inputTypePlaceholder),
+                            pattern: attribute.annotations.inputTypePattern,
+                            size: attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`),
+                            maxLength:
+                                attribute.annotations.inputTypeMaxlength === undefined
+                                    ? undefined
+                                    : parseInt(`${attribute.annotations.inputTypeMaxlength}`),
+                            minLength:
+                                attribute.annotations.inputTypeMinlength === undefined
+                                    ? undefined
+                                    : parseInt(`${attribute.annotations.inputTypeMinlength}`),
+                            max: attribute.annotations.inputTypeMax,
+                            min: attribute.annotations.inputTypeMin,
+                            step: attribute.annotations.inputTypeStep,
+                            onChange: event =>
+                                dispatchFormAction({
+                                    action: "update",
+                                    name: attribute.name,
+                                    valueOrValues: event.target.value
+                                }),
+                            onBlur: () =>
+                                dispatchFormAction({
+                                    action: "focus lost",
+                                    name: attribute.name,
+                                    fieldIndex: undefined
+                                })
+                        }}
+                    />
                 );
             }
 
-            return inputNode;
+            return <InputTag {...props} fieldIndex={undefined} />;
+
         }
     }
 }
 
-function PasswordWrapper(props: { kcClsx: KcClsx; i18n: I18n; passwordInputId: string; children: JSX.Element }) {
-    const { kcClsx, i18n, passwordInputId, children } = props;
-
-    const { msgStr } = i18n;
-
-    const [isPasswordRevealed, toggleIsPasswordRevealed] = useReducer((isPasswordRevealed: boolean) => !isPasswordRevealed, false);
-
-    useEffect(() => {
-        const passwordInputElement = document.getElementById(passwordInputId);
-
-        assert(passwordInputElement instanceof HTMLInputElement);
-
-        passwordInputElement.type = isPasswordRevealed ? "text" : "password";
-    }, [isPasswordRevealed]);
-
-    return (
-        <div className={kcClsx("kcInputGroup")}>
-            {children}
-            <button
-                type="button"
-                className={kcClsx("kcFormPasswordVisibilityButtonClass")}
-                aria-label={msgStr(isPasswordRevealed ? "hidePassword" : "showPassword")}
-                aria-controls={passwordInputId}
-                onClick={toggleIsPasswordRevealed}
-            >
-                <i className={kcClsx(isPasswordRevealed ? "kcFormPasswordVisibilityIconHide" : "kcFormPasswordVisibilityIconShow")} aria-hidden />
-            </button>
-        </div>
-    );
-}
-
 function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefined }) {
-    const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors, label, hint, infoAfter, required } = props;
+    const { attribute, fieldIndex, dispatchFormAction, valueOrValues, i18n, displayableErrors, label, hint, infoAfter, required } = props;
 
     const { advancedMsgStr } = i18n;
 
@@ -304,7 +304,7 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
     return (
         <>
             <Input
-                label={label ? <>{label} *</> : label}
+                label={required && label ? <>{label} *</> : label}
                 hintText={hint}
                 {...getState()}
                 nativeInputProps={{
@@ -317,7 +317,6 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
 
                         return inputType ?? "text";
                     })(),
-                    id: attribute.name,
                     name: attribute.name,
                     value: (() => {
                         if (fieldIndex !== undefined) {
@@ -329,7 +328,6 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
 
                         return valueOrValues;
                     })(),
-                    className: kcClsx("kcInputClass"),
                     disabled: attribute.readOnly,
                     autoComplete: attribute.autocomplete,
                     placeholder:
