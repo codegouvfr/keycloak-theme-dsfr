@@ -7,8 +7,16 @@ import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import { useInitialize } from "keycloakify/login/Template.useInitialize";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
+import { getReferrerUrl } from "./shared/getReferrerUrl";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
+import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
+import { Alert } from "@codegouvfr/react-dsfr/Alert";
+import { fr } from "@codegouvfr/react-dsfr";
 
-export default function Template(props: TemplateProps<KcContext, I18n>) {
+type Props = TemplateProps<KcContext, I18n>;
+
+export default function Template(props: Props) {
     const {
         displayInfo = false,
         displayMessage = true,
@@ -29,7 +37,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { msg, msgStr } = i18n;
 
-    const { realm, auth, url, message, isAppInitiatedAction } = kcContext;
+    const { auth, url, message, isAppInitiatedAction } = kcContext;
 
     useEffect(() => {
         document.title = documentTitle ?? msgStr("loginTitle", kcContext.realm.displayName);
@@ -52,13 +60,16 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     }
 
     return (
-        <div className={kcClsx("kcLoginClass")}>
-            <div id="kc-header" className={kcClsx("kcHeaderClass")}>
-                <div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-                    {msg("loginTitleHtml", realm.displayNameHtml)}
-                </div>
-            </div>
-            <div className={kcClsx("kcFormCardClass")}>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <Header kcContext={kcContext} />
+            <div
+                style={{
+                    flex: 1,
+                    margin: "auto",
+                    maxWidth: 1000,
+                    ...fr.spacing("padding", { topBottom: "10v" })
+                }}
+            >
                 <header className={kcClsx("kcFormHeaderClass")}>
                     {(() => {
                         const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
@@ -96,26 +107,19 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     <div id="kc-content-wrapper">
                         {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
                         {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <div
-                                className={clsx(
-                                    `alert-${message.type}`,
-                                    kcClsx("kcAlertClass"),
-                                    `pf-m-${message?.type === "error" ? "danger" : message.type}`
-                                )}
-                            >
-                                <div className="pf-c-alert__icon">
-                                    {message.type === "success" && <span className={kcClsx("kcFeedbackSuccessIcon")}></span>}
-                                    {message.type === "warning" && <span className={kcClsx("kcFeedbackWarningIcon")}></span>}
-                                    {message.type === "error" && <span className={kcClsx("kcFeedbackErrorIcon")}></span>}
-                                    {message.type === "info" && <span className={kcClsx("kcFeedbackInfoIcon")}></span>}
-                                </div>
-                                <span
-                                    className={kcClsx("kcAlertTitleClass")}
-                                    dangerouslySetInnerHTML={{
-                                        __html: kcSanitize(message.summary)
-                                    }}
-                                />
-                            </div>
+                            <Alert
+                                className={fr.cx("fr-mb-4w")}
+                                severity={message.type}
+                                small
+                                description={
+                                    <span
+                                        className={kcClsx("kcAlertTitleClass")}
+                                        dangerouslySetInnerHTML={{
+                                            __html: kcSanitize(message.summary)
+                                        }}
+                                    />
+                                }
+                            />
                         )}
                         {children}
                         {auth !== undefined && auth.showTryAnotherWayLink && (
@@ -146,6 +150,33 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     </div>
                 </div>
             </div>
+            <DSFRFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
         </div>
+    );
+}
+
+export function Header({ kcContext }: { kcContext: Props["kcContext"] }) {
+    return (
+        <DsfrHeader
+            brandTop={
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: kcContext.properties.DSFR_THEME_BRAND_TOP
+                    }}
+                />
+            }
+            homeLinkProps={{
+                href: getReferrerUrl(),
+                title: kcContext.realm.displayName
+            }}
+            quickAccessItems={[headerFooterDisplayItem]}
+            serviceTitle={
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: kcContext.properties.DSFR_THEME_SERVICE_TITLE || kcContext.realm.displayNameHtml || kcContext.realm.displayName || ""
+                    }}
+                />
+            }
+        />
     );
 }
