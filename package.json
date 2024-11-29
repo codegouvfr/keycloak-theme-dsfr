@@ -12,18 +12,21 @@
         "build": "tsc && vite build",
         "build-keycloak-theme": "npm run build && keycloakify build",
         "storybook": "storybook dev -p 6006",
-        "format": "prettier . --write"
+        "format": "prettier . --write",
+        "predev": "react-dsfr update-icons",
+        "prebuild": "react-dsfr update-icons",
+        "prestorybook": "react-dsfr update-icons"
     },
     "license": "MIT",
     "keywords": [],
     "dependencies": {
+        "@codegouvfr/react-dsfr": "^1.14.10",
         "keycloakify": "^11.3.32",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.15.0",
-        "storybook": "^8.1.10",
         "@storybook/react": "^8.1.10",
         "@storybook/react-vite": "^8.1.10",
         "@types/react": "^18.2.43",
@@ -39,6 +42,7 @@
         "eslint-plugin-storybook": "^0.11.1",
         "globals": "^15.12.0",
         "prettier": "3.3.1",
+        "storybook": "^8.1.10",
         "typescript": "^5.2.2",
         "typescript-eslint": "^8.15.0",
         "vite": "^5.0.8"
