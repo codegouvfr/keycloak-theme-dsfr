@@ -257,7 +257,6 @@ function InputFieldByType(props: InputFieldByTypeProps) {
             }
 
             return <InputTag {...props} fieldIndex={undefined} />;
-
         }
     }
 }
@@ -559,37 +558,41 @@ function InputTagSelects(props: InputFieldByTypeProps) {
 }
 
 function TextareaTag(props: InputFieldByTypeProps) {
-    const { attribute, dispatchFormAction, kcClsx, displayableErrors, valueOrValues } = props;
+    const { attribute, dispatchFormAction, kcClsx, displayableErrors, valueOrValues, label, required } = props;
 
     assert(typeof valueOrValues === "string");
 
     const value = valueOrValues;
 
     return (
-        <textarea
-            id={attribute.name}
-            name={attribute.name}
-            className={kcClsx("kcInputClass")}
-            aria-invalid={displayableErrors.length !== 0}
-            disabled={attribute.readOnly}
-            cols={attribute.annotations.inputTypeCols === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeCols}`)}
-            rows={attribute.annotations.inputTypeRows === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeRows}`)}
-            maxLength={attribute.annotations.inputTypeMaxlength === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeMaxlength}`)}
-            value={value}
-            onChange={event =>
-                dispatchFormAction({
-                    action: "update",
-                    name: attribute.name,
-                    valueOrValues: event.target.value
-                })
-            }
-            onBlur={() =>
-                dispatchFormAction({
-                    action: "focus lost",
-                    name: attribute.name,
-                    fieldIndex: undefined
-                })
-            }
+        <Input
+            textArea
+            label={required && label ? <>{label} *</> : label}
+            state={displayableErrors.length !== 0 ? "error" : "default"}
+            stateRelatedMessage={displayableErrors.length !== 0 ? displayableErrors[0].errorMessage : undefined}
+            nativeTextAreaProps={{
+                id: attribute.name,
+                name: attribute.name,
+                className: kcClsx("kcInputClass"),
+                disabled: attribute.readOnly,
+                cols: attribute.annotations.inputTypeCols === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeCols}`),
+                rows: attribute.annotations.inputTypeRows === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeRows}`),
+                maxLength:
+                    attribute.annotations.inputTypeMaxlength === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeMaxlength}`),
+                value: value,
+                onChange: event =>
+                    dispatchFormAction({
+                        action: "update",
+                        name: attribute.name,
+                        valueOrValues: event.target.value
+                    }),
+                onBlur: () =>
+                    dispatchFormAction({
+                        action: "focus lost",
+                        name: attribute.name,
+                        fieldIndex: undefined
+                    })
+            }}
         />
     );
 }
