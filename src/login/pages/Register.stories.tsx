@@ -24,7 +24,11 @@ export const WithEmailAlreadyExists: Story = {
                 profile: {
                     attributesByName: {
                         username: {
-                            value: "johndoe"
+                            value: "johndoe",
+                            annotations: {
+                                inputHelperTextBefore: "This is something in before helper text",
+                                inputHelperTextAfter: "This is something in after helper text"
+                            }
                         },
                         email: {
                             value: "jhon.doe@gmail.com"
