@@ -1,80 +1,60 @@
-# Keycloak DSFR Theme
+<p align="center">
+    <i>🚀 <a href="https://keycloakify.dev">Keycloakify</a> v11 starter 🚀</i>
+    <br/>
+    <br/>
+</p>
 
-Welcome to the Keycloak DSFR Theme, a Keycloak theme with [react-dsfr](https://github.com/codegouvfr/react-dsfr) and [Keycloakify](https://www.keycloakify.dev/).  
-To see the theme in action, please visit [the SILL](https://sill-preprod.lab.sspcloud.fr/) and attempt to log in.  
-This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository.  
-Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
+This starter is based on Vite. There is also [a Webpack based starter](https://github.com/keycloakify/keycloakify-starter-webpack).
 
--   For all Keycloak version prior to 23 use: [retrocompat-keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/retrocompat-keycloak-theme.jar).
--   For Keycloak 23: [keycloak-theme.jar](https://github.com/codegouvfr/keycloak-theme-dsfr/releases/latest/download/keycloak-theme.jar).
--   Keycloak 24 and up: Not yet supported, this theme will be updated shortly.
+# Quick start
 
-> NOTE: Keycloak 22 (and only this specific version) is not fully supported. In this version, only the Login theme works, not the Account theme.
-
-## Preview
-
-Here are some screenshots showcasing the theme:
-
-![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/68fa56ab-8e12-441b-8400-fa657b51d400)
-![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/0ef3b7f8-96f8-4f79-b956-9cc96dde67f9)
-![image](https://github.com/codegouvfr/keycloak-theme-dsfr/assets/6702424/f3797b8d-7111-4199-a587-af26641c30e3)
-
-## Setup and Configuration
-
-For instruction on how to load the theme into your Keycloak instance you can [refer to this guide](https://docs.keycloakify.dev/importing-your-theme-in-keycloak).
-
-For guidance on how to configure AgentConnect/FranceConnect, you can refer to our comprehensive [setup guide](https://github.com/codegouvfr/sill-docs/blob/main/deploying.md#installing-keycloak).
-
-We have customized the modern `register-user-profile.ftl` registration page, which allows you to implement features such as an accept list of email domains for registration. This feature can be highly useful, for instance, if you want to restrict registration to your service to public servants. [Here](https://github.com/codegouvfr/keycloak-theme-dsfr/blob/9cee4b7f75d9e65dd581c52c8b818048ab6ad1aa/userProfile.json#L12) is the regular expression used for the SILL's email domain accept list.
-
-Although the `register.ftl` page has been somewhat superseded by Keycloak, it remains the default. Hence, we recommend enabling the `User Profile` feature in Keycloak. Instructions for doing so can be found [here](https://docs.keycloakify.dev/realtime-input-validation).
-
-### Environment Variables
-
-Several environment variables can be used to tailor the theme to your needs:
-
-```env
-DSFR_THEME_HOME_URL
-DSFR_THEME_SERVICE_TITLE
-DSFR_THEME_BRAND_TOP
-DSFR_THEME_TOS_URL
-DSFR_THEME_CONTACT_EMAIL
+```bash
+git clone https://github.com/keycloakify/keycloakify-starter
+cd keycloakify-starter
+yarn install # Or use an other package manager, just be sure to delete the yarn.lock if you use another package manager.
 ```
 
-These variables should be made available to the process running Keycloak on your server.
+# Testing the theme locally
 
-If you are deploying Keycloak on Kubernetes using Helm, here's how to configure your settings:
+[Documentation](https://docs.keycloakify.dev/testing-your-theme)
 
-```yaml
-  ...
-  extraEnv: |
-    - name: DSFR_THEME_HOME_URL
-      value: https://code.gouv.fr
-    - name: DSFR_THEME_SERVICE_TITLE
-      value: CodeGouv
-    - name: DSFR_THEME_BRAND_TOP
-      value: "République<br/>Française"
-    - name: DSFR_THEME_TOS_URL
-      value: '{ "fr": "https://code.gouv.fr/sill/tos_fr.md", "en": "https://code.gouv.fr/sill/tos_en.md" }'
-    - name: DSFR_THEME_CONTACT_EMAIL
-      value: sill@code.gouv.fr
-    - name: JAVA_OPTS
-      value: >-
-        -Dkeycloak.profile=preview
-    ...
+# How to customize the theme
+
+[Documentation](https://docs.keycloakify.dev/customization-strategies)
+
+# Building the theme
+
+You need to have [Maven](https://maven.apache.org/) installed to build the theme (Maven >= 3.1.1, Java >= 7).  
+The `mvn` command must be in the $PATH.
+
+-   On macOS: `brew install maven`
+-   On Debian/Ubuntu: `sudo apt-get install maven`
+-   On Windows: `choco install openjdk` and `choco install maven` (Or download from [here](https://maven.apache.org/download.cgi))
+
+```bash
+npm run build-keycloak-theme
 ```
 
-## i18n
+Note that by default Keycloakify generates multiple .jar files for different versions of Keycloak.  
+You can customize this behavior, see documentation [here](https://docs.keycloakify.dev/targeting-specific-keycloak-versions).
 
-To enable internationalization in the theme you must first enable it in Keycloak.
+# Initializing the account theme
 
-The theme is available in French and English but there's no language select provided in the login and registration pages.  
-It's up to you to redirect your user to the login page in the correct language by adding the `ui_locales` parameter to the login URL. (e.g.: `https://sso.code.gouv.fr/auth/realms/sill/protocol/openid-connect/auth?client_id=sill&redirect_uri=https%3A%2F%2Fsill.code.gouv.fr%2Flogin%2Fcallback&response_type=code&scope=openid&ui_locales=fr`)
+```bash
+npx keycloakify initialize-account-theme
+```
 
-## Development
+# Initializing the email theme
 
-You can refer to the [keycloakify-starter repo](https://github.com/keycloakify/keycloakify-starter) and the [Keycloakify documentation](https://docs.keycloakify.dev) for more information on how to develop a Keycloak theme.
+```bash
+npx keycloakify initialize-email-theme
+```
 
-# License
+# GitHub Actions
 
-This project is licensed under the [MIT License](LICENSE), courtesy of the Direction interministérielle du numérique.
+The starter comes with a generic GitHub Actions workflow that builds the theme and publishes
+the jars [as GitHub releases artifacts](https://github.com/keycloakify/keycloakify-starter/releases/tag/v10.0.0).  
+To release a new version **just update the `package.json` version and push**.
+
+To enable the workflow go to your fork of this repository on GitHub then navigate to:
+`Settings` > `Actions` > `Workflow permissions`, select `Read and write permissions`.

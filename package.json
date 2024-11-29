@@ -1,112 +1,49 @@
 {
-    "name": "keycloak-theme-dsfr",
-    "version": "1.0.6",
-    "license": "MIT",
-    "keycloakify": {
-        "themeName": "dsfr",
-        "extraThemeProperties": [
-            "homeUrl=${env.DSFR_THEME_HOME_URL:}",
-            "serviceTitle=${env.DSFR_THEME_SERVICE_TITLE:}",
-            "brandTop=${env.DSFR_THEME_BRAND_TOP:}",
-            "tosUrl=${env.DSFR_THEME_TOS_URL:}",
-            "contactEmail=${env.DSFR_THEME_CONTACT_EMAIL:}"
-        ]
+    "name": "keycloakify-starter",
+    "version": "0.0.0",
+    "description": "Starter for Keycloakify 11",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/codegouvfr/keycloakify-starter.git"
     },
+    "type": "module",
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "build-keycloak-theme": "yarn build && keycloakify",
-        "storybook": "start-storybook -p 6006",
-        "_format": "prettier '**/*.{ts,tsx,json,md}'",
-        "format": "yarn _format --write",
-        "format:check": "yarn _format --list-different",
-        "prepare": "react-dsfr copy-static-assets && copy-keycloak-resources-to-public",
-        "prestorybook": "only-include-used-icons",
-        "prestart": "react-dsfr update-icons",
-        "prebuild": "react-dsfr update-icons"
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "build-keycloak-theme": "npm run build && keycloakify build",
+        "storybook": "storybook dev -p 6006",
+        "format": "prettier . --write"
     },
+    "license": "MIT",
+    "keywords": [],
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^1.10.9",
-        "@emotion/react": "^11.11.4",
-        "@emotion/styled": "^11.11.5",
-        "@mui/icons-material": "^5.15.18",
-        "@mui/material": "^5.15.18",
-        "tss-react": "^4.9.10",
-        "tsafe": "^1.6.6",
-        "@storybook/addon-docs": "^6.5.15",
-        "@tanstack/react-virtual": "3.0.0-beta.39",
-        "i18nifty": "^3.2.1",
-        "keycloakify": "^9.7.0",
+        "keycloakify": "^11.3.32",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-scripts": "5.0.1",
-        "react-waypoint": "^10.3.0"
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
-        "@storybook/addon-actions": "^6.5.10",
-        "@storybook/addon-essentials": "^6.5.10",
-        "@storybook/addon-links": "^6.5.10",
-        "@storybook/builder-webpack5": "^6.5.0-rc.1",
-        "@storybook/manager-webpack5": "^6.5.0-rc.1",
-        "@storybook/node-logger": "^6.5.10",
-        "@storybook/preset-create-react-app": "^4.1.2",
-        "@storybook/react": "^6.5.10",
-        "@types/memoizee": "^0.4.4",
-        "@types/node": "^18.15.5",
-        "@types/react": "^18.0.18",
-        "@types/react-dom": "^18.0.6",
-        "@typescript-eslint/eslint-plugin": "^4.24.0",
-        "@typescript-eslint/parser": "^4.24.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-tss-unused-classes": "^0.0.4",
-        "husky": "^4.3.8",
-        "lint-staged": "^11.0.0",
-        "minimal-polyfills": "^2.2.3",
-        "node-fetch": "^2.6.1",
-        "prettier": "^2.3.0",
-        "storybook-dark-mode": "^2.0.5",
-        "typescript": "^4.0.0"
+        "@eslint/js": "^9.15.0",
+        "storybook": "^8.1.10",
+        "@storybook/react": "^8.1.10",
+        "@storybook/react-vite": "^8.1.10",
+        "@types/react": "^18.2.43",
+        "@types/react-dom": "^18.2.17",
+        "@typescript-eslint/eslint-plugin": "^8.15.0",
+        "@typescript-eslint/parser": "^8.15.0",
+        "@vitejs/plugin-react": "^4.2.1",
+        "eslint": "^9.15.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-react": "^7.37.2",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "eslint-plugin-react-refresh": "^0.4.14",
+        "eslint-plugin-storybook": "^0.11.1",
+        "globals": "^15.12.0",
+        "prettier": "3.3.1",
+        "typescript": "^5.2.2",
+        "typescript-eslint": "^8.15.0",
+        "vite": "^5.0.8"
     },
-    "eslintConfig": {
-        "plugins": [
-            "tss-unused-classes"
-        ],
-        "extends": [
-            "react-app",
-            "prettier"
-        ],
-        "rules": {
-            "@typescript-eslint/no-redeclare": "off",
-            "import/no-anonymous-default-export": "off",
-            "react-hooks/rules-of-hooks": "off",
-            "react-hooks/exhaustive-deps": "off",
-            "no-labels": "off",
-            "prefer-const": "off",
-            "no-lone-blocks": "off",
-            "tss-unused-classes/unused-classes": "warn",
-            "no-sequences": "off"
-        }
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged -v"
-        }
-    },
-    "lint-staged": {
-        "*.{ts,tsx,json,md}": [
-            "prettier --write"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+    "engines": {
+        "node": "^18.0.0 || >=20.0.0"
     }
 }
