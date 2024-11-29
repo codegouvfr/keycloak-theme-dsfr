@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { KcPage } from "./kc.gen";
-import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 
 // The following block can be uncommented to test a specific page with `yarn dev`
 // Don't forget to comment back or your bundle size will increase
@@ -14,9 +13,6 @@ import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 //         overrides: {}
 //     });
 // }
-
-
-startReactDsfr({ defaultColorScheme: "system" });
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
