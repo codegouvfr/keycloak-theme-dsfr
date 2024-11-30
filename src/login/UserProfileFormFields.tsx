@@ -12,6 +12,9 @@ import type { Attribute } from "keycloakify/login/KcContext";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
 import { Input } from "@codegouvfr/react-dsfr/Input";
+import { Select } from "@codegouvfr/react-dsfr/Select";
+import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
+import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import PasswordInput from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
@@ -77,16 +80,6 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
                                     kcClsx={kcClsx}
                                     i18n={i18n}
                                 />
-
-                                {/* {attribute.annotations.inputHelperTextAfter !== undefined && (
-                                    <div
-                                        className={kcClsx("kcInputHelperTextAfterClass")}
-                                        id={`form-help-text-after-${attribute.name}`}
-                                        aria-live="polite"
-                                    >
-                                        {advancedMsg(attribute.annotations.inputHelperTextAfter)}
-                                    </div>
-                                )} */}
 
                                 {AfterField !== undefined && (
                                     <AfterField
@@ -192,11 +185,12 @@ function InputFieldByType(props: InputFieldByTypeProps) {
         case "textarea":
             return <TextareaTag {...props} />;
         case "select":
-        case "multiselect":
             return <SelectTag {...props} />;
-        case "select-radiobuttons":
+        case "multiselect":
         case "multiselect-checkboxes":
-            return <InputTagSelects {...props} />;
+            return <CheckboxesTag {...props} />;
+        case "select-radiobuttons":
+            return <RadiButtonsTag {...props} />;
         default: {
             if (valueOrValues instanceof Array) {
                 return (
@@ -212,7 +206,7 @@ function InputFieldByType(props: InputFieldByTypeProps) {
                 const { label, required, dispatchFormAction, displayableErrors } = props;
                 return (
                     <PasswordInput
-                        label={required && label ? <>{label} *</> : label}
+                        label={formatLabel(label, required)}
                         messages={displayableErrors.map(error => ({
                             message: advancedMsgStr(error.errorMessageStr),
                             severity: "error"
@@ -303,7 +297,7 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
     return (
         <>
             <Input
-                label={required && label ? <>{label} *</> : label}
+                label={formatLabel(label, required)}
                 hintText={hint}
                 {...getState()}
                 nativeInputProps={{
@@ -451,31 +445,8 @@ function AddRemoveButtonsMultiValuedAttribute(props: {
     );
 }
 
-function InputTagSelects(props: InputFieldByTypeProps) {
-    const { attribute, dispatchFormAction, kcClsx, i18n, valueOrValues } = props;
-
-    const { classDiv, classInput, classLabel, inputType } = (() => {
-        const { inputType } = attribute.annotations;
-
-        assert(inputType === "select-radiobuttons" || inputType === "multiselect-checkboxes");
-
-        switch (inputType) {
-            case "select-radiobuttons":
-                return {
-                    inputType: "radio",
-                    classDiv: kcClsx("kcInputClassRadio"),
-                    classInput: kcClsx("kcInputClassRadioInput"),
-                    classLabel: kcClsx("kcInputClassRadioLabel")
-                };
-            case "multiselect-checkboxes":
-                return {
-                    inputType: "checkbox",
-                    classDiv: kcClsx("kcInputClassCheckbox"),
-                    classInput: kcClsx("kcInputClassCheckboxInput"),
-                    classLabel: kcClsx("kcInputClassCheckboxLabel")
-                };
-        }
-    })();
+function RadiButtonsTag(props: InputFieldByTypeProps) {
+    const { attribute, dispatchFormAction, displayableErrors, i18n, valueOrValues, required, label, hint } = props;
 
     const options = (() => {
         walk: {
@@ -502,59 +473,50 @@ function InputTagSelects(props: InputFieldByTypeProps) {
     })();
 
     return (
-        <>
-            {options.map(option => (
-                <div key={option} className={classDiv}>
-                    <input
-                        type={inputType}
-                        id={`${attribute.name}-${option}`}
-                        name={attribute.name}
-                        value={option}
-                        className={classInput}
-                        aria-invalid={props.displayableErrors.length !== 0}
-                        disabled={attribute.readOnly}
-                        checked={valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option}
-                        onChange={event =>
-                            dispatchFormAction({
-                                action: "update",
-                                name: attribute.name,
-                                valueOrValues: (() => {
-                                    const isChecked = event.target.checked;
+        <RadioButtons
+            {...getStateForSingleValue(displayableErrors)}
+            legend={formatLabel(label, required)}
+            hintText={hint}
+            options={options.map(option => ({
+                label: inputLabel(i18n, attribute, option),
+                nativeInputProps: {
+                    id: `${attribute.name}-${option}`,
+                    name: attribute.name,
+                    value: option,
+                    checked: valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option,
+                    disabled: attribute.readOnly,
+                    onChange: event =>
+                        dispatchFormAction({
+                            action: "update",
+                            name: attribute.name,
+                            valueOrValues: (() => {
+                                const isChecked = event.target.checked;
 
-                                    if (valueOrValues instanceof Array) {
-                                        const newValues = [...valueOrValues];
+                                if (valueOrValues instanceof Array) {
+                                    const newValues = [...valueOrValues];
 
-                                        if (isChecked) {
-                                            newValues.push(option);
-                                        } else {
-                                            newValues.splice(newValues.indexOf(option), 1);
-                                        }
-
-                                        return newValues;
+                                    if (isChecked) {
+                                        newValues.push(option);
+                                    } else {
+                                        newValues.splice(newValues.indexOf(option), 1);
                                     }
 
-                                    return event.target.checked ? option : "";
-                                })()
-                            })
-                        }
-                        onBlur={() =>
-                            dispatchFormAction({
-                                action: "focus lost",
-                                name: attribute.name,
-                                fieldIndex: undefined
-                            })
-                        }
-                    />
-                    <label
-                        htmlFor={`${attribute.name}-${option}`}
-                        className={`${classLabel}${attribute.readOnly ? ` ${kcClsx("kcInputClassRadioCheckboxLabelDisabled")}` : ""}`}
-                    >
-                        {inputLabel(i18n, attribute, option)}
-                    </label>
-                </div>
-            ))}
-        </>
-    );
+                                    return newValues;
+                                }
+
+                                return event.target.checked ? option : "";
+                            })()
+                        }),
+                    onBlur: () =>
+                        dispatchFormAction({
+                            action: "focus lost",
+                            name: attribute.name,
+                            fieldIndex: undefined
+                        })
+                }
+            }))}
+        />
+    )
 }
 
 function TextareaTag(props: InputFieldByTypeProps) {
@@ -567,9 +529,8 @@ function TextareaTag(props: InputFieldByTypeProps) {
     return (
         <Input
             textArea
-            label={required && label ? <>{label} *</> : label}
-            state={displayableErrors.length !== 0 ? "error" : "default"}
-            stateRelatedMessage={displayableErrors.length !== 0 ? displayableErrors[0].errorMessage : undefined}
+            label={formatLabel(label, required)}
+            {...getStateForSingleValue(displayableErrors)}
             nativeTextAreaProps={{
                 id: attribute.name,
                 name: attribute.name,
@@ -597,43 +558,108 @@ function TextareaTag(props: InputFieldByTypeProps) {
     );
 }
 
-function SelectTag(props: InputFieldByTypeProps) {
-    const { attribute, dispatchFormAction, kcClsx, displayableErrors, i18n, valueOrValues } = props;
+function CheckboxesTag(props: InputFieldByTypeProps) {
+    const { attribute, dispatchFormAction, displayableErrors, i18n, valueOrValues, required, label, hint } = props;
 
-    const isMultiple = attribute.annotations.inputType === "multiselect";
+    const options = (() => {
+        walk: {
+            const { inputOptionsFromValidation } = attribute.annotations;
+
+            if (inputOptionsFromValidation === undefined) {
+                break walk;
+            }
+
+            const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
+
+            if (validator === undefined) {
+                break walk;
+            }
+
+            if (validator.options === undefined) {
+                break walk;
+            }
+
+            return validator.options;
+        }
+
+        return attribute.validators.options?.options ?? [];
+    })();
 
     return (
-        <select
-            id={attribute.name}
-            name={attribute.name}
-            className={kcClsx("kcInputClass")}
-            aria-invalid={displayableErrors.length !== 0}
-            disabled={attribute.readOnly}
-            multiple={isMultiple}
-            size={attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`)}
-            value={valueOrValues}
-            onChange={event =>
-                dispatchFormAction({
-                    action: "update",
+        <Checkbox
+            {...getStateForSingleValue(displayableErrors)}
+            legend={formatLabel(label, required)}
+            hintText={hint}
+            options={options.map(option => ({
+                label: inputLabel(i18n, attribute, option),
+                nativeInputProps: {
+                    id: `${attribute.name}-${option}`,
                     name: attribute.name,
-                    valueOrValues: (() => {
-                        if (isMultiple) {
-                            return Array.from(event.target.selectedOptions).map(option => option.value);
-                        }
+                    value: option,
+                    checked: valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option,
+                    disabled: attribute.readOnly,
+                    onChange: event =>
+                        dispatchFormAction({
+                            action: "update",
+                            name: attribute.name,
+                            valueOrValues: (() => {
+                                const isChecked = event.target.checked;
 
-                        return event.target.value;
-                    })()
-                })
-            }
-            onBlur={() =>
-                dispatchFormAction({
-                    action: "focus lost",
-                    name: attribute.name,
-                    fieldIndex: undefined
-                })
-            }
+                                if (valueOrValues instanceof Array) {
+                                    const newValues = [...valueOrValues];
+
+                                    if (isChecked) {
+                                        newValues.push(option);
+                                    } else {
+                                        newValues.splice(newValues.indexOf(option), 1);
+                                    }
+
+                                    return newValues;
+                                }
+
+                                return event.target.checked ? option : "";
+                            })()
+                        }),
+                    onBlur: () =>
+                        dispatchFormAction({
+                            action: "focus lost",
+                            name: attribute.name,
+                            fieldIndex: undefined
+                        })
+                }
+            }))}
+        />
+    );
+}
+
+function SelectTag(props: InputFieldByTypeProps) {
+    const { attribute, dispatchFormAction, displayableErrors, i18n, valueOrValues, required, label } = props;
+
+    return (
+        <Select
+            label={formatLabel(label, required)}
+            {...getStateForSingleValue(displayableErrors)}
+            nativeSelectProps={{
+                id: attribute.name,
+                name: attribute.name,
+                disabled: attribute.readOnly,
+                size: attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`),
+                value: valueOrValues,
+                onChange: event =>
+                    dispatchFormAction({
+                        action: "update",
+                        name: attribute.name,
+                        valueOrValues: event.target.value
+                    }),
+                onBlur: () =>
+                    dispatchFormAction({
+                        action: "focus lost",
+                        name: attribute.name,
+                        fieldIndex: undefined
+                    })
+            }}
         >
-            {!isMultiple && <option value=""></option>}
+            <option value=""></option>
             {(() => {
                 const options = (() => {
                     walk: {
@@ -667,7 +693,7 @@ function SelectTag(props: InputFieldByTypeProps) {
                     </option>
                 ));
             })()}
-        </select>
+        </Select>
     );
 }
 
@@ -685,4 +711,13 @@ function inputLabel(i18n: I18n, attribute: Attribute, option: string) {
     }
 
     return option;
+}
+
+function getStateForSingleValue(displayableErrors: FormFieldError[]): { state: "error" | "default"; stateRelatedMessage: JSX.Element | undefined } {
+    if (displayableErrors.length === 0) return { state: "default", stateRelatedMessage: undefined };
+    return { state: "error", stateRelatedMessage: displayableErrors[0].errorMessage };
+}
+
+function formatLabel(label: JSX.Element | undefined, required: boolean | undefined) {
+    return required && label ? <>{label} *</> : label;
 }
