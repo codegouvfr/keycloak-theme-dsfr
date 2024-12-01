@@ -5,6 +5,8 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import Button from "@codegouvfr/react-dsfr/Button";
+import { fr } from "@codegouvfr/react-dsfr";
 
 type LoginUpdateProfileProps = PageProps<Extract<KcContext, { pageId: "login-update-profile.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -47,28 +49,22 @@ export default function LoginUpdateProfile(props: LoginUpdateProfileProps) {
                     <div id="kc-form-options" className={kcClsx("kcFormOptionsClass")}>
                         <div className={kcClsx("kcFormOptionsWrapperClass")} />
                     </div>
-                    <div id="kc-form-buttons" className={kcClsx("kcFormButtonsClass")}>
-                        <input
-                            disabled={!isFormSubmittable}
-                            className={kcClsx(
-                                "kcButtonClass",
-                                "kcButtonPrimaryClass",
-                                !isAppInitiatedAction && "kcButtonBlockClass",
-                                "kcButtonLargeClass"
-                            )}
-                            type="submit"
-                            value={msgStr("doSubmit")}
-                        />
+                    <div id="kc-form-buttons" className={fr.cx("fr-mt-3w")}>
+                        <Button disabled={!isFormSubmittable} type="submit">
+                            {msgStr("doSubmit")}
+                        </Button>
+
                         {isAppInitiatedAction && (
-                            <button
-                                className={kcClsx("kcButtonClass", "kcButtonDefaultClass", "kcButtonLargeClass")}
+                            <Button
                                 type="submit"
-                                name="cancel-aia"
-                                value="true"
-                                formNoValidate
+                                className={fr.cx("fr-ml-2w")}
+                                nativeButtonProps={{
+                                    formNoValidate: true,
+                                    name: "cancel-aia"
+                                }}
                             >
                                 {msg("doCancel")}
-                            </button>
+                            </Button>
                         )}
                     </div>
                 </div>
