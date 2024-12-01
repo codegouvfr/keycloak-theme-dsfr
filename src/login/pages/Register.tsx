@@ -8,6 +8,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import Button from "@codegouvfr/react-dsfr/Button";
+import { fr } from "@codegouvfr/react-dsfr";
 
 type RegisterProps = PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n> & {
     UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
@@ -64,17 +65,9 @@ export default function Register(props: RegisterProps) {
                         </div>
                     </div>
                 )}
-                <div className={kcClsx("kcFormGroupClass")}>
-                    <div id="kc-form-options" className={kcClsx("kcFormOptionsClass")}>
-                        <div className={kcClsx("kcFormOptionsWrapperClass")}>
-                            <span>
-                                <a href={url.loginUrl}>{msg("backToLogin")}</a>
-                            </span>
-                        </div>
-                    </div>
-
+                <div style={{ display: "flex", justifyContent: "space-between",alignItems: "center" }} className={fr.cx("fr-my-3w")}>
                     {recaptchaRequired && !recaptchaVisible && recaptchaAction !== undefined ? (
-                        <div id="kc-form-buttons" className={kcClsx("kcFormButtonsClass")}>
+                        <div>
                             <button
                                 className={clsx(
                                     kcClsx("kcButtonClass", "kcButtonPrimaryClass", "kcButtonBlockClass", "kcButtonLargeClass"),
@@ -91,12 +84,16 @@ export default function Register(props: RegisterProps) {
                             </button>
                         </div>
                     ) : (
-                        
-                            <Button disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)} type="submit">
-                                {msgStr("doRegister")}
-                            </Button>
-                        
+                        <Button disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)} type="submit">
+                            {msgStr("doRegister")}
+                        </Button>
                     )}
+
+                    <div>
+                        <a className={fr.cx("fr-link")} href={url.loginUrl}>
+                            {msg("backToLogin")}
+                        </a>
+                    </div>
                 </div>
             </form>
         </Template>

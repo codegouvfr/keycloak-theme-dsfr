@@ -207,6 +207,7 @@ function InputFieldByType(props: InputFieldByTypeProps) {
                 return (
                     <PasswordInput
                         label={formatLabel(label, required)}
+                        disabled={attribute.readOnly}
                         messages={displayableErrors.map(error => ({
                             message: advancedMsgStr(error.errorMessageStr),
                             severity: "error"
@@ -214,7 +215,6 @@ function InputFieldByType(props: InputFieldByTypeProps) {
                         nativeInputProps={{
                             name: attribute.name,
                             value: valueOrValues,
-                            disabled: attribute.readOnly,
                             autoComplete: attribute.autocomplete,
                             placeholder:
                                 attribute.annotations.inputTypePlaceholder === undefined
@@ -299,6 +299,7 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
             <Input
                 label={formatLabel(label, required)}
                 hintText={hint}
+                disabled={attribute.readOnly}
                 {...getState()}
                 nativeInputProps={{
                     type: (() => {
@@ -321,7 +322,6 @@ function InputTag(props: InputFieldByTypeProps & { fieldIndex: number | undefine
 
                         return valueOrValues;
                     })(),
-                    disabled: attribute.readOnly,
                     autoComplete: attribute.autocomplete,
                     placeholder:
                         attribute.annotations.inputTypePlaceholder === undefined
@@ -477,14 +477,13 @@ function RadiButtonsTag(props: InputFieldByTypeProps) {
             {...getStateForSingleValue(displayableErrors)}
             legend={formatLabel(label, required)}
             hintText={hint}
+            disabled={attribute.readOnly}
             options={options.map(option => ({
                 label: inputLabel(i18n, attribute, option),
                 nativeInputProps: {
-                    id: `${attribute.name}-${option}`,
                     name: attribute.name,
                     value: option,
                     checked: valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option,
-                    disabled: attribute.readOnly,
                     onChange: event =>
                         dispatchFormAction({
                             action: "update",
@@ -531,11 +530,11 @@ function TextareaTag(props: InputFieldByTypeProps) {
             textArea
             label={formatLabel(label, required)}
             {...getStateForSingleValue(displayableErrors)}
+            disabled={attribute.readOnly}
             nativeTextAreaProps={{
                 id: attribute.name,
                 name: attribute.name,
                 className: kcClsx("kcInputClass"),
-                disabled: attribute.readOnly,
                 cols: attribute.annotations.inputTypeCols === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeCols}`),
                 rows: attribute.annotations.inputTypeRows === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeRows}`),
                 maxLength:
@@ -590,14 +589,13 @@ function CheckboxesTag(props: InputFieldByTypeProps) {
             {...getStateForSingleValue(displayableErrors)}
             legend={formatLabel(label, required)}
             hintText={hint}
+            disabled={attribute.readOnly}
             options={options.map(option => ({
                 label: inputLabel(i18n, attribute, option),
                 nativeInputProps: {
-                    id: `${attribute.name}-${option}`,
                     name: attribute.name,
                     value: option,
                     checked: valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option,
-                    disabled: attribute.readOnly,
                     onChange: event =>
                         dispatchFormAction({
                             action: "update",
