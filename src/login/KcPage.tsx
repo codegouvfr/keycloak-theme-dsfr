@@ -5,12 +5,8 @@ import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
 const Template = lazy(() => import("./Template"));
 const DefaultTemplate = lazy(() => import("keycloakify/login/Template"));
-const UserProfileFormFields = lazy(
-    () => import("./UserProfileFormFields")
-);
-const DefaultUserProfileFormFields = lazy(
-    () => import("./UserProfileFormFields")
-);
+const UserProfileFormFields = lazy(() => import("./UserProfileFormFields"));
+const DefaultUserProfileFormFields = lazy(() => import("./UserProfileFormFields"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const LoginUpdateProfile = lazy(() => import("./pages/LoginUpdateProfile"));
