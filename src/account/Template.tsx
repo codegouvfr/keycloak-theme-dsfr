@@ -7,6 +7,10 @@ import { useInitialize } from "keycloakify/account/Template.useInitialize";
 import type { TemplateProps } from "keycloakify/account/TemplateProps";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import "@codegouvfr/react-dsfr/main.css";
+import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
+
+startReactDsfr({ defaultColorScheme: "system" });
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, active, classes, children } = props;
