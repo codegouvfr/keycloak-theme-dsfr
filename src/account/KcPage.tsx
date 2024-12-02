@@ -4,6 +4,9 @@ import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 const DefaultPage = lazy(() => import("keycloakify/account/DefaultPage"));
 const DefaultTemplate = lazy(() => import("keycloakify/account/Template"));
+const Template = lazy(() => import("./Template"));
+const Account = lazy(() => import("./pages/Account"));
+const Password = lazy(() => import("./pages/Password"));
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -14,8 +17,32 @@ export default function KcPage(props: { kcContext: KcContext }) {
         <Suspense>
             {(() => {
                 switch (kcContext.pageId) {
+                    case "account.ftl":
+                        return (
+                            <Account
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
+                    case "password.ftl":
+                        return (
+                            <Password
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
                     default:
-                        return <DefaultPage kcContext={kcContext} i18n={i18n} classes={classes} Template={DefaultTemplate} doUseDefaultCss={true} />;
+                        return (
+                            <DefaultPage
+                                kcContext={kcContext}
+                                i18n={i18n}
+                                classes={classes}
+                                Template={DefaultTemplate}
+                                doUseDefaultCss={true}
+                            />
+                        );
                 }
             })()}
         </Suspense>
