@@ -8,7 +8,7 @@ export default defineConfig({
         react(),
         keycloakify({
             themeName: "DSFR",
-            accountThemeImplementation: "none",
+            accountThemeImplementation: "Multi-Page",
             environmentVariables: [
                 { name: "DSFR_THEME_HOME_URL", default: "" },
                 { name: "DSFR_THEME_SERVICE_TITLE", default: "" },
