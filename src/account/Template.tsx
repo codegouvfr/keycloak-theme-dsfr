@@ -49,7 +49,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     }
 
     return (
-        <>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <DsfrHeader
                 brandTop={
                     <div
@@ -139,6 +139,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             </div>
 
             <DsfrFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
-        </>
+        </div>
     );
 }
