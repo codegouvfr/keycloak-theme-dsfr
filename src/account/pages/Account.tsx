@@ -1,4 +1,5 @@
 import { fr } from "@codegouvfr/react-dsfr";
+import ButtonsGroup from "@codegouvfr/react-dsfr/ButtonsGroup";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import { clsx } from "keycloakify/tools/clsx";
 import type { KcContext } from "../KcContext";
@@ -12,16 +13,38 @@ export default function Account(props: PageProps<Extract<KcContext, { pageId: "a
         kcBodyClass: clsx(props.classes?.kcBodyClass, "user")
     };
 
-    const { url, realm, messagesPerField, stateChecker, account, referrer } = kcContext;
-    console.log("referer", referrer);
+    const { referrer } = kcContext;
 
     const { msg } = i18n;
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="account">
             <h2 className={fr.cx("fr-h2")}>{msg("editAccountHtmlTitle")}</h2>
+            <ButtonsGroup 
+                buttons={[
+                    {
+                        children: "Update profil",
+                        linkProps: {
+                            href: `/realms/myrealm/login-actions/required-action?execution=UPDATE_PROFILE&client_id=${referrer?.name}`,
+                        },
+                    },
+                    {
+                        children: "Update password",
+                        linkProps: {
+                            href: `/realms/myrealm/login-actions/required-action?execution=UPDATE_PASSWORD&client_id=${referrer?.name}`,
+                        },
+                    },
+                    {
+                        children: "Delete account",
+                        linkProps: {
+                            href: `/realms/myrealm/login-actions/required-action?execution=delete_account&client_id=${referrer?.name}`,
+                        },
+                        priority: "secondary"
+                    }
+                ]}
+            />
 
-            {/* TODO buttons to edit profile, password and delete account */}
+            {referrer && <a className={fr.cx("fr-link")} href={referrer?.url} >{msg("backTo", referrer.name)}</a>}
         </Template>
     );
 }
