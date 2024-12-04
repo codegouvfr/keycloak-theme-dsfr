@@ -6,7 +6,6 @@ const DefaultPage = lazy(() => import("keycloakify/account/DefaultPage"));
 const DefaultTemplate = lazy(() => import("keycloakify/account/Template"));
 const Template = lazy(() => import("./Template"));
 const Account = lazy(() => import("./pages/Account"));
-const Password = lazy(() => import("./pages/Password"));
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -20,14 +19,6 @@ export default function KcPage(props: { kcContext: KcContext }) {
                     case "account.ftl":
                         return (
                             <Account
-                                {...{ kcContext, i18n, classes }}
-                                Template={Template}
-                                doUseDefaultCss={false}
-                            />
-                        );
-                    case "password.ftl":
-                        return (
-                            <Password
                                 {...{ kcContext, i18n, classes }}
                                 Template={Template}
                                 doUseDefaultCss={false}
