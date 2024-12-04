@@ -1,11 +1,12 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
+import { FranceConnectButton } from "@codegouvfr/react-dsfr/FranceConnectButton";
+import { AgentConnectButton } from "@codegouvfr/react-dsfr/AgentConnectButton";
+import { ProConnectButton } from "@codegouvfr/react-dsfr/ProConnectButton";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
-import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { clsx } from "keycloakify/tools/clsx";
 import { useState } from "react";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
@@ -23,7 +24,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     const { msg, msgStr } = i18n;
 
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
-
+    
     return (
         <Template
             kcContext={kcContext}
@@ -50,27 +51,55 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                     {realm.password && social?.providers !== undefined && social.providers.length !== 0 && (
                         <div id="kc-social-providers" className={kcClsx("kcFormSocialAccountSectionClass")}>
                             <hr />
-                            <h2>{msg("identity-provider-login-label")}</h2>
-                            <ul className={kcClsx("kcFormSocialAccountListClass", social.providers.length > 3 && "kcFormSocialAccountListGridClass")}>
-                                {social.providers.map((...[p, , providers]) => (
-                                    <li key={p.alias}>
-                                        <a
-                                            id={`social-${p.alias}`}
-                                            className={kcClsx(
-                                                "kcFormSocialAccountListButtonClass",
-                                                providers.length > 3 && "kcFormSocialAccountGridItem"
-                                            )}
-                                            type="button"
-                                            href={p.loginUrl}
+                            <ul>
+                                {social.providers.map((...[p]) => {
+                                    if (p.providerId === "proConnect") {
+                                        return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
+                                    }
+
+                                    if (p.providerId === "agentconnect") {
+                                        return <AgentConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
+                                    }
+
+                                    if (p.providerId === "franceconnect") {
+                                        return <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
+                                    }
+
+                                    return (
+                                        <Button
+                                            className={fr.cx("fr-m-1w")}
+                                            key={p.alias}
+                                            iconId={(() => {
+                                                switch (p.providerId) {
+                                                    case "github":
+                                                        return "ri-github-fill";
+                                                    case "google":
+                                                        return "ri-google-fill";
+                                                    case "facebook":
+                                                        return "ri-facebook-fill";
+                                                    case "microsoft":
+                                                        return "ri-microsoft-fill";
+                                                    case "twitter":
+                                                        return "ri-twitter-fill";
+                                                    case "instagram":
+                                                        return "ri-instagram-fill";
+                                                    case "linkedin":
+                                                        return "ri-linkedin-fill";
+                                                    case "stackoverflow":
+                                                        return "ri-stack-overflow-fill";
+                                                    case "gitlab":
+                                                        return "ri-gitlab-fill";
+                                                }
+                                                return "ri-external-link-line";
+                                            })()}
+                                            linkProps={{
+                                                href: p.loginUrl
+                                            }}
                                         >
-                                            {p.iconClasses && <i className={clsx(kcClsx("kcCommonLogoIdP"), p.iconClasses)} aria-hidden="true"></i>}
-                                            <span
-                                                className={clsx(kcClsx("kcFormSocialAccountNameClass"), p.iconClasses && "kc-social-icon-text")}
-                                                dangerouslySetInnerHTML={{ __html: kcSanitize(p.displayName) }}
-                                            ></span>
-                                        </a>
-                                    </li>
-                                ))}
+                                            {p.displayName}
+                                        </Button>
+                                    );
+                                })}
                             </ul>
                         </div>
                     )}
@@ -79,6 +108,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         >
             <div id="kc-form">
                 <div id="kc-form-wrapper">
+                {social?.providers !== undefined && social.providers.length !== 0 && <h2>{msg("or-login-with-email")}</h2>}
                     {realm.password && (
                         <form
                             id="kc-form-login"
@@ -122,7 +152,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                 }
                             />
 
-                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <div>
                                     {realm.rememberMe && !usernameHidden && (
                                         <div className={fr.cx("fr-checkbox-group", "fr-checkbox-group--sm")}>
@@ -139,10 +169,9 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                 </div>
                                 {realm.resetPasswordAllowed && (
                                     <div>
-
-                                    <a className={fr.cx("fr-link")} href={url.loginResetCredentialsUrl} tabIndex={6}>
-                                        {msg("doForgotPassword")}
-                                    </a>
+                                        <a className={fr.cx("fr-link")} href={url.loginResetCredentialsUrl} tabIndex={6}>
+                                            {msg("doForgotPassword")}
+                                        </a>
                                     </div>
                                 )}
                             </div>

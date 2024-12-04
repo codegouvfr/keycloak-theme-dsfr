@@ -110,6 +110,34 @@ export const WithImmutablePresetUsername: Story = {
     )
 };
 
+export const WithFranceConnectAndProConnectProviders: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                social: {
+                    displayInfo: true,
+                    providers: [
+                        {
+                            loginUrl: "france-connect",
+                            alias: "france-connect",
+                            providerId: "franceconnect",
+                            displayName: "France Connect",
+                            iconClasses: "fa fa-france-connect"
+                        },
+                        {
+                            loginUrl: "proConnect",
+                            alias: "proConnect",
+                            providerId: "proConnect",
+                            displayName: "Pro Connect",
+                            iconClasses: "fa fa-proconnect"
+                        }
+                    ]
+                }
+            }}
+        />
+    )
+};
+
 export const WithSocialProviders: Story = {
     render: () => (
         <KcPageStory
