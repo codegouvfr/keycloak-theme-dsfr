@@ -100,9 +100,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             burgerMenuButtonText={"Menu"}
                             items={[
                                 { text: msg("account"), linkProps: { href: url.accountUrl }, isActive: active === "account" },
-                                ...(features.passwordUpdateSupported
-                                    ? [{ text: msg("password"), linkProps: { href: url.passwordUrl }, isActive: active === "password" }]
-                                    : []),
+                                // ...(features.passwordUpdateSupported
+                                //     ? [{ text: msg("password"), linkProps: { href: url.passwordUrl }, isActive: active === "password" }]
+                                //     : []),
                                 { text: msg("authenticator"), linkProps: { href: url.totpUrl }, isActive: active === "totp" },
                                 ...(features.identityFederation
                                     ? [{ text: msg("federatedIdentity"), linkProps: { href: url.socialUrl }, isActive: active === "social" }]
