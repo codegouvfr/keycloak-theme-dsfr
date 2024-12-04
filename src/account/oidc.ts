@@ -13,7 +13,7 @@ export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
           isAuthGloballyRequired
       })
     : createReactOidc({
-          issuerUri: `${window.location.origin}/realms/${realm}`,
+          issuerUri: `${window.location.origin}/auth/realms/${realm}`,
           clientId: "account-console",
           publicUrl,
           isAuthGloballyRequired
