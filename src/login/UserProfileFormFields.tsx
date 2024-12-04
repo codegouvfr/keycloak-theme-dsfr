@@ -16,6 +16,7 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import PasswordInput from "@codegouvfr/react-dsfr/blocks/PasswordInput";
+import { formatLabel } from "../utils";
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
     const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
@@ -716,6 +717,3 @@ function getStateForSingleValue(displayableErrors: FormFieldError[]): { state: "
     return { state: "error", stateRelatedMessage: displayableErrors[0].errorMessage };
 }
 
-function formatLabel(label: JSX.Element | undefined, required: boolean | undefined) {
-    return required && label ? <>{label} *</> : label;
-}
