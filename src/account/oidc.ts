@@ -4,7 +4,7 @@ import { createMockReactOidc } from "oidc-spa/mock/react";
 const publicUrl = undefined;
 const isAuthGloballyRequired = true;
 
-export const realm = import.meta.env.DEV ? "" : window.location.pathname.split("/")[2];
+export const realm = import.meta.env.DEV ? "" : window.location.pathname.split("/")[3];
 
 export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
     ? createMockReactOidc({
