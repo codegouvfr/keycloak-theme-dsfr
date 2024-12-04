@@ -9,6 +9,13 @@ import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
 import "@codegouvfr/react-dsfr/main.css";
 import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
+import { getReferrerUrl } from "../login/shared/getReferrerUrl";
+import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
+import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
+import { SideMenu } from "@codegouvfr/react-dsfr/SideMenu";
+import { Alert } from "@codegouvfr/react-dsfr/Alert";
+import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
+import { fr } from "@codegouvfr/react-dsfr";
 
 startReactDsfr({ defaultColorScheme: "system" });
 
@@ -17,7 +24,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
 
-    const { msg, msgStr, currentLanguage, enabledLanguages } = i18n;
+    const { msg, msgStr } = i18n;
 
     const { url, features, realm, message, referrer } = kcContext;
 
@@ -43,103 +50,95 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     return (
         <>
-            <header className="navbar navbar-default navbar-pf navbar-main header">
-                <nav className="navbar" role="navigation">
-                    <div className="navbar-header">
-                        <div className="container">
-                            <h1 className="navbar-title">Keycloak</h1>
-                        </div>
-                    </div>
-                    <div className="navbar-collapse navbar-collapse-1">
-                        <div className="container">
-                            <ul className="nav navbar-nav navbar-utility">
-                                {enabledLanguages.length > 1 && (
-                                    <li>
-                                        <div className="kc-dropdown" id="kc-locale-dropdown">
-                                            <a href="#" id="kc-current-locale-link">
-                                                {currentLanguage.label}
-                                            </a>
-                                            <ul>
-                                                {enabledLanguages.map(({ languageTag, label, href }) => (
-                                                    <li key={languageTag} className="kc-dropdown-item">
-                                                        <a href={href}>{label}</a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </li>
-                                )}
-                                {referrer?.url && (
-                                    <li>
-                                        <a href={referrer.url} id="referrer">
-                                            {msg("backTo", referrer.name)}
-                                        </a>
-                                    </li>
-                                )}
-                                <li>
-                                    <a href={url.getLogoutUrl()}>{msg("doSignOut")}</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </header>
+            <DsfrHeader
+                brandTop={
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: kcContext.properties.DSFR_THEME_BRAND_TOP
+                        }}
+                    />
+                }
+                homeLinkProps={{
+                    href: getReferrerUrl(),
+                    title: "Accueil"
+                }}
+                serviceTitle={
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: kcContext.properties.DSFR_THEME_SERVICE_TITLE || ""
+                        }}
+                    />
+                }
+                quickAccessItems={[
+                    headerFooterDisplayItem,
+                    ...(referrer?.url
+                        ? [
+                              <a key="back-to-link" href={referrer.url} id="referrer" className={fr.cx("fr-btn", "fr-btn--tertiary-no-outline")}>
+                                  {msg("backTo", referrer.name)}
+                              </a>
+                          ]
+                        : []),
+                    <a key="logout-link" className={fr.cx("fr-btn", "fr-btn--tertiary-no-outline")} href={url.getLogoutUrl()}>
+                        {msg("doSignOut")}
+                    </a>
+                ]}
+            />
 
-            <div className="container">
-                <div className="bs-sidebar col-sm-3">
-                    <ul>
-                        <li className={clsx(active === "account" && "active")}>
-                            <a href={url.accountUrl}>{msg("account")}</a>
-                        </li>
-                        {features.passwordUpdateSupported && (
-                            <li className={clsx(active === "password" && "active")}>
-                                <a href={url.passwordUrl}>{msg("password")}</a>
-                            </li>
-                        )}
-                        <li className={clsx(active === "totp" && "active")}>
-                            <a href={url.totpUrl}>{msg("authenticator")}</a>
-                        </li>
-                        {features.identityFederation && (
-                            <li className={clsx(active === "social" && "active")}>
-                                <a href={url.socialUrl}>{msg("federatedIdentity")}</a>
-                            </li>
-                        )}
-                        <li className={clsx(active === "sessions" && "active")}>
-                            <a href={url.sessionsUrl}>{msg("sessions")}</a>
-                        </li>
-                        <li className={clsx(active === "applications" && "active")}>
-                            <a href={url.applicationsUrl}>{msg("applications")}</a>
-                        </li>
-                        {features.log && (
-                            <li className={clsx(active === "log" && "active")}>
-                                <a href={url.logUrl}>{msg("log")}</a>
-                            </li>
-                        )}
-                        {realm.userManagedAccessAllowed && features.authorization && (
-                            <li className={clsx(active === "authorization" && "active")}>
-                                <a href={url.resourceUrl}>{msg("myResources")}</a>
-                            </li>
-                        )}
-                    </ul>
-                </div>
+            <div
+                className={fr.cx("fr-container")}
+                style={{
+                    flex: 1,
+                    margin: "auto",
+                    maxWidth: 1000,
+                    ...fr.spacing("padding", { topBottom: "10v" })
+                }}
+            >
+                <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
+                    <div className={fr.cx("fr-col-12", "fr-col-md-3")}>
+                        <SideMenu
+                            align="left"
+                            burgerMenuButtonText={"Menu"}
+                            items={[
+                                { text: msg("account"), linkProps: { href: url.accountUrl }, isActive: active === "account" },
+                                ...(features.passwordUpdateSupported
+                                    ? [{ text: msg("password"), linkProps: { href: url.passwordUrl }, isActive: active === "password" }]
+                                    : []),
+                                { text: msg("authenticator"), linkProps: { href: url.totpUrl }, isActive: active === "totp" },
+                                ...(features.identityFederation
+                                    ? [{ text: msg("federatedIdentity"), linkProps: { href: url.socialUrl }, isActive: active === "social" }]
+                                    : []),
+                                { text: msg("sessions"), linkProps: { href: url.sessionsUrl }, isActive: active === "sessions" },
+                                { text: msg("applications"), linkProps: { href: url.applicationsUrl }, isActive: active === "applications" },
+                                ...(features.log ? [{ text: msg("log"), linkProps: { href: url.logUrl }, isActive: active === "log" }] : []),
+                                ...(realm.userManagedAccessAllowed && features.authorization
+                                    ? [{ text: msg("myResources"), linkProps: { href: url.resourceUrl }, isActive: active === "authorization" }]
+                                    : [])
+                            ]}
+                        />
+                    </div>
 
-                <div className="col-sm-9 content-area">
-                    {message !== undefined && (
-                        <div className={clsx("alert", `alert-${message.type}`)}>
-                            {message.type === "success" && <span className="pficon pficon-ok"></span>}
-                            {message.type === "error" && <span className="pficon pficon-error-circle-o"></span>}
-                            <span
-                                className="kc-feedback-text"
-                                dangerouslySetInnerHTML={{
-                                    __html: kcSanitize(message.summary)
-                                }}
+                    <div className={fr.cx("fr-col-12", "fr-col-md-9")}>
+                        {message !== undefined && (
+                            <Alert
+                                className={fr.cx("fr-mb-4w")}
+                                severity={message.type}
+                                small
+                                description={
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: kcSanitize(message.summary)
+                                        }}
+                                    />
+                                }
                             />
-                        </div>
-                    )}
+                        )}
 
-                    {children}
+                        {children}
+                    </div>
                 </div>
             </div>
+
+            <DsfrFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
         </>
     );
 }
