@@ -4,6 +4,9 @@ import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { fr } from "@codegouvfr/react-dsfr";
+import PasswordInput from "@codegouvfr/react-dsfr/blocks/PasswordInput";
+import Button from "@codegouvfr/react-dsfr/Button";
 
 export default function Password(props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template } = props;
@@ -18,7 +21,7 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
         classes
     });
 
-    const { url, password, account, stateChecker } = kcContext;
+    const { url, password, account, stateChecker, messagesPerField } = kcContext;
 
     const { msgStr, msg } = i18n;
 
@@ -83,12 +86,9 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
             }}
             active="password"
         >
-            <div className="row">
-                <div className="col-md-10">
-                    <h2>{msg("changePasswordHtmlTitle")}</h2>
-                </div>
-                <div className="col-md-2 subtitle">
-                    <span className="subtitle">{msg("allFieldsRequired")}</span>
+            <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
+                <div className={fr.cx("fr-col-12", "fr-col-md-10")}>
+                    <h2 className={fr.cx("fr-h2")}>{msg("changePasswordHtmlTitle")}</h2>
                 </div>
             </div>
 
@@ -103,7 +103,7 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                     style={{ display: "none" }}
                 />
 
-                {password.passwordSet && (
+                {/* {password.passwordSet && (
                     <div className="form-group">
                         <div className="col-sm-2 col-md-2">
                             <label htmlFor="password" className="control-label">
@@ -123,11 +123,28 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                             />
                         </div>
                     </div>
+                )} */}
+
+                {password.passwordSet && (
+                    <PasswordInput
+                        label={msg("password")}
+                        messages={
+                            messagesPerField.existsError("password")
+                                ? [{ message: messagesPerField.get("password"), severity: "error" }]
+                                : []
+                        }
+                        nativeInputProps={{
+                            autoFocus: true,
+                            autoComplete: "password",
+                            id: "password",
+                            name: "password"
+                        }}
+                    />
                 )}
 
                 <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
 
-                <div className="form-group">
+                {/* <div className="form-group">
                     <div className="col-sm-2 col-md-2">
                         <label htmlFor="password-new" className="control-label">
                             {msg("passwordNew")}
@@ -186,20 +203,52 @@ export default function Password(props: PageProps<Extract<KcContext, { pageId: "
                             }}
                         />
                     </div>
+                </div> */}
+
+                <div className={kcClsx("kcFormGroupClass")}>
+                    <PasswordInput
+                        label={msg("passwordNew")}
+                        messages={
+                            messagesPerField.existsError("password", "password-confirm")
+                                ? [{ message: messagesPerField.get("password"), severity: "error" }]
+                                : []
+                        }
+                        nativeInputProps={{
+                            autoFocus: true,
+                            autoComplete: "new-password",
+                            id: "password-new",
+                            name: "password-new"
+                        }}
+                    />
+                </div>
+
+                <div className={kcClsx("kcFormGroupClass")}>
+                    <PasswordInput
+                        label={msg("passwordConfirm")}
+                        messages={
+                            messagesPerField.existsError("password-confirm")
+                                ? [{ message: messagesPerField.get("password-confirm"), severity: "error" }]
+                                : []
+                        }
+                        nativeInputProps={{
+                            autoFocus: true,
+                            autoComplete: "new-password",
+                            id: "password-confirm",
+                            name: "password-confirm"
+                        }}
+                    />
                 </div>
 
                 <div className="form-group">
                     <div id="kc-form-buttons" className="col-md-offset-2 col-md-10 submit">
                         <div>
-                            <button
+                            <Button
                                 disabled={newPasswordError !== "" || newPasswordConfirmError !== ""}
                                 type="submit"
-                                className={kcClsx("kcButtonClass", "kcButtonPrimaryClass", "kcButtonLargeClass")}
-                                name="submitAction"
                                 value="Save"
                             >
                                 {msg("doSave")}
-                            </button>
+                            </Button>
                         </div>
                     </div>
                 </div>
