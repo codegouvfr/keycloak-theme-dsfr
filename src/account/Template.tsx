@@ -1,3 +1,4 @@
+import "@codegouvfr/react-dsfr/main.css";
 import { useEffect } from "react";
 import { clsx } from "keycloakify/tools/clsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
@@ -7,17 +8,16 @@ import { useInitialize } from "keycloakify/account/Template.useInitialize";
 import type { TemplateProps } from "keycloakify/account/TemplateProps";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
-import "@codegouvfr/react-dsfr/main.css";
 import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
-import { getReferrerUrl } from "../login/shared/getReferrerUrl";
 import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
 import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { SideMenu } from "@codegouvfr/react-dsfr/SideMenu";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { fr } from "@codegouvfr/react-dsfr";
+import { getColorScheme } from "../shared/getColorScheme";
 
-startReactDsfr({ defaultColorScheme: "system" });
+startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, active, classes, children } = props;
@@ -59,7 +59,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     />
                 }
                 homeLinkProps={{
-                    href: getReferrerUrl(),
+                    href: referrer?.url ?? "#",
                     title: "Accueil"
                 }}
                 serviceTitle={
@@ -70,7 +70,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     />
                 }
                 quickAccessItems={[
-                    headerFooterDisplayItem,
                     ...(referrer?.url
                         ? [
                               <a key="back-to-link" href={referrer.url} id="referrer" className={fr.cx("fr-btn", "fr-btn--tertiary-no-outline")}>

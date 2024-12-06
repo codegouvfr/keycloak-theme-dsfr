@@ -15,8 +15,9 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { fr } from "@codegouvfr/react-dsfr";
 import "@codegouvfr/react-dsfr/main.css";
 import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
+import { getColorScheme } from "../shared/getColorScheme";
 
-startReactDsfr({ defaultColorScheme: "system" });
+startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
 
 type Props = TemplateProps<KcContext, I18n>;
 
@@ -65,7 +66,27 @@ export default function Template(props: Props) {
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-            <Header kcContext={kcContext} />
+            <DsfrHeader
+                brandTop={
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: kcContext.properties.DSFR_THEME_BRAND_TOP
+                        }}
+                    />
+                }
+                homeLinkProps={{
+                    href: getReferrerUrl(),
+                    title: kcContext.realm.displayName
+                }}
+                serviceTitle={
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html:
+                                kcContext.properties.DSFR_THEME_SERVICE_TITLE || kcContext.realm.displayNameHtml || kcContext.realm.displayName || ""
+                        }}
+                    />
+                }
+            />
             <div
                 style={{
                     flex: 1,
@@ -157,31 +178,5 @@ export default function Template(props: Props) {
             </div>
             <DSFRFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
         </div>
-    );
-}
-
-export function Header({ kcContext }: { kcContext: Props["kcContext"] }) {
-    return (
-        <DsfrHeader
-            brandTop={
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: kcContext.properties.DSFR_THEME_BRAND_TOP
-                    }}
-                />
-            }
-            homeLinkProps={{
-                href: getReferrerUrl(),
-                title: kcContext.realm.displayName
-            }}
-            quickAccessItems={[headerFooterDisplayItem]}
-            serviceTitle={
-                <span
-                    dangerouslySetInnerHTML={{
-                        __html: kcContext.properties.DSFR_THEME_SERVICE_TITLE || kcContext.realm.displayNameHtml || kcContext.realm.displayName || ""
-                    }}
-                />
-            }
-        />
     );
 }

@@ -11,7 +11,7 @@ function getRefererUrlFromUrl() {
     return redirectUrl.origin;
 }
 
-const sessionStorageKey = "theme_refererUrl";
+const sessionStorageKey = "keycloak-theme-dsfr:referrer";
 
 export function getReferrerUrl() {
     const refererUrl = getRefererUrlFromUrl();
