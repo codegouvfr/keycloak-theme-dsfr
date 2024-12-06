@@ -122,14 +122,42 @@ export const WithFranceConnectAndProConnectProviders: Story = {
                             alias: "france-connect",
                             providerId: "franceconnect",
                             displayName: "France Connect",
-                            iconClasses: "fa fa-france-connect"
+                            iconClasses: ""
                         },
                         {
                             loginUrl: "proConnect",
                             alias: "proConnect",
                             providerId: "proConnect",
                             displayName: "Pro Connect",
-                            iconClasses: "fa fa-proconnect"
+                            iconClasses: ""
+                        }
+                    ]
+                }
+            }}
+        />
+    )
+};
+
+export const WithAgentConnect: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                social: {
+                    displayInfo: true,
+                    providers: [
+                        {
+                            loginUrl: "france-connect",
+                            alias: "france-connect",
+                            providerId: "franceconnect",
+                            displayName: "France Connect",
+                            iconClasses: ""
+                        },
+                        {
+                            loginUrl: "agentConnect",
+                            alias: "agentConnect",
+                            providerId: "agentconnect",
+                            displayName: "Agent Connect",
+                            iconClasses: ""
                         }
                     ]
                 }
