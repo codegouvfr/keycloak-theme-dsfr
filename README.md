@@ -29,8 +29,6 @@ Several environment variables can be used to tailor the theme to your needs:
 DSFR_THEME_HOME_URL
 DSFR_THEME_SERVICE_TITLE
 DSFR_THEME_BRAND_TOP
-DSFR_THEME_TOS_URL
-DSFR_THEME_CONTACT_EMAIL
 ```
 
 These variables should be made available to the process running Keycloak on your server.
@@ -46,26 +44,9 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
       value: CodeGouv
     - name: DSFR_THEME_BRAND_TOP
       value: "République<br/>Française"
-    - name: DSFR_THEME_TOS_URL
-      value: '{ "fr": "https://code.gouv.fr/sill/tos_fr.md", "en": "https://code.gouv.fr/sill/tos_en.md" }'
-    - name: DSFR_THEME_CONTACT_EMAIL
-      value: sill@code.gouv.fr
-    - name: JAVA_OPTS
-      value: >-
-        -Dkeycloak.profile=preview
     ...
 ```
 
-## i18n
-
-To enable internationalization in the theme you must first enable it in Keycloak.
-
-The theme is available in French and English but there's no language select provided in the login and registration pages.  
-It's up to you to redirect your user to the login page in the correct language by adding the `ui_locales` parameter to the login URL. (e.g.: `https://sso.code.gouv.fr/auth/realms/sill/protocol/openid-connect/auth?client_id=sill&redirect_uri=https%3A%2F%2Fsill.code.gouv.fr%2Flogin%2Fcallback&response_type=code&scope=openid&ui_locales=fr`)
-
-## Development
-
-You can refer to the [keycloakify-starter repo](https://github.com/keycloakify/keycloakify-starter) and the [Keycloakify documentation](https://docs.keycloakify.dev) for more information on how to develop a Keycloak theme.
 
 # License
 
