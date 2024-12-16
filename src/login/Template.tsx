@@ -65,7 +65,9 @@ export default function Template(props: Props) {
     }
 
     return (
-        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div
+        //style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+        >
             <DsfrHeader
                 brandTop={
                     <div
@@ -87,95 +89,100 @@ export default function Template(props: Props) {
                     />
                 }
             />
-            <div
-                style={{
-                    flex: 1,
-                    margin: "auto",
-                    maxWidth: 1000,
-                    ...fr.spacing("padding", { topBottom: "10v" })
-                }}
-                className={fr.cx("fr-container")}
-            >
-                <header className={kcClsx("kcFormHeaderClass")}>
-                    {(() => {
-                        const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                            <h1 id="kc-page-title">{headerNode}</h1>
-                        ) : (
-                            <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
-                                <label id="kc-attempted-username">{auth.attemptedUsername}</label>
-                                <a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
-                                    <div className="kc-login-tooltip">
-                                        <i className={kcClsx("kcResetFlowIcon")}></i>
-                                        <span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
-                                    </div>
-                                </a>
-                            </div>
-                        );
+            <main role="main" id="content">
+                <div className={fr.cx("fr-container", "fr-container--fluid", "fr-my-md-14v")}>
+                    <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--center")}>
+                        <div className={fr.cx("fr-col-12", "fr-col-md-8", "fr-col-lg-6")}>
+                            <div
+                                style={{ backgroundColor: fr.colors.decisions.background.alt.grey.default }}
+                                className={fr.cx("fr-container", "fr-px-md-0", "fr-pt-10v", "fr-pt-md-14v", "fr-pb-6v", "fr-pb-md-10v")}
+                            >
+                                <div className="fr-grid-row fr-grid-row-gutters fr-grid-row--center">
+                                    <div className={fr.cx("fr-col-12", "fr-col-md-9", "fr-col-lg-8")}>
+                                        {(() => {
+                                            const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
+                                                <h1 id="kc-page-title">{headerNode}</h1>
+                                            ) : (
+                                                <div id="kc-username">
+                                                    <label id="kc-attempted-username">{auth.attemptedUsername}</label>
+                                                    <a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
+                                                        <div className="kc-login-tooltip">
+                                                            <i className={kcClsx("kcResetFlowIcon")}></i>
+                                                            <span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            );
 
-                        if (displayRequiredFields) {
-                            return (
-                                <div className={kcClsx("kcContentWrapperClass")}>
-                                    <div className={clsx(kcClsx("kcLabelWrapperClass"), "subtitle")}>
-                                        <span className="subtitle">
-                                            <span className="required">*</span>
-                                            {msg("requiredFields")}
-                                        </span>
-                                    </div>
-                                    <div className="col-md-10">{node}</div>
-                                </div>
-                            );
-                        }
+                                            if (displayRequiredFields) {
+                                                return (
+                                                    <div className={kcClsx("kcContentWrapperClass")}>
+                                                        <div className={clsx(kcClsx("kcLabelWrapperClass"), "subtitle")}>
+                                                            <span className="subtitle">
+                                                                <span className="required">*</span>
+                                                                {msg("requiredFields")}
+                                                            </span>
+                                                        </div>
+                                                        <div className="col-md-10">{node}</div>
+                                                    </div>
+                                                );
+                                            }
 
-                        return node;
-                    })()}
-                </header>
-                <div id="kc-content">
-                    <div id="kc-content-wrapper">
-                        {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-                        {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <Alert
-                                className={fr.cx("fr-mb-4w")}
-                                severity={message.type}
-                                small
-                                description={
-                                    <span
-                                        className={kcClsx("kcAlertTitleClass")}
-                                        dangerouslySetInnerHTML={{
-                                            __html: kcSanitize(message.summary)
-                                        }}
-                                    />
-                                }
-                            />
-                        )}
-                        {socialProvidersNode}
-                        {children}
-                        {auth !== undefined && auth.showTryAnotherWayLink && (
-                            <form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
-                                <div className={kcClsx("kcFormGroupClass")}>
-                                    <input type="hidden" name="tryAnotherWay" value="on" />
-                                    <a
-                                        href="#"
-                                        id="try-another-way"
-                                        onClick={() => {
-                                            document.forms["kc-select-try-another-way-form" as never].submit();
-                                            return false;
-                                        }}
-                                    >
-                                        {msg("doTryAnotherWay")}
-                                    </a>
-                                </div>
-                            </form>
-                        )}
-                        {displayInfo && (
-                            <div id="kc-info" className={kcClsx("kcSignUpClass")}>
-                                <div id="kc-info-wrapper" className={kcClsx("kcInfoAreaWrapperClass")}>
-                                    {infoNode}
+                                            return node;
+                                        })()}
+                                        <div id="kc-content">
+                                            <div id="kc-content-wrapper">
+                                                {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+                                                {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+                                                    <Alert
+                                                        className={fr.cx("fr-mb-4w")}
+                                                        severity={message.type}
+                                                        small
+                                                        description={
+                                                            <span
+                                                                className={kcClsx("kcAlertTitleClass")}
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: kcSanitize(message.summary)
+                                                                }}
+                                                            />
+                                                        }
+                                                    />
+                                                )}
+                                                {socialProvidersNode}
+                                                {children}
+                                                {auth !== undefined && auth.showTryAnotherWayLink && (
+                                                    <form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
+                                                        <div className={kcClsx("kcFormGroupClass")}>
+                                                            <input type="hidden" name="tryAnotherWay" value="on" />
+                                                            <a
+                                                                href="#"
+                                                                id="try-another-way"
+                                                                onClick={() => {
+                                                                    document.forms["kc-select-try-another-way-form" as never].submit();
+                                                                    return false;
+                                                                }}
+                                                            >
+                                                                {msg("doTryAnotherWay")}
+                                                            </a>
+                                                        </div>
+                                                    </form>
+                                                )}
+                                                {displayInfo && (
+                                                    <div id="kc-info" className={kcClsx("kcSignUpClass")}>
+                                                        <div id="kc-info-wrapper" className={kcClsx("kcInfoAreaWrapperClass")}>
+                                                            {infoNode}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
             <DSFRFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
         </div>
     );
