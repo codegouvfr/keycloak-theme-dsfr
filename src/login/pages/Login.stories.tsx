@@ -166,6 +166,35 @@ export const WithAgentConnect: Story = {
     )
 };
 
+
+export const WithGitHub: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                social: {
+                    displayInfo: true,
+                    providers: [
+                        {
+                            loginUrl: "france-connect",
+                            alias: "france-connect",
+                            providerId: "franceconnect",
+                            displayName: "France Connect",
+                            iconClasses: ""
+                        },
+                        {
+                            loginUrl: "#",
+                            alias: "github",
+                            providerId: "github",
+                            displayName: "GitHub",
+                            iconClasses: ""
+                        }
+                    ]
+                }
+            }}
+        />
+    )
+};
+
 export const WithSocialProviders: Story = {
     render: () => (
         <KcPageStory
