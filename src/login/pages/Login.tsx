@@ -2,7 +2,6 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { FranceConnectButton } from "@codegouvfr/react-dsfr/FranceConnectButton";
-import { AgentConnectButton } from "@codegouvfr/react-dsfr/AgentConnectButton";
 import { ProConnectButton } from "@codegouvfr/react-dsfr/ProConnectButton";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
@@ -53,12 +52,8 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                             <hr />
                             <ul>
                                 {social.providers.map((...[p]) => {
-                                    if (p.providerId === "proConnect") {
+                                    if (p.providerId === "agentconnect" || p.providerId === "proconnect") {
                                         return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
-                                    }
-
-                                    if (p.providerId === "agentconnect") {
-                                        return <AgentConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
                                     }
 
                                     if (p.providerId === "franceconnect") {

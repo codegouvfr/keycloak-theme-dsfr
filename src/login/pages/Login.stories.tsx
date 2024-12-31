@@ -126,8 +126,8 @@ export const WithFranceConnectAndProConnectProviders: Story = {
                         },
                         {
                             loginUrl: "proConnect",
-                            alias: "proConnect",
-                            providerId: "proConnect",
+                            alias: "Pro Connect",
+                            providerId: "agentconnect", // NOTE: It is still agentconnect, pro connect is a rebrand of agentconnect.
                             displayName: "Pro Connect",
                             iconClasses: ""
                         }
@@ -137,35 +137,6 @@ export const WithFranceConnectAndProConnectProviders: Story = {
         />
     )
 };
-
-export const WithAgentConnect: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                social: {
-                    displayInfo: true,
-                    providers: [
-                        {
-                            loginUrl: "france-connect",
-                            alias: "france-connect",
-                            providerId: "franceconnect",
-                            displayName: "France Connect",
-                            iconClasses: ""
-                        },
-                        {
-                            loginUrl: "agentConnect",
-                            alias: "agentConnect",
-                            providerId: "agentconnect",
-                            displayName: "Agent Connect",
-                            iconClasses: ""
-                        }
-                    ]
-                }
-            }}
-        />
-    )
-};
-
 
 export const WithGitHub: Story = {
     render: () => (
