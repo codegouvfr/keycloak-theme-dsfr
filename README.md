@@ -68,7 +68,7 @@ export const { OidcProvider, useOidc } = createReactOidc({
 For the Account page: 
 
 ```
-https://your-keycloak-url/auth/realms/your-realm/account?referrer=your-app-url&dark=true
+https://<your keycloak url>/realms/<your realm>/account?referrer={encodeURIComponent(location.href))}l&dark=true
 ```
 
 # License
