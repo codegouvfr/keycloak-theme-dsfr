@@ -15,21 +15,21 @@ export const redirectUrlOrigin = ((): string =>{
         }
 
 
-        const redirectUriOrigin = new URL(value).origin;
+        const redirectUrlOrigin = new URL(value).origin;
 
-        sessionStorage.setItem(SESSION_STORAGE_KEY, redirectUriOrigin);
+        sessionStorage.setItem(SESSION_STORAGE_KEY, redirectUrlOrigin);
 
-        return redirectUriOrigin;
+        return redirectUrlOrigin;
     }
 
     from_session_storage: {
-        const redirectUriOrigin = sessionStorage.getItem(SESSION_STORAGE_KEY);
+        const redirectUrlOrigin = sessionStorage.getItem(SESSION_STORAGE_KEY);
 
-        if (redirectUriOrigin === null) {
+        if (redirectUrlOrigin === null) {
             break from_session_storage;
         }
 
-        return redirectUriOrigin;
+        return redirectUrlOrigin;
     }
 
     return "#";
