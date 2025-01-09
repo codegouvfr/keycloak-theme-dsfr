@@ -1,6 +1,6 @@
 
 
-const SESSION_STORAGE_KEY = "keycloak-theme-dsfr:redirectUriOrigin";
+const SESSION_STORAGE_KEY = "keycloak-theme-dsfr:redirectUrlOrigin";
 
 export const redirectUrlOrigin = ((): string =>{
     from_url: {
@@ -9,8 +9,6 @@ export const redirectUrlOrigin = ((): string =>{
         const value = url.searchParams.get("redirect_url");
 
         if (value === null) {
-            // There was no &dark= query param in the URL,
-            // so we check session storage next.
             break from_url;
         }
 
