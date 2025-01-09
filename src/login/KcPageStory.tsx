@@ -9,6 +9,9 @@ const kcContextExtension: KcContextExtension = {
     themeName: themeNames[0],
     properties: {
         ...kcEnvDefaults
+    },
+    client: {
+        baseUrl: "https://my-theme.keycloakify.dev"
     }
 };
 const kcContextExtensionPerPage: KcContextExtensionPerPage = {};

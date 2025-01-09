@@ -8,7 +8,7 @@ import { useInitialize } from "keycloakify/login/Template.useInitialize";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
 import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
-import { getReferrerUrl } from "./shared/getReferrerUrl";
+import { redirectUrlOrigin } from "./shared/redirectUriOrigin";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
@@ -77,7 +77,7 @@ export default function Template(props: Props) {
                     />
                 }
                 homeLinkProps={{
-                    href: getReferrerUrl(),
+                    href: kcContext.client.baseUrl ?? redirectUrlOrigin,
                     title: kcContext.realm.displayName
                 }}
                 serviceTitle={
