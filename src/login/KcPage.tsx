@@ -3,6 +3,8 @@ import type { ClassKey } from "keycloakify/login";
 import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
+import LoginOtp from "./pages/LoginOtp";
+import LoginConfigTOTP from "./pages/LoginConfigTotp";
 const Template = lazy(() => import("./Template"));
 const DefaultTemplate = lazy(() => import("keycloakify/login/Template"));
 const UserProfileFormFields = lazy(() => import("./UserProfileFormFields"));
@@ -23,6 +25,22 @@ export default function KcPage(props: { kcContext: KcContext }) {
         <Suspense>
             {(() => {
                 switch (kcContext.pageId) {
+                    case "login-otp.ftl":
+                        return (
+                            <LoginOtp
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
+                    case "login-config-totp.ftl":
+                        return (
+                            <LoginConfigTOTP
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
                     case "login.ftl":
                         return (
                             <Login
