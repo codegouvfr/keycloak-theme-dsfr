@@ -1,17 +1,14 @@
 import { createReactOidc } from "oidc-spa/react";
 import { createMockReactOidc } from "oidc-spa/mock/react";
 
-const publicUrl = undefined;
-const isAuthGloballyRequired = true;
-
 export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
     ? createMockReactOidc({
           isUserInitiallyLoggedIn: true,
-          publicUrl,
-          isAuthGloballyRequired
+          homeUrl: import.meta.env.BASE_URL,
+          autoLogin: true
       })
-    : createReactOidc({
-          issuerUri: (() => {
+    : createReactOidc(async () => {
+          const { kcHttpRelativePath, realm } = (() => {
               const [
                   // "" or "/auth"
                   kcHttpRelativePath,
@@ -21,10 +18,16 @@ export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
 
               const realm = startsWithRealm.split("/")[0];
 
-              return `${window.location.origin}${kcHttpRelativePath}/realms/${realm}`;
+              return {
+                  realm,
+                  kcHttpRelativePath: kcHttpRelativePath || undefined
+              };
+          })();
 
-          })(),
-          clientId: "account-console",
-          publicUrl,
-          isAuthGloballyRequired
+          return {
+              issuerUri: `${window.location.origin}${kcHttpRelativePath ?? ""}/realms/${realm}`,
+              clientId: "account-console",
+              homeUrl: `${kcHttpRelativePath ?? ""}/realms/${realm}/account/`,
+              autoLogin: true
+          };
       });
