@@ -56,7 +56,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                         return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
                                     }
 
-                                    if (p.providerId === "franceconnect") {
+                                    if (p.providerId === "franceconnect" || p.providerId === 'franceconnect-particulier') {
                                         return <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
                                     }
 
