@@ -9,7 +9,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { useState } from "react";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-
+import "./login.css"
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
@@ -50,14 +50,18 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                     {realm.password && social?.providers !== undefined && social.providers.length !== 0 && (
                         <div id="kc-social-providers" className={kcClsx("kcFormSocialAccountSectionClass")}>
                             <hr />
-                            <ul>
+                            <div>
                                 {social.providers.map((...[p]) => {
                                     if (p.providerId === "agentconnect" || p.providerId === "proconnect") {
                                         return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
                                     }
 
                                     if (p.providerId === "franceconnect" || p.providerId === 'franceconnect-particulier') {
-                                        return <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
+
+                                        return <>
+                                          <p className={fr.cx('fr-text--light')}>FranceConnect est la solution proposée par l’État pour sécuriser et simplifier la connexion à vos services en ligne.</p>
+                                          <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />
+                                        </>;
                                     }
 
                                     return (
@@ -94,8 +98,17 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                             {p.displayName}
                                         </Button>
                                     );
-                                })}
-                            </ul>
+                                }).map((value, index)=>{
+                    if (index >= 1){
+                      return <>
+                                          <div className="separator">OU</div>
+                        {value}
+                      </>
+                    }
+                    return value
+                  })
+                                }
+                            </div>
                         </div>
                     )}
                 </>
