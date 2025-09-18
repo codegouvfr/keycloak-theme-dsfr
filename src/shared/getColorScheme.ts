@@ -1,8 +1,22 @@
 const SESSION_STORAGE_KEY = "keycloak-theme-dsfr:isDark";
 
-function getIsDark(): boolean | undefined {
-    from_url: {
+let kcContextDarkMode: boolean | undefined = undefined;
 
+export function setKcContextDarkModePolicy(params: {
+    kcContextDarkMode: boolean | undefined;
+}): void {
+    kcContextDarkMode = params.kcContextDarkMode;
+}
+
+function getIsDark(): boolean | undefined {
+    from_admin_policy: {
+        if (kcContextDarkMode === undefined || kcContextDarkMode === true) {
+            break from_admin_policy;
+        }
+        return false;
+    }
+
+    from_url: {
         const url = new URL(window.location.href);
 
         const value = url.searchParams.get("dark");
@@ -24,7 +38,6 @@ function getIsDark(): boolean | undefined {
     }
 
     from_session_storage: {
-
         const value = sessionStorage.getItem(SESSION_STORAGE_KEY);
 
         if (value === null) {
@@ -32,20 +45,17 @@ function getIsDark(): boolean | undefined {
         }
 
         return value === "true";
-
     }
 
     return undefined;
 }
 
-export function getColorScheme(){
-
+export function getColorScheme() {
     const isDark = getIsDark();
 
-    if( isDark === undefined ) {
+    if (isDark === undefined) {
         return undefined;
     }
 
     return isDark ? "dark" : "light";
-
 }

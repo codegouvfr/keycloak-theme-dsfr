@@ -47,9 +47,9 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
     ...
 ```
 
-### Dark Mode Persistence
+### Dark Mode
 
-If you want to ensure the color scheme preference from your app to be persisted when navigating to the Keycloak pages
+If you want to ensure the color scheme preference from your app to be carried when navigating to the Keycloak pages
 you need to add `dark=true` or `dark=false` when redirecting to the login or account page.  
 
 With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codegouvfr/react-dsfr) for the login theme:  
@@ -70,6 +70,10 @@ For the Account page:
 ```
 https://<your keycloak url>/realms/<your realm>/account?referrer={encodeURIComponent(location.href))}l&dark=true
 ```
+
+Otherwise the themes will render in dark mode if the user prefers it.  
+You can also prevent the login theme (not supported with the account theme) to ever render in dark mode
+by disabling "dark mode" in the Keycloak Admin Console in the `Realm Configuration` -> `Themes` section.  
 
 # License
 

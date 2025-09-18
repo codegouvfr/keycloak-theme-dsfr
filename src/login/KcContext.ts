@@ -10,6 +10,7 @@ export type KcContextExtension = {
     client: {
         baseUrl?: string;
     };
+    darkMode?: boolean;
 };
 
 export type KcContextExtensionPerPage = {};
