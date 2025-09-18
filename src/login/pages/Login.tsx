@@ -9,7 +9,8 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { useState } from "react";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-
+import "./login.css";
+const franceConnectProviderIds = ["franceconnect", "franceconnect-particulier"];
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
@@ -23,7 +24,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
     const { msg, msgStr } = i18n;
 
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
-    
+
     return (
         <Template
             kcContext={kcContext}
@@ -50,52 +51,80 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                     {realm.password && social?.providers !== undefined && social.providers.length !== 0 && (
                         <div id="kc-social-providers" className={kcClsx("kcFormSocialAccountSectionClass")}>
                             <hr />
-                            <ul>
-                                {social.providers.map((...[p]) => {
-                                    if (p.providerId === "agentconnect" || p.providerId === "proconnect") {
-                                        return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
-                                    }
+                            <div>
+                                {social.providers
+                                    .map((p, index) => {
+                                        if (p.providerId === "agentconnect" || p.providerId === "proconnect") {
+                                            return <ProConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
+                                        }
 
-                                    if (p.providerId === "franceconnect") {
-                                        return <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />;
-                                    }
+                                        if (franceConnectProviderIds.includes(p.providerId)) {
+                                            if (index !== 0) {
+                                              throw new Error('Le bouton FranceConnect doit être le premier bouton de connexion');
+                                            }
+                                            return (
+                                                <>
+                                                    <p className={fr.cx("fr-text--light")}>
+                                                        FranceConnect est la solution proposée par l’État pour sécuriser et simplifier la connexion à
+                                                        vos services en ligne.
+                                                    </p>
+                                                    <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />
+                                                </>
+                                            );
+                                        }
 
-                                    return (
-                                        <Button
-                                            className={fr.cx("fr-m-1w")}
-                                            key={p.alias}
-                                            iconId={(() => {
-                                                switch (p.providerId) {
-                                                    case "github":
-                                                        return "ri-github-fill";
-                                                    case "google":
-                                                        return "ri-google-fill";
-                                                    case "facebook":
-                                                        return "ri-facebook-fill";
-                                                    case "microsoft":
-                                                        return "ri-microsoft-fill";
-                                                    case "twitter":
-                                                        return "ri-twitter-fill";
-                                                    case "instagram":
-                                                        return "ri-instagram-fill";
-                                                    case "linkedin":
-                                                        return "ri-linkedin-fill";
-                                                    case "stackoverflow":
-                                                        return "ri-stack-overflow-fill";
-                                                    case "gitlab":
-                                                        return "ri-gitlab-fill";
-                                                }
-                                                return "ri-external-link-line";
-                                            })()}
-                                            linkProps={{
-                                                href: p.loginUrl
-                                            }}
-                                        >
-                                            {p.displayName}
-                                        </Button>
-                                    );
-                                })}
-                            </ul>
+                                        return (
+                                            <div style={{
+                                                  display: 'flex',
+                                                  justifyContent: 'center'
+                                                 }}>
+                                                <Button
+                                                    className={fr.cx("fr-m-1w")}
+                                                    key={p.alias}
+                                                    iconId={(() => {
+                                                        switch (p.providerId) {
+                                                            case "github":
+                                                                return "ri-github-fill";
+                                                            case "google":
+                                                                return "ri-google-fill";
+                                                            case "facebook":
+                                                                return "ri-facebook-fill";
+                                                            case "microsoft":
+                                                                return "ri-microsoft-fill";
+                                                            case "twitter":
+                                                                return "ri-twitter-fill";
+                                                            case "instagram":
+                                                                return "ri-instagram-fill";
+                                                            case "linkedin":
+                                                                return "ri-linkedin-fill";
+                                                            case "stackoverflow":
+                                                                return "ri-stack-overflow-fill";
+                                                            case "gitlab":
+                                                                return "ri-gitlab-fill";
+                                                        }
+                                                        return "ri-external-link-line";
+                                                    })()}
+                                                    linkProps={{
+                                                        href: p.loginUrl
+                                                    }}
+                                                >
+                                                    {p.displayName}
+                                                </Button>
+                                            </div>
+                                        );
+                                    })
+                                    .map((value, index) => {
+                                        if (index >= 1 && franceConnectProviderIds.includes(social.providers?.[0].providerId ?? '')) {
+                                            return (
+                                                <>
+                                                    <div className="separator">OU</div>
+                                                    {value}
+                                                </>
+                                            );
+                                        }
+                                        return value;
+                                    })}
+                            </div>
                         </div>
                     )}
                 </>
@@ -103,7 +132,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
         >
             <div id="kc-form">
                 <div id="kc-form-wrapper">
-                {social?.providers !== undefined && social.providers.length !== 0 && <h2>{msg("or-login-with-email")}</h2>}
+                    {social?.providers !== undefined && social.providers.length !== 0 && <h2>{msg("or-login-with-email")}</h2>}
                     {realm.password && (
                         <form
                             id="kc-form-login"

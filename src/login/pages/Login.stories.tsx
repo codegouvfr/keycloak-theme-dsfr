@@ -138,6 +138,33 @@ export const WithFranceConnectAndProConnectProviders: Story = {
     )
 };
 
+export const WithFranceConnectNotOnFirstPosition: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                social: {
+                    displayInfo: true,
+                    providers: [
+                        {
+                            loginUrl: "proConnect",
+                            alias: "Pro Connect",
+                            providerId: "agentconnect", // NOTE: It is still agentconnect, pro connect is a rebrand of agentconnect.
+                            displayName: "Pro Connect",
+                            iconClasses: ""
+                        },{
+                            loginUrl: "france-connect",
+                            alias: "france-connect",
+                            providerId: "franceconnect",
+                            displayName: "France Connect",
+                            iconClasses: ""
+                        },
+                    ]
+                }
+            }}
+        />
+    )
+};
+
 export const WithGitHub: Story = {
     render: () => (
         <KcPageStory
