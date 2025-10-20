@@ -13,9 +13,11 @@ import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
 import { Footer as DsfrFooter } from "@codegouvfr/react-dsfr/Footer";
 import { SideMenu } from "@codegouvfr/react-dsfr/SideMenu";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
+import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { fr } from "@codegouvfr/react-dsfr";
 import { getColorScheme } from "../shared/getColorScheme";
+import { getNoticeSeverityOrDefault } from "../shared/noticeSeverity";
 
 startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
 
@@ -82,6 +84,26 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     </a>
                 ]}
             />
+
+            {(kcContext.properties.DSFR_NOTICE_TITLE || kcContext.properties.DSFR_NOTICE_DESCRIPTION) && (
+                <Notice
+                    severity={getNoticeSeverityOrDefault(kcContext.properties.DSFR_NOTICE_SEVERITY)}
+                    title={
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: kcContext.properties.DSFR_NOTICE_TITLE
+                            }}
+                        />
+                    }
+                    description={
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: kcContext.properties.DSFR_NOTICE_DESCRIPTION
+                            }}
+                        />
+                    }
+                />
+            )}
 
             <div
                 className={fr.cx("fr-container")}

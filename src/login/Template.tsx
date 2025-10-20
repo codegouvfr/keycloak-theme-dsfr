@@ -12,10 +12,12 @@ import { redirectUrlOrigin } from "./shared/redirectUrlOrigin";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
+import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { fr } from "@codegouvfr/react-dsfr";
 import "@codegouvfr/react-dsfr/main.css";
 import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 import { getColorScheme } from "../shared/getColorScheme";
+import { getNoticeSeverityOrDefault } from "../shared/noticeSeverity";
 
 startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
 
@@ -90,6 +92,25 @@ export default function Template(props: Props) {
                 }
             />
             <main role="main" id="content">
+                {(kcContext.properties.DSFR_NOTICE_TITLE || kcContext.properties.DSFR_NOTICE_DESCRIPTION) && (
+                    <Notice
+                        severity={getNoticeSeverityOrDefault(kcContext.properties.DSFR_NOTICE_SEVERITY)}
+                        title={
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: kcContext.properties.DSFR_NOTICE_TITLE
+                                }}
+                            />
+                        }
+                        description={
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: kcContext.properties.DSFR_NOTICE_DESCRIPTION
+                                }}
+                            />
+                        }
+                    />
+                )}
                 <div className={fr.cx("fr-container", "fr-container--fluid", "fr-my-md-14v")}>
                     <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--center")}>
                         <div className={fr.cx("fr-col-12", "fr-col-md-8", "fr-col-lg-6")}>
