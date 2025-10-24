@@ -1,7 +1,7 @@
 # Keycloak DSFR Theme
 
 Welcome to the Keycloak DSFR Theme, a Keycloak theme with [react-dsfr](https://github.com/codegouvfr/react-dsfr) and [Keycloakify](https://www.keycloakify.dev/).  
-To see the theme in action, please visit [the SILL](https://sill-preprod.lab.sspcloud.fr/) and attempt to log in.  
+To see the theme in action, please visit [the SILL](https://code.gouv.fr/sill/) and attempt to log in.  
 This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository.  
 Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
 
