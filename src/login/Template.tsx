@@ -72,7 +72,7 @@ export default function Template(props: Props) {
         >
             <DsfrHeader
                 brandTop={
-                    <div
+                    <span
                         dangerouslySetInnerHTML={{
                             __html: kcContext.properties.DSFR_THEME_BRAND_TOP
                         }}

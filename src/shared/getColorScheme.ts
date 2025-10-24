@@ -10,10 +10,10 @@ export function setKcContextDarkModePolicy(params: {
 
 function getIsDark(): boolean | undefined {
     from_admin_policy: {
-        if (kcContextDarkMode === undefined || kcContextDarkMode === true) {
+        if (kcContextDarkMode === undefined) {
             break from_admin_policy;
         }
-        return false;
+        return kcContextDarkMode;
     }
 
     from_url: {
