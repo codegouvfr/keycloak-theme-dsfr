@@ -90,6 +90,14 @@ export default function Template(props: Props) {
                         }}
                     />
                 }
+                serviceTagline={
+                  <span
+                      dangerouslySetInnerHTML={{
+                        __html:
+                            kcContext.properties.DSFR_THEME_SERVICE_TAG_LINE || ""
+                      }}
+                  />
+                }
             />
             <main role="main" id="content">
                 {(kcContext.properties.DSFR_NOTICE_TITLE || kcContext.properties.DSFR_NOTICE_DESCRIPTION) && (
