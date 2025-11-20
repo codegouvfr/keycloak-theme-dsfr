@@ -28,6 +28,7 @@ Several environment variables can be used to tailor the theme to your needs:
 ```env
 DSFR_THEME_HOME_URL
 DSFR_THEME_SERVICE_TITLE
+DSFR_THEME_SERVICE_TAG_LINE
 DSFR_THEME_BRAND_TOP
 DSFR_NOTICE_TITLE
 DSFR_NOTICE_DESCRIPTION
@@ -45,6 +46,8 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
       value: https://code.gouv.fr
     - name: DSFR_THEME_SERVICE_TITLE
       value: CodeGouv
+    - name: DSFR_THEME_SERVICE_TAG_LINE
+      value: My tag line
     - name: DSFR_THEME_BRAND_TOP
       value: "République<br/>Française"
     - name: DSFR_NOTICE_TITLE
