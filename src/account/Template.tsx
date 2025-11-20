@@ -71,6 +71,14 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         }}
                     />
                 }
+                serviceTagline={
+                  <span
+                      dangerouslySetInnerHTML={{
+                        __html:
+                            kcContext.properties.DSFR_THEME_SERVICE_TAG_LINE || ""
+                      }}
+                  />
+                }
                 quickAccessItems={[
                     ...(referrer?.url
                         ? [
