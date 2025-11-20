@@ -1,7 +1,7 @@
 # Keycloak DSFR Theme
 
 Welcome to the Keycloak DSFR Theme, a Keycloak theme with [react-dsfr](https://github.com/codegouvfr/react-dsfr) and [Keycloakify](https://www.keycloakify.dev/).  
-To see the theme in action, please visit [the SILL](https://sill-preprod.lab.sspcloud.fr/) and attempt to log in.  
+To see the theme in action, please visit [the SILL](https://code.gouv.fr/sill/) and attempt to log in.  
 This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository.  
 Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
 
@@ -28,6 +28,7 @@ Several environment variables can be used to tailor the theme to your needs:
 ```env
 DSFR_THEME_HOME_URL
 DSFR_THEME_SERVICE_TITLE
+DSFR_THEME_SERVICE_TAG_LINE
 DSFR_THEME_BRAND_TOP
 DSFR_NOTICE_TITLE
 DSFR_NOTICE_DESCRIPTION
@@ -45,6 +46,8 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
       value: https://code.gouv.fr
     - name: DSFR_THEME_SERVICE_TITLE
       value: CodeGouv
+    - name: DSFR_THEME_SERVICE_TAG_LINE
+      value: My tag line
     - name: DSFR_THEME_BRAND_TOP
       value: "République<br/>Française"
     - name: DSFR_NOTICE_TITLE
