@@ -12,7 +12,8 @@ const kcContextExtension: KcContextExtension = {
     },
     client: {
         baseUrl: "https://my-theme.keycloakify.dev"
-    }
+    },
+    darkMode: true
 };
 const kcContextExtensionPerPage: KcContextExtensionPerPage = {};
 

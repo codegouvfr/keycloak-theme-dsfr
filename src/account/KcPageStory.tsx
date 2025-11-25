@@ -9,7 +9,8 @@ const kcContextExtension: KcContextExtension = {
     themeName: themeNames[0],
     properties: {
         ...kcEnvDefaults
-    }
+    },
+    darkMode: true
 };
 const kcContextExtensionPerPage: KcContextExtensionPerPage = {};
 
