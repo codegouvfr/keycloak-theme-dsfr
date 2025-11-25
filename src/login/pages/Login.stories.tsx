@@ -16,6 +16,14 @@ export const Default: Story = {
     render: () => <KcPageStory />
 };
 
+export const DefaultDarkModeDisabled: Story = {
+  render: () => <KcPageStory
+      kcContext={{
+        darkMode: false
+      }}
+  />
+};
+
 export const WithInvalidCredential: Story = {
     render: () => (
         <KcPageStory

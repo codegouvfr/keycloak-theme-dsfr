@@ -167,7 +167,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 </div>
             </div>
 
-            <DsfrFooter accessibility="fully compliant" bottomItems={[headerFooterDisplayItem]} />
+            <DsfrFooter accessibility="fully compliant" bottomItems={[kcContext.darkMode ? headerFooterDisplayItem : undefined]} />
         </div>
     );
 }

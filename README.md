@@ -85,7 +85,8 @@ https://<your keycloak url>/realms/<your realm>/account?referrer={encodeURICompo
 
 Otherwise the themes will render in dark mode if the user prefers it.  
 You can also prevent the login theme (not supported with the account theme) to ever render in dark mode
-by disabling "dark mode" in the Keycloak Admin Console in the `Realm Configuration` -> `Themes` section.  
+by disabling "dark mode" in the Keycloak Admin Console in the `Realm Configuration` -> `Themes` section.
+If the "Dark Mode" option is disabled there, the "display setting" selector in the footer will no longer be displayed.
 
 # License
 
