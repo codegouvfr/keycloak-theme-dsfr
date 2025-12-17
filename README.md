@@ -69,9 +69,14 @@ With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codego
 `src/oidc.ts`
 ```tsx
 import { getIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-export const { OidcProvider, useOidc } = createReactOidc({
+
+// ...
+
+bootstrapOidc({
+    issuerUri: "...",
+    clientId: "...",
     // ...
-    extraQueryParams: ()=> ({
+    extraQueryParams: () => ({
         dark: getIsDark() ? "true" : "false"
     })
 });
