@@ -62,7 +62,7 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
 If you want to ensure the color scheme preference from your app to be carried when navigating to the Keycloak pages
 you need to add `dark=true` or `dark=false` when redirecting to the login or account page.  
 
-With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codegouvfr/react-dsfr) for the login theme:  
+With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codegouvfr/react-dsfr), from your app you would do:  
 
 `src/oidc.ts`
 ```tsx
