@@ -5,8 +5,6 @@ To see the theme in action, please visit [the SILL](https://code.gouv.fr/sill/) 
 This theme is configurable at runtime, via providing environnement variable, there is no need to clone this repository.  
 Simply use the bundled .jar file that is released an asset with every new [GitHub Release of this project](https://github.com/codegouvfr/keycloak-theme-dsfr/releases).
 
-> NOTE: Keycloak 22 (and only this specific version) is not fully supported. In this version, only the Login theme works, not the Account theme.
-
 ## Preview
 
 Here are some screenshots showcasing the theme:
