@@ -74,9 +74,9 @@ bootstrapOidc({
     issuerUri: "...",
     clientId: "...",
     // ...
-    extraQueryParams: () => ({
-        dark: getIsDark() ? "true" : "false"
-    })
+    extraQueryParams: {
+        get dark(){ return getIsDark() ? "true" : "false"; }
+    }
 });
 ```
 
