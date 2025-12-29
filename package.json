@@ -21,7 +21,7 @@
     "license": "MIT",
     "keywords": [],
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^1.20.2",
+        "@codegouvfr/react-dsfr": "^1.31.0",
         "keycloakify": "^11.11.3",
         "oidc-spa": "^6.9.8",
         "react": "^18.2.0",

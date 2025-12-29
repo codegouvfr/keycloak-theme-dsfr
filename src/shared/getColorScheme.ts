@@ -1,14 +1,10 @@
 const SESSION_STORAGE_KEY = "keycloak-theme-dsfr:isDark";
 
-let kcContextDarkMode: boolean | undefined = undefined;
-
-export function setKcContextDarkModePolicy(params: {
+function getIsDark(params: {
     kcContextDarkMode: boolean | undefined;
-}): void {
-    kcContextDarkMode = params.kcContextDarkMode;
-}
+}): boolean | undefined {
+    const { kcContextDarkMode } = params;
 
-function getIsDark(): boolean | undefined {
     from_admin_policy: {
         if (kcContextDarkMode === undefined || kcContextDarkMode === true) {
             break from_admin_policy;
@@ -50,8 +46,10 @@ function getIsDark(): boolean | undefined {
     return undefined;
 }
 
-export function getColorScheme() {
-    const isDark = getIsDark();
+export function getColorScheme(params: { kcContextDarkMode: boolean | undefined }) {
+    const { kcContextDarkMode } = params;
+
+    const isDark = getIsDark({ kcContextDarkMode });
 
     if (isDark === undefined) {
         return undefined;

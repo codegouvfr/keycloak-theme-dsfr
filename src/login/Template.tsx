@@ -19,7 +19,7 @@ import { startReactDsfr } from "@codegouvfr/react-dsfr/spa";
 import { getColorScheme } from "../shared/getColorScheme";
 import { getNoticeSeverityOrDefault } from "../shared/noticeSeverity";
 
-startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
+let isDsfrStarted = false;
 
 type Props = TemplateProps<KcContext, I18n>;
 
@@ -44,7 +44,17 @@ export default function Template(props: Props) {
 
     const { msg, msgStr } = i18n;
 
-    const { auth, url, message, isAppInitiatedAction } = kcContext;
+    const { darkMode, auth, url, message, isAppInitiatedAction } = kcContext;
+
+    if (!isDsfrStarted) {
+        startReactDsfr({
+            defaultColorScheme:
+                getColorScheme({
+                    kcContextDarkMode: darkMode
+                }) ?? "system"
+        });
+        isDsfrStarted = true;
+    }
 
     useEffect(() => {
         document.title = documentTitle ?? msgStr("loginTitle", kcContext.realm.displayName);
@@ -91,12 +101,11 @@ export default function Template(props: Props) {
                     />
                 }
                 serviceTagline={
-                  <span
-                      dangerouslySetInnerHTML={{
-                        __html:
-                            kcContext.properties.DSFR_THEME_SERVICE_TAG_LINE || ""
-                      }}
-                  />
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: kcContext.properties.DSFR_THEME_SERVICE_TAG_LINE || ""
+                        }}
+                    />
                 }
             />
             <main role="main" id="content">

@@ -19,7 +19,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { getColorScheme } from "../shared/getColorScheme";
 import { getNoticeSeverityOrDefault } from "../shared/noticeSeverity";
 
-startReactDsfr({ defaultColorScheme: getColorScheme() ?? "system" });
+startReactDsfr({ defaultColorScheme: getColorScheme({ kcContextDarkMode: undefined }) ?? "system" });
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, active, classes, children } = props;
