@@ -89,7 +89,7 @@ export default function Template(props: Props) {
                     />
                 }
                 homeLinkProps={{
-                    href: kcContext.client.baseUrl ?? redirectUrlOrigin,
+                    href: kcContext.client?.baseUrl ?? redirectUrlOrigin,
                     title: kcContext.realm.displayName
                 }}
                 serviceTitle={
