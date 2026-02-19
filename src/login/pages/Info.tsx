@@ -26,28 +26,21 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
             displayMessage={false}
             headerNode={messageHeader !== undefined ? advancedMsg(messageHeader) : undefined}
         >
-            {message !== undefined && (
-                <Alert
-                    severity="success"
-                    description={advancedMsg(message.summary)}
-                    className={fr.cx("fr-mb-4w")}
-                    small
-                />
-            )}
+            {message !== undefined && <Alert severity="success" description={advancedMsg(message.summary)} className={fr.cx("fr-mb-4w")} small />}
 
             {requiredActions !== undefined && requiredActions.length > 0 && (
                 <div className={kcClsx("kcFormGroupClass")}>
                     <ul className={fr.cx("fr-mb-2w")}>
-                        {requiredActions.map((requiredAction, index) => (
-                            <li key={index}>{advancedMsg(`requiredAction.${requiredAction}` as any)}</li>
+                        {requiredActions.map(requiredAction => (
+                            <li key={requiredAction}>{advancedMsg(`requiredAction.${requiredAction}`)}</li>
                         ))}
                     </ul>
                 </div>
             )}
 
             <div className={kcClsx("kcFormGroupClass")} style={{ display: "flex", justifyContent: "flex-end" }}>
-                {!skipLink && (
-                    actionUri !== undefined ? (
+                {!skipLink &&
+                    (actionUri !== undefined ? (
                         <a className={fr.cx("fr-link", "fr-link--icon-right", "fr-icon-arrow-right-line")} href={actionUri}>
                             {msg("doContinue")}
                         </a>
@@ -63,8 +56,7 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
                         <a className={fr.cx("fr-link")} href={url.loginUrl}>
                             {msg("backToLogin")}
                         </a>
-                    )
-                )}
+                    ))}
             </div>
         </Template>
     );

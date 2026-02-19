@@ -26,12 +26,7 @@ export default function LoginVerifyEmail(props: PageProps<Extract<KcContext, { p
             displayMessage={false}
             headerNode={msg("emailVerifyTitle")}
         >
-            <Alert
-                severity="info"
-                description={msgStr("emailVerifyInstruction1", user?.email ?? "")}
-                className={fr.cx("fr-mb-4w")}
-                small
-            />
+            <Alert severity="info" description={msgStr("emailVerifyInstruction1", user?.email ?? "")} className={fr.cx("fr-mb-4w")} small />
 
             <div className={kcClsx("kcFormGroupClass")}>
                 <p className={fr.cx("fr-text--sm", "fr-mb-3w")}>

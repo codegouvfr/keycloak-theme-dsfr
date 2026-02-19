@@ -9,11 +9,13 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "typecheck": "tsc --noEmit",
+        "lint": "eslint . --fix",
+        "lint:check": "eslint .",
         "build": "tsc && vite build",
         "build-keycloak-theme": "npm run build && keycloakify build",
         "storybook": "storybook dev -p 6006",
         "format": "prettier . --write",
+        "format:check": "prettier . --check",
         "predev": "react-dsfr update-icons",
         "prebuild": "react-dsfr update-icons",
         "prestorybook": "react-dsfr update-icons"

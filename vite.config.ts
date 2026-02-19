@@ -16,7 +16,7 @@ export default defineConfig({
                 { name: "DSFR_THEME_BRAND_TOP", default: "République<br/>Française" },
                 { name: "DSFR_NOTICE_TITLE", default: "" },
                 { name: "DSFR_NOTICE_DESCRIPTION", default: "" },
-                { name: "DSFR_NOTICE_SEVERITY", default: "info" },
+                { name: "DSFR_NOTICE_SEVERITY", default: "info" }
             ]
         })
     ]

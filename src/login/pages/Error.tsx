@@ -26,12 +26,7 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
             displayMessage={false}
             headerNode={msg("errorTitle")}
         >
-            <Alert
-                severity="error"
-                description={message?.summary}
-                className={fr.cx("fr-mb-4w")}
-                small
-            />
+            <Alert severity="error" description={message?.summary} className={fr.cx("fr-mb-4w")} small />
 
             <div className={kcClsx("kcFormGroupClass")} style={{ display: "flex", justifyContent: "flex-end" }}>
                 {client.baseUrl !== undefined ? (

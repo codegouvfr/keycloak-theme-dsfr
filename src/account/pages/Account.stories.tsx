@@ -13,15 +13,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <KcPageStory />
+    render: () => <KcPageStory />
 };
 
 export const DefaultDarkModeDisabled: Story = {
-  render: () => <KcPageStory
-      kcContext={{
-        darkMode: false
-      }}
-  />
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                darkMode: false
+            }}
+        />
+    )
 };
 
 /**
@@ -87,7 +89,7 @@ export const WithValidationErrors: Story = {
                 },
                 messagesPerField: {
                     printIfExists: (field: string) => (field === "email" || field === "firstName" ? "has-error" : ""),
-                    existsError: (field: string) => field === "email" || field === "firstName",
+                    existsError: (field: string) => field === "email" || field === "firstName"
                 },
                 stateChecker: "state-checker"
             }}

@@ -516,7 +516,7 @@ function RadiButtonsTag(props: InputFieldByTypeProps) {
                 }
             }))}
         />
-    )
+    );
 }
 
 function TextareaTag(props: InputFieldByTypeProps) {
@@ -716,4 +716,3 @@ function getStateForSingleValue(displayableErrors: FormFieldError[]): { state: "
     if (displayableErrors.length === 0) return { state: "default", stateRelatedMessage: undefined };
     return { state: "error", stateRelatedMessage: displayableErrors[0].errorMessage };
 }
-
