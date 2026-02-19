@@ -112,6 +112,7 @@ export default function LoginConfigTOTP(props: PageProps<Extract<KcContext, { pa
                         state={messagesPerField.existsError("totp") ? "error" : "default"}
                         stateRelatedMessage={messagesPerField.getFirstError("totp")}
                         nativeInputProps={{
+                            id: "totp",
                             name: "totp",
                             required: true,
                             autoFocus: true,
@@ -127,6 +128,7 @@ export default function LoginConfigTOTP(props: PageProps<Extract<KcContext, { pa
                         state={messagesPerField.existsError("userLabel") ? "error" : "default"}
                         stateRelatedMessage={messagesPerField.getFirstError("userLabel")}
                         nativeInputProps={{
+                            id: "userLabel",
                             required: (totp.otpCredentials ?? []).length > 1,
                             name: "userLabel",
                             autoFocus: true,
