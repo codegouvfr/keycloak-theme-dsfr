@@ -6,8 +6,16 @@ import type { ThemeName } from "../kc.gen";
 const { useI18n, ofTypeI18n } = i18nBuilder
     .withThemeName<ThemeName>()
     .withCustomTranslations({
-        en: { "or-login-with-email": "Or sign in with your email" },
-        fr: { "or-login-with-email": "Ou connectez-vous avec votre email" }
+       en: {
+            "or-login-with-email": "Or sign in with your email",
+            "accountTemporarilyDisabledMessage": "Invalid username or password.",
+            "accountPermanentlyDisabledMessage": "Invalid username or password."
+        },
+        fr: {
+            "or-login-with-email": "Ou connectez-vous avec votre email",
+            "accountTemporarilyDisabledMessage": "Nom d'utilisateur ou mot de passe invalide.",
+            "accountPermanentlyDisabledMessage": "Nom d'utilisateur ou mot de passe invalide."
+        }
     })
     .build();
 
