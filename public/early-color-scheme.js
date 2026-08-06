@@ -2,7 +2,6 @@
 
 // NOTE: Copy pasted from @codegouv/react-dsfr/early-color-scheme.js
 {
-
     const isDark = (() => {
         query_param: {
             const value = new URLSearchParams(location.search).get("dark");
@@ -33,7 +32,7 @@
                     return true;
                 case "light":
                     return false;
-                default: 
+                default:
                     break local_storage;
             }
         }

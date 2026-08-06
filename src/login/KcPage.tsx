@@ -20,7 +20,6 @@ const LoginResetPassword = lazy(() => import("./pages/LoginResetPassword"));
 const LoginPageExpired = lazy(() => import("./pages/LoginPageExpired"));
 const LoginVerifyEmail = lazy(() => import("./pages/LoginVerifyEmail"));
 
-
 const doMakeUserConfirmPassword = false;
 
 export default function KcPage(props: { kcContext: KcContext }) {
@@ -91,7 +90,7 @@ export default function KcPage(props: { kcContext: KcContext }) {
                                 Template={Template}
                                 doUseDefaultCss={false}
                             />
-                          );
+                        );
                     case "error.ftl":
                         return (
                             <Error
@@ -99,7 +98,7 @@ export default function KcPage(props: { kcContext: KcContext }) {
                                 Template={Template}
                                 doUseDefaultCss={false}
                             />
-                          );
+                        );
                     case "login-reset-password.ftl":
                         return (
                             <LoginResetPassword
@@ -107,15 +106,15 @@ export default function KcPage(props: { kcContext: KcContext }) {
                                 Template={Template}
                                 doUseDefaultCss={false}
                             />
-                          );
+                        );
                     case "login-page-expired.ftl":
                         return (
                             <LoginPageExpired
-                                 {...{ kcContext, i18n, classes }}
+                                {...{ kcContext, i18n, classes }}
                                 Template={Template}
                                 doUseDefaultCss={false}
                             />
-                          );
+                        );
                     case "login-verify-email.ftl":
                         return (
                             <LoginVerifyEmail

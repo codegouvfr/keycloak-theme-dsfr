@@ -27,12 +27,7 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
             displayMessage={!messagesPerField.existsError("username")}
             headerNode={msg("emailForgotTitle")}
         >
-            <form
-                id="kc-reset-password-form"
-                className={kcClsx("kcFormClass")}
-                action={url.loginAction}
-                method="post"
-            >
+            <form id="kc-reset-password-form" className={kcClsx("kcFormClass")} action={url.loginAction} method="post">
                 <div className={kcClsx("kcFormGroupClass")}>
                     <Input
                         label={msgStr("email")}
@@ -52,7 +47,11 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
                     <div id="kc-form-options" className={kcClsx("kcFormOptionsClass")}>
                         <div className={kcClsx("kcFormOptionsWrapperClass")} />
                     </div>
-                    <div id="kc-form-buttons" className={fr.cx("fr-mt-3w")} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div
+                        id="kc-form-buttons"
+                        className={fr.cx("fr-mt-3w")}
+                        style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                    >
                         <Button type="submit">{msgStr("doSubmit")}</Button>
 
                         <div>

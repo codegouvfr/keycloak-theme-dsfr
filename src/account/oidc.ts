@@ -7,7 +7,7 @@ export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
           homeUrl: import.meta.env.BASE_URL,
           autoLogin: true
       })
-    : createReactOidc(async () => {
+    : createReactOidc(() => {
           const { kcHttpRelativePath, realm } = (() => {
               const [
                   // "" or "/auth"
@@ -24,10 +24,10 @@ export const { OidcProvider, useOidc, getOidc } = import.meta.env.DEV
               };
           })();
 
-          return {
+          return Promise.resolve({
               issuerUri: `${window.location.origin}${kcHttpRelativePath ?? ""}/realms/${realm}`,
               clientId: "account-console",
               homeUrl: `${kcHttpRelativePath ?? ""}/realms/${realm}/account/`,
               autoLogin: true
-          };
+          });
       });

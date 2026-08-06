@@ -1,7 +1,10 @@
 import type { DeepPartial } from "keycloakify/tools/DeepPartial";
-import type { KcContext } from "./KcContext";
+import type {
+    KcContext,
+    KcContextExtension,
+    KcContextExtensionPerPage
+} from "./KcContext";
 import { createGetKcContextMock } from "keycloakify/account/KcContext";
-import type { KcContextExtension, KcContextExtensionPerPage } from "./KcContext";
 import KcPage from "./KcPage";
 import { themeNames, kcEnvDefaults } from "../kc.gen";
 
@@ -12,7 +15,28 @@ const kcContextExtension: KcContextExtension = {
     },
     darkMode: true
 };
-const kcContextExtensionPerPage: KcContextExtensionPerPage = {};
+const kcContextExtensionPerPage: KcContextExtensionPerPage = {
+    "account.ftl": {
+        url: {
+            getLogoutUrl: () => "#",
+            accountUrl: "/realms/test/account",
+            totpUrl: "/realms/test/account/totp",
+            sessionsUrl: "/realms/test/account/sessions",
+            applicationsUrl: "/realms/test/account/applications"
+        },
+        features: {
+            identityFederation: false,
+            log: false,
+            authorization: false,
+            passwordUpdateSupported: false
+        },
+        realm: {
+            userManagedAccessAllowed: false
+        },
+        message: undefined,
+        referrer: undefined
+    }
+};
 
 export const { getKcContextMock } = createGetKcContextMock({
     kcContextExtension,
@@ -21,10 +45,18 @@ export const { getKcContextMock } = createGetKcContextMock({
     overridesPerPage: {}
 });
 
-export function createKcPageStory<PageId extends KcContext["pageId"]>(params: { pageId: PageId }) {
+export function createKcPageStory<PageId extends KcContext["pageId"]>(
+    params: Readonly<{
+        pageId: PageId;
+    }>
+) {
     const { pageId } = params;
 
-    function KcPageStory(props: { kcContext?: DeepPartial<Extract<KcContext, { pageId: PageId }>> }) {
+    function KcPageStory(
+        props: Readonly<{
+            kcContext?: DeepPartial<Extract<KcContext, { pageId: PageId }>>;
+        }>
+    ) {
         const { kcContext: overrides } = props;
 
         const kcContextMock = getKcContextMock({

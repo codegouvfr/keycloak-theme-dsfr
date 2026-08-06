@@ -6,7 +6,7 @@ import { ProConnectButton } from "@codegouvfr/react-dsfr/ProConnectButton";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import "./login.css";
@@ -60,27 +60,29 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 
                                         if (franceConnectProviderIds.includes(p.providerId)) {
                                             if (index !== 0) {
-                                              throw new Error('Le bouton FranceConnect doit être le premier bouton de connexion');
+                                                throw new Error("Le bouton FranceConnect doit être le premier bouton de connexion");
                                             }
                                             return (
-                                                <>
+                                                <Fragment key={p.alias}>
                                                     <p className={fr.cx("fr-text--light")}>
                                                         FranceConnect est la solution proposée par l’État pour sécuriser et simplifier la connexion à
                                                         vos services en ligne.
                                                     </p>
-                                                    <FranceConnectButton key={p.alias} style={{ textAlign: "center" }} url={p.loginUrl} />
-                                                </>
+                                                    <FranceConnectButton style={{ textAlign: "center" }} url={p.loginUrl} />
+                                                </Fragment>
                                             );
                                         }
 
                                         return (
-                                            <div style={{
-                                                  display: 'flex',
-                                                  justifyContent: 'center'
-                                                 }}>
+                                            <div
+                                                key={p.alias}
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "center"
+                                                }}
+                                            >
                                                 <Button
                                                     className={fr.cx("fr-m-1w")}
-                                                    key={p.alias}
                                                     iconId={(() => {
                                                         switch (p.providerId) {
                                                             case "github":
@@ -114,7 +116,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                         );
                                     })
                                     .map((value, index) => {
-                                        if (index >= 1 && franceConnectProviderIds.includes(social.providers?.[0].providerId ?? '')) {
+                                        if (index >= 1 && franceConnectProviderIds.includes(social.providers?.[0].providerId ?? "")) {
                                             return (
                                                 <>
                                                     <div className="separator">OU</div>

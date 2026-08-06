@@ -17,11 +17,13 @@ export const Default: Story = {
 };
 
 export const DefaultDarkModeDisabled: Story = {
-  render: () => <KcPageStory
-      kcContext={{
-        darkMode: false
-      }}
-  />
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                darkMode: false
+            }}
+        />
+    )
 };
 
 export const WithInvalidCredential: Story = {
@@ -159,13 +161,14 @@ export const WithFranceConnectNotOnFirstPosition: Story = {
                             providerId: "agentconnect", // NOTE: It is still agentconnect, pro connect is a rebrand of agentconnect.
                             displayName: "Pro Connect",
                             iconClasses: ""
-                        },{
+                        },
+                        {
                             loginUrl: "france-connect",
                             alias: "france-connect",
                             providerId: "franceconnect",
                             displayName: "France Connect",
                             iconClasses: ""
-                        },
+                        }
                     ]
                 }
             }}

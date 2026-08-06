@@ -60,11 +60,12 @@ If you are deploying Keycloak on Kubernetes using Helm, here's how to configure 
 ### Dark Mode
 
 If you want to ensure the color scheme preference from your app to be carried when navigating to the Keycloak pages
-you need to add `dark=true` or `dark=false` when redirecting to the login or account page.  
+you need to add `dark=true` or `dark=false` when redirecting to the login or account page.
 
-With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codegouvfr/react-dsfr), from your app you would do:  
+With [oidc-spa](https://oidc-spa.dev) and [react-dsfr](https://github.com/codegouvfr/react-dsfr), from your app you would do:
 
 `src/oidc.ts`
+
 ```tsx
 import { getIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 
@@ -75,12 +76,14 @@ bootstrapOidc({
     clientId: "...",
     // ...
     extraQueryParams: {
-        get dark(){ return getIsDark() ? "true" : "false"; }
+        get dark() {
+            return getIsDark() ? "true" : "false";
+        }
     }
 });
 ```
 
-For the Account page: 
+For the Account page:
 
 ```
 https://<your keycloak url>/realms/<your realm>/account?referrer={encodeURIComponent(location.href))}l&dark=true

@@ -24,7 +24,10 @@ export default function LoginPageExpired(props: PageProps<Extract<KcContext, { p
                     <div className={fr.cx("fr-callout")}>
                         <p className={fr.cx("fr-callout__text")}>{msg("pageExpiredMsg1")}</p>
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1rem" }}>
-                            <a className={fr.cx("fr-btn", "fr-btn--secondary", "fr-btn--icon-right", "fr-icon-refresh-line")} href={url.loginRestartFlowUrl}>
+                            <a
+                                className={fr.cx("fr-btn", "fr-btn--secondary", "fr-btn--icon-right", "fr-icon-refresh-line")}
+                                href={url.loginRestartFlowUrl}
+                            >
                                 {msg("doClickHere")}
                             </a>
                         </div>

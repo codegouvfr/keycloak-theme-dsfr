@@ -65,7 +65,7 @@ export default function Register(props: RegisterProps) {
                         </div>
                     </div>
                 )}
-                <div style={{ display: "flex", justifyContent: "space-between",alignItems: "center" }} className={fr.cx("fr-my-3w")}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} className={fr.cx("fr-my-3w")}>
                     {recaptchaRequired && !recaptchaVisible && recaptchaAction !== undefined ? (
                         <div>
                             <button
