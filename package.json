@@ -1,6 +1,6 @@
 {
     "name": "keycloakify-theme-dsfr",
-    "version": "2.3.5",
+    "version": "2.3.6",
     "repository": {
         "type": "git",
         "url": "git://github.com/codegouvfr/keycloakify-starter.git"
