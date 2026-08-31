@@ -75,6 +75,7 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
                     state={messagesPerField.existsError("totp") ? "error" : "default"}
                     stateRelatedMessage={messagesPerField.getFirstError("totp")}
                     nativeInputProps={{
+                        id: "otp",
                         name: "otp",
                         autoFocus: true,
                         autoComplete: "otp",
