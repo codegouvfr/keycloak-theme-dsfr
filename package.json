@@ -14,14 +14,14 @@
         "build-keycloak-theme": "npm run build && keycloakify build",
         "storybook": "storybook dev -p 6006",
         "format": "prettier . --write",
-        "predev": "react-dsfr update-icons",
-        "prebuild": "react-dsfr update-icons",
-        "prestorybook": "react-dsfr update-icons"
+        "predev": "react-dsfr optimize-css",
+        "prebuild": "react-dsfr optimize-css",
+        "prestorybook": "react-dsfr optimize-css"
     },
     "license": "MIT",
     "keywords": [],
     "dependencies": {
-        "@codegouvfr/react-dsfr": "^1.31.0",
+        "@codegouvfr/react-dsfr": "^1.34.0",
         "keycloakify": "^11.13.6",
         "oidc-spa": "^6.9.8",
         "react": "^18.2.0",
