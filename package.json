@@ -1,7 +1,6 @@
 {
     "name": "keycloakify-theme-dsfr",
     "version": "2.3.5",
-    "description": "Starter for Keycloakify 11",
     "repository": {
         "type": "git",
         "url": "git://github.com/codegouvfr/keycloakify-starter.git"
@@ -22,7 +21,7 @@
     "keywords": [],
     "dependencies": {
         "@codegouvfr/react-dsfr": "^1.34.0",
-        "keycloakify": "^11.13.6",
+        "keycloakify": "^11.16.0",
         "oidc-spa": "^6.9.8",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
