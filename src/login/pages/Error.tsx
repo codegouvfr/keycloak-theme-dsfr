@@ -34,7 +34,7 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
             />
 
             <div className={kcClsx("kcFormGroupClass")} style={{ display: "flex", justifyContent: "flex-end" }}>
-                {client.baseUrl !== undefined ? (
+                {client.baseUrl ? (
                     <a className={fr.cx("fr-link")} href={client.baseUrl}>
                         {msg("backToApplication")}
                     </a>

@@ -55,7 +55,7 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
                         <a className={fr.cx("fr-link")} href={pageRedirectUri}>
                             {msg("backToApplication")}
                         </a>
-                    ) : client.baseUrl !== undefined ? (
+                    ) : client.baseUrl ? (
                         <a className={fr.cx("fr-link")} href={client.baseUrl}>
                             {msg("backToApplication")}
                         </a>
