@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 // NOTE: Copy pasted from @codegouv/react-dsfr/early-color-scheme.js
+// Loaded automatically by Keycloakify
 {
 
     const isDark = (() => {
