@@ -156,6 +156,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                         state={messagesPerField.existsError("username", "password") ? "error" : "default"}
                                         stateRelatedMessage={messagesPerField.getFirstError("username", "password")}
                                         nativeInputProps={{
+                                            id: "username",
                                             name: "username",
                                             autoFocus: true,
                                             autoComplete: "username",
