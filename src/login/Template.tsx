@@ -9,6 +9,7 @@ import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
 import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
 import { redirectUrlOrigin } from "./shared/redirectUrlOrigin";
+import { maskEmail } from "./shared/maskEmail";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
@@ -45,6 +46,11 @@ export default function Template(props: Props) {
     const { msg, msgStr } = i18n;
 
     const { darkMode, auth, url, message, isAppInitiatedAction } = kcContext;
+
+    // Sur la saisie du code OTP mail, l'identifiant tenté est l'adresse email : on la masque,
+    // comme dans le texte de la page, pour ne pas l'exposer en clair.
+    const displayedUsername =
+        kcContext.pageId === "mail-otp-form.ftl" ? maskEmail(auth?.attemptedUsername) ?? auth?.attemptedUsername : auth?.attemptedUsername;
 
     if (!isDsfrStarted) {
         startReactDsfr({
@@ -142,7 +148,7 @@ export default function Template(props: Props) {
                                                 <h1 id="kc-page-title">{headerNode}</h1>
                                             ) : (
                                                 <div id="kc-username">
-                                                    <label id="kc-attempted-username">{auth.attemptedUsername}</label>
+                                                    <label id="kc-attempted-username">{displayedUsername}</label>
                                                     <a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
                                                         <div className="kc-login-tooltip">
                                                             <i className={kcClsx("kcResetFlowIcon")}></i>

@@ -15,7 +15,10 @@ const kcContextExtension: KcContextExtension = {
     },
     darkMode: true
 };
-const kcContextExtensionPerPage: KcContextExtensionPerPage = {};
+const kcContextExtensionPerPage: KcContextExtensionPerPage = {
+    "mail-otp-form.ftl": { code_control: "0000" },
+    "otp-choice.ftl": {}
+};
 
 export const { getKcContextMock } = createGetKcContextMock({
     kcContextExtension,
