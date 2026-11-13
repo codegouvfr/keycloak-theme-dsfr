@@ -19,6 +19,9 @@ const Error = lazy(() => import("./pages/Error"));
 const LoginResetPassword = lazy(() => import("./pages/LoginResetPassword"));
 const LoginPageExpired = lazy(() => import("./pages/LoginPageExpired"));
 const LoginVerifyEmail = lazy(() => import("./pages/LoginVerifyEmail"));
+const UsernameForm = lazy(() => import("./pages/UsernameForm"));
+const MailOtpForm = lazy(() => import("./pages/MailOtpForm"));
+const OtpChoice = lazy(() => import("./pages/OtpChoice"));
 
 
 const doMakeUserConfirmPassword = false;
@@ -119,6 +122,30 @@ export default function KcPage(props: { kcContext: KcContext }) {
                     case "login-verify-email.ftl":
                         return (
                             <LoginVerifyEmail
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
+                    case "login-username.ftl":
+                        return (
+                            <UsernameForm
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
+                    case "mail-otp-form.ftl":
+                        return (
+                            <MailOtpForm
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={false}
+                            />
+                        );
+                    case "otp-choice.ftl":
+                        return (
+                            <OtpChoice
                                 {...{ kcContext, i18n, classes }}
                                 Template={Template}
                                 doUseDefaultCss={false}

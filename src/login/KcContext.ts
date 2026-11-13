@@ -13,6 +13,13 @@ export type KcContextExtension = {
     darkMode?: boolean;
 };
 
-export type KcContextExtensionPerPage = {};
+export type KcContextExtensionPerPage = {
+    // Pages custom rendues par l'extension keycloak `mail-otp-authenticator`.
+    "mail-otp-form.ftl": {
+        // Attribut posé par l'authenticator (form.setAttribute("code_control", ...)).
+        code_control: string;
+    };
+    "otp-choice.ftl": {};
+};
 
 export type KcContext = ExtendKcContext<KcContextExtension, KcContextExtensionPerPage>;

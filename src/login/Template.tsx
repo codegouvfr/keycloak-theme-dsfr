@@ -9,6 +9,7 @@ import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
 import { Header as DsfrHeader } from "@codegouvfr/react-dsfr/Header";
 import { redirectUrlOrigin } from "./shared/redirectUrlOrigin";
+import { maskEmail } from "./shared/maskEmail";
 import { headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
 import { Footer as DSFRFooter } from "@codegouvfr/react-dsfr/Footer";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
@@ -45,6 +46,11 @@ export default function Template(props: Props) {
     const { msg, msgStr } = i18n;
 
     const { darkMode, auth, url, message, isAppInitiatedAction } = kcContext;
+
+    // Sur la saisie du code OTP mail, l'identifiant tenté est l'adresse email : on la masque,
+    // comme dans le texte de la page, pour ne pas l'exposer en clair.
+    const displayedUsername =
+        kcContext.pageId === "mail-otp-form.ftl" ? maskEmail(auth?.attemptedUsername) ?? auth?.attemptedUsername : auth?.attemptedUsername;
 
     if (!isDsfrStarted) {
         startReactDsfr({
@@ -138,18 +144,30 @@ export default function Template(props: Props) {
                                 <div className="fr-grid-row fr-grid-row-gutters fr-grid-row--center">
                                     <div className={fr.cx("fr-col-12", "fr-col-md-9", "fr-col-lg-8")}>
                                         {(() => {
-                                            const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                                                <h1 id="kc-page-title">{headerNode}</h1>
-                                            ) : (
-                                                <div id="kc-username">
-                                                    <label id="kc-attempted-username">{auth.attemptedUsername}</label>
-                                                    <a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
-                                                        <div className="kc-login-tooltip">
-                                                            <i className={kcClsx("kcResetFlowIcon")}></i>
-                                                            <span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
+                                            // Le bloc identifiant de Keycloak repose sur une info-bulle CSS absente du thème DSFR :
+                                            // on garde toujours le titre et on rend l'identifiant + le redémarrage en lien DSFR.
+                                            const showUsername = auth !== undefined && auth.showUsername && !auth.showResetCredentials;
+                                            const node = (
+                                                <>
+                                                    <h1 id="kc-page-title">{headerNode}</h1>
+                                                    {showUsername && (
+                                                        <div id="kc-username" className={fr.cx("fr-mb-4v")}>
+                                                            {/* Sur la page OTP mail, l'adresse figure déjà dans le texte d'explication. */}
+                                                            {kcContext.pageId !== "mail-otp-form.ftl" && (
+                                                                <p id="kc-attempted-username" className={fr.cx("fr-mb-1v")}>
+                                                                    {displayedUsername}
+                                                                </p>
+                                                            )}
+                                                            <a
+                                                                id="reset-login"
+                                                                href={url.loginRestartFlowUrl}
+                                                                className={fr.cx("fr-link", "fr-link--sm", "fr-icon-arrow-go-back-line", "fr-link--icon-left")}
+                                                            >
+                                                                {msg("restartLoginTooltip")}
+                                                            </a>
                                                         </div>
-                                                    </a>
-                                                </div>
+                                                    )}
+                                                </>
                                             );
 
                                             if (displayRequiredFields) {
